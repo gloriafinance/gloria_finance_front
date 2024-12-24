@@ -21,13 +21,15 @@ class _FormLogin extends ConsumerState<FormLogin> {
   bool isPasswordVisible = true;
   late bool _makeRequest = false;
   bool redirectToDashboard = false;
-  bool formValid = false;
+  bool formValid = true;
 
   final form = FormGroup({
     'email': FormControl(
+      value: 'angel@gmail.com',
       validators: [Validators.required, Validators.email],
     ),
-    'password': FormControl<String>(validators: [Validators.required])
+    'password': FormControl<String>(
+        value: '123angel', validators: [Validators.required])
   });
 
   void _handleSuffixIconTap() {
@@ -118,15 +120,16 @@ class _FormLogin extends ConsumerState<FormLogin> {
     AuthSessionModel? session = await AuthService().makeLogin(
         form.value['email'].toString(), form.value['password'].toString());
 
+    setState(() {
+      _makeRequest = false;
+    });
+
     if (session == null) {
-      setState(() {
-        _makeRequest = false;
-      });
       return;
     }
 
-    ref.read(sessionProvider.notifier).setSession(session);
+    await ref.read(sessionProvider.notifier).setSession(session);
 
-    ref.read(appRouterProvider).go("/home");
+    ref.read(appRouterProvider).go("/financial-movements");
   }
 }

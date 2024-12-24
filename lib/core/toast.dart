@@ -15,35 +15,32 @@ class Toast {
     switch (type) {
       case ToastType.warning:
         MotionToast.warning(
-            animationDuration: const Duration(seconds: 14),
-            title: const Text(
-              "Algo salio mal",
-              style: TextStyle(fontFamily: AppFonts.fontRegular),
-            ),
+            animationDuration: const Duration(seconds: 20),
+            animationType: AnimationType.fromTop,
+            position: MotionToastPosition.top,
             description: Text(
               message,
-              style: const TextStyle(fontFamily: AppFonts.fontRegular),
+              style: const TextStyle(
+                  fontFamily: AppFonts.fontRegular, fontSize: 18),
             )).show(_context);
         break;
       case ToastType.error:
         MotionToast.error(
-            animationDuration: const Duration(seconds: 14),
-            title: const Text(
-              "Algo salio mal",
-              style: TextStyle(fontFamily: AppFonts.fontRegular),
-            ),
+            animationDuration: const Duration(seconds: 20),
             description: Text(
               message,
-              style: const TextStyle(fontFamily: AppFonts.fontMedium),
+              style: const TextStyle(
+                  fontFamily: AppFonts.fontRegular, fontSize: 18),
             )).show(_context);
         break;
 
       default:
         MotionToast.success(
-            animationDuration: const Duration(seconds: 14),
+            animationDuration: const Duration(seconds: 20),
             description: Text(
               message,
-              style: const TextStyle(fontFamily: AppFonts.fontRegular),
+              style: const TextStyle(
+                  fontFamily: AppFonts.fontRegular, fontSize: 18),
             )).show(_context);
     }
   }

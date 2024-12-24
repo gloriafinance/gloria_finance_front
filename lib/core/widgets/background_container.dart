@@ -18,7 +18,7 @@ class BackgroundContainer extends StatelessWidget {
       child: ClipPath(
         clipper: WaveClipper(),
         child: Container(
-          color: Colors.white,
+          color: Colors.grey.shade100, // Cambiado a un gris claro
         ),
       ),
     );

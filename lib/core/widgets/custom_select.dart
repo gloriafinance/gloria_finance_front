@@ -9,11 +9,10 @@ class CustomSelect<T> extends StatefulWidget {
   final List<DropdownMenuItem<T>> items;
 
   const CustomSelect(
-      {Key? key,
+      {super.key,
       required this.label,
       required this.formControlName,
-      required this.items})
-      : super(key: key);
+      required this.items});
 
   @override
   State<CustomSelect<T>> createState() => _CustomSelect<T>();
