@@ -1,0 +1,35 @@
+import 'package:church_finance_bk/core/theme/app_color.dart';
+import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:flutter/material.dart';
+
+class Loading extends StatelessWidget {
+  final String? label;
+
+  const Loading({super.key, this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Center(
+            child: CircularProgressIndicator(
+              color: AppColors.greenMiddle,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: Text(
+              label ?? "REQUEST IN PROGRESS",
+              style: const TextStyle(
+                fontFamily: AppFonts.fontRegular,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
