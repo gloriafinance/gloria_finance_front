@@ -1,26 +1,49 @@
-import 'package:church_finance_bk/auth/ui/widgets/FormLogin.dart';
+import 'package:church_finance_bk/auth/providers/auth_provider.dart';
+import 'package:church_finance_bk/core/app_router.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/IPUBLogo.dart';
 import 'package:church_finance_bk/core/widgets/background_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
+class LayoutDashboard extends ConsumerStatefulWidget {
+  final Widget screen;
+
+  const LayoutDashboard({super.key, required this.screen});
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  ConsumerState<LayoutDashboard> createState() => _LayoutDashboardState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
-  String selectedLanguage = 'pt'; // Idioma por defecto
+class _LayoutDashboardState extends ConsumerState<LayoutDashboard> {
+  //late AuthSessionModel session;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final session = ref.watch(sessionProvider);
+
+      // session = ref.read(sessionProvider);
+      //
+      if (!session.isSessionStarted()) {
+        ref.read(appRouterProvider).go("/");
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    Toast.init(context);
+
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60.0),
+        preferredSize: const Size.fromHeight(80.0),
         child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
           decoration: BoxDecoration(
             color: Colors.white,
             boxShadow: const [
@@ -32,14 +55,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ],
           ),
           child: AppBar(
-            title: const Text(
-              'Dashboard',
-              style: TextStyle(color: Colors.black),
-            ),
             backgroundColor: Colors.white,
-            centerTitle: true,
+            centerTitle: false,
             iconTheme: const IconThemeData(color: Colors.black),
             automaticallyImplyLeading: MediaQuery.of(context).size.width < 800,
+            title: Row(
+              mainAxisSize: MainAxisSize.min,
+              // Ajusta el espacio al contenido mínimo
+              children: [
+                Flexible(
+                  child: IPUBLogo(
+                    width: 90,
+                  ),
+                ),
+                // Cambia las dimensiones si es necesario
+                const SizedBox(width: 16),
+              ],
+            ),
             actions: [
               // Información del usuario
               Container(
@@ -80,58 +112,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ],
                 ),
               ),
-              // Selector de idioma mejorado
-              Padding(
-                padding: const EdgeInsets.only(right: 16.0),
-                child: PopupMenuButton<String>(
-                  onSelected: (String value) {
-                    setState(() {
-                      selectedLanguage =
-                          value; // Actualizar el idioma seleccionado
-                    });
-                    print("Idioma seleccionado: $value");
-                  },
-                  itemBuilder: (BuildContext context) {
-                    return [
-                      const PopupMenuItem<String>(
-                        value: 'es',
-                        child: ListTile(
-                          leading: Icon(Icons.flag, color: Colors.red),
-                          title: Text('Español'),
-                        ),
-                      ),
-                      const PopupMenuItem<String>(
-                        value: 'pt',
-                        child: ListTile(
-                          leading: Icon(Icons.flag, color: Colors.green),
-                          title: Text('Português'),
-                        ),
-                      ),
-                      const PopupMenuItem<String>(
-                        value: 'en',
-                        child: ListTile(
-                          leading: Icon(Icons.flag, color: Colors.blue),
-                          title: Text('English'),
-                        ),
-                      ),
-                    ];
-                  },
-                  child: Row(
-                    children: [
-                      const Icon(Icons.language, color: Colors.black54),
-                      const SizedBox(width: 8),
-                      Text(
-                        selectedLanguage.toUpperCase(),
-                        // Mostrar el código del idioma seleccionado
-                        style: const TextStyle(
-                            color: Colors.black54,
-                            fontSize: 18,
-                            fontFamily: AppFonts.fontMedium),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
             ],
           ),
         ),
@@ -151,7 +131,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
               if (isLargeScreen)
                 Container(
                   margin: const EdgeInsets.all(16.0),
-                  padding: const EdgeInsets.all(8.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12.0),
@@ -175,7 +154,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                     ],
                   ),
-                  child: const FormLogin(),
+                  child: widget.screen,
                 ),
               ),
             ],
@@ -196,17 +175,24 @@ class Sidebar extends StatelessWidget {
         const BackgroundContainer(),
         Column(
           children: [
-            Container(
-              height: 180,
-              width: double.infinity,
-              padding: const EdgeInsets.only(top: 20.0, bottom: 40.0),
-              margin: const EdgeInsets.only(bottom: 30.0, top: 30.0),
-              child: IPUBLogo(),
-            ),
+            // Se elimina el logo del Sidebar
             Expanded(
               child: ListView(
-                padding: EdgeInsets.zero,
+                padding: EdgeInsets.only(top: 60),
                 children: [
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 120),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'Church Finance',
+                      style: TextStyle(
+                        fontFamily: AppFonts.fontMedium,
+                        fontSize: 30,
+                        color: Colors.white70,
+                      ),
+                    ),
+                  ),
                   ListTile(
                     leading: const Icon(Icons.dashboard, color: Colors.black),
                     title: const Text('Dashboard',

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class IPUBLogo extends StatelessWidget {
+  final double? width;
+
+  const IPUBLogo({super.key, this.width});
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Image.asset(
-        'images/ipub_white.png',
-        width: double.infinity,
-      ),
+    return Image.asset(
+      'images/ipub_logo.png',
+      width: width,
     );
   }
 }

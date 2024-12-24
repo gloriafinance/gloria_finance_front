@@ -2,21 +2,19 @@ class AuthSessionModel {
   final String token;
   final String name;
   final String email;
-  final String phone;
-  final String churchId;
-  final String churchName;
-  final bool isTreasurer;
-  final bool isMinister;
+  final String createdAt;
+  final bool isActive;
+  final String userId;
+  final bool isSuperuser;
 
   AuthSessionModel({
     required this.token,
     required this.name,
     required this.email,
-    required this.phone,
-    required this.isTreasurer,
-    required this.isMinister,
-    required this.churchId,
-    required this.churchName,
+    required this.createdAt,
+    required this.isActive,
+    required this.userId,
+    required this.isSuperuser,
   });
 
   factory AuthSessionModel.init() {
@@ -24,11 +22,10 @@ class AuthSessionModel {
       token: "",
       name: "",
       email: "",
-      phone: "",
-      isTreasurer: false,
-      isMinister: false,
-      churchId: "",
-      churchName: "",
+      createdAt: "",
+      isActive: false,
+      userId: "",
+      isSuperuser: false,
     );
   }
 
@@ -36,33 +33,46 @@ class AuthSessionModel {
       {String? token,
       String? name,
       String? email,
-      bool? isTreasurer,
-      bool? isMinister,
-      String? church}) {
+      String? createdAt,
+      bool? isActive,
+      String? userId,
+      bool? isSuperuser}) {
     return AuthSessionModel(
+      createdAt: createdAt ?? this.createdAt,
+      isActive: isActive ?? this.isActive,
+      userId: userId ?? this.userId,
+      isSuperuser: isSuperuser ?? this.isSuperuser,
       token: token ?? this.token,
       name: name ?? this.name,
       email: email ?? this.email,
-      phone: phone ?? phone,
-      isTreasurer: isTreasurer ?? this.isTreasurer,
-      isMinister: isMinister ?? this.isMinister,
-      churchId: church ?? churchId,
-      churchName: church ?? churchName,
     );
   }
 
   static fromJson(Map<String, dynamic> json) {
-    return AuthSessionModel(
-        token: json['token'],
-        name: json['name'],
-        email: json['email'],
-        phone: json['phone'],
-        isTreasurer: json['isTreasurer'],
-        isMinister: json['isMinister'],
-        churchId: json['church']['churchId'],
-        churchName: json['church']['churchName']
-    );
+    print("json:");
+    print(json['email']);
 
+    return AuthSessionModel(
+      token: json['token'],
+      name: json['name'],
+      email: json['email'],
+      createdAt: json['createdAt'],
+      isActive: json['isActive'],
+      userId: json['userId'],
+      isSuperuser: json['isSuperuser'],
+    );
+  }
+
+  toJson() {
+    return {
+      'token': token,
+      'name': name,
+      'email': email,
+      'createdAt': createdAt,
+      'isActive': isActive,
+      'userId': userId,
+      'isSuperuser': isSuperuser,
+    };
   }
 
   bool isSessionStarted() {
