@@ -128,7 +128,7 @@ class _FormLogin extends ConsumerState<FormLogin> {
       return;
     }
 
-    ref.read(sessionProvider.notifier).setSession(session);
+    await ref.read(sessionProvider.notifier).setSession(session);
 
     ref.read(appRouterProvider).go("/financial-movements");
   }

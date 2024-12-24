@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/auth/auth_session_model.dart';
 import 'package:church_finance_bk/auth/providers/auth_provider.dart';
 import 'package:church_finance_bk/core/app_router.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
@@ -18,20 +19,24 @@ class LayoutDashboard extends ConsumerStatefulWidget {
 }
 
 class _LayoutDashboardState extends ConsumerState<LayoutDashboard> {
-  //late AuthSessionModel session;
+  AuthSessionModel session = AuthSessionModel.init();
 
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final session = ref.watch(sessionProvider);
+      setState(() {
+        session = ref.watch(sessionProvider).maybeWhen(
+              data: (session) => session,
+              orElse: () => AuthSessionModel.init(),
+            );
 
-      // session = ref.read(sessionProvider);
-      //
-      if (!session.isSessionStarted()) {
-        ref.read(appRouterProvider).go("/");
-      }
+        if (!session.isSessionStarted()) {
+          print("No hay sesión iniciada");
+          ref.read(appRouterProvider).go("/");
+        }
+      });
     });
   }
 
@@ -81,16 +86,16 @@ class _LayoutDashboardState extends ConsumerState<LayoutDashboard> {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
-                      children: const [
+                      children: [
                         Text(
-                          'Angel Bejarano', // Nombre del usuario
+                          session.name, // Nombre del usuario
                           style: TextStyle(
                             fontFamily: AppFonts.fontMedium,
                             color: Colors.black,
                           ),
                         ),
                         Text(
-                          'angel.bejarano@jaspesoft.com',
+                          session.email,
                           // Correo electrónico del usuario
                           style: TextStyle(
                             color: Colors.black54,

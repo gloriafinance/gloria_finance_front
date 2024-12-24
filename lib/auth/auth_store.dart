@@ -18,6 +18,6 @@ class AuthStore {
       return AuthSessionModel.fromJson(jsonDecode(session));
     }
 
-    return null;
+    return AuthSessionModel.init();
   }
 }

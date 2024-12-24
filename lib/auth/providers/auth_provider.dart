@@ -7,22 +7,19 @@ part 'auth_provider.g.dart';
 @riverpod
 class Session extends _$Session {
   @override
-  AuthSessionModel build() {
-    AuthSessionModel.init();
-    var sessionActive = AuthStore().restore();
-    if (sessionActive != null) {
-      return sessionActive;
-    }
-
-    return AuthSessionModel.init();
+  Future<AuthSessionModel> build() async {
+    return await AuthStore().restore();
   }
 
-  void setSession(AuthSessionModel session) {
-    print("session: $session");
-    state = session;
+  Future<void> setSession(AuthSessionModel session) async {
+    state = AsyncValue.loading();
+    await AuthStore().save(session);
+
+    state = AsyncValue.data(session);
   }
 
-  String getToken() {
-    return state.token;
+  String? getToken() {
+    // Verificar si el estado actual es exitoso antes de acceder al token
+    return state.value?.token;
   }
 }

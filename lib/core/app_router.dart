@@ -27,7 +27,7 @@ var routers = <RouteBase>[
 GoRouter appRouter(AppRouterRef ref) {
   var session = ref.watch(sessionProvider);
 
-  print("session************: ${session.isSessionStarted()}");
+  //print("session************: ${session.isSessionStarted()}");
 
   print("memberRoute: $routers");
 
