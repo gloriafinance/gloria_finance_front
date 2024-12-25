@@ -27,7 +27,7 @@ class _LayoutDashboardState extends ConsumerState<LayoutDashboard> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() {
+      if (mounted) {
         session = ref.watch(sessionProvider).maybeWhen(
               data: (session) => session,
               orElse: () => AuthSessionModel.init(),
@@ -37,7 +37,7 @@ class _LayoutDashboardState extends ConsumerState<LayoutDashboard> {
           print("No hay sesión iniciada");
           ref.read(appRouterProvider).go("/");
         }
-      });
+      }
     });
   }
 
@@ -62,20 +62,22 @@ class _LayoutDashboardState extends ConsumerState<LayoutDashboard> {
           ),
           child: AppBar(
             backgroundColor: Colors.white,
-            centerTitle: false,
-            iconTheme: const IconThemeData(color: Colors.black),
             automaticallyImplyLeading: MediaQuery.of(context).size.width < 800,
-            title: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Flexible(
-                  child: IPUBLogo(
-                    width: 90,
-                  ),
-                ),
-                const SizedBox(width: 16),
-              ],
+            flexibleSpace: Align(
+              alignment: Alignment.centerLeft,
+              child: const IPUBLogo(width: 120),
             ),
+            // title: Row(
+            //   mainAxisSize: MainAxisSize.min,
+            //   children: [
+            //     Flexible(
+            //       child: IPUBLogo(
+            //         width: 90,
+            //       ),
+            //     ),
+            //     //const SizedBox(width: 16),
+            //   ],
+            // ),
             actions: [
               Container(
                 margin: const EdgeInsets.only(top: 10.0),
@@ -171,7 +173,9 @@ class _LayoutDashboardState extends ConsumerState<LayoutDashboard> {
                         ),
                       ),
                       Expanded(
-                        child: widget.screen,
+                        child: SingleChildScrollView(
+                          child: widget.screen,
+                        ),
                       ),
                     ],
                   ),

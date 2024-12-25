@@ -100,9 +100,10 @@ class _FormLogin extends ConsumerState<FormLogin> {
     return Padding(
       padding: const EdgeInsets.only(top: 80),
       child: CustomButton(
-          backgroundColor: AppColors.greenMiddle,
+          backgroundColor: AppColors.green,
           text: "Entrar",
           onPressed: formValid ? _makeLogin : null,
+          //textColor: Colors.black87,
           typeButton: CustomButton.basic),
     );
   }

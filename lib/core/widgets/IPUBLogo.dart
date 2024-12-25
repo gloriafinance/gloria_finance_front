@@ -10,6 +10,7 @@ class IPUBLogo extends StatelessWidget {
     return Image.asset(
       'images/ipub_logo.png',
       width: width,
+      //height: 70,
     );
   }
 }

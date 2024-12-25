@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +6,7 @@ class CustomButton extends StatelessWidget {
   final Color backgroundColor;
   final String typeButton;
   final double width;
+  final Color textColor;
   static const String outline = 'outline';
   static const String basic = 'basic';
   final void Function()? onPressed;
@@ -16,6 +16,7 @@ class CustomButton extends StatelessWidget {
       required this.text,
       required this.backgroundColor,
       required this.onPressed,
+      this.textColor = Colors.black87,
       this.typeButton = 'basic',
       this.width = 200.0});
 
@@ -30,9 +31,9 @@ class CustomButton extends StatelessWidget {
             padding: const EdgeInsets.only(top: 10, bottom: 10),
             child: Text(
               text.toUpperCase(),
-              style: const TextStyle(
-                fontFamily: AppFonts.fontLight,
-                color: AppColors.black,
+              style: TextStyle(
+                fontFamily: AppFonts.fontRegular,
+                color: textColor,
                 fontSize: 18.0,
               ),
             ),

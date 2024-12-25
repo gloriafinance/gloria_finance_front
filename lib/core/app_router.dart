@@ -18,7 +18,7 @@ var routers = <RouteBase>[
   GoRoute(
     path: '/financial-movements',
     pageBuilder: (context, state) {
-      return transitionCustom(const ContributionsScreen());
+      return transitionCustom(ContributionsScreen());
     },
   ),
 ];

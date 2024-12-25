@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   static const Color black = Color(0xFF2d2d2d);
-  
+
   static const Color grey = Color.fromRGBO(131, 131, 131, 0.8);
 
   static const Color greyMiddle = Color.fromRGBO(131, 131, 131, 0.2);
@@ -15,4 +15,5 @@ class AppColors {
 
   static const Color mustard = Color(0xFFfab42e);
 
+  static const Color green = Color(0xFF00DA08);
 }

@@ -16,6 +16,7 @@ class Contribution {
   final String bankTransferReceipt;
   final ContributionType type;
   final FinancialConcept financeConcept;
+  final ContributionMember member;
 
   Contribution({
     required this.amount,
@@ -24,6 +25,7 @@ class Contribution {
     required this.bankTransferReceipt,
     required this.type,
     required this.financeConcept,
+    required this.member,
   });
 
   factory Contribution.fromJson(Map<String, dynamic> json) {
@@ -32,8 +34,10 @@ class Contribution {
       status: json['status'],
       createdAt: DateTime.parse(json['createdAt']),
       bankTransferReceipt: json['bankTransferReceipt'],
-      type: json['type'],
+      type: ContributionType.values
+          .firstWhere((e) => e.toString().split('.').last == json['type']),
       financeConcept: FinancialConcept.fromJson(json['financeConcept']),
+      member: ContributionMember.fromJson(json['member']),
     );
   }
 
@@ -45,6 +49,35 @@ class Contribution {
       'bankTransferReceipt': bankTransferReceipt,
       'type': type,
       'financeConcept': financeConcept.toJson(),
+      'member': member.toJson(),
+    };
+  }
+}
+
+class ContributionMember {
+  final String memberId;
+  final String name;
+  final String churchId;
+
+  ContributionMember({
+    required this.memberId,
+    required this.name,
+    required this.churchId,
+  });
+
+  factory ContributionMember.fromJson(Map<String, dynamic> json) {
+    return ContributionMember(
+      memberId: json['memberId'],
+      name: json['name'],
+      churchId: json['churchId'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'memberId': memberId,
+      'name': name,
+      'churchId': churchId,
     };
   }
 }
