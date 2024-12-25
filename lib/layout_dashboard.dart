@@ -11,8 +11,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LayoutDashboard extends ConsumerStatefulWidget {
   final Widget screen;
+  final String title;
 
-  const LayoutDashboard({super.key, required this.screen});
+  const LayoutDashboard(this.title, {super.key, required this.screen});
 
   @override
   ConsumerState<LayoutDashboard> createState() => _LayoutDashboardState();
@@ -66,29 +67,27 @@ class _LayoutDashboardState extends ConsumerState<LayoutDashboard> {
             automaticallyImplyLeading: MediaQuery.of(context).size.width < 800,
             title: Row(
               mainAxisSize: MainAxisSize.min,
-              // Ajusta el espacio al contenido mínimo
               children: [
                 Flexible(
                   child: IPUBLogo(
                     width: 90,
                   ),
                 ),
-                // Cambia las dimensiones si es necesario
                 const SizedBox(width: 16),
               ],
             ),
             actions: [
-              // Información del usuario
               Container(
                 margin: const EdgeInsets.only(top: 10.0),
                 padding: const EdgeInsets.only(right: 16.0),
                 child: Row(
                   children: [
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      // Alineado al inicio
                       children: [
                         Text(
-                          session.name, // Nombre del usuario
+                          session.name,
                           style: TextStyle(
                             fontFamily: AppFonts.fontMedium,
                             color: Colors.black,
@@ -96,7 +95,6 @@ class _LayoutDashboardState extends ConsumerState<LayoutDashboard> {
                         ),
                         Text(
                           session.email,
-                          // Correo electrónico del usuario
                           style: TextStyle(
                             color: Colors.black54,
                             fontFamily: AppFonts.fontLight,
@@ -110,7 +108,7 @@ class _LayoutDashboardState extends ConsumerState<LayoutDashboard> {
                       radius: 20,
                       backgroundColor: AppColors.purple,
                       child: const Text(
-                        'AB', // Iniciales del usuario
+                        'AB',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
@@ -131,8 +129,9 @@ class _LayoutDashboardState extends ConsumerState<LayoutDashboard> {
           final isLargeScreen = constraints.maxWidth >= 800;
 
           return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            // Alinea el contenido superior
             children: [
-              // Sidebar fijo solo en pantallas grandes
               if (isLargeScreen)
                 Container(
                   margin: const EdgeInsets.all(16.0),
@@ -143,14 +142,12 @@ class _LayoutDashboardState extends ConsumerState<LayoutDashboard> {
                   width: 320,
                   child: const Sidebar(),
                 ),
-              // Contenido principal
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.all(16.0),
                   padding: const EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    //borderRadius: BorderRadius.circular(12.0),
                     boxShadow: const [
                       BoxShadow(
                         color: Colors.black12,
@@ -159,7 +156,25 @@ class _LayoutDashboardState extends ConsumerState<LayoutDashboard> {
                       ),
                     ],
                   ),
-                  child: widget.screen,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    // Alineación a la izquierda
+                    children: [
+                      Text(
+                        widget.title,
+                        textAlign: TextAlign.left,
+                        // Esto asegura que el texto no esté centrado
+                        style: TextStyle(
+                          fontFamily: AppFonts.fontMedium,
+                          fontSize: 24,
+                          color: Colors.black,
+                        ),
+                      ),
+                      Expanded(
+                        child: widget.screen,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -179,16 +194,16 @@ class Sidebar extends StatelessWidget {
       children: [
         const BackgroundContainer(),
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          // Alineación superior izquierda
           children: [
-            // Se elimina el logo del Sidebar
             Expanded(
               child: ListView(
-                padding: EdgeInsets.only(top: 60),
+                padding: const EdgeInsets.only(top: 60),
                 children: [
                   Container(
                     margin: const EdgeInsets.only(bottom: 120),
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    alignment: Alignment.center,
                     child: const Text(
                       'Church Finance',
                       style: TextStyle(
@@ -234,7 +249,7 @@ class Sidebar extends StatelessWidget {
               ),
             ),
           ],
-        )
+        ),
       ],
     );
   }

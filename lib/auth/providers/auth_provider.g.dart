@@ -6,12 +6,12 @@ part of 'auth_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sessionHash() => r'78f804069dce86bd3ee499e92b8bec97e365cd15';
+String _$sessionHash() => r'd59f7ccb71f9add82ad69b6c76a025fb239de5f8';
 
 /// See also [Session].
 @ProviderFor(Session)
 final sessionProvider =
-    AutoDisposeAsyncNotifierProvider<Session, AuthSessionModel>.internal(
+    AsyncNotifierProvider<Session, AuthSessionModel>.internal(
   Session.new,
   name: r'sessionProvider',
   debugGetCreateSourceHash:
@@ -20,6 +20,6 @@ final sessionProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$Session = AutoDisposeAsyncNotifier<AuthSessionModel>;
+typedef _$Session = AsyncNotifier<AuthSessionModel>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
