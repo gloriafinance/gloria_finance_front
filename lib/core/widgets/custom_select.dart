@@ -3,10 +3,12 @@ import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
-class CustomSelect<T> extends StatefulWidget {
+class CustomSelect extends StatefulWidget {
   final String label;
   final String formControlName;
-  final List<DropdownMenuItem<T>> items;
+
+  //final List<DropdownMenuItem> items;
+  final List<String> items;
 
   const CustomSelect(
       {super.key,
@@ -15,10 +17,10 @@ class CustomSelect<T> extends StatefulWidget {
       required this.items});
 
   @override
-  State<CustomSelect<T>> createState() => _CustomSelect<T>();
+  State<CustomSelect> createState() => _CustomSelect();
 }
 
-class _CustomSelect<T> extends State<CustomSelect<T>> {
+class _CustomSelect extends State<CustomSelect> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -29,8 +31,9 @@ class _CustomSelect<T> extends State<CustomSelect<T>> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [...generateLabel()],
           ),
-          ReactiveDropdownField<T>(
+          ReactiveDropdownField(
             formControlName: widget.formControlName,
+            dropdownColor: Colors.white,
             decoration: InputDecoration(
               errorBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.red),
@@ -40,16 +43,21 @@ class _CustomSelect<T> extends State<CustomSelect<T>> {
               focusedErrorBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.red)),
               hintText: widget.label,
-              hintStyle: const TextStyle(color: AppColors.greyMiddle),
+              //hintStyle: const TextStyle(color: AppColors.greyMiddle),
               enabledBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: AppColors.greyMiddle),
-                  borderRadius: BorderRadius.all(Radius.circular(24))),
+                  borderRadius: BorderRadius.all(Radius.circular(16))),
               focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: AppColors.greyMiddle),
-                  borderRadius: BorderRadius.all(Radius.circular(24))),
+                  borderRadius: BorderRadius.all(Radius.circular(16))),
             ),
             hint: Text(widget.label),
-            items: widget.items,
+            items: widget.items.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
           ),
         ],
       ),

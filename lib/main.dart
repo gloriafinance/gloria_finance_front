@@ -11,10 +11,6 @@ class MyApp extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<MyApp> createState() => _MyAppState();
-
-  static void setLocale(BuildContext context, Locale newLocale) {
-    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
-  }
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
@@ -23,10 +19,6 @@ class _MyAppState extends ConsumerState<MyApp> {
     final appRouter = ref.watch(appRouterProvider);
 
     return MaterialApp.router(
-      theme: ThemeData(
-        useMaterial3: true,
-        // brightness:  Brightness.dark
-      ),
       debugShowCheckedModeBanner: false,
       routerConfig: appRouter,
     );

@@ -9,13 +9,26 @@ enum ContributionStatus {
   REJECTED,
 }
 
+extension ContributionStatusExtension on ContributionStatus {
+  String get friendlyName {
+    switch (this) {
+      case ContributionStatus.PROCESSED:
+        return 'Processada';
+      case ContributionStatus.PENDING_VERIFICATION:
+        return 'Verificação pendente';
+      case ContributionStatus.REJECTED:
+        return 'Rejeitada';
+    }
+  }
+}
+
 class Contribution {
   final double amount;
   final String status;
   final DateTime createdAt;
   final String bankTransferReceipt;
   final ContributionType type;
-  final FinancialConcept financeConcept;
+  final ContributionFinancialConcept financeConcept;
   final ContributionMember member;
 
   Contribution({
@@ -36,21 +49,10 @@ class Contribution {
       bankTransferReceipt: json['bankTransferReceipt'],
       type: ContributionType.values
           .firstWhere((e) => e.toString().split('.').last == json['type']),
-      financeConcept: FinancialConcept.fromJson(json['financeConcept']),
+      financeConcept:
+          ContributionFinancialConcept.fromJson(json['financeConcept']),
       member: ContributionMember.fromJson(json['member']),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'amount': amount,
-      'status': status,
-      'createdAt': createdAt.toIso8601String(),
-      'bankTransferReceipt': bankTransferReceipt,
-      'type': type,
-      'financeConcept': financeConcept.toJson(),
-      'member': member.toJson(),
-    };
   }
 }
 
@@ -82,17 +84,17 @@ class ContributionMember {
   }
 }
 
-class FinancialConcept {
+class ContributionFinancialConcept {
   final String financeConceptId;
   final String name;
 
-  FinancialConcept({
+  ContributionFinancialConcept({
     required this.financeConceptId,
     required this.name,
   });
 
-  factory FinancialConcept.fromJson(Map<String, dynamic> json) {
-    return FinancialConcept(
+  factory ContributionFinancialConcept.fromJson(Map<String, dynamic> json) {
+    return ContributionFinancialConcept(
       financeConceptId: json['financeConceptId'],
       name: json['name'],
     );

@@ -1,61 +1,58 @@
 import 'package:church_finance_bk/auth/auth_session_model.dart';
 import 'package:church_finance_bk/auth/auth_store.dart';
-import 'package:church_finance_bk/core/paginate_response.dart';
+import 'package:church_finance_bk/core/paginate/paginate_response.dart';
 import 'package:church_finance_bk/finance/finance_service.dart';
-import 'package:church_finance_bk/finance/models/contribution_filter_mnodel.dart';
+import 'package:church_finance_bk/finance/models/contribution_filter_model.dart';
 import 'package:church_finance_bk/finance/models/contribution_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'contributions_provider.g.dart';
 
-@Riverpod(keepAlive: true)
-class ContributionService extends _$ContributionService {
-  @override
-  PaginateResponse<Contribution> build() =>
-      PaginateResponse<Contribution>.init();
+@riverpod
+Future<PaginateResponse<Contribution>> searchContributions(Ref ref) async {
+  AuthSessionModel session = await AuthStore().restore();
 
-  Future<void> searchContributions(ContributionFilter filter) async {
-    AuthSessionModel session = await AuthStore().restore();
+  ContributionFilter filter = ref.watch(contributionsFilterProvider);
 
-    if (session.token == '') {
-      throw Exception('No se ha iniciado sesión');
-    }
+  if (session.token == '') {
+    throw Exception('No se ha iniciado sesión');
+  }
 
-    final response = await FinanceService(tokenAPI: session.token)
-        .searchContribuitions(filter);
+  return await FinanceService(tokenAPI: session.token)
+      .searchContribuitions(filter);
+}
 
-    state = response;
+final contributionsFilterProvider =
+    StateNotifierProvider<ContributionFilterNotifier, ContributionFilter>(
+  (ref) => ContributionFilterNotifier(),
+);
+
+class ContributionFilterNotifier extends StateNotifier<ContributionFilter> {
+  ContributionFilterNotifier() : super(ContributionFilter.init());
+
+  void setPerPage(int perPage) {
+    state = state.copyWith(perPage: perPage, page: 1);
   }
 
   void nextPage() {
-    if (state.nextPag == 0) {
-      return;
-    }
-    state.nextPag++;
+    state = state.copyWith(page: state.page + 1);
   }
 
   void prevPage() {
-    if (state.nextPag > 0) {
-      return;
+    if (state.page > 1) {
+      state = state.copyWith(page: state.page - 1);
     }
-    state.nextPag--;
   }
-}
 
-@Riverpod(keepAlive: true)
-class ContributionsFilter extends _$ContributionsFilter {
-  @override
-  ContributionFilter build() => ContributionFilter.init();
+  void status(String status) {
+    final v =
+        ContributionStatus.values.firstWhere((e) => e.friendlyName == status);
 
-  // void nextPage() {
-  //   state.page++;
-  // }
+    state = state.copyWith(status: v.toString().split('.').last);
+  }
 
-  // void prevPage() {
-  //   if (state.page > 1) state.page--;
-  // }
-
-  void setFilter(ContributionFilter filter) {
-    state = filter;
+  void setStartDate(String startDate) {
+    state.startDate = startDate;
   }
 }

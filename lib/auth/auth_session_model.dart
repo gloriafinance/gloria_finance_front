@@ -6,8 +6,10 @@ class AuthSessionModel {
   final bool isActive;
   final String userId;
   final bool isSuperuser;
+  final String churchId;
 
   AuthSessionModel({
+    required this.churchId,
     required this.token,
     required this.name,
     required this.email,
@@ -26,11 +28,13 @@ class AuthSessionModel {
       isActive: false,
       userId: "",
       isSuperuser: false,
+      churchId: '',
     );
   }
 
   AuthSessionModel copyWith(
       {String? token,
+      String? churchId,
       String? name,
       String? email,
       String? createdAt,
@@ -45,13 +49,11 @@ class AuthSessionModel {
       token: token ?? this.token,
       name: name ?? this.name,
       email: email ?? this.email,
+      churchId: '',
     );
   }
 
   static fromJson(Map<String, dynamic> json) {
-    print("json:");
-    print(json['email']);
-
     return AuthSessionModel(
       token: json['token'],
       name: json['name'],
@@ -60,6 +62,7 @@ class AuthSessionModel {
       isActive: json['isActive'],
       userId: json['userId'],
       isSuperuser: json['isSuperuser'],
+      churchId: json['churchId'],
     );
   }
 
@@ -72,6 +75,7 @@ class AuthSessionModel {
       'isActive': isActive,
       'userId': userId,
       'isSuperuser': isSuperuser,
+      'churchId': churchId,
     };
   }
 

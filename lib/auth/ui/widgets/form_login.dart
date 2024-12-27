@@ -52,7 +52,6 @@ class _FormLogin extends ConsumerState<FormLogin> {
       setState(() {
         // Actualiza el estado cuando el formulario cambia
         formValid = form.valid;
-        print("form valid: $formValid");
       });
     });
   }
@@ -70,7 +69,7 @@ class _FormLogin extends ConsumerState<FormLogin> {
                 child: CustomInput(
                     formControlName: "email",
                     label: "E-mail",
-                    inputType: TextInputType.text,
+                    inputType: TextInputType.emailAddress,
                     placeholder: "E-mail"),
               ),
               Padding(
@@ -131,6 +130,6 @@ class _FormLogin extends ConsumerState<FormLogin> {
 
     await ref.read(sessionProvider.notifier).setSession(session);
 
-    ref.read(appRouterProvider).go("/financial-movements");
+    ref.read(appRouterProvider).go("/contributions");
   }
 }

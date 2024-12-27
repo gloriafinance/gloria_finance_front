@@ -18,7 +18,7 @@ class CustomButton extends StatelessWidget {
       required this.onPressed,
       this.textColor = Colors.black87,
       this.typeButton = 'basic',
-      this.width = 200.0});
+      this.width = 180.0});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class CustomButton extends StatelessWidget {
               style: TextStyle(
                 fontFamily: AppFonts.fontRegular,
                 color: textColor,
-                fontSize: 18.0,
+                fontSize: 14.0,
               ),
             ),
           )),
@@ -43,10 +43,10 @@ class CustomButton extends StatelessWidget {
 
   ButtonStyle _basicStyle() {
     return ElevatedButton.styleFrom(
-      padding: const EdgeInsets.only(top: 10, bottom: 10),
+      padding: const EdgeInsets.only(top: 12, bottom: 12),
       backgroundColor: backgroundColor,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18.0),
+        borderRadius: BorderRadius.circular(8.0),
       ),
       elevation: 4.0,
     );
@@ -57,7 +57,7 @@ class CustomButton extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10, bottom: 10),
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18.0),
+        borderRadius: BorderRadius.circular(8.0),
       ),
       elevation: 4.0,
       side: BorderSide(color: backgroundColor, width: 1.0),

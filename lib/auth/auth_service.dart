@@ -8,7 +8,6 @@ class AuthService extends AppHttp {
       final response = await http.post("${await getUrlApi()}admin/user/login",
           data: {'email': email, 'password': password});
 
-      print("response: ${response.data}");
       return AuthSessionModel.fromJson(response.data);
     } on DioException catch (e) {
       print("ERR ${e.response?.data}");

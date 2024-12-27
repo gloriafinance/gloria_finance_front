@@ -12,7 +12,7 @@ class BackgroundContainer extends StatelessWidget {
           colors: [AppColors.purple, Colors.deepPurpleAccent],
           begin: Alignment.centerLeft,
           end: Alignment.bottomRight,
-          stops: [0.48, 2.0],
+          stops: [0.3, 2.0],
         ),
       ),
       child: ClipPath(
