@@ -1,0 +1,63 @@
+import 'package:flutter/material.dart';
+
+import '../theme/app_fonts.dart';
+
+class ModalPage {
+  final String title;
+  final Widget body;
+  final double width;
+
+  const ModalPage({
+    required this.title,
+    required this.body,
+    this.width = 750.0,
+  });
+
+  Future<void> show(BuildContext context) {
+    return showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return _modal(context);
+        });
+  }
+
+  Widget _modal(BuildContext context) {
+    return Dialog(
+      //backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(16.0),
+        width: width,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Título con botón "X" para cerrar
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontFamily: AppFonts.fontMedium,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Cierra el modal
+                  },
+                  icon: const Icon(Icons.close),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            // Contenido del cuerpo del modal
+            body,
+          ],
+        ),
+      ),
+    );
+  }
+}

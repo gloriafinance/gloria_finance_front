@@ -50,4 +50,20 @@ class FinanceService extends AppHttp {
       rethrow;
     }
   }
+
+  Future<void> updateContributionStatus(
+      String contributionId, ContributionStatus status) async {
+    try {
+      final s = status.toString().split('.').last;
+      await http.patch(
+        '${await getUrlApi()}finance/contributions/$contributionId/status/$s',
+        options: Options(
+          headers: getHeader(),
+        ),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
 }

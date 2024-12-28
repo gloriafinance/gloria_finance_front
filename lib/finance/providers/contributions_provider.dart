@@ -9,6 +9,18 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'contributions_provider.g.dart';
 
+Future<void> updateContributionStatus(
+    String contributionId, ContributionStatus status) async {
+  AuthSessionModel session = await AuthStore().restore();
+
+  if (session.token == '') {
+    throw Exception('No se ha iniciado sesión');
+  }
+
+  await FinanceService(tokenAPI: session.token)
+      .updateContributionStatus(contributionId, status);
+}
+
 @riverpod
 Future<PaginateResponse<Contribution>> searchContributions(Ref ref) async {
   AuthSessionModel session = await AuthStore().restore();
@@ -54,5 +66,14 @@ class ContributionFilterNotifier extends StateNotifier<ContributionFilter> {
 
   void setStartDate(String startDate) {
     state.startDate = startDate;
+  }
+
+  void refresh() {
+    state = state.copyWith(
+      page: state.page,
+      perPage: state.perPage,
+      status: state.status,
+      startDate: state.startDate,
+    );
   }
 }

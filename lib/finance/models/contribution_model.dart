@@ -30,8 +30,10 @@ class Contribution {
   final ContributionType type;
   final ContributionFinancialConcept financeConcept;
   final ContributionMember member;
+  final String contributionId;
 
   Contribution({
+    required this.contributionId,
     required this.amount,
     required this.status,
     required this.createdAt,
@@ -43,6 +45,7 @@ class Contribution {
 
   factory Contribution.fromJson(Map<String, dynamic> json) {
     return Contribution(
+      contributionId: json['contributionId'],
       amount: json['amount'],
       status: json['status'],
       createdAt: DateTime.parse(json['createdAt']),
@@ -52,6 +55,28 @@ class Contribution {
       financeConcept:
           ContributionFinancialConcept.fromJson(json['financeConcept']),
       member: ContributionMember.fromJson(json['member']),
+    );
+  }
+
+  copyWith({
+    double? amount,
+    String? status,
+    DateTime? createdAt,
+    String? bankTransferReceipt,
+    ContributionType? type,
+    ContributionFinancialConcept? financeConcept,
+    ContributionMember? member,
+    String? contributionId,
+  }) {
+    return Contribution(
+      amount: amount ?? this.amount,
+      status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+      bankTransferReceipt: bankTransferReceipt ?? this.bankTransferReceipt,
+      type: type ?? this.type,
+      financeConcept: financeConcept ?? this.financeConcept,
+      member: member ?? this.member,
+      contributionId: contributionId ?? this.contributionId,
     );
   }
 }

@@ -2,10 +2,22 @@ import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:flutter/material.dart';
 
+class FactoryDataTable<T> {
+  final List<T> data;
+  final List<dynamic> Function(dynamic) dataBuilder;
+
+  FactoryDataTable({
+    required this.data,
+    required this.dataBuilder,
+  });
+}
+
 class CustomTable extends StatefulWidget {
   final List<String> headers;
-  final List<List<String>> data;
-  final List<Widget Function(int rowIndex)>? actionBuilders;
+
+  //final List<List<String>> data;
+  final FactoryDataTable data;
+  final List<Widget Function(dynamic)>? actionBuilders;
   final PaginationData paginate;
 
   const CustomTable({
@@ -91,9 +103,12 @@ class _CustomTableState extends State<CustomTable> {
           ),
       ],
       rows: List.generate(
-        widget.data.length,
+        widget.data.data.length,
         (rowIndex) {
-          final rowData = widget.data[rowIndex];
+          final item = widget.data.data[rowIndex];
+
+          final rowData = widget.data.dataBuilder(item);
+
           return DataRow(
             cells: [
               ...rowData.map(
@@ -110,9 +125,8 @@ class _CustomTableState extends State<CustomTable> {
               if (widget.actionBuilders != null)
                 DataCell(
                   Row(
-                    //mainAxisAlignment: MainAxisAlignment.center,
                     children: widget.actionBuilders!
-                        .map((actionBuilder) => actionBuilder(rowIndex))
+                        .map((actionBuilder) => actionBuilder(item))
                         .toList(),
                   ),
                 ),

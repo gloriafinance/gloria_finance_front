@@ -1,8 +1,13 @@
+import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
+import 'package:church_finance_bk/core/theme/app_color.dart';
+import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/finance/models/contribution_model.dart';
 import 'package:church_finance_bk/finance/providers/contributions_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'view_contribution.dart';
 
 class ContributionTable extends ConsumerStatefulWidget {
   const ContributionTable({super.key});
@@ -17,17 +22,18 @@ class _ContributionTableState extends ConsumerState<ContributionTable> {
     final contributionsAsync = ref.watch(searchContributionsProvider);
 
     return contributionsAsync.when(
-        data: (data) => buildTable(contributionDTO(data.results), data.nextPag,
-            data.count, data.perPage),
+        data: (data) =>
+            buildTable(data.results, data.nextPag, data.count, data.perPage),
         error: (error, _) => Text("Error: $error"),
         loading: () => CircularProgressIndicator());
   }
 
   Widget buildTable(
-      List<List<String>> data, bool nextPage, int totalRecord, int perPage) {
+      List<Contribution> data, bool nextPage, int totalRecord, int perPage) {
     return CustomTable(
-      headers: ["Nome", "Valor", "Tipo de contribuçāo", "Fecha"],
-      data: data,
+      headers: ["Nome", "Valor", "Tipo de contribuçāo", "Status", "Fecha"],
+      data: FactoryDataTable<Contribution>(
+          data: data, dataBuilder: contributionDTO),
       paginate: PaginationData(
           totalRecords: totalRecord,
           nextPag: nextPage,
@@ -40,36 +46,39 @@ class _ContributionTableState extends ConsumerState<ContributionTable> {
             ref.read(contributionsFilterProvider.notifier).prevPage();
           },
           onChangePerPage: (perPage) {
-            // ref
-            //     .read(contributionsPaginationProvider.notifier)
-            //     .setPerPage(perPage);
             ref.read(contributionsFilterProvider.notifier).setPerPage(perPage);
           }),
       actionBuilders: [
-        (rowIndex) => IconButton(
-              icon: const Icon(Icons.edit, color: Colors.blue),
+        (contribution) => ButtonActionTable(
+              color: AppColors.blue,
+              text: "Visualizar",
               onPressed: () {
-                print("Editar fila $rowIndex");
+                print("Aprobar fila $contribution");
+                _openModal(contribution);
               },
-            ),
-        (rowIndex) => IconButton(
-              icon: const Icon(Icons.delete, color: Colors.red),
-              onPressed: () {
-                print("Eliminar fila $rowIndex");
-              },
+              icon: Icons.remove_red_eye_sharp,
             ),
       ],
     );
   }
 
-  List<List<String>> contributionDTO(List<Contribution> results) {
-    return results
-        .map((contribution) => [
-              contribution.member.name,
-              "\$${contribution.amount.toStringAsFixed(2)}",
-              contribution.financeConcept.name,
-              contribution.createdAt.toString(),
-            ])
-        .toList();
+  void _openModal(Contribution contribution) {
+    ModalPage(
+      title: 'Contribuição #${contribution.contributionId}',
+      body: ViewContribution(contribution: contribution),
+    ).show(context);
+  }
+
+  List<dynamic> contributionDTO(dynamic contribution) {
+    return [
+      contribution.member.name,
+      "\$${contribution.amount.toStringAsFixed(2)}",
+      contribution.financeConcept.name,
+      ContributionStatus.values
+          .firstWhere(
+              (e) => e.toString().split('.').last == contribution.status)
+          .friendlyName,
+      contribution.createdAt.toString(),
+    ];
   }
 }
