@@ -30,32 +30,34 @@ class ModalPage {
       child: Container(
         padding: const EdgeInsets.all(16.0),
         width: width,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Título con botón "X" para cerrar
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontFamily: AppFonts.fontMedium,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Título con botón "X" para cerrar
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontFamily: AppFonts.fontMedium,
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Cierra el modal
-                  },
-                  icon: const Icon(Icons.close),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            // Contenido del cuerpo del modal
-            body,
-          ],
+                  IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Cierra el modal
+                    },
+                    icon: const Icon(Icons.close),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              // Contenido del cuerpo del modal
+              body,
+            ],
+          ),
         ),
       ),
     );

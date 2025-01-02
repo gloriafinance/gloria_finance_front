@@ -27,7 +27,6 @@ class Contribution {
   final String status;
   final DateTime createdAt;
   final String bankTransferReceipt;
-  final ContributionType type;
   final ContributionFinancialConcept financeConcept;
   final ContributionMember member;
   final String contributionId;
@@ -38,7 +37,6 @@ class Contribution {
     required this.status,
     required this.createdAt,
     required this.bankTransferReceipt,
-    required this.type,
     required this.financeConcept,
     required this.member,
   });
@@ -50,8 +48,6 @@ class Contribution {
       status: json['status'],
       createdAt: DateTime.parse(json['createdAt']),
       bankTransferReceipt: json['bankTransferReceipt'],
-      type: ContributionType.values
-          .firstWhere((e) => e.toString().split('.').last == json['type']),
       financeConcept:
           ContributionFinancialConcept.fromJson(json['financeConcept']),
       member: ContributionMember.fromJson(json['member']),
@@ -73,7 +69,6 @@ class Contribution {
       status: status ?? this.status,
       createdAt: createdAt ?? this.createdAt,
       bankTransferReceipt: bankTransferReceipt ?? this.bankTransferReceipt,
-      type: type ?? this.type,
       financeConcept: financeConcept ?? this.financeConcept,
       member: member ?? this.member,
       contributionId: contributionId ?? this.contributionId,

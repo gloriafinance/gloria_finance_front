@@ -8,7 +8,7 @@ import 'package:dio/dio.dart';
 class FinanceService extends AppHttp {
   FinanceService({super.tokenAPI});
 
-  Future<PaginateResponse<Contribution>> searchContribuitions(
+  Future<PaginateResponse<Contribution>> searchContributions(
       ContributionFilter params) async {
     try {
       final response = await http.get(
@@ -18,6 +18,7 @@ class FinanceService extends AppHttp {
           headers: getHeader(),
         ),
       );
+
       return PaginateResponse.fromJson(
           params.perPage, response.data, (data) => Contribution.fromJson(data));
     } on DioException catch (e) {

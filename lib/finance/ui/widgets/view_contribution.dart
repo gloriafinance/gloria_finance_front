@@ -2,6 +2,7 @@ import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/finance/providers/contributions_provider.dart';
+import 'package:church_finance_bk/finance/ui/widgets/content_viever.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -42,14 +43,6 @@ class ViewContribution extends ConsumerWidget {
                 'Data',
                 '${contribution.createdAt.day}/${contribution.createdAt.month}/${contribution.createdAt.year}',
               ),
-              _buildDetailRow(
-                  'Tipo', contribution.type.toString().split('.').last),
-              const SizedBox(height: 16),
-              _buildSectionTitle('Recibo de Transferência'),
-              Text(
-                contribution.bankTransferReceipt,
-                style: const TextStyle(fontSize: 14, color: Colors.grey),
-              ),
               const SizedBox(height: 16),
               _buildSectionTitle('Membro'),
               Text(
@@ -63,6 +56,9 @@ class ViewContribution extends ConsumerWidget {
                 style: const TextStyle(fontSize: 14),
               ),
               const SizedBox(height: 26),
+              _buildSectionTitle('Recibo de Transferência'),
+              ContentViewer(url: contribution.bankTransferReceipt),
+              const SizedBox(height: 16),
               if (parseContributionStatus(contribution.status) ==
                   ContributionStatus.PENDING_VERIFICATION)
                 _buildButton(context, ref, contribution.contributionId),

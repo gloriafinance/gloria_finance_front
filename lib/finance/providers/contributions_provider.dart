@@ -32,7 +32,7 @@ Future<PaginateResponse<Contribution>> searchContributions(Ref ref) async {
   }
 
   return await FinanceService(tokenAPI: session.token)
-      .searchContribuitions(filter);
+      .searchContributions(filter);
 }
 
 final contributionsFilterProvider =
