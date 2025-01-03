@@ -30,6 +30,20 @@ class PaginateResponse<T> {
     );
   }
 
+  PaginateResponse<T> copyWith({
+    bool? nextPag,
+    int? count,
+    List<T>? results,
+    int? perPage,
+  }) {
+    return PaginateResponse(
+      nextPag: nextPag ?? this.nextPag,
+      count: count ?? this.count,
+      results: results ?? this.results,
+      perPage: perPage ?? this.perPage,
+    );
+  }
+
   Map<String, dynamic> toJSON() {
     return {
       'nextPag': nextPag == 0 ? null : nextPag,

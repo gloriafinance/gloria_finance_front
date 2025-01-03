@@ -203,7 +203,7 @@ class _CustomTableState extends State<CustomTable> {
               ),
               isDense: true,
               // Reducir altura predeterminada del DropdownButton
-              items: [2, 10, 20, 50].map((int value) {
+              items: [10, 20, 50].map((int value) {
                 return DropdownMenuItem<int>(
                   value: value,
                   child: Text("$value por página"),

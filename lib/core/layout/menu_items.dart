@@ -1,6 +1,7 @@
+import 'package:church_finance_bk/finance/router.dart';
 import 'package:flutter/material.dart';
 
-List<Map<String, dynamic>> menuItems = const [
+List<Map<String, dynamic>> items = const [
   {
     "label": "Configuraçōes",
     "icon": Icons.settings,
@@ -15,22 +16,6 @@ List<Map<String, dynamic>> menuItems = const [
         "label": "Pares de intercambio",
         "icon": Icons.swap_horiz,
         "to": "/exchange-pairs"
-      },
-    ],
-  },
-  {
-    "label": "Finanzas",
-    "icon": Icons.monetization_on,
-    "items": [
-      {
-        "label": "Contribuiçōes",
-        "icon": Icons.bar_chart,
-        "to": "/contributions"
-      },
-      {
-        "label": "Movimientos financieros",
-        "icon": Icons.money,
-        "to": "/contributions"
       },
     ],
   },
@@ -56,3 +41,5 @@ List<Map<String, dynamic>> menuItems = const [
     ],
   },
 ];
+
+final menuItems = [...items, ...financialMenuItems];

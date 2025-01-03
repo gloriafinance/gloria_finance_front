@@ -1,10 +1,10 @@
-import 'package:church_finance_bk/auth/ui/widgets/form_login.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/IPUBLogo.dart';
+import 'package:church_finance_bk/core/widgets/background_container.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/widgets/background_container.dart';
+import 'widgets/form_login.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

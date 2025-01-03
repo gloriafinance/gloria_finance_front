@@ -1,27 +1,27 @@
-class ContributionFilter {
+class ContributionFilterModel {
   int perPage;
   int page;
   String? startDate;
   String? status;
 
-  ContributionFilter({
+  ContributionFilterModel({
     this.perPage = 10,
     this.page = 1,
     this.startDate,
     this.status,
   });
 
-  factory ContributionFilter.init() {
-    return ContributionFilter();
+  factory ContributionFilterModel.init() {
+    return ContributionFilterModel();
   }
 
-  ContributionFilter copyWith({
+  ContributionFilterModel copyWith({
     int? perPage,
     int? page,
     String? startDate,
     String? status,
   }) {
-    return ContributionFilter(
+    return ContributionFilterModel(
       page: page ?? this.page,
       perPage: perPage ?? this.perPage,
       startDate: startDate ?? this.startDate,

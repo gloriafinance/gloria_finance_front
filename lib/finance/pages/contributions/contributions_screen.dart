@@ -1,7 +1,9 @@
 import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
-import 'package:church_finance_bk/finance/ui/widgets/contribution_filters.dart';
-import 'package:church_finance_bk/finance/ui/widgets/contribution_table.dart';
+import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:flutter/material.dart';
+
+import 'widgets/contribution_filters.dart';
+import 'widgets/contribution_table.dart';
 
 class ContributionsScreen extends StatelessWidget {
   const ContributionsScreen({super.key});
@@ -9,7 +11,15 @@ class ContributionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutDashboard(
-      'Lista de contribuições',
+      Text(
+        'Lista de contribuições', textAlign: TextAlign.left,
+        // Esto asegura que el texto no esté centrado
+        style: TextStyle(
+          fontFamily: AppFonts.fontMedium,
+          fontSize: 24,
+          color: Colors.black,
+        ),
+      ),
       screen: Column(
         children: [
           ContributionFilters(),

@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +8,7 @@ import 'sidebar_layout_dashboad.dart';
 
 class LayoutDashboard extends ConsumerStatefulWidget {
   final Widget screen;
-  final String title;
+  final Widget title;
 
   const LayoutDashboard(this.title, {super.key, required this.screen});
 
@@ -53,7 +52,8 @@ class _LayoutDashboardState extends ConsumerState<LayoutDashboard> {
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.all(10.0),
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 30.0, vertical: 14),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     boxShadow: const [
@@ -68,16 +68,7 @@ class _LayoutDashboardState extends ConsumerState<LayoutDashboard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     // Alineación a la izquierda
                     children: [
-                      Text(
-                        widget.title,
-                        textAlign: TextAlign.left,
-                        // Esto asegura que el texto no esté centrado
-                        style: TextStyle(
-                          fontFamily: AppFonts.fontMedium,
-                          fontSize: 24,
-                          color: Colors.black,
-                        ),
-                      ),
+                      widget.title,
                       Expanded(
                         child: SingleChildScrollView(
                           child: widget.screen,

@@ -3,8 +3,8 @@ import 'package:church_finance_bk/auth/auth_store.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../finance_service.dart';
 import '../models/financial_concept_model.dart';
+import '../services/finance_service.dart';
 
 part 'financial_concept_provider.g.dart';
 

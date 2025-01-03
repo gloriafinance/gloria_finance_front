@@ -22,7 +22,7 @@ extension ContributionStatusExtension on ContributionStatus {
   }
 }
 
-class Contribution {
+class ContributionModel {
   final double amount;
   final String status;
   final DateTime createdAt;
@@ -31,7 +31,7 @@ class Contribution {
   final ContributionMember member;
   final String contributionId;
 
-  Contribution({
+  ContributionModel({
     required this.contributionId,
     required this.amount,
     required this.status,
@@ -41,8 +41,8 @@ class Contribution {
     required this.member,
   });
 
-  factory Contribution.fromJson(Map<String, dynamic> json) {
-    return Contribution(
+  factory ContributionModel.fromJson(Map<String, dynamic> json) {
+    return ContributionModel(
       contributionId: json['contributionId'],
       amount: json['amount'],
       status: json['status'],
@@ -64,7 +64,7 @@ class Contribution {
     ContributionMember? member,
     String? contributionId,
   }) {
-    return Contribution(
+    return ContributionModel(
       amount: amount ?? this.amount,
       status: status ?? this.status,
       createdAt: createdAt ?? this.createdAt,

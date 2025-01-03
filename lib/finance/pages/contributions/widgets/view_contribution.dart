@@ -1,16 +1,16 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
+import 'package:church_finance_bk/finance/helpers/contribution.helper.dart';
+import 'package:church_finance_bk/finance/models/contribution_model.dart';
 import 'package:church_finance_bk/finance/providers/contributions_provider.dart';
-import 'package:church_finance_bk/finance/ui/widgets/content_viever.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../helpers/contribution.helper.dart';
-import '../../models/contribution_model.dart';
+import 'content_viever.dart';
 
 class ViewContribution extends ConsumerWidget {
-  final Contribution contribution;
+  final ContributionModel contribution;
 
   const ViewContribution({super.key, required this.contribution});
 
@@ -80,7 +80,7 @@ class ViewContribution extends ConsumerWidget {
           onPressed: () async {
             await updateContributionStatus(
                 contributionId, ContributionStatus.PROCESSED);
-            ref.read(contributionsFilterProvider.notifier).refresh();
+            //ref.read(contributionsFilterProvider.notifier).refresh();
             Navigator.of(context).pop();
           },
           icon: Icons.check,
@@ -93,7 +93,7 @@ class ViewContribution extends ConsumerWidget {
             await updateContributionStatus(
                 contributionId, ContributionStatus.REJECTED);
 
-            ref.read(contributionsFilterProvider.notifier).refresh();
+            //ref.read(contributionsFilterProvider.notifier).refresh();
 
             Navigator.of(context).pop();
           },

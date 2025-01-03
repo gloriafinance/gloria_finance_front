@@ -1,15 +1,14 @@
-enum FinancialConceptType {
-  INCOME,
-  EXPENSE,
-}
+enum FinancialConceptType { INCOME, OUTGO, PURCHASE }
 
 extension FinancialConceptTypeExtension on FinancialConceptType {
   String get friendlyName {
     switch (this) {
       case FinancialConceptType.INCOME:
         return 'Ingreso';
-      case FinancialConceptType.EXPENSE:
+      case FinancialConceptType.OUTGO:
         return 'Gasto';
+      case FinancialConceptType.PURCHASE:
+        return 'Compra';
     }
   }
 }

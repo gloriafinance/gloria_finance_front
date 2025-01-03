@@ -44,6 +44,9 @@ dependencies:
   motion_toast: ^2.11.0
   shared_preferences: ^2.3.4
   flutter_pdfview: ^1.4.0
+  intl: ^0.19.0
+  lucid_validation: ^1.2.0
+  flutter_multi_formatter: ^2.13.0
 
 dev_dependencies:
   flutter_test:

@@ -1,31 +1,10 @@
 import 'package:church_finance_bk/core/app_http.dart';
-import 'package:church_finance_bk/core/paginate/paginate_response.dart';
-import 'package:church_finance_bk/finance/models/contribution_filter_model.dart';
-import 'package:church_finance_bk/finance/models/contribution_model.dart';
+import 'package:church_finance_bk/finance/models/bank_model.dart';
 import 'package:church_finance_bk/finance/models/financial_concept_model.dart';
 import 'package:dio/dio.dart';
 
 class FinanceService extends AppHttp {
   FinanceService({super.tokenAPI});
-
-  Future<PaginateResponse<Contribution>> searchContributions(
-      ContributionFilter params) async {
-    try {
-      final response = await http.get(
-        '${await getUrlApi()}finance/contributions',
-        queryParameters: params.toMap(),
-        options: Options(
-          headers: getHeader(),
-        ),
-      );
-
-      return PaginateResponse.fromJson(
-          params.perPage, response.data, (data) => Contribution.fromJson(data));
-    } on DioException catch (e) {
-      transformResponse(e.response?.data);
-      rethrow;
-    }
-  }
 
   Future<List<FinancialConcept>> searchFinancialConcepts(
       String churchId, FinancialConceptType? type) async {
@@ -43,6 +22,7 @@ class FinanceService extends AppHttp {
           headers: getHeader(),
         ),
       );
+
       return (response.data as List)
           .map((e) => FinancialConcept.fromJson(e))
           .toList();
@@ -52,16 +32,16 @@ class FinanceService extends AppHttp {
     }
   }
 
-  Future<void> updateContributionStatus(
-      String contributionId, ContributionStatus status) async {
+  Future<List<BankModel>> searchBank(String churchId) async {
     try {
-      final s = status.toString().split('.').last;
-      await http.patch(
-        '${await getUrlApi()}finance/contributions/$contributionId/status/$s',
+      final response = await http.get(
+        '${await getUrlApi()}finance/configuration/bank/$churchId',
         options: Options(
           headers: getHeader(),
         ),
       );
+
+      return (response.data as List).map((e) => BankModel.fromJson(e)).toList();
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;

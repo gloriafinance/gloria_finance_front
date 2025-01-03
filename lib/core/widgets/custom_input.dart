@@ -2,6 +2,7 @@ import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 typedef StringValue = String Function(String);
@@ -26,6 +27,7 @@ class CustomInput extends StatefulWidget {
   final double? top;
   final bool? readOnly;
   final ValueChanged<dynamic>? onChanged;
+  final NumberFormat? formatter;
 
   const CustomInput(
       {super.key,
@@ -47,7 +49,8 @@ class CustomInput extends StatefulWidget {
       this.placeholder,
       this.top,
       this.onChanged,
-      this.readOnly = false});
+      this.readOnly = false,
+      this.formatter});
 
   @override
   _CustomTextField createState() => _CustomTextField();
@@ -73,18 +76,70 @@ class _CustomTextField extends State<CustomInput> {
   }
 
   Widget _textField() {
+    final controller = widget.controller ?? TextEditingController();
+
     return TextField(
+      controller: controller,
       style: const TextStyle(fontFamily: AppFonts.fontLight),
       obscureText: widget.isPass ?? false,
       readOnly: widget.readOnly ?? true,
       decoration: _inputDecoration(),
       keyboardType: widget.inputType,
-      onChanged: widget.onChanged,
+      onChanged: (value) {
+        if (widget.formatter != null) {
+          if (value.isEmpty) {
+            // Si el campo está vacío, no formatear y limpiar el controlador
+            controller.value = TextEditingValue(
+              text: '',
+              selection: TextSelection.collapsed(offset: 0),
+            );
+
+            // Llama al callback con un valor nulo si está definido
+            if (widget.onChanged != null) {
+              widget.onChanged!(null);
+            }
+            return;
+          }
+
+          // Obtener la posición actual del cursor
+          final cursorPosition = controller.selection.baseOffset;
+
+          // Formatear el valor numérico
+          final numericValue =
+              double.tryParse(value.replaceAll(',', '')) ?? 0.0;
+          final formattedValue = widget.formatter!.format(numericValue);
+
+          // Calcular la nueva posición del cursor
+          final newCursorPosition =
+              formattedValue.length - (value.length - cursorPosition);
+
+          // Actualizar el controlador con el valor formateado
+          controller.value = TextEditingValue(
+            text: formattedValue,
+            selection: TextSelection.collapsed(
+              offset: newCursorPosition.clamp(0, formattedValue.length),
+            ),
+          );
+
+          // Llamar al callback onChanged si está definido
+          if (widget.onChanged != null) {
+            widget.onChanged!(numericValue);
+          }
+        } else if (widget.onChanged != null) {
+          widget.onChanged!(value);
+        }
+      },
+      inputFormatters: widget.inputType == TextInputType.number
+          ? [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))]
+          : widget.inputFormatters, // Usa otros formatters si están definidos
     );
   }
 
   Widget _reactiveTextField() {
+    final controller = widget.controller ?? TextEditingController();
+
     return ReactiveTextField(
+      controller: controller,
       style: const TextStyle(
         fontFamily: AppFonts.fontLight,
         fontSize: 16,
@@ -94,10 +149,41 @@ class _CustomTextField extends State<CustomInput> {
       obscureText: widget.isPass ?? false,
       readOnly: widget.readOnly ?? true,
       decoration: _inputDecoration(),
-      onChanged: widget.onChanged,
+      inputFormatters: widget.inputType == TextInputType.number
+          ? [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))]
+          : widget.inputFormatters,
+      onChanged: (control) {
+        if (widget.formatter != null) {
+          // Obtén el texto actual
+          final rawValue = controller.text.replaceAll(',', '');
+          final numericValue = double.tryParse(rawValue);
+
+          if (numericValue != null) {
+            // Formatea el número
+            final formattedValue = widget.formatter!.format(numericValue);
+
+            // Solo actualiza el texto del controlador si el formato es diferente
+            if (controller.text != formattedValue) {
+              final cursorPosition = controller.selection.baseOffset;
+              final newCursorPosition =
+                  cursorPosition + (formattedValue.length - rawValue.length);
+
+              controller.value = TextEditingValue(
+                text: formattedValue,
+                selection: TextSelection.collapsed(
+                  offset: newCursorPosition.clamp(0, formattedValue.length),
+                ),
+              );
+            }
+
+            // Actualiza el valor del FormControl
+            control.value = numericValue;
+          }
+        }
+      },
       validationMessages: {
         ValidationMessage.required: (error) =>
-            "${widget.label.toUpperCase()} Este campo não pode estar vazio",
+            "${widget.label.toUpperCase()} Este campo não pode estar vacío",
       },
     );
   }

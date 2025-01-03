@@ -1,8 +1,7 @@
+import 'package:church_finance_bk/auth/pages/login/login_screen.dart';
 import 'package:church_finance_bk/auth/providers/auth_provider.dart';
-import 'package:church_finance_bk/auth/ui/login_screen.dart';
 import 'package:church_finance_bk/core/theme/transition_custom.dart';
-import 'package:church_finance_bk/finance/ui/contributions_screen.dart';
-import 'package:church_finance_bk/finance/ui/expense_record_screen.dart';
+import 'package:church_finance_bk/finance/router.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -13,19 +12,6 @@ var routers = <RouteBase>[
     path: '/',
     pageBuilder: (context, state) {
       return transitionCustom(const LoginScreen());
-      //return transitionCustom(const DashboardScreen());
-    },
-  ),
-  GoRoute(
-    path: '/contributions',
-    pageBuilder: (context, state) {
-      return transitionCustom(ContributionsScreen());
-    },
-  ),
-  GoRoute(
-    path: '/expense-record',
-    pageBuilder: (context, state) {
-      return transitionCustom(ExpenseRecordScreen());
     },
   ),
 ];
@@ -36,5 +22,6 @@ GoRouter appRouter(AppRouterRef ref) {
 
   //print("session************: ${session.isSessionStarted()}");
 
-  return GoRouter(routes: routers, initialLocation: '/');
+  return GoRouter(
+      routes: [...routers, ...financialRouter()], initialLocation: '/');
 }
