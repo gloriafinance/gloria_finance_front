@@ -3,19 +3,18 @@ import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/finance/helpers/contribution.helper.dart';
 import 'package:church_finance_bk/finance/models/contribution_model.dart';
-import 'package:church_finance_bk/finance/providers/contributions_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'content_viever.dart';
+import '../../usecases/update_contribution_status.dart';
+import 'content_viewer.dart';
 
-class ViewContribution extends ConsumerWidget {
+class ViewContribution extends StatelessWidget {
   final ContributionModel contribution;
 
   const ViewContribution({super.key, required this.contribution});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Card(
@@ -61,7 +60,7 @@ class ViewContribution extends ConsumerWidget {
               const SizedBox(height: 16),
               if (parseContributionStatus(contribution.status) ==
                   ContributionStatus.PENDING_VERIFICATION)
-                _buildButton(context, ref, contribution.contributionId),
+                _buildButton(context, contribution.contributionId),
             ],
           ),
         ),
@@ -69,8 +68,7 @@ class ViewContribution extends ConsumerWidget {
     );
   }
 
-  Widget _buildButton(
-      BuildContext context, WidgetRef ref, String contributionId) {
+  Widget _buildButton(BuildContext context, String contributionId) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -80,7 +78,7 @@ class ViewContribution extends ConsumerWidget {
           onPressed: () async {
             await updateContributionStatus(
                 contributionId, ContributionStatus.PROCESSED);
-            //ref.read(contributionsFilterProvider.notifier).refresh();
+
             Navigator.of(context).pop();
           },
           icon: Icons.check,
@@ -92,8 +90,6 @@ class ViewContribution extends ConsumerWidget {
             print("Rechazar fila $contribution");
             await updateContributionStatus(
                 contributionId, ContributionStatus.REJECTED);
-
-            //ref.read(contributionsFilterProvider.notifier).refresh();
 
             Navigator.of(context).pop();
           },

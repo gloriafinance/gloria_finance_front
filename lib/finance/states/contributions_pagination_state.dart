@@ -43,16 +43,4 @@ class ContributionPaginationState {
           status: status,
         ));
   }
-
-  updateStatusContributionModel(String contributionId, String status) {
-    final List<ContributionModel> contributions =
-        paginate.results.map<ContributionModel>((e) {
-      if (e.contributionId == contributionId) {
-        return e.copyWith(status: status);
-      }
-      return e;
-    }).toList();
-
-    return copyWith(paginate: paginate.copyWith(results: contributions));
-  }
 }

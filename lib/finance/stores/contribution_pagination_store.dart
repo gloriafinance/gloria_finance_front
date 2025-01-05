@@ -49,7 +49,19 @@ class ContributionPaginationStore extends ChangeNotifier {
   }
 
   updateStatusContributionModel(String contributionId, String status) {
-    state = state.updateStatusContributionModel(contributionId, status);
+    final List<ContributionModel> contributions =
+        state.paginate.results.map<ContributionModel>((e) {
+      if (e.contributionId == contributionId) {
+        final v = ContributionStatus.values
+            .firstWhere((e) => e.friendlyName == status);
+        return e.copyWith(status: v.toString().split('.').last);
+      }
+      return e;
+    }).toList();
+
+    state = state.copyWith(
+        paginate: state.paginate.copyWith(results: contributions));
+
     notifyListeners();
   }
 
