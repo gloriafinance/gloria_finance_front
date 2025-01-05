@@ -105,24 +105,24 @@ class ContributionMember {
 }
 
 class ContributionFinancialConcept {
-  final String financeConceptId;
+  final String financialConceptId;
   final String name;
 
   ContributionFinancialConcept({
-    required this.financeConceptId,
+    required this.financialConceptId,
     required this.name,
   });
 
   factory ContributionFinancialConcept.fromJson(Map<String, dynamic> json) {
     return ContributionFinancialConcept(
-      financeConceptId: json['financeConceptId'],
+      financialConceptId: json['financialConceptId'],
       name: json['name'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'financeConceptId': financeConceptId,
+      'financialConceptId': financialConceptId,
       'name': name,
     };
   }

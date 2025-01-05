@@ -14,7 +14,7 @@ extension FinancialConceptTypeExtension on FinancialConceptType {
 }
 
 class FinancialConcept {
-  final String financeConceptId;
+  final String financialConceptId;
   final String name;
   final String description;
   final bool active;
@@ -22,7 +22,7 @@ class FinancialConcept {
   final String churchId;
 
   FinancialConcept({
-    required this.financeConceptId,
+    required this.financialConceptId,
     required this.name,
     required this.description,
     required this.active,
@@ -32,7 +32,7 @@ class FinancialConcept {
 
   factory FinancialConcept.fromJson(Map<String, dynamic> json) {
     return FinancialConcept(
-      financeConceptId: json['financeConceptId'],
+      financialConceptId: json['financialConceptId'],
       name: json['name'],
       description: json['description'],
       active: json['active'],
@@ -43,7 +43,7 @@ class FinancialConcept {
 
   Map<String, dynamic> toJson() {
     return {
-      'financeConceptId': financeConceptId,
+      'financialConceptId': financialConceptId,
       'name': name,
       'description': description,
       'active': active,
@@ -54,7 +54,7 @@ class FinancialConcept {
 
   FinancialConcept copyWith({
     String? id,
-    String? financeConceptId,
+    String? financialConceptId,
     String? name,
     String? description,
     bool? active,
@@ -63,7 +63,7 @@ class FinancialConcept {
     String? churchId,
   }) {
     return FinancialConcept(
-      financeConceptId: financeConceptId ?? this.financeConceptId,
+      financialConceptId: financialConceptId ?? this.financialConceptId,
       name: name ?? this.name,
       description: description ?? this.description,
       active: active ?? this.active,

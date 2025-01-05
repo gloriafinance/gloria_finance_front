@@ -96,7 +96,7 @@ Widget searchFinancialConcepts(WidgetRef ref) {
           final v = financialConcepts.firstWhere((e) => e.name == value);
 
           formFinanceRecordState.copyWith(
-            financialConceptId: v.financeConceptId,
+            financialConceptId: v.financialConceptId,
             description: v.description,
             type: v.type,
           );

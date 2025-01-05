@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/core/app_router.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
@@ -7,6 +8,7 @@ import 'package:church_finance_bk/finance/pages/financial_records/widgets/financ
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../usecases/financial_record_save.dart';
 import 'finance_record_mobile_layout.dart';
 import 'form_financial_record_inputs.dart';
 
@@ -24,16 +26,10 @@ class _FormFinancialRecordState extends ConsumerState<FormFinancialRecord> {
   final formKey = GlobalKey<FormState>();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Form(
         key: formKey,
-        //formGroup: form,
         child: LayoutBuilder(
           builder: (context, constraints) {
             bool isMobile = constraints.maxWidth < 600;
@@ -68,25 +64,26 @@ class _FormFinancialRecordState extends ConsumerState<FormFinancialRecord> {
                 onPressed: () => _saveRecord()));
   }
 
-  void _saveRecord() {
+  void _saveRecord() async {
     if (!formKey.currentState!.validate()) {
-      final result = validator.validate(formFinanceRecordState);
-      for (var exception in result.exceptions) {
-        print(exception.message);
-      }
-
       return;
     }
 
     _makeRequest = true;
     setState(() {});
-    print('save record');
 
     if (formFinanceRecordState.isPurchase) {
       Toast.showMessage("Registro de compras em contruçāo", ToastType.warning);
+      return;
     }
-    // _makeRequest = true;
-    // setState(() {});
-    // print(record);
+
+    await financeRecordSave(formFinanceRecordState).then((value) {
+      _makeRequest = false;
+      setState(() {});
+      if (value) {
+        Toast.showMessage("Registro salvo com sucesso", ToastType.info);
+        ref.read(appRouterProvider).go("/financial-record");
+      }
+    });
   }
 }

@@ -1,5 +1,4 @@
 import 'package:church_finance_bk/auth/pages/login/login_screen.dart';
-import 'package:church_finance_bk/auth/providers/auth_provider.dart';
 import 'package:church_finance_bk/core/theme/transition_custom.dart';
 import 'package:church_finance_bk/finance/router.dart';
 import 'package:go_router/go_router.dart';
@@ -18,10 +17,6 @@ var routers = <RouteBase>[
 
 @riverpod
 GoRouter appRouter(AppRouterRef ref) {
-  var session = ref.watch(sessionProvider);
-
-  //print("session************: ${session.isSessionStarted()}");
-
   return GoRouter(
       routes: [...routers, ...financialRouter()], initialLocation: '/');
 }

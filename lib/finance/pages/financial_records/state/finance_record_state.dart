@@ -2,6 +2,8 @@ import 'package:church_finance_bk/finance/models/finance_record_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../helpers.dart';
+
 class FormFinanceRecordState extends ChangeNotifier {
   double amount;
   String date;
@@ -62,5 +64,20 @@ class FormFinanceRecordState extends ChangeNotifier {
     this.bankId = bankId ?? this.bankId;
 
     notifyListeners();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "amount": amount,
+      "date": convertDateFormat(date),
+      "financialConceptId": financialConceptId,
+      "moneyLocation": getMoneyLocationFromFriendlyName(moneyLocation)
+          ?.toString()
+          .split('.')
+          .last,
+      "description": description,
+      "file": file,
+      "bankId": bankId,
+    };
   }
 }

@@ -10,7 +10,13 @@ class AuthStore {
     await prefs.setString('session', jsonEncode(session.toJson()));
   }
 
-  restore() async {
+  clear() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.remove('session');
+  }
+
+  Future<AuthSessionModel> restore() async {
     final prefs = await SharedPreferences.getInstance();
     final session = prefs.getString('session');
 

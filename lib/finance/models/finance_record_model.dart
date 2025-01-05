@@ -17,6 +17,15 @@ extension MoneyLocationExtension on MoneyLocation {
   }
 }
 
+MoneyLocation? getMoneyLocationFromFriendlyName(String friendlyName) {
+  for (var location in MoneyLocation.values) {
+    if (location.friendlyName == friendlyName) {
+      return location;
+    }
+  }
+  return null;
+}
+
 class FinanceRecordModel {
   final String financeRecordId;
   final double amount;
