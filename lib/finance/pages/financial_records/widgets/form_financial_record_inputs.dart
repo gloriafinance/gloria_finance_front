@@ -1,14 +1,13 @@
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/core/widgets/upload_file.dart';
 import 'package:church_finance_bk/finance/models/financial_concept_model.dart';
-import 'package:church_finance_bk/finance/providers/financial_concept_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../models/finance_record_model.dart';
 import '../../../stores/bank_store.dart';
+import '../financial_record_screen.dart';
 import '../state/finance_record_state.dart';
 import '../validators/form_financial_record_validator.dart';
 
@@ -79,35 +78,24 @@ Widget amount() {
   );
 }
 
-Widget searchFinancialConcepts(WidgetRef ref) {
-  final financialConceptAsync =
-      ref.watch(searchFinancialConceptsProvider(null));
+Widget searchFinancialConcepts() {
+  return Dropdown(
+    label: "Conceito",
+    items: financialConceptStore.state.financialConcepts
+        .map((e) => e.name)
+        .toList(),
+    onValidator:
+        validator.byField(formFinanceRecordState, 'financialConceptId'),
+    onChanged: (value) {
+      final v = financialConceptStore.state.financialConcepts
+          .firstWhere((e) => e.name == value);
 
-  return financialConceptAsync.when(
-    data: (data) {
-      financialConcepts.clear();
-      financialConcepts.addAll(data);
-      return Dropdown(
-        label: "Conceito",
-        items: financialConcepts.map((e) => e.name).toList(),
-        onValidator:
-            validator.byField(formFinanceRecordState, 'financialConceptId'),
-        onChanged: (value) {
-          final v = financialConcepts.firstWhere((e) => e.name == value);
-
-          formFinanceRecordState.copyWith(
-            financialConceptId: v.financialConceptId,
-            description: v.description,
-            type: v.type,
-          );
-        },
+      formFinanceRecordState.copyWith(
+        financialConceptId: v.financialConceptId,
+        description: v.description,
+        type: v.type,
       );
     },
-    error: (error, _) => Text("Error: $error"),
-    loading: () => const SizedBox(
-      width: 10,
-      child: null,
-    ),
   );
 }
 

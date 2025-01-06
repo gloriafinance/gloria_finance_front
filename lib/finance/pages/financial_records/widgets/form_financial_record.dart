@@ -36,7 +36,7 @@ class _FormFinancialRecordState extends ConsumerState<FormFinancialRecord> {
 
             return Column(
               children: [
-                isMobile ? formMobileLayout(ref) : formDesktopLayout(ref),
+                isMobile ? formMobileLayout() : formDesktopLayout(),
                 const SizedBox(height: 32),
                 isMobile
                     ? _btnSave()

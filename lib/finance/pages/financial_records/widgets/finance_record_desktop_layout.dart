@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'form_financial_record_inputs.dart';
 
-Widget formDesktopLayout(WidgetRef ref) {
+Widget formDesktopLayout() {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -13,7 +12,7 @@ Widget formDesktopLayout(WidgetRef ref) {
         children: [
           Expanded(child: date()),
           const SizedBox(width: 16),
-          Expanded(flex: 2, child: searchFinancialConcepts(ref)),
+          Expanded(flex: 2, child: searchFinancialConcepts()),
         ],
       ),
       Row(

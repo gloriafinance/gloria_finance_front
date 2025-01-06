@@ -6,7 +6,12 @@ import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../stores/finance_concept_store.dart';
+import '../../stores/finance_record_paginate_store.dart';
 import 'widgets/finance_record_filters.dart';
+
+final financeRecordPaginateStore = FinanceRecordPaginateStore();
+final financialConceptStore = FinancialConceptStore();
 
 class FinancialRecordScreen extends ConsumerWidget {
   const FinancialRecordScreen({super.key});
@@ -46,6 +51,11 @@ class FinancialRecordScreen extends ConsumerWidget {
   Widget _buttons(WidgetRef ref) {
     return Row(
       children: [
+        ButtonActionTable(
+            color: AppColors.purple,
+            text: "Fechar mês",
+            onPressed: () => {},
+            icon: Icons.close_fullscreen_sharp),
         ButtonActionTable(
             color: AppColors.purple,
             text: "Relatório",
