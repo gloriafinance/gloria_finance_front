@@ -6,6 +6,8 @@ import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'widgets/finance_record_filters.dart';
+
 class FinancialRecordScreen extends ConsumerWidget {
   const FinancialRecordScreen({super.key});
 
@@ -14,7 +16,7 @@ class FinancialRecordScreen extends ConsumerWidget {
     return LayoutDashboard(
       _header(ref),
       screen: Column(
-        children: [],
+        children: [FinanceRecordFilters()],
       ),
     );
   }

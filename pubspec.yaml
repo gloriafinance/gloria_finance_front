@@ -48,6 +48,9 @@ dependencies:
   lucid_validation: ^1.2.0
   flutter_multi_formatter: ^2.13.0
 
+  flutter_localizations: # Add this line
+    sdk: flutter # Add this line
+    
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,4 +1,7 @@
 import 'package:church_finance_bk/core/app_http.dart';
+import 'package:church_finance_bk/core/paginate/paginate_response.dart';
+import 'package:church_finance_bk/finance/models/finance_record_filter_model.dart';
+import 'package:church_finance_bk/finance/models/finance_record_model.dart';
 import 'package:dio/dio.dart';
 
 class FinanceRecordService extends AppHttp {
@@ -23,6 +26,25 @@ class FinanceRecordService extends AppHttp {
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       return false;
+    }
+  }
+
+  Future<PaginateResponse<FinanceRecordModel>> searchFinanceRecords(
+      FinanceRecordFilterModel params) async {
+    try {
+      final response = await http.get(
+        '${await getUrlApi()}finance/financial-record',
+        queryParameters: params.toJson(),
+        options: Options(
+          headers: getHeader(),
+        ),
+      );
+
+      return PaginateResponse.fromJson(params.perPage, response.data,
+          (data) => FinanceRecordModel.fromJson(data));
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
     }
   }
 }

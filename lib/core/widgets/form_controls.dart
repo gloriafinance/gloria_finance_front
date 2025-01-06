@@ -11,6 +11,7 @@ class Input extends StatefulWidget {
   final dynamic? initialValue;
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
+  final void Function()? onTap;
 
   const Input(
       {super.key,
@@ -19,7 +20,8 @@ class Input extends StatefulWidget {
       this.onValidator,
       this.initialValue,
       this.keyboardType,
-      this.inputFormatters});
+      this.inputFormatters,
+      this.onTap});
 
   @override
   _InputState createState() => _InputState();
@@ -64,6 +66,7 @@ class _InputState extends State<Input> {
             decoration: _inputDecoration(),
             validator: widget.onValidator,
             onChanged: widget.onChanged,
+            onTap: widget.onTap,
           ),
         ],
       ),

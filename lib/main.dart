@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/app_router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart'; // Asegúrate de importar esto
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> main() async {
@@ -21,6 +22,15 @@ class _MyAppState extends ConsumerState<MyApp> {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       routerConfig: appRouter,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('pt', 'BR'), // Soporta portugués
+      ],
+      locale: Locale('pt', 'BR'), // Esto fuerza el uso del idioma portugués
     );
   }
 }
