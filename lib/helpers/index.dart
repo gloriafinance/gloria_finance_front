@@ -1,3 +1,41 @@
 String formatCurrency(double amount) {
   return 'R\$ ${amount.toStringAsFixed(2).replaceAll('.', ',').replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}';
 }
+
+String convertDateFormat(String? date) {
+  if (date == null || date.isEmpty) {
+    return '';
+  }
+
+  // Verifica que la fecha tenga el formato correcto
+  if (date.length != 10 || date[2] != '/' || date[5] != '/') {
+    throw FormatException('Formato de fecha inválido');
+  }
+
+  // Divide la fecha en día, mes y año
+  String day = date.substring(0, 2);
+  String month = date.substring(3, 5);
+  String year = date.substring(6, 10);
+
+  // Retorna la fecha en el nuevo formato
+  return '$year-$month-$day';
+}
+
+String convertDateFormatToDDMMYYYY(String? date) {
+  if (date == null || date.isEmpty) {
+    return '';
+  }
+
+  // Verifica que la fecha tenga el formato correcto
+  if (date.length < 10 || date[4] != '-' || date[7] != '-') {
+    throw FormatException('Formato de fecha inválido');
+  }
+
+  // Divide la fecha en año, mes y día
+  String year = date.substring(0, 4);
+  String month = date.substring(5, 7);
+  String day = date.substring(8, 10);
+
+  // Retorna la fecha en el nuevo formato
+  return '$day/$month/$year';
+}

@@ -1,9 +1,8 @@
-import 'package:church_finance_bk/auth/auth_store.dart';
+import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:church_finance_bk/finance/services/finance_record_service.dart';
 import 'package:church_finance_bk/finance/states/finance_record_paginate_state.dart';
+import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
-
-import '../pages/financial_records/helpers.dart';
 
 class FinanceRecordPaginateStore extends ChangeNotifier {
   var service = FinanceRecordService();
@@ -56,8 +55,8 @@ class FinanceRecordPaginateStore extends ChangeNotifier {
     searchFinanceRecords();
   }
 
-  searchFinanceRecords() async {
-    final session = await AuthStore().restore();
+  Future<void> searchFinanceRecords() async {
+    final session = await AuthPersistence().restore();
 
     state = state.copyWith(makeRequest: true, churchId: session.churchId);
     notifyListeners();
@@ -66,10 +65,12 @@ class FinanceRecordPaginateStore extends ChangeNotifier {
 
     try {
       final paginate = await service.searchFinanceRecords(state.filter);
+
       state = state.copyWith(makeRequest: false, paginate: paginate);
 
       notifyListeners();
     } catch (e) {
+      print("ERRROR ${e}");
       state = state.copyWith(makeRequest: false);
       notifyListeners();
     }

@@ -1,25 +1,22 @@
-import 'package:church_finance_bk/auth/auth_service.dart';
-import 'package:church_finance_bk/auth/auth_session_model.dart';
-import 'package:church_finance_bk/auth/providers/auth_provider.dart';
-import 'package:church_finance_bk/core/app_router.dart';
+import 'package:church_finance_bk/auth/stores/auth_session_store.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/custom_input.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
-class FormLogin extends ConsumerStatefulWidget {
+class FormLogin extends StatefulWidget {
   const FormLogin({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _FormLogin();
+  State<StatefulWidget> createState() => _FormLogin();
 }
 
-class _FormLogin extends ConsumerState<FormLogin> {
+class _FormLogin extends State<FormLogin> {
   bool isPasswordVisible = true;
-  late bool _makeRequest = false;
   bool redirectToDashboard = false;
   bool formValid = true;
 
@@ -58,6 +55,8 @@ class _FormLogin extends ConsumerState<FormLogin> {
 
   @override
   Widget build(BuildContext context) {
+    final authStore = Provider.of<AuthSessionStore>(context);
+
     return Column(
       children: [
         ReactiveForm(
@@ -90,46 +89,34 @@ class _FormLogin extends ConsumerState<FormLogin> {
             ],
           ),
         ),
-        (_makeRequest) ? const Loading() : _buttonLogin(),
+        (authStore.state.makeRequest)
+            ? const Loading()
+            : _buttonLogin(authStore, context),
       ],
     );
   }
 
-  Widget _buttonLogin() {
+  Widget _buttonLogin(AuthSessionStore authStore, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 80),
       child: CustomButton(
           backgroundColor: AppColors.green,
           text: "Entrar",
-          onPressed: formValid ? _makeLogin : null,
+          onPressed: formValid ? () => _makeLogin(authStore, context) : null,
           //textColor: Colors.black87,
           typeButton: CustomButton.basic),
     );
   }
 
-  void _makeLogin() async {
+  void _makeLogin(AuthSessionStore authStore, BuildContext context) async {
     if (form.hasErrors) {
       form.markAllAsTouched();
       return;
     }
 
-    setState(() {
-      _makeRequest = true;
-    });
-
-    AuthSessionModel? session = await AuthService().makeLogin(
-        form.value['email'].toString(), form.value['password'].toString());
-
-    setState(() {
-      _makeRequest = false;
-    });
-
-    if (session == null) {
-      return;
+    if (await authStore.login(
+        form.value['email'].toString(), form.value['password'].toString())) {
+      GoRouter.of(context).push('/dashboard');
     }
-
-    await ref.read(sessionProvider.notifier).setSession(session);
-
-    ref.read(appRouterProvider).go("/contributions");
   }
 }

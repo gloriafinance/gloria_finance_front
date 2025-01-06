@@ -19,7 +19,7 @@ class AuthSessionModel {
     required this.isSuperuser,
   });
 
-  factory AuthSessionModel.init() {
+  factory AuthSessionModel.empty() {
     return AuthSessionModel(
       token: "",
       name: "",

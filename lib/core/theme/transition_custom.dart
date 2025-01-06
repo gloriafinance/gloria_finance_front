@@ -3,16 +3,15 @@ import 'package:go_router/go_router.dart';
 
 CustomTransitionPage transitionCustom(Widget screen) {
   return CustomTransitionPage(
-      child: screen,
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(1.0, 0.0);
-        const end = Offset.zero;
-        const curve = Curves.easeInOut;
+    child: screen,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const curve = Curves.easeInOut;
 
-        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      var opacityTween =
+          Tween(begin: 0.0, end: 1.0).chain(CurveTween(curve: curve));
+      var opacityAnimation = animation.drive(opacityTween);
 
-        var offsetAnimation = animation.drive(tween);
-        return SlideTransition(position: offsetAnimation, child: child);
-
-      });
+      return FadeTransition(opacity: opacityAnimation, child: child);
+    },
+  );
 }

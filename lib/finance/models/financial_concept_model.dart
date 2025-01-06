@@ -19,7 +19,8 @@ class FinancialConceptModel {
   final String description;
   final bool active;
   final String type;
-  final String churchId;
+
+  //final String churchId;
 
   FinancialConceptModel({
     required this.financialConceptId,
@@ -27,7 +28,7 @@ class FinancialConceptModel {
     required this.description,
     required this.active,
     required this.type,
-    required this.churchId,
+    //required this.churchId,
   });
 
   factory FinancialConceptModel.fromJson(Map<String, dynamic> json) {
@@ -37,7 +38,7 @@ class FinancialConceptModel {
       description: json['description'],
       active: json['active'],
       type: json['type'],
-      churchId: json['churchId'],
+      //churchId: json['churchId'],
     );
   }
 
@@ -48,7 +49,7 @@ class FinancialConceptModel {
       'description': description,
       'active': active,
       'type': type,
-      'churchId': churchId,
+      //'churchId': churchId,
     };
   }
 
@@ -60,7 +61,7 @@ class FinancialConceptModel {
     bool? active,
     String? type,
     DateTime? createdAt,
-    String? churchId,
+    //String? churchId,
   }) {
     return FinancialConceptModel(
       financialConceptId: financialConceptId ?? this.financialConceptId,
@@ -68,7 +69,7 @@ class FinancialConceptModel {
       description: description ?? this.description,
       active: active ?? this.active,
       type: type ?? this.type,
-      churchId: churchId ?? this.churchId,
+      //churchId: churchId ?? this.churchId,
     );
   }
 }

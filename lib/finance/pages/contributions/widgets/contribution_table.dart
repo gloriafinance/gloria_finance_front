@@ -19,8 +19,6 @@ class ContributionTable extends StatefulWidget {
 class _ContributionTableState extends State<ContributionTable> {
   @override
   Widget build(BuildContext context) {
-    //contributionPaginationStore.searchContributions();
-
     if (contributionPaginationStore.state.paginate.results.isEmpty) {
       contributionPaginationStore.searchContributions();
     }

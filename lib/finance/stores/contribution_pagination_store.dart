@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/auth/auth_store.dart';
+import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../models/contribution_model.dart';
@@ -67,7 +67,7 @@ class ContributionPaginationStore extends ChangeNotifier {
 
   Future<void> searchContributions() async {
     try {
-      final session = await AuthStore().restore();
+      final session = await AuthPersistence().restore();
       service.tokenAPI = session.token;
 
       state = state.copyWith(makeRequest: true);

@@ -1,4 +1,5 @@
-import '../pages/financial_records/helpers.dart';
+import 'package:church_finance_bk/helpers/index.dart';
+
 import 'finance_record_model.dart';
 
 class FinanceRecordFilterModel {

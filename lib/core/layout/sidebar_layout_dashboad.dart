@@ -1,11 +1,10 @@
-import 'package:church_finance_bk/core/app_router.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import 'sidebar_backgroud.dart';
 
-class Sidebar extends ConsumerWidget {
+class Sidebar extends StatelessWidget {
   final List<Map<String, dynamic>> menuItems;
 
   const Sidebar({
@@ -14,7 +13,7 @@ class Sidebar extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Stack(
       children: [
         const SidebarBackground(),
@@ -59,7 +58,7 @@ class Sidebar extends ConsumerWidget {
                                       fontFamily: AppFonts.fontLight),
                                 ),
                                 onTap: () {
-                                  ref.read(appRouterProvider).go(item['to']);
+                                  context.go(item['to']);
                                 },
                               ))
                           .toList(),

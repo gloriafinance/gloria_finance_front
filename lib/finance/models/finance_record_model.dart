@@ -1,3 +1,5 @@
+import 'package:church_finance_bk/finance/models/financial_concept_model.dart';
+
 enum MoneyLocation { BANK, CASH, WALLET, INVESTMENT }
 
 extension MoneyLocationExtension on MoneyLocation {
@@ -15,6 +17,13 @@ extension MoneyLocationExtension on MoneyLocation {
   }
 }
 
+String getFriendlyNameFromApiValue(String apiValue) {
+  final moneyLocation = MoneyLocation.values
+      .firstWhere((e) => e.toString().split('.').last == apiValue);
+
+  return moneyLocation.friendlyName;
+}
+
 MoneyLocation? getMoneyLocationFromFriendlyName(String? friendlyName) {
   if (friendlyName == null || friendlyName.isEmpty) return null;
 
@@ -26,36 +35,15 @@ MoneyLocation? getMoneyLocationFromFriendlyName(String? friendlyName) {
   return null;
 }
 
-class FinancialConcept {
-  final String financialConceptId;
-  final String name;
-
-  FinancialConcept({
-    required this.financialConceptId,
-    required this.name,
-  });
-
-  factory FinancialConcept.fromJson(Map<String, dynamic> json) {
-    return FinancialConcept(
-      financialConceptId: json['financialConceptId'],
-      name: json['name'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'financialConceptId': financialConceptId,
-      'name': name,
-    };
-  }
-}
-
 class FinanceRecordModel {
   final double amount;
   final DateTime date;
-  final FinancialConcept financialConcept;
+  final FinancialConceptModel financialConcept;
   final String financialRecordId;
   final String moneyLocation;
+  final String churchId;
+  final String description;
+  final String type;
 
   FinanceRecordModel({
     required this.amount,
@@ -63,15 +51,22 @@ class FinanceRecordModel {
     required this.financialConcept,
     required this.financialRecordId,
     required this.moneyLocation,
+    required this.churchId,
+    required this.description,
+    required this.type,
   });
 
   factory FinanceRecordModel.fromJson(Map<String, dynamic> json) {
     return FinanceRecordModel(
       amount: json['amount'],
       date: DateTime.parse(json['date']),
-      financialConcept: FinancialConcept.fromJson(json['financialConcept']),
+      financialConcept:
+          FinancialConceptModel.fromJson(json['financialConcept']),
       financialRecordId: json['financialRecordId'],
       moneyLocation: json['moneyLocation'],
+      churchId: json['churchId'],
+      description: json['description'],
+      type: json['type'],
     );
   }
 
@@ -82,6 +77,9 @@ class FinanceRecordModel {
       'financialConcept': financialConcept.toJson(),
       'financialRecordId': financialRecordId,
       'moneyLocation': moneyLocation,
+      'churchId': churchId,
+      'description': description,
+      'type': type,
     };
   }
 }

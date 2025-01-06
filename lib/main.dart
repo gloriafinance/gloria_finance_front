@@ -1,27 +1,32 @@
-import 'package:church_finance_bk/core/app_router.dart';
+import 'package:church_finance_bk/auth/stores/auth_session_store.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart'; // Asegúrate de importar esto
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 
-Future<void> main() async {
-  runApp(const ProviderScope(child: MyApp()));
+import 'core/router.dart';
+import 'finance/stores/finance_concept_store.dart';
+
+void main() {
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthSessionStore()),
+        ChangeNotifierProvider(
+            create: (_) => FinancialConceptStore()..searchFinancialConcepts()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
-class MyApp extends ConsumerStatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  ConsumerState<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends ConsumerState<MyApp> {
-  @override
   Widget build(BuildContext context) {
-    final appRouter = ref.watch(appRouterProvider);
-
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      routerConfig: appRouter,
+      routerConfig: router,
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

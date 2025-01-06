@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/auth/auth_store.dart';
+import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:flutter/material.dart';
 
 import '../services/finance_service.dart';
@@ -9,7 +9,8 @@ class FinancialConceptStore extends ChangeNotifier {
   var state = FinancialConceptState.init();
 
   searchFinancialConcepts() async {
-    final session = await AuthStore().restore();
+    print("BUSCARNDO FINANCIAL CONCEPTS");
+    final session = await AuthPersistence().restore();
     service.tokenAPI = session.token;
 
     try {

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'form_financial_record_inputs.dart';
+import '../../../stores/finance_concept_store.dart';
+import 'form_finance_record_inputs.dart';
 
-Widget formDesktopLayout() {
+Widget formDesktopLayout(FinancialConceptStore conceptStore) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -12,7 +13,7 @@ Widget formDesktopLayout() {
         children: [
           Expanded(child: date()),
           const SizedBox(width: 16),
-          Expanded(flex: 2, child: searchFinancialConcepts()),
+          Expanded(flex: 2, child: searchFinancialConcepts(conceptStore)),
         ],
       ),
       Row(

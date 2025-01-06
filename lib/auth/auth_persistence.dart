@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:church_finance_bk/auth/auth_session_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthStore {
+class AuthPersistence {
   save(AuthSessionModel session) async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -24,6 +24,6 @@ class AuthStore {
       return AuthSessionModel.fromJson(jsonDecode(session));
     }
 
-    return AuthSessionModel.init();
+    return AuthSessionModel.empty();
   }
 }

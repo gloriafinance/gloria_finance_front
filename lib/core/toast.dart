@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/auth/auth_store.dart';
+import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:motion_toast/motion_toast.dart';
@@ -14,7 +14,7 @@ class Toast {
 
   static showMessage(String message, ToastType type) {
     if (message == 'Unauthorized.') {
-      AuthStore().clear();
+      AuthPersistence().clear();
     }
 
     switch (type) {

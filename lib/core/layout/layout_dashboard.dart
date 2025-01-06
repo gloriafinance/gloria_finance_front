@@ -1,24 +1,34 @@
+import 'package:church_finance_bk/auth/stores/auth_session_store.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import 'header_layout.dart';
 import 'menu_items.dart';
 import 'sidebar_layout_dashboad.dart';
 
-class LayoutDashboard extends ConsumerStatefulWidget {
+class LayoutDashboard extends StatefulWidget {
   final Widget screen;
   final Widget title;
 
   const LayoutDashboard(this.title, {super.key, required this.screen});
 
   @override
-  ConsumerState<LayoutDashboard> createState() => _LayoutDashboardState();
+  State<LayoutDashboard> createState() => _LayoutDashboardState();
 }
 
-class _LayoutDashboardState extends ConsumerState<LayoutDashboard> {
+class _LayoutDashboardState extends State<LayoutDashboard> {
   @override
   Widget build(BuildContext context) {
+    final store = Provider.of<AuthSessionStore>(context);
+
+    Future.delayed(const Duration(seconds: 5)).then((_) {
+      if (mounted && !store.state.isLogged()) {
+        GoRouter.of(context).go('/');
+      }
+    });
+
     Toast.init(context);
 
     return Scaffold(

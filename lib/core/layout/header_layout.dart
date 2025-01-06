@@ -1,41 +1,42 @@
-import 'package:church_finance_bk/auth/providers/auth_provider.dart';
+import 'package:church_finance_bk/auth/stores/auth_session_store.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart';
 
-import '../app_router.dart';
 import '../theme/app_color.dart';
 import '../theme/app_fonts.dart';
 import '../widgets/IPUBLogo.dart';
 
-class HeaderLayout extends ConsumerStatefulWidget {
+class HeaderLayout extends StatefulWidget {
   const HeaderLayout({super.key});
 
   @override
-  ConsumerState<HeaderLayout> createState() => _HeaderLayoutState();
+  State<HeaderLayout> createState() => _HeaderLayoutState();
 }
 
-class _HeaderLayoutState extends ConsumerState<HeaderLayout> {
+class _HeaderLayoutState extends State<HeaderLayout> {
   @override
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        ref.watch(sessionProvider).when(
-              data: (session) {
-                if (!session.isSessionStarted()) {
-                  ref.read(appRouterProvider).go("/");
-                }
-              },
-              error: (error, _) => Text("Error: $error"),
-              loading: () => CircularProgressIndicator(),
-            );
-      }
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   if (mounted) {
+    //     ref.watch(sessionProvider).when(
+    //           data: (session) {
+    //             if (!session.isSessionStarted()) {
+    //               ref.read(appRouterProvider).go("/");
+    //             }
+    //           },
+    //           error: (error, _) => Text("Error: $error"),
+    //           loading: () => CircularProgressIndicator(),
+    //         );
+    //   }
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
+    final authStore = Provider.of<AuthSessionStore>(context);
+
     return Container(
       padding: const EdgeInsets.only(top: 4.0, bottom: 4.0, left: 4.0),
       decoration: BoxDecoration(
@@ -76,30 +77,27 @@ class _HeaderLayoutState extends ConsumerState<HeaderLayout> {
             padding: const EdgeInsets.only(right: 16.0),
             child: Row(
               children: [
-                ref.watch(sessionProvider).when(
-                    data: (session) => Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          // Alineado al inicio
-                          children: [
-                            Text(
-                              session.name,
-                              style: TextStyle(
-                                fontFamily: AppFonts.fontMedium,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Text(
-                              session.email,
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontFamily: AppFonts.fontLight,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                    error: (error, _) => Text("Error: $error"),
-                    loading: () => CircularProgressIndicator()),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // Alineado al inicio
+                  children: [
+                    Text(
+                      authStore.state.session.name,
+                      style: TextStyle(
+                        fontFamily: AppFonts.fontMedium,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      authStore.state.session.email,
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontFamily: AppFonts.fontLight,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
                 const SizedBox(width: 12),
                 CircleAvatar(
                   radius: 20,

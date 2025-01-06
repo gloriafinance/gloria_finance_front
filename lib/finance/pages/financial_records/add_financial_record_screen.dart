@@ -1,19 +1,18 @@
-import 'package:church_finance_bk/core/app_router.dart';
 import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
-import 'package:church_finance_bk/finance/pages/financial_records/widgets/form_financial_record.dart';
+import 'package:church_finance_bk/finance/pages/financial_records/widgets/form_finance_record.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-import 'widgets/form_financial_record_inputs.dart';
+import 'widgets/form_finance_record_inputs.dart';
 
-class AddFinancialRecordScreen extends ConsumerWidget {
+class AddFinancialRecordScreen extends StatelessWidget {
   const AddFinancialRecordScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     Toast.init(context);
 
     if (bankStore.state.banks.isEmpty) {
@@ -24,7 +23,7 @@ class AddFinancialRecordScreen extends ConsumerWidget {
       Row(
         children: [
           GestureDetector(
-            onTap: () => ref.read(appRouterProvider).go("/financial-record"),
+            onTap: () => context.go("/financial-record"),
             child: Icon(
               Icons.arrow_back_ios,
               color: AppColors.purple,
@@ -41,7 +40,7 @@ class AddFinancialRecordScreen extends ConsumerWidget {
           )
         ],
       ),
-      screen: FormFinancialRecord(),
+      screen: FormFinanceRecord(),
     );
   }
 }

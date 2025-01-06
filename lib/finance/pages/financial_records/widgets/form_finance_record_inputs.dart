@@ -1,13 +1,13 @@
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/core/widgets/upload_file.dart';
 import 'package:church_finance_bk/finance/models/financial_concept_model.dart';
+import 'package:church_finance_bk/finance/stores/finance_concept_store.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
 import '../../../models/finance_record_model.dart';
 import '../../../stores/bank_store.dart';
-import '../financial_record_screen.dart';
 import '../state/finance_record_state.dart';
 import '../validators/form_financial_record_validator.dart';
 
@@ -78,16 +78,14 @@ Widget amount() {
   );
 }
 
-Widget searchFinancialConcepts() {
+Widget searchFinancialConcepts(FinancialConceptStore conceptStore) {
   return Dropdown(
     label: "Conceito",
-    items: financialConceptStore.state.financialConcepts
-        .map((e) => e.name)
-        .toList(),
+    items: conceptStore.state.financialConcepts.map((e) => e.name).toList(),
     onValidator:
         validator.byField(formFinanceRecordState, 'financialConceptId'),
     onChanged: (value) {
-      final v = financialConceptStore.state.financialConcepts
+      final v = conceptStore.state.financialConcepts
           .firstWhere((e) => e.name == value);
 
       formFinanceRecordState.copyWith(

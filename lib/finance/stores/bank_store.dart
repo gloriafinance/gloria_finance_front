@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/auth/auth_store.dart';
+import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:flutter/material.dart';
 
 import '../services/finance_service.dart';
@@ -9,7 +9,7 @@ class BankStore extends ChangeNotifier {
   var state = BankState.empty();
 
   searchBanks() async {
-    final session = await AuthStore().restore();
+    final session = await AuthPersistence().restore();
 
     service.tokenAPI = session.token;
     state = state.copyWith(makeRequest: true);

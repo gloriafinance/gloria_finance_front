@@ -35,8 +35,6 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   flutter_dotenv: ^5.2.1
-  flutter_riverpod: ^2.6.1
-  riverpod_annotation: ^2.6.1
   go_router: ^14.6.2
   file_picker: ^8.1.6
   reactive_forms: ^17.0.1
@@ -50,17 +48,14 @@ dependencies:
 
   flutter_localizations: # Add this line
     sdk: flutter # Add this line
-    
+  provider: ^6.1.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_localizations: # Add this line
-    sdk: flutter # Add this line
 
   flutter_lints: ^5.0.0
-  riverpod_generator: ^2.6.3
   build_runner: ^2.4.14
-  riverpod_lint: ^2.6.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

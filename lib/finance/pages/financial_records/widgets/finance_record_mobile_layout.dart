@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'form_financial_record_inputs.dart';
+import '../../../stores/finance_concept_store.dart';
+import 'form_finance_record_inputs.dart';
 
-Widget formMobileLayout() {
+Widget formMobileLayout(FinancialConceptStore conceptStore) {
   return Column(
     children: [
       SizedBox(height: 30),
@@ -10,7 +11,7 @@ Widget formMobileLayout() {
       const SizedBox(height: 10),
       amount(),
       const SizedBox(height: 10),
-      searchFinancialConcepts(),
+      searchFinancialConcepts(conceptStore),
       const SizedBox(height: 10),
       description(),
       const SizedBox(height: 10),
