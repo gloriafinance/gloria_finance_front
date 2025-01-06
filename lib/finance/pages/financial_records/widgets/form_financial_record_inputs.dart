@@ -13,7 +13,7 @@ import '../state/finance_record_state.dart';
 import '../validators/form_financial_record_validator.dart';
 
 final validator = FormFinancialRecordValidator();
-final List<FinancialConcept> financialConcepts = [];
+final List<FinancialConceptModel> financialConcepts = [];
 
 final formFinanceRecordState = FormFinanceRecordState.init();
 

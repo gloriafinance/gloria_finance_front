@@ -36,7 +36,7 @@ const searchFinancialConceptsProvider = SearchFinancialConceptsFamily();
 
 /// See also [searchFinancialConcepts].
 class SearchFinancialConceptsFamily
-    extends Family<AsyncValue<List<FinancialConcept>>> {
+    extends Family<AsyncValue<List<FinancialConceptModel>>> {
   /// See also [searchFinancialConcepts].
   const SearchFinancialConceptsFamily();
 
@@ -75,7 +75,7 @@ class SearchFinancialConceptsFamily
 
 /// See also [searchFinancialConcepts].
 class SearchFinancialConceptsProvider
-    extends FutureProvider<List<FinancialConcept>> {
+    extends FutureProvider<List<FinancialConceptModel>> {
   /// See also [searchFinancialConcepts].
   SearchFinancialConceptsProvider(
     FinancialConceptType? type,
@@ -110,7 +110,7 @@ class SearchFinancialConceptsProvider
 
   @override
   Override overrideWith(
-    FutureOr<List<FinancialConcept>> Function(
+    FutureOr<List<FinancialConceptModel>> Function(
             SearchFinancialConceptsRef provider)
         create,
   ) {
@@ -129,7 +129,7 @@ class SearchFinancialConceptsProvider
   }
 
   @override
-  FutureProviderElement<List<FinancialConcept>> createElement() {
+  FutureProviderElement<List<FinancialConceptModel>> createElement() {
     return _SearchFinancialConceptsProviderElement(this);
   }
 
@@ -149,13 +149,14 @@ class SearchFinancialConceptsProvider
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin SearchFinancialConceptsRef on FutureProviderRef<List<FinancialConcept>> {
+mixin SearchFinancialConceptsRef
+    on FutureProviderRef<List<FinancialConceptModel>> {
   /// The parameter `type` of this provider.
   FinancialConceptType? get type;
 }
 
 class _SearchFinancialConceptsProviderElement
-    extends FutureProviderElement<List<FinancialConcept>>
+    extends FutureProviderElement<List<FinancialConceptModel>>
     with SearchFinancialConceptsRef {
   _SearchFinancialConceptsProviderElement(super.provider);
 

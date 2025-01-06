@@ -13,7 +13,7 @@ extension FinancialConceptTypeExtension on FinancialConceptType {
   }
 }
 
-class FinancialConcept {
+class FinancialConceptModel {
   final String financialConceptId;
   final String name;
   final String description;
@@ -21,7 +21,7 @@ class FinancialConcept {
   final String type;
   final String churchId;
 
-  FinancialConcept({
+  FinancialConceptModel({
     required this.financialConceptId,
     required this.name,
     required this.description,
@@ -30,8 +30,8 @@ class FinancialConcept {
     required this.churchId,
   });
 
-  factory FinancialConcept.fromJson(Map<String, dynamic> json) {
-    return FinancialConcept(
+  factory FinancialConceptModel.fromJson(Map<String, dynamic> json) {
+    return FinancialConceptModel(
       financialConceptId: json['financialConceptId'],
       name: json['name'],
       description: json['description'],
@@ -52,7 +52,7 @@ class FinancialConcept {
     };
   }
 
-  FinancialConcept copyWith({
+  FinancialConceptModel copyWith({
     String? id,
     String? financialConceptId,
     String? name,
@@ -62,7 +62,7 @@ class FinancialConcept {
     DateTime? createdAt,
     String? churchId,
   }) {
-    return FinancialConcept(
+    return FinancialConceptModel(
       financialConceptId: financialConceptId ?? this.financialConceptId,
       name: name ?? this.name,
       description: description ?? this.description,

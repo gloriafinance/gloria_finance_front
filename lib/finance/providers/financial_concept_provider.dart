@@ -9,7 +9,7 @@ import '../services/finance_service.dart';
 part 'financial_concept_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-Future<List<FinancialConcept>> searchFinancialConcepts(
+Future<List<FinancialConceptModel>> searchFinancialConcepts(
     Ref ref, FinancialConceptType? type) async {
   AuthSessionModel session = await AuthStore().restore();
 

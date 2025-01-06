@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 class FinanceService extends AppHttp {
   FinanceService({super.tokenAPI});
 
-  Future<List<FinancialConcept>> searchFinancialConcepts(
+  Future<List<FinancialConceptModel>> searchFinancialConcepts(
       String churchId, FinancialConceptType? type) async {
     try {
       String url =
@@ -24,7 +24,7 @@ class FinanceService extends AppHttp {
       );
 
       return (response.data as List)
-          .map((e) => FinancialConcept.fromJson(e))
+          .map((e) => FinancialConceptModel.fromJson(e))
           .toList();
     } on DioException catch (e) {
       transformResponse(e.response?.data);

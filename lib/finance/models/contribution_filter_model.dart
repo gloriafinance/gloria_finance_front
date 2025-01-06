@@ -29,7 +29,7 @@ class ContributionFilterModel {
     );
   }
 
-  toMap() {
+  toJson() {
     return {
       'perPage': perPage,
       'page': page,

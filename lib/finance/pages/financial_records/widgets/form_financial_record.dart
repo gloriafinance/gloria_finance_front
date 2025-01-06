@@ -22,7 +22,7 @@ class FormFinancialRecord extends ConsumerStatefulWidget {
 
 class _FormFinancialRecordState extends ConsumerState<FormFinancialRecord> {
   bool _makeRequest = false;
-  final List<FinancialConcept> financialConcepts = [];
+  final List<FinancialConceptModel> financialConcepts = [];
   final formKey = GlobalKey<FormState>();
 
   @override
