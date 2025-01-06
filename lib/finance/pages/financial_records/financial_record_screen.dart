@@ -1,32 +1,36 @@
-import 'package:church_finance_bk/core/app_router.dart';
 import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart';
 
 import '../../stores/finance_concept_store.dart';
 import '../../stores/finance_record_paginate_store.dart';
 import 'widgets/finance_record_filters.dart';
+import 'widgets/finance_record_table.dart';
 
-final financeRecordPaginateStore = FinanceRecordPaginateStore();
 final financialConceptStore = FinancialConceptStore();
 
-class FinancialRecordScreen extends ConsumerWidget {
+class FinancialRecordScreen extends StatelessWidget {
   const FinancialRecordScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return LayoutDashboard(
-      _header(ref),
-      screen: Column(
-        children: [FinanceRecordFilters()],
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => FinanceRecordPaginateStore()..searchFinanceRecords(),
+      child: MaterialApp(
+        home: LayoutDashboard(
+          _header(),
+          screen: Column(
+            children: [FinanceRecordFilters(), FinanceRecordTable()],
+          ),
+        ),
       ),
     );
   }
 
-  Widget _header(WidgetRef ref) {
+  Widget _header() {
     return Row(
       children: [
         Expanded(
@@ -42,13 +46,14 @@ class FinancialRecordScreen extends ConsumerWidget {
         ),
         Align(
           alignment: Alignment.centerRight,
-          child: _buttons(ref),
+          child: _buttons(),
         ),
       ],
     );
   }
 
-  Widget _buttons(WidgetRef ref) {
+  // Widget _buttons(WidgetRef ref) {
+  Widget _buttons() {
     return Row(
       children: [
         ButtonActionTable(
@@ -64,8 +69,8 @@ class FinancialRecordScreen extends ConsumerWidget {
         ButtonActionTable(
             color: AppColors.purple,
             text: "Registrar",
-            onPressed: () =>
-                ref.read(appRouterProvider).go("/financial-record/add"),
+            onPressed: () => {},
+            //ref.read(appRouterProvider).go("/financial-record/add"),
             icon: Icons.add_chart),
       ],
     );

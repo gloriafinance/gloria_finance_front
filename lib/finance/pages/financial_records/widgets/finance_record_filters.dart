@@ -1,9 +1,11 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/widgets/form_controls.dart';
 import '../../../models/finance_record_model.dart';
+import '../../../stores/finance_record_paginate_store.dart';
 import '../financial_record_screen.dart';
 
 class FinanceRecordFilters extends StatefulWidget {
@@ -18,9 +20,9 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
   void initState() {
     super.initState();
 
-    financeRecordPaginateStore.addListener(() {
-      setState(() {});
-    });
+    // financeRecordPaginateStore.addListener(() {
+    //   setState(() {});
+    // });
 
     financialConceptStore.addListener(() {
       setState(() {});
@@ -29,9 +31,7 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
 
   @override
   Widget build(BuildContext context) {
-    if (financialConceptStore.state.financialConcepts.isEmpty) {
-      financialConceptStore.searchFinancialConcepts();
-    }
+    final store = Provider.of<FinanceRecordPaginateStore>(context);
 
     return Container(
       margin: const EdgeInsets.only(top: 20.0),
@@ -61,8 +61,7 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
                   onChanged: (value) {
                     final v = financialConceptStore.state.financialConcepts
                         .firstWhere((e) => e.name == value);
-                    financeRecordPaginateStore
-                        .setFinancialConceptId(v.financialConceptId);
+                    store.setFinancialConceptId(v.financialConceptId);
                   },
                 ),
               ),
@@ -72,14 +71,12 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
                 child: Input(
                   label: "Data inicial",
                   keyboardType: TextInputType.number,
-                  initialValue:
-                      financeRecordPaginateStore.state.filter.startDate,
+                  initialValue: store.state.filter.startDate,
                   onChanged: (value) {},
                   onTap: () {
                     _selectDate(context).then((picked) {
                       if (picked == null) return;
-                      financeRecordPaginateStore
-                          .setStartDate(picked.toString());
+                      store.setStartDate(picked.toString());
                     });
                   },
                 ),
@@ -90,13 +87,13 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
                 child: Input(
                   label: "Data final",
                   keyboardType: TextInputType.number,
-                  initialValue: financeRecordPaginateStore.state.filter.endDate,
+                  initialValue: store.state.filter.endDate,
                   onChanged: (value) {},
                   onTap: () {
                     _selectDate(context).then((picked) {
                       if (picked == null) return;
 
-                      financeRecordPaginateStore.setEndDate(picked.toString());
+                      store.setEndDate(picked.toString());
                     });
                   },
                 ),
@@ -109,7 +106,7 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
                   backgroundColor: AppColors.purple,
                   width: 100,
                   textColor: Colors.white,
-                  onPressed: () => applyFilter(),
+                  onPressed: () => store.apply(),
                 ),
               )
             ],
@@ -130,9 +127,5 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
       // Fecha máxima
       helpText: 'Selecciona una fecha',
     );
-  }
-
-  void applyFilter() {
-    // contributionPaginationStore.apply();
   }
 }
