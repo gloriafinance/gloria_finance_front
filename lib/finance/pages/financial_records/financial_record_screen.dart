@@ -70,7 +70,7 @@ class FinancialRecordScreen extends StatelessWidget {
         ButtonActionTable(
             color: AppColors.purple,
             text: "Registrar",
-            onPressed: () => GoRouter.of(context).push('/financial-record/add'),
+            onPressed: () => GoRouter.of(context).go('/financial-record/add'),
             icon: Icons.add_chart),
       ],
     );

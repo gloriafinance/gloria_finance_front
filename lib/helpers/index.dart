@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 String formatCurrency(double amount) {
   return 'R\$ ${amount.toStringAsFixed(2).replaceAll('.', ',').replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}';
 }
@@ -38,4 +40,17 @@ String convertDateFormatToDDMMYYYY(String? date) {
 
   // Retorna la fecha en el nuevo formato
   return '$day/$month/$year';
+}
+
+Future<DateTime?> selectDate(BuildContext context) async {
+  return await showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    // Fecha inicial
+    firstDate: DateTime(2000),
+    // Fecha mínima
+    lastDate: DateTime(2100),
+    // Fecha máxima
+    helpText: 'Selecciona una fecha',
+  );
 }

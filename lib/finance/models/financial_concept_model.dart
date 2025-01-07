@@ -13,6 +13,13 @@ extension FinancialConceptTypeExtension on FinancialConceptType {
   }
 }
 
+String getFriendlyNameFinancialConceptType(String apiValue) {
+  final financialConceptType = FinancialConceptType.values
+      .firstWhere((e) => e.toString().split('.').last == apiValue);
+
+  return financialConceptType.friendlyName;
+}
+
 class FinancialConceptModel {
   final String financialConceptId;
   final String name;

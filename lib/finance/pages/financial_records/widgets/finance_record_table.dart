@@ -1,9 +1,12 @@
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
+import 'package:church_finance_bk/core/theme/app_color.dart';
+import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/finance_record_model.dart';
+import '../../../models/financial_concept_model.dart';
 import '../../../stores/finance_record_paginate_store.dart';
 
 class FinanceRecordTable extends StatefulWidget {
@@ -60,6 +63,17 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
           store.setPerPage(perPage);
         },
       ),
+      actionBuilders: [
+        (fianceRecord) => ButtonActionTable(
+              color: AppColors.blue,
+              text: "Visualizar",
+              onPressed: () {
+                print("Aprobar fila $fianceRecord");
+                //_openModal(context, contribution);
+              },
+              icon: Icons.remove_red_eye_sharp,
+            ),
+      ],
     );
   }
 
@@ -67,9 +81,9 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
     return [
       convertDateFormatToDDMMYYYY(financeRecord.date.toString()),
       formatCurrency(financeRecord.amount),
-      financeRecord.type,
+      getFriendlyNameFinancialConceptType(financeRecord.type),
       financeRecord.financialConcept.name,
-      getFriendlyNameFromApiValue(financeRecord.moneyLocation),
+      getFriendlyNameMoneyLocation(financeRecord.moneyLocation),
     ];
   }
 }

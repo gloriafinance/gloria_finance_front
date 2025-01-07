@@ -39,8 +39,8 @@ class _FormFinanceRecordState extends State<FormFinanceRecord> {
             return Column(
               children: [
                 isMobile
-                    ? formMobileLayout(conceptStore)
-                    : formDesktopLayout(conceptStore),
+                    ? formMobileLayout(conceptStore, context)
+                    : formDesktopLayout(conceptStore, context),
                 const SizedBox(height: 32),
                 isMobile
                     ? _btnSave()

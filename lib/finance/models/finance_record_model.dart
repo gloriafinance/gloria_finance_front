@@ -17,7 +17,7 @@ extension MoneyLocationExtension on MoneyLocation {
   }
 }
 
-String getFriendlyNameFromApiValue(String apiValue) {
+String getFriendlyNameMoneyLocation(String apiValue) {
   final moneyLocation = MoneyLocation.values
       .firstWhere((e) => e.toString().split('.').last == apiValue);
 

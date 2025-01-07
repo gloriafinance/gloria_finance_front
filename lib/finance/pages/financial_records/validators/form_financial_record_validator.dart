@@ -1,6 +1,6 @@
 import 'package:lucid_validation/lucid_validation.dart';
 
-import '../state/finance_record_state.dart';
+import '../state/form_finance_record_state.dart';
 
 class FormFinancialRecordValidator
     extends LucidValidator<FormFinanceRecordState> {

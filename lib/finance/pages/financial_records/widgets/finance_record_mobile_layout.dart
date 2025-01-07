@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import '../../../stores/finance_concept_store.dart';
 import 'form_finance_record_inputs.dart';
 
-Widget formMobileLayout(FinancialConceptStore conceptStore) {
+Widget formMobileLayout(
+    FinancialConceptStore conceptStore, BuildContext context) {
   return Column(
     children: [
       SizedBox(height: 30),
-      date(),
+      date(context),
       const SizedBox(height: 10),
       amount(),
       const SizedBox(height: 10),

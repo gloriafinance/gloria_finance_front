@@ -80,14 +80,14 @@ List<Widget> _generateLabel(String label) {
         style: const TextStyle(
             color: AppColors.purple,
             fontFamily: AppFonts.fontRegular,
-            fontSize: 18)),
+            fontSize: 14)),
     const SizedBox(height: 8)
   ];
 }
 
 InputDecoration _inputDecoration() {
   return InputDecoration(
-    contentPadding: const EdgeInsets.all(16),
+    contentPadding: const EdgeInsets.all(12),
     errorBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: Colors.red),
         borderRadius:

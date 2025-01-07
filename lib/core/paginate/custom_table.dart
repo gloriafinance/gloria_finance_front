@@ -75,8 +75,8 @@ class _CustomTableState extends State<CustomTable> {
 
   Widget buildDataTable(BuildContext context, bool isMobile) {
     return DataTable(
-      headingRowColor: MaterialStateProperty.resolveWith(
-        (states) => Colors.grey.shade200,
+      headingRowColor: WidgetStateProperty.resolveWith(
+        (states) => AppColors.greyLight,
       ),
       columns: [
         ...widget.headers.map(

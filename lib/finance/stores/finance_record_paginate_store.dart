@@ -55,6 +55,12 @@ class FinanceRecordPaginateStore extends ChangeNotifier {
     searchFinanceRecords();
   }
 
+  void clearFilters() {
+    state = FinanceRecordPaginateState.empty();
+    notifyListeners();
+    searchFinanceRecords();
+  }
+
   Future<void> searchFinanceRecords() async {
     final session = await AuthPersistence().restore();
 

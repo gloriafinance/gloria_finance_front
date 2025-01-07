@@ -2,13 +2,14 @@ import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/core/widgets/upload_file.dart';
 import 'package:church_finance_bk/finance/models/financial_concept_model.dart';
 import 'package:church_finance_bk/finance/stores/finance_concept_store.dart';
+import 'package:church_finance_bk/helpers/index.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
 import '../../../models/finance_record_model.dart';
 import '../../../stores/bank_store.dart';
-import '../state/finance_record_state.dart';
+import '../state/form_finance_record_state.dart';
 import '../validators/form_financial_record_validator.dart';
 
 final validator = FormFinancialRecordValidator();
@@ -35,16 +36,28 @@ Widget description() {
   );
 }
 
-Widget date() {
-  return Input(
-    label: "Data",
-    keyboardType: TextInputType.number,
-    inputFormatters: [
-      MaskedInputFormatter('##/##/####'),
-    ],
-    onChanged: (value) => formFinanceRecordState.copyWith(date: value),
-    onValidator: validator.byField(formFinanceRecordState, 'date'),
-  );
+Widget date(BuildContext context) {
+  return ListenableBuilder(
+      listenable: formFinanceRecordState,
+      builder: (
+        context,
+        child,
+      ) {
+        return Input(
+          label: "Data",
+          initialValue: formFinanceRecordState.date,
+          keyboardType: TextInputType.number,
+          onChanged: (value) {},
+          onTap: () {
+            selectDate(context).then((picked) {
+              if (picked == null) return;
+              formFinanceRecordState.copyWith(
+                  date: convertDateFormatToDDMMYYYY(picked.toString()));
+            });
+          },
+          onValidator: validator.byField(formFinanceRecordState, 'date'),
+        );
+      });
 }
 
 Widget moneyLocation() {
