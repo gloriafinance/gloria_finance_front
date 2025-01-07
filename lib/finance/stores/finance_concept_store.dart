@@ -9,7 +9,6 @@ class FinancialConceptStore extends ChangeNotifier {
   var state = FinancialConceptState.init();
 
   searchFinancialConcepts() async {
-    print("BUSCARNDO FINANCIAL CONCEPTS");
     final session = await AuthPersistence().restore();
     service.tokenAPI = session.token;
 
