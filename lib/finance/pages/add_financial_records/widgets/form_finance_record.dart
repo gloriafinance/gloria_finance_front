@@ -3,13 +3,13 @@ import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
 import 'package:church_finance_bk/finance/models/financial_concept_model.dart';
-import 'package:church_finance_bk/finance/pages/financial_records/widgets/finance_record_desktop_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../stores/finance_concept_store.dart';
 import '../usecases/financial_record_save.dart';
+import 'finance_record_desktop_layout.dart';
 import 'finance_record_mobile_layout.dart';
 import 'form_finance_record_inputs.dart';
 

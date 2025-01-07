@@ -1,6 +1,6 @@
 import 'package:church_finance_bk/core/theme/transition_custom.dart';
+import 'package:church_finance_bk/finance/pages/add_financial_records/add_financial_record_screen.dart';
 import 'package:church_finance_bk/finance/pages/contributions/contributions_screen.dart';
-import 'package:church_finance_bk/finance/pages/financial_records/add_financial_record_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

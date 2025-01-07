@@ -2,10 +2,10 @@ import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
-import 'package:church_finance_bk/finance/pages/financial_records/widgets/form_finance_record.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'widgets/form_finance_record.dart';
 import 'widgets/form_finance_record_inputs.dart';
 
 class AddFinancialRecordScreen extends StatelessWidget {
