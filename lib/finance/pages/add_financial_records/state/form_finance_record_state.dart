@@ -1,7 +1,7 @@
 import 'package:church_finance_bk/finance/models/finance_record_model.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class FormFinanceRecordState extends ChangeNotifier {
   double amount;

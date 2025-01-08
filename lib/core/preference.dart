@@ -21,9 +21,9 @@ class CorePreference {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (isDev()) {
-      await dotenv.load(fileName: ".env.dev");
+      await dotenv.load(fileName: "env.dev");
     } else {
-      await dotenv.load(fileName: ".env.prod");
+      await dotenv.load(fileName: "env.prod");
     }
 
     dotenv.env.forEach((key, value) async {

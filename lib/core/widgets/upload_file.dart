@@ -104,7 +104,7 @@ class _UploadFile extends State<UploadFile>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/images/uploadFile.png',
+                'assets/uploadFile.png',
                 width: 80,
               ),
             ],
