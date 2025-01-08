@@ -3,7 +3,7 @@ name: Deploy Flutter Web to Firebase Hosting
 on:
   push:
     branches:
-      - main  # Cambia 'main' por la rama que deseas monitorear
+      - dev  # Cambia 'main' por la rama que deseas monitorear
   pull_request:
     branches:
       - main  # Cambia 'main' por la rama que deseas monitorear
@@ -36,8 +36,7 @@ jobs:
         run: npm install -g firebase-tools
 
       # 7. Desplegar en Firebase Hosting Preview
-      - name: Deploy to Firebase Hosting Preview
-        if: github.event_name == 'pull_request'
+      - name: Deploy Preview to Firebase Hosting
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN_PROD }}
-        run: firebase deploy --only hosting --project devpto-dev --preview
+        run: firebase hosting:channel:deploy preview-$GITHUB_HEAD_REF --project devpto-dev --expires 7d
