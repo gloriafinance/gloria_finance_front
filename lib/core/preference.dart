@@ -20,7 +20,9 @@ class CorePreference {
   Future<void> _loadEnvFile() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if (isDev()) {
+    const env = String.fromEnvironment("ENV");
+
+    if (env == "staging" || env == "") {
       await dotenv.load(fileName: "env.dev");
     } else {
       await dotenv.load(fileName: "env.prod");
@@ -54,6 +56,6 @@ class Preferences {
   static Future<String> get API_SERVER async =>
       await _corePreference.getKey('API_SERVER');
 
-  static Future<String> get ENVIRONMENT async =>
+  static Future<String> get ENV async =>
       await _corePreference.getKey('ENVIRONMENT');
 }
