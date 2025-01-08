@@ -1,0 +1,39 @@
+name: Deploy Flutter Web to Firebase Hosting
+
+on:
+  push:
+    branches:
+      - main  # Cambia 'main' por la rama que deseas monitorear
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout el código del repositorio
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Instalar Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.1'
+
+      # 3. Instalar dependencias
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 4. Construir el proyecto para web
+      - name: Build Flutter Web
+        run: flutter build web
+
+      # 5. Instalar Firebase CLI
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      # 6. Desplegar en Firebase Hosting
+      - name: Deploy to Firebase Hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN_PROD }}
+        run: firebase deploy --only hosting --project devpto-dev
