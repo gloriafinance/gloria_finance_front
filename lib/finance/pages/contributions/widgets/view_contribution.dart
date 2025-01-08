@@ -56,8 +56,9 @@ class ViewContribution extends StatelessWidget {
               ),
               const SizedBox(height: 26),
               _buildSectionTitle('Recibo de Transferência'),
+              const SizedBox(height: 26),
               ContentViewer(url: contribution.bankTransferReceipt),
-              const SizedBox(height: 16),
+              const SizedBox(height: 46),
               if (parseContributionStatus(contribution.status) ==
                   ContributionStatus.PENDING_VERIFICATION)
                 _buildButton(context, contribution.contributionId),
@@ -73,7 +74,7 @@ class ViewContribution extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         ButtonActionTable(
-          color: AppColors.green,
+          color: AppColors.blue,
           text: 'Aprovar',
           onPressed: () async {
             await updateContributionStatus(

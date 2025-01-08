@@ -32,6 +32,8 @@ class AuthSessionStore extends ChangeNotifier {
     var session = await service.makeLogin(email, password);
 
     if (session == null) {
+      state = state.copyWith(makeRequest: false);
+      notifyListeners();
       return false;
     }
 
