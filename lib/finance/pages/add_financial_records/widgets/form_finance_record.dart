@@ -63,8 +63,8 @@ class _FormFinanceRecordState extends State<FormFinanceRecord> {
             padding: EdgeInsets.only(top: 20),
             child: CustomButton(
                 text: "Salvar",
-                backgroundColor: AppColors.purple,
-                textColor: Colors.white,
+                backgroundColor: AppColors.green,
+                textColor: Colors.black,
                 onPressed: () => _saveRecord()));
   }
 
@@ -81,7 +81,7 @@ class _FormFinanceRecordState extends State<FormFinanceRecord> {
       return;
     }
 
-    await financeRecordSave(formFinanceRecordState).then((value) {
+    await financeRecordSave(formFinanceRecordState.toJson()).then((value) {
       _makeRequest = false;
       setState(() {});
       if (value) {

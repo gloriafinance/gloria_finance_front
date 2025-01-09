@@ -47,7 +47,7 @@ Future<DateTime?> selectDate(BuildContext context) async {
     context: context,
     initialDate: DateTime.now(),
     // Fecha inicial
-    firstDate: DateTime(2000),
+    firstDate: DateTime(1940),
     // Fecha mínima
     lastDate: DateTime(2100),
     // Fecha máxima
