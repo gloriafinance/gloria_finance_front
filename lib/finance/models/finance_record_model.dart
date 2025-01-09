@@ -44,8 +44,10 @@ class FinanceRecordModel {
   final String churchId;
   final String description;
   final String type;
+  final String? voucher;
 
   FinanceRecordModel({
+    this.voucher,
     required this.amount,
     required this.date,
     required this.financialConcept,
@@ -58,6 +60,7 @@ class FinanceRecordModel {
 
   factory FinanceRecordModel.fromJson(Map<String, dynamic> json) {
     return FinanceRecordModel(
+      voucher: json['voucher'],
       amount: json['amount'],
       date: DateTime.parse(json['date']),
       financialConcept:
@@ -72,6 +75,7 @@ class FinanceRecordModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'voucher': voucher,
       'amount': amount,
       'date': date.toIso8601String(),
       'financialConcept': financialConcept.toJson(),

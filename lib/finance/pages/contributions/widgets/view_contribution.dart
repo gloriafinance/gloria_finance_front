@@ -30,6 +30,7 @@ class ViewContribution extends StatelessWidget {
             children: [
               _buildTitleSection(),
               const Divider(),
+              SizedBox(height: 16),
               _buildDetailRow(
                   'Valor', 'R\$ ${contribution.amount.toStringAsFixed(2)}'),
               _buildDetailRow(
