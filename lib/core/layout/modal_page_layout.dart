@@ -25,11 +25,12 @@ class ModalPage {
   Widget _modal(BuildContext context) {
     return Dialog(
       //backgroundColor: Colors.white,
+      insetPadding: const EdgeInsets.all(16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
       child: Container(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
         width: isMobile(context) ? MediaQuery.of(context).size.width : width,
         child: SingleChildScrollView(
           child: Column(
