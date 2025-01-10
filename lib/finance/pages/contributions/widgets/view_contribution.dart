@@ -3,6 +3,7 @@ import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/finance/helpers/contribution.helper.dart';
 import 'package:church_finance_bk/finance/models/contribution_model.dart';
+import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 
 import '../../usecases/update_contribution_status.dart';
@@ -15,9 +16,7 @@ class ViewContribution extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Card(
+    return Card(
         color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
@@ -65,14 +64,13 @@ class ViewContribution extends StatelessWidget {
                 _buildButton(context, contribution.contributionId),
             ],
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   Widget _buildButton(BuildContext context, String contributionId) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment:
+          isMobile(context) ? MainAxisAlignment.center : MainAxisAlignment.end,
       children: [
         ButtonActionTable(
           color: AppColors.blue,

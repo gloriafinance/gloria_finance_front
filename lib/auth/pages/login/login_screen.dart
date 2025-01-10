@@ -54,9 +54,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          padding: const EdgeInsets.only(left: 150, right: 150),
+                          padding: const EdgeInsets.only(left: 80, right: 80),
                           child: IPUBLogo(
-                            width: 240,
+                            width: 340,
                           ),
                         ),
                         const Text(

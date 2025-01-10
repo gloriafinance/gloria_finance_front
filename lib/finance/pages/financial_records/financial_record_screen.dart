@@ -2,6 +2,7 @@ import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
+import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -33,46 +34,84 @@ class FinancialRecordScreen extends StatelessWidget {
   }
 
   Widget _header(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Text(
-            'Movimentos financeiros',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontFamily: AppFonts.fontMedium,
-              fontSize: 24,
-              color: Colors.black,
+    if (!isMobile(context)) {
+      return Row(
+        children: [
+          Expanded(
+            child: Text(
+              'Movimentos financeiros',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontFamily: AppFonts.fontMedium,
+                fontSize: 24,
+                color: Colors.black,
+              ),
             ),
           ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Row(
+              children: [
+                _closeMonth(context),
+                _generateReport(context),
+                _newRecord(context),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Movimentos financeiros',
+          textAlign: TextAlign.left,
+          style: TextStyle(
+            fontFamily: AppFonts.fontMedium,
+            fontSize: 20,
+            color: Colors.black,
+          ),
         ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: _buttons(context),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(child: _closeMonth(context)),
+            Expanded(child: _generateReport(context)),
+          ],
+        ),
+        Row(
+          children: [
+            // Espaço flexível para alinhar os botões à direita
+            Expanded(child: _newRecord(context)),
+          ],
         ),
       ],
     );
   }
 
-  Widget _buttons(BuildContext context) {
-    return Row(
-      children: [
-        ButtonActionTable(
-            color: AppColors.purple,
-            text: "Fechar mês",
-            onPressed: () => {},
-            icon: Icons.close_fullscreen_sharp),
-        ButtonActionTable(
-            color: AppColors.purple,
-            text: "Relatório",
-            onPressed: () => {},
-            icon: Icons.download),
-        ButtonActionTable(
-            color: AppColors.purple,
-            text: "Registrar",
-            onPressed: () => GoRouter.of(context).go('/financial-record/add'),
-            icon: Icons.add_chart),
-      ],
-    );
+  Widget _newRecord(BuildContext context) {
+    return ButtonActionTable(
+        color: AppColors.purple,
+        text: "Registrar",
+        onPressed: () => GoRouter.of(context).go('/financial-record/add'),
+        icon: Icons.add_chart);
+  }
+
+  Widget _generateReport(BuildContext context) {
+    return ButtonActionTable(
+        color: AppColors.purple,
+        text: "Relatório",
+        onPressed: () => {},
+        icon: Icons.download);
+  }
+
+  Widget _closeMonth(BuildContext context) {
+    return ButtonActionTable(
+        color: AppColors.purple,
+        text: "Fechar mês",
+        onPressed: () => {},
+        icon: Icons.close_fullscreen_sharp);
   }
 }
