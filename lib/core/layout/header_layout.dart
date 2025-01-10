@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/auth/stores/auth_session_store.dart';
+import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,25 +15,6 @@ class HeaderLayout extends StatefulWidget {
 }
 
 class _HeaderLayoutState extends State<HeaderLayout> {
-  @override
-  void initState() {
-    super.initState();
-
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   if (mounted) {
-    //     ref.watch(sessionProvider).when(
-    //           data: (session) {
-    //             if (!session.isSessionStarted()) {
-    //               ref.read(appRouterProvider).go("/");
-    //             }
-    //           },
-    //           error: (error, _) => Text("Error: $error"),
-    //           loading: () => CircularProgressIndicator(),
-    //         );
-    //   }
-    // });
-  }
-
   @override
   Widget build(BuildContext context) {
     final authStore = Provider.of<AuthSessionStore>(context);
@@ -57,18 +39,18 @@ class _HeaderLayoutState extends State<HeaderLayout> {
             margin: const EdgeInsets.only(left: 10.0),
             child: Row(
               children: [
-                IPUBLogo(
-                  width: 100,
-                ),
+                if (isMobile(context)) const SizedBox(width: 40),
+                IPUBLogo(),
                 const SizedBox(width: 20),
-                Text(
-                  'Church Finance',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontFamily: AppFonts.fontMedium,
-                    color: AppColors.purple,
+                if (!isMobile(context))
+                  Text(
+                    'Church Finance',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontFamily: AppFonts.fontMedium,
+                      color: AppColors.purple,
+                    ),
                   ),
-                ),
               ],
             )),
         actions: [

@@ -3,6 +3,7 @@ import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
 import 'package:church_finance_bk/finance/models/financial_concept_model.dart';
+import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -34,15 +35,13 @@ class _FormFinanceRecordState extends State<FormFinanceRecord> {
         key: formKey,
         child: LayoutBuilder(
           builder: (context, constraints) {
-            bool isMobile = constraints.maxWidth < 600;
-
             return Column(
               children: [
-                isMobile
+                isMobile(context)
                     ? formMobileLayout(conceptStore, context)
                     : formDesktopLayout(conceptStore, context),
                 const SizedBox(height: 32),
-                isMobile
+                isMobile(context)
                     ? _btnSave()
                     : Align(
                         alignment: Alignment.centerRight,
