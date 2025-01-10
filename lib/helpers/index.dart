@@ -54,3 +54,7 @@ Future<DateTime?> selectDate(BuildContext context) async {
     helpText: 'Selecciona una fecha',
   );
 }
+
+bool isMobile(BuildContext context) {
+  return MediaQuery.of(context).size.width < 768;
+}
