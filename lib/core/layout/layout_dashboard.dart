@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/auth/stores/auth_session_store.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -61,9 +62,14 @@ class _LayoutDashboardState extends State<LayoutDashboard> {
                 ),
               Expanded(
                 child: Container(
-                  margin: const EdgeInsets.all(10.0),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 14),
+                  margin: isMobile(context)
+                      ? const EdgeInsets.all(6.0)
+                      : const EdgeInsets.all(10.0),
+                  padding: isMobile(context)
+                      ? const EdgeInsets.symmetric(
+                          horizontal: 6.0, vertical: 14)
+                      : const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 14),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     boxShadow: const [

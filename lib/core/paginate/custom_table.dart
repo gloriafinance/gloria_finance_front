@@ -167,7 +167,7 @@ class _CustomTableState extends State<CustomTable> {
                 style: const TextStyle(
                   fontSize: 14,
                   fontFamily: AppFonts.fontRegular,
-                  color: Colors.black87,
+                  color: AppColors.greyLight,
                 ),
               ),
             ),
@@ -250,7 +250,7 @@ class _CustomTableState extends State<CustomTable> {
         text: "",
         icon: Icons.skip_next_outlined,
         backgroundColor:
-            widget.paginate.nextPag ? AppColors.purple : Colors.grey.shade300,
+            widget.paginate.nextPag ? AppColors.purple : AppColors.greyLight,
         onPressed: () => widget.paginate.onNextPag());
   }
 

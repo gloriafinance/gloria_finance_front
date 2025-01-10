@@ -16,7 +16,7 @@ class ContributionsScreen extends StatelessWidget {
         // Esto asegura que el texto no esté centrado
         style: TextStyle(
           fontFamily: AppFonts.fontMedium,
-          fontSize: 24,
+          fontSize: 20,
           color: Colors.black,
         ),
       ),
