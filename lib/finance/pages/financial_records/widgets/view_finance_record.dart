@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/finance/models/finance_record_model.dart';
+import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 
 import '../../../models/financial_concept_model.dart';
@@ -13,56 +14,57 @@ class ViewFinanceRecord extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Card(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            elevation: 4,
-            child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildTitleSection(),
-                      const Divider(),
-                      const SizedBox(height: 16),
-                      _buildSectionTitle('Conceito Financeiro'),
-                      Text(
-                        financeRecord.financialConcept.name,
-                        style: const TextStyle(fontSize: 14),
-                      ),
-                      SizedBox(height: 16),
-                      _buildDetailRow('Valor',
-                          'R\$ ${financeRecord.amount.toStringAsFixed(2)}'),
-                      const SizedBox(height: 8),
-                      _buildDetailRow(
-                        'Data',
-                        '${financeRecord.date.day}/${financeRecord.date.month}/${financeRecord.date.year}',
-                      ),
-                      const SizedBox(height: 8),
-                      _buildDetailRow(
-                        'Tipo de movimento',
-                        getFriendlyNameFinancialConceptType(financeRecord.type),
-                      ),
-                      const SizedBox(height: 8),
-                      _buildDetailRow(
-                        'Fonte de financiamento',
-                        getFriendlyNameMoneyLocation(
-                            financeRecord.moneyLocation),
-                      ),
-                      const SizedBox(height: 8),
-                      _buildDetailRow(
-                        'Descrição',
-                        financeRecord.description,
-                      ),
-                      if (financeRecord.voucher != null) ...[
-                        const SizedBox(height: 26),
-                        ContentViewer(url: financeRecord.voucher!),
-                      ],
-                    ]))));
+    bool mobile = isMobile(context);
+    return Card(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        elevation: 4,
+        child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              _buildTitleSection(),
+              const Divider(),
+              const SizedBox(height: 16),
+              _buildSectionTitle('Conceito Financeiro'),
+              Text(
+                financeRecord.financialConcept.name,
+                style: const TextStyle(fontSize: 14),
+              ),
+              SizedBox(height: 16),
+              _buildDetailRow(mobile, 'Valor',
+                  'R\$ ${financeRecord.amount.toStringAsFixed(2)}'),
+              const SizedBox(height: 8),
+              _buildDetailRow(
+                mobile,
+                'Data',
+                '${financeRecord.date.day}/${financeRecord.date.month}/${financeRecord.date.year}',
+              ),
+              const SizedBox(height: 8),
+              _buildDetailRow(
+                mobile,
+                'Tipo de movimento',
+                getFriendlyNameFinancialConceptType(financeRecord.type),
+              ),
+              const SizedBox(height: 8),
+              _buildDetailRow(
+                mobile,
+                'Fonte de financiamento',
+                getFriendlyNameMoneyLocation(financeRecord.moneyLocation),
+              ),
+              const SizedBox(height: 8),
+              _buildDetailRow(
+                mobile,
+                'Descrição',
+                financeRecord.description,
+              ),
+              if (financeRecord.voucher != null) ...[
+                const SizedBox(height: 26),
+                ContentViewer(url: financeRecord.voucher!),
+              ],
+            ])));
   }
 
   Widget _buildSectionTitle(String title) {
@@ -76,28 +78,53 @@ class ViewFinanceRecord extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailRow(String title, String value, {Color? statusColor}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style:
-                const TextStyle(fontSize: 16, fontFamily: AppFonts.fontRegular),
-          ),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 16,
-              fontFamily: AppFonts.fontLight,
-              color: statusColor, // Aplica el color aquí
+  Widget _buildDetailRow(bool isMobile, String title, String value,
+      {Color? statusColor}) {
+    return isMobile
+        ? Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Row(
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                      fontSize: 16, fontFamily: AppFonts.fontMedium),
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    value,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: AppFonts.fontLight,
+                      color: statusColor, // Aplica el color aquí
+                    ),
+                  ),
+                )
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          )
+        : Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                      fontSize: 16, fontFamily: AppFonts.fontMedium),
+                ),
+                Text(
+                  value,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: AppFonts.fontLight,
+                    color: statusColor, // Aplica el color aquí
+                  ),
+                ),
+              ],
+            ),
+          );
   }
 
   Widget _buildTitleSection() {
