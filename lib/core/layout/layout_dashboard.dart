@@ -63,7 +63,7 @@ class _LayoutDashboardState extends State<LayoutDashboard> {
                 child: Container(
                   margin: const EdgeInsets.all(10.0),
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 30.0, vertical: 14),
+                      horizontal: 20.0, vertical: 14),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     boxShadow: const [
