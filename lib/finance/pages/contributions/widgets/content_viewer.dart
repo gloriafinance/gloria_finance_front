@@ -13,7 +13,6 @@ class ContentViewer extends StatelessWidget {
     if (_isPdf(url)) {
       return Center(
         child: CustomButton(
-          width: 400,
           onPressed: () async {
             UrlLauncherPlugin().launch(url, useWebView: true);
           },
