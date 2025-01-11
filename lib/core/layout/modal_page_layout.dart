@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/app_fonts.dart';
@@ -24,12 +25,13 @@ class ModalPage {
   Widget _modal(BuildContext context) {
     return Dialog(
       //backgroundColor: Colors.white,
+      insetPadding: const EdgeInsets.all(16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
       child: Container(
-        padding: const EdgeInsets.all(16.0),
-        width: width,
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        width: isMobile(context) ? MediaQuery.of(context).size.width : width,
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,

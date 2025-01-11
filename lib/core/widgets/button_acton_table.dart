@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 
 class ButtonActionTable extends StatelessWidget {
@@ -37,7 +38,9 @@ class ButtonActionTable extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
-          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+          padding: isMobile(context)
+              ? const EdgeInsets.symmetric(vertical: 2, horizontal: 8)
+              : const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         ).copyWith(
           iconColor: WidgetStateProperty.resolveWith<Color?>(
               (Set<WidgetState> states) {
