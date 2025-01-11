@@ -12,8 +12,8 @@ class ContributionsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutDashboard(
       Text(
-        'Lista de contribuições', textAlign: TextAlign.left,
-        // Esto asegura que el texto no esté centrado
+        'Lista de contribuições',
+        textAlign: TextAlign.left,
         style: TextStyle(
           fontFamily: AppFonts.fontMedium,
           fontSize: 20,

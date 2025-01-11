@@ -163,11 +163,11 @@ class _CustomTableState extends State<CustomTable> {
           children: [
             Expanded(
               child: Text(
-                "Mostrando $showRecords de ${widget.paginate.totalRecords} registros",
+                "Visualizando $showRecords de ${widget.paginate.totalRecords} registros",
                 style: const TextStyle(
                   fontSize: 14,
                   fontFamily: AppFonts.fontRegular,
-                  color: AppColors.greyLight,
+                  color: Colors.black87,
                 ),
               ),
             ),
