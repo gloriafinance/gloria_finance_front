@@ -6,16 +6,11 @@ List<Map<String, dynamic>> items = const [
     "label": "Configuraçōes",
     "icon": Icons.settings,
     "items": [
-      {"label": "Países", "icon": Icons.public, "to": "/country"},
+      {"label": "Membros", "icon": Icons.people, "to": "/members"},
       {
-        "label": "Rieles de pago",
+        "label": "Conceitos de financeiros",
         "icon": Icons.attach_money,
         "to": "/banking-rail"
-      },
-      {
-        "label": "Pares de intercambio",
-        "icon": Icons.swap_horiz,
-        "to": "/exchange-pairs"
       },
     ],
   },
