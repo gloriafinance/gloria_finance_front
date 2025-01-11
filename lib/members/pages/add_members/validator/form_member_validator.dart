@@ -10,7 +10,9 @@ class FormMemberValidator extends LucidValidator<FormMemberState> {
         .validEmail(message: 'Email inválido');
     ruleFor((m) => m.phone, key: 'phone')
         .notEmpty(message: 'O campo é obrigatório')
-        .matchesPattern(r'^\d{10,11}$');
+        .matchesPattern(r'^\(\d{2}\) \d{5}-\d{4}$',
+            message: 'Formato de telefone inválido');
+
     ruleFor((m) => m.birthdate, key: 'birthDate')
         .notEmpty(message: 'O campo é obrigatório');
     ruleFor((m) => m.dni, key: 'dni')
