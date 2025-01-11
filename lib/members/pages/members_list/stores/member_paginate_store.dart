@@ -46,8 +46,6 @@ class MemberPaginateStore extends ChangeNotifier {
     try {
       final paginate = await service.searchMembers(state.filter);
 
-      print("PAGINATE ${paginate.results}");
-
       state = state.copyWith(makeRequest: false, paginate: paginate);
 
       notifyListeners();
