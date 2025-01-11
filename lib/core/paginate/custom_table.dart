@@ -1,5 +1,7 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/widgets/custom_button.dart';
+import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 
 class FactoryDataTable<T> {
@@ -44,8 +46,6 @@ class _CustomTableState extends State<CustomTable> {
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 600; // Detecta móvil
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -61,19 +61,19 @@ class _CustomTableState extends State<CustomTable> {
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
           ),
-          child: isMobile
+          child: isMobile(context)
               ? SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: buildDataTable(context, isMobile),
+                  child: _buildDataTable(context),
                 )
-              : buildDataTable(context, isMobile),
+              : _buildDataTable(context),
         ),
-        buildPaginate(),
+        _buildPaginate(context),
       ],
     );
   }
 
-  Widget buildDataTable(BuildContext context, bool isMobile) {
+  Widget _buildDataTable(BuildContext context) {
     return DataTable(
       headingRowColor: WidgetStateProperty.resolveWith(
         (states) => AppColors.greyLight,
@@ -137,48 +137,72 @@ class _CustomTableState extends State<CustomTable> {
     );
   }
 
-  Widget buildPaginate() {
+  Widget _buildPaginate(BuildContext context) {
     int showRecords = widget.paginate.currentPage * widget.paginate.perPage;
 
     if (showRecords > widget.paginate.totalRecords) {
       showRecords = widget.paginate.totalRecords;
     }
 
-    return Container(
-      margin: EdgeInsets.only(top: 20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            offset: const Offset(0, 2),
-            blurRadius: 6,
-          ),
-        ],
-      ),
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Información de los registros
-          Expanded(
-            child: Text(
-              "Mostrando $showRecords de ${widget.paginate.totalRecords} registros",
-              style: const TextStyle(
-                fontSize: 14,
-                fontFamily: AppFonts.fontRegular,
-                color: Colors.black87,
+    if (!isMobile(context)) {
+      return Container(
+        margin: EdgeInsets.only(top: 20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              offset: const Offset(0, 2),
+              blurRadius: 6,
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                "Mostrando $showRecords de ${widget.paginate.totalRecords} registros",
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontFamily: AppFonts.fontRegular,
+                  color: AppColors.greyLight,
+                ),
               ),
             ),
+            // Selector de registros por página y navegación
+            _selectPerPage(),
+          ],
+        ),
+      );
+    }
+
+    return Container(
+      margin: const EdgeInsets.only(top: 20),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  "Visualizando $showRecords de ${widget.paginate.totalRecords} registros",
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontFamily: AppFonts.fontRegular,
+                    color: Colors.black87,
+                  ),
+                ),
+              ),
+            ],
           ),
-          // Selector de registros por página y navegación
-          selectPerPage(),
+          _selectPerPage()
         ],
       ),
     );
   }
 
-  Widget selectPerPage() {
+  Widget _selectPerPage() {
     return Row(
       children: [
         Container(
@@ -187,78 +211,58 @@ class _CustomTableState extends State<CustomTable> {
             color: Colors.grey.shade200,
             borderRadius: BorderRadius.circular(8),
           ),
-          child: ButtonTheme(
-            alignedDropdown: true,
-            // Alineación del DropdownButton
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            // Reducir padding interno
-            child: DropdownButton<int>(
-              value: perPageState,
-              dropdownColor: Colors.white,
-              underline: const SizedBox(),
-              style: const TextStyle(
-                fontSize: 14,
-                fontFamily: AppFonts.fontRegular,
-                color: Colors.black87,
-              ),
-              isDense: true,
-              // Reducir altura predeterminada del DropdownButton
-              items: [10, 20, 50].map((int value) {
-                return DropdownMenuItem<int>(
-                  value: value,
-                  child: Text("$value por página"),
-                );
-              }).toList(),
-              onChanged: (value) {
-                if (value != null) {
-                  perPageState = value;
-                  widget.paginate.onChangePerPage(value);
-                }
-              },
+          child: DropdownButton<int>(
+            value: perPageState,
+            dropdownColor: Colors.white,
+            underline: const SizedBox(),
+            style: const TextStyle(
+              fontSize: 14,
+              fontFamily: AppFonts.fontRegular,
+              color: Colors.black87,
             ),
+            isDense: true,
+            // Reducir altura predeterminada del DropdownButton
+            items: [10, 20, 50].map((int value) {
+              return DropdownMenuItem<int>(
+                value: value,
+                child: Text("$value por página"),
+              );
+            }).toList(),
+            onChanged: (value) {
+              if (value != null) {
+                perPageState = value;
+                widget.paginate.onChangePerPage(value);
+              }
+            },
           ),
         ),
         const SizedBox(width: 16),
-        prevButton(),
+        _prevButton(),
         const SizedBox(width: 8),
-        nextButton(),
+        _nextButton(),
       ],
     );
   }
 
-  Widget nextButton() {
-    return ElevatedButton(
-      onPressed: () => widget.paginate.onNextPag(),
-      style: ElevatedButton.styleFrom(
+  Widget _nextButton() {
+    return CustomButton(
+        textColor: Colors.white,
+        text: "",
+        icon: Icons.skip_next_outlined,
         backgroundColor:
-            widget.paginate.nextPag ? AppColors.purple : Colors.grey.shade300,
-        foregroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-      ),
-      child: const Text("Próxima",
-          style: TextStyle(fontSize: 14, fontFamily: AppFonts.fontLight)),
-    );
+            widget.paginate.nextPag ? AppColors.purple : AppColors.greyLight,
+        onPressed: () => widget.paginate.onNextPag());
   }
 
-  Widget prevButton() {
-    return ElevatedButton(
-      onPressed: () => widget.paginate.onPrevPag(),
-      style: ElevatedButton.styleFrom(
+  Widget _prevButton() {
+    return CustomButton(
+        textColor: Colors.white,
+        text: "",
+        icon: Icons.skip_previous_outlined,
         backgroundColor: widget.paginate.currentPage > 1
             ? AppColors.purple
-            : Colors.grey.shade300,
-        foregroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-      ),
-      child: const Text("Anterior",
-          style: TextStyle(fontSize: 14, fontFamily: AppFonts.fontLight)),
-    );
+            : AppColors.greyLight,
+        onPressed: () => widget.paginate.onPrevPag());
   }
 }
 

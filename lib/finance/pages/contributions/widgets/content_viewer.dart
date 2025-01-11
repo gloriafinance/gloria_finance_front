@@ -13,17 +13,16 @@ class ContentViewer extends StatelessWidget {
     if (_isPdf(url)) {
       return Center(
         child: CustomButton(
-          width: 400,
           onPressed: () async {
             UrlLauncherPlugin().launch(url, useWebView: true);
           },
-          text: "Abrir PDF no nevegador",
+          text: "Abrir PDF no navegador",
           textColor: Colors.white,
           backgroundColor: AppColors.blue,
         ),
       );
     } else {
-      return Image.network(url, width: 300, height: 300);
+      return Image.network(url, width: double.infinity);
     }
   }
 

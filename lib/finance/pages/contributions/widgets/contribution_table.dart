@@ -77,7 +77,9 @@ class _ContributionTableState extends State<ContributionTable> {
 
   void _openModal(BuildContext context, ContributionModel contribution) {
     ModalPage(
-      title: 'Contribuição #${contribution.contributionId}',
+      title: isMobile(context)
+          ? ""
+          : 'Contribuição #${contribution.contributionId}',
       body: ViewContribution(contribution: contribution),
     ).show(context);
   }

@@ -9,7 +9,7 @@ class IPUBLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.asset(
       'images/ipub_logo.png',
-      width: width,
+      //width: ,
       //height: 70,
     );
   }

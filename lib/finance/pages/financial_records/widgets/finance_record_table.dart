@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../../models/finance_record_model.dart';
 import '../../../models/financial_concept_model.dart';
 import '../../../stores/finance_record_paginate_store.dart';
+import 'view_finance_record.dart';
 
 class FinanceRecordTable extends StatefulWidget {
   const FinanceRecordTable({super.key});
@@ -68,13 +70,21 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
               color: AppColors.blue,
               text: "Visualizar",
               onPressed: () {
-                print("Aprobar fila $fianceRecord");
-                //_openModal(context, contribution);
+                _openModal(context, fianceRecord);
               },
               icon: Icons.remove_red_eye_sharp,
             ),
       ],
     );
+  }
+
+  void _openModal(BuildContext context, FinanceRecordModel financeRecord) {
+    ModalPage(
+      title: isMobile(context)
+          ? ""
+          : 'Movimento financeiro #${financeRecord.financialRecordId}',
+      body: ViewFinanceRecord(financeRecord: financeRecord),
+    ).show(context);
   }
 
   List<dynamic> financeRecordDTO(dynamic financeRecord) {
