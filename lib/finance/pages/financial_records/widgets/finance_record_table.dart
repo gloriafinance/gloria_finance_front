@@ -27,6 +27,7 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
 
     if (state.makeRequest) {
       return Container(
+          alignment: Alignment.center,
           margin: const EdgeInsets.only(top: 40.0),
           child: CircularProgressIndicator());
     }
