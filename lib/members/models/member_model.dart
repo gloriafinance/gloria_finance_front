@@ -3,13 +3,13 @@ class MemberModel {
   String name;
   String email;
   String phone;
-  DateTime createdAt;
   String dni;
-  DateTime conversionDate;
-  DateTime baptismDate;
-  DateTime birthdate;
+  String conversionDate;
+  String? baptismDate;
+  String birthdate;
   bool isMinister;
   bool isTreasurer;
+
   Church church;
   Region region;
 
@@ -18,10 +18,9 @@ class MemberModel {
     required this.name,
     required this.email,
     required this.phone,
-    required this.createdAt,
     required this.dni,
     required this.conversionDate,
-    required this.baptismDate,
+    this.baptismDate,
     required this.birthdate,
     required this.isMinister,
     required this.isTreasurer,
@@ -35,13 +34,12 @@ class MemberModel {
       name: json['name'],
       email: json['email'],
       phone: json['phone'],
-      createdAt: DateTime.parse(json['createdAt']),
       dni: json['dni'],
-      conversionDate: DateTime.parse(json['conversionDate']),
-      baptismDate: DateTime.parse(json['baptismDate']),
-      birthdate: DateTime.parse(json['birthdate']),
+      conversionDate: json['conversionDate'],
+      baptismDate: json['baptismDate'],
+      birthdate: json['birthdate'],
       isMinister: json['isMinister'],
-      isTreasurer: json['isTreasurer'],
+      isTreasurer: json['isTreasurer'] ?? false,
       church: Church.fromJson(json['church']),
       region: Region.fromJson(json['region']),
     );
@@ -53,11 +51,10 @@ class MemberModel {
       'name': name,
       'email': email,
       'phone': phone,
-      'createdAt': createdAt.toIso8601String(),
       'dni': dni,
-      'conversionDate': conversionDate.toIso8601String(),
-      'baptismDate': baptismDate.toIso8601String(),
-      'birthdate': birthdate.toIso8601String(),
+      'conversionDate': conversionDate,
+      'baptismDate': baptismDate,
+      'birthdate': birthdate,
       'isMinister': isMinister,
       'isTreasurer': isTreasurer,
       'church': church.toJson(),

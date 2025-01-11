@@ -45,7 +45,10 @@ class _FormFinanceRecordState extends State<FormFinanceRecord> {
                     ? _btnSave()
                     : Align(
                         alignment: Alignment.centerRight,
-                        child: _btnSave(),
+                        child: SizedBox(
+                          width: 300,
+                          child: _btnSave(),
+                        ),
                       ),
               ],
             );
