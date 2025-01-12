@@ -5,19 +5,20 @@ class AuthSessionModel {
   final String createdAt;
   final bool isActive;
   final String userId;
-  final bool isSuperuser;
   final String churchId;
+  final List<Profile> profiles;
+  String? memberId;
 
-  AuthSessionModel({
-    required this.churchId,
-    required this.token,
-    required this.name,
-    required this.email,
-    required this.createdAt,
-    required this.isActive,
-    required this.userId,
-    required this.isSuperuser,
-  });
+  AuthSessionModel(
+      {required this.churchId,
+      required this.token,
+      required this.name,
+      required this.email,
+      required this.createdAt,
+      required this.isActive,
+      required this.userId,
+      required this.profiles,
+      this.memberId});
 
   factory AuthSessionModel.empty() {
     return AuthSessionModel(
@@ -27,8 +28,8 @@ class AuthSessionModel {
       createdAt: "",
       isActive: false,
       userId: "",
-      isSuperuser: false,
       churchId: '',
+      profiles: [],
     );
   }
 
@@ -40,20 +41,22 @@ class AuthSessionModel {
       String? createdAt,
       bool? isActive,
       String? userId,
-      bool? isSuperuser}) {
+      List<Profile>? profiles,
+      String? memberId}) {
     return AuthSessionModel(
       createdAt: createdAt ?? this.createdAt,
       isActive: isActive ?? this.isActive,
       userId: userId ?? this.userId,
-      isSuperuser: isSuperuser ?? this.isSuperuser,
       token: token ?? this.token,
       name: name ?? this.name,
       email: email ?? this.email,
-      churchId: '',
+      churchId: churchId ?? this.churchId,
+      profiles: profiles ?? this.profiles,
+      memberId: memberId ?? this.memberId,
     );
   }
 
-  static fromJson(Map<String, dynamic> json) {
+  static AuthSessionModel fromJson(Map<String, dynamic> json) {
     return AuthSessionModel(
       token: json['token'],
       name: json['name'],
@@ -61,12 +64,15 @@ class AuthSessionModel {
       createdAt: json['createdAt'],
       isActive: json['isActive'],
       userId: json['userId'],
-      isSuperuser: json['isSuperuser'],
       churchId: json['churchId'],
+      profiles: (json['profiles'] as List<dynamic>)
+          .map((profile) => Profile.fromJson(profile))
+          .toList(),
+      memberId: json['memberId'],
     );
   }
 
-  toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'token': token,
       'name': name,
@@ -74,8 +80,9 @@ class AuthSessionModel {
       'createdAt': createdAt,
       'isActive': isActive,
       'userId': userId,
-      'isSuperuser': isSuperuser,
       'churchId': churchId,
+      'profiles': profiles.map((profile) => profile.toJson()).toList(),
+      'memberId': memberId,
     };
   }
 
@@ -85,5 +92,29 @@ class AuthSessionModel {
 
   String getName() {
     return name;
+  }
+}
+
+class Profile {
+  final String profileType;
+  final List<String> actions;
+
+  Profile({
+    required this.profileType,
+    required this.actions,
+  });
+
+  factory Profile.fromJson(Map<String, dynamic> json) {
+    return Profile(
+      profileType: json['profileType'],
+      actions: List<String>.from(json['actions']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'profileType': profileType,
+      'actions': actions,
+    };
   }
 }

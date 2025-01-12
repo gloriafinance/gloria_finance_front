@@ -1,6 +1,9 @@
 import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
+import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'widgets/contribution_filters.dart';
 import 'widgets/contribution_table.dart';
@@ -11,21 +14,47 @@ class ContributionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutDashboard(
-      Text(
-        'Lista de contribuições',
-        textAlign: TextAlign.left,
-        style: TextStyle(
-          fontFamily: AppFonts.fontMedium,
-          fontSize: 20,
-          color: Colors.black,
-        ),
-      ),
+      _header(context),
       screen: Column(
         children: [
           ContributionFilters(),
           ContributionTable(),
         ],
       ),
+    );
+  }
+
+  Widget _header(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            'Lista de contribuições',
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontFamily: AppFonts.fontMedium,
+              fontSize: 24,
+              color: Colors.black,
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: _buttons(context),
+        ),
+      ],
+    );
+  }
+
+  Widget _buttons(BuildContext context) {
+    return Row(
+      children: [
+        ButtonActionTable(
+            color: AppColors.purple,
+            text: "Registrar contribuição",
+            onPressed: () => GoRouter.of(context).go('/contributions/add'),
+            icon: Icons.add_reaction_outlined),
+      ],
     );
   }
 }

@@ -42,4 +42,24 @@ class ContributionService extends AppHttp {
       rethrow;
     }
   }
+
+  Future<void> sendSaveContribution(Map<String, dynamic> form) async {
+    FormData formData = FormData.fromMap({
+      ...form,
+      if (form['file'] != null) 'file': form['file']!,
+    });
+
+    try {
+      await http.post(
+        '${await getUrlApi()}finance/contributions',
+        data: formData,
+        options: Options(
+          headers: getHeader(),
+        ),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
 }
