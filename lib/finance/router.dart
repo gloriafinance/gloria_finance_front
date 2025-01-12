@@ -4,6 +4,7 @@ import 'package:church_finance_bk/finance/pages/contributions/contributions_scre
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'pages/app_contribuitions/add_contribution_screen.dart';
 import 'pages/financial_records/financial_record_screen.dart';
 
 List<Map<String, dynamic>> financialMenuItems = const [
@@ -43,6 +44,12 @@ financialRouter() {
       path: '/contributions',
       pageBuilder: (context, state) {
         return transitionCustom(ContributionsScreen());
+      },
+    ),
+    GoRoute(
+      path: '/contributions/add',
+      pageBuilder: (context, state) {
+        return transitionCustom(AddContributionScreen());
       },
     ),
   ];

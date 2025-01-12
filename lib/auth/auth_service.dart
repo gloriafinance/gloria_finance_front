@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 class AuthService extends AppHttp {
   Future<AuthSessionModel?> makeLogin(String email, String password) async {
     try {
-      final response = await http.post("${await getUrlApi()}admin/user/login",
+      final response = await http.post("${await getUrlApi()}user/login",
           data: {'email': email, 'password': password});
 
       return AuthSessionModel.fromJson(response.data);
