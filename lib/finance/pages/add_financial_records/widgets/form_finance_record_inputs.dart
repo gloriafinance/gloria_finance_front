@@ -1,7 +1,7 @@
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/core/widgets/upload_file.dart';
 import 'package:church_finance_bk/finance/models/financial_concept_model.dart';
-import 'package:church_finance_bk/finance/stores/finance_concept_store.dart';
+import 'package:church_finance_bk/finance/stores/financial_concept_store.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +16,6 @@ final validator = FormFinancialRecordValidator();
 final List<FinancialConceptModel> financialConcepts = [];
 
 final formFinanceRecordState = FormFinanceRecordState.init();
-
-final bankStore = BankStore();
 
 Widget description() {
   return ListenableBuilder(
@@ -128,7 +126,7 @@ Widget uploadFile() {
   );
 }
 
-Widget dropdownBank() {
+Widget dropdownBank(BankStore bankStore) {
   return ListenableBuilder(
     listenable: formFinanceRecordState,
     builder: (context, child) {

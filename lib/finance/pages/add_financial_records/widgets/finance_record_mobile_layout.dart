@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../stores/finance_concept_store.dart';
+import '../../../stores/bank_store.dart';
+import '../../../stores/financial_concept_store.dart';
 import 'form_finance_record_inputs.dart';
 
-Widget formMobileLayout(
-    FinancialConceptStore conceptStore, BuildContext context) {
+Widget formMobileLayout(BankStore bankStore, FinancialConceptStore conceptStore,
+    BuildContext context) {
   return Column(
     children: [
       SizedBox(height: 30),
@@ -18,7 +19,7 @@ Widget formMobileLayout(
       const SizedBox(height: 10),
       moneyLocation(),
       const SizedBox(height: 10),
-      SizedBox(width: 300, child: dropdownBank()),
+      SizedBox(width: 300, child: dropdownBank(bankStore)),
       const SizedBox(height: 10),
       uploadFile(),
     ],

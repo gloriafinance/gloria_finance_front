@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../../stores/finance_concept_store.dart';
+import '../../../stores/bank_store.dart';
+import '../../../stores/financial_concept_store.dart';
 import '../usecases/financial_record_save.dart';
 import 'finance_record_desktop_layout.dart';
 import 'finance_record_mobile_layout.dart';
@@ -29,6 +30,7 @@ class _FormFinanceRecordState extends State<FormFinanceRecord> {
   @override
   Widget build(BuildContext context) {
     final conceptStore = Provider.of<FinancialConceptStore>(context);
+    final bankStore = Provider.of<BankStore>(context);
 
     return SingleChildScrollView(
       child: Form(
@@ -38,8 +40,8 @@ class _FormFinanceRecordState extends State<FormFinanceRecord> {
             return Column(
               children: [
                 isMobile(context)
-                    ? formMobileLayout(conceptStore, context)
-                    : formDesktopLayout(conceptStore, context),
+                    ? formMobileLayout(bankStore, conceptStore, context)
+                    : formDesktopLayout(bankStore, conceptStore, context),
                 const SizedBox(height: 32),
                 isMobile(context)
                     ? _btnSave()

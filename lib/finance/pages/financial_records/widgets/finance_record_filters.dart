@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/widgets/form_controls.dart';
 import '../../../models/finance_record_model.dart';
-import '../../../stores/finance_concept_store.dart';
 import '../../../stores/finance_record_paginate_store.dart';
+import '../../../stores/financial_concept_store.dart';
 
 class FinanceRecordFilters extends StatefulWidget {
   const FinanceRecordFilters({super.key});
