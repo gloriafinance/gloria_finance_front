@@ -116,7 +116,7 @@ class _FormLogin extends State<FormLogin> {
 
     if (await authStore.login(
         form.value['email'].toString(), form.value['password'].toString())) {
-      GoRouter.of(context).push('/dashboard');
+      GoRouter.of(context).go('/dashboard');
     }
   }
 }

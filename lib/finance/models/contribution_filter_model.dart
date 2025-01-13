@@ -3,6 +3,7 @@ class ContributionFilterModel {
   int page;
   String? startDate;
   String? status;
+  String? memberId;
 
   ContributionFilterModel({
     this.perPage = 10,

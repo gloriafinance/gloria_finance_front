@@ -43,7 +43,7 @@ class FinancialRecordScreen extends StatelessWidget {
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontFamily: AppFonts.fontMedium,
-                fontSize: 24,
+                fontSize: 20,
                 color: Colors.black,
               ),
             ),

@@ -1,10 +1,11 @@
 import 'package:church_finance_bk/auth/stores/auth_session_store.dart';
+import 'package:church_finance_bk/finance/stores/bank_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'core/router.dart';
-import 'finance/stores/finance_concept_store.dart';
+import 'finance/stores/financial_concept_store.dart';
 
 void main() {
   runApp(
@@ -13,6 +14,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => AuthSessionStore()),
         ChangeNotifierProvider(
             create: (_) => FinancialConceptStore()..searchFinancialConcepts()),
+        ChangeNotifierProvider(create: (_) => BankStore()..searchBanks()),
       ],
       child: MyApp(),
     ),
