@@ -1,62 +1,57 @@
 import 'package:dio/dio.dart';
 
-class FormTitheState {
+class FormRecordOfferingState {
   bool makeRequest;
   double amount;
-  String month;
-  MultipartFile? file;
-  String bankId;
   String memberId;
   String financialConceptId;
+  MultipartFile? file;
+  String bankId;
 
-  FormTitheState({
+  FormRecordOfferingState({
     required this.amount,
-    required this.month,
-    required this.bankId,
     required this.memberId,
     required this.financialConceptId,
+    required this.bankId,
     required this.makeRequest,
     this.file,
   });
 
-  factory FormTitheState.init() {
-    return FormTitheState(
+  factory FormRecordOfferingState.init() {
+    return FormRecordOfferingState(
       amount: 0.0,
-      month: '',
-      bankId: '',
       memberId: '',
       financialConceptId: '',
+      bankId: '',
       makeRequest: false,
     );
   }
 
-  copyWith(
-      {double? amount,
-      String? month,
-      MultipartFile? file,
-      String? bankId,
-      String? memberId,
-      String? financialConceptId,
-      bool? makeRequest}) {
-    return FormTitheState(
+  copyWith({
+    double? amount,
+    String? memberId,
+    String? financialConceptId,
+    String? bankId,
+    bool? makeRequest,
+    MultipartFile? file,
+  }) {
+    return FormRecordOfferingState(
       amount: amount ?? this.amount,
-      month: month ?? this.month,
-      file: file ?? this.file,
-      bankId: bankId ?? this.bankId,
       memberId: memberId ?? this.memberId,
       financialConceptId: financialConceptId ?? this.financialConceptId,
+      bankId: bankId ?? this.bankId,
       makeRequest: makeRequest ?? this.makeRequest,
+      file: file ?? this.file,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'amount': amount,
-      'month': month,
-      'file': file,
-      'bankId': bankId,
       'memberId': memberId,
       'financialConceptId': financialConceptId,
+      'bankId': bankId,
+      'file': file,
     };
   }
 }

@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:church_finance_bk/core/app_http.dart';
 import 'package:church_finance_bk/core/paginate/paginate_response.dart';
 import 'package:dio/dio.dart';
@@ -43,10 +44,14 @@ class ContributionService extends AppHttp {
     }
   }
 
-  Future<void> sendSaveContribution(Map<String, dynamic> form) async {
+  Future<bool> sendSaveContribution(Map<String, dynamic> form) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
     FormData formData = FormData.fromMap({
       ...form,
       if (form['file'] != null) 'file': form['file']!,
+      'memberId': session.memberId,
     });
 
     try {
@@ -57,6 +62,7 @@ class ContributionService extends AppHttp {
           headers: getHeader(),
         ),
       );
+      return true;
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;
