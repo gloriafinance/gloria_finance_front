@@ -28,8 +28,8 @@ class CustomButton extends StatelessWidget {
       onPressed: onPressed,
       child: Padding(
         padding: isMobile(context)
-            ? const EdgeInsets.only(top: 0, bottom: 0)
-            : const EdgeInsets.only(top: 10, bottom: 10),
+            ? const EdgeInsets.only(top: 18, bottom: 18)
+            : const EdgeInsets.only(top: 14, bottom: 14),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center, // Centra el contenido
           children: [

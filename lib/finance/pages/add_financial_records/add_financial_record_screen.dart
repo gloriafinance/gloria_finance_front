@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'widgets/form_finance_record.dart';
-import 'widgets/form_finance_record_inputs.dart';
 
 class AddFinancialRecordScreen extends StatelessWidget {
   const AddFinancialRecordScreen({super.key});
@@ -14,10 +13,6 @@ class AddFinancialRecordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Toast.init(context);
-
-    if (bankStore.state.banks.isEmpty) {
-      bankStore.searchBanks();
-    }
 
     return LayoutDashboard(
       Row(
@@ -34,7 +29,7 @@ class AddFinancialRecordScreen extends StatelessWidget {
             textAlign: TextAlign.left,
             style: TextStyle(
               fontFamily: AppFonts.fontMedium,
-              fontSize: 24,
+              fontSize: 18,
               color: Colors.black,
             ),
           )

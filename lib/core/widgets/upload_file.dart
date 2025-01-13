@@ -7,14 +7,13 @@ import '../theme/app_fonts.dart';
 
 class UploadFile extends StatefulWidget {
   final String label;
-  final String? folderStorage;
   final void Function(MultipartFile) multipartFile;
 
-  const UploadFile(
-      {super.key,
-      required this.label,
-      required this.multipartFile,
-      this.folderStorage});
+  const UploadFile({
+    super.key,
+    required this.label,
+    required this.multipartFile,
+  });
 
   @override
   State<StatefulWidget> createState() => _UploadFile();

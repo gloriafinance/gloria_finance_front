@@ -74,6 +74,18 @@ class ContributionModel {
       contributionId: contributionId ?? this.contributionId,
     );
   }
+
+  toJson() {
+    return {
+      'amount': amount,
+      'status': status,
+      'createdAt': createdAt,
+      'bankTransferReceipt': bankTransferReceipt,
+      'financeConcept': financeConcept,
+      'member': member,
+      'contributionId': contributionId,
+    };
+  }
 }
 
 class ContributionMember {
