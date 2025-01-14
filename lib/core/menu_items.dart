@@ -1,5 +1,6 @@
-import 'package:church_finance_bk/finance/router.dart';
 import 'package:flutter/material.dart';
+
+import '../auth/auth_session_model.dart';
 
 List<Map<String, dynamic>> items = const [
   {
@@ -19,6 +20,46 @@ List<Map<String, dynamic>> items = const [
       },
     ],
   },
+  {
+    "label": "Finanzas",
+    "icon": Icons.monetization_on,
+    "items": [
+      {
+        "label": "Contribuiçōes",
+        "icon": Icons.bar_chart,
+        "to": "/contributions"
+      },
+      {
+        "label": "Registro financeiros",
+        "icon": Icons.money,
+        "to": "/financial-record"
+      },
+    ],
+  },
 ];
 
-final menuItems = [...items, ...financialMenuItems];
+menuItems(List<Profile> profiles) {
+  if (profiles.where((p) => p.profileType == 'SUPERUSER').isNotEmpty) {
+    return items;
+  }
+
+  if (profiles.where((p) => p.profileType == 'ADMINISTRATOR').isNotEmpty) {
+    return items
+        .where((element) => element['label'] != 'Configuraçōes')
+        .toList();
+  }
+
+  return [];
+
+  //   return items
+  //       .where((element) => element['label'] != 'Configuraçōes')
+  //       .toList();
+  // }
+  // if (profile == 'admin') {
+  //   return items;
+  // } else {
+  //   return items
+  //       .where((element) => element['label'] != 'Configuraçōes')
+  //       .toList();
+  // }
+}

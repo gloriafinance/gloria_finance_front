@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../auth/auth_session_model.dart';
 import '../menu_items.dart';
 import 'header_layout.dart';
+import 'navigator_member.dart';
 import 'sidebar_layout_dashboad.dart';
 
 class LayoutDashboard extends StatefulWidget {
@@ -23,6 +25,8 @@ class _LayoutDashboardState extends State<LayoutDashboard> {
   @override
   Widget build(BuildContext context) {
     final store = Provider.of<AuthSessionStore>(context);
+    final List<Profile> profiles = store.profiles();
+    final items = menuItems(profiles);
 
     Future.delayed(const Duration(seconds: 5)).then((_) {
       if (mounted && !store.state.isLogged()) {
@@ -37,9 +41,9 @@ class _LayoutDashboardState extends State<LayoutDashboard> {
         preferredSize: const Size.fromHeight(80.0),
         child: HeaderLayout(),
       ),
-      drawer: MediaQuery.of(context).size.width < 800
+      drawer: MediaQuery.of(context).size.width < 800 && items.isNotEmpty
           ? Drawer(
-              child: Sidebar(menuItems: menuItems),
+              child: Sidebar(menuItems: items),
             )
           : null,
       body: LayoutBuilder(
@@ -50,7 +54,7 @@ class _LayoutDashboardState extends State<LayoutDashboard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             // Alinea el contenido superior
             children: [
-              if (isLargeScreen)
+              if (isLargeScreen && items.isNotEmpty)
                 Container(
                   margin: const EdgeInsets.all(10.0),
                   decoration: BoxDecoration(
@@ -58,7 +62,7 @@ class _LayoutDashboardState extends State<LayoutDashboard> {
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   width: 320,
-                  child: Sidebar(menuItems: menuItems),
+                  child: Sidebar(menuItems: menuItems(items)),
                 ),
               Expanded(
                 child: Container(
@@ -98,6 +102,10 @@ class _LayoutDashboardState extends State<LayoutDashboard> {
           );
         },
       ),
+      bottomNavigationBar:
+          profiles.where((p) => p.profileType == 'MEMBER').isNotEmpty
+              ? const NavigatorMember()
+              : null,
     );
   }
 }

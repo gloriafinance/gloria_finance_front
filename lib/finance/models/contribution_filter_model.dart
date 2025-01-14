@@ -10,6 +10,7 @@ class ContributionFilterModel {
     this.page = 1,
     this.startDate,
     this.status,
+    this.memberId,
   });
 
   factory ContributionFilterModel.init() {
@@ -21,12 +22,14 @@ class ContributionFilterModel {
     int? page,
     String? startDate,
     String? status,
+    String? memberId,
   }) {
     return ContributionFilterModel(
       page: page ?? this.page,
       perPage: perPage ?? this.perPage,
       startDate: startDate ?? this.startDate,
       status: status ?? this.status,
+      memberId: memberId ?? this.memberId,
     );
   }
 
@@ -36,6 +39,7 @@ class ContributionFilterModel {
       'page': page,
       'startDate': startDate,
       'status': status,
+      'memberId': memberId,
     };
   }
 }

@@ -11,15 +11,17 @@ class CustomButton extends StatelessWidget {
   static const String basic = 'basic';
   final void Function()? onPressed;
   final IconData? icon;
+  EdgeInsetsGeometry? padding;
 
-  const CustomButton(
+  CustomButton(
       {super.key,
       required this.text,
       required this.backgroundColor,
       required this.onPressed,
       this.textColor = Colors.black87,
       this.typeButton = 'basic',
-      this.icon});
+      this.icon,
+      this.padding});
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +29,9 @@ class CustomButton extends StatelessWidget {
       style: typeButton == 'basic' ? _basicStyle() : _outlineStyle(),
       onPressed: onPressed,
       child: Padding(
-        padding: isMobile(context)
-            ? const EdgeInsets.only(top: 18, bottom: 18)
-            : const EdgeInsets.only(top: 14, bottom: 14),
+        padding: padding ??= isMobile(context)
+            ? EdgeInsets.only(top: 18, bottom: 18)
+            : EdgeInsets.only(top: 14, bottom: 14),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center, // Centra el contenido
           children: [

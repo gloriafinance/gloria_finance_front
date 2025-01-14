@@ -93,6 +93,18 @@ class AuthSessionModel {
   String getName() {
     return name;
   }
+
+  isAdmin() {
+    return profiles
+        .where((element) => element.profileType == 'ADMIN')
+        .isNotEmpty;
+  }
+
+  isMember() {
+    return profiles
+        .where((element) => element.profileType == 'MEMBER')
+        .isNotEmpty;
+  }
 }
 
 class Profile {

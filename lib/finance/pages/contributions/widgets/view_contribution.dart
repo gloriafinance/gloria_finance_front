@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/auth/stores/auth_session_store.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
@@ -5,6 +6,7 @@ import 'package:church_finance_bk/finance/helpers/contribution.helper.dart';
 import 'package:church_finance_bk/finance/models/contribution_model.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../usecases/update_contribution_status.dart';
 import 'content_viewer.dart';
@@ -16,6 +18,8 @@ class ViewContribution extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final store = Provider.of<AuthSessionStore>(context);
+
     return Card(
         color: Colors.white,
         shape: RoundedRectangleBorder(
@@ -60,7 +64,8 @@ class ViewContribution extends StatelessWidget {
               ContentViewer(url: contribution.bankTransferReceipt),
               const SizedBox(height: 46),
               if (parseContributionStatus(contribution.status) ==
-                  ContributionStatus.PENDING_VERIFICATION)
+                      ContributionStatus.PENDING_VERIFICATION &&
+                  store.isAdmin())
                 _buildButton(context, contribution.contributionId),
             ],
           ),

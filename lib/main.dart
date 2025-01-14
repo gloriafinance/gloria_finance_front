@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
+import 'core/layout/navigator_member_state.dart';
 import 'core/router.dart';
 import 'finance/stores/financial_concept_store.dart';
 
@@ -15,6 +16,7 @@ void main() {
         ChangeNotifierProvider(
             create: (_) => FinancialConceptStore()..searchFinancialConcepts()),
         ChangeNotifierProvider(create: (_) => BankStore()..searchBanks()),
+        ChangeNotifierProvider(create: (_) => NavigatorMemberNotifier()),
       ],
       child: MyApp(),
     ),

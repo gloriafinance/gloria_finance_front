@@ -246,6 +246,7 @@ class _CustomTableState extends State<CustomTable> {
 
   Widget _nextButton() {
     return CustomButton(
+        padding: EdgeInsets.only(top: 8, bottom: 8),
         textColor: Colors.white,
         text: "",
         icon: Icons.skip_next_outlined,
@@ -256,6 +257,7 @@ class _CustomTableState extends State<CustomTable> {
 
   Widget _prevButton() {
     return CustomButton(
+        padding: EdgeInsets.only(top: 8, bottom: 8),
         textColor: Colors.white,
         text: "",
         icon: Icons.skip_previous_outlined,

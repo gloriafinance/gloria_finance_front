@@ -14,6 +14,8 @@ class Sidebar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final itemMember = ["/members"];
+
     return Stack(
       children: [
         const SidebarBackground(),
