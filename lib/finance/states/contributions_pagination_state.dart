@@ -32,6 +32,7 @@ class ContributionPaginationState {
     int? page,
     String? startDate,
     String? status,
+    String? memberId,
   }) {
     return ContributionPaginationState(
         makeRequest: makeRequest ?? this.makeRequest,
@@ -41,6 +42,7 @@ class ContributionPaginationState {
           page: page,
           startDate: startDate,
           status: status,
+          memberId: memberId,
         ));
   }
 }

@@ -33,7 +33,7 @@ class _ContributionTableState extends State<ContributionTable> {
           }
 
           if (state.paginate.results.isEmpty) {
-            return Center(child: Text('No hay contribuciones para mostrar'));
+            return Center(child: Text('Nenhuma contribuição encontrada'));
           }
 
           return CustomTable(

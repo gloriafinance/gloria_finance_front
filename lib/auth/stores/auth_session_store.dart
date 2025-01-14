@@ -61,4 +61,16 @@ class AuthSessionStore extends ChangeNotifier {
   bool isLoggedIn() {
     return state.session.token.isNotEmpty;
   }
+
+  List<Profile> profiles() {
+    return state.session.profiles;
+  }
+
+  isAdmin() {
+    return state.session.isAdmin();
+  }
+
+  isMember() {
+    return state.session.isMember();
+  }
 }

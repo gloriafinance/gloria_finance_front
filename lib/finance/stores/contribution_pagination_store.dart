@@ -71,6 +71,12 @@ class ContributionPaginationStore extends ChangeNotifier {
       service.tokenAPI = session.token;
 
       state = state.copyWith(makeRequest: true);
+
+      //TODO si se agrega un filtro por miembro, esta condicion debe cambiar.
+      if (session.isMember()) {
+        state = state.copyWith(memberId: session.memberId);
+      }
+
       notifyListeners();
 
       final paginate = await service.searchContributions(state.filter);
