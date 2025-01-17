@@ -1,30 +1,11 @@
 import 'package:church_finance_bk/core/theme/transition_custom.dart';
 import 'package:church_finance_bk/finance/pages/add_financial_records/add_financial_record_screen.dart';
 import 'package:church_finance_bk/finance/pages/contributions/contributions_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'pages/app_contribuitions/add_contribution_screen.dart';
 import 'pages/financial_records/financial_record_screen.dart';
-
-List<Map<String, dynamic>> financialMenuItems = const [
-  {
-    "label": "Finanzas",
-    "icon": Icons.monetization_on,
-    "items": [
-      {
-        "label": "Contribuiçōes",
-        "icon": Icons.bar_chart,
-        "to": "/contributions"
-      },
-      {
-        "label": "Registro financeiros",
-        "icon": Icons.money,
-        "to": "/financial-record"
-      },
-    ],
-  },
-];
+import 'pages/purchase/add_purchase_screen.dart';
 
 financialRouter() {
   return <RouteBase>[
@@ -50,6 +31,12 @@ financialRouter() {
       path: '/contributions/add',
       pageBuilder: (context, state) {
         return transitionCustom(AddContributionScreen());
+      },
+    ),
+    GoRoute(
+      path: '/purchase-record',
+      pageBuilder: (context, state) {
+        return transitionCustom(AddPurchaseScreen());
       },
     ),
   ];

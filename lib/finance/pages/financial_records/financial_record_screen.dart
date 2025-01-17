@@ -83,7 +83,6 @@ class FinancialRecordScreen extends StatelessWidget {
         ),
         Row(
           children: [
-            // Espaço flexível para alinhar os botões à direita
             Expanded(child: _newRecord(context)),
           ],
         ),

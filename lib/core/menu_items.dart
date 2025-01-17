@@ -34,6 +34,11 @@ List<Map<String, dynamic>> items = const [
         "icon": Icons.money,
         "to": "/financial-record"
       },
+      {
+        "label": "Registro compras",
+        "icon": Icons.sell_outlined,
+        "to": "/purchase-record"
+      },
     ],
   },
 ];
