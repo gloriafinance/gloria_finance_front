@@ -39,44 +39,46 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
       );
     }
 
-    return CustomTable(
-      headers: [
-        "Data",
-        "Valor",
-        "Tipo de movimento",
-        "Conceito",
-        "Fonte de financiamento"
-      ],
-      data: FactoryDataTable<FinanceRecordModel>(
-        data: state.paginate.results,
-        dataBuilder: financeRecordDTO,
-      ),
-      paginate: PaginationData(
-        totalRecords: state.paginate.count,
-        nextPag: state.paginate.nextPag,
-        perPage: state.paginate.perPage,
-        currentPage: state.filter.page,
-        onNextPag: () {
-          store.nextPage();
-        },
-        onPrevPag: () {
-          store.prevPage();
-        },
-        onChangePerPage: (perPage) {
-          store.setPerPage(perPage);
-        },
-      ),
-      actionBuilders: [
-        (fianceRecord) => ButtonActionTable(
-              color: AppColors.blue,
-              text: "Visualizar",
-              onPressed: () {
-                _openModal(context, fianceRecord);
-              },
-              icon: Icons.remove_red_eye_sharp,
-            ),
-      ],
-    );
+    return Container(
+        margin: const EdgeInsets.only(top: 10.0),
+        child: CustomTable(
+          headers: [
+            "Data",
+            "Valor",
+            "Tipo de movimento",
+            "Conceito",
+            "Fonte de financiamento"
+          ],
+          data: FactoryDataTable<FinanceRecordModel>(
+            data: state.paginate.results,
+            dataBuilder: financeRecordDTO,
+          ),
+          paginate: PaginationData(
+            totalRecords: state.paginate.count,
+            nextPag: state.paginate.nextPag,
+            perPage: state.paginate.perPage,
+            currentPage: state.filter.page,
+            onNextPag: () {
+              store.nextPage();
+            },
+            onPrevPag: () {
+              store.prevPage();
+            },
+            onChangePerPage: (perPage) {
+              store.setPerPage(perPage);
+            },
+          ),
+          actionBuilders: [
+            (fianceRecord) => ButtonActionTable(
+                  color: AppColors.blue,
+                  text: "Visualizar",
+                  onPressed: () {
+                    _openModal(context, fianceRecord);
+                  },
+                  icon: Icons.remove_red_eye_sharp,
+                ),
+          ],
+        ));
   }
 
   void _openModal(BuildContext context, FinanceRecordModel financeRecord) {

@@ -20,14 +20,14 @@ class CustomTable extends StatefulWidget {
   //final List<List<String>> data;
   final FactoryDataTable data;
   final List<Widget Function(dynamic)>? actionBuilders;
-  final PaginationData paginate;
+  final PaginationData? paginate;
 
   const CustomTable({
     super.key,
     required this.headers,
     required this.data,
     this.actionBuilders,
-    required this.paginate,
+    this.paginate,
   });
 
   @override
@@ -41,7 +41,9 @@ class _CustomTableState extends State<CustomTable> {
   void initState() {
     super.initState();
 
-    perPageState = widget.paginate.perPage;
+    if (widget.paginate != null) {
+      perPageState = widget.paginate!.perPage;
+    }
   }
 
   @override
@@ -56,7 +58,7 @@ class _CustomTableState extends State<CustomTable> {
                 MediaQuery.of(context).size.height * 0.8, // Limitar la altura
           ),
           width: MediaQuery.of(context).size.width,
-          margin: const EdgeInsets.only(top: 52.0),
+          //margin: const EdgeInsets.only(top: 52.0),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
@@ -68,7 +70,7 @@ class _CustomTableState extends State<CustomTable> {
                 )
               : _buildDataTable(context),
         ),
-        _buildPaginate(context),
+        widget.paginate != null ? _buildPaginate(context) : const SizedBox(),
       ],
     );
   }
@@ -138,10 +140,10 @@ class _CustomTableState extends State<CustomTable> {
   }
 
   Widget _buildPaginate(BuildContext context) {
-    int showRecords = widget.paginate.currentPage * widget.paginate.perPage;
+    int showRecords = widget.paginate!.currentPage * widget.paginate!.perPage;
 
-    if (showRecords > widget.paginate.totalRecords) {
-      showRecords = widget.paginate.totalRecords;
+    if (showRecords > widget.paginate!.totalRecords) {
+      showRecords = widget.paginate!.totalRecords;
     }
 
     if (!isMobile(context)) {
@@ -163,7 +165,7 @@ class _CustomTableState extends State<CustomTable> {
           children: [
             Expanded(
               child: Text(
-                "Visualizando $showRecords de ${widget.paginate.totalRecords} registros",
+                "Visualizando $showRecords de ${widget.paginate!.totalRecords} registros",
                 style: const TextStyle(
                   fontSize: 14,
                   fontFamily: AppFonts.fontRegular,
@@ -186,7 +188,7 @@ class _CustomTableState extends State<CustomTable> {
             children: [
               Expanded(
                 child: Text(
-                  "Visualizando $showRecords de ${widget.paginate.totalRecords} registros",
+                  "Visualizando $showRecords de ${widget.paginate!.totalRecords} registros",
                   style: const TextStyle(
                     fontSize: 14,
                     fontFamily: AppFonts.fontRegular,
@@ -231,7 +233,7 @@ class _CustomTableState extends State<CustomTable> {
             onChanged: (value) {
               if (value != null) {
                 perPageState = value;
-                widget.paginate.onChangePerPage(value);
+                widget.paginate?.onChangePerPage(value);
               }
             },
           ),
@@ -251,8 +253,8 @@ class _CustomTableState extends State<CustomTable> {
         text: "",
         icon: Icons.skip_next_outlined,
         backgroundColor:
-            widget.paginate.nextPag ? AppColors.purple : AppColors.greyLight,
-        onPressed: () => widget.paginate.onNextPag());
+            widget.paginate!.nextPag ? AppColors.purple : AppColors.greyLight,
+        onPressed: () => widget.paginate!.onNextPag());
   }
 
   Widget _prevButton() {
@@ -261,10 +263,10 @@ class _CustomTableState extends State<CustomTable> {
         textColor: Colors.white,
         text: "",
         icon: Icons.skip_previous_outlined,
-        backgroundColor: widget.paginate.currentPage > 1
+        backgroundColor: widget.paginate!.currentPage > 1
             ? AppColors.purple
             : AppColors.greyLight,
-        onPressed: () => widget.paginate.onPrevPag());
+        onPressed: () => widget.paginate!.onPrevPag());
   }
 }
 

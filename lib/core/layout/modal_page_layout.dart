@@ -8,11 +8,13 @@ class ModalPage {
   final Widget body;
   final double width;
 
-  const ModalPage({
-    required this.title,
-    required this.body,
-    this.width = 750.0,
-  });
+  final Function? onClosed;
+
+  const ModalPage(
+      {required this.title,
+      required this.body,
+      this.width = 750.0,
+      this.onClosed});
 
   Future<void> show(BuildContext context) {
     return showDialog<void>(
@@ -49,6 +51,10 @@ class ModalPage {
                   ),
                   IconButton(
                     onPressed: () {
+                      if (onClosed != null) {
+                        onClosed!();
+                      }
+
                       Navigator.of(context).pop(); // Cierra el modal
                     },
                     icon: const Icon(Icons.close),

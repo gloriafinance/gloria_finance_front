@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../../../services/purchase_services.dart';
-import '../state/purchase_register_form.dart';
+import '../state/purchase_register_form_state.dart';
 
 class PurchaseRegisterFormStore extends ChangeNotifier {
   PurchaseRegisterFormState state = PurchaseRegisterFormState.init();

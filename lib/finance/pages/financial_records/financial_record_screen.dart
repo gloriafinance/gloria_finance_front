@@ -83,6 +83,7 @@ class FinancialRecordScreen extends StatelessWidget {
         ),
         Row(
           children: [
+            SizedBox(height: 46),
             Expanded(child: _newRecord(context)),
           ],
         ),

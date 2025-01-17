@@ -1,6 +1,6 @@
 import 'package:lucid_validation/lucid_validation.dart';
 
-import '../state/purchase_register_form.dart';
+import '../state/purchase_register_form_state.dart';
 
 class PurchaseRegisterFormValidator
     extends LucidValidator<PurchaseRegisterFormState> {

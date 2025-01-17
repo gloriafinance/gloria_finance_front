@@ -18,7 +18,8 @@ class AddPurchaseScreen extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => PurchaseRegisterFormStore())
+        ChangeNotifierProvider(create: (_) => PurchaseRegisterFormStore()),
+        //ChangeNotifierProvider(create: (_) => AddItemPurchaseFromStore())
       ],
       child: MaterialApp(
         home: LayoutDashboard(_header(context), screen: FormPurchase()),
