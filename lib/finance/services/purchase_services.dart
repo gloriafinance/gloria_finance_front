@@ -5,6 +5,6 @@ class PurchaseService extends AppHttp {
   sendSavePurchase(Map<String, dynamic> form) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
-    // Send a request to save a purchase
+    // Send a request to save a register_purchase
   }
 }

@@ -2,7 +2,6 @@ import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
-import 'package:church_finance_bk/finance/models/financial_concept_model.dart';
 import 'package:church_finance_bk/finance/pages/add_financial_records/store/form_finance_record_store.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +21,6 @@ class FormFinanceRecord extends StatefulWidget {
 }
 
 class _FormFinanceRecordState extends State<FormFinanceRecord> {
-  bool _makeRequest = false;
-  final List<FinancialConceptModel> financialConcepts = [];
   final formKey = GlobalKey<FormState>();
 
   @override
