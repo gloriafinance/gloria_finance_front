@@ -1,7 +1,7 @@
 import 'package:church_finance_bk/core/paginate/paginate_response.dart';
 
-import '../models/contribution_filter_model.dart';
-import '../models/contribution_model.dart';
+import '../../../models/contribution_filter_model.dart';
+import '../../../models/contribution_model.dart';
 
 class ContributionPaginationState {
   final PaginateResponse<ContributionModel> paginate;

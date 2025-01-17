@@ -5,8 +5,9 @@ import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/finance/models/contribution_model.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'contribution_filters.dart';
+import '../store/contribution_pagination_store.dart';
 import 'view_contribution.dart';
 
 class ContributionTable extends StatefulWidget {
@@ -19,60 +20,45 @@ class ContributionTable extends StatefulWidget {
 class _ContributionTableState extends State<ContributionTable> {
   @override
   Widget build(BuildContext context) {
-    if (contributionPaginationStore.state.paginate.results.isEmpty) {
-      contributionPaginationStore.searchContributions();
+    final contributionPaginationStore =
+        Provider.of<ContributionPaginationStore>(context);
+
+    final state = contributionPaginationStore.state;
+
+    if (state.paginate.results.isEmpty) {
+      return Center(child: Text('Nenhuma contribuição encontrada'));
     }
 
-    return ListenableBuilder(
-        listenable: contributionPaginationStore,
-        builder: (context, _) {
-          final state = contributionPaginationStore.state;
-
-          if (state.makeRequest) {
-            return CircularProgressIndicator();
-          }
-
-          if (state.paginate.results.isEmpty) {
-            return Center(child: Text('Nenhuma contribuição encontrada'));
-          }
-
-          return CustomTable(
-            headers: [
-              "Nome",
-              "Valor",
-              "Tipo de contribuçāo",
-              "Status",
-              "Fecha"
-            ],
-            data: FactoryDataTable<ContributionModel>(
-                data: state.paginate.results, dataBuilder: contributionDTO),
-            paginate: PaginationData(
-                totalRecords: state.paginate.count,
-                nextPag: state.paginate.nextPag,
-                perPage: state.paginate.perPage,
-                currentPage: state.filter.page,
-                onNextPag: () {
-                  contributionPaginationStore.nextPage();
-                },
-                onPrevPag: () {
-                  contributionPaginationStore.prevPage();
-                },
-                onChangePerPage: (perPage) {
-                  contributionPaginationStore.setPerPage(perPage);
-                }),
-            actionBuilders: [
-              (contribution) => ButtonActionTable(
-                    color: AppColors.blue,
-                    text: "Visualizar",
-                    onPressed: () {
-                      print("Aprobar fila $contribution");
-                      _openModal(context, contribution);
-                    },
-                    icon: Icons.remove_red_eye_sharp,
-                  ),
-            ],
-          );
-        });
+    return CustomTable(
+      headers: ["Nome", "Valor", "Tipo de contribuçāo", "Status", "Fecha"],
+      data: FactoryDataTable<ContributionModel>(
+          data: state.paginate.results, dataBuilder: contributionDTO),
+      paginate: PaginationData(
+          totalRecords: state.paginate.count,
+          nextPag: state.paginate.nextPag,
+          perPage: state.paginate.perPage,
+          currentPage: state.filter.page,
+          onNextPag: () {
+            contributionPaginationStore.nextPage();
+          },
+          onPrevPag: () {
+            contributionPaginationStore.prevPage();
+          },
+          onChangePerPage: (perPage) {
+            contributionPaginationStore.setPerPage(perPage);
+          }),
+      actionBuilders: [
+        (contribution) => ButtonActionTable(
+              color: AppColors.blue,
+              text: "Visualizar",
+              onPressed: () {
+                print("Aprobar fila $contribution");
+                _openModal(context, contribution);
+              },
+              icon: Icons.remove_red_eye_sharp,
+            ),
+      ],
+    );
   }
 
   void _openModal(BuildContext context, ContributionModel contribution) {
@@ -80,7 +66,10 @@ class _ContributionTableState extends State<ContributionTable> {
       title: isMobile(context)
           ? ""
           : 'Contribuição #${contribution.contributionId}',
-      body: ViewContribution(contribution: contribution),
+      body: ViewContribution(
+          contribution: contribution,
+          contributionPaginationStore:
+              context.read<ContributionPaginationStore>()),
     ).show(context);
   }
 
