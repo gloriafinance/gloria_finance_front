@@ -1,9 +1,10 @@
 import 'package:church_finance_bk/auth/auth_persistence.dart';
+import 'package:church_finance_bk/core/toast.dart';
 import 'package:flutter/material.dart';
 
-import '../models/contribution_model.dart';
-import '../services/contribution_service.dart';
-import '../states/contributions_pagination_state.dart';
+import '../../../models/contribution_model.dart';
+import '../../../services/contribution_service.dart';
+import '../state/contributions_pagination_state.dart';
 
 class ContributionPaginationStore extends ChangeNotifier {
   final ContributionService service = ContributionService();
@@ -48,7 +49,7 @@ class ContributionPaginationStore extends ChangeNotifier {
     searchContributions();
   }
 
-  updateStatusContributionModel(String contributionId, String status) {
+  _updateStatusContributionModel(String contributionId, String status) {
     final List<ContributionModel> contributions =
         state.paginate.results.map<ContributionModel>((e) {
       if (e.contributionId == contributionId) {
@@ -65,10 +66,21 @@ class ContributionPaginationStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> updateStatusContribution(
+      String contributionId, ContributionStatus status) async {
+    try {
+      await service.updateContributionStatus(contributionId, status);
+      _updateStatusContributionModel(contributionId, status.friendlyName);
+    } catch (e) {
+      print("Error al actualizar el estado de la contribución: $e");
+      Toast.showMessage(
+          "Erro ao atualizar o status da contribuição", ToastType.error);
+    }
+  }
+
   Future<void> searchContributions() async {
     try {
       final session = await AuthPersistence().restore();
-      service.tokenAPI = session.token;
 
       state = state.copyWith(makeRequest: true);
 

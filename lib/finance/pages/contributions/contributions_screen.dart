@@ -4,7 +4,9 @@ import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
+import 'store/contribution_pagination_store.dart';
 import 'widgets/contribution_filters.dart';
 import 'widgets/contribution_table.dart';
 
@@ -13,13 +15,20 @@ class ContributionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutDashboard(
-      _header(context),
-      screen: Column(
-        children: [
-          ContributionFilters(),
-          ContributionTable(),
-        ],
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+            create: (_) =>
+                ContributionPaginationStore()..searchContributions()),
+      ],
+      child: LayoutDashboard(
+        _header(context),
+        screen: Column(
+          children: [
+            ContributionFilters(),
+            ContributionTable(),
+          ],
+        ),
       ),
     );
   }

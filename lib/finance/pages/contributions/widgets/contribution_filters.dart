@@ -5,7 +5,7 @@ import 'package:church_finance_bk/finance/models/contribution_model.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 
-import '../../../stores/contribution_pagination_store.dart';
+import '../store/contribution_pagination_store.dart';
 
 final contributionPaginationStore = ContributionPaginationStore();
 

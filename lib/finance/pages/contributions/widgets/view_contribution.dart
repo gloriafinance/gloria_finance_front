@@ -1,23 +1,29 @@
 import 'package:church_finance_bk/auth/stores/auth_session_store.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/finance/helpers/contribution.helper.dart';
 import 'package:church_finance_bk/finance/models/contribution_model.dart';
+import 'package:church_finance_bk/finance/pages/contributions/store/contribution_pagination_store.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../usecases/update_contribution_status.dart';
 import 'content_viewer.dart';
 
 class ViewContribution extends StatelessWidget {
   final ContributionModel contribution;
+  final ContributionPaginationStore contributionPaginationStore;
 
-  const ViewContribution({super.key, required this.contribution});
+  const ViewContribution(
+      {super.key,
+      required this.contribution,
+      required this.contributionPaginationStore});
 
   @override
   Widget build(BuildContext context) {
+    Toast.init(context);
     final store = Provider.of<AuthSessionStore>(context);
 
     return Card(
@@ -64,8 +70,9 @@ class ViewContribution extends StatelessWidget {
               ContentViewer(url: contribution.bankTransferReceipt),
               const SizedBox(height: 46),
               if (parseContributionStatus(contribution.status) ==
-                      ContributionStatus.PENDING_VERIFICATION &&
-                  store.isAdmin())
+                          ContributionStatus.PENDING_VERIFICATION &&
+                      store.isAdmin() ||
+                  store.isTreasurer())
                 _buildButton(context, contribution.contributionId),
             ],
           ),
@@ -81,7 +88,7 @@ class ViewContribution extends StatelessWidget {
           color: AppColors.blue,
           text: 'Aprovar',
           onPressed: () async {
-            await updateContributionStatus(
+            await _updateContributionStatus(
                 contributionId, ContributionStatus.PROCESSED);
 
             Navigator.of(context).pop();
@@ -93,7 +100,7 @@ class ViewContribution extends StatelessWidget {
           text: "Rejeitar",
           onPressed: () async {
             print("Rechazar fila $contribution");
-            await updateContributionStatus(
+            await _updateContributionStatus(
                 contributionId, ContributionStatus.REJECTED);
 
             Navigator.of(context).pop();
@@ -149,5 +156,11 @@ class ViewContribution extends StatelessWidget {
         color: AppColors.purple,
       ),
     );
+  }
+
+  Future<void> _updateContributionStatus(
+      String contributionId, ContributionStatus status) async {
+    contributionPaginationStore.updateStatusContribution(
+        contributionId, status);
   }
 }

@@ -11,6 +11,9 @@ class ContributionService extends AppHttp {
 
   Future<PaginateResponse<ContributionModel>> searchContributions(
       ContributionFilterModel params) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
     try {
       final response = await http.get(
         '${await getUrlApi()}finance/contributions',
@@ -30,6 +33,9 @@ class ContributionService extends AppHttp {
 
   Future<void> updateContributionStatus(
       String contributionId, ContributionStatus status) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
     try {
       final s = status.toString().split('.').last;
       await http.patch(
