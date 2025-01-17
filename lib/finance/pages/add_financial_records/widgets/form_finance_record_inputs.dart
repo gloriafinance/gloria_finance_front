@@ -74,7 +74,10 @@ Widget searchFinancialConcepts(
     FinancialConceptStore conceptStore, FormFinanceRecordStore formStore) {
   return Dropdown(
     label: "Conceito",
-    items: conceptStore.state.financialConcepts.map((e) => e.name).toList(),
+    items: conceptStore.state.financialConcepts
+        .where((e) => e.type != 'PURCHASE')
+        .map((e) => e.name)
+        .toList(growable: false),
     onValidator: validator.byField(formStore.state, 'financialConceptId'),
     onChanged: (value) {
       final v = conceptStore.state.financialConcepts
