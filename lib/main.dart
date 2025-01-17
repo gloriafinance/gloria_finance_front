@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
-import 'core/layout/navigator_member_state.dart';
+import 'core/layout/state/navigator_member_state.dart';
 import 'core/router.dart';
 import 'finance/stores/financial_concept_store.dart';
 

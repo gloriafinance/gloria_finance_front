@@ -105,6 +105,12 @@ class AuthSessionModel {
         .where((element) => element.profileType == 'MEMBER')
         .isNotEmpty;
   }
+
+  isTreasurer() {
+    return profiles
+        .where((element) => element.profileType == 'TREASURER')
+        .isNotEmpty;
+  }
 }
 
 class Profile {
@@ -119,7 +125,8 @@ class Profile {
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
       profileType: json['profileType'],
-      actions: List<String>.from(json['actions']),
+      actions:
+          json['actions'] != null ? List<String>.from(json['actions']) : [],
     );
   }
 

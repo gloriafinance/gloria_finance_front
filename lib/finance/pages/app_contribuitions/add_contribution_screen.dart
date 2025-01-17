@@ -103,8 +103,7 @@ class _AddContributionScreen extends State<AddContributionScreen>
                       ],
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height -
-                          100, // Ajusta la altura
+                      height: MediaQuery.of(context).size.height - 100,
                       child: TabBarView(
                         controller: _tabController,
                         children: [

@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:motion_toast/motion_toast.dart';
 
 enum ToastType { info, warning, error }
@@ -15,12 +16,13 @@ class Toast {
   static showMessage(String message, ToastType type) {
     if (message == 'Unauthorized.') {
       AuthPersistence().clear();
+      _context.go('/');
     }
 
     switch (type) {
       case ToastType.warning:
         MotionToast.warning(
-            animationDuration: const Duration(seconds: 30),
+            animationDuration: const Duration(seconds: 60),
             animationType: AnimationType.fromTop,
             position: MotionToastPosition.top,
             description: Text(
@@ -31,7 +33,7 @@ class Toast {
         break;
       case ToastType.error:
         MotionToast.error(
-            animationDuration: const Duration(seconds: 30),
+            animationDuration: const Duration(seconds: 60),
             description: Text(
               message,
               style: const TextStyle(
@@ -41,7 +43,7 @@ class Toast {
 
       default:
         MotionToast.success(
-            animationDuration: const Duration(seconds: 30),
+            animationDuration: const Duration(seconds: 60),
             animationType: AnimationType.fromTop,
             position: MotionToastPosition.top,
             description: Text(

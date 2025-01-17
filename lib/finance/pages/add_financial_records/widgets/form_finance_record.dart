@@ -3,6 +3,7 @@ import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
 import 'package:church_finance_bk/finance/models/financial_concept_model.dart';
+import 'package:church_finance_bk/finance/pages/add_financial_records/store/form_finance_record_store.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -10,10 +11,8 @@ import 'package:provider/provider.dart';
 
 import '../../../stores/bank_store.dart';
 import '../../../stores/financial_concept_store.dart';
-import '../usecases/financial_record_save.dart';
 import 'finance_record_desktop_layout.dart';
 import 'finance_record_mobile_layout.dart';
-import 'form_finance_record_inputs.dart';
 
 class FormFinanceRecord extends StatefulWidget {
   const FormFinanceRecord({super.key});
@@ -31,6 +30,7 @@ class _FormFinanceRecordState extends State<FormFinanceRecord> {
   Widget build(BuildContext context) {
     final conceptStore = Provider.of<FinancialConceptStore>(context);
     final bankStore = Provider.of<BankStore>(context);
+    final formStore = Provider.of<FormFinanceRecordStore>(context);
 
     return SingleChildScrollView(
       child: Form(
@@ -40,16 +40,18 @@ class _FormFinanceRecordState extends State<FormFinanceRecord> {
             return Column(
               children: [
                 isMobile(context)
-                    ? formMobileLayout(bankStore, conceptStore, context)
-                    : formDesktopLayout(bankStore, conceptStore, context),
+                    ? formMobileLayout(
+                        bankStore, conceptStore, formStore, context)
+                    : formDesktopLayout(
+                        bankStore, conceptStore, formStore, context),
                 const SizedBox(height: 32),
                 isMobile(context)
-                    ? _btnSave()
+                    ? _btnSave(formStore)
                     : Align(
                         alignment: Alignment.centerRight,
                         child: SizedBox(
                           width: 300,
-                          child: _btnSave(),
+                          child: _btnSave(formStore),
                         ),
                       ),
               ],
@@ -60,8 +62,8 @@ class _FormFinanceRecordState extends State<FormFinanceRecord> {
     );
   }
 
-  Widget _btnSave() {
-    return (_makeRequest)
+  Widget _btnSave(FormFinanceRecordStore formStore) {
+    return (formStore.state.makeRequest)
         ? const Loading()
         : Padding(
             padding: EdgeInsets.only(top: 20),
@@ -69,29 +71,22 @@ class _FormFinanceRecordState extends State<FormFinanceRecord> {
                 text: "Salvar",
                 backgroundColor: AppColors.green,
                 textColor: Colors.black,
-                onPressed: () => _saveRecord()));
+                onPressed: () => _saveRecord(formStore)));
   }
 
-  void _saveRecord() async {
+  void _saveRecord(FormFinanceRecordStore formStore) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
 
-    _makeRequest = true;
-    setState(() {});
-
-    if (formFinanceRecordState.isPurchase) {
+    if (formStore.state.isPurchase) {
       Toast.showMessage("Registro de compras em contruçāo", ToastType.warning);
       return;
     }
 
-    await financeRecordSave(formFinanceRecordState.toJson()).then((value) {
-      _makeRequest = false;
-      setState(() {});
-      if (value) {
-        Toast.showMessage("Registro salvo com sucesso", ToastType.info);
-        context.go("/financial-record");
-      }
-    });
+    if (await formStore.send()) {
+      Toast.showMessage("Registro salvo com sucesso", ToastType.info);
+      context.go("/financial-record");
+    }
   }
 }

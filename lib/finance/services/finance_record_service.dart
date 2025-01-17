@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:church_finance_bk/core/app_http.dart';
 import 'package:church_finance_bk/core/paginate/paginate_response.dart';
 import 'package:church_finance_bk/finance/models/finance_record_filter_model.dart';
@@ -8,6 +9,9 @@ class FinanceRecordService extends AppHttp {
   FinanceRecordService({super.tokenAPI});
 
   Future<bool> sendSaveFinanceRecord(Map<String, dynamic> form) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
     FormData formData = FormData.fromMap({
       ...form,
       if (form['file'] != null) 'file': form['file']!,

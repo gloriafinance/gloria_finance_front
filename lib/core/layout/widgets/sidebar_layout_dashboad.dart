@@ -2,7 +2,7 @@ import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'sidebar_backgroud.dart';
+import '../sidebar_backgroud.dart';
 
 class Sidebar extends StatelessWidget {
   final List<Map<String, dynamic>> menuItems;
@@ -14,8 +14,6 @@ class Sidebar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final itemMember = ["/members"];
-
     return Stack(
       children: [
         const SidebarBackground(),

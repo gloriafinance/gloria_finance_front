@@ -103,7 +103,6 @@ class _FormLogin extends State<FormLogin> {
           backgroundColor: AppColors.green,
           text: "Entrar",
           onPressed: formValid ? () => _makeLogin(authStore, context) : null,
-          //textColor: Colors.black87,
           typeButton: CustomButton.basic),
     );
   }

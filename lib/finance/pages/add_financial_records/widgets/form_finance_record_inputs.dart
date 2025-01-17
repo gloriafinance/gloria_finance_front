@@ -9,65 +9,46 @@ import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
 import '../../../models/finance_record_model.dart';
 import '../../../stores/bank_store.dart';
-import '../state/form_finance_record_state.dart';
+import '../store/form_finance_record_store.dart';
 import '../validators/form_financial_record_validator.dart';
 
 final validator = FormFinancialRecordValidator();
 final List<FinancialConceptModel> financialConcepts = [];
 
-final formFinanceRecordState = FormFinanceRecordState.init();
-
-Widget description() {
-  return ListenableBuilder(
-    listenable: formFinanceRecordState,
-    builder: (
-      context,
-      child,
-    ) {
-      return Input(
-        label: 'Descrição',
-        initialValue: formFinanceRecordState.description,
-        onChanged: (value) => formFinanceRecordState.description = value,
-        onValidator: validator.byField(formFinanceRecordState, 'description'),
-      );
-    },
+Widget description(FormFinanceRecordStore formStore) {
+  return Input(
+    label: 'Descrição',
+    initialValue: formStore.state.description,
+    onChanged: (value) => formStore.state.description = value,
+    onValidator: validator.byField(formStore.state, 'description'),
   );
 }
 
-Widget date(BuildContext context) {
-  return ListenableBuilder(
-      listenable: formFinanceRecordState,
-      builder: (
-        context,
-        child,
-      ) {
-        return Input(
-          label: "Data",
-          initialValue: formFinanceRecordState.date,
-          keyboardType: TextInputType.number,
-          onChanged: (value) {},
-          onTap: () {
-            selectDate(context).then((picked) {
-              if (picked == null) return;
-              formFinanceRecordState.copyWith(
-                  date: convertDateFormatToDDMMYYYY(picked.toString()));
-            });
-          },
-          onValidator: validator.byField(formFinanceRecordState, 'date'),
-        );
+Widget date(BuildContext context, FormFinanceRecordStore formStore) {
+  return Input(
+    label: "Data",
+    initialValue: formStore.state.date,
+    keyboardType: TextInputType.number,
+    onChanged: (value) {},
+    onTap: () {
+      selectDate(context).then((picked) {
+        if (picked == null) return;
+        formStore.setDate(convertDateFormatToDDMMYYYY(picked.toString()));
       });
+    },
+    onValidator: validator.byField(formStore.state, 'date'),
+  );
 }
 
-Widget moneyLocation() {
+Widget moneyLocation(FormFinanceRecordStore formStore) {
   return Dropdown(
       label: "Fonte de financiamento",
       items: MoneyLocation.values.map((e) => e.friendlyName).toList(),
-      onChanged: (value) =>
-          formFinanceRecordState.copyWith(moneyLocation: value),
-      onValidator: validator.byField(formFinanceRecordState, 'moneyLocation'));
+      onChanged: (value) => formStore.setMoneyLocation(value),
+      onValidator: validator.byField(formStore.state, 'moneyLocation'));
 }
 
-Widget amount() {
+Widget amount(FormFinanceRecordStore formStore) {
   return Input(
     label: "Valor",
     keyboardType: TextInputType.number,
@@ -83,74 +64,53 @@ Widget amount() {
       final cleanedValue =
           value.replaceAll(RegExp(r'[^\d,]'), '').replaceAll(',', '.');
 
-      formFinanceRecordState.copyWith(amount: double.parse(cleanedValue));
+      formStore.setAmount(double.parse(cleanedValue));
     },
-    onValidator: validator.byField(formFinanceRecordState, 'amount'),
+    onValidator: validator.byField(formStore.state, 'amount'),
   );
 }
 
-Widget searchFinancialConcepts(FinancialConceptStore conceptStore) {
+Widget searchFinancialConcepts(
+    FinancialConceptStore conceptStore, FormFinanceRecordStore formStore) {
   return Dropdown(
     label: "Conceito",
     items: conceptStore.state.financialConcepts.map((e) => e.name).toList(),
-    onValidator:
-        validator.byField(formFinanceRecordState, 'financialConceptId'),
+    onValidator: validator.byField(formStore.state, 'financialConceptId'),
     onChanged: (value) {
       final v = conceptStore.state.financialConcepts
           .firstWhere((e) => e.name == value);
 
-      formFinanceRecordState.copyWith(
-        financialConceptId: v.financialConceptId,
-        description: v.description,
-        type: v.type,
-      );
+      formStore.setDescription(v.description);
+      formStore.setFinancialConceptId(v.financialConceptId);
+      formStore.setType(v.type);
     },
   );
 }
 
-Widget uploadFile() {
-  return ListenableBuilder(
-    listenable: formFinanceRecordState,
-    builder: (context, child) {
-      if (formFinanceRecordState.moneyLocation ==
-          MoneyLocation.BANK.friendlyName) {
-        return UploadFile(
-          label: "Comprovante do movimento bancario",
-          multipartFile: (MultipartFile m) =>
-              formFinanceRecordState.copyWith(file: m),
-        );
-      } else {
-        return SizedBox.shrink();
-      }
-    },
-  );
+Widget uploadFile(FormFinanceRecordStore formStore) {
+  if (formStore.state.moneyLocation == MoneyLocation.BANK.friendlyName) {
+    return UploadFile(
+      label: "Comprovante do movimento bancario",
+      multipartFile: (MultipartFile m) => formStore.setFile(m),
+    );
+  } else {
+    return SizedBox.shrink();
+  }
 }
 
-Widget dropdownBank(BankStore bankStore) {
-  return ListenableBuilder(
-    listenable: formFinanceRecordState,
-    builder: (context, child) {
-      // Verificar la selección de moneyLocation
-      if (formFinanceRecordState.moneyLocation ==
-          MoneyLocation.BANK.friendlyName) {
-        return ListenableBuilder(
-          listenable: bankStore,
-          builder: (context, child) {
-            final data = bankStore.state.banks;
+Widget dropdownBank(BankStore bankStore, FormFinanceRecordStore formStore) {
+  if (formStore.state.moneyLocation == MoneyLocation.BANK.friendlyName) {
+    final data = bankStore.state.banks;
 
-            return Dropdown(
-              label: "Selecione o banco",
-              items: data.map((e) => e.name).toList(),
-              onChanged: (value) {
-                final selectedBank = data.firstWhere((e) => e.name == value);
-                formFinanceRecordState.copyWith(bankId: selectedBank.bankId);
-              },
-            );
-          },
-        );
-      } else {
-        return const SizedBox.shrink();
-      }
-    },
-  );
+    return Dropdown(
+      label: "Selecione o banco",
+      items: data.map((e) => e.name).toList(),
+      onChanged: (value) {
+        final selectedBank = data.firstWhere((e) => e.name == value);
+        formStore.setBankId(selectedBank.bankId);
+      },
+    );
+  } else {
+    return const SizedBox.shrink();
+  }
 }
