@@ -1,9 +1,9 @@
 import 'package:church_finance_bk/finance/models/finance_record_model.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 
-class FormFinanceRecordState extends ChangeNotifier {
+class FormFinanceRecordState {
+  bool makeRequest;
   double amount;
   String date;
   String financialConceptId;
@@ -16,6 +16,7 @@ class FormFinanceRecordState extends ChangeNotifier {
   bool isMovementBank = false;
 
   FormFinanceRecordState({
+    required this.makeRequest,
     required this.amount,
     required this.date,
     required this.financialConceptId,
@@ -30,6 +31,7 @@ class FormFinanceRecordState extends ChangeNotifier {
 
   factory FormFinanceRecordState.init() {
     return FormFinanceRecordState(
+      makeRequest: false,
       amount: 0.0,
       date: '',
       moneyLocation: '',
@@ -50,19 +52,21 @@ class FormFinanceRecordState extends ChangeNotifier {
     String? description,
     MultipartFile? file,
     String? bankId,
+    bool? makeRequest,
   }) {
-    this.amount = amount ?? this.amount;
-    this.date = date ?? this.date;
-    this.financialConceptId = financialConceptId ?? this.financialConceptId;
-    this.moneyLocation = moneyLocation ?? this.moneyLocation;
-    this.type = type ?? this.type;
-    this.description = description ?? this.description;
-    this.file = file ?? this.file;
-    isPurchase = type == "PURCHASE";
-    isMovementBank = moneyLocation == MoneyLocation.BANK.friendlyName;
-    this.bankId = bankId ?? this.bankId;
-
-    notifyListeners();
+    return FormFinanceRecordState(
+      amount: amount ?? this.amount,
+      date: date ?? this.date,
+      financialConceptId: financialConceptId ?? this.financialConceptId,
+      moneyLocation: moneyLocation ?? this.moneyLocation,
+      type: type ?? this.type,
+      description: description ?? this.description,
+      file: file ?? this.file,
+      bankId: bankId ?? this.bankId,
+      makeRequest: makeRequest ?? this.makeRequest,
+      isPurchase: type == "PURCHASE",
+      isMovementBank: moneyLocation == MoneyLocation.BANK.friendlyName,
+    );
   }
 
   Map<String, dynamic> toJson() {

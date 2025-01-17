@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/core/toast.dart';
 import 'package:flutter/material.dart';
 
 import '../auth_persistence.dart';
@@ -29,24 +30,33 @@ class AuthSessionStore extends ChangeNotifier {
     state = state.copyWith(makeRequest: true);
     notifyListeners();
 
-    var session = await service.makeLogin(email, password);
+    try {
+      var session = await service.makeLogin(email, password);
 
-    if (session == null) {
+      if (session == null) {
+        state = state.copyWith(makeRequest: false);
+        notifyListeners();
+        return false;
+      }
+
+      state = state.copyWith(
+        session: session,
+        makeRequest: false,
+      );
+
+      await AuthPersistence().save(session);
+
+      notifyListeners();
+
+      return true;
+    } catch (e) {
+      Toast.showMessage(
+          "Ocorreu um erro interno no sistema, informe ao administrador do sistema",
+          ToastType.warning);
       state = state.copyWith(makeRequest: false);
       notifyListeners();
       return false;
     }
-
-    state = state.copyWith(
-      session: session,
-      makeRequest: false,
-    );
-
-    await AuthPersistence().save(session);
-
-    notifyListeners();
-
-    return true;
   }
 
   void logout() async {
@@ -72,5 +82,9 @@ class AuthSessionStore extends ChangeNotifier {
 
   isMember() {
     return state.session.isMember();
+  }
+
+  isTreasurer() {
+    return state.session.isTreasurer();
   }
 }

@@ -1,6 +1,6 @@
 import 'package:church_finance_bk/auth/auth_persistence.dart';
+import 'package:church_finance_bk/finance/pages/financial_records/state/finance_record_paginate_state.dart';
 import 'package:church_finance_bk/finance/services/finance_record_service.dart';
-import 'package:church_finance_bk/finance/states/finance_record_paginate_state.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 

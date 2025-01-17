@@ -38,28 +38,18 @@ List<Map<String, dynamic>> items = const [
   },
 ];
 
-menuItems(List<Profile> profiles) {
+List<Map<String, dynamic>> menuItems(List<Profile> profiles) {
   if (profiles.where((p) => p.profileType == 'SUPERUSER').isNotEmpty) {
     return items;
   }
 
-  if (profiles.where((p) => p.profileType == 'ADMINISTRATOR').isNotEmpty) {
+  if (profiles
+      .where((p) => ['TREASURER', 'ADMINISTRATOR'].contains(p.profileType))
+      .isNotEmpty) {
     return items
         .where((element) => element['label'] != 'Configuraçōes')
         .toList();
   }
 
   return [];
-
-  //   return items
-  //       .where((element) => element['label'] != 'Configuraçōes')
-  //       .toList();
-  // }
-  // if (profile == 'admin') {
-  //   return items;
-  // } else {
-  //   return items
-  //       .where((element) => element['label'] != 'Configuraçōes')
-  //       .toList();
-  // }
 }

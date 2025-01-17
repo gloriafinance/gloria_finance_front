@@ -8,8 +8,8 @@ import 'package:provider/provider.dart';
 import '../../auth/auth_session_model.dart';
 import '../menu_items.dart';
 import 'header_layout.dart';
-import 'navigator_member.dart';
-import 'sidebar_layout_dashboad.dart';
+import 'widgets/navigator_member.dart';
+import 'widgets/sidebar_layout_dashboad.dart';
 
 class LayoutDashboard extends StatefulWidget {
   final Widget screen;
@@ -62,7 +62,7 @@ class _LayoutDashboardState extends State<LayoutDashboard> {
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   width: 320,
-                  child: Sidebar(menuItems: menuItems(items)),
+                  child: Sidebar(menuItems: menuItems(profiles)),
                 ),
               Expanded(
                 child: Container(
@@ -86,7 +86,6 @@ class _LayoutDashboardState extends State<LayoutDashboard> {
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    // Alineación a la izquierda
                     children: [
                       widget.title,
                       Expanded(
@@ -102,10 +101,7 @@ class _LayoutDashboardState extends State<LayoutDashboard> {
           );
         },
       ),
-      bottomNavigationBar:
-          profiles.where((p) => p.profileType == 'MEMBER').isNotEmpty
-              ? const NavigatorMember()
-              : null,
+      bottomNavigationBar: store.isMember() ? const NavigatorMember() : null,
     );
   }
 }

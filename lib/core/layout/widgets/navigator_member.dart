@@ -3,9 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
 
-import '../theme/app_color.dart';
-import '../theme/app_fonts.dart';
-import 'navigator_member_state.dart';
+import '../../theme/app_color.dart';
+import '../../theme/app_fonts.dart';
+import '../state/navigator_member_state.dart';
 
 class NavigatorMember extends StatefulWidget {
   const NavigatorMember({super.key});
@@ -20,7 +20,8 @@ class _NavigatorMember extends State<NavigatorMember> {
     final navigatorNotifier = Provider.of<NavigatorMemberNotifier>(context);
 
     return SafeArea(
-      child: Padding(
+      child: Container(
+        color: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 12),
         child: GNav(
           haptic: true,
