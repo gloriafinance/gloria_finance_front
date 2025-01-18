@@ -86,6 +86,7 @@ class _CustomTableState extends State<CustomTable> {
             label: Text(
               header.toUpperCase(),
               style: const TextStyle(
+                fontSize: 12,
                 fontFamily: AppFonts.fontMedium,
                 color: Colors.black87,
               ),
@@ -98,6 +99,7 @@ class _CustomTableState extends State<CustomTable> {
               "AÇÕES",
               textAlign: TextAlign.center,
               style: TextStyle(
+                fontSize: 12,
                 fontFamily: AppFonts.fontMedium,
                 color: Colors.black87,
               ),

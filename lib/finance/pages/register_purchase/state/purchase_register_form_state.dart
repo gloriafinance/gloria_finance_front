@@ -9,52 +9,54 @@ class PurchaseRegisterFormState {
   double tax;
   String description;
   String financingSource;
+  String? bankId;
   MultipartFile invoice;
   List<PurchaseItem> items;
 
-  PurchaseRegisterFormState({
-    required this.churchId,
-    required this.makeRequest,
-    required this.total,
-    required this.tax,
-    required this.purchaseDate,
-    required this.financialConceptId,
-    required this.description,
-    required this.financingSource,
-    required this.invoice,
-    required this.items,
-  });
+  PurchaseRegisterFormState(
+      {required this.churchId,
+      required this.makeRequest,
+      required this.total,
+      required this.tax,
+      required this.purchaseDate,
+      required this.financialConceptId,
+      required this.description,
+      required this.financingSource,
+      required this.invoice,
+      required this.items,
+      this.bankId});
 
   factory PurchaseRegisterFormState.init() {
     return PurchaseRegisterFormState(
-      churchId: '',
-      makeRequest: false,
-      total: 0.0,
-      tax: 0.0,
-      purchaseDate: '',
-      financialConceptId: '',
-      description: '',
-      financingSource: '',
-      invoice: MultipartFile.fromString(''),
-      items: [],
-    );
+        churchId: '',
+        makeRequest: false,
+        total: 0.0,
+        tax: 0.0,
+        purchaseDate: '',
+        financialConceptId: '',
+        description: '',
+        financingSource: '',
+        invoice: MultipartFile.fromString(''),
+        items: [],
+        bankId: '');
   }
 
-  PurchaseRegisterFormState copyWith({
-    String? churchId,
-    bool? makeRequest,
-    double? total,
-    double? subTotal,
-    double? tax,
-    String? financialConceptId,
-    String? description,
-    String? financingSource,
-    MultipartFile? invoice,
-    String? purchaseDate,
-    String? invoiceNumber,
-    List<PurchaseItem>? items,
-  }) {
+  PurchaseRegisterFormState copyWith(
+      {String? churchId,
+      bool? makeRequest,
+      double? total,
+      double? subTotal,
+      double? tax,
+      String? financialConceptId,
+      String? description,
+      String? financingSource,
+      MultipartFile? invoice,
+      String? purchaseDate,
+      String? invoiceNumber,
+      List<PurchaseItem>? items,
+      String? bankId}) {
     return PurchaseRegisterFormState(
+      bankId: bankId ?? this.bankId,
       churchId: churchId ?? this.churchId,
       makeRequest: makeRequest ?? this.makeRequest,
       total: total ?? this.total,
@@ -75,6 +77,7 @@ class PurchaseRegisterFormState {
   Map<String, dynamic> toJson() {
     return {
       'churchId': churchId,
+      'bankId': bankId,
       'total': total,
       'tax': tax,
       'purchaseDate': purchaseDate,

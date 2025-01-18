@@ -7,6 +7,7 @@ import 'package:flutter_multi_formatter/formatters/currency_input_formatter.dart
 import 'package:flutter_multi_formatter/formatters/money_input_enums.dart';
 
 import '../../../models/finance_record_model.dart';
+import '../../../stores/bank_store.dart';
 import '../../../stores/financial_concept_store.dart';
 import '../store/purchase_register_form_store.dart';
 import '../validators/purchase_register_form_validator.dart';
@@ -87,20 +88,20 @@ Widget tax(PurchaseRegisterFormStore formStore) {
       final cleanedValue =
           value.replaceAll(RegExp(r'[^\d,]'), '').replaceAll(',', '.');
 
-      formStore.setTotal(double.parse(cleanedValue));
+      formStore.setTax(double.parse(cleanedValue));
     },
-    onValidator: validator.byField(formStore.state, 'amount'),
+    onValidator: validator.byField(formStore.state, 'tax'),
   );
 }
 
 Widget uploadFile(PurchaseRegisterFormStore formStore) {
   return UploadFile(
-    label: "Fatura",
+    label: "Faça o upload da nota fiscal",
     multipartFile: (MultipartFile m) => formStore.setInvoice(m),
   );
 }
 
-Widget date(BuildContext context, PurchaseRegisterFormStore formStore) {
+Widget purchaseDate(BuildContext context, PurchaseRegisterFormStore formStore) {
   return Input(
     label: "Data da compra",
     initialValue: formStore.state.purchaseDate,
@@ -115,4 +116,21 @@ Widget date(BuildContext context, PurchaseRegisterFormStore formStore) {
     },
     onValidator: validator.byField(formStore.state, 'date'),
   );
+}
+
+Widget dropdownBank(BankStore bankStore, PurchaseRegisterFormStore formStore) {
+  if (formStore.state.financingSource == MoneyLocation.BANK.friendlyName) {
+    final data = bankStore.state.banks;
+
+    return Dropdown(
+      label: "Selecione o banco",
+      items: data.map((e) => e.name).toList(),
+      onChanged: (value) {
+        final selectedBank = data.firstWhere((e) => e.name == value);
+        formStore.setBankId(selectedBank.bankId);
+      },
+    );
+  } else {
+    return const SizedBox(width: 0);
+  }
 }

@@ -3,10 +3,10 @@ import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
-import 'package:church_finance_bk/core/widgets/upload_file.dart';
 import 'package:church_finance_bk/finance/pages/register_purchase/widgets/form_desktop_layout.dart';
+import 'package:church_finance_bk/finance/pages/register_purchase/widgets/form_mobile_layout.dart';
+import 'package:church_finance_bk/finance/stores/bank_store.dart';
 import 'package:church_finance_bk/helpers/index.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -31,17 +31,7 @@ class _FormPurchaseState extends State<FormPurchase> {
   Widget build(BuildContext context) {
     final conceptStore = Provider.of<FinancialConceptStore>(context);
     final formStore = Provider.of<PurchaseRegisterFormStore>(context);
-    // final formAddItemPurchaseStore =
-    //     Provider.of<AddItemPurchaseFromStore>(context);
-
-    // formAddItemPurchaseStore.addListener(() {
-    //   print(
-    //       "AddItemPurchaseFromStore ${formAddItemPurchaseStore.getItem().productName}");
-    //
-    //   if (formAddItemPurchaseStore.hasData) {
-    //     formStore.addItem(formAddItemPurchaseStore.getItem());
-    //   }
-    // });
+    final bankStore = Provider.of<BankStore>(context);
 
     return SingleChildScrollView(
         child: Form(
@@ -49,13 +39,10 @@ class _FormPurchaseState extends State<FormPurchase> {
             child: LayoutBuilder(builder: (context, constraints) {
               return Column(children: [
                 isMobile(context)
-                    ? formDesktopLayout(conceptStore, formStore)
-                    : formDesktopLayout(conceptStore, formStore),
-                const SizedBox(height: 32),
-                UploadFile(
-                  label: "Faça o upload da nota fiscal",
-                  multipartFile: (MultipartFile m) => formStore.setInvoice(m),
-                ),
+                    ? formMobileLayout(
+                        context, bankStore, conceptStore, formStore)
+                    : formDesktopLayout(
+                        context, bankStore, conceptStore, formStore),
                 const SizedBox(height: 32),
                 Align(
                   alignment: Alignment.centerLeft,
@@ -119,5 +106,7 @@ class _FormPurchaseState extends State<FormPurchase> {
     if (!formKey.currentState!.validate()) {
       return;
     }
+
+    print(formStore.state.toJson());
   }
 }

@@ -19,7 +19,6 @@ class AddPurchaseScreen extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => PurchaseRegisterFormStore()),
-        //ChangeNotifierProvider(create: (_) => AddItemPurchaseFromStore())
       ],
       child: MaterialApp(
         home: LayoutDashboard(_header(context), screen: FormPurchase()),
@@ -38,7 +37,7 @@ class AddPurchaseScreen extends StatelessWidget {
           ),
         ),
         Text(
-          'Registrar compras',
+          'Cadastro de compras',
           textAlign: TextAlign.left,
           style: TextStyle(
             fontFamily: AppFonts.fontMedium,

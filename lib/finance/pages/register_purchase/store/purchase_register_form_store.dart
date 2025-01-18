@@ -53,6 +53,11 @@ class PurchaseRegisterFormStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setBankId(String bankId) {
+    state = state.copyWith(bankId: bankId);
+    notifyListeners();
+  }
+
   void addItem(PurchaseItem item) {
     state = state.copyWith(items: [...state.items, item]);
     notifyListeners();
