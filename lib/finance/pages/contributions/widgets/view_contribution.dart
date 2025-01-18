@@ -10,6 +10,7 @@ import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../stores/bank_store.dart';
 import 'content_viewer.dart';
 
 class ViewContribution extends StatelessWidget {
@@ -25,6 +26,7 @@ class ViewContribution extends StatelessWidget {
   Widget build(BuildContext context) {
     Toast.init(context);
     final store = Provider.of<AuthSessionStore>(context);
+    final bankStore = Provider.of<BankStore>(context);
 
     return Card(
         color: Colors.white,
@@ -51,6 +53,11 @@ class ViewContribution extends StatelessWidget {
               _buildDetailRow(
                 'Data',
                 '${contribution.createdAt.day}/${contribution.createdAt.month}/${contribution.createdAt.year}',
+              ),
+              const SizedBox(height: 16),
+              _buildDetailRow(
+                'Bano',
+                '${bankStore.getBankName(contribution.bankId)}',
               ),
               const SizedBox(height: 16),
               _buildSectionTitle('Membro'),
@@ -152,7 +159,7 @@ class ViewContribution extends StatelessWidget {
       title,
       style: const TextStyle(
         fontSize: 18,
-        fontWeight: FontWeight.bold,
+        fontFamily: AppFonts.fontMedium,
         color: AppColors.purple,
       ),
     );

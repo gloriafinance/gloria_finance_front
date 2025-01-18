@@ -8,6 +8,10 @@ class BankStore extends ChangeNotifier {
   var service = FinanceService();
   var state = BankState.empty();
 
+  getBankName(String bankId) {
+    return state.banks.firstWhere((element) => element.bankId == bankId).name;
+  }
+
   searchBanks() async {
     final session = await AuthPersistence().restore();
 
