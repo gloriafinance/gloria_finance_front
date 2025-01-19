@@ -22,11 +22,12 @@ class _FormLogin extends State<FormLogin> {
 
   final form = FormGroup({
     'email': FormControl(
-      value: 'angel@gmail.com',
+      //value: 'angel@gmail.com',
       validators: [Validators.required, Validators.email],
     ),
     'password': FormControl<String>(
-        value: '123angel', validators: [Validators.required])
+        //value: '123angel',
+        validators: [Validators.required])
   });
 
   void _handleSuffixIconTap() {
