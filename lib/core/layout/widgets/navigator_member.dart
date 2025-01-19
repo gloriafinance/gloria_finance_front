@@ -37,7 +37,7 @@ class _NavigatorMember extends State<NavigatorMember> {
           tabs: [
             _item("Inicio", Icons.home_outlined, "/dashboard"),
             _item("Contribuiçōes", Icons.monetization_on_outlined,
-                "/contributions"),
+                "/contributions_list"),
             _item("Perfil", Icons.settings_rounded, "/settings"),
           ],
           selectedIndex: navigatorNotifier.selectedIndex,

@@ -1,30 +1,10 @@
 import 'package:church_finance_bk/core/theme/transition_custom.dart';
-import 'package:church_finance_bk/finance/pages/add_financial_records/add_financial_record_screen.dart';
-import 'package:church_finance_bk/finance/pages/contributions/contributions_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'pages/app_contribuitions/add_contribution_screen.dart';
-import 'pages/financial_records/financial_record_screen.dart';
-
-List<Map<String, dynamic>> financialMenuItems = const [
-  {
-    "label": "Finanzas",
-    "icon": Icons.monetization_on,
-    "items": [
-      {
-        "label": "Contribuiçōes",
-        "icon": Icons.bar_chart,
-        "to": "/contributions"
-      },
-      {
-        "label": "Registro financeiros",
-        "icon": Icons.money,
-        "to": "/financial-record"
-      },
-    ],
-  },
-];
+import 'contributions/pages/app_contribuitions/add_contribution_screen.dart';
+import 'contributions/pages/contributions_list/contributions_list_screen.dart';
+import 'financial_records/pages/add_financial_records/add_financial_record_screen.dart';
+import 'financial_records/pages/financial_records/financial_record_list_screen.dart';
 
 financialRouter() {
   return <RouteBase>[
@@ -41,13 +21,13 @@ financialRouter() {
       },
     ),
     GoRoute(
-      path: '/contributions',
+      path: '/contributions_list',
       pageBuilder: (context, state) {
-        return transitionCustom(ContributionsScreen());
+        return transitionCustom(ContributionsListScreen());
       },
     ),
     GoRoute(
-      path: '/contributions/add',
+      path: '/contributions_list/add',
       pageBuilder: (context, state) {
         return transitionCustom(AddContributionScreen());
       },

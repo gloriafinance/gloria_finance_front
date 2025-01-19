@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/member_model.dart';
-import '../stores/member_paginate_store.dart';
+import '../../../store/member_paginate_store.dart';
 
 class MemberTable extends StatefulWidget {
   const MemberTable({super.key});

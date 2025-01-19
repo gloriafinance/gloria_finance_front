@@ -3,8 +3,8 @@ import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
-import '../state/form_member_state.dart';
-import '../validator/form_member_validator.dart';
+import '../../../state/form_member_state.dart';
+import '../../../validator/form_member_validator.dart';
 
 final validator = FormMemberValidator();
 final formMemberState = FormMemberState.init();
