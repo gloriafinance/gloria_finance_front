@@ -27,7 +27,7 @@ List<Map<String, dynamic>> items = const [
       {
         "label": "Contribuiçōes",
         "icon": Icons.bar_chart,
-        "to": "/contributions"
+        "to": "/contributions_list"
       },
       {
         "label": "Registro financeiros",

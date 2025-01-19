@@ -1,0 +1,32 @@
+import 'package:church_finance_bk/auth/auth_persistence.dart';
+import 'package:flutter/material.dart';
+
+import '../bank_service.dart';
+import '../states/bank_state.dart';
+
+class BankStore extends ChangeNotifier {
+  var service = BankService();
+  var state = BankState.empty();
+
+  getBankName(String bankId) {
+    return state.banks.firstWhere((element) => element.bankId == bankId).name;
+  }
+
+  searchBanks() async {
+    final session = await AuthPersistence().restore();
+
+    service.tokenAPI = session.token;
+    state = state.copyWith(makeRequest: true);
+    notifyListeners();
+
+    try {
+      final banks = await service.searchBank(session.churchId);
+      state = state.copyWith(makeRequest: false, banks: banks);
+
+      notifyListeners();
+    } catch (e) {
+      state.copyWith(makeRequest: false);
+      notifyListeners();
+    }
+  }
+}
