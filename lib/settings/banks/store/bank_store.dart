@@ -1,0 +1,28 @@
+import 'package:flutter/material.dart';
+
+import '../bank_service.dart';
+import '../state/bank_state.dart';
+
+class BankStore extends ChangeNotifier {
+  var service = BankService();
+  var state = BankState.empty();
+
+  getBankName(String bankId) {
+    return state.banks.firstWhere((element) => element.bankId == bankId).name;
+  }
+
+  searchBanks() async {
+    state = state.copyWith(makeRequest: true);
+    notifyListeners();
+
+    try {
+      final banks = await service.searchBank();
+      state = state.copyWith(makeRequest: false, banks: banks);
+
+      notifyListeners();
+    } catch (e) {
+      state.copyWith(makeRequest: false);
+      notifyListeners();
+    }
+  }
+}

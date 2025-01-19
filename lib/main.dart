@@ -1,12 +1,12 @@
 import 'package:church_finance_bk/auth/stores/auth_session_store.dart';
-import 'package:church_finance_bk/finance/stores/bank_store.dart';
+import 'package:church_finance_bk/settings/banks/store/bank_store.dart';
+import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'core/layout/state/navigator_member_state.dart';
 import 'core/router.dart';
-import 'finance/stores/financial_concept_store.dart';
 
 void main() {
   runApp(

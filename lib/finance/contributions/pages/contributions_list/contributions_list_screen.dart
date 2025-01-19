@@ -6,21 +6,31 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../store/member_paginate_store.dart';
-import 'widgets/member_table.dart';
+import '../../store/contribution_pagination_store.dart';
+import 'widgets/contribution_filters.dart';
+import 'widgets/contribution_table.dart';
 
-class MembersScreen extends StatelessWidget {
-  const MembersScreen({super.key});
+class ContributionsListScreen extends StatelessWidget {
+  const ContributionsListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-              create: (_) => MemberPaginateStore()..searchMemberList()),
-        ],
-        child: MaterialApp(
-            home: LayoutDashboard(_header(context), screen: MemberTable())));
+      providers: [
+        ChangeNotifierProvider(
+            create: (_) =>
+                ContributionPaginationStore()..searchContributions()),
+      ],
+      child: LayoutDashboard(
+        _header(context),
+        screen: Column(
+          children: [
+            ContributionFilters(),
+            ContributionTable(),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _header(BuildContext context) {
@@ -28,7 +38,7 @@ class MembersScreen extends StatelessWidget {
       children: [
         Expanded(
           child: Text(
-            "Listado de membros",
+            'Lista de contribuições',
             textAlign: TextAlign.left,
             style: TextStyle(
               fontFamily: AppFonts.fontMedium,
@@ -50,8 +60,8 @@ class MembersScreen extends StatelessWidget {
       children: [
         ButtonActionTable(
             color: AppColors.purple,
-            text: "Registrar novo membro",
-            onPressed: () => GoRouter.of(context).go('/member/add'),
+            text: "Registrar contribuição",
+            onPressed: () => GoRouter.of(context).go('/contributions_list/add'),
             icon: Icons.add_reaction_outlined),
       ],
     );
