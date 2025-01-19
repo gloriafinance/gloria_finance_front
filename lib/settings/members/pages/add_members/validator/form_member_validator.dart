@@ -1,5 +1,6 @@
-import 'package:church_finance_bk/members/pages/add_members/state/form_member_state.dart';
 import 'package:lucid_validation/lucid_validation.dart';
+
+import '../state/form_member_state.dart';
 
 class FormMemberValidator extends LucidValidator<FormMemberState> {
   FormMemberValidator() {

@@ -1,8 +1,9 @@
 import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
-import 'package:church_finance_bk/members/pages/add_members/widgets/form_member.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import 'widgets/form_member.dart';
 
 class AddMemberScreen extends StatelessWidget {
   const AddMemberScreen({super.key});

@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/paginate/paginate_response.dart';
-import 'package:church_finance_bk/members/models/member_filter_model.dart';
-import 'package:church_finance_bk/members/models/member_model.dart';
+
+import '../../../models/member_filter_model.dart';
+import '../../../models/member_model.dart';
 
 class MemberPaginateState {
   final PaginateResponse<MemberModel> paginate;

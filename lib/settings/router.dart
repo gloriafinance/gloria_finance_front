@@ -1,10 +1,10 @@
 import 'package:church_finance_bk/core/theme/transition_custom.dart';
-import 'package:church_finance_bk/members/pages/add_members/add_member_screen.dart';
 import 'package:go_router/go_router.dart';
 
-import 'pages/members_list/members_screen.dart';
+import 'members/pages/add_members/add_member_screen.dart';
+import 'members/pages/members_list/members_screen.dart';
 
-memberRouter() {
+settingsRouter() {
   return <RouteBase>[
     GoRoute(
       path: '/members',

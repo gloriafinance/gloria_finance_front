@@ -3,12 +3,12 @@ import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
 import 'package:church_finance_bk/helpers/index.dart';
-import 'package:church_finance_bk/members/pages/add_members/widgets/form_member_inputs.dart';
-import 'package:church_finance_bk/members/services/save_member_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../services/save_member_service.dart';
 import 'form_member_desktop_layout.dart';
+import 'form_member_inputs.dart';
 import 'form_member_mobile.layout.dart';
 
 class FormMember extends StatefulWidget {

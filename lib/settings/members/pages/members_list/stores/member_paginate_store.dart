@@ -1,7 +1,8 @@
 import 'package:church_finance_bk/auth/auth_persistence.dart';
-import 'package:church_finance_bk/members/pages/members_list/states/member_paginate_state.dart';
-import 'package:church_finance_bk/members/services/member_list_service.dart';
 import 'package:flutter/material.dart';
+
+import '../../../services/member_list_service.dart';
+import '../states/member_paginate_state.dart';
 
 class MemberPaginateStore extends ChangeNotifier {
   var service = MemberListService();

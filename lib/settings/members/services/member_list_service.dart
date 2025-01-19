@@ -1,8 +1,9 @@
 import 'package:church_finance_bk/core/app_http.dart';
 import 'package:church_finance_bk/core/paginate/paginate_response.dart';
-import 'package:church_finance_bk/members/models/member_filter_model.dart';
-import 'package:church_finance_bk/members/models/member_model.dart';
 import 'package:dio/dio.dart';
+
+import '../models/member_filter_model.dart';
+import '../models/member_model.dart';
 
 class MemberListService extends AppHttp {
   MemberListService({super.tokenAPI});
