@@ -94,7 +94,7 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
       formatCurrency(financeRecord.amount),
       getFriendlyNameFinancialConceptType(financeRecord.type),
       financeRecord.financialConcept.name,
-      getFriendlyNameMoneyLocation(financeRecord.moneyLocation),
+      getFriendlyNameMoneyLocation(financeRecord.availabilityAccountId),
     ];
   }
 }

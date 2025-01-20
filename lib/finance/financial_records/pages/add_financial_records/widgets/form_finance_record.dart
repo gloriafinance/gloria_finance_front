@@ -3,6 +3,7 @@ import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
 import 'package:church_finance_bk/helpers/index.dart';
+import 'package:church_finance_bk/settings/availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:church_finance_bk/settings/banks/store/bank_store.dart';
 import 'package:church_finance_bk/settings/financial_concept/models/financial_concept_model.dart';
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
@@ -30,6 +31,8 @@ class _FormFinanceRecordState extends State<FormFinanceRecord> {
     final conceptStore = Provider.of<FinancialConceptStore>(context);
     final bankStore = Provider.of<BankStore>(context);
     final formStore = Provider.of<FormFinanceRecordStore>(context);
+    final availabilityAccountsListStore =
+        Provider.of<AvailabilityAccountsListStore>(context);
 
     return SingleChildScrollView(
       child: Form(
@@ -39,9 +42,9 @@ class _FormFinanceRecordState extends State<FormFinanceRecord> {
             return Column(
               children: [
                 isMobile(context)
-                    ? formMobileLayout(
-                        bankStore, conceptStore, formStore, context)
-                    : formDesktopLayout(
+                    ? formMobileLayout(availabilityAccountsListStore, bankStore,
+                        conceptStore, formStore, context)
+                    : formDesktopLayout(availabilityAccountsListStore,
                         bankStore, conceptStore, formStore, context),
                 const SizedBox(height: 32),
                 isMobile(context)

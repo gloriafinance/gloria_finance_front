@@ -15,6 +15,19 @@ extension MoneyLocationExtension on MoneyLocation {
         return 'Investimento';
     }
   }
+
+  String get apiValue {
+    switch (this) {
+      case MoneyLocation.BANK:
+        return 'BANK';
+      case MoneyLocation.CASH:
+        return 'CASH';
+      case MoneyLocation.WALLET:
+        return 'WALLET';
+      case MoneyLocation.INVESTMENT:
+        return 'INVESTMENT';
+    }
+  }
 }
 
 String getFriendlyNameMoneyLocation(String apiValue) {
