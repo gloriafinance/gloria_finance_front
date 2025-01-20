@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/auth/stores/auth_session_store.dart';
+import 'package:church_finance_bk/auth/store/auth_session_store.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';

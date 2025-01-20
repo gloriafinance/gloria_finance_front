@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../auth_persistence.dart';
 import '../auth_service.dart';
 import '../auth_session_model.dart';
-import '../states/auth_session_state.dart';
+import '../state/auth_session_state.dart';
 
 class AuthSessionStore extends ChangeNotifier {
   AuthSessionState state = AuthSessionState(
