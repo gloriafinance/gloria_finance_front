@@ -4,7 +4,7 @@ import 'package:church_finance_bk/core/paginate/paginate_response.dart';
 import 'package:church_finance_bk/finance/financial_records/models/finance_record_filter_model.dart';
 import 'package:dio/dio.dart';
 
-import 'models/finance_record_model.dart';
+import 'models/finance_record_list_model.dart';
 
 class FinanceRecordService extends AppHttp {
   FinanceRecordService({super.tokenAPI});
@@ -34,7 +34,7 @@ class FinanceRecordService extends AppHttp {
     }
   }
 
-  Future<PaginateResponse<FinanceRecordModel>> searchFinanceRecords(
+  Future<PaginateResponse<FinanceRecordListModel>> searchFinanceRecords(
       FinanceRecordFilterModel params) async {
     try {
       final response = await http.get(
@@ -46,7 +46,7 @@ class FinanceRecordService extends AppHttp {
       );
 
       return PaginateResponse.fromJson(params.perPage, response.data,
-          (data) => FinanceRecordModel.fromJson(data));
+          (data) => FinanceRecordListModel.fromJson(data));
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;

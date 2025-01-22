@@ -1,14 +1,12 @@
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:dio/dio.dart';
 
-import '../models/finance_record_model.dart';
-
 class FormFinanceRecordState {
   bool makeRequest;
   double amount;
   String date;
   String financialConceptId;
-  String moneyLocation;
+  String availabilityAccountId;
   String type;
   String description;
   MultipartFile? file;
@@ -21,7 +19,7 @@ class FormFinanceRecordState {
     required this.amount,
     required this.date,
     required this.financialConceptId,
-    required this.moneyLocation,
+    required this.availabilityAccountId,
     required this.type,
     required this.description,
     this.file,
@@ -35,7 +33,7 @@ class FormFinanceRecordState {
       makeRequest: false,
       amount: 0.0,
       date: '',
-      moneyLocation: '',
+      availabilityAccountId: '',
       type: '',
       description: '',
       financialConceptId: '',
@@ -48,25 +46,27 @@ class FormFinanceRecordState {
     double? amount,
     String? date,
     String? financialConceptId,
-    String? moneyLocation,
+    String? availabilityAccountId,
     String? type,
     String? description,
     MultipartFile? file,
     String? bankId,
     bool? makeRequest,
+    bool? isMovementBank,
   }) {
     return FormFinanceRecordState(
       amount: amount ?? this.amount,
       date: date ?? this.date,
       financialConceptId: financialConceptId ?? this.financialConceptId,
-      moneyLocation: moneyLocation ?? this.moneyLocation,
+      availabilityAccountId:
+          availabilityAccountId ?? this.availabilityAccountId,
       type: type ?? this.type,
       description: description ?? this.description,
       file: file ?? this.file,
       bankId: bankId ?? this.bankId,
       makeRequest: makeRequest ?? this.makeRequest,
       isPurchase: type == "PURCHASE",
-      isMovementBank: moneyLocation == MoneyLocation.BANK.friendlyName,
+      isMovementBank: isMovementBank ?? this.isMovementBank,
     );
   }
 
@@ -75,10 +75,7 @@ class FormFinanceRecordState {
       "amount": amount,
       "date": convertDateFormat(date),
       "financialConceptId": financialConceptId,
-      "moneyLocation": getMoneyLocationFromFriendlyName(moneyLocation)
-          ?.toString()
-          .split('.')
-          .last,
+      "availabilityAccountId": availabilityAccountId,
       "description": description,
       "file": file,
       "bankId": bankId,

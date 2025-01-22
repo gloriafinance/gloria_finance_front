@@ -23,8 +23,13 @@ class FormFinanceRecordStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setMoneyLocation(String moneyLocation) {
-    state = state.copyWith(moneyLocation: moneyLocation);
+  void setAvailabilityAccountId(String availabilityAccountId) {
+    state = state.copyWith(availabilityAccountId: availabilityAccountId);
+    notifyListeners();
+  }
+
+  void setIsMovementBank(bool isMovementBank) {
+    state = state.copyWith(isMovementBank: isMovementBank);
     notifyListeners();
   }
 

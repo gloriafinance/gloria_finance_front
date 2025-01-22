@@ -1,4 +1,5 @@
-import 'package:church_finance_bk/auth/stores/auth_session_store.dart';
+import 'package:church_finance_bk/auth/store/auth_session_store.dart';
+import 'package:church_finance_bk/settings/availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:church_finance_bk/settings/banks/store/bank_store.dart';
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,10 @@ void main() {
             create: (_) => FinancialConceptStore()..searchFinancialConcepts()),
         ChangeNotifierProvider(create: (_) => BankStore()..searchBanks()),
         ChangeNotifierProvider(create: (_) => NavigatorMemberNotifier()),
+        ChangeNotifierProvider(create: (_) => BankStore()..searchBanks()),
+        ChangeNotifierProvider(
+            create: (_) =>
+                AvailabilityAccountsListStore()..searchAvailabilityAccounts()),
       ],
       child: MyApp(),
     ),

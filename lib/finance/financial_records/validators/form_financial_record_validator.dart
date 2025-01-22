@@ -10,7 +10,7 @@ class FormFinancialRecordValidator
         .notEmpty()
         .matchesPattern(r'^\d{2}/\d{2}/\d{4}$');
     ruleFor((m) => m.financialConceptId, key: 'financialConceptId').notEmpty();
-    ruleFor((m) => m.moneyLocation, key: 'moneyLocation').notEmpty();
+    ruleFor((m) => m.availabilityAccountId, key: 'moneyLocation').notEmpty();
     ruleFor((m) => m.description, key: 'description').notEmpty();
   }
 }
