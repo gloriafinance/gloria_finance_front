@@ -16,7 +16,7 @@ class ContributionService extends AppHttp {
 
     try {
       final response = await http.get(
-        '${await getUrlApi()}finance/contributions_list',
+        '${await getUrlApi()}finance/contributions',
         queryParameters: params.toJson(),
         options: Options(
           headers: getHeader(),

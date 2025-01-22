@@ -1,72 +1,58 @@
 import 'package:church_finance_bk/settings/financial_concept/models/financial_concept_model.dart';
 
-enum MoneyLocation { BANK, CASH, WALLET, INVESTMENT }
+class AvailabilityAccount {
+  final String availabilityAccountId;
+  final String accountName;
+  final String accountType;
 
-extension MoneyLocationExtension on MoneyLocation {
-  String get friendlyName {
-    switch (this) {
-      case MoneyLocation.BANK:
-        return 'Banco';
-      case MoneyLocation.CASH:
-        return 'Dinheiro';
-      case MoneyLocation.WALLET:
-        return 'Carteira Digital';
-      case MoneyLocation.INVESTMENT:
-        return 'Investimento';
-    }
+  AvailabilityAccount({
+    required this.availabilityAccountId,
+    required this.accountName,
+    required this.accountType,
+  });
+
+  factory AvailabilityAccount.fromJson(Map<String, dynamic> json) {
+    return AvailabilityAccount(
+      availabilityAccountId: json['availabilityAccountId'],
+      accountName: json['accountName'],
+      accountType: json['accountType'],
+    );
   }
 }
 
-String getFriendlyNameMoneyLocation(String apiValue) {
-  final moneyLocation = MoneyLocation.values
-      .firstWhere((e) => e.toString().split('.').last == apiValue);
-
-  return moneyLocation.friendlyName;
-}
-
-MoneyLocation? getMoneyLocationFromFriendlyName(String? friendlyName) {
-  if (friendlyName == null || friendlyName.isEmpty) return null;
-
-  for (var location in MoneyLocation.values) {
-    if (location.friendlyName == friendlyName) {
-      return location;
-    }
-  }
-  return null;
-}
-
-class FinanceRecordModel {
+class FinanceRecordListModel {
   final double amount;
   final DateTime date;
   final FinancialConceptModel financialConcept;
   final String financialRecordId;
-  final String moneyLocation;
   final String churchId;
   final String description;
   final String type;
   final String? voucher;
+  final AvailabilityAccount availabilityAccount;
 
-  FinanceRecordModel({
+  FinanceRecordListModel({
     this.voucher,
     required this.amount,
     required this.date,
     required this.financialConcept,
     required this.financialRecordId,
-    required this.moneyLocation,
     required this.churchId,
     required this.description,
     required this.type,
+    required this.availabilityAccount,
   });
 
-  factory FinanceRecordModel.fromJson(Map<String, dynamic> json) {
-    return FinanceRecordModel(
+  factory FinanceRecordListModel.fromJson(Map<String, dynamic> json) {
+    return FinanceRecordListModel(
+      availabilityAccount:
+          AvailabilityAccount.fromJson(json['availabilityAccount']),
       voucher: json['voucher'],
       amount: json['amount'],
       date: DateTime.parse(json['date']),
       financialConcept:
           FinancialConceptModel.fromJson(json['financialConcept']),
       financialRecordId: json['financialRecordId'],
-      moneyLocation: json['moneyLocation'],
       churchId: json['churchId'],
       description: json['description'],
       type: json['type'],
@@ -80,10 +66,10 @@ class FinanceRecordModel {
       'date': date.toIso8601String(),
       'financialConcept': financialConcept.toJson(),
       'financialRecordId': financialRecordId,
-      'moneyLocation': moneyLocation,
       'churchId': churchId,
       'description': description,
       'type': type,
+      //'availabilityAccount': availabilityAccountId,
     };
   }
 }

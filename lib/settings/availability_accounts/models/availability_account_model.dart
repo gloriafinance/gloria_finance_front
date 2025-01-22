@@ -13,13 +13,19 @@ extension AccountTypeExtension on AccountType {
         return 'Investimento';
     }
   }
-}
 
-String getFriendlyNameAccountType(String apiValue) {
-  final accountType = AccountType.values
-      .firstWhere((e) => e.toString().split('.').last == apiValue);
-
-  return accountType.friendlyName;
+  String get apiValue {
+    switch (this) {
+      case AccountType.BANK:
+        return 'BANK';
+      case AccountType.CASH:
+        return 'CASH';
+      case AccountType.WALLET:
+        return 'WALLET';
+      case AccountType.INVESTMENT:
+        return 'INVESTMENT';
+    }
+  }
 }
 
 class AvailabilityAccountModel {
@@ -38,6 +44,17 @@ class AvailabilityAccountModel {
     required this.active,
     required this.accountType,
   });
+
+  factory AvailabilityAccountModel.fromJson(Map<String, dynamic> json) {
+    return AvailabilityAccountModel(
+      churchId: json['churchId'],
+      availabilityAccountId: json['availabilityAccountId'],
+      accountName: json['accountName'],
+      balance: json['balance'],
+      active: json['active'],
+      accountType: json['accountType'],
+    );
+  }
 
   AvailabilityAccountModel.fromMap(Map<String, dynamic> map)
       : churchId = map['churchId'],

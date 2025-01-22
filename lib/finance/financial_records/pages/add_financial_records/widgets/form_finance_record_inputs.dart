@@ -1,6 +1,8 @@
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/core/widgets/upload_file.dart';
 import 'package:church_finance_bk/helpers/index.dart';
+import 'package:church_finance_bk/settings/availability_accounts/models/availability_account_model.dart';
+import 'package:church_finance_bk/settings/availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:church_finance_bk/settings/banks/store/bank_store.dart';
 import 'package:church_finance_bk/settings/financial_concept/models/financial_concept_model.dart';
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
@@ -8,7 +10,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
-import '../../../models/finance_record_model.dart';
 import '../../../store/form_finance_record_store.dart';
 import '../../../validators/form_financial_record_validator.dart';
 
@@ -40,11 +41,26 @@ Widget date(BuildContext context, FormFinanceRecordStore formStore) {
   );
 }
 
-Widget moneyLocation(FormFinanceRecordStore formStore) {
+Widget availabilityAccounts(
+    AvailabilityAccountsListStore availabilityAccountsListStore,
+    FormFinanceRecordStore formStore) {
   return Dropdown(
-      label: "Fonte de financiamento",
-      items: MoneyLocation.values.map((e) => e.friendlyName).toList(),
-      onChanged: (value) => formStore.setMoneyLocation(value),
+      label: "Conta de disponiblidade",
+      items: availabilityAccountsListStore.state.availabilityAccounts
+          .map((a) => a.accountName)
+          .toList(),
+      onChanged: (value) {
+        final selectedAccount = availabilityAccountsListStore
+            .state.availabilityAccounts
+            .firstWhere((e) => e.accountName == value);
+
+        selectedAccount.accountType == AccountType.BANK.apiValue
+            ? formStore.setIsMovementBank(true)
+            : formStore.setIsMovementBank(false);
+
+        formStore
+            .setAvailabilityAccountId(selectedAccount.availabilityAccountId);
+      },
       onValidator: validator.byField(formStore.state, 'moneyLocation'));
 }
 
@@ -88,7 +104,7 @@ Widget searchFinancialConcepts(
 }
 
 Widget uploadFile(FormFinanceRecordStore formStore) {
-  if (formStore.state.moneyLocation == MoneyLocation.BANK.friendlyName) {
+  if (formStore.state.isMovementBank) {
     return UploadFile(
       label: "Comprovante do movimento bancario",
       multipartFile: (MultipartFile m) => formStore.setFile(m),
@@ -99,7 +115,7 @@ Widget uploadFile(FormFinanceRecordStore formStore) {
 }
 
 Widget dropdownBank(BankStore bankStore, FormFinanceRecordStore formStore) {
-  if (formStore.state.moneyLocation == MoneyLocation.BANK.friendlyName) {
+  if (formStore.state.isMovementBank) {
     final data = bankStore.state.banks;
 
     return Dropdown(

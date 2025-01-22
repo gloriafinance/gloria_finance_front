@@ -1,7 +1,5 @@
 import 'package:church_finance_bk/helpers/index.dart';
 
-import 'finance_record_model.dart';
-
 class FinanceRecordFilterModel {
   int perPage;
   int page;
@@ -9,7 +7,7 @@ class FinanceRecordFilterModel {
   String? endDate;
   String churchId;
   String? financialConceptId;
-  String? moneyLocation;
+  String? availabilityAccountId;
 
   FinanceRecordFilterModel({
     this.perPage = 10,
@@ -18,7 +16,7 @@ class FinanceRecordFilterModel {
     this.endDate,
     required this.churchId,
     this.financialConceptId,
-    this.moneyLocation,
+    this.availabilityAccountId,
   });
 
   factory FinanceRecordFilterModel.init() {
@@ -34,7 +32,7 @@ class FinanceRecordFilterModel {
     String? endDate,
     String? churchId,
     String? financialConceptId,
-    String? moneyLocation,
+    String? availabilityAccountId,
   }) {
     return FinanceRecordFilterModel(
       page: page ?? this.page,
@@ -43,7 +41,8 @@ class FinanceRecordFilterModel {
       endDate: endDate ?? this.endDate,
       churchId: churchId ?? this.churchId,
       financialConceptId: financialConceptId ?? this.financialConceptId,
-      moneyLocation: moneyLocation ?? this.moneyLocation,
+      availabilityAccountId:
+          availabilityAccountId ?? this.availabilityAccountId,
     );
   }
 
@@ -55,10 +54,7 @@ class FinanceRecordFilterModel {
       'endDate': convertDateFormat(endDate),
       'churchId': churchId,
       'financialConceptId': financialConceptId,
-      'moneyLocation': getMoneyLocationFromFriendlyName(moneyLocation)
-          ?.toString()
-          .split('.')
-          .last,
+      'availabilityAccountId': availabilityAccountId,
     };
   }
 }

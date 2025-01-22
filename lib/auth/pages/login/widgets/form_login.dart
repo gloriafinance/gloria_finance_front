@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/auth/stores/auth_session_store.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/custom_input.dart';
@@ -7,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+
+import '../../../store/auth_session_store.dart';
 
 class FormLogin extends StatefulWidget {
   const FormLogin({super.key});
