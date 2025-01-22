@@ -14,8 +14,8 @@ class FinanceRecordPaginateStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setMoneyLocation(String moneyLocation) {
-    state = state.copyWith(moneyLocation: moneyLocation);
+  void setAvailabilityAccountId(String availabilityAccountId) {
+    state = state.copyWith(availabilityAccountId: availabilityAccountId);
     notifyListeners();
   }
 
