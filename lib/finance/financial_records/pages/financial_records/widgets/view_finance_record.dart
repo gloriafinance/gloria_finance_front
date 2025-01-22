@@ -1,6 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
-import 'package:church_finance_bk/finance/financial_records/models/finance_record_model.dart';
+import 'package:church_finance_bk/finance/financial_records/models/finance_record_list_model.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +8,7 @@ import '../../../../../settings/financial_concept/models/financial_concept_model
 import '../../../../widgets/content_viewer.dart';
 
 class ViewFinanceRecord extends StatelessWidget {
-  final FinanceRecordModel financeRecord;
+  final FinanceRecordListModel financeRecord;
 
   const ViewFinanceRecord({super.key, required this.financeRecord});
 
@@ -51,8 +51,8 @@ class ViewFinanceRecord extends StatelessWidget {
               const SizedBox(height: 8),
               _buildDetailRow(
                 mobile,
-                'Fonte de financiamento',
-                getFriendlyNameMoneyLocation(financeRecord.moneyLocation),
+                'Conta de disponibilidade',
+                financeRecord.availabilityAccount.accountName,
               ),
               const SizedBox(height: 8),
               _buildDetailRow(

@@ -1,10 +1,10 @@
 import 'package:church_finance_bk/core/paginate/paginate_response.dart';
 import 'package:church_finance_bk/finance/financial_records/models/finance_record_filter_model.dart';
 
-import '../models/finance_record_model.dart';
+import '../models/finance_record_list_model.dart';
 
 class FinanceRecordPaginateState {
-  final PaginateResponse<FinanceRecordModel> paginate;
+  final PaginateResponse<FinanceRecordListModel> paginate;
   final bool makeRequest;
   final FinanceRecordFilterModel filter;
 
@@ -18,7 +18,7 @@ class FinanceRecordPaginateState {
     return FinanceRecordPaginateState(
       filter: FinanceRecordFilterModel.init(),
       makeRequest: false,
-      paginate: PaginateResponse<FinanceRecordModel>(
+      paginate: PaginateResponse<FinanceRecordListModel>(
         perPage: 10,
         results: [],
         count: 0,
@@ -27,7 +27,7 @@ class FinanceRecordPaginateState {
   }
 
   FinanceRecordPaginateState copyWith({
-    PaginateResponse<FinanceRecordModel>? paginate,
+    PaginateResponse<FinanceRecordListModel>? paginate,
     bool? makeRequest,
     int? perPage,
     int? page,
@@ -35,7 +35,7 @@ class FinanceRecordPaginateState {
     String? endDate,
     String? churchId,
     String? financialConceptId,
-    String? moneyLocation,
+    String? availabilityAccountId,
   }) {
     return FinanceRecordPaginateState(
       makeRequest: makeRequest ?? this.makeRequest,
@@ -47,7 +47,7 @@ class FinanceRecordPaginateState {
         endDate: endDate,
         churchId: churchId,
         financialConceptId: financialConceptId,
-        moneyLocation: moneyLocation,
+        availabilityAccountId: availabilityAccountId,
       ),
     );
   }

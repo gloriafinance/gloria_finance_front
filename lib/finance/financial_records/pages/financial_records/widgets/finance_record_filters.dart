@@ -3,11 +3,11 @@ import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/helpers/index.dart';
+import 'package:church_finance_bk/settings/availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../models/finance_record_model.dart';
 import '../../../store/finance_record_paginate_store.dart';
 
 class FinanceRecordFilters extends StatefulWidget {
@@ -24,14 +24,18 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
   Widget build(BuildContext context) {
     final store = Provider.of<FinanceRecordPaginateStore>(context);
     final storeConcept = Provider.of<FinancialConceptStore>(context);
+    final availabilityAccountsListStore =
+        Provider.of<AvailabilityAccountsListStore>(context);
 
     return isMobile(context)
-        ? _layoutMobile(store, storeConcept)
-        : _layoutDesktop(store, storeConcept);
+        ? _layoutMobile(availabilityAccountsListStore, store, storeConcept)
+        : _layoutDesktop(availabilityAccountsListStore, store, storeConcept);
   }
 
   Widget _layoutDesktop(
-      FinanceRecordPaginateStore store, FinancialConceptStore storeConcept) {
+      AvailabilityAccountsListStore availabilityAccountsListStore,
+      FinanceRecordPaginateStore store,
+      FinancialConceptStore storeConcept) {
     return Container(
       margin: const EdgeInsets.only(top: 20.0),
       child: Column(
@@ -46,7 +50,10 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
                     children: [
                       Row(
                         children: [
-                          Expanded(flex: 1, child: _financial(store)),
+                          Expanded(
+                              flex: 1,
+                              child: _availabilityAccounts(
+                                  availabilityAccountsListStore, store)),
                           SizedBox(width: 10),
                           Expanded(
                             flex: 2,
@@ -93,7 +100,9 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
   }
 
   Widget _layoutMobile(
-      FinanceRecordPaginateStore store, FinancialConceptStore storeConcept) {
+      AvailabilityAccountsListStore availabilityAccountsListStore,
+      FinanceRecordPaginateStore store,
+      FinancialConceptStore storeConcept) {
     return Container(
         margin: const EdgeInsets.only(top: 10.0),
         child: ExpansionPanelList(
@@ -122,7 +131,9 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
                   children: [
                     Row(
                       children: [
-                        Expanded(child: _financial(store)),
+                        Expanded(
+                            child: _availabilityAccounts(
+                                availabilityAccountsListStore, store)),
                       ],
                     ),
                     Row(
@@ -196,12 +207,21 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
     );
   }
 
-  Widget _financial(FinanceRecordPaginateStore store) {
+  Widget _availabilityAccounts(
+      AvailabilityAccountsListStore availabilityAccountsListStore,
+      FinanceRecordPaginateStore store) {
     return Dropdown(
-      label: "Fonte de financiamento",
-      items: MoneyLocation.values.map((e) => e.friendlyName).toList(),
-      onChanged: (value) => store.setMoneyLocation(value),
-    );
+        label: "Conta de disponiblidade",
+        items: availabilityAccountsListStore.state.availabilityAccounts
+            .map((a) => a.accountName)
+            .toList(),
+        onChanged: (value) {
+          final selectedAccount = availabilityAccountsListStore
+              .state.availabilityAccounts
+              .firstWhere((e) => e.accountName == value);
+
+          store.setAvailabilityAccountId(selectedAccount.availabilityAccountId);
+        });
   }
 
   Widget _applyFilterButton(FinanceRecordPaginateStore store) {

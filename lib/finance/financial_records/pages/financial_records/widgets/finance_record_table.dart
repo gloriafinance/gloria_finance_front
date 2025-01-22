@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../settings/financial_concept/models/financial_concept_model.dart';
-import '../../../models/finance_record_model.dart';
+import '../../../models/finance_record_list_model.dart';
 import '../../../store/finance_record_paginate_store.dart';
 import 'view_finance_record.dart';
 
@@ -45,9 +45,9 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
         "Valor",
         "Tipo de movimento",
         "Conceito",
-        "Fonte de financiamento"
+        "Conta de disponiblidade"
       ],
-      data: FactoryDataTable<FinanceRecordModel>(
+      data: FactoryDataTable<FinanceRecordListModel>(
         data: state.paginate.results,
         dataBuilder: financeRecordDTO,
       ),
@@ -79,7 +79,7 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
     );
   }
 
-  void _openModal(BuildContext context, FinanceRecordModel financeRecord) {
+  void _openModal(BuildContext context, FinanceRecordListModel financeRecord) {
     ModalPage(
       title: isMobile(context)
           ? ""
@@ -94,7 +94,8 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
       formatCurrency(financeRecord.amount),
       getFriendlyNameFinancialConceptType(financeRecord.type),
       financeRecord.financialConcept.name,
-      getFriendlyNameMoneyLocation(financeRecord.availabilityAccountId),
+      financeRecord.availabilityAccount.accountName,
+      // getFriendlyNameMoneyLocation(financeRecord.availabilityAccountId),
     ];
   }
 }
