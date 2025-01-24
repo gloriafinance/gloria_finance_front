@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/helpers/index.dart';
+import 'package:church_finance_bk/settings/financial_concept/models/financial_concept_model.dart';
 import 'package:dio/dio.dart';
 
 class FormFinanceRecordState {
@@ -13,6 +14,7 @@ class FormFinanceRecordState {
   String? bankId;
   bool isPurchase = false;
   bool isMovementBank = false;
+  String costCenterId;
 
   FormFinanceRecordState({
     required this.makeRequest,
@@ -25,11 +27,13 @@ class FormFinanceRecordState {
     this.file,
     required this.isPurchase,
     required this.isMovementBank,
+    required this.costCenterId,
     this.bankId,
   });
 
   factory FormFinanceRecordState.init() {
     return FormFinanceRecordState(
+      costCenterId: '',
       makeRequest: false,
       amount: 0.0,
       date: '',
@@ -53,6 +57,7 @@ class FormFinanceRecordState {
     String? bankId,
     bool? makeRequest,
     bool? isMovementBank,
+    String? costCenterId,
   }) {
     return FormFinanceRecordState(
       amount: amount ?? this.amount,
@@ -65,8 +70,9 @@ class FormFinanceRecordState {
       file: file ?? this.file,
       bankId: bankId ?? this.bankId,
       makeRequest: makeRequest ?? this.makeRequest,
-      isPurchase: type == "PURCHASE",
+      isPurchase: type == FinancialConceptType.PURCHASE.apiValue,
       isMovementBank: isMovementBank ?? this.isMovementBank,
+      costCenterId: costCenterId ?? this.costCenterId,
     );
   }
 
@@ -79,6 +85,7 @@ class FormFinanceRecordState {
       "description": description,
       "file": file,
       "bankId": bankId,
+      "costCenterId": costCenterId,
     };
   }
 }
