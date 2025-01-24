@@ -145,8 +145,6 @@ Widget dropdownCostCenter(CostCenterListStore costCenterStore,
     return const SizedBox.shrink();
   }
 
-  print("ESTOU AQUI");
-
   return Dropdown(
     label: "Centro de custo",
     items: costCenterStore.state.costCenters.map((e) => e.name).toList(),
