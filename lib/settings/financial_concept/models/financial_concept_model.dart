@@ -11,6 +11,17 @@ extension FinancialConceptTypeExtension on FinancialConceptType {
         return 'Compra';
     }
   }
+
+  String get apiValue {
+    switch (this) {
+      case FinancialConceptType.INCOME:
+        return 'INCOME';
+      case FinancialConceptType.OUTGO:
+        return 'OUTGO';
+      case FinancialConceptType.PURCHASE:
+        return 'PURCHASE';
+    }
+  }
 }
 
 String getFriendlyNameFinancialConceptType(String apiValue) {

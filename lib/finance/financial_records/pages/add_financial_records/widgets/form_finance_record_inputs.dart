@@ -4,6 +4,7 @@ import 'package:church_finance_bk/helpers/index.dart';
 import 'package:church_finance_bk/settings/availability_accounts/models/availability_account_model.dart';
 import 'package:church_finance_bk/settings/availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:church_finance_bk/settings/banks/store/bank_store.dart';
+import 'package:church_finance_bk/settings/cost_center/store/cost_center_list_store.dart';
 import 'package:church_finance_bk/settings/financial_concept/models/financial_concept_model.dart';
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:dio/dio.dart';
@@ -95,7 +96,7 @@ Widget searchFinancialConcepts(
     onChanged: (value) {
       final v = conceptStore.state.financialConcepts
           .firstWhere((e) => e.name == value);
-
+      print(v.type);
       formStore.setDescription(v.description);
       formStore.setFinancialConceptId(v.financialConceptId);
       formStore.setType(v.type);
@@ -129,4 +130,30 @@ Widget dropdownBank(BankStore bankStore, FormFinanceRecordStore formStore) {
   } else {
     return const SizedBox.shrink();
   }
+}
+
+Widget dropdownCostCenter(CostCenterListStore costCenterStore,
+    FinancialConceptStore conceptStore, FormFinanceRecordStore formStore) {
+  if (conceptStore.state.financialConcepts.isEmpty ||
+      formStore.state.financialConceptId.isEmpty) {
+    return const SizedBox.shrink();
+  }
+  final concept = conceptStore.state.financialConcepts.firstWhere(
+      (e) => e.financialConceptId == formStore.state.financialConceptId);
+
+  if (concept.type != FinancialConceptType.OUTGO.apiValue) {
+    return const SizedBox.shrink();
+  }
+
+  print("ESTOU AQUI");
+
+  return Dropdown(
+    label: "Centro de custo",
+    items: costCenterStore.state.costCenters.map((e) => e.name).toList(),
+    onChanged: (value) {
+      final selectedCostCenter =
+          costCenterStore.state.costCenters.firstWhere((e) => e.name == value);
+      formStore.setCostCenterId(selectedCostCenter.costCenterId);
+    },
+  );
 }

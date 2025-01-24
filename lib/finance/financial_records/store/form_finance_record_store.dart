@@ -38,6 +38,11 @@ class FormFinanceRecordStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setCostCenterId(String costCenterId) {
+    state = state.copyWith(costCenterId: costCenterId);
+    notifyListeners();
+  }
+
   void setDescription(String description) {
     state = state.copyWith(description: description);
     notifyListeners();
