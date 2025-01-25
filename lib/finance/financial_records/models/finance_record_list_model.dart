@@ -20,6 +20,23 @@ class AvailabilityAccount {
   }
 }
 
+class CostCenter {
+  final String costCenterId;
+  final String name;
+
+  CostCenter({
+    required this.costCenterId,
+    required this.name,
+  });
+
+  factory CostCenter.fromJson(Map<String, dynamic> json) {
+    return CostCenter(
+      costCenterId: json['costCenterId'],
+      name: json['name'],
+    );
+  }
+}
+
 class FinanceRecordListModel {
   final double amount;
   final DateTime date;
@@ -30,9 +47,11 @@ class FinanceRecordListModel {
   final String type;
   final String? voucher;
   final AvailabilityAccount availabilityAccount;
+  final CostCenter? costCenter;
 
   FinanceRecordListModel({
     this.voucher,
+    this.costCenter,
     required this.amount,
     required this.date,
     required this.financialConcept,
@@ -56,6 +75,9 @@ class FinanceRecordListModel {
       churchId: json['churchId'],
       description: json['description'],
       type: json['type'],
+      costCenter: json['costCenter'] != null
+          ? CostCenter.fromJson(json['costCenter'])
+          : null,
     );
   }
 

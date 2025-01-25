@@ -45,17 +45,6 @@ class AvailabilityAccountModel {
     required this.accountType,
   });
 
-  factory AvailabilityAccountModel.fromJson(Map<String, dynamic> json) {
-    return AvailabilityAccountModel(
-      churchId: json['churchId'],
-      availabilityAccountId: json['availabilityAccountId'],
-      accountName: json['accountName'],
-      balance: json['balance'],
-      active: json['active'],
-      accountType: json['accountType'],
-    );
-  }
-
   AvailabilityAccountModel.fromMap(Map<String, dynamic> map)
       : churchId = map['churchId'],
         availabilityAccountId = map['availabilityAccountId'],

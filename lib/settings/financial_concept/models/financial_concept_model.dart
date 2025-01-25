@@ -6,9 +6,20 @@ extension FinancialConceptTypeExtension on FinancialConceptType {
       case FinancialConceptType.INCOME:
         return 'Ingreso';
       case FinancialConceptType.OUTGO:
-        return 'Gasto';
+        return 'Saida';
       case FinancialConceptType.PURCHASE:
         return 'Compra';
+    }
+  }
+
+  String get apiValue {
+    switch (this) {
+      case FinancialConceptType.INCOME:
+        return 'INCOME';
+      case FinancialConceptType.OUTGO:
+        return 'OUTGO';
+      case FinancialConceptType.PURCHASE:
+        return 'PURCHASE';
     }
   }
 }
