@@ -36,7 +36,7 @@ class _HeaderLayoutState extends State<HeaderLayout> {
         automaticallyImplyLeading: MediaQuery.of(context).size.width < 800,
         flexibleSpace: Container(
             alignment: Alignment.centerLeft,
-            margin: const EdgeInsets.only(left: 10.0),
+            margin: const EdgeInsets.only(left: 10.0, top: 20),
             child: Row(
               children: [
                 if (isMobile(context)) const SizedBox(width: 40),
