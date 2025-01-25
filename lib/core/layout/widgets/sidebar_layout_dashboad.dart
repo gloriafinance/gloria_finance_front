@@ -1,16 +1,37 @@
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../sidebar_backgroud.dart';
 
-class Sidebar extends StatelessWidget {
+class Sidebar extends StatefulWidget {
   final List<Map<String, dynamic>> menuItems;
 
   const Sidebar({
     super.key,
     required this.menuItems,
   });
+
+  @override
+  State<Sidebar> createState() => _SidebarState();
+}
+
+class _SidebarState extends State<Sidebar> {
+  String _version = 'Carregando...';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVersion();
+  }
+
+  Future<void> _loadVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      _version = 'Versāo: [${packageInfo.version}+${packageInfo.buildNumber}]';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +44,9 @@ class Sidebar extends StatelessWidget {
             const SizedBox(height: 40.0),
             Expanded(
               child: ListView.builder(
-                itemCount: menuItems.length,
+                itemCount: widget.menuItems.length,
                 itemBuilder: (context, index) {
-                  final section = menuItems[index];
+                  final section = widget.menuItems[index];
                   return Theme(
                     data: Theme.of(context).copyWith(
                       dividerColor: Colors.transparent, // Eliminar líneas
@@ -69,6 +90,20 @@ class Sidebar extends StatelessWidget {
             ),
           ],
         ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              //'${_version} © ${DateTime.now().year} Jaspesoft',
+              '© ${DateTime.now().year} Jaspesoft LTDA · ${_version}',
+              style: TextStyle(
+                color: Colors.white,
+                fontFamily: AppFonts.fontLight,
+              ),
+            ),
+          ),
+        )
       ],
     );
   }

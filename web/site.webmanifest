@@ -1,6 +1,6 @@
 {
-  "name": "Church Finance",
-  "short_name": "Church Finance",
+  "name": "Trusted Finance",
+  "short_name": "Trusted Finance",
   "start_url": ".",
   "icons": [
     {
@@ -19,7 +19,7 @@
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
   "display": "standalone",
-  "description": "Backoffice",
+  "description": "administrative system for the financial management of churches.",
   "orientation": "portrait-primary",
   "prefer_related_applications": false
 }

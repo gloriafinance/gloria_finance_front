@@ -1,6 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
-import 'package:church_finance_bk/core/widgets/IPUBLogo.dart';
+import 'package:church_finance_bk/core/widgets/app_logo.dart';
 import 'package:church_finance_bk/core/widgets/background_container.dart';
 import 'package:flutter/material.dart';
 
@@ -55,8 +55,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         Container(
                           padding: const EdgeInsets.only(left: 80, right: 80),
-                          child: IPUBLogo(
-                            width: 340,
+                          child: ApplicationLogo(
+                            width: 140,
                           ),
                         ),
                         const Text(

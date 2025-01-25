@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../theme/app_color.dart';
 import '../theme/app_fonts.dart';
-import '../widgets/IPUBLogo.dart';
+import '../widgets/app_logo.dart';
 
 class HeaderLayout extends StatefulWidget {
   const HeaderLayout({super.key});
@@ -40,11 +40,11 @@ class _HeaderLayoutState extends State<HeaderLayout> {
             child: Row(
               children: [
                 if (isMobile(context)) const SizedBox(width: 40),
-                IPUBLogo(),
+                ApplicationLogo(),
                 const SizedBox(width: 20),
                 if (!isMobile(context))
                   Text(
-                    'Church Finance',
+                    'Trusted Finance',
                     style: TextStyle(
                       fontSize: 24,
                       fontFamily: AppFonts.fontMedium,
