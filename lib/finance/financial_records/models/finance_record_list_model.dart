@@ -67,7 +67,7 @@ class FinanceRecordListModel {
       availabilityAccount:
           AvailabilityAccount.fromJson(json['availabilityAccount']),
       voucher: json['voucher'],
-      amount: json['amount'],
+      amount: double.parse(json['amount'].toString()),
       date: DateTime.parse(json['date']),
       financialConcept:
           FinancialConceptModel.fromJson(json['financialConcept']),

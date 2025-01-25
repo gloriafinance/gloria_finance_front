@@ -1,7 +1,7 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher_web/url_launcher_web.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContentViewer extends StatelessWidget {
   final String url;
@@ -14,7 +14,11 @@ class ContentViewer extends StatelessWidget {
       return Center(
         child: CustomButton(
           onPressed: () async {
-            UrlLauncherPlugin().launch(url, useWebView: true);
+            //UrlLauncherPlugin().launch(url, useWebView: true);
+            if (!await launchUrl(Uri.parse(url),
+                mode: LaunchMode.inAppBrowserView)) {
+              throw Exception('Could not launch $url');
+            }
           },
           text: "Abrir PDF no navegador",
           textColor: Colors.white,

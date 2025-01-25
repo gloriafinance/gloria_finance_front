@@ -47,7 +47,7 @@ class ContributionModel {
     return ContributionModel(
       bankId: json['bankId'],
       contributionId: json['contributionId'],
-      amount: json['amount'],
+      amount: double.parse(json['amount'].toString()),
       status: json['status'],
       createdAt: DateTime.parse(json['createdAt']),
       bankTransferReceipt: json['bankTransferReceipt'],

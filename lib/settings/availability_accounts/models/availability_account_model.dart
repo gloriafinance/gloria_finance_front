@@ -49,7 +49,7 @@ class AvailabilityAccountModel {
       : churchId = map['churchId'],
         availabilityAccountId = map['availabilityAccountId'],
         accountName = map['accountName'],
-        balance = map['balance'],
+        balance = double.parse(map['balance'].toString()),
         active = map['active'],
         accountType = map['accountType'];
 
