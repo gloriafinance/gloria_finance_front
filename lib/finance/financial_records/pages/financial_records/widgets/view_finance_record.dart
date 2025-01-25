@@ -31,7 +31,8 @@ class ViewFinanceRecord extends StatelessWidget {
               _buildSectionTitle('Conceito Financeiro'),
               Text(
                 financeRecord.financialConcept.name,
-                style: const TextStyle(fontSize: 14),
+                style: const TextStyle(
+                    fontSize: 16, fontFamily: AppFonts.fontLight),
               ),
               SizedBox(height: 16),
               _buildDetailRow(mobile, 'Valor',
@@ -48,6 +49,14 @@ class ViewFinanceRecord extends StatelessWidget {
                 'Tipo de movimento',
                 getFriendlyNameFinancialConceptType(financeRecord.type),
               ),
+              if (financeRecord.costCenter != null) ...[
+                const SizedBox(height: 8),
+                _buildDetailRow(
+                  mobile,
+                  'Centro de custo',
+                  financeRecord.costCenter!.name,
+                ),
+              ],
               const SizedBox(height: 8),
               _buildDetailRow(
                 mobile,
@@ -72,7 +81,7 @@ class ViewFinanceRecord extends StatelessWidget {
       title,
       style: const TextStyle(
         fontSize: 18,
-        fontWeight: FontWeight.bold,
+        fontFamily: AppFonts.fontMedium,
         color: AppColors.purple,
       ),
     );
@@ -99,6 +108,8 @@ class ViewFinanceRecord extends StatelessWidget {
                       fontFamily: AppFonts.fontLight,
                       color: statusColor, // Aplica el color aquí
                     ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis, // Añade esto
                   ),
                 )
               ],
@@ -109,17 +120,24 @@ class ViewFinanceRecord extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                      fontSize: 16, fontFamily: AppFonts.fontMedium),
-                ),
-                Text(
-                  value,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: AppFonts.fontLight,
-                    color: statusColor, // Aplica el color aquí
+                Expanded(
+                    flex: 6,
+                    child: Text(
+                      title,
+                      style: const TextStyle(
+                          fontSize: 16, fontFamily: AppFonts.fontMedium),
+                    )),
+                Expanded(
+                  flex: 6,
+                  child: Text(
+                    value,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: AppFonts.fontLight,
+                      color: statusColor, // Aplica el color aquí
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis, // Añade esto
                   ),
                 ),
               ],

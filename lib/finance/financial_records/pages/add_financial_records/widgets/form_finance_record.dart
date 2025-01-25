@@ -5,6 +5,7 @@ import 'package:church_finance_bk/core/widgets/loading.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:church_finance_bk/settings/availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:church_finance_bk/settings/banks/store/bank_store.dart';
+import 'package:church_finance_bk/settings/cost_center/store/cost_center_list_store.dart';
 import 'package:church_finance_bk/settings/financial_concept/models/financial_concept_model.dart';
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,7 @@ class _FormFinanceRecordState extends State<FormFinanceRecord> {
     final formStore = Provider.of<FormFinanceRecordStore>(context);
     final availabilityAccountsListStore =
         Provider.of<AvailabilityAccountsListStore>(context);
+    final costCenterStore = Provider.of<CostCenterListStore>(context);
 
     return SingleChildScrollView(
       child: Form(
@@ -42,10 +44,20 @@ class _FormFinanceRecordState extends State<FormFinanceRecord> {
             return Column(
               children: [
                 isMobile(context)
-                    ? formMobileLayout(availabilityAccountsListStore, bankStore,
-                        conceptStore, formStore, context)
-                    : formDesktopLayout(availabilityAccountsListStore,
-                        bankStore, conceptStore, formStore, context),
+                    ? formMobileLayout(
+                        costCenterStore,
+                        availabilityAccountsListStore,
+                        bankStore,
+                        conceptStore,
+                        formStore,
+                        context)
+                    : formDesktopLayout(
+                        costCenterStore,
+                        availabilityAccountsListStore,
+                        bankStore,
+                        conceptStore,
+                        formStore,
+                        context),
                 const SizedBox(height: 32),
                 isMobile(context)
                     ? _btnSave(formStore)
