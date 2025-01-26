@@ -5,13 +5,15 @@ import '../auth_persistence.dart';
 import '../auth_service.dart';
 import '../auth_session_model.dart';
 import '../state/auth_session_state.dart';
+import '../state/form_login_state.dart';
 
 class AuthSessionStore extends ChangeNotifier {
+  var service = AuthService();
+  FormLoginState formState = FormLoginState.init();
+
   AuthSessionState state = AuthSessionState(
     session: AuthSessionModel.empty(),
-    makeRequest: false,
   );
-  var service = AuthService();
 
   AuthSessionStore() {
     _initialize();
@@ -26,15 +28,15 @@ class AuthSessionStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> login(String email, String password) async {
-    state = state.copyWith(makeRequest: true);
+  Future<bool> login() async {
+    formState = formState.copyWith(makeRequest: true);
     notifyListeners();
 
     try {
-      var session = await service.makeLogin(email, password);
+      var session = await service.makeLogin(formState.toJson());
 
       if (session == null) {
-        state = state.copyWith(makeRequest: false);
+        formState = formState.copyWith(makeRequest: false);
         notifyListeners();
         return false;
       }
@@ -53,7 +55,7 @@ class AuthSessionStore extends ChangeNotifier {
       Toast.showMessage(
           "Ocorreu um erro interno no sistema, informe ao administrador do sistema",
           ToastType.warning);
-      state = state.copyWith(makeRequest: false);
+      formState = formState.copyWith(makeRequest: false);
       notifyListeners();
       return false;
     }
@@ -65,6 +67,21 @@ class AuthSessionStore extends ChangeNotifier {
       session: null,
     );
 
+    notifyListeners();
+  }
+
+  void setEmail(String email) {
+    formState = formState.copyWith(email: email);
+    notifyListeners();
+  }
+
+  void setPassword(String password) {
+    formState = formState.copyWith(password: password);
+    notifyListeners();
+  }
+
+  void setMakeRequest(bool makeRequest) {
+    formState = formState.copyWith(makeRequest: makeRequest);
     notifyListeners();
   }
 

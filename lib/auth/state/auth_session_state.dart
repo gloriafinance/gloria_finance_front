@@ -2,17 +2,14 @@ import '../auth_session_model.dart';
 
 class AuthSessionState {
   final AuthSessionModel session;
-  final bool makeRequest;
 
   AuthSessionState({
     required this.session,
-    required this.makeRequest,
   });
 
   factory AuthSessionState.empty() {
     return AuthSessionState(
       session: AuthSessionModel.empty(),
-      makeRequest: false,
     );
   }
 
@@ -22,7 +19,6 @@ class AuthSessionState {
   }) {
     return AuthSessionState(
       session: session ?? this.session,
-      makeRequest: makeRequest ?? this.makeRequest,
     );
   }
 
