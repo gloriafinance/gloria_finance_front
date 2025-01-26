@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -132,13 +134,25 @@ class _UploadFile extends State<UploadFile>
       type: FileType.custom,
       allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf'],
     );
-
+    print("File: $file");
     if (file != null) {
       setState(() {
         _platformFile = file.files.first;
 
+        if (_platformFile!.bytes == null && _platformFile!.path != null) {
+          final fileBytes = File(_platformFile!.path!).readAsBytesSync();
+          _platformFile = PlatformFile(
+            name: _platformFile!.name,
+            size: _platformFile!.size,
+            bytes: fileBytes,
+            path: _platformFile!.path,
+            identifier: _platformFile!.identifier,
+          );
+        }
+
         // Crear MultipartFile desde los bytes del archivo (sin usar path)
         if (_platformFile!.bytes != null) {
+          print("File bytes: ${_platformFile!.bytes!.length}");
           widget.multipartFile(
             MultipartFile.fromBytes(
               _platformFile!.bytes!,
