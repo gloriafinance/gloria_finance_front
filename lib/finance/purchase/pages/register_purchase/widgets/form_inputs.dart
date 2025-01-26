@@ -5,19 +5,18 @@ import 'package:church_finance_bk/settings/availability_accounts/models/availabi
 import 'package:church_finance_bk/settings/availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:church_finance_bk/settings/banks/store/bank_store.dart';
 import 'package:church_finance_bk/settings/cost_center/store/cost_center_list_store.dart';
-import 'package:church_finance_bk/settings/financial_concept/models/financial_concept_model.dart';
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
+import 'package:flutter_multi_formatter/formatters/currency_input_formatter.dart';
+import 'package:flutter_multi_formatter/formatters/money_input_enums.dart';
 
-import '../store/form_finance_record_store.dart';
-import '../validators/form_financial_record_validator.dart';
+import '../../../store/purchase_register_form_store.dart';
+import '../../../validators/purchase_register_form_validator.dart';
 
-final validator = FormFinancialRecordValidator();
-final List<FinancialConceptModel> financialConcepts = [];
+final validator = PurchaseRegisterFormValidator();
 
-Widget description(FormFinanceRecordStore formStore) {
+Widget description(PurchaseRegisterFormStore formStore) {
   return Input(
     label: 'Descrição',
     initialValue: formStore.state.description,
@@ -26,25 +25,28 @@ Widget description(FormFinanceRecordStore formStore) {
   );
 }
 
-Widget date(BuildContext context, FormFinanceRecordStore formStore) {
-  return Input(
-    label: "Data",
-    initialValue: formStore.state.date,
-    keyboardType: TextInputType.number,
-    onChanged: (value) {},
-    onTap: () {
-      selectDate(context).then((picked) {
-        if (picked == null) return;
-        formStore.setDate(convertDateFormatToDDMMYYYY(picked.toString()));
-      });
+Widget dropdownFinancialConcepts(
+    FinancialConceptStore conceptStore, PurchaseRegisterFormStore formStore) {
+  return Dropdown(
+    label: "Conceito financeiro",
+    items: conceptStore.state.financialConcepts
+        .where((e) => e.type == 'PURCHASE')
+        .map((e) => e.name)
+        .toList(growable: false),
+    onValidator: validator.byField(formStore.state, 'financialConceptId'),
+    onChanged: (value) {
+      final v = conceptStore.state.financialConcepts
+          .firstWhere((e) => e.name == value);
+      print("DES ${v.description}");
+      formStore.setDescription(v.description);
+      formStore.setFinancialConceptId(v.financialConceptId);
     },
-    onValidator: validator.byField(formStore.state, 'date'),
   );
 }
 
-Widget availabilityAccounts(
+Widget dropdownAvailabilityAccounts(
     AvailabilityAccountsListStore availabilityAccountsListStore,
-    FormFinanceRecordStore formStore) {
+    PurchaseRegisterFormStore formStore) {
   return Dropdown(
       label: "Conta de disponiblidade",
       items: availabilityAccountsListStore.state.availabilityAccounts
@@ -65,9 +67,9 @@ Widget availabilityAccounts(
       onValidator: validator.byField(formStore.state, 'moneyLocation'));
 }
 
-Widget amount(FormFinanceRecordStore formStore) {
+Widget total(PurchaseRegisterFormStore formStore) {
   return Input(
-    label: "Valor",
+    label: "Total da fatura",
     keyboardType: TextInputType.number,
     inputFormatters: [
       CurrencyInputFormatter(
@@ -81,44 +83,59 @@ Widget amount(FormFinanceRecordStore formStore) {
       final cleanedValue =
           value.replaceAll(RegExp(r'[^\d,]'), '').replaceAll(',', '.');
 
-      formStore.setAmount(double.parse(cleanedValue));
+      formStore.setTotal(double.parse(cleanedValue));
     },
     onValidator: validator.byField(formStore.state, 'amount'),
   );
 }
 
-Widget searchFinancialConcepts(
-    FinancialConceptStore conceptStore, FormFinanceRecordStore formStore) {
-  return Dropdown(
-    label: "Conceito",
-    items: conceptStore.state.financialConcepts
-        .where((e) => e.type != FinancialConceptType.PURCHASE.apiValue)
-        .map((e) => e.name)
-        .toList(growable: false),
-    onValidator: validator.byField(formStore.state, 'financialConceptId'),
+Widget tax(PurchaseRegisterFormStore formStore) {
+  return Input(
+    label: "Imposto",
+    keyboardType: TextInputType.number,
+    inputFormatters: [
+      CurrencyInputFormatter(
+        leadingSymbol: 'R\$ ',
+        useSymbolPadding: true,
+        mantissaLength: 2,
+        thousandSeparator: ThousandSeparator.Period,
+      ),
+    ],
     onChanged: (value) {
-      final v = conceptStore.state.financialConcepts
-          .firstWhere((e) => e.name == value);
-      print(v.type);
-      formStore.setDescription(v.description);
-      formStore.setFinancialConceptId(v.financialConceptId);
-      formStore.setType(v.type);
+      final cleanedValue =
+          value.replaceAll(RegExp(r'[^\d,]'), '').replaceAll(',', '.');
+
+      formStore.setTax(double.parse(cleanedValue));
     },
+    onValidator: validator.byField(formStore.state, 'tax'),
   );
 }
 
-Widget uploadFile(FormFinanceRecordStore formStore) {
-  if (formStore.state.isMovementBank) {
-    return UploadFile(
-      label: "Comprovante do movimento bancario",
-      multipartFile: (MultipartFile m) => formStore.setFile(m),
-    );
-  } else {
-    return SizedBox.shrink();
-  }
+Widget uploadFile(PurchaseRegisterFormStore formStore) {
+  return UploadFile(
+    label: "Faça o upload da nota fiscal",
+    multipartFile: (MultipartFile m) => formStore.setInvoice(m),
+  );
 }
 
-Widget dropdownBank(BankStore bankStore, FormFinanceRecordStore formStore) {
+Widget purchaseDate(BuildContext context, PurchaseRegisterFormStore formStore) {
+  return Input(
+    label: "Data da compra",
+    initialValue: formStore.state.purchaseDate,
+    keyboardType: TextInputType.number,
+    onChanged: (value) {},
+    onTap: () {
+      selectDate(context).then((picked) {
+        if (picked == null) return;
+        formStore
+            .setPurchaseDate(convertDateFormatToDDMMYYYY(picked.toString()));
+      });
+    },
+    onValidator: validator.byField(formStore.state, 'date'),
+  );
+}
+
+Widget dropdownBank(BankStore bankStore, PurchaseRegisterFormStore formStore) {
   if (formStore.state.isMovementBank) {
     final data = bankStore.state.banks;
 
@@ -131,23 +148,12 @@ Widget dropdownBank(BankStore bankStore, FormFinanceRecordStore formStore) {
       },
     );
   }
-  return const SizedBox.shrink();
+
+  return const SizedBox(width: 0);
 }
 
 Widget dropdownCostCenter(CostCenterListStore costCenterStore,
-    FinancialConceptStore conceptStore, FormFinanceRecordStore formStore) {
-  if (conceptStore.state.financialConcepts.isEmpty ||
-      formStore.state.financialConceptId.isEmpty) {
-    return const SizedBox.shrink();
-  }
-
-  final concept = conceptStore.state.financialConcepts.firstWhere(
-      (e) => e.financialConceptId == formStore.state.financialConceptId);
-
-  if (concept.type != FinancialConceptType.OUTGO.apiValue) {
-    return const SizedBox.shrink();
-  }
-
+    FinancialConceptStore conceptStore, PurchaseRegisterFormStore formStore) {
   return Dropdown(
     label: "Centro de custo",
     items: costCenterStore.state.costCenters.map((e) => e.name).toList(),
