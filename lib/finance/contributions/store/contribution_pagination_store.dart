@@ -72,7 +72,6 @@ class ContributionPaginationStore extends ChangeNotifier {
       await service.updateContributionStatus(contributionId, status);
       _updateStatusContributionModel(contributionId, status.friendlyName);
     } catch (e) {
-      print("Error al actualizar el estado de la contribución: $e");
       Toast.showMessage(
           "Erro ao atualizar o status da contribuição", ToastType.error);
     }

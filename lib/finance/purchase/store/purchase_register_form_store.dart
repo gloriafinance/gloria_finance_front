@@ -8,11 +8,6 @@ class PurchaseRegisterFormStore extends ChangeNotifier {
   PurchaseRegisterFormState state = PurchaseRegisterFormState.init();
   final _service = PurchaseService();
 
-  void setChurchId(String churchId) {
-    state = state.copyWith(churchId: churchId);
-    notifyListeners();
-  }
-
   void setMakeRequest(bool makeRequest) {
     state = state.copyWith(makeRequest: makeRequest);
     notifyListeners();
@@ -40,11 +35,6 @@ class PurchaseRegisterFormStore extends ChangeNotifier {
 
   void setDescription(String description) {
     state = state.copyWith(description: description);
-    notifyListeners();
-  }
-
-  void setFinancingSource(String financingSource) {
-    state = state.copyWith(financingSource: financingSource);
     notifyListeners();
   }
 

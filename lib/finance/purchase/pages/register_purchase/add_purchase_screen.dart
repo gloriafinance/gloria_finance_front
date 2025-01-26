@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../store/purchase_register_form_store.dart';
-import 'widgets/layouts/form_purchase.dart';
+import 'widgets/form_purchase.dart';
 
 class AddPurchaseScreen extends StatelessWidget {
   const AddPurchaseScreen({super.key});
@@ -40,7 +40,7 @@ class AddPurchaseScreen extends StatelessWidget {
           'Cadastro de compras',
           textAlign: TextAlign.left,
           style: TextStyle(
-            fontFamily: AppFonts.fontMedium,
+            fontFamily: AppFonts.fontTitle,
             fontSize: 20,
             color: Colors.black,
           ),

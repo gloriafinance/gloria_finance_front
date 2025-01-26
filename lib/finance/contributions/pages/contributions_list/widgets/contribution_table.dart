@@ -54,7 +54,6 @@ class _ContributionTableState extends State<ContributionTable> {
                 color: AppColors.blue,
                 text: "Visualizar",
                 onPressed: () {
-                  print("Aprobar fila $contribution");
                   _openModal(context, contribution);
                 },
                 icon: Icons.remove_red_eye_sharp,
