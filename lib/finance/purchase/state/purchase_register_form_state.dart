@@ -1,14 +1,13 @@
+import 'package:church_finance_bk/helpers/index.dart';
 import 'package:dio/dio.dart';
 
 class PurchaseRegisterFormState {
   bool makeRequest;
   String financialConceptId;
-  String churchId;
   String purchaseDate;
   double total;
   double tax;
   String description;
-  String financingSource;
   String availabilityAccountId;
   String? bankId;
   MultipartFile invoice;
@@ -17,14 +16,12 @@ class PurchaseRegisterFormState {
   String costCenterId;
 
   PurchaseRegisterFormState(
-      {required this.churchId,
-      required this.makeRequest,
+      {required this.makeRequest,
       required this.total,
       required this.tax,
       required this.purchaseDate,
       required this.financialConceptId,
       required this.description,
-      required this.financingSource,
       required this.invoice,
       required this.items,
       required this.availabilityAccountId,
@@ -37,14 +34,12 @@ class PurchaseRegisterFormState {
         costCenterId: '',
         isMovementBank: false,
         availabilityAccountId: '',
-        churchId: '',
         makeRequest: false,
         total: 0.0,
         tax: 0.0,
         purchaseDate: '',
         financialConceptId: '',
         description: '',
-        financingSource: '',
         invoice: MultipartFile.fromString(''),
         items: [],
         bankId: '');
@@ -53,7 +48,6 @@ class PurchaseRegisterFormState {
   PurchaseRegisterFormState copyWith(
       {bool? isMovementBank,
       String? costCenterId,
-      String? churchId,
       String? availabilityAccountId,
       bool? makeRequest,
       double? total,
@@ -73,14 +67,12 @@ class PurchaseRegisterFormState {
       availabilityAccountId:
           availabilityAccountId ?? this.availabilityAccountId,
       bankId: bankId ?? this.bankId,
-      churchId: churchId ?? this.churchId,
       makeRequest: makeRequest ?? this.makeRequest,
       total: total ?? this.total,
       tax: tax ?? this.tax,
       purchaseDate: purchaseDate ?? this.purchaseDate,
       financialConceptId: financialConceptId ?? this.financialConceptId,
       description: description ?? this.description,
-      financingSource: financingSource ?? this.financingSource,
       invoice: invoice ?? this.invoice,
       items: items ?? this.items,
     );
@@ -93,14 +85,12 @@ class PurchaseRegisterFormState {
   Map<String, dynamic> toJson() {
     return {
       'costCenterId': costCenterId,
-      'churchId': churchId,
       'bankId': bankId,
       'total': total,
       'tax': tax,
-      'purchaseDate': purchaseDate,
+      'purchaseDate': convertDateFormat(purchaseDate),
       'financialConceptId': financialConceptId,
       'description': description,
-      'financingSource': financingSource,
       'invoice': invoice,
       'availabilityAccountId': availabilityAccountId,
       'items': items.map((e) => e.toJson()).toList(),
@@ -132,10 +122,10 @@ class PurchaseItem {
 
   Map<String, dynamic> toJson() {
     return {
-      'priceUnit': priceUnit,
+      'price': priceUnit,
       'quantity': quantity,
       'total': total,
-      'productName': productName,
+      'name': productName,
     };
   }
 }

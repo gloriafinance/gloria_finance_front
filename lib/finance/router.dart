@@ -41,6 +41,12 @@ financialRouter() {
       },
     ),
     GoRoute(
+      path: '/register-purchase',
+      pageBuilder: (context, state) {
+        return transitionCustom(AddPurchaseScreen());
+      },
+    ),
+    GoRoute(
         path: '/report/monthly-tithes',
         pageBuilder: (context, state) {
           return transitionCustom(MonthlyTithesScreen());

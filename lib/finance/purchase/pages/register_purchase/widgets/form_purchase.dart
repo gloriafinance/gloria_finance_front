@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
@@ -12,12 +13,12 @@ import 'package:church_finance_bk/settings/financial_concept/store/financial_con
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../state/purchase_register_form_state.dart';
-import '../../../../store/purchase_register_form_store.dart';
-import '../add_item_purchase.dart';
-import '../form_desktop_layout.dart';
-import '../table_item.dart';
-import 'form_mobile_layout.dart';
+import '../../../state/purchase_register_form_state.dart';
+import '../../../store/purchase_register_form_store.dart';
+import 'add_item_purchase.dart';
+import 'layouts/form_desktop_layout.dart';
+import 'layouts/form_mobile_layout.dart';
+import 'table_item.dart';
 
 class FormPurchase extends StatefulWidget {
   const FormPurchase({super.key});
@@ -55,7 +56,7 @@ class _FormPurchaseState extends State<FormPurchase> {
                       style: TextStyle(
                           fontSize: 16,
                           color: AppColors.grey,
-                          fontFamily: AppFonts.fontLight)),
+                          fontFamily: AppFonts.fontSubTitle)),
                 ),
                 _btnAddItem(formStore),
                 const SizedBox(height: 12),
@@ -113,5 +114,12 @@ class _FormPurchaseState extends State<FormPurchase> {
     }
 
     print(formStore.state.toJson());
+
+    final finished = await formStore.send();
+
+    if (finished) {
+      //Navigator.of(context).pop();
+      Toast.showMessage("Comprada com sucesso", ToastType.info);
+    }
   }
 }
