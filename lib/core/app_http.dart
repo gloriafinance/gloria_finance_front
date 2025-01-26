@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:church_finance_bk/core/preference.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 class AppHttp {
   Dio http = Dio();
@@ -18,8 +18,19 @@ class AppHttp {
   }
 
   Future<String> getUrlApi({String apiVersion = 'v1'}) async {
-    final url = await Preferences.API_SERVER;
+    final url = await _urlServer();
     return '$url$apiVersion/';
+  }
+
+  _urlServer() async {
+    final apiProd = 'https://church-api.jaspesoft.com/api/';
+    final apiDev = 'https://church-api.abejarano.dev/api/';
+
+    if (kReleaseMode) {
+      return apiProd;
+    }
+
+    return apiDev;
   }
 
   transformResponse(data) {

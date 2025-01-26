@@ -21,8 +21,7 @@ class UploadFile extends StatefulWidget {
   State<StatefulWidget> createState() => _UploadFile();
 }
 
-class _UploadFile extends State<UploadFile>
-    with SingleTickerProviderStateMixin {
+class _UploadFile extends State<UploadFile> {
   PlatformFile? _platformFile;
 
   @override

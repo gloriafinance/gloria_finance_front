@@ -3,10 +3,10 @@ import 'package:church_finance_bk/core/app_http.dart';
 import 'package:dio/dio.dart';
 
 class AuthService extends AppHttp {
-  Future<AuthSessionModel?> makeLogin(String email, String password) async {
+  Future<AuthSessionModel?> makeLogin(Map<String, dynamic> jsonForm) async {
     try {
-      final response = await http.post("${await getUrlApi()}user/login",
-          data: {'email': email, 'password': password});
+      final response =
+          await http.post("${await getUrlApi()}user/login", data: jsonForm);
 
       return AuthSessionModel.fromJson(response.data);
     } on DioException catch (e) {

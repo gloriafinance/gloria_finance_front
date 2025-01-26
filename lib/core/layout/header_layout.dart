@@ -40,7 +40,16 @@ class _HeaderLayoutState extends State<HeaderLayout> {
             child: Row(
               children: [
                 if (isMobile(context)) const SizedBox(width: 40),
-                ApplicationLogo(),
+                if (isMobile(context))
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 8.0, right: 8.0, top: 14.0),
+                    child: ApplicationLogo(
+                      width: 60,
+                    ),
+                  )
+                else
+                  ApplicationLogo(),
                 const SizedBox(width: 20),
                 if (!isMobile(context))
                   Text(

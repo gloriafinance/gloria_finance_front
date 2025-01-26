@@ -12,9 +12,15 @@ class Input extends StatefulWidget {
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
   final void Function()? onTap;
+  final bool? isPass;
+  final Icon? iconRight;
+  final GestureTapCallback? onIconTap;
 
   const Input(
       {super.key,
+      this.onIconTap,
+      this.iconRight,
+      this.isPass = false,
       required this.label,
       required this.onChanged,
       this.onValidator,
@@ -24,7 +30,7 @@ class Input extends StatefulWidget {
       this.onTap});
 
   @override
-  _InputState createState() => _InputState();
+  State<Input> createState() => _InputState();
 }
 
 class _InputState extends State<Input> {
@@ -60,10 +66,11 @@ class _InputState extends State<Input> {
           ..._generateLabel(widget.label),
           TextFormField(
             controller: _controller,
+            obscureText: widget.isPass ?? false,
             inputFormatters: widget.inputFormatters,
             keyboardType: widget.keyboardType,
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            decoration: _inputDecoration(),
+            decoration: _inputDecoration(widget.iconRight, widget.onIconTap),
             validator: widget.onValidator,
             onChanged: widget.onChanged,
             onTap: widget.onTap,
@@ -85,9 +92,10 @@ List<Widget> _generateLabel(String label) {
   ];
 }
 
-InputDecoration _inputDecoration() {
+InputDecoration _inputDecoration(
+    Icon? iconRight, GestureTapCallback? onIconTap) {
   return InputDecoration(
-    contentPadding: const EdgeInsets.all(12),
+    contentPadding: const EdgeInsets.all(16),
     errorBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: Colors.red),
         borderRadius:
@@ -95,6 +103,12 @@ InputDecoration _inputDecoration() {
         ),
     focusedErrorBorder:
         const OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+    suffixIcon: iconRight != null
+        ? GestureDetector(
+            onTap: onIconTap ?? () {},
+            child: iconRight,
+          )
+        : null,
     hintStyle: const TextStyle(
         color: AppColors.greyMiddle, fontFamily: AppFonts.fontRegular),
     enabledBorder: const OutlineInputBorder(
@@ -129,7 +143,7 @@ class Dropdown extends StatelessWidget {
           onChanged: (val) => onChanged(val!),
           validator: onValidator,
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          decoration: _inputDecoration(),
+          decoration: _inputDecoration(null, null),
           items: items.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
