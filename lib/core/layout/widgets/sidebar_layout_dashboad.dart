@@ -29,7 +29,7 @@ class _SidebarState extends State<Sidebar> {
   Future<void> _loadVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     setState(() {
-      _version = 'Versāo: [${packageInfo.version}+${packageInfo.buildNumber}]';
+      _version = 'v${packageInfo.version}+${packageInfo.buildNumber}';
     });
   }
 
