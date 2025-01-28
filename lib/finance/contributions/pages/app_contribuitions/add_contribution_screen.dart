@@ -55,7 +55,7 @@ class _AddContributionScreen extends State<AddContributionScreen>
                   'Registro de contribuições',
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    fontFamily: AppFonts.fontMedium,
+                    fontFamily: AppFonts.fontTitle,
                     fontSize: 20,
                     color: Colors.black,
                   ),
@@ -82,7 +82,7 @@ class _AddContributionScreen extends State<AddContributionScreen>
                             child: Text(
                               "Dízimos",
                               style: TextStyle(
-                                fontFamily: AppFonts.fontMedium,
+                                fontFamily: AppFonts.fontTitle,
                                 fontSize: 17,
                               ),
                             ),
@@ -94,7 +94,7 @@ class _AddContributionScreen extends State<AddContributionScreen>
                             child: Text(
                               "Ofertas",
                               style: TextStyle(
-                                fontFamily: AppFonts.fontMedium,
+                                fontFamily: AppFonts.fontTitle,
                                 fontSize: 17,
                               ),
                             ),

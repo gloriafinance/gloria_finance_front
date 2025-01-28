@@ -122,8 +122,8 @@ class _UploadFile extends State<UploadFile> {
         textAlign: TextAlign.left,
         style: const TextStyle(
             color: AppColors.purple,
-            fontFamily: AppFonts.fontRegular,
-            fontSize: 18),
+            fontFamily: AppFonts.fontTitle,
+            fontSize: 16),
       ),
     );
   }

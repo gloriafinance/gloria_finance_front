@@ -84,7 +84,7 @@ class _CustomTableState extends State<CustomTable> {
             label: Text(
               header.toUpperCase(),
               style: const TextStyle(
-                fontFamily: AppFonts.fontMedium,
+                fontFamily: AppFonts.fontTitle,
                 color: Colors.black87,
               ),
             ),
@@ -96,7 +96,7 @@ class _CustomTableState extends State<CustomTable> {
               "AÇÕES",
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: AppFonts.fontMedium,
+                fontFamily: AppFonts.fontTitle,
                 color: Colors.black87,
               ),
             ),
@@ -116,7 +116,7 @@ class _CustomTableState extends State<CustomTable> {
                   Text(
                     cell,
                     style: const TextStyle(
-                      fontFamily: AppFonts.fontRegular,
+                      fontFamily: AppFonts.fontSubTitle,
                       color: Colors.black54,
                     ),
                   ),
@@ -166,7 +166,7 @@ class _CustomTableState extends State<CustomTable> {
                 "Visualizando $showRecords de ${widget.paginate.totalRecords} registros",
                 style: const TextStyle(
                   fontSize: 14,
-                  fontFamily: AppFonts.fontRegular,
+                  fontFamily: AppFonts.fontSubTitle,
                   color: Colors.black87,
                 ),
               ),
@@ -189,7 +189,7 @@ class _CustomTableState extends State<CustomTable> {
                   "Visualizando $showRecords de ${widget.paginate.totalRecords} registros",
                   style: const TextStyle(
                     fontSize: 14,
-                    fontFamily: AppFonts.fontRegular,
+                    fontFamily: AppFonts.fontSubTitle,
                     color: Colors.black87,
                   ),
                 ),
@@ -217,7 +217,7 @@ class _CustomTableState extends State<CustomTable> {
             underline: const SizedBox(),
             style: const TextStyle(
               fontSize: 14,
-              fontFamily: AppFonts.fontRegular,
+              fontFamily: AppFonts.fontSubTitle,
               color: Colors.black87,
             ),
             isDense: true,

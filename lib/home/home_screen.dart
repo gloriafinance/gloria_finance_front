@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
         'Dashboard', textAlign: TextAlign.left,
         // Esto asegura que el texto no esté centrado
         style: TextStyle(
-          fontFamily: AppFonts.fontMedium,
+          fontFamily: AppFonts.fontTitle,
           fontSize: 24,
           color: Colors.black,
         ),

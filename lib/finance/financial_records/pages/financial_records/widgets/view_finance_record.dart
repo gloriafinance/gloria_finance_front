@@ -32,7 +32,7 @@ class ViewFinanceRecord extends StatelessWidget {
               Text(
                 financeRecord.financialConcept.name,
                 style: const TextStyle(
-                    fontSize: 16, fontFamily: AppFonts.fontLight),
+                    fontSize: 16, fontFamily: AppFonts.fontText),
               ),
               SizedBox(height: 16),
               _buildDetailRow(mobile, 'Valor',
@@ -81,7 +81,7 @@ class ViewFinanceRecord extends StatelessWidget {
       title,
       style: const TextStyle(
         fontSize: 18,
-        fontFamily: AppFonts.fontMedium,
+        fontFamily: AppFonts.fontTitle,
         color: AppColors.purple,
       ),
     );
@@ -97,7 +97,7 @@ class ViewFinanceRecord extends StatelessWidget {
                 Text(
                   title,
                   style: const TextStyle(
-                      fontSize: 16, fontFamily: AppFonts.fontMedium),
+                      fontSize: 16, fontFamily: AppFonts.fontTitle),
                 ),
                 SizedBox(width: 10),
                 Expanded(
@@ -105,7 +105,7 @@ class ViewFinanceRecord extends StatelessWidget {
                     value,
                     style: TextStyle(
                       fontSize: 16,
-                      fontFamily: AppFonts.fontLight,
+                      fontFamily: AppFonts.fontText,
                       color: statusColor, // Aplica el color aquí
                     ),
                     maxLines: 2,
@@ -125,7 +125,7 @@ class ViewFinanceRecord extends StatelessWidget {
                     child: Text(
                       title,
                       style: const TextStyle(
-                          fontSize: 16, fontFamily: AppFonts.fontMedium),
+                          fontSize: 16, fontFamily: AppFonts.fontTitle),
                     )),
                 Expanded(
                   flex: 6,
@@ -133,7 +133,7 @@ class ViewFinanceRecord extends StatelessWidget {
                     value,
                     style: TextStyle(
                       fontSize: 16,
-                      fontFamily: AppFonts.fontLight,
+                      fontFamily: AppFonts.fontText,
                       color: statusColor, // Aplica el color aquí
                     ),
                     maxLines: 2,
@@ -151,7 +151,7 @@ class ViewFinanceRecord extends StatelessWidget {
         'Movimento financeiro #${financeRecord.financialRecordId}',
         style: const TextStyle(
           fontSize: 18,
-          fontFamily: AppFonts.fontMedium,
+          fontFamily: AppFonts.fontTitle,
         ),
       ),
     );

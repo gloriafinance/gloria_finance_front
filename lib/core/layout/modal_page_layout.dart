@@ -44,7 +44,7 @@ class ModalPage {
                     title,
                     style: const TextStyle(
                       fontSize: 18,
-                      fontFamily: AppFonts.fontMedium,
+                      fontFamily: AppFonts.fontTitle,
                     ),
                   ),
                   IconButton(

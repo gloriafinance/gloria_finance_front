@@ -124,7 +124,7 @@ class ViewContribution extends StatelessWidget {
         'Contribuição #${contribution.contributionId}',
         style: const TextStyle(
           fontSize: 18,
-          fontFamily: AppFonts.fontMedium,
+          fontFamily: AppFonts.fontTitle,
         ),
       ),
     );
@@ -138,14 +138,14 @@ class ViewContribution extends StatelessWidget {
         children: [
           Text(
             title,
-            style:
-                const TextStyle(fontSize: 16, fontFamily: AppFonts.fontRegular),
+            style: const TextStyle(
+                fontSize: 16, fontFamily: AppFonts.fontSubTitle),
           ),
           Text(
             value,
             style: TextStyle(
               fontSize: 16,
-              fontFamily: AppFonts.fontLight,
+              fontFamily: AppFonts.fontText,
               color: statusColor, // Aplica el color aquí
             ),
           ),
@@ -159,7 +159,7 @@ class ViewContribution extends StatelessWidget {
       title,
       style: const TextStyle(
         fontSize: 18,
-        fontFamily: AppFonts.fontMedium,
+        fontFamily: AppFonts.fontTitle,
         color: AppColors.purple,
       ),
     );

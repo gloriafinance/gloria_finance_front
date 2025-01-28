@@ -41,7 +41,7 @@ class ContributionsListScreen extends StatelessWidget {
             'Lista de contribuições',
             textAlign: TextAlign.left,
             style: TextStyle(
-              fontFamily: AppFonts.fontMedium,
+              fontFamily: AppFonts.fontTitle,
               fontSize: 24,
               color: Colors.black,
             ),

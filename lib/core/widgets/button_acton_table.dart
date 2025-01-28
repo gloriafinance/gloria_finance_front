@@ -30,7 +30,7 @@ class ButtonActionTable extends StatelessWidget {
           text,
           style: const TextStyle(
             fontSize: 12,
-            fontFamily: AppFonts.fontRegular,
+            fontFamily: AppFonts.fontSubTitle,
           ),
         ),
         style: OutlinedButton.styleFrom(

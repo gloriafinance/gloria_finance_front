@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../theme/app_color.dart';
 import '../theme/app_fonts.dart';
 import '../widgets/app_logo.dart';
+import '../widgets/app_logo_horizontal.dart';
 
 class HeaderLayout extends StatefulWidget {
   const HeaderLayout({super.key});
@@ -36,30 +37,23 @@ class _HeaderLayoutState extends State<HeaderLayout> {
         automaticallyImplyLeading: MediaQuery.of(context).size.width < 800,
         flexibleSpace: Container(
             alignment: Alignment.centerLeft,
-            margin: const EdgeInsets.only(left: 10.0, top: 20),
+            margin: const EdgeInsets.only(left: 10.0, top: 0),
             child: Row(
               children: [
                 if (isMobile(context)) const SizedBox(width: 40),
                 if (isMobile(context))
                   Padding(
                     padding:
-                        const EdgeInsets.only(left: 8.0, right: 8.0, top: 14.0),
+                        const EdgeInsets.only(left: 4.0, right: 8.0, top: 8.0),
                     child: ApplicationLogo(
-                      width: 60,
+                      width: 120,
                     ),
                   )
                 else
-                  ApplicationLogo(),
-                const SizedBox(width: 20),
-                if (!isMobile(context))
-                  Text(
-                    'Trusted Finance',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontFamily: AppFonts.fontMedium,
-                      color: AppColors.purple,
-                    ),
+                  ApplicationLogoHorizontal(
+                    width: 270,
                   ),
+                const SizedBox(width: 20),
               ],
             )),
         actions: [
@@ -75,7 +69,7 @@ class _HeaderLayoutState extends State<HeaderLayout> {
                     Text(
                       authStore.state.session.name,
                       style: TextStyle(
-                        fontFamily: AppFonts.fontMedium,
+                        fontFamily: AppFonts.fontTitle,
                         color: Colors.black,
                       ),
                     ),
@@ -83,7 +77,7 @@ class _HeaderLayoutState extends State<HeaderLayout> {
                       authStore.state.session.email,
                       style: TextStyle(
                         color: Colors.black54,
-                        fontFamily: AppFonts.fontLight,
+                        fontFamily: AppFonts.fontText,
                         fontSize: 12,
                       ),
                     ),

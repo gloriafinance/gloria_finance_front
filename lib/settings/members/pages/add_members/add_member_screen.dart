@@ -24,7 +24,7 @@ class AddMemberScreen extends StatelessWidget {
               "Registrar membro",
               textAlign: TextAlign.left,
               style: TextStyle(
-                fontFamily: AppFonts.fontMedium,
+                fontFamily: AppFonts.fontTitle,
                 fontSize: 24,
                 color: Colors.black,
               ),

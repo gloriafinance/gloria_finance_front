@@ -28,7 +28,7 @@ class Toast {
             description: Text(
               message,
               style: const TextStyle(
-                  fontFamily: AppFonts.fontRegular, fontSize: 18),
+                  fontFamily: AppFonts.fontSubTitle, fontSize: 18),
             )).show(_context);
         break;
       case ToastType.error:
@@ -37,7 +37,7 @@ class Toast {
             description: Text(
               message,
               style: const TextStyle(
-                  fontFamily: AppFonts.fontRegular, fontSize: 18),
+                  fontFamily: AppFonts.fontSubTitle, fontSize: 18),
             )).show(_context);
         break;
 
@@ -49,7 +49,7 @@ class Toast {
             description: Text(
               message,
               style: const TextStyle(
-                  fontFamily: AppFonts.fontRegular, fontSize: 18),
+                  fontFamily: AppFonts.fontSubTitle, fontSize: 18),
             )).show(_context);
     }
   }
