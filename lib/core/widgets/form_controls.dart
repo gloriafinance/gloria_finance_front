@@ -74,6 +74,7 @@ class _InputState extends State<Input> {
             validator: widget.onValidator,
             onChanged: widget.onChanged,
             onTap: widget.onTap,
+            style: const TextStyle(fontFamily: AppFonts.fontSubTitle),
           ),
         ],
       ),
@@ -86,8 +87,8 @@ List<Widget> _generateLabel(String label) {
     Text(label,
         style: const TextStyle(
             color: AppColors.purple,
-            fontFamily: AppFonts.fontRegular,
-            fontSize: 14)),
+            fontFamily: AppFonts.fontTitle,
+            fontSize: 15)),
     const SizedBox(height: 8)
   ];
 }
@@ -110,7 +111,7 @@ InputDecoration _inputDecoration(
           )
         : null,
     hintStyle: const TextStyle(
-        color: AppColors.greyMiddle, fontFamily: AppFonts.fontRegular),
+        color: AppColors.greyMiddle, fontFamily: AppFonts.fontSubTitle),
     enabledBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: AppColors.greyMiddle),
         borderRadius: BorderRadius.all(Radius.circular(18))),

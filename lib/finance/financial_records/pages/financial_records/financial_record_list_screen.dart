@@ -42,7 +42,7 @@ class FinancialRecordScreen extends StatelessWidget {
               'Movimentos financeiros',
               textAlign: TextAlign.left,
               style: TextStyle(
-                fontFamily: AppFonts.fontMedium,
+                fontFamily: AppFonts.fontTitle,
                 fontSize: 20,
                 color: Colors.black,
               ),
@@ -69,7 +69,7 @@ class FinancialRecordScreen extends StatelessWidget {
           'Movimentos financeiros',
           textAlign: TextAlign.left,
           style: TextStyle(
-            fontFamily: AppFonts.fontMedium,
+            fontFamily: AppFonts.fontTitle,
             fontSize: 20,
             color: Colors.black,
           ),

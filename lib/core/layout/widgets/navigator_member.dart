@@ -55,7 +55,7 @@ class _NavigatorMember extends State<NavigatorMember> {
       text: text,
       onPressed: () => context.go(urlScreen),
       textStyle: const TextStyle(
-          fontFamily: AppFonts.fontRegular, color: AppColors.mustard),
+          fontFamily: AppFonts.fontSubTitle, color: AppColors.mustard),
     );
   }
 }

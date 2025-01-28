@@ -34,7 +34,7 @@ class AddFinancialRecordScreen extends StatelessWidget {
                 'Registro financeiro',
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                  fontFamily: AppFonts.fontMedium,
+                  fontFamily: AppFonts.fontTitle,
                   fontSize: 18,
                   color: Colors.black,
                 ),

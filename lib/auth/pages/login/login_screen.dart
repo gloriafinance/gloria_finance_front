@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/app_logo.dart';
 import 'package:church_finance_bk/core/widgets/background_container.dart';
@@ -46,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               padding: const EdgeInsets.all(20), // Espaciado interno
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 600),
+                constraints: const BoxConstraints(maxWidth: 470),
                 child: ListView(
                   shrinkWrap: true, // Ajusta la lista al contenido
                   children: [
@@ -54,17 +53,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          padding: const EdgeInsets.only(left: 80, right: 80),
-                          child: ApplicationLogo(
-                            width: 140,
-                          ),
-                        ),
-                        const Text(
-                          "Bem-vindo",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: AppFonts.fontMedium,
-                          ),
+                          padding: const EdgeInsets.only(left: 60, right: 60),
+                          child: ApplicationLogo(),
                         ),
                         const FormLogin()
                       ],

@@ -31,7 +31,7 @@ class MembersScreen extends StatelessWidget {
             "Listado de membros",
             textAlign: TextAlign.left,
             style: TextStyle(
-              fontFamily: AppFonts.fontMedium,
+              fontFamily: AppFonts.fontTitle,
               fontSize: 24,
               color: Colors.black,
             ),

@@ -45,7 +45,7 @@ class CustomButton extends StatelessWidget {
             Text(
               text.toUpperCase(),
               style: TextStyle(
-                fontFamily: AppFonts.fontRegular,
+                fontFamily: AppFonts.fontTitle,
                 color: textColor,
                 fontSize: 14.0,
               ),

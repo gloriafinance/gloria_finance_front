@@ -121,7 +121,7 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
                       "Filtros",
                       style: TextStyle(
                         fontSize: 16,
-                        fontFamily: AppFonts.fontMedium,
+                        fontFamily: AppFonts.fontTitle,
                         color: AppColors.purple,
                       ),
                     ),

@@ -60,7 +60,8 @@ class _SidebarState extends State<Sidebar> {
                             section['label'],
                             style: TextStyle(
                                 color: Colors.white,
-                                fontFamily: AppFonts.fontLight),
+                                fontSize: 18,
+                                fontFamily: AppFonts.fontSubTitle),
                           ),
                         ],
                       ),
@@ -75,8 +76,9 @@ class _SidebarState extends State<Sidebar> {
                                 title: Text(
                                   item['label'],
                                   style: TextStyle(
+                                      fontSize: 18,
                                       color: Colors.white,
-                                      fontFamily: AppFonts.fontLight),
+                                      fontFamily: AppFonts.fontText),
                                 ),
                                 onTap: () {
                                   context.go(item['to']);
@@ -99,7 +101,7 @@ class _SidebarState extends State<Sidebar> {
               '© ${DateTime.now().year} Jaspesoft CNPJ 43.716.343/0001-60. ${_version}',
               style: TextStyle(
                 color: Colors.white,
-                fontFamily: AppFonts.fontRegular,
+                fontFamily: AppFonts.fontSubTitle,
               ),
             ),
           ),

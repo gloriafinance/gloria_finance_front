@@ -24,7 +24,7 @@ class Loading extends StatelessWidget {
             child: Text(
               label ?? "REQUEST IN PROGRESS",
               style: const TextStyle(
-                fontFamily: AppFonts.fontRegular,
+                fontFamily: AppFonts.fontSubTitle,
               ),
             ),
           )
