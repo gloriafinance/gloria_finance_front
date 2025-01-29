@@ -20,14 +20,14 @@ class CustomTable extends StatefulWidget {
   //final List<List<String>> data;
   final FactoryDataTable data;
   final List<Widget Function(dynamic)>? actionBuilders;
-  final PaginationData paginate;
+  final PaginationData? paginate;
 
   const CustomTable({
     super.key,
     required this.headers,
     required this.data,
     this.actionBuilders,
-    required this.paginate,
+    this.paginate,
   });
 
   @override
@@ -35,13 +35,12 @@ class CustomTable extends StatefulWidget {
 }
 
 class _CustomTableState extends State<CustomTable> {
-  int perPageState = 10;
+  int? perPageState;
 
   @override
   void initState() {
     super.initState();
-
-    perPageState = widget.paginate.perPage;
+    perPageState = widget.paginate?.perPage ?? 10;
   }
 
   @override
@@ -68,7 +67,7 @@ class _CustomTableState extends State<CustomTable> {
                 )
               : _buildDataTable(context),
         ),
-        _buildPaginate(context),
+        if (widget.paginate != null) _buildPaginate(context),
       ],
     );
   }
@@ -138,55 +137,33 @@ class _CustomTableState extends State<CustomTable> {
   }
 
   Widget _buildPaginate(BuildContext context) {
-    int showRecords = widget.paginate.currentPage * widget.paginate.perPage;
+    if (widget.paginate == null) return SizedBox.shrink();
 
-    if (showRecords > widget.paginate.totalRecords) {
-      showRecords = widget.paginate.totalRecords;
-    }
-
-    if (!isMobile(context)) {
-      return Container(
-        margin: EdgeInsets.only(top: 20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              offset: const Offset(0, 2),
-              blurRadius: 6,
-            ),
-          ],
-        ),
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Text(
-                "Visualizando $showRecords de ${widget.paginate.totalRecords} registros",
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontFamily: AppFonts.fontSubTitle,
-                  color: Colors.black87,
-                ),
-              ),
-            ),
-            // Selector de registros por página y navegación
-            _selectPerPage(),
-          ],
-        ),
-      );
+    int showRecords = widget.paginate!.currentPage * widget.paginate!.perPage;
+    if (showRecords > widget.paginate!.totalRecords) {
+      showRecords = widget.paginate!.totalRecords;
     }
 
     return Container(
       margin: const EdgeInsets.only(top: 20),
+      padding: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            offset: const Offset(0, 2),
+            blurRadius: 6,
+          ),
+        ],
+      ),
       child: Column(
         children: [
           Row(
             children: [
               Expanded(
                 child: Text(
-                  "Visualizando $showRecords de ${widget.paginate.totalRecords} registros",
+                  "Visualizando $showRecords de ${widget.paginate!.totalRecords} registros",
                   style: const TextStyle(
                     fontSize: 14,
                     fontFamily: AppFonts.fontSubTitle,
@@ -203,38 +180,26 @@ class _CustomTableState extends State<CustomTable> {
   }
 
   Widget _selectPerPage() {
+    if (widget.paginate == null) return SizedBox.shrink();
+
     return Row(
       children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 7),
-          decoration: BoxDecoration(
-            color: Colors.grey.shade200,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: DropdownButton<int>(
-            value: perPageState,
-            dropdownColor: Colors.white,
-            underline: const SizedBox(),
-            style: const TextStyle(
-              fontSize: 14,
-              fontFamily: AppFonts.fontSubTitle,
-              color: Colors.black87,
-            ),
-            isDense: true,
-            // Reducir altura predeterminada del DropdownButton
-            items: [10, 20, 50].map((int value) {
-              return DropdownMenuItem<int>(
-                value: value,
-                child: Text("$value por página"),
-              );
-            }).toList(),
-            onChanged: (value) {
-              if (value != null) {
+        DropdownButton<int>(
+          value: perPageState,
+          items: [10, 20, 50].map((int value) {
+            return DropdownMenuItem<int>(
+              value: value,
+              child: Text("$value por página"),
+            );
+          }).toList(),
+          onChanged: (value) {
+            if (value != null) {
+              setState(() {
                 perPageState = value;
-                widget.paginate.onChangePerPage(value);
-              }
-            },
-          ),
+              });
+              widget.paginate!.onChangePerPage(value);
+            }
+          },
         ),
         const SizedBox(width: 16),
         _prevButton(),
@@ -245,26 +210,29 @@ class _CustomTableState extends State<CustomTable> {
   }
 
   Widget _nextButton() {
-    return CustomButton(
-        padding: EdgeInsets.only(top: 8, bottom: 8),
-        textColor: Colors.white,
-        text: "",
-        icon: Icons.skip_next_outlined,
-        backgroundColor:
-            widget.paginate.nextPag ? AppColors.purple : AppColors.greyLight,
-        onPressed: () => widget.paginate.onNextPag());
+    return widget.paginate != null
+        ? CustomButton(
+            text: "",
+            icon: Icons.skip_next_outlined,
+            backgroundColor: widget.paginate!.nextPag
+                ? AppColors.purple
+                : AppColors.greyLight,
+            onPressed: widget.paginate!.onNextPag,
+          )
+        : SizedBox.shrink();
   }
 
   Widget _prevButton() {
-    return CustomButton(
-        padding: EdgeInsets.only(top: 8, bottom: 8),
-        textColor: Colors.white,
-        text: "",
-        icon: Icons.skip_previous_outlined,
-        backgroundColor: widget.paginate.currentPage > 1
-            ? AppColors.purple
-            : AppColors.greyLight,
-        onPressed: () => widget.paginate.onPrevPag());
+    return widget.paginate != null
+        ? CustomButton(
+            text: "",
+            icon: Icons.skip_previous_outlined,
+            backgroundColor: widget.paginate!.currentPage > 1
+                ? AppColors.purple
+                : AppColors.greyLight,
+            onPressed: widget.paginate!.onPrevPag,
+          )
+        : SizedBox.shrink();
   }
 }
 

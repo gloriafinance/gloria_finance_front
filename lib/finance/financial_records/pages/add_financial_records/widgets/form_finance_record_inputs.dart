@@ -11,8 +11,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
-import '../../../store/form_finance_record_store.dart';
-import '../../../validators/form_financial_record_validator.dart';
+import '../store/form_finance_record_store.dart';
+import '../validators/form_financial_record_validator.dart';
 
 final validator = FormFinancialRecordValidator();
 final List<FinancialConceptModel> financialConcepts = [];
