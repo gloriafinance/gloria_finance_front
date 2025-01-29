@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../store/finance_record_paginate_store.dart';
+import 'store/finance_record_paginate_store.dart';
 import 'widgets/finance_record_filters.dart';
 import 'widgets/finance_record_table.dart';
 

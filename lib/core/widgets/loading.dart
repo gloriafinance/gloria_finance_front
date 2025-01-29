@@ -16,7 +16,7 @@ class Loading extends StatelessWidget {
         children: [
           const Center(
             child: CircularProgressIndicator(
-              color: AppColors.greenMiddle,
+              color: AppColors.green,
             ),
           ),
           Padding(
