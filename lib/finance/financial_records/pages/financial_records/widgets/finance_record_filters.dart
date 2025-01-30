@@ -8,7 +8,7 @@ import 'package:church_finance_bk/settings/financial_concept/store/financial_con
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../store/finance_record_paginate_store.dart';
+import '../store/finance_record_paginate_store.dart';
 
 class FinanceRecordFilters extends StatefulWidget {
   const FinanceRecordFilters({super.key});
@@ -118,7 +118,7 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
                 headerBuilder: (context, isOpen) {
                   return ListTile(
                     title: Text(
-                      "Filtros",
+                      "FILTROS",
                       style: TextStyle(
                         fontSize: 16,
                         fontFamily: AppFonts.fontTitle,

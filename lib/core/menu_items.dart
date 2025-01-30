@@ -36,6 +36,17 @@ List<Map<String, dynamic>> items = const [
       },
     ],
   },
+  {
+    "label": "Relatórios",
+    "icon": Icons.insert_chart,
+    "items": [
+      {
+        "label": "Dízimos mensais",
+        "icon": Icons.bar_chart,
+        "to": "/report/monthly-tithes"
+      },
+    ],
+  }
 ];
 
 List<Map<String, dynamic>> menuItems(List<Profile> profiles) {

@@ -1,7 +1,7 @@
 import 'package:church_finance_bk/core/paginate/paginate_response.dart';
 import 'package:church_finance_bk/finance/financial_records/models/finance_record_filter_model.dart';
 
-import '../models/finance_record_list_model.dart';
+import '../../../models/finance_record_list_model.dart';
 
 class FinanceRecordPaginateState {
   final PaginateResponse<FinanceRecordListModel> paginate;

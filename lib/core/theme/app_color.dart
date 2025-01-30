@@ -11,11 +11,9 @@ class AppColors {
 
   static const Color purple = Color(0xFF502981);
 
-  static const Color greenMiddle = Color(0xFF00FF97);
-
   static const Color mustard = Color(0xFFfab42e);
 
-  static const Color green = Color(0xFF00DA08);
+  static const Color green = Color(0xFF02D474);
 
   static const Color blue = Color(0xFF239CFF);
 }
