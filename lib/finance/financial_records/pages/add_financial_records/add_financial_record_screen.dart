@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../store/form_finance_record_store.dart';
+import 'store/form_finance_record_store.dart';
 import 'widgets/form_finance_record.dart';
 
 class AddFinancialRecordScreen extends StatelessWidget {

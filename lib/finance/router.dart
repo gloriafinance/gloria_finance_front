@@ -5,6 +5,7 @@ import 'contributions/pages/app_contribuitions/add_contribution_screen.dart';
 import 'contributions/pages/contributions_list/contributions_list_screen.dart';
 import 'financial_records/pages/add_financial_records/add_financial_record_screen.dart';
 import 'financial_records/pages/financial_records/financial_record_list_screen.dart';
+import 'reports/pages/monthly_tithes/monthly_tithes_screen.dart';
 
 financialRouter() {
   return <RouteBase>[
@@ -32,5 +33,10 @@ financialRouter() {
         return transitionCustom(AddContributionScreen());
       },
     ),
+    GoRoute(
+        path: '/report/monthly-tithes',
+        pageBuilder: (context, state) {
+          return transitionCustom(MonthlyTithesScreen());
+        }),
   ];
 }

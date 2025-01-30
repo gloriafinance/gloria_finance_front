@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../settings/financial_concept/models/financial_concept_model.dart';
 import '../../../models/finance_record_list_model.dart';
-import '../../../store/finance_record_paginate_store.dart';
+import '../store/finance_record_paginate_store.dart';
 import 'view_finance_record.dart';
 
 class FinanceRecordTable extends StatefulWidget {
