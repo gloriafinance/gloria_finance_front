@@ -144,19 +144,42 @@ class _CustomTableState extends State<CustomTable> {
       showRecords = widget.paginate!.totalRecords;
     }
 
+    if (!isMobile(context)) {
+      return Container(
+        margin: EdgeInsets.only(top: 20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              offset: const Offset(0, 2),
+              blurRadius: 6,
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                "Visualizando $showRecords de ${widget.paginate!.totalRecords} registros",
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontFamily: AppFonts.fontSubTitle,
+                  color: Colors.black87,
+                ),
+              ),
+            ),
+            // Selector de registros por página y navegación
+            _selectPerPage(),
+          ],
+        ),
+      );
+    }
+
     return Container(
       margin: const EdgeInsets.only(top: 20),
-      padding: const EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            offset: const Offset(0, 2),
-            blurRadius: 6,
-          ),
-        ],
-      ),
       child: Column(
         children: [
           Row(
@@ -185,6 +208,10 @@ class _CustomTableState extends State<CustomTable> {
     return Row(
       children: [
         DropdownButton<int>(
+          style: const TextStyle(
+            fontFamily: AppFonts.fontSubTitle,
+            color: Colors.black87,
+          ),
           value: perPageState,
           items: [10, 20, 50].map((int value) {
             return DropdownMenuItem<int>(
@@ -212,12 +239,14 @@ class _CustomTableState extends State<CustomTable> {
   Widget _nextButton() {
     return widget.paginate != null
         ? CustomButton(
+            padding: EdgeInsets.symmetric(vertical: 8),
             text: "",
             icon: Icons.skip_next_outlined,
             backgroundColor: widget.paginate!.nextPag
-                ? AppColors.purple
+                ? AppColors.green
                 : AppColors.greyLight,
-            onPressed: widget.paginate!.onNextPag,
+            onPressed:
+                widget.paginate!.nextPag ? widget.paginate!.onNextPag : () {},
           )
         : SizedBox.shrink();
   }
@@ -225,12 +254,15 @@ class _CustomTableState extends State<CustomTable> {
   Widget _prevButton() {
     return widget.paginate != null
         ? CustomButton(
+            padding: EdgeInsets.symmetric(vertical: 8),
             text: "",
             icon: Icons.skip_previous_outlined,
             backgroundColor: widget.paginate!.currentPage > 1
-                ? AppColors.purple
+                ? AppColors.green
                 : AppColors.greyLight,
-            onPressed: widget.paginate!.onPrevPag,
+            onPressed: widget.paginate!.currentPage > 1
+                ? widget.paginate!.onPrevPag
+                : () {},
           )
         : SizedBox.shrink();
   }

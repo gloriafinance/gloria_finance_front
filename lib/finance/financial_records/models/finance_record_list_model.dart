@@ -43,7 +43,7 @@ class FinanceRecordListModel {
   final FinancialConceptModel financialConcept;
   final String financialRecordId;
   final String churchId;
-  final String description;
+  final String? description;
   final String type;
   final String? voucher;
   final AvailabilityAccount availabilityAccount;

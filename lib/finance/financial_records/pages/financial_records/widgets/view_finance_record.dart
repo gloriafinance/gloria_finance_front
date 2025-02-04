@@ -67,7 +67,7 @@ class ViewFinanceRecord extends StatelessWidget {
               _buildDetailRow(
                 mobile,
                 'Descrição',
-                financeRecord.description,
+                financeRecord.description ?? "",
               ),
               if (financeRecord.voucher != null) ...[
                 const SizedBox(height: 26),
