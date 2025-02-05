@@ -29,35 +29,37 @@ class _ContributionTableState extends State<ContributionTable> {
       return Center(child: Text('Nenhuma contribuição encontrada'));
     }
 
-    return CustomTable(
-      headers: ["Nome", "Valor", "Tipo de contribuçāo", "Status", "Fecha"],
-      data: FactoryDataTable<ContributionModel>(
-          data: state.paginate.results, dataBuilder: contributionDTO),
-      paginate: PaginationData(
-          totalRecords: state.paginate.count,
-          nextPag: state.paginate.nextPag,
-          perPage: state.paginate.perPage,
-          currentPage: state.filter.page,
-          onNextPag: () {
-            contributionPaginationStore.nextPage();
-          },
-          onPrevPag: () {
-            contributionPaginationStore.prevPage();
-          },
-          onChangePerPage: (perPage) {
-            contributionPaginationStore.setPerPage(perPage);
-          }),
-      actionBuilders: [
-        (contribution) => ButtonActionTable(
-              color: AppColors.blue,
-              text: "Visualizar",
-              onPressed: () {
-                print("Aprobar fila $contribution");
-                _openModal(context, contribution);
-              },
-              icon: Icons.remove_red_eye_sharp,
-            ),
-      ],
+    return Container(
+      margin: const EdgeInsets.only(top: 40.0),
+      child: CustomTable(
+        headers: ["Nome", "Valor", "Tipo de contribuçāo", "Status", "Fecha"],
+        data: FactoryDataTable<ContributionModel>(
+            data: state.paginate.results, dataBuilder: contributionDTO),
+        paginate: PaginationData(
+            totalRecords: state.paginate.count,
+            nextPag: state.paginate.nextPag,
+            perPage: state.paginate.perPage,
+            currentPage: state.filter.page,
+            onNextPag: () {
+              contributionPaginationStore.nextPage();
+            },
+            onPrevPag: () {
+              contributionPaginationStore.prevPage();
+            },
+            onChangePerPage: (perPage) {
+              contributionPaginationStore.setPerPage(perPage);
+            }),
+        actionBuilders: [
+          (contribution) => ButtonActionTable(
+                color: AppColors.blue,
+                text: "Visualizar",
+                onPressed: () {
+                  _openModal(context, contribution);
+                },
+                icon: Icons.remove_red_eye_sharp,
+              ),
+        ],
+      ),
     );
   }
 

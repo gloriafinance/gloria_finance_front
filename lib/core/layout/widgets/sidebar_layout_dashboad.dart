@@ -98,7 +98,7 @@ class _SidebarState extends State<Sidebar> {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
             child: Text(
               textAlign: TextAlign.center,
-              '© ${DateTime.now().year} Jaspesoft CNPJ 43.716.343/0001-60. ${_version}',
+              '© ${DateTime.now().year} Jaspesoft CNPJ 43.716.343/0001-60 ${_version}',
               style: TextStyle(
                 color: Colors.white,
                 fontFamily: AppFonts.fontSubTitle,
