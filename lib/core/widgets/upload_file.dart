@@ -133,7 +133,7 @@ class _UploadFile extends State<UploadFile> {
       type: FileType.custom,
       allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf'],
     );
-    print("File: $file");
+
     if (file != null) {
       setState(() {
         _platformFile = file.files.first;
@@ -151,7 +151,6 @@ class _UploadFile extends State<UploadFile> {
 
         // Crear MultipartFile desde los bytes del archivo (sin usar path)
         if (_platformFile!.bytes != null) {
-          print("File bytes: ${_platformFile!.bytes!.length}");
           widget.multipartFile(
             MultipartFile.fromBytes(
               _platformFile!.bytes!,

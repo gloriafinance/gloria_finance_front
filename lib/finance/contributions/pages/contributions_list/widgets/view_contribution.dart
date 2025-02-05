@@ -106,7 +106,6 @@ class ViewContribution extends StatelessWidget {
           color: Colors.red,
           text: "Rejeitar",
           onPressed: () async {
-            print("Rechazar fila $contribution");
             await _updateContributionStatus(
                 contributionId, ContributionStatus.REJECTED);
 

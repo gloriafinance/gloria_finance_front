@@ -35,13 +35,11 @@ class AppHttp {
   }
 
   transformResponse(data) {
-    print(data);
     Map error = jsonDecode(jsonEncode(data));
 
     error.forEach((key, value) {
       if (value is String) {
         if (key != "code") {
-          print(value);
           Toast.showMessage(value, ToastType.warning);
         }
       } else if (value is Map<String, dynamic> &&
