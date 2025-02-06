@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/core/layout/view_detail_widgets.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/finance/financial_records/models/finance_record_list_model.dart';
@@ -25,7 +26,8 @@ class ViewFinanceRecord extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              _buildTitleSection(),
+              buildTitle(
+                  'Movimento financeiro #${financeRecord.financialRecordId}'),
               const Divider(),
               const SizedBox(height: 16),
               _buildSectionTitle('Conceito Financeiro'),
@@ -35,36 +37,36 @@ class ViewFinanceRecord extends StatelessWidget {
                     fontSize: 16, fontFamily: AppFonts.fontText),
               ),
               SizedBox(height: 16),
-              _buildDetailRow(mobile, 'Valor',
+              buildDetailRow(mobile, 'Valor',
                   'R\$ ${financeRecord.amount.toStringAsFixed(2)}'),
               const SizedBox(height: 8),
-              _buildDetailRow(
+              buildDetailRow(
                 mobile,
                 'Data',
                 '${financeRecord.date.day}/${financeRecord.date.month}/${financeRecord.date.year}',
               ),
               const SizedBox(height: 8),
-              _buildDetailRow(
+              buildDetailRow(
                 mobile,
                 'Tipo de movimento',
                 getFriendlyNameFinancialConceptType(financeRecord.type),
               ),
               if (financeRecord.costCenter != null) ...[
                 const SizedBox(height: 8),
-                _buildDetailRow(
+                buildDetailRow(
                   mobile,
                   'Centro de custo',
                   financeRecord.costCenter!.name,
                 ),
               ],
               const SizedBox(height: 8),
-              _buildDetailRow(
+              buildDetailRow(
                 mobile,
                 'Conta de disponibilidade',
                 financeRecord.availabilityAccount.accountName,
               ),
               const SizedBox(height: 8),
-              _buildDetailRow(
+              buildDetailRow(
                 mobile,
                 'Descrição',
                 financeRecord.description ?? "",
@@ -83,76 +85,6 @@ class ViewFinanceRecord extends StatelessWidget {
         fontSize: 18,
         fontFamily: AppFonts.fontTitle,
         color: AppColors.purple,
-      ),
-    );
-  }
-
-  Widget _buildDetailRow(bool isMobile, String title, String value,
-      {Color? statusColor}) {
-    return isMobile
-        ? Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
-            child: Row(
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                      fontSize: 16, fontFamily: AppFonts.fontTitle),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    value,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: AppFonts.fontText,
-                      color: statusColor, // Aplica el color aquí
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis, // Añade esto
-                  ),
-                )
-              ],
-            ),
-          )
-        : Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                    flex: 6,
-                    child: Text(
-                      title,
-                      style: const TextStyle(
-                          fontSize: 16, fontFamily: AppFonts.fontTitle),
-                    )),
-                Expanded(
-                  flex: 6,
-                  child: Text(
-                    value,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: AppFonts.fontText,
-                      color: statusColor, // Aplica el color aquí
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis, // Añade esto
-                  ),
-                ),
-              ],
-            ),
-          );
-  }
-
-  Widget _buildTitleSection() {
-    return Center(
-      child: Text(
-        'Movimento financeiro #${financeRecord.financialRecordId}',
-        style: const TextStyle(
-          fontSize: 18,
-          fontFamily: AppFonts.fontTitle,
-        ),
       ),
     );
   }

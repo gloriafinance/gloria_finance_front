@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/transition_custom.dart';
+import 'package:church_finance_bk/finance/purchase/pages/purchases/purchase_list_screen.dart';
 import 'package:go_router/go_router.dart';
 
 import 'contributions/pages/app_contribuitions/add_contribution_screen.dart';
@@ -35,15 +36,15 @@ financialRouter() {
       },
     ),
     GoRoute(
-      path: '/register-purchase',
+      path: '/purchase/register',
       pageBuilder: (context, state) {
         return transitionCustom(AddPurchaseScreen());
       },
     ),
     GoRoute(
-      path: '/register-purchase',
+      path: '/purchase',
       pageBuilder: (context, state) {
-        return transitionCustom(AddPurchaseScreen());
+        return transitionCustom(PurchaseListScreen());
       },
     ),
     GoRoute(
