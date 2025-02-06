@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/formatters/currency_input_formatter.dart';
 import 'package:flutter_multi_formatter/formatters/money_input_enums.dart';
 
-import '../../../state/purchase_register_form_state.dart';
-import '../../../store/add_item_purchase_from_store.dart';
-import '../../../validators/add_item_purchase_validator.dart';
+import '../state/purchase_register_form_state.dart';
+import '../store/add_item_purchase_from_store.dart';
+import '../validators/add_item_purchase_validator.dart';
 
 class AddItemPurchase extends StatelessWidget {
   final formKey = GlobalKey<FormState>();

@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/formatters/currency_input_formatter.dart';
 import 'package:flutter_multi_formatter/formatters/money_input_enums.dart';
 
-import '../../../store/purchase_register_form_store.dart';
-import '../../../validators/purchase_register_form_validator.dart';
+import '../store/purchase_register_form_store.dart';
+import '../validators/purchase_register_form_validator.dart';
 
 final validator = PurchaseRegisterFormValidator();
 
