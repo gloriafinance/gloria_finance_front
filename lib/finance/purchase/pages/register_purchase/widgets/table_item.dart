@@ -2,8 +2,8 @@ import 'package:church_finance_bk/core/paginate/custom_table.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../state/purchase_register_form_state.dart';
-import '../../../store/purchase_register_form_store.dart';
+import '../state/purchase_register_form_state.dart';
+import '../store/purchase_register_form_store.dart';
 
 class TableItem extends StatelessWidget {
   const TableItem({super.key});

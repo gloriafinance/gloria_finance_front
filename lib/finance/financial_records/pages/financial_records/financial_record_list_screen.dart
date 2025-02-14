@@ -52,7 +52,6 @@ class FinancialRecordScreen extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: Row(
               children: [
-                _closeMonth(context),
                 _generateReport(context),
                 _newRecord(context),
               ],
@@ -77,7 +76,6 @@ class FinancialRecordScreen extends StatelessWidget {
         const SizedBox(height: 16),
         Row(
           children: [
-            Expanded(child: _closeMonth(context)),
             Expanded(child: _generateReport(context)),
           ],
         ),
@@ -105,13 +103,5 @@ class FinancialRecordScreen extends StatelessWidget {
         text: "Relatório",
         onPressed: () => {},
         icon: Icons.download);
-  }
-
-  Widget _closeMonth(BuildContext context) {
-    return ButtonActionTable(
-        color: AppColors.purple,
-        text: "Fechar mês",
-        onPressed: () => {},
-        icon: Icons.close_fullscreen_sharp);
   }
 }

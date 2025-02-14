@@ -1,22 +1,13 @@
-import 'package:church_finance_bk/finance/financial_records/finance_record_service.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 
-import '../state/finance_record_paginate_state.dart';
+import '../../../purchase_services.dart';
+import '../state/purchase_paginate_state.dart';
 
-class FinanceRecordPaginateStore extends ChangeNotifier {
-  var service = FinanceRecordService();
-  FinanceRecordPaginateState state = FinanceRecordPaginateState.empty();
+class PurchasePaginateStore extends ChangeNotifier {
+  var service = PurchaseService();
 
-  void setFinancialConceptId(String financialConceptId) {
-    state = state.copyWith(financialConceptId: financialConceptId);
-    notifyListeners();
-  }
-
-  void setAvailabilityAccountId(String availabilityAccountId) {
-    state = state.copyWith(availabilityAccountId: availabilityAccountId);
-    notifyListeners();
-  }
+  PurchasePaginateState state = PurchasePaginateState.empty();
 
   void setStartDate(String startDate) {
     state = state.copyWith(startDate: convertDateFormatToDDMMYYYY(startDate));
@@ -31,45 +22,45 @@ class FinanceRecordPaginateStore extends ChangeNotifier {
   void setPerPage(int perPage) {
     state = state.copyWith(perPage: perPage);
     notifyListeners();
-    searchFinanceRecords();
+    searchPurchases();
   }
 
   void nextPage() {
     state = state.copyWith(page: state.filter.page + 1);
     notifyListeners();
-
-    searchFinanceRecords();
+    searchPurchases();
   }
 
   void prevPage() {
     if (state.filter.page > 1) {
       state = state.copyWith(page: state.filter.page - 1);
       notifyListeners();
-
-      searchFinanceRecords();
+      searchPurchases();
     }
   }
 
   void apply() {
     notifyListeners();
-    searchFinanceRecords();
+    searchPurchases();
   }
 
   void clearFilters() {
-    state = FinanceRecordPaginateState.empty();
+    state = PurchasePaginateState.empty();
     notifyListeners();
-    searchFinanceRecords();
+    searchPurchases();
   }
 
-  Future<void> searchFinanceRecords() async {
+  Future<void> searchPurchases() async {
     try {
       state = state.copyWith(makeRequest: true);
       notifyListeners();
 
-      final paginate = await service.searchFinanceRecords(state.filter);
-
-      state = state.copyWith(makeRequest: false, paginate: paginate);
-
+      final paginate = await service.searchPurchases(state.filter);
+      
+      state = state.copyWith(
+        paginate: paginate,
+        makeRequest: false,
+      );
       notifyListeners();
     } catch (e) {
       print("ERRROR ${e}");

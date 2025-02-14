@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/auth/store/auth_session_store.dart';
+import 'package:church_finance_bk/core/layout/view_detail_widgets.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
@@ -27,6 +28,7 @@ class ViewContribution extends StatelessWidget {
     Toast.init(context);
     final store = Provider.of<AuthSessionStore>(context);
     final bankStore = Provider.of<BankStore>(context);
+    bool mobile = isMobile(context);
 
     return Card(
         color: Colors.white,
@@ -39,40 +41,43 @@ class ViewContribution extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildTitleSection(),
+              buildTitle('Contribuição #${contribution.contributionId}'),
               const Divider(),
               SizedBox(height: 16),
-              _buildDetailRow(
-                  'Valor', 'R\$ ${contribution.amount.toStringAsFixed(2)}'),
-              _buildDetailRow(
+              buildDetailRow(mobile, 'Valor',
+                  'R\$ ${contribution.amount.toStringAsFixed(2)}'),
+              buildDetailRow(
+                mobile,
                 'Status',
                 parseContributionStatus(contribution.status).friendlyName,
                 statusColor: getStatusColor(
                     parseContributionStatus(contribution.status)),
               ),
-              _buildDetailRow(
+              buildDetailRow(
+                mobile,
                 'Data',
                 '${contribution.createdAt.day}/${contribution.createdAt.month}/${contribution.createdAt.year}',
               ),
               const SizedBox(height: 16),
-              _buildDetailRow(
+              buildDetailRow(
+                mobile,
                 'Bano',
                 '${bankStore.getBankName(contribution.bankId)}',
               ),
               const SizedBox(height: 16),
-              _buildSectionTitle('Membro'),
+              buildSectionTitle('Membro'),
               Text(
                 '${contribution.member.name} (ID: ${contribution.member.memberId})',
                 style: const TextStyle(fontSize: 14),
               ),
               const SizedBox(height: 16),
-              _buildSectionTitle('Conceito Financeiro'),
+              buildSectionTitle('Conceito Financeiro'),
               Text(
                 contribution.financeConcept.name,
                 style: const TextStyle(fontSize: 14),
               ),
               const SizedBox(height: 26),
-              _buildSectionTitle('Recibo de Transferência'),
+              buildSectionTitle('Recibo de Transferência'),
               const SizedBox(height: 26),
               ContentViewer(url: contribution.bankTransferReceipt),
               const SizedBox(height: 46),
@@ -117,18 +122,6 @@ class ViewContribution extends StatelessWidget {
     );
   }
 
-  Widget _buildTitleSection() {
-    return Center(
-      child: Text(
-        'Contribuição #${contribution.contributionId}',
-        style: const TextStyle(
-          fontSize: 18,
-          fontFamily: AppFonts.fontTitle,
-        ),
-      ),
-    );
-  }
-
   Widget _buildDetailRow(String title, String value, {Color? statusColor}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -149,17 +142,6 @@ class ViewContribution extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildSectionTitle(String title) {
-    return Text(
-      title,
-      style: const TextStyle(
-        fontSize: 18,
-        fontFamily: AppFonts.fontTitle,
-        color: AppColors.purple,
       ),
     );
   }
