@@ -35,11 +35,7 @@ List<Map<String, dynamic>> items = const [
         "to": "/financial-record"
       },
       //TODO Registro de compras puede ser un mdulo.
-      {
-        "label": "Registro compras",
-        "icon": Icons.sell_outlined,
-        "to": "/register-purchase"
-      },
+      {"label": "Compras", "icon": Icons.sell_outlined, "to": "/purchase"},
     ],
   },
   {

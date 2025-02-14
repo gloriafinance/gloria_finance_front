@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../store/purchase_register_form_store.dart';
+import 'store/purchase_register_form_store.dart';
 import 'widgets/form_purchase.dart';
 
 class AddPurchaseScreen extends StatelessWidget {
@@ -30,7 +30,7 @@ class AddPurchaseScreen extends StatelessWidget {
     return Row(
       children: [
         GestureDetector(
-          onTap: () => context.go("/financial-record"),
+          onTap: () => context.go("/purchase"),
           child: Icon(
             Icons.arrow_back_ios,
             color: AppColors.purple,

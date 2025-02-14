@@ -36,6 +36,9 @@ class FinanceRecordService extends AppHttp {
 
   Future<PaginateResponse<FinanceRecordListModel>> searchFinanceRecords(
       FinanceRecordFilterModel params) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
     try {
       final response = await http.get(
         '${await getUrlApi()}finance/financial-record',

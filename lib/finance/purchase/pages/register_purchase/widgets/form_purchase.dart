@@ -11,10 +11,11 @@ import 'package:church_finance_bk/settings/banks/store/bank_store.dart';
 import 'package:church_finance_bk/settings/cost_center/store/cost_center_list_store.dart';
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../../state/purchase_register_form_state.dart';
-import '../../../store/purchase_register_form_store.dart';
+import '../state/purchase_register_form_state.dart';
+import '../store/purchase_register_form_store.dart';
 import 'add_item_purchase.dart';
 import 'layouts/form_desktop_layout.dart';
 import 'layouts/form_mobile_layout.dart';
@@ -113,12 +114,10 @@ class _FormPurchaseState extends State<FormPurchase> {
       return;
     }
 
-    print(formStore.state.toJson());
-
     final finished = await formStore.send();
 
     if (finished) {
-      //Navigator.of(context).pop();
+      context.go("/purchase");
       Toast.showMessage("Comprada com sucesso", ToastType.info);
     }
   }

@@ -28,8 +28,8 @@ class ButtonActionTable extends StatelessWidget {
         ),
         label: Text(
           text,
-          style: const TextStyle(
-            fontSize: 12,
+          style: TextStyle(
+            fontSize: isMobile(context) == true ? 12 : 14,
             fontFamily: AppFonts.fontSubTitle,
           ),
         ),
