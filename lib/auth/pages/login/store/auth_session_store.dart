@@ -1,9 +1,9 @@
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:flutter/material.dart';
 
-import '../auth_persistence.dart';
-import '../auth_service.dart';
-import '../auth_session_model.dart';
+import '../../../auth_persistence.dart';
+import '../../../auth_service.dart';
+import '../../../auth_session_model.dart';
 import '../state/auth_session_state.dart';
 import '../state/form_login_state.dart';
 

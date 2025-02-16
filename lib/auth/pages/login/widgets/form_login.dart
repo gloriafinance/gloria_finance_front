@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
+import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../../store/auth_session_store.dart';
+import '../store/auth_session_store.dart';
 import '../validators/form_login_validator.dart';
 
 class FormLogin extends StatefulWidget {
@@ -46,6 +47,7 @@ class _FormLogin extends State<FormLogin> {
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 23, 10, 0),
               child: Input(
+                icon: Icons.email_outlined,
                 label: "E-mail",
                 keyboardType: TextInputType.emailAddress,
                 onValidator: validator.byField(authStore.formState, 'email'),
@@ -59,6 +61,7 @@ class _FormLogin extends State<FormLogin> {
               padding: const EdgeInsets.fromLTRB(10, 12, 10, 0),
               child: Input(
                 label: "Senha",
+                icon: Icons.lock_outline,
                 keyboardType: TextInputType.text,
                 iconRight: const Icon(
                   Icons.remove_red_eye_outlined,
@@ -73,6 +76,8 @@ class _FormLogin extends State<FormLogin> {
                 },
               ),
             ),
+            SizedBox(height: 32),
+            _forgetPassword(),
             (authStore.formState.makeRequest)
                 ? const Loading()
                 : _buttonLogin(authStore, context),
@@ -82,9 +87,27 @@ class _FormLogin extends State<FormLogin> {
     );
   }
 
+  Widget _forgetPassword() {
+    return GestureDetector(
+      onTap: () {
+        GoRouter.of(context).go('/recovery-password');
+      },
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: Text(
+          'Esqueceu a senha?',
+          style: TextStyle(
+              color: AppColors.purple,
+              fontSize: 16,
+              fontFamily: AppFonts.fontSubTitle),
+        ),
+      ),
+    );
+  }
+
   Widget _buttonLogin(AuthSessionStore authStore, BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 80),
+      padding: const EdgeInsets.only(top: 60),
       child: CustomButton(
           backgroundColor: AppColors.green,
           text: "Entrar",

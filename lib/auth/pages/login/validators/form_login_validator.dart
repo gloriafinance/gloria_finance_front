@@ -1,6 +1,6 @@
 import 'package:lucid_validation/lucid_validation.dart';
 
-import '../../../state/form_login_state.dart';
+import '../state/form_login_state.dart';
 
 class FormLoginValidator extends LucidValidator<FormLoginState> {
   FormLoginValidator() {

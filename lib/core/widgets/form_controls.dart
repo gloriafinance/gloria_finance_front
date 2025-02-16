@@ -14,11 +14,13 @@ class Input extends StatefulWidget {
   final void Function()? onTap;
   final bool? isPass;
   final Icon? iconRight;
+  final IconData? icon;
   final GestureTapCallback? onIconTap;
 
   const Input(
       {super.key,
       this.onIconTap,
+      this.icon,
       this.iconRight,
       this.isPass = false,
       required this.label,
@@ -70,7 +72,8 @@ class _InputState extends State<Input> {
             inputFormatters: widget.inputFormatters,
             keyboardType: widget.keyboardType,
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            decoration: _inputDecoration(widget.iconRight, widget.onIconTap),
+            decoration: _inputDecoration(
+                widget.icon, widget.iconRight, widget.onIconTap),
             validator: widget.onValidator,
             onChanged: widget.onChanged,
             onTap: widget.onTap,
@@ -94,7 +97,7 @@ List<Widget> _generateLabel(String label) {
 }
 
 InputDecoration _inputDecoration(
-    Icon? iconRight, GestureTapCallback? onIconTap) {
+    IconData? icon, Icon? iconRight, GestureTapCallback? onIconTap) {
   return InputDecoration(
     contentPadding: const EdgeInsets.all(16),
     errorBorder: const OutlineInputBorder(
@@ -104,6 +107,8 @@ InputDecoration _inputDecoration(
         ),
     focusedErrorBorder:
         const OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+    prefixIcon: icon != null ? Icon(icon, color: AppColors.greyMiddle) : null,
+    // Modify prefix icon color
     suffixIcon: iconRight != null
         ? GestureDetector(
             onTap: onIconTap ?? () {},
@@ -144,7 +149,7 @@ class Dropdown extends StatelessWidget {
           onChanged: (val) => onChanged(val!),
           validator: onValidator,
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          decoration: _inputDecoration(null, null),
+          decoration: _inputDecoration(null, null, null),
           items: items.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,

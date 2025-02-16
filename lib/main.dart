@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/auth/store/auth_session_store.dart';
+import 'package:church_finance_bk/auth/pages/login/store/auth_session_store.dart';
 import 'package:church_finance_bk/settings/availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:church_finance_bk/settings/banks/store/bank_store.dart';
 import 'package:church_finance_bk/settings/cost_center/store/cost_center_list_store.dart';
