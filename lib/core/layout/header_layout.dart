@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/auth/store/auth_session_store.dart';
+import 'package:church_finance_bk/auth/pages/login/store/auth_session_store.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
