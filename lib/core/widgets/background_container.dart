@@ -34,7 +34,7 @@ class WaveClipper extends CustomClipper<Path> {
     path.moveTo(
         0,
         size.height *
-            0.1); // Ajusta el valor y para cambiar la posición vertical inicial
+            1.67); // Ajusta el valor y para cambiar la posición vertical inicial
     path.quadraticBezierTo(
       0,
       size.height * 0.08,
@@ -50,7 +50,7 @@ class WaveClipper extends CustomClipper<Path> {
     path.lineTo(
         0,
         size.height *
-            1); // Ajusta el valor y para cambiar la posición vertical final
+            0.9); // Ajusta el valor y para cambiar la posición vertical final
     path.close();
 
     return path;

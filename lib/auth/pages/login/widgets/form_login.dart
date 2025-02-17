@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
+import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../../store/auth_session_store.dart';
+import '../store/auth_session_store.dart';
 import '../validators/form_login_validator.dart';
 
 class FormLogin extends StatefulWidget {
@@ -38,68 +39,94 @@ class _FormLogin extends State<FormLogin> {
   Widget build(BuildContext context) {
     final authStore = Provider.of<AuthSessionStore>(context);
 
-    return Form(
-      key: formKey,
-      child: LayoutBuilder(builder: (context, constraints) {
-        return Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 23, 10, 0),
-              child: Input(
-                label: "E-mail",
-                keyboardType: TextInputType.emailAddress,
-                onValidator: validator.byField(authStore.formState, 'email'),
-                onChanged: (value) {
-                  authStore.setEmail(value);
-                  _validateForm();
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 12, 10, 0),
-              child: Input(
-                label: "Senha",
-                keyboardType: TextInputType.text,
-                iconRight: const Icon(
-                  Icons.remove_red_eye_outlined,
-                  color: AppColors.mustard,
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Form(
+        key: formKey,
+        child: LayoutBuilder(builder: (context, constraints) {
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 23, 10, 0),
+                child: Input(
+                  icon: Icons.email_outlined,
+                  label: "E-mail",
+                  keyboardType: TextInputType.emailAddress,
+                  onValidator: validator.byField(authStore.formState, 'email'),
+                  onChanged: (value) {
+                    authStore.setEmail(value);
+                    _validateForm();
+                  },
                 ),
-                isPass: isPasswordVisible,
-                onIconTap: _handleSuffixIconTap,
-                onValidator: validator.byField(authStore.formState, 'password'),
-                onChanged: (value) {
-                  authStore.setPassword(value);
-                  _validateForm();
-                },
               ),
-            ),
-            (authStore.formState.makeRequest)
-                ? const Loading()
-                : _buttonLogin(authStore, context),
-          ],
-        );
-      }),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 12, 10, 0),
+                child: Input(
+                  label: "Senha",
+                  icon: Icons.lock_outline,
+                  keyboardType: TextInputType.text,
+                  iconRight: const Icon(
+                    Icons.remove_red_eye_outlined,
+                    color: AppColors.mustard,
+                  ),
+                  isPass: isPasswordVisible,
+                  onIconTap: _handleSuffixIconTap,
+                  onValidator:
+                      validator.byField(authStore.formState, 'password'),
+                  onChanged: (value) {
+                    authStore.setPassword(value);
+                    _validateForm();
+                  },
+                ),
+              ),
+              SizedBox(height: 32),
+              _forgetPassword(),
+              (authStore.formState.makeRequest)
+                  ? const Loading()
+                  : _buttonLogin(authStore),
+            ],
+          );
+        }),
+      ),
     );
   }
 
-  Widget _buttonLogin(AuthSessionStore authStore, BuildContext context) {
+  Widget _forgetPassword() {
+    return GestureDetector(
+      onTap: () {
+        GoRouter.of(context).go('/recovery-password');
+      },
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: Text(
+          'Esqueceu a senha?',
+          style: TextStyle(
+              color: AppColors.purple,
+              fontSize: 16,
+              fontFamily: AppFonts.fontSubTitle),
+        ),
+      ),
+    );
+  }
+
+  Widget _buttonLogin(AuthSessionStore authStore) {
     return Padding(
-      padding: const EdgeInsets.only(top: 80),
+      padding: const EdgeInsets.only(top: 60),
       child: CustomButton(
           backgroundColor: AppColors.green,
           text: "Entrar",
-          onPressed: isFormValid ? () => _makeLogin(authStore, context) : null,
+          onPressed: isFormValid ? () => _makeLogin(authStore) : null,
           typeButton: CustomButton.basic),
     );
   }
 
-  void _makeLogin(AuthSessionStore authStore, BuildContext context) async {
+  void _makeLogin(AuthSessionStore authStore) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
 
     if (await authStore.login()) {
-      GoRouter.of(context).go('/dashboard');
+      context.go('/dashboard');
     }
   }
 }

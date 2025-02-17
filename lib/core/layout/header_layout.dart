@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/auth/store/auth_session_store.dart';
+import 'package:church_finance_bk/auth/pages/login/store/auth_session_store.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +46,7 @@ class _HeaderLayoutState extends State<HeaderLayout> {
                     padding:
                         const EdgeInsets.only(left: 4.0, right: 8.0, top: 8.0),
                     child: ApplicationLogo(
-                      width: 120,
+                      height: 120,
                     ),
                   )
                 else
