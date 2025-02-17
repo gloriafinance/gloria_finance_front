@@ -15,4 +15,26 @@ class AuthService extends AppHttp {
       return null;
     }
   }
+
+  Future<bool> recoveryPassword(String email) async {
+    try {
+      await http.post("${await getUrlApi()}user/recovery-password",
+          data: {"email": email});
+      return true;
+    } on DioException catch (e) {
+      print("ERR ${e.response?.data}");
+      transformResponse(e.response?.data);
+      return false;
+    }
+  }
+
+  Future<void> changePassword(Map<String, dynamic> jsonForm) async {
+    try {
+      await http.post("${await getUrlApi()}user/change-password",
+          data: jsonForm);
+    } on DioException catch (e) {
+      print("ERR ${e.response?.data}");
+      transformResponse(e.response?.data);
+    }
+  }
 }
