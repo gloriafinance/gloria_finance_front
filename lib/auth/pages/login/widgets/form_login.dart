@@ -80,7 +80,7 @@ class _FormLogin extends State<FormLogin> {
             _forgetPassword(),
             (authStore.formState.makeRequest)
                 ? const Loading()
-                : _buttonLogin(authStore, context),
+                : _buttonLogin(authStore),
           ],
         );
       }),
@@ -105,24 +105,24 @@ class _FormLogin extends State<FormLogin> {
     );
   }
 
-  Widget _buttonLogin(AuthSessionStore authStore, BuildContext context) {
+  Widget _buttonLogin(AuthSessionStore authStore) {
     return Padding(
       padding: const EdgeInsets.only(top: 60),
       child: CustomButton(
           backgroundColor: AppColors.green,
           text: "Entrar",
-          onPressed: isFormValid ? () => _makeLogin(authStore, context) : null,
+          onPressed: isFormValid ? () => _makeLogin(authStore) : null,
           typeButton: CustomButton.basic),
     );
   }
 
-  void _makeLogin(AuthSessionStore authStore, BuildContext context) async {
+  void _makeLogin(AuthSessionStore authStore) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
 
     if (await authStore.login()) {
-      GoRouter.of(context).go('/dashboard');
+      context.go('/dashboard');
     }
   }
 }
