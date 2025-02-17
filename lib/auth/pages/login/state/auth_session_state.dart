@@ -1,4 +1,4 @@
-import '../auth_session_model.dart';
+import '../../../auth_session_model.dart';
 
 class AuthSessionState {
   final AuthSessionModel session;
