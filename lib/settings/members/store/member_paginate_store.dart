@@ -51,6 +51,7 @@ class MemberPaginateStore extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
+      print("ERRROR ${e}");
       state = state.copyWith(makeRequest: false);
       notifyListeners();
     }
