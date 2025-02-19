@@ -9,7 +9,8 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutAuth(
-      height: 620,
+      height: 580,
+      width: 580,
       child: FormLogin(),
     );
   }

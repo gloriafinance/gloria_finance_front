@@ -35,11 +35,17 @@ class _RecoveryPasswordScreenState extends State<RecoveryPasswordScreen> {
         width: isMobile(context) ? null : 750,
         child: Column(
           children: [
+            SizedBox(
+              height: 20,
+            ),
             StepperRecoveryPassword(
               temporalPassword: StepRequestTemporalPassword(),
               confirmationReceiveTemporalPassword:
                   StepSuccessTemporalPassword(),
               newPassword: StepChangePassword(),
+            ),
+            SizedBox(
+              height: 20,
             ),
             _backToLogin(),
             SizedBox(

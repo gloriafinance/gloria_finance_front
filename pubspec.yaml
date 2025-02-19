@@ -71,13 +71,13 @@ flutter:
   fonts:
     - family: fontTitle
       fonts:
-        - asset: fonts/Lato-Black.ttf
+        - asset: fonts/Poppins-SemiBold.ttf
     - family: fontSubTitle
       fonts:
-        - asset: fonts/Lato-Bold.ttf
+        - asset: fonts/Poppins-Regular.ttf
     - family: fontText
       fonts:
-        - asset: fonts/Lato-Regular.ttf
+        - asset: fonts/Poppins-Light.ttf
 
 
   assets:
