@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/app_logo.dart';
 import 'package:church_finance_bk/core/widgets/background_container.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,8 @@ class _LayoutAuthState extends State<LayoutAuth> {
 
   @override
   Widget build(BuildContext context) {
+    Toast.init(context);
+
     return Scaffold(
       body: Stack(
         children: [

@@ -29,7 +29,7 @@ class _StepRequestTemporalPasswordState
       children: [
         //SizedBox(height: 26),
         Text(
-          'Digite o e-mail associado à sua conta e enviaremos um e-mail para alterar sua senha',
+          'Digite o e-mail associado à sua conta e enviaremos um e-mail com uma senha temporária.',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: AppFonts.fontText,
@@ -50,8 +50,6 @@ class _StepRequestTemporalPasswordState
           icon: Icons.email_outlined,
           keyboardType: TextInputType.emailAddress,
           onChanged: (value) {
-            // authStore.setEmail(value);
-            // _validateForm();
             setState(() {
               email = value;
             });
@@ -59,7 +57,9 @@ class _StepRequestTemporalPasswordState
         ),
         SizedBox(height: 60),
         makeRequest
-            ? const Loading()
+            ? const Loading(
+                label: 'Solicitando senha temporária',
+              )
             : CustomButton(
                 text: "Enviar",
                 backgroundColor: AppColors.green,
@@ -84,9 +84,10 @@ class _StepRequestTemporalPasswordState
     if (isSuccess) {
       Provider.of<StepperStore>(context, listen: false).nextStep();
       Provider.of<ChangePasswordStore>(context, listen: false).setEmail(email);
-      return;
     }
 
-    Toast.showMessage("Erro ao enviar e-mail", ToastType.error);
+    setState(() {
+      makeRequest = false;
+    });
   }
 }

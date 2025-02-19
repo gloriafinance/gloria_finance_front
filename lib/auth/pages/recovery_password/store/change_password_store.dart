@@ -28,13 +28,13 @@ class ChangePasswordStore extends ChangeNotifier {
 
     try {
       await service.changePassword(state.toJson());
-      state = state.copyWith(makeRequest: false);
-      notifyListeners();
+      // state = state.copyWith(makeRequest: false);
+      // notifyListeners();
 
       return true;
     } catch (e) {
-      state = state.copyWith(makeRequest: false);
-      notifyListeners();
+      // state = state.copyWith(makeRequest: false);
+      // notifyListeners();
       return false;
     }
   }

@@ -22,7 +22,7 @@ class Loading extends StatelessWidget {
           Padding(
             padding: EdgeInsets.all(20),
             child: Text(
-              label ?? "REQUEST IN PROGRESS",
+              label ?? "REALIZANDO REQUISIÇÃO",
               style: const TextStyle(
                 fontFamily: AppFonts.fontSubTitle,
               ),
