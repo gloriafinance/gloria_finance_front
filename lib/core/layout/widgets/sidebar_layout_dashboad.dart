@@ -95,7 +95,7 @@ class _SidebarState extends State<Sidebar> {
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 16),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
