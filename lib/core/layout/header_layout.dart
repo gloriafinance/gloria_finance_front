@@ -40,13 +40,13 @@ class _HeaderLayoutState extends State<HeaderLayout> {
             margin: const EdgeInsets.only(left: 10.0, top: 0),
             child: Row(
               children: [
-                if (isMobile(context)) const SizedBox(width: 40),
+                if (isMobile(context)) const SizedBox(width: 10),
                 if (isMobile(context))
                   Padding(
                     padding:
                         const EdgeInsets.only(left: 4.0, right: 8.0, top: 8.0),
                     child: ApplicationLogo(
-                      height: 120,
+                      height: 60,
                     ),
                   )
                 else
@@ -84,18 +84,22 @@ class _HeaderLayoutState extends State<HeaderLayout> {
                   ],
                 ),
                 const SizedBox(width: 12),
-                CircleAvatar(
-                  radius: 20,
-                  backgroundColor: AppColors.purple,
-                  child: const Text(
-                    'AB',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
+                _avatar()
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _avatar() {
+    return CircleAvatar(
+      radius: 20,
+      backgroundColor: AppColors.purple,
+      child: const Text(
+        'AB',
+        style: TextStyle(color: Colors.white),
       ),
     );
   }
