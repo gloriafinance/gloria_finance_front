@@ -10,8 +10,8 @@ class MemberModel {
   bool isMinister;
   bool isTreasurer;
 
-  Church church;
-  Region region;
+  // Church church;
+  // Region region;
 
   MemberModel({
     required this.memberId,
@@ -24,8 +24,8 @@ class MemberModel {
     required this.birthdate,
     required this.isMinister,
     required this.isTreasurer,
-    required this.church,
-    required this.region,
+    // required this.church,
+    // required this.region,
   });
 
   factory MemberModel.fromJson(Map<String, dynamic> json) {
@@ -40,8 +40,8 @@ class MemberModel {
       birthdate: json['birthdate'],
       isMinister: json['isMinister'],
       isTreasurer: json['isTreasurer'] ?? false,
-      church: Church.fromJson(json['church']),
-      region: Region.fromJson(json['region']),
+      //church: Church.fromJson(json['church']),
+      //region: Region.fromJson(json['region']),
     );
   }
 
@@ -57,8 +57,8 @@ class MemberModel {
       'birthdate': birthdate,
       'isMinister': isMinister,
       'isTreasurer': isTreasurer,
-      'church': church.toJson(),
-      'region': region.toJson(),
+      // 'church': church.toJson(),
+      // 'region': region.toJson(),
     };
   }
 }
