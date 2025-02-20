@@ -205,33 +205,76 @@ class _CustomTableState extends State<CustomTable> {
   Widget _selectPerPage() {
     if (widget.paginate == null) return SizedBox.shrink();
 
+    if (!isMobile(context)) {
+      return Row(
+        children: [
+          DropdownButton<int>(
+            style: const TextStyle(
+              fontFamily: AppFonts.fontSubTitle,
+              color: Colors.black87,
+            ),
+            value: perPageState,
+            items: [20, 50, 70].map((int value) {
+              return DropdownMenuItem<int>(
+                value: value,
+                child: Text("$value por página"),
+              );
+            }).toList(),
+            onChanged: (value) {
+              if (value != null) {
+                setState(() {
+                  perPageState = value;
+                });
+                widget.paginate!.onChangePerPage(value);
+              }
+            },
+          ),
+          const SizedBox(width: 16),
+          _prevButton(),
+          const SizedBox(width: 8),
+          _nextButton(),
+        ],
+      );
+    }
+
     return Row(
       children: [
-        DropdownButton<int>(
-          style: const TextStyle(
-            fontFamily: AppFonts.fontSubTitle,
-            color: Colors.black87,
+        Expanded(
+          flex: 2,
+          child: DropdownButton<int>(
+            style: const TextStyle(
+              fontFamily: AppFonts.fontSubTitle,
+              color: Colors.black87,
+            ),
+            value: perPageState,
+            items: [20, 50, 70].map((int value) {
+              return DropdownMenuItem<int>(
+                value: value,
+                child: Text("$value por página"),
+              );
+            }).toList(),
+            onChanged: (value) {
+              if (value != null) {
+                setState(() {
+                  perPageState = value;
+                });
+                widget.paginate!.onChangePerPage(value);
+              }
+            },
           ),
-          value: perPageState,
-          items: [10, 20, 50].map((int value) {
-            return DropdownMenuItem<int>(
-              value: value,
-              child: Text("$value por página"),
-            );
-          }).toList(),
-          onChanged: (value) {
-            if (value != null) {
-              setState(() {
-                perPageState = value;
-              });
-              widget.paginate!.onChangePerPage(value);
-            }
-          },
         ),
-        const SizedBox(width: 16),
-        _prevButton(),
-        const SizedBox(width: 8),
-        _nextButton(),
+        Expanded(flex: 1, child: SizedBox()),
+        Expanded(
+          flex: 2,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _prevButton(),
+              const SizedBox(width: 8),
+              _nextButton(),
+            ],
+          ),
+        )
       ],
     );
   }
