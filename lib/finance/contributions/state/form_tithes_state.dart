@@ -8,8 +8,10 @@ class FormTitheState {
   String bankId;
   String memberId;
   String financialConceptId;
+  String availabilityAccountId;
 
   FormTitheState({
+    required this.availabilityAccountId,
     required this.amount,
     required this.month,
     required this.bankId,
@@ -21,6 +23,7 @@ class FormTitheState {
 
   factory FormTitheState.init() {
     return FormTitheState(
+      availabilityAccountId: '',
       amount: 0.0,
       month: '',
       bankId: '',
@@ -32,6 +35,7 @@ class FormTitheState {
 
   copyWith(
       {double? amount,
+      String? availabilityAccountId,
       String? month,
       MultipartFile? file,
       String? bankId,
@@ -39,6 +43,8 @@ class FormTitheState {
       String? financialConceptId,
       bool? makeRequest}) {
     return FormTitheState(
+      availabilityAccountId:
+          availabilityAccountId ?? this.availabilityAccountId,
       amount: amount ?? this.amount,
       month: month ?? this.month,
       file: file ?? this.file,
@@ -51,6 +57,7 @@ class FormTitheState {
 
   Map<String, dynamic> toJson() {
     return {
+      'availabilityAccountId': availabilityAccountId,
       'amount': amount,
       'month': month,
       'file': file,

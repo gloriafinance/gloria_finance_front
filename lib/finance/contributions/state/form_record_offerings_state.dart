@@ -7,8 +7,10 @@ class FormRecordOfferingState {
   String financialConceptId;
   MultipartFile? file;
   String bankId;
+  String availabilityAccountId;
 
   FormRecordOfferingState({
+    required this.availabilityAccountId,
     required this.amount,
     required this.memberId,
     required this.financialConceptId,
@@ -19,6 +21,7 @@ class FormRecordOfferingState {
 
   factory FormRecordOfferingState.init() {
     return FormRecordOfferingState(
+      availabilityAccountId: '',
       amount: 0.0,
       memberId: '',
       financialConceptId: '',
@@ -28,6 +31,7 @@ class FormRecordOfferingState {
   }
 
   copyWith({
+    String? availabilityAccountId,
     double? amount,
     String? memberId,
     String? financialConceptId,
@@ -36,6 +40,8 @@ class FormRecordOfferingState {
     MultipartFile? file,
   }) {
     return FormRecordOfferingState(
+      availabilityAccountId:
+          availabilityAccountId ?? this.availabilityAccountId,
       amount: amount ?? this.amount,
       memberId: memberId ?? this.memberId,
       financialConceptId: financialConceptId ?? this.financialConceptId,
@@ -47,6 +53,7 @@ class FormRecordOfferingState {
 
   Map<String, dynamic> toJson() {
     return {
+      'availabilityAccountId': availabilityAccountId,
       'amount': amount,
       'memberId': memberId,
       'financialConceptId': financialConceptId,

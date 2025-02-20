@@ -39,7 +39,7 @@ class ContributionService extends AppHttp {
     try {
       final s = status.toString().split('.').last;
       await http.patch(
-        '${await getUrlApi()}finance/contributions_list/$contributionId/status/$s',
+        '${await getUrlApi()}finance/contributions/$contributionId/status/$s',
         options: Options(
           headers: getHeader(),
         ),
@@ -62,7 +62,7 @@ class ContributionService extends AppHttp {
 
     try {
       await http.post(
-        '${await getUrlApi()}finance/contributions_list',
+        '${await getUrlApi()}finance/contributions',
         data: formData,
         options: Options(
           headers: getHeader(),
