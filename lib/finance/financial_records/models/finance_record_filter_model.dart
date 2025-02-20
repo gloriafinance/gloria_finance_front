@@ -10,7 +10,7 @@ class FinanceRecordFilterModel {
   String? availabilityAccountId;
 
   FinanceRecordFilterModel({
-    this.perPage = 10,
+    this.perPage = 20,
     this.page = 1,
     this.startDate,
     this.endDate,

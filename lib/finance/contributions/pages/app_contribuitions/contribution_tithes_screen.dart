@@ -4,6 +4,7 @@ import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
 import 'package:church_finance_bk/core/widgets/upload_file.dart';
 import 'package:church_finance_bk/helpers/index.dart';
+import 'package:church_finance_bk/settings/availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:church_finance_bk/settings/banks/store/bank_store.dart';
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:dio/dio.dart';
@@ -31,9 +32,10 @@ class _ContributionTithesScreenState extends State<ContributionTithesScreen> {
   @override
   Widget build(BuildContext context) {
     final formTitheStore = Provider.of<FormTitheStore>(context);
-
     final conceptStore = Provider.of<FinancialConceptStore>(context);
     final bankStore = Provider.of<BankStore>(context);
+    final availabilityAccountsListStore =
+        Provider.of<AvailabilityAccountsListStore>(context);
 
     if (conceptStore.state.financialConcepts.isNotEmpty) {
       final titheConcept = conceptStore.state.financialConcepts
@@ -45,8 +47,15 @@ class _ContributionTithesScreenState extends State<ContributionTithesScreen> {
     //TODO esto porque existe un solo banco, pero si existen mas de uno, se debe seleccionar
     if (bankStore.state.banks.isNotEmpty) {
       final bank = bankStore.state.banks.first;
-
       formTitheStore.setBankId(bank.bankId);
+    }
+
+    //TODO esto porque existe una sola cuenta de disponibilidad, pero si existen mas de uno, se debe seleccionar
+    if (availabilityAccountsListStore.state.availabilityAccounts.isNotEmpty) {
+      final account = availabilityAccountsListStore.state.availabilityAccounts
+          .firstWhere((e) => e.accountType == "BANK");
+
+      formTitheStore.setAvailabilityAccountId(account.availabilityAccountId);
     }
 
     return Form(

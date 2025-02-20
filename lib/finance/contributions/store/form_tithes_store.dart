@@ -27,6 +27,10 @@ class FormTitheStore extends ChangeNotifier {
     state = state.copyWith(bankId: bankId);
   }
 
+  void setAvailabilityAccountId(String availabilityAccountId) {
+    state = state.copyWith(availabilityAccountId: availabilityAccountId);
+  }
+
   void setFinancialConceptId(String financialConceptId) {
     state = state.copyWith(financialConceptId: financialConceptId);
   }
