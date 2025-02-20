@@ -19,7 +19,6 @@ void main() {
             create: (_) => FinancialConceptStore()..searchFinancialConcepts()),
         ChangeNotifierProvider(create: (_) => BankStore()..searchBanks()),
         ChangeNotifierProvider(create: (_) => NavigatorMemberNotifier()),
-        ChangeNotifierProvider(create: (_) => BankStore()..searchBanks()),
         ChangeNotifierProvider(
             create: (_) =>
                 AvailabilityAccountsListStore()..searchAvailabilityAccounts()),

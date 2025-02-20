@@ -30,7 +30,7 @@ class _ContributionTableState extends State<ContributionTable> {
     }
 
     return Container(
-      margin: const EdgeInsets.only(top: 40.0),
+      margin: isMobile(context) ? null : const EdgeInsets.only(top: 40.0),
       child: CustomTable(
         headers: ["Nome", "Valor", "Tipo de contribuçāo", "Status", "Fecha"],
         data: FactoryDataTable<ContributionModel>(
