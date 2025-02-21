@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/auth/pages/login/store/auth_session_store.dart';
+import 'package:church_finance_bk/core/layout/state/sidebar_state.dart';
 import 'package:church_finance_bk/settings/availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:church_finance_bk/settings/banks/store/bank_store.dart';
 import 'package:church_finance_bk/settings/cost_center/store/cost_center_list_store.dart';
@@ -10,15 +11,33 @@ import 'package:provider/provider.dart';
 import 'core/layout/state/navigator_member_state.dart';
 import 'core/router.dart';
 
+class StoreManager {
+  static final StoreManager _instance = StoreManager._internal();
+
+  factory StoreManager() => _instance;
+
+  StoreManager._internal();
+
+  final sidebarNotifier = SidebarNotifier();
+  final authSessionStore = AuthSessionStore();
+  final financialConceptStore = FinancialConceptStore();
+  final bankStore = BankStore();
+  final navigatorMemberNotifier = NavigatorMemberNotifier();
+  final availabilityAccountsListStore = AvailabilityAccountsListStore();
+  final costCenterListStore = CostCenterListStore();
+}
+
 void main() {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => SidebarNotifier()),
         ChangeNotifierProvider(create: (_) => AuthSessionStore()),
         ChangeNotifierProvider(
             create: (_) => FinancialConceptStore()..searchFinancialConcepts()),
         ChangeNotifierProvider(create: (_) => BankStore()..searchBanks()),
         ChangeNotifierProvider(create: (_) => NavigatorMemberNotifier()),
+        ChangeNotifierProvider(create: (_) => BankStore()..searchBanks()),
         ChangeNotifierProvider(
             create: (_) =>
                 AvailabilityAccountsListStore()..searchAvailabilityAccounts()),

@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/auth/pages/login/store/auth_session_store.dart';
+import 'package:church_finance_bk/core/layout/state/sidebar_state.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
@@ -22,9 +23,41 @@ class LayoutDashboard extends StatefulWidget {
 }
 
 class _LayoutDashboardState extends State<LayoutDashboard> {
+  // bool _isSidebarVisible = false;
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
+  //
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   final sidebarNotifier = Provider.of<SidebarNotifier>(context);
+  //   sidebarNotifier.addListener(() {
+  //     if (!mounted) {
+  //       return; // tu widget aquí
+  //     }
+  //
+  //     print("ppp ${sidebarNotifier.isSidebarVisible}");
+  //
+  //     setState(() {
+  //       _isSidebarVisible = sidebarNotifier.isSidebarVisible;
+  //       print(_isSidebarVisible);
+  //     });
+  //   });
+  // }
+
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  // }
+
   @override
   Widget build(BuildContext context) {
     final store = Provider.of<AuthSessionStore>(context);
+    final storeSidebar = Provider.of<SidebarNotifier>(context);
+
     final List<Profile> profiles = store.profiles();
     final items = menuItems(profiles);
 
@@ -48,22 +81,11 @@ class _LayoutDashboardState extends State<LayoutDashboard> {
           : null,
       body: LayoutBuilder(
         builder: (context, constraints) {
-          final isLargeScreen = constraints.maxWidth >= 800;
-
           return Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            // Alinea el contenido superior
             children: [
-              if (isLargeScreen && items.isNotEmpty)
-                Container(
-                  margin: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  width: 320,
-                  child: Sidebar(menuItems: menuItems(profiles)),
-                ),
+              if (!isMobile(context) && items.isNotEmpty)
+                _sidebar(profiles, storeSidebar),
               Expanded(
                 child: Container(
                   margin: isMobile(context)
@@ -102,6 +124,28 @@ class _LayoutDashboardState extends State<LayoutDashboard> {
         },
       ),
       bottomNavigationBar: store.isMember() ? const NavigatorMember() : null,
+    );
+  }
+
+  Widget _sidebar(List<Profile> profiles, SidebarNotifier storeSidebar) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      width: storeSidebar.isSidebarVisible ? 330 : 20,
+      child: Column(
+        children: [
+          if (storeSidebar.isSidebarVisible)
+            Expanded(
+              child: Container(
+                margin: const EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                child: Sidebar(menuItems: menuItems(profiles)),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
