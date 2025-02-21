@@ -7,6 +7,7 @@ import '../theme/app_color.dart';
 import '../theme/app_fonts.dart';
 import '../widgets/app_logo.dart';
 import '../widgets/app_logo_horizontal.dart';
+import 'state/sidebar_state.dart';
 
 class HeaderLayout extends StatefulWidget {
   const HeaderLayout({super.key});
@@ -50,9 +51,7 @@ class _HeaderLayoutState extends State<HeaderLayout> {
                     ),
                   )
                 else
-                  ApplicationLogoHorizontal(
-                    width: 270,
-                  ),
+                  _logoDesktop(),
                 const SizedBox(width: 20),
               ],
             )),
@@ -101,6 +100,26 @@ class _HeaderLayoutState extends State<HeaderLayout> {
         'AB',
         style: TextStyle(color: Colors.white),
       ),
+    );
+  }
+
+  Widget _logoDesktop() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        IconButton(
+          icon: Icon(
+            Icons.menu,
+          ),
+          onPressed: () {
+            Provider.of<SidebarNotifier>(context, listen: false).toggle();
+          },
+        ),
+        const SizedBox(width: 10),
+        ApplicationLogoHorizontal(
+          width: 270,
+        )
+      ],
     );
   }
 }

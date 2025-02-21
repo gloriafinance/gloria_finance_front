@@ -7,6 +7,6 @@ class NavigatorMemberNotifier extends ChangeNotifier {
 
   void setIndexTab(int index) {
     _selectedIndex = index;
-    notifyListeners(); // Notifica a los listeners que el estado ha cambiado
+    notifyListeners();
   }
 }
