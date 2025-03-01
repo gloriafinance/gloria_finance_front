@@ -45,6 +45,8 @@ class _MonthlyTithesFiltersState extends State<MonthlyTithesFilters> {
       BuildContext context, MonthlyTithesListStore tithesListStore) {
     return Dropdown(
       label: "Mês",
+      initialValue:
+          tithesListStore.state.filter.month.toString().padLeft(2, '0'),
       items:
           monthDropdown(context).map((item) => item.value.toString()).toList(),
       onChanged: (value) => tithesListStore.setMonth(int.parse(value)),

@@ -131,13 +131,16 @@ class Dropdown extends StatelessWidget {
   final String label;
   final String? Function(String?)? onValidator;
   final Function(String) onChanged;
+  final String? initialValue;
 
-  const Dropdown(
-      {super.key,
-      required this.items,
-      required this.label,
-      this.onValidator,
-      required this.onChanged});
+  const Dropdown({
+    super.key,
+    required this.items,
+    required this.label,
+    this.onValidator,
+    required this.onChanged,
+    this.initialValue,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -146,6 +149,7 @@ class Dropdown extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         ..._generateLabel(label),
         DropdownButtonFormField<String>(
+          value: initialValue,
           onChanged: (val) => onChanged(val!),
           validator: onValidator,
           autovalidateMode: AutovalidateMode.onUserInteraction,
