@@ -39,6 +39,8 @@ class FinanceRecordService extends AppHttp {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
+    params.churchId = session.churchId;
+
     try {
       final response = await http.get(
         '${await getUrlApi()}finance/financial-record',

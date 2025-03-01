@@ -93,6 +93,10 @@ class AuthSessionStore extends ChangeNotifier {
     return state.session.profiles;
   }
 
+  isSuperUser() {
+    return state.session.isSuperUser();
+  }
+
   isAdmin() {
     return state.session.isAdmin();
   }

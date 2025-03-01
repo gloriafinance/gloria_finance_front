@@ -81,14 +81,19 @@ class ViewContribution extends StatelessWidget {
               const SizedBox(height: 26),
               ContentViewer(url: contribution.bankTransferReceipt),
               const SizedBox(height: 46),
-              if (parseContributionStatus(contribution.status) ==
-                          ContributionStatus.PENDING_VERIFICATION &&
-                      store.isAdmin() ||
-                  store.isTreasurer())
+              if (_showButton(contribution, store))
                 _buildButton(context, contribution.contributionId),
             ],
           ),
         ));
+  }
+
+  bool _showButton(ContributionModel contribution, AuthSessionStore store) {
+    return parseContributionStatus(contribution.status) ==
+                ContributionStatus.PENDING_VERIFICATION &&
+            store.isAdmin() ||
+        store.isTreasurer() ||
+        store.isSuperUser();
   }
 
   Widget _buildButton(BuildContext context, String contributionId) {

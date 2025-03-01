@@ -94,6 +94,12 @@ class AuthSessionModel {
     return name;
   }
 
+  isSuperUser() {
+    return profiles
+        .where((element) => element.profileType == 'SUPERUSER')
+        .isNotEmpty;
+  }
+
   isAdmin() {
     return profiles
         .where((element) => element.profileType == 'ADMIN')
