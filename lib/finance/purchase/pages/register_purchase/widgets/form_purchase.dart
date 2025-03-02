@@ -46,9 +46,9 @@ class _FormPurchaseState extends State<FormPurchase> {
             child: LayoutBuilder(builder: (context, constraints) {
               return Column(children: [
                 isMobile(context)
-                    ? formMobileLayout(context, costCenterStore, bankStore,
+                    ? formMobileLayout(context, costCenterStore,
                         availabilityAccountsListStore, conceptStore, formStore)
-                    : formDesktopLayout(context, costCenterStore, bankStore,
+                    : formDesktopLayout(context, costCenterStore,
                         availabilityAccountsListStore, conceptStore, formStore),
                 const SizedBox(height: 32),
                 Align(

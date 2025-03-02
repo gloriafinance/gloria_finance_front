@@ -3,7 +3,6 @@ import 'package:church_finance_bk/core/widgets/upload_file.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:church_finance_bk/settings/availability_accounts/models/availability_account_model.dart';
 import 'package:church_finance_bk/settings/availability_accounts/store/availability_accounts_list_store.dart';
-import 'package:church_finance_bk/settings/banks/store/bank_store.dart';
 import 'package:church_finance_bk/settings/cost_center/store/cost_center_list_store.dart';
 import 'package:church_finance_bk/settings/financial_concept/models/financial_concept_model.dart';
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
@@ -42,7 +41,7 @@ Widget date(BuildContext context, FormFinanceRecordStore formStore) {
   );
 }
 
-Widget availabilityAccounts(
+Widget dropdownAvailabilityAccounts(
     AvailabilityAccountsListStore availabilityAccountsListStore,
     FormFinanceRecordStore formStore) {
   return Dropdown(
@@ -118,21 +117,21 @@ Widget uploadFile(FormFinanceRecordStore formStore) {
   }
 }
 
-Widget dropdownBank(BankStore bankStore, FormFinanceRecordStore formStore) {
-  if (formStore.state.isMovementBank) {
-    final data = bankStore.state.banks;
-
-    return Dropdown(
-      label: "Selecione o banco",
-      items: data.map((e) => e.name).toList(),
-      onChanged: (value) {
-        final selectedBank = data.firstWhere((e) => e.name == value);
-        formStore.setBankId(selectedBank.bankId);
-      },
-    );
-  }
-  return const SizedBox.shrink();
-}
+// Widget dropdownBank(BankStore bankStore, FormFinanceRecordStore formStore) {
+//   if (formStore.state.isMovementBank) {
+//     final data = bankStore.state.banks;
+//
+//     return Dropdown(
+//       label: "Selecione o banco",
+//       items: data.map((e) => e.name).toList(),
+//       onChanged: (value) {
+//         final selectedBank = data.firstWhere((e) => e.name == value);
+//         formStore.setBankId(selectedBank.bankId);
+//       },
+//     );
+//   }
+//   return const SizedBox.shrink();
+// }
 
 Widget dropdownCostCenter(CostCenterListStore costCenterStore,
     FinancialConceptStore conceptStore, FormFinanceRecordStore formStore) {
