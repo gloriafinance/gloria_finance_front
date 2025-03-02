@@ -4,7 +4,6 @@ import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:church_finance_bk/settings/availability_accounts/store/availability_accounts_list_store.dart';
-import 'package:church_finance_bk/settings/banks/store/bank_store.dart';
 import 'package:church_finance_bk/settings/cost_center/store/cost_center_list_store.dart';
 import 'package:church_finance_bk/settings/financial_concept/models/financial_concept_model.dart';
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
@@ -13,8 +12,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../store/form_finance_record_store.dart';
-import 'finance_record_desktop_layout.dart';
-import 'finance_record_mobile_layout.dart';
+import 'layouts/finance_record_desktop_layout.dart';
+import 'layouts/finance_record_mobile_layout.dart';
 
 class FormFinanceRecord extends StatefulWidget {
   const FormFinanceRecord({super.key});
@@ -30,7 +29,7 @@ class _FormFinanceRecordState extends State<FormFinanceRecord> {
   @override
   Widget build(BuildContext context) {
     final conceptStore = Provider.of<FinancialConceptStore>(context);
-    final bankStore = Provider.of<BankStore>(context);
+
     final formStore = Provider.of<FormFinanceRecordStore>(context);
     final availabilityAccountsListStore =
         Provider.of<AvailabilityAccountsListStore>(context);
@@ -47,14 +46,12 @@ class _FormFinanceRecordState extends State<FormFinanceRecord> {
                     ? formMobileLayout(
                         costCenterStore,
                         availabilityAccountsListStore,
-                        bankStore,
                         conceptStore,
                         formStore,
                         context)
                     : formDesktopLayout(
                         costCenterStore,
                         availabilityAccountsListStore,
-                        bankStore,
                         conceptStore,
                         formStore,
                         context),

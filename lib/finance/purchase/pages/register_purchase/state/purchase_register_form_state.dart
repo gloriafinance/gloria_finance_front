@@ -9,40 +9,39 @@ class PurchaseRegisterFormState {
   double tax;
   String description;
   String availabilityAccountId;
-  String? bankId;
   MultipartFile invoice;
   List<PurchaseItem> items;
   bool isMovementBank = false;
   String costCenterId;
 
-  PurchaseRegisterFormState(
-      {required this.makeRequest,
-      required this.total,
-      required this.tax,
-      required this.purchaseDate,
-      required this.financialConceptId,
-      required this.description,
-      required this.invoice,
-      required this.items,
-      required this.availabilityAccountId,
-      required this.isMovementBank,
-      required this.costCenterId,
-      this.bankId});
+  PurchaseRegisterFormState({
+    required this.makeRequest,
+    required this.total,
+    required this.tax,
+    required this.purchaseDate,
+    required this.financialConceptId,
+    required this.description,
+    required this.invoice,
+    required this.items,
+    required this.availabilityAccountId,
+    required this.isMovementBank,
+    required this.costCenterId,
+  });
 
   factory PurchaseRegisterFormState.init() {
     return PurchaseRegisterFormState(
-        costCenterId: '',
-        isMovementBank: false,
-        availabilityAccountId: '',
-        makeRequest: false,
-        total: 0.0,
-        tax: 0.0,
-        purchaseDate: '',
-        financialConceptId: '',
-        description: '',
-        invoice: MultipartFile.fromString(''),
-        items: [],
-        bankId: '');
+      costCenterId: '',
+      isMovementBank: false,
+      availabilityAccountId: '',
+      makeRequest: false,
+      total: 0.0,
+      tax: 0.0,
+      purchaseDate: '',
+      financialConceptId: '',
+      description: '',
+      invoice: MultipartFile.fromString(''),
+      items: [],
+    );
   }
 
   PurchaseRegisterFormState copyWith(
@@ -66,7 +65,6 @@ class PurchaseRegisterFormState {
       isMovementBank: isMovementBank ?? this.isMovementBank,
       availabilityAccountId:
           availabilityAccountId ?? this.availabilityAccountId,
-      bankId: bankId ?? this.bankId,
       makeRequest: makeRequest ?? this.makeRequest,
       total: total ?? this.total,
       tax: tax ?? this.tax,
@@ -85,7 +83,6 @@ class PurchaseRegisterFormState {
   Map<String, dynamic> toJson() {
     return {
       'costCenterId': costCenterId,
-      'bankId': bankId,
       'total': total,
       'tax': tax,
       'purchaseDate': convertDateFormat(purchaseDate),

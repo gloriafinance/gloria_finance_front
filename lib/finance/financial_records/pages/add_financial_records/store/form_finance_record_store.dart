@@ -53,11 +53,6 @@ class FormFinanceRecordStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setBankId(String bankId) {
-    state = state.copyWith(bankId: bankId);
-    notifyListeners();
-  }
-
   Future<bool> send() async {
     state = state.copyWith(makeRequest: true);
     notifyListeners();

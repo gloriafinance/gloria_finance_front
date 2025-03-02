@@ -11,7 +11,6 @@ class FormFinanceRecordState {
   String type;
   String description;
   MultipartFile? file;
-  String? bankId;
   bool isPurchase = false;
   bool isMovementBank = false;
   String costCenterId;
@@ -28,7 +27,6 @@ class FormFinanceRecordState {
     required this.isPurchase,
     required this.isMovementBank,
     required this.costCenterId,
-    this.bankId,
   });
 
   factory FormFinanceRecordState.init() {
@@ -54,7 +52,6 @@ class FormFinanceRecordState {
     String? type,
     String? description,
     MultipartFile? file,
-    String? bankId,
     bool? makeRequest,
     bool? isMovementBank,
     String? costCenterId,
@@ -68,7 +65,6 @@ class FormFinanceRecordState {
       type: type ?? this.type,
       description: description ?? this.description,
       file: file ?? this.file,
-      bankId: bankId ?? this.bankId,
       makeRequest: makeRequest ?? this.makeRequest,
       isPurchase: type == FinancialConceptType.PURCHASE.apiValue,
       isMovementBank: isMovementBank ?? this.isMovementBank,
@@ -84,7 +80,6 @@ class FormFinanceRecordState {
       "availabilityAccountId": availabilityAccountId,
       "description": description,
       "file": file,
-      "bankId": bankId,
       "costCenterId": costCenterId,
     };
   }
