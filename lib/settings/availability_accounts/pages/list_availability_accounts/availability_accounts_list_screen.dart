@@ -30,7 +30,7 @@ class _AvailabilityAccountsListScreenState
       children: [
         Expanded(
           child: Text(
-            "Listas de contas",
+            "Listagem de contas",
             textAlign: TextAlign.left,
             style: TextStyle(
               fontFamily: AppFonts.fontTitle,
