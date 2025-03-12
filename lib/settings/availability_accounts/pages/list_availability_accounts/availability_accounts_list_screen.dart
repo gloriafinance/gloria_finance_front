@@ -52,10 +52,10 @@ class _AvailabilityAccountsListScreenState
       children: [
         ButtonActionTable(
             color: AppColors.purple,
-            text: "Registrar conta disponiblidade",
+            text: "Conta disponiblidade",
             onPressed: () =>
                 GoRouter.of(context).go('/availability-accounts/add'),
-            icon: Icons.account_balance_wallet),
+            icon: Icons.add_box_outlined),
       ],
     );
   }

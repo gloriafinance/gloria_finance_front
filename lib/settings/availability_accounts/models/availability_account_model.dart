@@ -1,3 +1,5 @@
+import '../../banks/models/bank_model.dart';
+
 enum AccountType { BANK, CASH, WALLET, INVESTMENT }
 
 extension AccountTypeExtension on AccountType {
@@ -35,15 +37,16 @@ class AvailabilityAccountModel {
   final double balance;
   final bool active;
   final String accountType;
+  final dynamic source;
 
-  AvailabilityAccountModel({
-    required this.churchId,
-    required this.availabilityAccountId,
-    required this.accountName,
-    required this.balance,
-    required this.active,
-    required this.accountType,
-  });
+  AvailabilityAccountModel(
+      {required this.churchId,
+      required this.availabilityAccountId,
+      required this.accountName,
+      required this.balance,
+      required this.active,
+      required this.accountType,
+      required this.source});
 
   AvailabilityAccountModel.fromMap(Map<String, dynamic> map)
       : churchId = map['churchId'],
@@ -51,7 +54,8 @@ class AvailabilityAccountModel {
         accountName = map['accountName'],
         balance = double.parse(map['balance'].toString()),
         active = map['active'],
-        accountType = map['accountType'];
+        accountType = map['accountType'],
+        source = map['source'];
 
   Map<String, dynamic> toJson() => {
         'churchId': churchId,
@@ -60,5 +64,22 @@ class AvailabilityAccountModel {
         'balance': balance,
         'active': active,
         'accountType': accountType,
+        'source': source,
       };
+
+  dynamic getSource() {
+    if (AccountType.BANK.apiValue == accountType) {
+      return BankModel.fromJson(source);
+    }
+
+    return null;
+
+    // if (AccountType.WALLET.apiValue == accountType) {
+    //   return WalletModel.fromMap(source);
+    // }
+    //
+    // if (AccountType.INVESTMENT.apiValue == accountType) {
+    //   return InvestmentModel.fromMap(source);
+    // }
+  }
 }

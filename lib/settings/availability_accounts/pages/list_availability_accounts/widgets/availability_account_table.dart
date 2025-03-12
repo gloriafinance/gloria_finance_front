@@ -1,5 +1,10 @@
+import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
+import 'package:church_finance_bk/core/theme/app_color.dart';
+import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/helpers/index.dart';
+import 'package:church_finance_bk/settings/availability_accounts/models/availability_account_model.dart';
+import 'package:church_finance_bk/settings/availability_accounts/pages/list_availability_accounts/widgets/view_availabilityAccount_account.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,11 +39,31 @@ class _AvailabilityAccountTable extends State<AvailabilityAccountTable> {
     }
 
     return CustomTable(
-        headers: ["Nome da conta", "Tipo de conta", "balane", "status"],
-        data: FactoryDataTable<dynamic>(
-          data: state.availabilityAccounts,
-          dataBuilder: accountDTO,
-        ));
+      headers: ["Nome da conta", "Tipo de conta", "balane", "status"],
+      data: FactoryDataTable<dynamic>(
+        data: state.availabilityAccounts,
+        dataBuilder: accountDTO,
+      ),
+      actionBuilders: [
+        (account) => ButtonActionTable(
+              color: AppColors.blue,
+              text: "Visualizar",
+              onPressed: () {
+                _openModal(context, account);
+              },
+              icon: Icons.remove_red_eye_sharp,
+            ),
+      ],
+    );
+  }
+
+  void _openModal(BuildContext context, AvailabilityAccountModel account) {
+    ModalPage(
+      title: isMobile(context)
+          ? ""
+          : 'Conta de disponibilidade #${account.availabilityAccountId}',
+      body: ViewAvailabilityAccount(account: account),
+    ).show(context);
   }
 
   List<dynamic> accountDTO(dynamic account) {
