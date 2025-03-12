@@ -1,6 +1,6 @@
 import 'package:church_finance_bk/auth/pages/login/store/auth_session_store.dart';
 import 'package:church_finance_bk/core/layout/state/sidebar_state.dart';
-import 'package:church_finance_bk/settings/availability_accounts/store/availability_accounts_list_store.dart';
+import 'package:church_finance_bk/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:church_finance_bk/settings/banks/store/bank_store.dart';
 import 'package:church_finance_bk/settings/cost_center/store/cost_center_list_store.dart';
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
@@ -31,8 +31,10 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => SidebarNotifier()),
-        ChangeNotifierProvider(create: (_) => AuthSessionStore()),
+        ChangeNotifierProvider(
+            create: (_) => StoreManager._instance.sidebarNotifier),
+        ChangeNotifierProvider(
+            create: (_) => StoreManager._instance.authSessionStore),
         ChangeNotifierProvider(
             create: (_) => FinancialConceptStore()..searchFinancialConcepts()),
         ChangeNotifierProvider(create: (_) => BankStore()..searchBanks()),
