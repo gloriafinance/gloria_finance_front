@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AvailabilityAccountScreen extends StatelessWidget {
-  const AvailabilityAccountScreen({super.key});
+class AvailabilityAccountsScreen extends StatelessWidget {
+  const AvailabilityAccountsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

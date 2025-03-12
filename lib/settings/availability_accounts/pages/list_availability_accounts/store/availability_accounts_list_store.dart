@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../availability_account_service.dart';
+import '../../../availability_account_service.dart';
 import '../state/availability_accounts_list_state.dart';
 
 class AvailabilityAccountsListStore extends ChangeNotifier {
