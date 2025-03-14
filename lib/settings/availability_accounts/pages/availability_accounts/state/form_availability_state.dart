@@ -4,26 +4,30 @@ class FormAvailabilityState {
   String churchId;
   String accountName;
   String accountType;
-  dynamic source;
+  double balance;
+  String? source;
+  String? symbol;
 
-  FormAvailabilityState({
-    required this.makeRequest,
-    required this.active,
-    required this.churchId,
-    required this.accountName,
-    required this.accountType,
-    required this.source,
-  });
+  FormAvailabilityState(
+      {required this.makeRequest,
+      required this.active,
+      required this.churchId,
+      required this.accountName,
+      required this.accountType,
+      required this.source,
+      required this.balance,
+      required this.symbol});
 
   factory FormAvailabilityState.init() {
     return FormAvailabilityState(
-      makeRequest: false,
-      active: false,
-      churchId: '',
-      accountName: '',
-      accountType: '',
-      source: null,
-    );
+        makeRequest: false,
+        active: false,
+        churchId: '',
+        accountName: '',
+        accountType: '',
+        source: null,
+        balance: 0.0,
+        symbol: 'R\$');
   }
 
   FormAvailabilityState copyWith({
@@ -32,7 +36,9 @@ class FormAvailabilityState {
     String? churchId,
     String? accountName,
     String? accountType,
-    dynamic? source,
+    String? source,
+    double? balance,
+    String? symbol,
   }) {
     return FormAvailabilityState(
       makeRequest: makeRequest ?? this.makeRequest,
@@ -41,6 +47,8 @@ class FormAvailabilityState {
       accountName: accountName ?? this.accountName,
       accountType: accountType ?? this.accountType,
       source: source ?? this.source,
+      balance: balance ?? this.balance,
+      symbol: symbol ?? this.symbol,
     );
   }
 
@@ -49,6 +57,8 @@ class FormAvailabilityState {
         'churchId': churchId,
         'accountName': accountName,
         'accountType': accountType,
-        'source': source?.toJson(),
+        'source': source,
+        'balance': balance,
+        'symbol': symbol,
       };
 }
