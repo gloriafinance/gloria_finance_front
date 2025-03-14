@@ -1,6 +1,6 @@
 import '../../banks/models/bank_model.dart';
 
-enum AccountType { BANK, CASH, WALLET, INVESTMENT }
+enum AccountType { BANK, CASH, WALLET }
 
 extension AccountTypeExtension on AccountType {
   String get friendlyName {
@@ -11,8 +11,6 @@ extension AccountTypeExtension on AccountType {
         return 'Dinheiro';
       case AccountType.WALLET:
         return 'Carteira Digital';
-      case AccountType.INVESTMENT:
-        return 'Investimento';
     }
   }
 
@@ -24,8 +22,6 @@ extension AccountTypeExtension on AccountType {
         return 'CASH';
       case AccountType.WALLET:
         return 'WALLET';
-      case AccountType.INVESTMENT:
-        return 'INVESTMENT';
     }
   }
 }
@@ -38,6 +34,7 @@ class AvailabilityAccountModel {
   final bool active;
   final String accountType;
   final dynamic source;
+  final String symbol;
 
   AvailabilityAccountModel(
       {required this.churchId,
@@ -46,7 +43,8 @@ class AvailabilityAccountModel {
       required this.balance,
       required this.active,
       required this.accountType,
-      required this.source});
+      required this.source,
+      required this.symbol});
 
   AvailabilityAccountModel.fromMap(Map<String, dynamic> map)
       : churchId = map['churchId'],
@@ -55,7 +53,8 @@ class AvailabilityAccountModel {
         balance = double.parse(map['balance'].toString()),
         active = map['active'],
         accountType = map['accountType'],
-        source = map['source'];
+        source = map['source'],
+        symbol = map['symbol'];
 
   Map<String, dynamic> toJson() => {
         'churchId': churchId,
@@ -65,6 +64,7 @@ class AvailabilityAccountModel {
         'active': active,
         'accountType': accountType,
         'source': source,
+        'symbol': symbol,
       };
 
   dynamic getSource() {

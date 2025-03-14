@@ -70,7 +70,7 @@ class _AvailabilityAccountTable extends State<AvailabilityAccountTable> {
     return [
       account.accountName,
       account.accountType,
-      formatCurrency(account.balance),
+      formatCurrency(account.balance, symbol: account.symbol),
       account.active ? "Ativo" : "Inativo",
     ];
   }
