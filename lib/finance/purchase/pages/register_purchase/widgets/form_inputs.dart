@@ -8,8 +8,6 @@ import 'package:church_finance_bk/settings/cost_center/store/cost_center_list_st
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_multi_formatter/formatters/currency_input_formatter.dart';
-import 'package:flutter_multi_formatter/formatters/money_input_enums.dart';
 
 import '../store/purchase_register_form_store.dart';
 import '../validators/purchase_register_form_validator.dart';
@@ -37,7 +35,7 @@ Widget dropdownFinancialConcepts(
     onChanged: (value) {
       final v = conceptStore.state.financialConcepts
           .firstWhere((e) => e.name == value);
-      print("DES ${v.description}");
+
       formStore.setDescription(v.description);
       formStore.setFinancialConceptId(v.financialConceptId);
     },
@@ -61,8 +59,7 @@ Widget dropdownAvailabilityAccounts(
             ? formStore.setIsMovementBank(true)
             : formStore.setIsMovementBank(false);
 
-        formStore
-            .setAvailabilityAccountId(selectedAccount.availabilityAccountId);
+        formStore.setAvailabilityAccount(selectedAccount);
       },
       onValidator: validator.byField(formStore.state, 'moneyLocation'));
 }
@@ -72,18 +69,10 @@ Widget total(PurchaseRegisterFormStore formStore) {
     label: "Total da fatura",
     keyboardType: TextInputType.number,
     inputFormatters: [
-      CurrencyInputFormatter(
-        leadingSymbol: 'R\$ ',
-        useSymbolPadding: true,
-        mantissaLength: 2,
-        thousandSeparator: ThousandSeparator.Period,
-      ),
+      CurrencyFormatter.getInputFormatters(formStore.state.symbol)
     ],
     onChanged: (value) {
-      final cleanedValue =
-          value.replaceAll(RegExp(r'[^\d,]'), '').replaceAll(',', '.');
-
-      formStore.setTotal(double.parse(cleanedValue));
+      formStore.setTotal(CurrencyFormatter.cleanCurrency(value));
     },
     onValidator: validator.byField(formStore.state, 'amount'),
   );
@@ -94,18 +83,10 @@ Widget tax(PurchaseRegisterFormStore formStore) {
     label: "Imposto",
     keyboardType: TextInputType.number,
     inputFormatters: [
-      CurrencyInputFormatter(
-        leadingSymbol: 'R\$ ',
-        useSymbolPadding: true,
-        mantissaLength: 2,
-        thousandSeparator: ThousandSeparator.Period,
-      ),
+      CurrencyFormatter.getInputFormatters(formStore.state.symbol)
     ],
     onChanged: (value) {
-      final cleanedValue =
-          value.replaceAll(RegExp(r'[^\d,]'), '').replaceAll(',', '.');
-
-      formStore.setTax(double.parse(cleanedValue));
+      formStore.setTax(CurrencyFormatter.cleanCurrency(value));
     },
     onValidator: validator.byField(formStore.state, 'tax'),
   );

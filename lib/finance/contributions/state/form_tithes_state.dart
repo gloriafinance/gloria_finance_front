@@ -9,6 +9,7 @@ class FormTitheState {
   String memberId;
   String financialConceptId;
   String availabilityAccountId;
+  String symbol;
 
   FormTitheState({
     required this.availabilityAccountId,
@@ -18,6 +19,7 @@ class FormTitheState {
     required this.memberId,
     required this.financialConceptId,
     required this.makeRequest,
+    required this.symbol,
     this.file,
   });
 
@@ -30,6 +32,7 @@ class FormTitheState {
       memberId: '',
       financialConceptId: '',
       makeRequest: false,
+      symbol: '',
     );
   }
 
@@ -41,6 +44,7 @@ class FormTitheState {
       String? bankId,
       String? memberId,
       String? financialConceptId,
+      String? symbol,
       bool? makeRequest}) {
     return FormTitheState(
       availabilityAccountId:
@@ -52,6 +56,7 @@ class FormTitheState {
       memberId: memberId ?? this.memberId,
       financialConceptId: financialConceptId ?? this.financialConceptId,
       makeRequest: makeRequest ?? this.makeRequest,
+      symbol: symbol ?? this.symbol,
     );
   }
 

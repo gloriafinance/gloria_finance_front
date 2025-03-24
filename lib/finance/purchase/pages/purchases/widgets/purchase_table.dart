@@ -87,8 +87,8 @@ class PurchaseTable extends StatelessWidget {
     return [
       convertDateFormatToDDMMYYYY(purchase.purchaseDate),
       purchase.description,
-      formatCurrency(purchase.tax),
-      formatCurrency(purchase.total)
+      CurrencyFormatter.formatCurrency(purchase.tax),
+      CurrencyFormatter.formatCurrency(purchase.total)
     ];
   }
 }

@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/settings/availability_accounts/models/availability_account_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -58,8 +59,10 @@ class PurchaseRegisterFormStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setAvailabilityAccountId(String availabilityAccountId) {
-    state = state.copyWith(availabilityAccountId: availabilityAccountId);
+  void setAvailabilityAccount(AvailabilityAccountModel availabilityAccount) {
+    state = state.copyWith(
+        availabilityAccountId: availabilityAccount.availabilityAccountId,
+        symbol: availabilityAccount.symbol);
     notifyListeners();
   }
 
