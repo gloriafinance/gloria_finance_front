@@ -1,4 +1,6 @@
-enum AccountType { BANK, CASH, WALLET, INVESTMENT }
+import '../../banks/models/bank_model.dart';
+
+enum AccountType { BANK, CASH, WALLET }
 
 extension AccountTypeExtension on AccountType {
   String get friendlyName {
@@ -9,8 +11,6 @@ extension AccountTypeExtension on AccountType {
         return 'Dinheiro';
       case AccountType.WALLET:
         return 'Carteira Digital';
-      case AccountType.INVESTMENT:
-        return 'Investimento';
     }
   }
 
@@ -22,8 +22,6 @@ extension AccountTypeExtension on AccountType {
         return 'CASH';
       case AccountType.WALLET:
         return 'WALLET';
-      case AccountType.INVESTMENT:
-        return 'INVESTMENT';
     }
   }
 }
@@ -35,15 +33,18 @@ class AvailabilityAccountModel {
   final double balance;
   final bool active;
   final String accountType;
+  final dynamic source;
+  final String symbol;
 
-  AvailabilityAccountModel({
-    required this.churchId,
-    required this.availabilityAccountId,
-    required this.accountName,
-    required this.balance,
-    required this.active,
-    required this.accountType,
-  });
+  AvailabilityAccountModel(
+      {required this.churchId,
+      required this.availabilityAccountId,
+      required this.accountName,
+      required this.balance,
+      required this.active,
+      required this.accountType,
+      required this.source,
+      required this.symbol});
 
   AvailabilityAccountModel.fromMap(Map<String, dynamic> map)
       : churchId = map['churchId'],
@@ -51,7 +52,9 @@ class AvailabilityAccountModel {
         accountName = map['accountName'],
         balance = double.parse(map['balance'].toString()),
         active = map['active'],
-        accountType = map['accountType'];
+        accountType = map['accountType'],
+        source = map['source'],
+        symbol = map['symbol'];
 
   Map<String, dynamic> toJson() => {
         'churchId': churchId,
@@ -60,5 +63,23 @@ class AvailabilityAccountModel {
         'balance': balance,
         'active': active,
         'accountType': accountType,
+        'source': source,
+        'symbol': symbol,
       };
+
+  dynamic getSource() {
+    if (AccountType.BANK.apiValue == accountType) {
+      return BankModel.fromJson(source);
+    }
+
+    return null;
+
+    // if (AccountType.WALLET.apiValue == accountType) {
+    //   return WalletModel.fromMap(source);
+    // }
+    //
+    // if (AccountType.INVESTMENT.apiValue == accountType) {
+    //   return InvestmentModel.fromMap(source);
+    // }
+  }
 }

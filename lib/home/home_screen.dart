@@ -2,26 +2,39 @@ import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+import 'widgets/availability_account_cards.dart';
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
   Widget build(BuildContext context) {
     return LayoutDashboard(
-      Text(
-        'Dashboard', textAlign: TextAlign.left,
-        // Esto asegura que el texto no esté centrado
-        style: TextStyle(
-          fontFamily: AppFonts.fontTitle,
-          fontSize: 24,
-          color: Colors.black,
+      _buildHeader(),
+      screen: AvailabilityAccountCards(),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            'Dashboard',
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontFamily: AppFonts.fontTitle,
+              fontSize: 24,
+              color: Colors.black,
+            ),
+          ),
         ),
-      ),
-      screen: Column(
-        children: [
-          Text("Home Screen"),
-        ],
-      ),
+      ],
     );
   }
 }

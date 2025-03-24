@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
-String formatCurrency(double amount) {
+String formatCurrency(double amount, {String? symbol}) {
+  if (symbol != null) {
+    return '$symbol ${amount.toStringAsFixed(2).replaceAll('.', ',').replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}';
+  }
+
   return 'R\$ ${amount.toStringAsFixed(2).replaceAll('.', ',').replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}';
 }
 
@@ -57,4 +61,38 @@ Future<DateTime?> selectDate(BuildContext context) async {
 
 bool isMobile(BuildContext context) {
   return MediaQuery.of(context).size.width < 768;
+}
+
+enum CurrencyType { REAL, DOLLAR, SONIC, BITCOIN, USDT }
+
+extension CurrencyTypeExtension on CurrencyType {
+  String get apiValue {
+    switch (this) {
+      case CurrencyType.REAL:
+        return 'R\$';
+      case CurrencyType.DOLLAR:
+        return '\$';
+      case CurrencyType.SONIC:
+        return 'S';
+      case CurrencyType.BITCOIN:
+        return '₿';
+      case CurrencyType.USDT:
+        return 'USDT';
+    }
+  }
+
+  String get friendlyName {
+    switch (this) {
+      case CurrencyType.REAL:
+        return 'Real';
+      case CurrencyType.DOLLAR:
+        return 'Dólar';
+      case CurrencyType.SONIC:
+        return 'Sonic';
+      case CurrencyType.BITCOIN:
+        return 'Bitcoin';
+      case CurrencyType.USDT:
+        return 'Tether';
+    }
+  }
 }

@@ -13,6 +13,7 @@ List<Map<String, dynamic>> items = const [
       //   "to": "/security-system/users"
       // },
       {"label": "Membros", "icon": Icons.people, "to": "/members"},
+      {"label": "Contas de disponibilidade", "icon": Icons.account_balance_wallet_outlined, "to": "/availability-accounts"}
       // {
       //   "label": "Conceitos de financeiros",
       //   "icon": Icons.attach_money,

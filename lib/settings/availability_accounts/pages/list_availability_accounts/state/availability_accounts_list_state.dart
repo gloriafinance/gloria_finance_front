@@ -1,4 +1,4 @@
-import '../models/availability_account_model.dart';
+import '../../../models/availability_account_model.dart';
 
 class AvailabilityAccountsListState {
   final bool makeRequest;
