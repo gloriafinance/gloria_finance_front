@@ -6,7 +6,7 @@ import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
 import 'package:church_finance_bk/helpers/index.dart';
-import 'package:church_finance_bk/settings/availability_accounts/store/availability_accounts_list_store.dart';
+import 'package:church_finance_bk/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:church_finance_bk/settings/banks/store/bank_store.dart';
 import 'package:church_finance_bk/settings/cost_center/store/cost_center_list_store.dart';
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';

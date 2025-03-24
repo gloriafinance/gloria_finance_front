@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/auth/pages/login/store/auth_session_store.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../theme/app_color.dart';
@@ -46,12 +47,21 @@ class _HeaderLayoutState extends State<HeaderLayout> {
                   Padding(
                     padding:
                         const EdgeInsets.only(left: 4.0, right: 8.0, top: 8.0),
-                    child: ApplicationLogo(
-                      height: 60,
+                    child: GestureDetector(
+                      onTap: () {
+                        context.go('/dashboard');
+                      },
+                      child: ApplicationLogo(
+                        height: 60,
+                      ),
                     ),
                   )
                 else
-                  _logoDesktop(),
+                  GestureDetector(
+                      onTap: () {
+                        context.go('/dashboard');
+                      },
+                      child: _logoDesktop()),
                 const SizedBox(width: 20),
               ],
             )),
