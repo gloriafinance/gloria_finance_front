@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,36 +10,48 @@ class StepperRecoveryPassword extends StatelessWidget {
   final Widget confirmationReceiveTemporalPassword;
   final Widget newPassword;
 
-  const StepperRecoveryPassword(
-      {super.key,
-      required this.temporalPassword,
-      required this.confirmationReceiveTemporalPassword,
-      required this.newPassword});
+  const StepperRecoveryPassword({
+    super.key,
+    required this.temporalPassword,
+    required this.confirmationReceiveTemporalPassword,
+    required this.newPassword,
+  });
 
   @override
   Widget build(BuildContext context) {
     final store = Provider.of<StepperStore>(context);
 
-    return Stepper(
-      currentStep: store.state.currentStep,
-      onStepContinue: () => store.nextStep(),
-      controlsBuilder: (BuildContext context, ControlsDetails details) {
-        return const SizedBox.shrink();
-      },
-      steps: <Step>[
-        Step(
-          state: store.state.isCompleteTemporalPassword
-              ? StepState.complete
-              : StepState.indexed,
-          title: const Text(
-            'Enviar senha temporaria',
-            style: TextStyle(
-              fontFamily: AppFonts.fontTitle,
+    return ScrollConfiguration(
+      // Esto es clave: configura un comportamiento personalizado de scroll
+      behavior: ScrollConfiguration.of(context).copyWith(
+        dragDevices: {
+          PointerDeviceKind.touch,
+          PointerDeviceKind.mouse,
+          PointerDeviceKind.trackpad,
+        },
+      ),
+      child: Stepper(
+        // Física de scroll que permite siempre el desplazamiento
+        physics: const ClampingScrollPhysics(),
+        currentStep: store.state.currentStep,
+        onStepContinue: () => store.nextStep(),
+        controlsBuilder: (BuildContext context, ControlsDetails details) {
+          return const SizedBox.shrink();
+        },
+        steps: <Step>[
+          Step(
+            state: store.state.isCompleteTemporalPassword
+                ? StepState.complete
+                : StepState.indexed,
+            title: const Text(
+              'Enviar senha temporaria',
+              style: TextStyle(
+                fontFamily: AppFonts.fontTitle,
+              ),
             ),
+            content: temporalPassword,
           ),
-          content: temporalPassword,
-        ),
-        Step(
+          Step(
             state: store.state.isCompleteReceiveTemporalPassword
                 ? StepState.complete
                 : StepState.indexed,
@@ -48,8 +61,9 @@ class StepperRecoveryPassword extends StatelessWidget {
                 fontFamily: AppFonts.fontTitle,
               ),
             ),
-            content: confirmationReceiveTemporalPassword),
-        Step(
+            content: confirmationReceiveTemporalPassword,
+          ),
+          Step(
             state: store.state.isCompleteNewPassword
                 ? StepState.complete
                 : StepState.indexed,
@@ -59,8 +73,10 @@ class StepperRecoveryPassword extends StatelessWidget {
                 fontFamily: AppFonts.fontTitle,
               ),
             ),
-            content: newPassword),
-      ],
+            content: newPassword,
+          ),
+        ],
+      ),
     );
   }
 }

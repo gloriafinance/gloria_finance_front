@@ -1,7 +1,9 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/widgets/app_logo.dart';
 import 'package:church_finance_bk/helpers/index.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -35,22 +37,43 @@ class _RecoveryPasswordScreenState extends State<RecoveryPasswordScreen> {
         width: isMobile(context) ? null : 750,
         child: Column(
           children: [
-            SizedBox(
-              height: 20,
+            // Logo en la parte superior - asegúrate de añadir tu imagen aquí
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: const ApplicationLogo(height: 100),
             ),
-            StepperRecoveryPassword(
-              temporalPassword: StepRequestTemporalPassword(),
-              confirmationReceiveTemporalPassword:
-                  StepSuccessTemporalPassword(),
-              newPassword: StepChangePassword(),
+            Expanded(
+              child: GestureDetector(
+                // Esto asegura que los gestos se propaguen correctamente
+                behavior: HitTestBehavior.translucent,
+                child: ScrollConfiguration(
+                  behavior: ScrollConfiguration.of(context).copyWith(
+                    dragDevices: {
+                      PointerDeviceKind.touch,
+                      PointerDeviceKind.mouse,
+                      PointerDeviceKind.trackpad,
+                    },
+                  ),
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 20),
+                        StepperRecoveryPassword(
+                          temporalPassword: StepRequestTemporalPassword(),
+                          confirmationReceiveTemporalPassword:
+                              StepSuccessTemporalPassword(),
+                          newPassword: StepChangePassword(),
+                        ),
+                        SizedBox(height: 20),
+                        _backToLogin(),
+                        SizedBox(height: 20),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
-            SizedBox(
-              height: 20,
-            ),
-            _backToLogin(),
-            SizedBox(
-              height: 20,
-            )
           ],
         ),
       ),

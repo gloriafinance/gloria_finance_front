@@ -1,6 +1,5 @@
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
-import 'package:church_finance_bk/core/widgets/app_logo.dart';
 import 'package:church_finance_bk/core/widgets/background_container.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -62,31 +61,8 @@ class _LayoutAuthState extends State<LayoutAuth> {
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Expanded(
-                  child: NotificationListener<OverscrollIndicatorNotification>(
-                    onNotification: (overscroll) {
-                      overscroll.disallowIndicator();
-                      return false;
-                    },
-                    child: SingleChildScrollView(
-                      physics: const ClampingScrollPhysics(),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const SizedBox(height: 20),
-                          const ApplicationLogo(height: 100),
-                          widget.child,
-                          const SizedBox(height: 20),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            // Sin ScrollView interno, permitiendo que el contenido maneje su propio scroll
+            child: widget.child,
           ),
         );
       },
