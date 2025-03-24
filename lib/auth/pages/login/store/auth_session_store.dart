@@ -35,9 +35,10 @@ class AuthSessionStore extends ChangeNotifier {
     try {
       var session = await service.makeLogin(formState.toJson());
 
+      formState = formState.copyWith(makeRequest: false);
+      notifyListeners();
+
       if (session == null) {
-        formState = formState.copyWith(makeRequest: false);
-        notifyListeners();
         return false;
       }
 
