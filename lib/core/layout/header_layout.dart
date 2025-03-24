@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:church_finance_bk/auth/pages/login/store/auth_session_store.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,14 @@ class HeaderLayout extends StatefulWidget {
 }
 
 class _HeaderLayoutState extends State<HeaderLayout> {
+  late BuildContext _contextRef;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _contextRef = context;
+  }
+
   @override
   Widget build(BuildContext context) {
     final authStore = Provider.of<AuthSessionStore>(context);
@@ -46,13 +55,13 @@ class _HeaderLayoutState extends State<HeaderLayout> {
                 if (isMobile(context))
                   Padding(
                     padding:
-                        const EdgeInsets.only(left: 4.0, right: 8.0, top: 8.0),
+                        const EdgeInsets.only(left: 16.0, right: 8.0, top: 8.0),
                     child: GestureDetector(
                       onTap: () {
                         context.go('/dashboard');
                       },
                       child: ApplicationLogo(
-                        height: 60,
+                        height: 50,
                       ),
                     ),
                   )
@@ -76,7 +85,7 @@ class _HeaderLayoutState extends State<HeaderLayout> {
                   // Alineado al inicio
                   children: [
                     Text(
-                      authStore.state.session.name,
+                      authStore.state.session.name.split(' ').first,
                       style: TextStyle(
                         fontFamily: AppFonts.fontTitle,
                         color: Colors.black,
@@ -93,7 +102,7 @@ class _HeaderLayoutState extends State<HeaderLayout> {
                   ],
                 ),
                 const SizedBox(width: 12),
-                _avatar()
+                _avatar(authStore.state.session.name)
               ],
             ),
           ),
@@ -102,13 +111,98 @@ class _HeaderLayoutState extends State<HeaderLayout> {
     );
   }
 
-  Widget _avatar() {
-    return CircleAvatar(
-      radius: 20,
-      backgroundColor: AppColors.purple,
-      child: const Text(
-        'AB',
-        style: TextStyle(color: Colors.white),
+  Widget _avatar(String fullName) {
+    if (fullName == '') {
+      return const CircleAvatar(
+        radius: 20,
+        backgroundColor: AppColors.purple,
+        child: Icon(
+          Icons.person,
+          color: Colors.white,
+        ),
+      );
+    }
+
+    // Obtener las iniciales
+    final List<String> nameParts = fullName.split(' ');
+    String initials = '';
+
+    if (nameParts.isNotEmpty) {
+      // Primera inicial
+      initials += nameParts[0][0];
+
+      // Buscar la segunda inicial (del primer apellido o segundo nombre)
+      if (nameParts.length > 1) {
+        for (int i = 1; i < nameParts.length; i++) {
+          if (nameParts[i].isNotEmpty) {
+            initials += nameParts[i][0];
+            break;
+          }
+        }
+      }
+    }
+
+    // Si solo se encontró una inicial, usar solo esa
+    initials = initials.toUpperCase();
+
+    return PopupMenuButton<String>(
+      offset: const Offset(0, 40),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+        PopupMenuItem<String>(
+          value: 'trocar_senha',
+          child: Row(
+            children: [
+              Icon(Icons.lock_outline, color: AppColors.purple),
+              const SizedBox(width: 8),
+              Text(
+                'Trocar senha',
+                style: TextStyle(
+                  fontFamily: AppFonts.fontText,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const PopupMenuDivider(),
+        PopupMenuItem<String>(
+          value: 'sair',
+          child: Row(
+            children: [
+              Icon(Icons.logout, color: AppColors.purple),
+              const SizedBox(width: 8),
+              Text(
+                'Sair',
+                style: TextStyle(
+                  fontFamily: AppFonts.fontText,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+      onSelected: (String value) {
+        if (value == 'trocar_senha') {
+          context.push('/change-password');
+        } else if (value == 'sair') {
+          AuthPersistence().clear();
+          _contextRef.go('/');
+        }
+      },
+      child: CircleAvatar(
+        radius: 20,
+        backgroundColor: AppColors.purple,
+        child: Text(
+          initials.length > 2 ? initials.substring(0, 2) : initials,
+          style: const TextStyle(
+            color: Colors.white,
+            fontFamily: AppFonts.fontTitle,
+          ),
+        ),
       ),
     );
   }

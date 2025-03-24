@@ -58,7 +58,7 @@ class CardAmount extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 12),
-                      // Nombre y tipo de cuenta
+
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,7 +67,6 @@ class CardAmount extends StatelessWidget {
                               title,
                               style: TextStyle(
                                 fontSize: 16,
-                                fontWeight: FontWeight.bold,
                                 fontFamily: AppFonts.fontTitle,
                                 color: AppColors.black,
                               ),
@@ -81,7 +80,7 @@ class CardAmount extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 12,
                                 fontFamily: AppFonts.fontSubTitle,
-                                color: AppColors.grey,
+                                color: AppColors.black,
                                 letterSpacing: 0.5,
                               ),
                             ),
