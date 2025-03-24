@@ -13,20 +13,21 @@ class PurchaseRegisterFormState {
   List<PurchaseItem> items;
   bool isMovementBank = false;
   String costCenterId;
+  String symbol;
 
-  PurchaseRegisterFormState({
-    required this.makeRequest,
-    required this.total,
-    required this.tax,
-    required this.purchaseDate,
-    required this.financialConceptId,
-    required this.description,
-    required this.invoice,
-    required this.items,
-    required this.availabilityAccountId,
-    required this.isMovementBank,
-    required this.costCenterId,
-  });
+  PurchaseRegisterFormState(
+      {required this.makeRequest,
+      required this.total,
+      required this.tax,
+      required this.purchaseDate,
+      required this.financialConceptId,
+      required this.description,
+      required this.invoice,
+      required this.items,
+      required this.availabilityAccountId,
+      required this.isMovementBank,
+      required this.costCenterId,
+      required this.symbol});
 
   factory PurchaseRegisterFormState.init() {
     return PurchaseRegisterFormState(
@@ -41,6 +42,7 @@ class PurchaseRegisterFormState {
       description: '',
       invoice: MultipartFile.fromString(''),
       items: [],
+      symbol: '',
     );
   }
 
@@ -59,6 +61,7 @@ class PurchaseRegisterFormState {
       String? purchaseDate,
       String? invoiceNumber,
       List<PurchaseItem>? items,
+      String? symbol,
       String? bankId}) {
     return PurchaseRegisterFormState(
       costCenterId: costCenterId ?? this.costCenterId,
@@ -73,6 +76,7 @@ class PurchaseRegisterFormState {
       description: description ?? this.description,
       invoice: invoice ?? this.invoice,
       items: items ?? this.items,
+      symbol: symbol ?? this.symbol,
     );
   }
 

@@ -24,7 +24,10 @@ Widget formDesktopLayout(
           const SizedBox(width: 16),
           Expanded(child: dropdownFinancialConcepts(conceptStore, formStore)),
           const SizedBox(width: 16),
-          Expanded(flex: 2, child: description(formStore)),
+          Expanded(
+            child: dropdownAvailabilityAccounts(
+                availabilityAccountsListStore, formStore),
+          ),
         ],
       ),
       const SizedBox(height: 10),
@@ -34,20 +37,14 @@ Widget formDesktopLayout(
           const SizedBox(width: 16),
           Expanded(flex: 2, child: total(formStore)),
           const SizedBox(width: 16),
-          Expanded(flex: 3, child: tax(formStore)),
+          Expanded(flex: 2, child: tax(formStore)),
+          const SizedBox(width: 16),
+          Expanded(flex: 6, child: description(formStore)),
         ],
       ),
       const SizedBox(height: 10),
       Row(
-        children: [
-          SizedBox(
-            width: 460,
-            child: dropdownAvailabilityAccounts(
-                availabilityAccountsListStore, formStore),
-          ),
-          const SizedBox(width: 16),
-          SizedBox(width: 260)
-        ],
+        children: [const SizedBox(width: 16), SizedBox(width: 260)],
       ),
       Align(
         alignment: Alignment.center,

@@ -78,7 +78,7 @@ class _ContributionTableState extends State<ContributionTable> {
   List<dynamic> contributionDTO(dynamic contribution) {
     return [
       contribution.member.name,
-      formatCurrency(contribution.amount),
+      CurrencyFormatter.formatCurrency(contribution.amount),
       contribution.financeConcept.name,
       ContributionStatus.values
           .firstWhere(

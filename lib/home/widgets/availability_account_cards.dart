@@ -1,5 +1,6 @@
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/theme/index.dart';
+import 'package:church_finance_bk/core/widgets/index.dart';
+import 'package:church_finance_bk/finance/widgets/account_style.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:church_finance_bk/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:flutter/material.dart';
@@ -81,13 +82,7 @@ class AvailabilityAccountCards extends StatelessWidget {
   Widget _buildDesktopAccountsView(dynamic accounts) {
     List<Widget> cards = [];
     for (var account in accounts) {
-      cards.add(
-        SizedBox(
-          width: 320,
-          height: 150,
-          child: _buildAccountCard(account),
-        ),
-      );
+      cards.add(_buildAccountCard(account));
     }
 
     return Wrap(
@@ -99,138 +94,15 @@ class AvailabilityAccountCards extends StatelessWidget {
   }
 
   Widget _buildAccountCard(dynamic account) {
-    final cardData = _getCardStyle(account.accountType);
+    final cardData = getCardAccountStyle(account.accountType);
 
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  // Icono con color
-                  Container(
-                    width: 48,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      color: cardData.color.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Icon(
-                      cardData.icon,
-                      color: cardData.color,
-                      size: 24,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  // Nombre y tipo de cuenta
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          account.accountName,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: AppFonts.fontTitle,
-                            color: AppColors.black,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          cardData.typeName.toUpperCase(),
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontFamily: AppFonts.fontSubTitle,
-                            color: AppColors.grey,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              // Monto con color acorde al tipo de cuenta
-              Container(
-                width: double.infinity,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                decoration: BoxDecoration(
-                  color: cardData.color.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  formatCurrency(account.balance ?? 0.0),
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: AppFonts.fontTitle,
-                    color: cardData.color,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+    return CardAmount(
+      title: account.accountName,
+      amount: account.balance,
+      bgColor: cardData.color,
+      subtitle: cardData.typeName,
+      symbol: account.symbol,
+      icon: cardData.icon,
     );
-  }
-}
-
-class CardStyle {
-  final Color color;
-  final IconData icon;
-  final String typeName;
-
-  CardStyle({required this.color, required this.icon, required this.typeName});
-}
-
-// Método para obtener estilo de tarjeta basado en el tipo de cuenta
-CardStyle _getCardStyle(String accountType) {
-  switch (accountType) {
-    case 'BANK':
-      return CardStyle(
-        color: AppColors.blue,
-        icon: Icons.account_balance,
-        typeName: 'Conta Bancária',
-      );
-    case 'CASH':
-      return CardStyle(
-        color: AppColors.green,
-        icon: Icons.attach_money,
-        typeName: 'Dinheiro',
-      );
-    case 'INVESTMENT':
-      return CardStyle(
-        color: AppColors.mustard,
-        icon: Icons.trending_up,
-        typeName: 'Investimento',
-      );
-    case 'WALLET':
-      return CardStyle(
-        color: AppColors.purple,
-        icon: Icons.account_balance_wallet,
-        typeName: 'Carteira Digital',
-      );
-    default:
-      return CardStyle(
-        color: AppColors.purple,
-        icon: Icons.account_balance_wallet,
-        typeName: accountType,
-      );
   }
 }

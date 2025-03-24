@@ -31,8 +31,10 @@ class ViewPurchase extends StatelessWidget {
             buildDetailRow(mobile, 'Data',
                 convertDateFormatToDDMMYYYY(purchase.purchaseDate)),
             buildDetailRow(mobile, 'Descrição', purchase.description),
-            buildDetailRow(mobile, 'Imposto', formatCurrency(purchase.tax)),
-            buildDetailRow(mobile, 'Valor', formatCurrency(purchase.total)),
+            buildDetailRow(mobile, 'Imposto',
+                CurrencyFormatter.formatCurrency(purchase.tax)),
+            buildDetailRow(mobile, 'Valor',
+                CurrencyFormatter.formatCurrency(purchase.total)),
             SizedBox(height: 26),
             _tableItems(purchase.items),
             const SizedBox(height: 26),
@@ -99,7 +101,7 @@ class ViewPurchase extends StatelessWidget {
                   TableCell(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(formatCurrency(item.price),
+                      child: Text(CurrencyFormatter.formatCurrency(item.price),
                           style: TextStyle(fontFamily: AppFonts.fontText)),
                     ),
                   ),
@@ -113,7 +115,7 @@ class ViewPurchase extends StatelessWidget {
                   TableCell(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(formatCurrency(item.total),
+                      child: Text(CurrencyFormatter.formatCurrency(item.total),
                           style: TextStyle(fontFamily: AppFonts.fontText)),
                     ),
                   ),
