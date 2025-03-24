@@ -1,9 +1,11 @@
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/theme/index.dart';
+import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/helpers/currency_formatter.dart';
+import 'package:church_finance_bk/settings/availability_accounts/models/availability_account_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../widgets/account_style.dart';
 import '../store/monthly_tithes_list_store.dart';
 
 class CardsSummaryTithes extends StatelessWidget {
@@ -12,17 +14,31 @@ class CardsSummaryTithes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = context.watch<MonthlyTithesListStore>();
+
+    var cardStyle = getCardAccountStyle(AccountType.BANK.apiValue);
+
     return SingleChildScrollView(
         child: SizedBox(
-      height: 150,
+      height: 190,
       child: ListView(
         scrollDirection: Axis.horizontal,
         //mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          _totalIncome('Total de dizimos',
-              double.parse(store.state.data.total.toString())),
-          _totalIncome('Dizimos de dizmos',
-              double.parse(store.state.data.tithesOfTithes.toString())),
+          CardAmount(
+              title: 'Total de dízimos',
+              amount: store.state.data.total,
+              symbol: CurrencyType.REAL.apiValue,
+              bgColor: cardStyle.color,
+              icon: cardStyle.icon),
+          SizedBox(
+            width: 20,
+          ),
+          CardAmount(
+              title: 'Dízimos de dízimos',
+              amount: store.state.data.tithesOfTithes,
+              symbol: CurrencyType.REAL.apiValue,
+              bgColor: cardStyle.color,
+              icon: cardStyle.icon),
         ],
       ),
     ));
