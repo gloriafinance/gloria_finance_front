@@ -91,14 +91,6 @@ class _HeaderLayoutState extends State<HeaderLayout> {
                         color: Colors.black,
                       ),
                     ),
-                    Text(
-                      authStore.state.session.email,
-                      style: TextStyle(
-                        color: Colors.black54,
-                        fontFamily: AppFonts.fontText,
-                        fontSize: 12,
-                      ),
-                    ),
                   ],
                 ),
                 const SizedBox(width: 12),

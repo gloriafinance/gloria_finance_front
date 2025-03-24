@@ -40,7 +40,7 @@ class _FormLogin extends State<FormLogin> {
     final authStore = Provider.of<AuthSessionStore>(context);
 
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
       child: Form(
         key: formKey,
         child: LayoutBuilder(builder: (context, constraints) {
