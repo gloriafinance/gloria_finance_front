@@ -94,7 +94,7 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
   List<dynamic> financeRecordDTO(dynamic financeRecord) {
     return [
       convertDateFormatToDDMMYYYY(financeRecord.date.toString()),
-      formatCurrency(financeRecord.amount),
+      CurrencyFormatter.formatCurrency(financeRecord.amount),
       getFriendlyNameFinancialConceptType(financeRecord.type),
       financeRecord.financialConcept.name,
       financeRecord.availabilityAccount.accountName,

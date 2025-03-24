@@ -1,9 +1,8 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
+import 'package:church_finance_bk/helpers/currency_formatter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_multi_formatter/formatters/currency_input_formatter.dart';
-import 'package:flutter_multi_formatter/formatters/money_input_enums.dart';
 
 import '../state/purchase_register_form_state.dart';
 import '../store/add_item_purchase_from_store.dart';
@@ -13,8 +12,9 @@ class AddItemPurchase extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
   final AddItemPurchaseFromStore store = AddItemPurchaseFromStore();
   final Function(PurchaseItem) onCallback;
+  final String symbol;
 
-  AddItemPurchase({super.key, required this.onCallback});
+  AddItemPurchase({super.key, required this.symbol, required this.onCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -43,19 +43,11 @@ class AddItemPurchase extends StatelessWidget {
                       label: "Valor do produto",
                       keyboardType: TextInputType.number,
                       inputFormatters: [
-                        CurrencyInputFormatter(
-                          leadingSymbol: 'R\$ ',
-                          useSymbolPadding: true,
-                          mantissaLength: 2,
-                          thousandSeparator: ThousandSeparator.Period,
-                        ),
+                        CurrencyFormatter.getInputFormatters(symbol)
                       ],
                       onChanged: (value) {
-                        final cleanedValue = value
-                            .replaceAll(RegExp(r'[^\d,]'), '')
-                            .replaceAll(',', '.');
-
-                        store.setPriceUnit(double.parse(cleanedValue));
+                        store.setPriceUnit(
+                            CurrencyFormatter.cleanCurrency(value));
                       },
                       onValidator: validator.byField(store, 'priceUnit'),
                     ),
@@ -75,19 +67,14 @@ class AddItemPurchase extends StatelessWidget {
                       label: "Total",
                       keyboardType: TextInputType.number,
                       inputFormatters: [
-                        CurrencyInputFormatter(
-                          leadingSymbol: 'R\$ ',
-                          useSymbolPadding: true,
-                          mantissaLength: 2,
-                          thousandSeparator: ThousandSeparator.Period,
-                        ),
+                        CurrencyFormatter.getInputFormatters(symbol)
                       ],
                       onChanged: (value) {
                         final cleanedValue = value
                             .replaceAll(RegExp(r'[^\d,]'), '')
                             .replaceAll(',', '.');
 
-                        store.setTotal(double.parse(cleanedValue));
+                        store.setTotal(CurrencyFormatter.cleanCurrency(value));
                       },
                       onValidator: validator.byField(store, 'total'),
                     ),
