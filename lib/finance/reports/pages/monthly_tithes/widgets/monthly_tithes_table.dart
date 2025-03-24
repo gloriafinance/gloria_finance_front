@@ -43,7 +43,7 @@ class MonthlyTithesTable extends StatelessWidget {
   List<dynamic> monthlyTithesDTO(dynamic data) {
     return [
       convertDateFormatToDDMMYYYY(data.date.toString()),
-      formatCurrency(data.amount),
+      CurrencyFormatter.formatCurrency(data.amount),
       data.accountName,
       data.accountType,
     ];

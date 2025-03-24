@@ -55,7 +55,7 @@ class _ContributionTithesScreenState extends State<ContributionTithesScreen> {
       final account = availabilityAccountsListStore.state.availabilityAccounts
           .firstWhere((e) => e.accountType == "BANK");
 
-      formTitheStore.setAvailabilityAccountId(account.availabilityAccountId);
+      formTitheStore.setAvailabilityAccount(account);
     }
 
     return Form(
@@ -103,7 +103,7 @@ class _ContributionTithesScreenState extends State<ContributionTithesScreen> {
       keyboardType: TextInputType.number,
       inputFormatters: [
         CurrencyInputFormatter(
-          leadingSymbol: 'R\$ ',
+          leadingSymbol: formTitheState.state.symbol,
           useSymbolPadding: true,
           mantissaLength: 2,
           thousandSeparator: ThousandSeparator.Period,

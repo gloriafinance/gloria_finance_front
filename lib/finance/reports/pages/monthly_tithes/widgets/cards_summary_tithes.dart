@@ -1,6 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
-import 'package:church_finance_bk/helpers/index.dart';
+import 'package:church_finance_bk/helpers/currency_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -47,7 +47,7 @@ class CardsSummaryTithes extends StatelessWidget {
                 ),
                 Center(
                     child: Text(
-                  formatCurrency(amount),
+                  CurrencyFormatter.formatCurrency(amount),
                   textAlign: TextAlign.left,
                   style:
                       TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 44),

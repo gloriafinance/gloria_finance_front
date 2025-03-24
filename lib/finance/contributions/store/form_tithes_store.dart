@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/finance/contributions/contribution_service.dart';
+import 'package:church_finance_bk/settings/availability_accounts/models/availability_account_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -27,8 +28,9 @@ class FormTitheStore extends ChangeNotifier {
     state = state.copyWith(bankId: bankId);
   }
 
-  void setAvailabilityAccountId(String availabilityAccountId) {
-    state = state.copyWith(availabilityAccountId: availabilityAccountId);
+  void setAvailabilityAccount(AvailabilityAccountModel availabilityAccount) {
+    state = state.copyWith(
+        availabilityAccountId: availabilityAccount.availabilityAccountId);
   }
 
   void setFinancialConceptId(String financialConceptId) {

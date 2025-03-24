@@ -98,6 +98,7 @@ class _FormPurchaseState extends State<FormPurchase> {
               ModalPage(
                 title: "Adicionar item",
                 body: AddItemPurchase(
+                  symbol: formStore.state.symbol,
                   onCallback: (PurchaseItem item) {
                     formStore.addItem(item);
                   },

@@ -174,7 +174,7 @@ class AvailabilityAccountCards extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  formatCurrency(account.balance ?? 0.0),
+                  CurrencyFormatter.formatCurrency(account.balance ?? 0.0),
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
