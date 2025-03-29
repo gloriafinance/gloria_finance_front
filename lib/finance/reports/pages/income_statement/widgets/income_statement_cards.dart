@@ -1,5 +1,3 @@
-// lib/finance/reports/pages/income_statement/widgets/income_statement_cards.dart
-
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/widgets/card_amount.dart';
 import 'package:flutter/material.dart';
@@ -30,8 +28,8 @@ class IncomeStatementCards extends StatelessWidget {
           SizedBox(width: 20),
           // Tarjeta para los activos
           CardAmount(
-            title: 'Total de Activos',
-            amount: data.assets.total,
+            title: 'Total de Ingresos',
+            amount: data.assets.totalAssetIncome,
             symbol: 'R\$',
             bgColor: AppColors.blue,
             icon: Icons.account_balance,

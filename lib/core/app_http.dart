@@ -27,7 +27,7 @@ class AppHttp {
     //final apiDev = 'https://church-api.abejarano.dev/api/';
     final apiDev = 'http://localhost:5200/api/';
 
-    if (kReleaseMode) {
+    if (!kReleaseMode) {
       return apiProd;
     }
 

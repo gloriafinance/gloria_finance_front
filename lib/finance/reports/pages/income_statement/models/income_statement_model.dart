@@ -72,7 +72,6 @@ class CostCenterItem {
 }
 
 class CostCenterMaster {
-  final String id;
   final int month;
   final int year;
   final double total;
@@ -81,7 +80,6 @@ class CostCenterMaster {
   final DateTime lastMove;
 
   CostCenterMaster({
-    required this.id,
     required this.month,
     required this.year,
     required this.total,
@@ -92,7 +90,6 @@ class CostCenterMaster {
 
   factory CostCenterMaster.fromJson(Map<String, dynamic> json) {
     return CostCenterMaster(
-      id: json['id'],
       month: json['month'],
       year: json['year'],
       total: json['total'].toDouble(),
@@ -129,7 +126,7 @@ class IncomeStatementModel {
   factory IncomeStatementModel.empty() {
     return IncomeStatementModel(
       result: 0.0,
-      assets: Assets(accounts: [], total: 0.0),
+      assets: Assets(accounts: [], total: 0.0, totalAssetIncome: 0.0),
       liabilities: Liabilities(costCenters: [], total: 0.0),
     );
   }
@@ -138,10 +135,12 @@ class IncomeStatementModel {
 class Assets {
   final List<AccountMaster> accounts;
   final double total;
+  final double totalAssetIncome;
 
   Assets({
     required this.accounts,
     required this.total,
+    required this.totalAssetIncome,
   });
 
   factory Assets.fromJson(Map<String, dynamic> json) {
@@ -150,6 +149,7 @@ class Assets {
           .map((account) => AccountMaster.fromJson(account))
           .toList(),
       total: json['total'].toDouble(),
+      totalAssetIncome: json['totalAssetIncome'].toDouble(),
     );
   }
 }

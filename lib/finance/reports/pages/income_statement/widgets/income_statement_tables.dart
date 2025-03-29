@@ -16,14 +16,6 @@ class IncomeStatementTables extends StatelessWidget {
     final store = Provider.of<IncomeStatementStore>(context);
     final data = store.state.data;
 
-    if (store.state.makeRequest) {
-      return Container(
-        alignment: Alignment.center,
-        margin: const EdgeInsets.only(top: 40.0),
-        child: CircularProgressIndicator(),
-      );
-    }
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
