@@ -28,12 +28,12 @@ class ContributionModel {
   final DateTime createdAt;
   final String bankTransferReceipt;
   final ContributionFinancialConcept financeConcept;
+  final ContributionAvailabilityAccount account;
   final ContributionMember member;
   final String contributionId;
-  final String bankId;
 
   ContributionModel({
-    required this.bankId,
+    required this.account,
     required this.contributionId,
     required this.amount,
     required this.status,
@@ -45,16 +45,16 @@ class ContributionModel {
 
   factory ContributionModel.fromJson(Map<String, dynamic> json) {
     return ContributionModel(
-      bankId: json['bankId'],
-      contributionId: json['contributionId'],
-      amount: double.parse(json['amount'].toString()),
-      status: json['status'],
-      createdAt: DateTime.parse(json['createdAt']),
-      bankTransferReceipt: json['bankTransferReceipt'],
-      financeConcept:
-          ContributionFinancialConcept.fromJson(json['financeConcept']),
-      member: ContributionMember.fromJson(json['member']),
-    );
+        contributionId: json['contributionId'],
+        amount: double.parse(json['amount'].toString()),
+        status: json['status'],
+        createdAt: DateTime.parse(json['createdAt']),
+        bankTransferReceipt: json['bankTransferReceipt'],
+        financeConcept:
+            ContributionFinancialConcept.fromJson(json['financeConcept']),
+        member: ContributionMember.fromJson(json['member']),
+        account: ContributionAvailabilityAccount.fromJson(
+            json['availabilityAccount']));
   }
 
   copyWith({
@@ -66,10 +66,9 @@ class ContributionModel {
     ContributionFinancialConcept? financeConcept,
     ContributionMember? member,
     String? contributionId,
-    String? bankId,
+    ContributionAvailabilityAccount? availableContribution,
   }) {
     return ContributionModel(
-      bankId: bankId ?? this.bankId,
       amount: amount ?? this.amount,
       status: status ?? this.status,
       createdAt: createdAt ?? this.createdAt,
@@ -77,12 +76,12 @@ class ContributionModel {
       financeConcept: financeConcept ?? this.financeConcept,
       member: member ?? this.member,
       contributionId: contributionId ?? this.contributionId,
+      account: availableContribution ?? this.account,
     );
   }
 
   toJson() {
     return {
-      'bankId': bankId,
       'amount': amount,
       'status': status,
       'createdAt': createdAt,
@@ -143,5 +142,20 @@ class ContributionFinancialConcept {
       'financialConceptId': financialConceptId,
       'name': name,
     };
+  }
+}
+
+class ContributionAvailabilityAccount {
+  final String symbol;
+  final String accountName;
+
+  ContributionAvailabilityAccount(
+      {required this.symbol, required this.accountName});
+
+  factory ContributionAvailabilityAccount.fromJson(Map<String, dynamic> json) {
+    return ContributionAvailabilityAccount(
+      symbol: json['symbol'],
+      accountName: json['accountName'],
+    );
   }
 }

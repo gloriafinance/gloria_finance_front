@@ -1,3 +1,5 @@
+// lib/core/menu_items.dart
+
 import 'package:flutter/material.dart';
 
 import '../auth/auth_session_model.dart';
@@ -13,7 +15,11 @@ List<Map<String, dynamic>> items = const [
       //   "to": "/security-system/users"
       // },
       {"label": "Membros", "icon": Icons.people, "to": "/members"},
-      {"label": "Contas de disponibilidade", "icon": Icons.account_balance_wallet_outlined, "to": "/availability-accounts"}
+      {
+        "label": "Contas de disponibilidade",
+        "icon": Icons.account_balance_wallet_outlined,
+        "to": "/availability-accounts"
+      }
       // {
       //   "label": "Conceitos de financeiros",
       //   "icon": Icons.attach_money,
@@ -47,6 +53,11 @@ List<Map<String, dynamic>> items = const [
         "label": "Dízimos mensais",
         "icon": Icons.bar_chart,
         "to": "/report/monthly-tithes"
+      },
+      {
+        "label": "Estado de Ingresos",
+        "icon": Icons.account_balance,
+        "to": "/report/income-statement"
       },
     ],
   }

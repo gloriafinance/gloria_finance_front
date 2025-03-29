@@ -1,3 +1,5 @@
+// lib/finance/router.dart
+
 import 'package:church_finance_bk/core/theme/transition_custom.dart';
 import 'package:church_finance_bk/finance/purchase/pages/purchases/purchase_list_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +9,7 @@ import 'contributions/pages/contributions_list/contributions_list_screen.dart';
 import 'financial_records/pages/add_financial_records/add_financial_record_screen.dart';
 import 'financial_records/pages/financial_records/financial_record_list_screen.dart';
 import 'purchase/pages/register_purchase/add_purchase_screen.dart';
+import 'reports/pages/income_statement/income_statement_screen.dart';
 import 'reports/pages/monthly_tithes/monthly_tithes_screen.dart';
 
 financialRouter() {
@@ -51,6 +54,11 @@ financialRouter() {
         path: '/report/monthly-tithes',
         pageBuilder: (context, state) {
           return transitionCustom(MonthlyTithesScreen());
+        }),
+    GoRoute(
+        path: '/report/income-statement',
+        pageBuilder: (context, state) {
+          return transitionCustom(IncomeStatementScreen());
         }),
   ];
 }
