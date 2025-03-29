@@ -24,7 +24,7 @@ class _ContributionTableState extends State<ContributionTable> {
         Provider.of<ContributionPaginationStore>(context);
 
     final state = contributionPaginationStore.state;
-
+    print(state.paginate.results);
     if (state.paginate.results.isEmpty) {
       return Center(child: Text('Nenhuma contribuição encontrada'));
     }
@@ -78,7 +78,8 @@ class _ContributionTableState extends State<ContributionTable> {
   List<dynamic> contributionDTO(dynamic contribution) {
     return [
       contribution.member.name,
-      CurrencyFormatter.formatCurrency(contribution.amount),
+      CurrencyFormatter.formatCurrency(contribution.amount,
+          symbol: contribution.account.symbol),
       contribution.financeConcept.name,
       ContributionStatus.values
           .firstWhere(

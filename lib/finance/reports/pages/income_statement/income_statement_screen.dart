@@ -45,18 +45,27 @@ class IncomeStatementScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Filtros
-                IncomeStatementFilters(),
-                SizedBox(height: 32),
+              children: store.state.makeRequest != true
+                  ? [
+                      // Filtros
+                      IncomeStatementFilters(),
+                      SizedBox(height: 32),
 
-                // Tarjetas de resumen
-                IncomeStatementCards(),
-                SizedBox(height: 40),
+                      // Tarjetas de resumen
+                      IncomeStatementCards(),
+                      SizedBox(height: 40),
 
-                // Tablas de datos
-                IncomeStatementTables(),
-              ],
+                      // Tablas de datos
+                      IncomeStatementTables(),
+                    ]
+                  : [
+                      // Mensaje de carga
+                      Container(
+                        alignment: Alignment.center,
+                        margin: const EdgeInsets.only(top: 40.0),
+                        child: CircularProgressIndicator(),
+                      ),
+                    ],
             ),
           ),
         );
