@@ -44,8 +44,11 @@ class ViewContribution extends StatelessWidget {
               buildTitle('Contribuição #${contribution.contributionId}'),
               const Divider(),
               SizedBox(height: 16),
-              buildDetailRow(mobile, 'Valor',
-                  'R\$ ${contribution.amount.toStringAsFixed(2)}'),
+              buildDetailRow(
+                  mobile,
+                  'Valor',
+                  CurrencyFormatter.formatCurrency(contribution.amount,
+                      symbol: contribution.account.symbol)),
               buildDetailRow(
                 mobile,
                 'Status',
@@ -61,23 +64,25 @@ class ViewContribution extends StatelessWidget {
               const SizedBox(height: 16),
               buildDetailRow(
                 mobile,
-                'Bano',
-                '${bankStore.getBankName(contribution.bankId)}',
+                'Conta',
+                contribution.account.accountName,
               ),
               const SizedBox(height: 16),
               buildSectionTitle('Membro'),
               Text(
                 '${contribution.member.name} (ID: ${contribution.member.memberId})',
-                style: const TextStyle(fontSize: 14),
+                style: const TextStyle(
+                    fontSize: 14, fontFamily: AppFonts.fontText),
               ),
               const SizedBox(height: 16),
               buildSectionTitle('Conceito Financeiro'),
               Text(
                 contribution.financeConcept.name,
-                style: const TextStyle(fontSize: 14),
+                style: const TextStyle(
+                    fontSize: 14, fontFamily: AppFonts.fontText),
               ),
               const SizedBox(height: 26),
-              buildSectionTitle('Recibo de Transferência'),
+              buildSectionTitle('Comprovante da Transferência'),
               const SizedBox(height: 26),
               ContentViewer(url: contribution.bankTransferReceipt),
               const SizedBox(height: 46),
