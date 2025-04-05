@@ -42,11 +42,17 @@ class CurrencyFormatter {
   ];
 
   static String formatCurrency(double amount, {String? symbol}) {
-    if (symbol != null) {
+    if (symbol == null) {
+      return 'R\$ ${amount.toStringAsFixed(2).replaceAll('.', ',').replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}';
+
+    }
+
+    if (_isFiatCurrency(symbol)) {
       return '$symbol ${amount.toStringAsFixed(2).replaceAll('.', ',').replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}';
     }
 
-    return 'R\$ ${amount.toStringAsFixed(2).replaceAll('.', ',').replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}';
+    return '${amount.toStringAsFixed(8).replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}')} $symbol';
+
   }
 
   static bool _isFiatCurrency(String symbol) {
