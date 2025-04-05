@@ -47,6 +47,7 @@ Widget dropdownAvailabilityAccounts(
   return Dropdown(
       label: "Conta de disponiblidade",
       items: availabilityAccountsListStore.state.availabilityAccounts
+          .where((a) => a.accountType != AccountType.INVESTMENT.apiValue)
           .map((a) => a.accountName)
           .toList(),
       onChanged: (value) {

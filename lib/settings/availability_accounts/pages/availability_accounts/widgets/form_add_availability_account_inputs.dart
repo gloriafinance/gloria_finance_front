@@ -26,7 +26,8 @@ List<String> _accountTypeFriendlyName() {
   return [
     AccountType.BANK.friendlyName,
     AccountType.CASH.friendlyName,
-    AccountType.WALLET.friendlyName
+    AccountType.WALLET.friendlyName,
+    AccountType.INVESTMENT.friendlyName
   ];
 }
 
