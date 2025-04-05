@@ -77,4 +77,23 @@ class FinanceRecordPaginateStore extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<bool> exportFinanceRecords() async {
+    try {
+      state = state.copyWith(makeRequest: true);
+      notifyListeners();
+
+      final result = await service.exportFinanceRecords(state.filter);
+
+      state = state.copyWith(makeRequest: false);
+      notifyListeners();
+
+      return result;
+    } catch (e) {
+      print("ERROR EN EXPORTACIÓN: ${e}");
+      state = state.copyWith(makeRequest: false);
+      notifyListeners();
+      return false;
+    }
+  }
 }

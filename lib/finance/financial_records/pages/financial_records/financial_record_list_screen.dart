@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class FinancialRecordScreen extends StatelessWidget {
       ],
       child: MaterialApp(
         home: LayoutDashboard(
-          _header(context),
+          Builder(builder: (context) => _header(context)),
           screen: Column(
             children: [FinanceRecordFilters(), FinanceRecordTable()],
           ),
@@ -96,8 +97,18 @@ class FinancialRecordScreen extends StatelessWidget {
   Widget _generateReport(BuildContext context) {
     return ButtonActionTable(
         color: AppColors.purple,
-        text: "Relatório",
-        onPressed: () => {},
+        text: "Exportar",
+        onPressed: () async {
+          final store = Provider.of<FinanceRecordPaginateStore>(context, listen: false);
+          final result = await store.exportFinanceRecords();
+          
+          if (!result) {
+            Toast.showMessage(
+              "Error al exportar los registros financieros", 
+              ToastType.error
+            );
+          }
+        },
         icon: Icons.download);
   }
 }
