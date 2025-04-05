@@ -1,6 +1,6 @@
 import '../../banks/models/bank_model.dart';
 
-enum AccountType { BANK, CASH, WALLET }
+enum AccountType { BANK, CASH, WALLET, INVESTMENT }
 
 extension AccountTypeExtension on AccountType {
   String get friendlyName {
@@ -11,6 +11,8 @@ extension AccountTypeExtension on AccountType {
         return 'Dinheiro';
       case AccountType.WALLET:
         return 'Carteira Digital';
+      case AccountType.INVESTMENT:
+        return 'Investimento';
     }
   }
 
@@ -22,6 +24,8 @@ extension AccountTypeExtension on AccountType {
         return 'CASH';
       case AccountType.WALLET:
         return 'WALLET';
+      case AccountType.INVESTMENT:
+        return 'INVESTMENT';
     }
   }
 }
