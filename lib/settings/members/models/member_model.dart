@@ -9,6 +9,7 @@ class MemberModel {
   String birthdate;
   bool isMinister;
   bool isTreasurer;
+  bool active = true;
 
   // Church church;
   // Region region;
@@ -24,6 +25,7 @@ class MemberModel {
     required this.birthdate,
     required this.isMinister,
     required this.isTreasurer,
+    required this.active,
     // required this.church,
     // required this.region,
   });
@@ -40,6 +42,7 @@ class MemberModel {
       birthdate: json['birthdate'],
       isMinister: json['isMinister'],
       isTreasurer: json['isTreasurer'] ?? false,
+      active: json['active'] ?? true,
       //church: Church.fromJson(json['church']),
       //region: Region.fromJson(json['region']),
     );
@@ -57,6 +60,7 @@ class MemberModel {
       'birthdate': birthdate,
       'isMinister': isMinister,
       'isTreasurer': isTreasurer,
+      'active': active,
       // 'church': church.toJson(),
       // 'region': region.toJson(),
     };
