@@ -1,14 +1,13 @@
-import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
 import 'package:church_finance_bk/helpers/index.dart';
+import 'package:church_finance_bk/settings/members/pages/add_members/store/form_member_store.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-import '../../../services/save_member_service.dart';
 import 'form_member_desktop_layout.dart';
-import 'form_member_inputs.dart';
 import 'form_member_mobile.layout.dart';
 
 class FormMember extends StatefulWidget {
@@ -23,22 +22,24 @@ class _FormMemberState extends State<FormMember> {
 
   @override
   Widget build(BuildContext context) {
+    final formStore = Provider.of<FormMemberStore>(context);
+
     return SingleChildScrollView(
       child: Form(
         key: formKey,
         child: Column(
           children: [
             isMobile(context)
-                ? formMemberMobileLayout(context)
-                : formMemberDesktopLayout(context),
+                ? formMemberMobileLayout(context, formStore)
+                : formMemberDesktopLayout(context, formStore),
             const SizedBox(height: 32),
             isMobile(context)
-                ? _btnSave()
+                ? _btnSave(formStore)
                 : Align(
                     alignment: Alignment.centerRight,
                     child: SizedBox(
                       width: 300,
-                      child: _btnSave(),
+                      child: _btnSave(formStore),
                     ),
                   ),
           ],
@@ -47,8 +48,8 @@ class _FormMemberState extends State<FormMember> {
     );
   }
 
-  Widget _btnSave() {
-    return (formMemberState.makeRequest)
+  Widget _btnSave(FormMemberStore formStore) {
+    return (formStore.state.makeRequest)
         ? const Loading()
         : Padding(
             padding: EdgeInsets.only(top: 20),
@@ -56,23 +57,17 @@ class _FormMemberState extends State<FormMember> {
                 text: "Salvar",
                 backgroundColor: AppColors.green,
                 textColor: Colors.black,
-                onPressed: () => _saveRecord()));
+                onPressed: () => _saveRecord(formStore)));
   }
 
-  void _saveRecord() async {
+  void _saveRecord(FormMemberStore formStore) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
 
-    formMemberState.copyWith(makeRequest: true);
-    final auth = await AuthPersistence().restore();
-
-    SaveMemberService(tokenAPI: auth.token)
-        .saveMember(formMemberState.toJson())
-        .then((value) => {
-              formMemberState.copyWith(makeRequest: false),
-              GoRouter.of(context).go('/members')
-            })
-        .catchError((e) => formMemberState.copyWith(makeRequest: false));
+    var response = await formStore.save();
+    if (response) {
+      GoRouter.of(context).go('/members');
+    }
   }
 }

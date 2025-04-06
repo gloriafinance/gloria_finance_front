@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:church_finance_bk/core/app_http.dart';
 import 'package:church_finance_bk/core/paginate/paginate_response.dart';
 import 'package:dio/dio.dart';
@@ -11,6 +12,11 @@ class MemberListService extends AppHttp {
   Future<PaginateResponse<MemberModel>> searchMembers(
       MemberFilterModel params) async {
     try {
+      final session = await AuthPersistence().restore();
+      tokenAPI = session.token;
+
+      params.churchId = session.churchId;
+
       final response = await http.get(
         '${await getUrlApi()}church/member/list',
         queryParameters: params.toJson(),
@@ -21,6 +27,26 @@ class MemberListService extends AppHttp {
 
       return PaginateResponse.fromJson(
           params.perPage, response.data, (data) => MemberModel.fromJson(data));
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<List<MemberModel>> members() async {
+    try {
+      final session = await AuthPersistence().restore();
+      tokenAPI = session.token;
+
+      final response = await http.get(
+        '${await getUrlApi()}church/member/all',
+        options: Options(
+          headers: getHeader(),
+        ),
+      );
+
+      return List<MemberModel>.from(
+          response.data.map((data) => MemberModel.fromJson(data)));
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;
