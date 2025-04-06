@@ -39,6 +39,7 @@ class _MemberTableState extends State<MemberTable> {
         "Email",
         "Telefone",
         "Data de nascimento",
+        "Ativo?",
       ],
       data: FactoryDataTable<MemberModel>(
         data: state.paginate.results,
@@ -68,6 +69,7 @@ class _MemberTableState extends State<MemberTable> {
       member.email,
       member.phone,
       member.birthdate,
+      member.active ? "Sim" : "Nāo",
     ];
   }
 }
