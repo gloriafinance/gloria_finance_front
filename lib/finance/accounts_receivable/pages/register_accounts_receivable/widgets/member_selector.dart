@@ -1,11 +1,9 @@
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/widgets/form_controls.dart'; // Añadido este import
+import 'package:church_finance_bk/settings/members/models/member_model.dart';
 import 'package:church_finance_bk/settings/members/store/member_all_store.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../settings/members/models/member_model.dart'
-    show MemberModel;
 import '../store/form_accounts_receivable_store.dart';
 
 class MemberSelector extends StatefulWidget {
@@ -32,73 +30,53 @@ class _MemberSelectorState extends State<MemberSelector> {
   Widget build(BuildContext context) {
     final memberAllStore = Provider.of<MemberAllStore>(context);
 
+    // Convertir los miembros a un formato compatible con el widget Dropdown
+    List<String> memberNames =
+        memberAllStore.getMembers().map((member) => member.name).toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Selecione o Membro',
-          style: TextStyle(
-            color: AppColors.purple,
-            fontFamily: AppFonts.fontTitle,
-            fontSize: 15,
-          ),
-        ),
-        SizedBox(height: 8),
-        _buildMemberDropdown(memberAllStore),
-      ],
-    );
-  }
+        Dropdown(
+          label: 'Selecione o Membro',
+          items: memberNames,
+          initialValue: _selectedMemberId != null
+              ? memberAllStore
+                  .getMembers()
+                  .firstWhere((m) => m.memberId == _selectedMemberId)
+                  .name
+              : null,
+          onChanged: (selectedName) {
+            final member = memberAllStore.getMembers().firstWhere(
+                  (m) => m.name == selectedName,
+                  orElse: () => MemberModel(
+                    memberId: '',
+                    name: '',
+                    email: '',
+                    phone: '',
+                    dni: '',
+                    conversionDate: '',
+                    birthdate: '',
+                    isMinister: false,
+                    isTreasurer: false,
+                    active: true,
+                  ),
+                );
 
-  Widget _buildMemberDropdown(MemberAllStore memberAllStore) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.greyMiddle),
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          isExpanded: true,
-          hint: Text('Selecione um membro'),
-          value: _selectedMemberId,
-          items: memberAllStore.getMembers().map((member) {
-            return DropdownMenuItem<String>(
-              value: member.memberId,
-              child: Text(
-                member.name,
-                style: TextStyle(
-                  fontFamily: AppFonts.fontSubTitle,
-                ),
-              ),
-            );
-          }).toList(),
-          onChanged: (memberId) {
-            if (memberId != null) {
-              setState(() {
-                _selectedMemberId = memberId;
-              });
+            setState(() {
+              _selectedMemberId = member.memberId;
+            });
 
-              final member = memberAllStore.getMembers().firstWhere(
-                    (m) => m.memberId == memberId,
-                    orElse: () => MemberModel(
-                      memberId: '',
-                      name: '',
-                      email: '',
-                      phone: '',
-                      dni: '',
-                      conversionDate: '',
-                      birthdate: '',
-                      isMinister: false,
-                      isTreasurer: false,
-                      active: true,
-                    ),
-                  );
-
-              widget.formStore.setMember(member.dni, member.name);
+            widget.formStore.setMember(member.dni, member.name);
+          },
+          onValidator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Por favor seleccione un miembro';
             }
+            return null;
           },
         ),
-      ),
+      ],
     );
   }
 }

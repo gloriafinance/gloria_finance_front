@@ -126,42 +126,311 @@ InputDecoration _inputDecoration(
   );
 }
 
-class Dropdown extends StatelessWidget {
+class Dropdown extends StatefulWidget {
   final List<String> items;
   final String label;
   final String? Function(String?)? onValidator;
   final Function(String) onChanged;
   final String? initialValue;
+  final String searchHint;
 
   const Dropdown({
-    super.key,
+    Key? key,
     required this.items,
     required this.label,
     this.onValidator,
     required this.onChanged,
     this.initialValue,
-  });
+    this.searchHint = 'Buscar...',
+  }) : super(key: key);
+
+  @override
+  State<Dropdown> createState() => _DropdownState();
+}
+
+class _DropdownState extends State<Dropdown> {
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _dropdownFocusNode = FocusNode();
+  final FocusNode _searchFocusNode = FocusNode();
+  bool _isDropdownOpen = false;
+  String? _selectedValue;
+  List<String> _filteredItems = [];
+  final GlobalKey _dropdownKey = GlobalKey();
+  OverlayEntry? _overlayEntry;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedValue = widget.initialValue;
+    _filteredItems = List.from(widget.items);
+
+    // Solo cerramos cuando el dropdown pierde el foco
+    // y el campo de búsqueda también lo ha perdido
+    _dropdownFocusNode.addListener(() {
+      if (!_dropdownFocusNode.hasFocus &&
+          !_searchFocusNode.hasFocus &&
+          _isDropdownOpen) {
+        Future.delayed(const Duration(milliseconds: 100), () {
+          if (!_searchFocusNode.hasFocus) {
+            _closeDropdown();
+          }
+        });
+      }
+    });
+  }
+
+  @override
+  void didUpdateWidget(Dropdown oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialValue != oldWidget.initialValue) {
+      _selectedValue = widget.initialValue;
+    }
+    if (widget.items != oldWidget.items) {
+      _filteredItems = List.from(widget.items);
+    }
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _dropdownFocusNode.dispose();
+    _searchFocusNode.dispose();
+    _closeDropdown();
+    super.dispose();
+  }
+
+  void _toggleDropdown() {
+    if (_isDropdownOpen) {
+      _closeDropdown();
+    } else {
+      _openDropdown();
+    }
+  }
+
+  void _openDropdown() {
+    _dropdownFocusNode.requestFocus();
+    final RenderBox renderBox =
+        _dropdownKey.currentContext!.findRenderObject() as RenderBox;
+    final position = renderBox.localToGlobal(Offset.zero);
+    final size = renderBox.size;
+
+    _overlayEntry = OverlayEntry(
+      builder: (context) => GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {}, // Evita que los toques fuera cierren el dropdown
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: _closeDropdown,
+                behavior: HitTestBehavior.translucent,
+                child: Container(color: Colors.transparent),
+              ),
+            ),
+            Positioned(
+              left: position.dx,
+              top: position.dy + size.height + 5,
+              width: size.width,
+              child: Material(
+                elevation: 4,
+                borderRadius: BorderRadius.circular(18),
+                child: Container(
+                  constraints:
+                      BoxConstraints(maxHeight: 350, minWidth: size.width),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(color: AppColors.greyMiddle),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Campo de búsqueda
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          controller: _searchController,
+                          focusNode: _searchFocusNode,
+                          autofocus: true,
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 8),
+                            hintText: widget.searchHint,
+                            prefixIcon: const Icon(Icons.search),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                          ),
+                          onChanged: _filterItems,
+                        ),
+                      ),
+                      // Lista de resultados
+                      Flexible(
+                        child: _filteredItems.isEmpty
+                            ? const Center(
+                                child: Padding(
+                                  padding: EdgeInsets.all(16.0),
+                                  child: Text('No se encontraron resultados'),
+                                ),
+                              )
+                            : ListView.builder(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 4),
+                                shrinkWrap: true,
+                                itemCount: _filteredItems.length,
+                                itemBuilder: (context, index) {
+                                  final item = _filteredItems[index];
+                                  return ListTile(
+                                    dense: true,
+                                    title: Text(
+                                      item,
+                                      style: TextStyle(
+                                        fontFamily: AppFonts.fontSubTitle,
+                                        color: item == _selectedValue
+                                            ? AppColors.purple
+                                            : Colors.black87,
+                                      ),
+                                    ),
+                                    onTap: () => _selectItem(item),
+                                  );
+                                },
+                              ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    Overlay.of(context).insert(_overlayEntry!);
+    setState(() {
+      _isDropdownOpen = true;
+    });
+
+    // Enfocamos el campo de búsqueda después de crear el overlay
+    Future.delayed(const Duration(milliseconds: 50), () {
+      _searchFocusNode.requestFocus();
+    });
+  }
+
+  void _closeDropdown() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+    _searchController.clear();
+    _filteredItems = List.from(widget.items);
+
+    if (mounted) {
+      setState(() {
+        _isDropdownOpen = false;
+      });
+    }
+  }
+
+  void _filterItems(String query) {
+    setState(() {
+      if (query.isEmpty) {
+        _filteredItems = List.from(widget.items);
+      } else {
+        _filteredItems = widget.items
+            .where((item) => item.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      }
+    });
+
+    // Actualizar el overlay para reflejar los resultados filtrados
+    _overlayEntry?.markNeedsBuild();
+  }
+
+  void _selectItem(String value) {
+    setState(() {
+      _selectedValue = value;
+    });
+    widget.onChanged(value);
+    _closeDropdown();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 20.0),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        ..._generateLabel(label),
-        DropdownButtonFormField<String>(
-          value: initialValue,
-          onChanged: (val) => onChanged(val!),
-          validator: onValidator,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          decoration: _inputDecoration(null, null, null),
-          items: items.map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
-        ),
-      ]),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ..._generateLabel(widget.label),
+          FormField<String>(
+            initialValue: _selectedValue,
+            validator: widget.onValidator,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            builder: (FormFieldState<String> state) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Campo seleccionable que muestra el valor actual
+                  GestureDetector(
+                    onTap: _toggleDropdown,
+                    child: Container(
+                      key: _dropdownKey,
+                      height: 50,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: state.hasError
+                              ? Colors.red
+                              : AppColors.greyMiddle,
+                        ),
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              _selectedValue ?? '',
+                              style: TextStyle(
+                                fontFamily: AppFonts.fontSubTitle,
+                                color: _selectedValue == null
+                                    ? AppColors.greyMiddle
+                                    : Colors.black87,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Icon(
+                            _isDropdownOpen
+                                ? Icons.arrow_drop_up
+                                : Icons.arrow_drop_down,
+                            color: AppColors.greyMiddle,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // Mensaje de error
+                  if (state.hasError)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4, left: 12),
+                      child: Text(
+                        state.errorText!,
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  // Campo invisible para manejar el foco principal
+                  Offstage(
+                    child: Focus(
+                        focusNode: _dropdownFocusNode, child: Container()),
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }
