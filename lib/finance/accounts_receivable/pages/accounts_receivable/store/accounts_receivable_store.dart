@@ -12,14 +12,17 @@ class AccountsReceivableStore extends ChangeNotifier {
     final v = AccountsReceivableStatus.values
         .firstWhere((e) => e.friendlyName == status);
     state = state.copyWith(status: v.toString().split('.').last);
+    notifyListeners();
   }
 
   void setStartDate(String startDate) {
     state = state.copyWith(startDate: startDate);
+    notifyListeners();
   }
 
   void setEndDate(String endDate) {
     state = state.copyWith(endDate: endDate);
+    notifyListeners();
   }
 
   void setPerPage(int perPage) {
@@ -37,6 +40,12 @@ class AccountsReceivableStore extends ChangeNotifier {
   }
 
   void apply() {
+    notifyListeners();
+    searchAccountsReceivable();
+  }
+
+  void clearFilters() {
+    state = AccountsReceivablePaginateState.empty();
     notifyListeners();
     searchAccountsReceivable();
   }

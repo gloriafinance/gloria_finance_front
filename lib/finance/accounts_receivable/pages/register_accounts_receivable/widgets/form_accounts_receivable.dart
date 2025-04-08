@@ -1,11 +1,8 @@
 import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/toast.dart';
-import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
-import 'package:church_finance_bk/core/widgets/custom_button.dart';
-import 'package:church_finance_bk/core/widgets/loading.dart';
-import 'package:church_finance_bk/helpers/general.dart';
+import 'package:church_finance_bk/core/widgets/index.dart';
+import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +11,6 @@ import '../../../models/index.dart';
 import '../store/form_accounts_receivable_store.dart';
 import '../validators/form_accounts_receivable_validator.dart';
 import 'external_debtor_form.dart';
-import 'form_accounts_receivable_inputs.dart';
 import 'installment_form.dart';
 import 'installments_table.dart';
 import 'member_selector.dart';
@@ -54,7 +50,7 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
 
             SizedBox(height: 20),
 
-            description(formStore, validator),
+            _description(formStore, validator),
 
             SizedBox(height: 20),
 
@@ -97,6 +93,16 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _description(FormAccountsReceivableStore formStore,
+      FormAccountsReceivableValidator validator) {
+    return Input(
+      label: 'Descrição do Empréstimo',
+      initialValue: formStore.state.description,
+      onChanged: (value) => formStore.setDescription(value),
+      onValidator: validator.byField(formStore.state, 'description'),
     );
   }
 

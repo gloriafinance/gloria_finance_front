@@ -1,6 +1,5 @@
 import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/helpers/general.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/toast.dart' show Toast;
 import 'store/accounts_receivable_store.dart';
 import 'widgets/accounts_receivable_table.dart';
+import 'widgets/accounts_receive_filters.dart';
 
 class ListAccountsReceivableScreen extends StatelessWidget {
   const ListAccountsReceivableScreen({super.key});
@@ -23,7 +23,7 @@ class ListAccountsReceivableScreen extends StatelessWidget {
       child: LayoutDashboard(
         _header(context),
         screen: Column(
-          children: [AccountsReceivableTable()],
+          children: [AccountsReceiveFilters(), AccountsReceivableTable()],
         ),
       ),
     );
