@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/accounts_receivable_model.dart';
+import '../../../models/index.dart';
 
 class FormInstallStore extends ChangeNotifier {
   String _installmentDate = '';
@@ -8,7 +8,9 @@ class FormInstallStore extends ChangeNotifier {
   bool _addData = false;
 
   String get installmentDate => _installmentDate;
+
   double get installmentValue => _installmentValue;
+
   bool get hasData => _addData;
 
   void setInstallmentDate(String date) {

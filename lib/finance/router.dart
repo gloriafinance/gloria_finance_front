@@ -65,7 +65,7 @@ financialRouter() {
     GoRoute(
       path: '/accounts-receivables',
       pageBuilder: (context, state) {
-        return transitionCustom(ListAccountsReceivableRegistrationScreen());
+        return transitionCustom(ListAccountsReceivableScreen());
       },
     ),
     GoRoute(

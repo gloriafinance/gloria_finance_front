@@ -90,14 +90,13 @@ class ContributionPaginationStore extends ChangeNotifier {
 
       notifyListeners();
 
-      final paginate = await service.searchContributions(state.filter);
+      final paginate = await service.listContributions(state.filter);
 
       state = state.copyWith(makeRequest: false, paginate: paginate);
       notifyListeners();
     } catch (e) {
       print("Error al buscar contribuciones: $e");
 
-      // Manejo de errores
       state = state.copyWith(makeRequest: false);
       notifyListeners();
     }

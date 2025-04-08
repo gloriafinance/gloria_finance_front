@@ -3,7 +3,7 @@ import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/helpers/currency_formatter.dart';
 import 'package:flutter/material.dart';
 
-import '../models/accounts_receivable_model.dart';
+import '../../../models/index.dart';
 
 class InstallmentsTable extends StatelessWidget {
   final List<InstallmentModel> installments;

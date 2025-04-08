@@ -9,7 +9,7 @@ import 'models/contribution_model.dart';
 class ContributionService extends AppHttp {
   ContributionService({super.tokenAPI});
 
-  Future<PaginateResponse<ContributionModel>> searchContributions(
+  Future<PaginateResponse<ContributionModel>> listContributions(
       ContributionFilterModel params) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;

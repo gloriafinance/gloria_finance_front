@@ -5,20 +5,26 @@ import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/helpers/general.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/toast.dart' show Toast;
+import 'store/accounts_receivable_store.dart';
+import 'widgets/accounts_receivable_table.dart';
 
-class ListAccountsReceivableRegistrationScreen extends StatelessWidget {
-  const ListAccountsReceivableRegistrationScreen({super.key});
+class ListAccountsReceivableScreen extends StatelessWidget {
+  const ListAccountsReceivableScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     Toast.init(context);
 
-    return LayoutDashboard(
-      _header(context),
-      screen: Center(
-        child: Text('Lista de contas a receber'),
+    return ChangeNotifierProvider(
+      create: (_) => AccountsReceivableStore()..searchAccountsReceivable(),
+      child: LayoutDashboard(
+        _header(context),
+        screen: Column(
+          children: [AccountsReceivableTable()],
+        ),
       ),
     );
   }
