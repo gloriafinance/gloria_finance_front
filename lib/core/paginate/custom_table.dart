@@ -21,6 +21,9 @@ class CustomTable extends StatefulWidget {
   final FactoryDataTable data;
   final List<Widget Function(dynamic)>? actionBuilders;
   final PaginationData? paginate;
+  final bool? showCheckbox;
+  final Function(dynamic, bool)? onCheckboxChanged;
+  final bool Function(dynamic)? isChecked;
 
   const CustomTable({
     super.key,
@@ -28,6 +31,9 @@ class CustomTable extends StatefulWidget {
     required this.data,
     this.actionBuilders,
     this.paginate,
+    this.showCheckbox,
+    this.onCheckboxChanged,
+    this.isChecked,
   });
 
   @override
@@ -78,6 +84,17 @@ class _CustomTableState extends State<CustomTable> {
         (states) => AppColors.greyLight,
       ),
       columns: [
+        // Columna para checkbox si está habilitado
+        if (widget.showCheckbox == true)
+          const DataColumn(
+            label: Text(
+              "",
+              style: TextStyle(
+                fontFamily: AppFonts.fontTitle,
+                color: Colors.black87,
+              ),
+            ),
+          ),
         ...widget.headers.map(
           (header) => DataColumn(
             label: Text(
@@ -107,9 +124,24 @@ class _CustomTableState extends State<CustomTable> {
           final item = widget.data.data[rowIndex];
 
           final rowData = widget.data.dataBuilder(item);
+          
+          // Determinar si el checkbox está marcado
+          final bool isItemChecked = widget.isChecked != null ? widget.isChecked!(item) : false;
 
           return DataRow(
             cells: [
+              // Celda de checkbox si está habilitado
+              if (widget.showCheckbox == true)
+                DataCell(
+                  Checkbox(
+                    value: isItemChecked,
+                    onChanged: (value) {
+                      if (widget.onCheckboxChanged != null && value != null) {
+                        widget.onCheckboxChanged!(item, value);
+                      }
+                    },
+                  ),
+                ),
               ...rowData.map(
                 (cell) => DataCell(
                   Text(
