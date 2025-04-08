@@ -1,6 +1,9 @@
 import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:church_finance_bk/core/app_http.dart';
+import 'package:church_finance_bk/core/paginate/paginate_response.dart';
 import 'package:dio/dio.dart';
+
+import 'models/index.dart';
 
 class AccountsReceivableService extends AppHttp {
   AccountsReceivableService({super.tokenAPI});
@@ -18,6 +21,28 @@ class AccountsReceivableService extends AppHttp {
           headers: getHeader(),
         ),
       );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<PaginateResponse<AccountsReceivableModel>> listAccountsReceivable(
+      AccountsReceivableFilterModel params) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.get(
+        '${await getUrlApi()}account-receivable',
+        queryParameters: params.toJson(),
+        options: Options(
+          headers: getHeader(),
+        ),
+      );
+
+      return PaginateResponse.fromJson(params.perPage, response.data,
+          (data) => AccountsReceivableModel.fromJson(data));
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;

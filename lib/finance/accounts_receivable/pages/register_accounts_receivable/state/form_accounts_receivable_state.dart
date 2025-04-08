@@ -1,4 +1,4 @@
-import '../models/accounts_receivable_model.dart';
+import '../../../models/index.dart';
 
 class FormAccountsReceivableState {
   bool makeRequest;

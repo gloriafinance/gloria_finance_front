@@ -2,7 +2,7 @@ import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:flutter/material.dart';
 
 import '../../../accounts_receivable_service.dart';
-import '../models/accounts_receivable_model.dart';
+import '../../../models/index.dart';
 import '../state/form_accounts_receivable_state.dart';
 
 class FormAccountsReceivableStore extends ChangeNotifier {
