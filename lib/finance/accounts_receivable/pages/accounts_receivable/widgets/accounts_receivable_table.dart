@@ -80,7 +80,10 @@ class AccountsReceivableTable extends StatelessWidget {
       CurrencyFormatter.formatCurrency(accountsReceivable.amountPaid),
       CurrencyFormatter.formatCurrency(accountsReceivable.amountPending),
       CurrencyFormatter.formatCurrency(accountsReceivable.amountTotal),
-      accountsReceivable.status,
+      AccountsReceivableStatus.values
+          .firstWhere(
+              (e) => e.toString().split('.').last == accountsReceivable.status)
+          .friendlyName
     ];
   }
 }

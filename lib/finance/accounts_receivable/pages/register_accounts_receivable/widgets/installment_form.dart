@@ -1,13 +1,12 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/widgets/custom_button.dart';
-import 'package:church_finance_bk/core/widgets/form_controls.dart';
-import 'package:church_finance_bk/finance/accounts_receivable/pages/register_accounts_receivable/store/form_install_store.dart';
+import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/helpers/currency_formatter.dart';
 import 'package:church_finance_bk/helpers/date_formatter.dart';
 import 'package:flutter/material.dart';
 
 import '../../../models/index.dart';
 import '../store/form_accounts_receivable_store.dart';
+import '../store/form_install_store.dart';
 
 class InstallmentForm extends StatelessWidget {
   final FormAccountsReceivableStore formStore;

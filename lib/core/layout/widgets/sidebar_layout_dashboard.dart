@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
-import '../sidebar_backgroud.dart';
+import '../sidebar_background.dart';
 
 class Sidebar extends StatefulWidget {
   final List<Map<String, dynamic>> menuItems;

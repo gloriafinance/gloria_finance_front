@@ -10,7 +10,7 @@ import '../../auth/auth_session_model.dart';
 import '../menu_items.dart';
 import 'header_layout.dart';
 import 'widgets/navigator_member.dart';
-import 'widgets/sidebar_layout_dashboad.dart';
+import 'widgets/sidebar_layout_dashboard.dart';
 
 class LayoutDashboard extends StatefulWidget {
   final Widget screen;
