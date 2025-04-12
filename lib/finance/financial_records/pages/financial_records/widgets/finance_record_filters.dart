@@ -1,7 +1,5 @@
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
-import 'package:church_finance_bk/core/widgets/custom_button.dart';
-import 'package:church_finance_bk/core/widgets/form_controls.dart';
+import 'package:church_finance_bk/core/theme/index.dart';
+import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:church_finance_bk/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
@@ -172,7 +170,7 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
       onTap: () {
         selectDate(context).then((picked) {
           if (picked == null) return;
-          store.setStartDate(picked.toString());
+          store.setStartDate(convertDateFormatToDDMMYYYY(picked.toString()));
         });
       },
     );

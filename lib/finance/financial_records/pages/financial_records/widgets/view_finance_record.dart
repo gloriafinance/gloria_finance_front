@@ -26,8 +26,6 @@ class ViewFinanceRecord extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              buildTitle(
-                  'Movimento financeiro #${financeRecord.financialRecordId}'),
               const Divider(),
               const SizedBox(height: 16),
               _buildSectionTitle('Conceito Financeiro'),

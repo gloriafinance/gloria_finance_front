@@ -15,12 +15,15 @@ class FactoryDataTable<T> {
 }
 
 class CustomTable extends StatefulWidget {
-  final List<String> headers;
+  final List<dynamic> headers;
 
   //final List<List<String>> data;
   final FactoryDataTable data;
   final List<Widget Function(dynamic)>? actionBuilders;
   final PaginationData? paginate;
+  final bool? showCheckbox;
+  final Function(dynamic, bool)? onCheckboxChanged;
+  final bool Function(dynamic)? isChecked;
 
   const CustomTable({
     super.key,
@@ -28,6 +31,9 @@ class CustomTable extends StatefulWidget {
     required this.data,
     this.actionBuilders,
     this.paginate,
+    this.showCheckbox,
+    this.onCheckboxChanged,
+    this.isChecked,
   });
 
   @override
@@ -78,15 +84,28 @@ class _CustomTableState extends State<CustomTable> {
         (states) => AppColors.greyLight,
       ),
       columns: [
-        ...widget.headers.map(
-          (header) => DataColumn(
+        // Columna para checkbox si está habilitado
+        if (widget.showCheckbox == true)
+          const DataColumn(
             label: Text(
-              header.toUpperCase(),
-              style: const TextStyle(
+              "",
+              style: TextStyle(
                 fontFamily: AppFonts.fontTitle,
                 color: Colors.black87,
               ),
             ),
+          ),
+        ...widget.headers.map(
+          (header) => DataColumn(
+            label: header is String
+                ? Text(
+                    header.toUpperCase(),
+                    style: const TextStyle(
+                      fontFamily: AppFonts.fontTitle,
+                      color: Colors.black87,
+                    ),
+                  )
+                : header,
           ),
         ),
         if (widget.actionBuilders != null)
@@ -107,18 +126,35 @@ class _CustomTableState extends State<CustomTable> {
           final item = widget.data.data[rowIndex];
 
           final rowData = widget.data.dataBuilder(item);
+          
+          // Determinar si el checkbox está marcado
+          final bool isItemChecked = widget.isChecked != null ? widget.isChecked!(item) : false;
 
           return DataRow(
             cells: [
+              // Celda de checkbox si está habilitado
+              if (widget.showCheckbox == true)
+                DataCell(
+                  Checkbox(
+                    value: isItemChecked,
+                    onChanged: (value) {
+                      if (widget.onCheckboxChanged != null && value != null) {
+                        widget.onCheckboxChanged!(item, value);
+                      }
+                    },
+                  ),
+                ),
               ...rowData.map(
                 (cell) => DataCell(
-                  Text(
-                    cell,
-                    style: const TextStyle(
-                      fontFamily: AppFonts.fontSubTitle,
-                      color: Colors.black54,
-                    ),
-                  ),
+                  cell is String
+                      ? Text(
+                          cell,
+                          style: const TextStyle(
+                            fontFamily: AppFonts.fontSubTitle,
+                            color: Colors.black54,
+                          ),
+                        )
+                      : cell,
                 ),
               ),
               if (widget.actionBuilders != null)

@@ -70,10 +70,6 @@ class AddItemPurchase extends StatelessWidget {
                         CurrencyFormatter.getInputFormatters(symbol)
                       ],
                       onChanged: (value) {
-                        final cleanedValue = value
-                            .replaceAll(RegExp(r'[^\d,]'), '')
-                            .replaceAll(',', '.');
-
                         store.setTotal(CurrencyFormatter.cleanCurrency(value));
                       },
                       onValidator: validator.byField(store, 'total'),
