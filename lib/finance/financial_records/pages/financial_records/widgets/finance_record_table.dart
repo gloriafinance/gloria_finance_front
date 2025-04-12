@@ -84,9 +84,7 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
 
   void _openModal(BuildContext context, FinanceRecordListModel financeRecord) {
     ModalPage(
-      title: isMobile(context)
-          ? ""
-          : 'Movimento financeiro #${financeRecord.financialRecordId}',
+      title: "Movimento financeiro",
       body: ViewFinanceRecord(financeRecord: financeRecord),
     ).show(context);
   }

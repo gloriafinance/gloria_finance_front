@@ -70,7 +70,7 @@ class _SidebarState extends State<Sidebar> {
                                       section['label'],
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 18,
+                                        fontSize: 15,
                                         fontFamily: AppFonts.fontSubTitle,
                                       ),
                                     ),
@@ -90,7 +90,7 @@ class _SidebarState extends State<Sidebar> {
                                         title: Text(
                                           item['label'],
                                           style: TextStyle(
-                                            fontSize: 18,
+                                            fontSize: 15,
                                             color: Colors.white,
                                             fontFamily: AppFonts.fontText,
                                           ),
