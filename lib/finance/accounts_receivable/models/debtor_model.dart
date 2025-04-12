@@ -43,4 +43,13 @@ class DebtorModel {
       'name': name,
     };
   }
+
+  getDebtorType() {
+    var d = DebtorType.values.firstWhere(
+      (e) => e.apiValue == debtorType,
+      orElse: () => DebtorType.MEMBER,
+    );
+
+    return d.friendlyName;
+  }
 }

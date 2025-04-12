@@ -6,8 +6,6 @@ import 'package:dio/dio.dart';
 import 'models/index.dart';
 
 class AccountsReceivableService extends AppHttp {
-  AccountsReceivableService({super.tokenAPI});
-
   Future<void> sendAccountsReceivable(
       Map<String, dynamic> accountsReceivable) async {
     final session = await AuthPersistence().restore();
@@ -43,6 +41,31 @@ class AccountsReceivableService extends AppHttp {
 
       return PaginateResponse.fromJson(params.perPage, response.data,
           (data) => AccountsReceivableModel.fromJson(data));
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  sendPayment(Map<String, dynamic> form) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    FormData formData = FormData.fromMap({
+      ...form,
+      if (form['file'] != null) 'file': form['file']!,
+    });
+
+    try {
+      final response = await http.post(
+        '${await getUrlApi()}account-receivable/pay',
+        data: formData,
+        options: Options(
+          headers: getHeader(),
+        ),
+      );
+
+      return response.data;
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;

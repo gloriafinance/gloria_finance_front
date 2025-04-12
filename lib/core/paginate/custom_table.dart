@@ -15,7 +15,7 @@ class FactoryDataTable<T> {
 }
 
 class CustomTable extends StatefulWidget {
-  final List<String> headers;
+  final List<dynamic> headers;
 
   //final List<List<String>> data;
   final FactoryDataTable data;
@@ -97,13 +97,15 @@ class _CustomTableState extends State<CustomTable> {
           ),
         ...widget.headers.map(
           (header) => DataColumn(
-            label: Text(
-              header.toUpperCase(),
-              style: const TextStyle(
-                fontFamily: AppFonts.fontTitle,
-                color: Colors.black87,
-              ),
-            ),
+            label: header is String
+                ? Text(
+                    header.toUpperCase(),
+                    style: const TextStyle(
+                      fontFamily: AppFonts.fontTitle,
+                      color: Colors.black87,
+                    ),
+                  )
+                : header,
           ),
         ),
         if (widget.actionBuilders != null)
@@ -144,13 +146,15 @@ class _CustomTableState extends State<CustomTable> {
                 ),
               ...rowData.map(
                 (cell) => DataCell(
-                  Text(
-                    cell,
-                    style: const TextStyle(
-                      fontFamily: AppFonts.fontSubTitle,
-                      color: Colors.black54,
-                    ),
-                  ),
+                  cell is String
+                      ? Text(
+                          cell,
+                          style: const TextStyle(
+                            fontFamily: AppFonts.fontSubTitle,
+                            color: Colors.black54,
+                          ),
+                        )
+                      : cell,
                 ),
               ),
               if (widget.actionBuilders != null)

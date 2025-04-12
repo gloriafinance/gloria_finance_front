@@ -157,6 +157,8 @@ class _DropdownState extends State<Dropdown> {
   List<String> _filteredItems = [];
   final GlobalKey _dropdownKey = GlobalKey();
   OverlayEntry? _overlayEntry;
+  ModalRoute? _route;
+  bool _isDisposing = false;
 
   @override
   void initState() {
@@ -180,6 +182,13 @@ class _DropdownState extends State<Dropdown> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Guardar referencia segura al ModalRoute
+    _route = ModalRoute.of(context);
+  }
+
+  @override
   void didUpdateWidget(Dropdown oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.initialValue != oldWidget.initialValue) {
@@ -192,10 +201,22 @@ class _DropdownState extends State<Dropdown> {
 
   @override
   void dispose() {
+    // Marcar que estamos en proceso de disposición
+    _isDisposing = true;
+    
+    // Primero eliminar el overlay de manera segura
+    if (_overlayEntry != null) {
+      _overlayEntry!.remove();
+      _overlayEntry = null;
+    }
+    
+    // Establecer variable directamente sin setState
+    _isDropdownOpen = false;
+    
+    // Luego disponer de los controladores
     _searchController.dispose();
     _dropdownFocusNode.dispose();
     _searchFocusNode.dispose();
-    _closeDropdown();
     super.dispose();
   }
 
@@ -318,19 +339,29 @@ class _DropdownState extends State<Dropdown> {
   }
 
   void _closeDropdown() {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
-    _searchController.clear();
-    _filteredItems = List.from(widget.items);
-
-    if (mounted) {
-      setState(() {
-        _isDropdownOpen = false;
-      });
+    // Verificar si estamos en proceso de disposición o si el widget no está montado
+    if (_isDisposing || !mounted) return;
+    
+    if (_overlayEntry != null) {
+      _overlayEntry!.remove();
+      _overlayEntry = null;
     }
+    
+    if (_searchController.hasListeners) {
+      _searchController.clear();
+    }
+    
+    _filteredItems = List.from(widget.items);
+    
+    setState(() {
+      _isDropdownOpen = false;
+    });
   }
 
   void _filterItems(String query) {
+    // No actualizar si estamos en proceso de disposición
+    if (_isDisposing) return;
+    
     setState(() {
       if (query.isEmpty) {
         _filteredItems = List.from(widget.items);
@@ -346,6 +377,9 @@ class _DropdownState extends State<Dropdown> {
   }
 
   void _selectItem(String value) {
+    // No actualizar si estamos en proceso de disposición
+    if (_isDisposing) return;
+    
     setState(() {
       _selectedValue = value;
     });

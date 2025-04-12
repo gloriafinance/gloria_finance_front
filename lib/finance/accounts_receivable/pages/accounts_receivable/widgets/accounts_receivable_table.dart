@@ -3,6 +3,7 @@ import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/index.dart';
@@ -15,6 +16,13 @@ class AccountsReceivableTable extends StatelessWidget {
   Widget build(BuildContext context) {
     final store = Provider.of<AccountsReceivableStore>(context);
     final state = store.state;
+
+    if (state.makeRequest) {
+      return Container(
+          alignment: Alignment.center,
+          margin: const EdgeInsets.only(top: 40.0),
+          child: CircularProgressIndicator());
+    }
 
     if (state.paginate.results.isEmpty) {
       return Center(child: Text('Nenhuma conta a receber encontrada'));
@@ -52,9 +60,7 @@ class AccountsReceivableTable extends StatelessWidget {
           (accountsReceivable) => ButtonActionTable(
                 color: AppColors.blue,
                 text: "Visualizar",
-                onPressed: () {
-                  _openModal(context, accountsReceivable);
-                },
+                onPressed: () => _openModal(context, accountsReceivable),
                 icon: Icons.remove_red_eye_sharp,
               ),
         ],
@@ -64,12 +70,7 @@ class AccountsReceivableTable extends StatelessWidget {
 
   void _openModal(
       BuildContext context, AccountsReceivableModel accountsReceivable) {
-    // showModalBottomSheet(
-    //   context: context,
-    //   builder: (context) {
-    //     return ViewAccountsReceivable(accountsReceivable: accountsReceivable);
-    //   },
-    // );
+    context.go('/accounts-receivables/view', extra: accountsReceivable);
   }
 
   List<dynamic> accountsReceivableDTO(dynamic accountsReceivable) {

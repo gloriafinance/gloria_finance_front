@@ -34,25 +34,27 @@ class AccountsReceivableModel {
   final String description;
   final List<InstallmentModel> installments;
 
+  final String? accountReceivableId;
   final double? amountPaid;
   final double? amountPending;
   final double? amountTotal;
   final String? status;
+
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
-  AccountsReceivableModel({
-    required this.debtor,
-    required this.churchId,
-    required this.description,
-    required this.installments,
-    this.amountPaid,
-    this.amountPending,
-    this.amountTotal,
-    this.status,
-    this.createdAt,
-    this.updatedAt,
-  });
+  AccountsReceivableModel(
+      {required this.debtor,
+      required this.churchId,
+      required this.description,
+      required this.installments,
+      this.amountPaid,
+      this.amountPending,
+      this.amountTotal,
+      this.status,
+      this.createdAt,
+      this.updatedAt,
+      this.accountReceivableId});
 
   AccountsReceivableModel.fromJson(Map<String, dynamic> map)
       : debtor = DebtorModel.fromMap(map['debtor']),
@@ -66,7 +68,8 @@ class AccountsReceivableModel {
         amountPending = double.parse(map['amountPending'].toString()),
         amountTotal = double.parse(map['amountTotal'].toString()),
         createdAt = DateTime.parse(map['createdAt']),
-        updatedAt = DateTime.parse(map['updatedAt']);
+        updatedAt = DateTime.parse(map['updatedAt']),
+        accountReceivableId = map['accountReceivableId'];
 
   String get createdAtFormatted {
     return convertDateFormatToDDMMYYYY(createdAt.toString());
