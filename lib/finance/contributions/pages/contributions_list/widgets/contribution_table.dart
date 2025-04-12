@@ -24,7 +24,7 @@ class _ContributionTableState extends State<ContributionTable> {
         Provider.of<ContributionPaginationStore>(context);
 
     final state = contributionPaginationStore.state;
-    print(state.paginate.results);
+
     if (state.paginate.results.isEmpty) {
       return Center(child: Text('Nenhuma contribuição encontrada'));
     }

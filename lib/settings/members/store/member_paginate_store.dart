@@ -42,8 +42,6 @@ class MemberPaginateStore extends ChangeNotifier {
     state = state.copyWith(makeRequest: true, churchId: session.churchId);
     notifyListeners();
 
-    service.tokenAPI = session.token;
-
     try {
       final paginate = await service.searchMembers(state.filter);
 

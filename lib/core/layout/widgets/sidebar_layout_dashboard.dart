@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
-import '../sidebar_backgroud.dart';
+import '../sidebar_background.dart';
 
 class Sidebar extends StatefulWidget {
   final List<Map<String, dynamic>> menuItems;
@@ -70,7 +70,7 @@ class _SidebarState extends State<Sidebar> {
                                       section['label'],
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 18,
+                                        fontSize: 15,
                                         fontFamily: AppFonts.fontSubTitle,
                                       ),
                                     ),
@@ -90,7 +90,7 @@ class _SidebarState extends State<Sidebar> {
                                         title: Text(
                                           item['label'],
                                           style: TextStyle(
-                                            fontSize: 18,
+                                            fontSize: 15,
                                             color: Colors.white,
                                             fontFamily: AppFonts.fontText,
                                           ),

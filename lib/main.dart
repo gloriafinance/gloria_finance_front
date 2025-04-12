@@ -4,6 +4,7 @@ import 'package:church_finance_bk/settings/availability_accounts/pages/list_avai
 import 'package:church_finance_bk/settings/banks/store/bank_store.dart';
 import 'package:church_finance_bk/settings/cost_center/store/cost_center_list_store.dart';
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
+import 'package:church_finance_bk/settings/members/store/member_all_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,7 @@ class StoreManager {
   final navigatorMemberNotifier = NavigatorMemberNotifier();
   final availabilityAccountsListStore = AvailabilityAccountsListStore();
   final costCenterListStore = CostCenterListStore();
+  final memberAllStore = MemberAllStore();
 }
 
 void main() {
@@ -37,14 +39,17 @@ void main() {
             create: (_) => StoreManager._instance.authSessionStore),
         ChangeNotifierProvider(
             create: (_) => FinancialConceptStore()..searchFinancialConcepts()),
-        ChangeNotifierProvider(create: (_) => BankStore()..searchBanks()),
+        ChangeNotifierProvider(
+            create: (_) => StoreManager._instance.bankStore..searchBanks()),
         ChangeNotifierProvider(create: (_) => NavigatorMemberNotifier()),
-        ChangeNotifierProvider(create: (_) => BankStore()..searchBanks()),
         ChangeNotifierProvider(
             create: (_) =>
                 AvailabilityAccountsListStore()..searchAvailabilityAccounts()),
         ChangeNotifierProvider(
             create: (_) => CostCenterListStore()..searchCostCenters()),
+        ChangeNotifierProvider(
+            create: (_) =>
+                StoreManager._instance.memberAllStore..searchAllMember()),
       ],
       child: MyApp(),
     ),
