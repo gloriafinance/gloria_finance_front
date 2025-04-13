@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 class AppHttp {
   Dio http = Dio();
@@ -23,14 +24,14 @@ class AppHttp {
 
   _urlServer() async {
     final apiProd = 'https://church-api.jaspesoft.com/api/';
-    //final apiDev = 'https://church-api.abejarano.dev/api/';
-    final apiDev = 'http://localhost:5200/api/';
+    final apiDev = 'https://church-api.abejarano.dev/api/';
+    //final apiDev = 'http://localhost:5200/api/';
 
-    //if (kReleaseMode) {
-    return apiProd;
-    //}
+    if (kReleaseMode) {
+      return apiProd;
+    }
 
-    //return apiDev;
+    return apiDev;
   }
 
   transformResponse(data) {

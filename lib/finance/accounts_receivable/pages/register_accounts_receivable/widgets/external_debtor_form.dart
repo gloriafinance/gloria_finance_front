@@ -38,7 +38,7 @@ class ExternalDebtorForm extends StatelessWidget {
     return Input(
       label: 'CNPJ/CPJ do Deudor',
       initialValue: formStore.state.debtorDNI,
-      onChanged: (value) => formStore.setdebtorDNI(value),
+      onChanged: (value) => formStore.setDebtorDNI(value),
       onValidator: validator.byField(formStore.state, 'debtorDNI'),
     );
   }
