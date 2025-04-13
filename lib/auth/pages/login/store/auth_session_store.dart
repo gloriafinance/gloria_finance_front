@@ -41,7 +41,7 @@ class AuthSessionStore extends ChangeNotifier {
       if (session == null) {
         return false;
       }
-
+      print(session);
       state = state.copyWith(
         session: session,
         makeRequest: false,
@@ -53,6 +53,7 @@ class AuthSessionStore extends ChangeNotifier {
 
       return true;
     } catch (e) {
+      print("ERRRRORRRR ${e}");
       Toast.showMessage(
           "Ocorreu um erro interno no sistema, informe ao administrador do sistema",
           ToastType.warning);
