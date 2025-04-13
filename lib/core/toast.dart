@@ -23,8 +23,7 @@ class Toast {
       case ToastType.warning:
         MotionToast.warning(
             animationDuration: const Duration(seconds: 60),
-            animationType: AnimationType.fromTop,
-            position: MotionToastPosition.top,
+            toastAlignment: Alignment.topCenter,
             description: Text(
               message,
               style: const TextStyle(
@@ -34,6 +33,7 @@ class Toast {
       case ToastType.error:
         MotionToast.error(
             animationDuration: const Duration(seconds: 60),
+            toastAlignment: Alignment.topCenter,
             description: Text(
               message,
               style: const TextStyle(
@@ -44,8 +44,7 @@ class Toast {
       default:
         MotionToast.success(
             animationDuration: const Duration(seconds: 60),
-            animationType: AnimationType.fromTop,
-            position: MotionToastPosition.top,
+            toastAlignment: Alignment.topCenter,
             description: Text(
               message,
               style: const TextStyle(
