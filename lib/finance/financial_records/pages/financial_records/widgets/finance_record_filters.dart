@@ -170,7 +170,7 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
       onTap: () {
         selectDate(context).then((picked) {
           if (picked == null) return;
-          store.setStartDate(convertDateFormatToDDMMYYYY(picked.toString()));
+          store.setStartDate(picked.toString());
         });
       },
     );
