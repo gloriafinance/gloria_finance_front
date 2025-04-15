@@ -23,6 +23,11 @@ class FormAccountsReceivableStore extends ChangeNotifier {
     //notifyListeners();
   }
 
+  void setDebtorPhone(String debtorPhone) {
+    state = state.copyWith(debtorPhone: debtorPhone);
+    //notifyListeners();
+  }
+
   void setDebtorName(String debtorName) {
     state = state.copyWith(debtorName: debtorName);
     //notifyListeners();

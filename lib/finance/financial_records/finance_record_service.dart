@@ -145,22 +145,6 @@ class FinanceRecordService extends AppHttp {
     }
   }
 
-  // Función para compartir el archivo
-  Future<void> _shareFile(String filePath) async {
-    try {
-      final file = File(filePath);
-      if (await file.exists()) {
-        print("Compartiendo archivo: $filePath");
-        await Share.shareXFiles([XFile(filePath)],
-            text: 'Registros financieros exportados');
-      } else {
-        print("No se puede compartir: el archivo no existe");
-      }
-    } catch (e) {
-      print("Error al compartir el archivo: $e");
-    }
-  }
-
   // Mostrar notificación con archivo adjunto
   Future<void> showFileDownloadNotification(
       String filePath, String fileName) async {

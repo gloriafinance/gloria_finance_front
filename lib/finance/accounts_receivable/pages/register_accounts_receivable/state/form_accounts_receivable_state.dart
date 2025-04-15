@@ -6,6 +6,7 @@ class FormAccountsReceivableState {
   String debtorDNI;
   String debtorName;
   String description;
+  String debtorPhone;
   String churchId;
   List<InstallmentModel> installments;
 
@@ -17,6 +18,7 @@ class FormAccountsReceivableState {
     required this.description,
     required this.churchId,
     required this.installments,
+    required this.debtorPhone,
   });
 
   factory FormAccountsReceivableState.init() {
@@ -28,6 +30,7 @@ class FormAccountsReceivableState {
       description: '',
       churchId: '',
       installments: [],
+      debtorPhone: '',
     );
   }
 
@@ -39,6 +42,7 @@ class FormAccountsReceivableState {
     String? description,
     String? churchId,
     List<InstallmentModel>? installments,
+    String? debtorPhone,
   }) {
     return FormAccountsReceivableState(
       makeRequest: makeRequest ?? this.makeRequest,
@@ -48,6 +52,7 @@ class FormAccountsReceivableState {
       description: description ?? this.description,
       churchId: churchId ?? this.churchId,
       installments: installments ?? this.installments,
+      debtorPhone: debtorPhone ?? this.debtorPhone,
     );
   }
 
@@ -57,6 +62,7 @@ class FormAccountsReceivableState {
         'debtorType': debtorType.apiValue,
         'debtorDNI': debtorDNI,
         'name': debtorName,
+        'phone': debtorPhone,
       },
       'churchId': churchId,
       'description': description,
