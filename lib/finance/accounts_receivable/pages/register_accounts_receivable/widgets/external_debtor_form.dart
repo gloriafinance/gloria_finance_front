@@ -16,7 +16,7 @@ class ExternalDebtorForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return isMobile(context)
         ? Column(
-            children: [_inputDNI(), _inputName()],
+            children: [_inputDNI(), _inputName(), _inputPhone()],
           )
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,6 +28,8 @@ class ExternalDebtorForm extends StatelessWidget {
                   ),
                   SizedBox(width: 16),
                   Expanded(child: _inputName()),
+                  SizedBox(width: 16),
+                  Expanded(child: _inputPhone()),
                 ],
               )
             ],
@@ -40,6 +42,15 @@ class ExternalDebtorForm extends StatelessWidget {
       initialValue: formStore.state.debtorDNI,
       onChanged: (value) => formStore.setDebtorDNI(value),
       onValidator: validator.byField(formStore.state, 'debtorDNI'),
+    );
+  }
+
+  _inputPhone() {
+    return Input(
+      label: 'Telefone do Deudor',
+      initialValue: formStore.state.debtorPhone,
+      onChanged: (value) => formStore.setDebtorPhone(value),
+      onValidator: validator.byField(formStore.state, 'debtorPhone'),
     );
   }
 
