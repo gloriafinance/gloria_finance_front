@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
+import 'package:church_finance_bk/core/widgets/tag_status.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -69,7 +70,10 @@ class _MemberTableState extends State<MemberTable> {
       member.email,
       member.phone,
       member.birthdate,
-      member.active ? "Sim" : "Nāo",
+      //member.active ? "Sim" : "Nāo",
+      member.active
+          ? tagStatus(Colors.green, "Sim")
+          : tagStatus(Colors.red, "Nāo"),
     ];
   }
 }

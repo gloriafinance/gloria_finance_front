@@ -6,6 +6,7 @@ import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../helpers/index.dart';
 import '../../../models/accounts_receivable_model.dart';
 import '../../../models/installment_model.dart';
 import '../store/payment_account_receive_store.dart';
@@ -117,12 +118,18 @@ class _AccountReceiveState extends State<AccountReceive> {
                   false, 'Atualizado', widget.account.updatedAtFormatted),
             ),
             Expanded(
-                child: buildDetailRow(
-              false,
-              'Estado',
-              widget.account.status ?? 'N/A',
-              statusColor: _getStatusColor(widget.account.status),
-            ))
+              child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: isMobile ? 20 : 140),
+                  child: tagStatus(
+                    getStatusColor(widget.account.status ?? 'N/A'),
+                    AccountsReceivableStatus.values
+                        .firstWhere((e) =>
+                            e.toString().split('.').last ==
+                            widget.account.status)
+                        .friendlyName,
+                  )),
+            )
           ]),
           buildDetailRow(false, 'Descrição', widget.account.description),
           buildDetailRow(
@@ -169,20 +176,6 @@ class _AccountReceiveState extends State<AccountReceive> {
         totalAmount: totalAmount,
       ),
     ).show(context);
-  }
-
-  // Obtiene el color según el estado
-  Color? _getStatusColor(String? status) {
-    if (status == null) return null;
-
-    switch (status) {
-      case 'PAID':
-        return AppColors.green;
-      case 'PENDING':
-        return AppColors.mustard;
-      default:
-        return null;
-    }
   }
 
 // Obtiene un widget de texto con color según el estado
