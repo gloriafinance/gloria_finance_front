@@ -5,10 +5,9 @@ import 'package:dio/dio.dart';
 class AuthService extends AppHttp {
   Future<AuthSessionModel?> makeLogin(Map<String, dynamic> jsonForm) async {
     try {
-      print("SSSSSSSSSSS ${jsonForm}");
       final response =
           await http.post("${await getUrlApi()}user/login", data: jsonForm);
-      print("RESPONSE ${response.data}");
+
       return AuthSessionModel.fromJson(response.data);
     } on DioException catch (e) {
       print("ERR ${e.response?.data}");
