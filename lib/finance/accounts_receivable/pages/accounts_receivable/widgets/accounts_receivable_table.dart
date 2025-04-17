@@ -1,11 +1,12 @@
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
+import 'package:church_finance_bk/core/theme/index.dart';
+import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../../helpers/index.dart';
 import '../../../models/index.dart';
 import '../store/accounts_receivable_store.dart';
 
@@ -81,10 +82,13 @@ class AccountsReceivableTable extends StatelessWidget {
       CurrencyFormatter.formatCurrency(accountsReceivable.amountPaid),
       CurrencyFormatter.formatCurrency(accountsReceivable.amountPending),
       CurrencyFormatter.formatCurrency(accountsReceivable.amountTotal),
-      AccountsReceivableStatus.values
-          .firstWhere(
-              (e) => e.toString().split('.').last == accountsReceivable.status)
-          .friendlyName
+      tagStatus(
+        getStatusColor(accountsReceivable.status),
+        AccountsReceivableStatus.values
+            .firstWhere((e) =>
+                e.toString().split('.').last == accountsReceivable.status)
+            .friendlyName,
+      )
     ];
   }
 }
