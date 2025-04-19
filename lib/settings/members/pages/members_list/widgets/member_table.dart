@@ -65,6 +65,7 @@ class _MemberTableState extends State<MemberTable> {
   }
 
   List<dynamic> memberDTO(dynamic member) {
+    print(member);
     return [
       member.name,
       member.email,
