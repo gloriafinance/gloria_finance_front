@@ -1,6 +1,7 @@
 // lib/finance/router.dart
 
 import 'package:church_finance_bk/core/theme/transition_custom.dart';
+import 'package:church_finance_bk/finance/accounts_payable/pages/register_accounts_payable/accounts_payable_screen.dart';
 import 'package:church_finance_bk/finance/accounts_receivable/models/accounts_receivable_model.dart';
 import 'package:church_finance_bk/finance/purchase/pages/purchases/purchase_list_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -82,6 +83,13 @@ financialRouter() {
       pageBuilder: (context, state) {
         final account = state.extra as AccountsReceivableModel;
         return transitionCustom(ViewAccountsReceiveScreen(account: account));
+      },
+    ),
+    // Nuevas rutas para cuentas por pagar
+    GoRoute(
+      path: '/accounts-payable/add',
+      pageBuilder: (context, state) {
+        return transitionCustom(AccountsPayableRegistrationScreen());
       },
     ),
   ];

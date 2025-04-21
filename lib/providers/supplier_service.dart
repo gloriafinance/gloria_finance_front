@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:church_finance_bk/core/app_http.dart';
 import 'package:church_finance_bk/providers/models/supplier_model.dart';
@@ -38,8 +36,9 @@ class SupplierService extends AppHttp {
         ),
       );
 
-      final List<dynamic> decodedData = List.from(jsonDecode(response.data));
-      return decodedData.map((data) => SupplierModel.fromJson(data)).toList();
+      return (response.data as List)
+          .map((e) => SupplierModel.fromMap(e))
+          .toList();
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;

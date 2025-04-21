@@ -85,17 +85,14 @@ class SupplierModel {
     required this.email,
   });
 
-  factory SupplierModel.fromJson(Map<String, dynamic> json) {
-    return SupplierModel(
-      supplierId: json['supplierId'],
-      type: json['type'],
-      dni: json['dni'],
-      name: json['name'],
-      address: SupplierAddress.fromJson(json['address']),
-      phone: json['phone'],
-      email: json['email'],
-    );
-  }
+  SupplierModel.fromMap(Map<String, dynamic> json)
+      : supplierId = json['supplierId'],
+        type = json['type'],
+        dni = json['dni'],
+        name = json['name'],
+        address = SupplierAddress.fromJson(json['address']),
+        phone = json['phone'],
+        email = json['email'];
 
   Map<String, dynamic> toJson() {
     return {
