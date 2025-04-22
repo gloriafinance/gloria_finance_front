@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_model.dart';
+import 'package:church_finance_bk/helpers/index.dart';
 
 class FormAccountsPayableState {
   bool makeRequest;
@@ -45,13 +46,18 @@ class FormAccountsPayableState {
     return {
       'supplierId': supplierId,
       'description': description,
-      'installments': installments.map((e) => e.toJson()).toList(),
+      'installments': installments
+          .map((e) => {
+                'amount': e.amount,
+                'dueDate': convertDateFormat(e.dueDate),
+              })
+          .toList(),
     };
   }
 
   bool get isValid {
-    return supplierId.isNotEmpty && 
-           description.isNotEmpty && 
-           installments.isNotEmpty;
+    return supplierId.isNotEmpty &&
+        description.isNotEmpty &&
+        installments.isNotEmpty;
   }
-} 
+}
