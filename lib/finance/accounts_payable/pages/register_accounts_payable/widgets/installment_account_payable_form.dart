@@ -94,7 +94,7 @@ class _InstallmentAccountPayableForm
     for (int i = 0; i < numberOfInstallments; i++) {
       DateTime dueDate = DateTime(now.year, now.month + i, selectedDueDate);
 
-      String formattedDueDate = DateFormat('dd-MM-yyyy').format(dueDate);
+      String formattedDueDate = DateFormat('dd/MM/yyyy').format(dueDate);
 
       widget.formStore.addInstallment(amountInstallment, formattedDueDate);
     }

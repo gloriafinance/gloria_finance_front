@@ -11,8 +11,6 @@ import 'package:provider/provider.dart';
 
 import 'core/layout/state/navigator_member_state.dart';
 import 'core/router.dart';
-import 'providers/pages/suppliers/store/suppliers_list_store.dart';
-import 'providers/supplier_store.dart';
 
 class StoreManager {
   static final StoreManager _instance = StoreManager._internal();
@@ -52,9 +50,6 @@ void main() {
         ChangeNotifierProvider(
             create: (_) =>
                 StoreManager._instance.memberAllStore..searchAllMember()),
-        ChangeNotifierProvider(
-            create: (context) => SupplierStore(
-                Provider.of<SuppliersListStore>(context, listen: false))),
       ],
       child: MyApp(),
     ),
