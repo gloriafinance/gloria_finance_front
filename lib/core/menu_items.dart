@@ -47,6 +47,11 @@ List<Map<String, dynamic>> items = const [
         "icon": Icons.account_balance_wallet,
         "to": "/accounts-receivables"
       },
+      {
+        "label": "Contas a pagar",
+        "icon": Icons.payments_outlined,
+        "to": "/accounts-payable/list"
+      },
       //TODO Registro de compras puede ser un mdulo.
       {"label": "Compras", "icon": Icons.sell_outlined, "to": "/purchase"},
     ],

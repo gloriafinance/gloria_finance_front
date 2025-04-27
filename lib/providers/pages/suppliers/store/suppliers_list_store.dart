@@ -14,6 +14,8 @@ class SuppliersListStore extends ChangeNotifier {
     try {
       var suppliers = await service.getSuppliers();
       state = state.copyWith(suppliers: suppliers, makeRequest: false);
+
+      notifyListeners();
     } catch (e) {
       print("ERRROR ==== ${e}");
       state = state.copyWith(makeRequest: false);
