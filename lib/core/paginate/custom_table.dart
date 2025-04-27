@@ -55,11 +55,6 @@ class _CustomTableState extends State<CustomTable> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          constraints: BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width,
-            maxHeight:
-                MediaQuery.of(context).size.height * 0.8, // Limitar la altura
-          ),
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.only(top: 52.0),
           decoration: BoxDecoration(
@@ -126,9 +121,10 @@ class _CustomTableState extends State<CustomTable> {
           final item = widget.data.data[rowIndex];
 
           final rowData = widget.data.dataBuilder(item);
-          
+
           // Determinar si el checkbox está marcado
-          final bool isItemChecked = widget.isChecked != null ? widget.isChecked!(item) : false;
+          final bool isItemChecked =
+              widget.isChecked != null ? widget.isChecked!(item) : false;
 
           return DataRow(
             cells: [
