@@ -6,6 +6,7 @@ import 'package:church_finance_bk/finance/accounts_receivable/models/accounts_re
 import 'package:church_finance_bk/finance/purchase/pages/purchases/purchase_list_screen.dart';
 import 'package:go_router/go_router.dart';
 
+import 'accounts_payable/pages/accounts_payable/accounts_payable_list_screen.dart';
 import 'accounts_receivable/pages/accounts_receivable/list_accounts_receivable_scren.dart';
 import 'accounts_receivable/pages/register_accounts_receivable/accounts_receivable.dart';
 import 'accounts_receivable/pages/view_accounts_receivable/view_accounts_receive_screen.dart';
@@ -77,7 +78,6 @@ financialRouter() {
         return transitionCustom(AccountsReceivableRegistrationScreen());
       },
     ),
-    // En el router.dart, añade esta ruta
     GoRoute(
       path: '/accounts-receivables/view',
       pageBuilder: (context, state) {
@@ -85,11 +85,16 @@ financialRouter() {
         return transitionCustom(ViewAccountsReceiveScreen(account: account));
       },
     ),
-    // Nuevas rutas para cuentas por pagar
     GoRoute(
       path: '/accounts-payable/add',
       pageBuilder: (context, state) {
         return transitionCustom(AccountsPayableRegistrationScreen());
+      },
+    ),
+    GoRoute(
+      path: '/accounts-payable/list',
+      pageBuilder: (context, state) {
+        return transitionCustom(AccountsPayableListScreen());
       },
     ),
   ];
