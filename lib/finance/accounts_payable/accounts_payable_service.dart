@@ -1,7 +1,9 @@
 import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:church_finance_bk/core/app_http.dart';
+import 'package:church_finance_bk/core/paginate/paginate_response.dart';
 import 'package:dio/dio.dart';
 
+import 'models/accounts_payable_filter_model.dart';
 import 'models/accounts_payable_model.dart';
 
 class AccountsPayableService extends AppHttp {
@@ -23,40 +25,21 @@ class AccountsPayableService extends AppHttp {
     }
   }
 
-  Future<List<AccountsPayableModel>> getAccountsPayable() async {
+  Future<PaginateResponse<AccountsPayableModel>> listAccountsPayable(
+      AccountsPayableFilterModel params) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
-
     try {
       final response = await http.get(
         '${await getUrlApi()}account-payable',
+        queryParameters: params.toJson(),
         options: Options(
           headers: getHeader(),
         ),
       );
 
-      return (response.data as List<dynamic>)
-          .map((e) => AccountsPayableModel.fromJson(e))
-          .toList();
-    } on DioException catch (e) {
-      transformResponse(e.response?.data);
-      rethrow;
-    }
-  }
-
-  Future<AccountsPayableModel> getAccountPayableById(String id) async {
-    final session = await AuthPersistence().restore();
-    tokenAPI = session.token;
-
-    try {
-      final response = await http.get(
-        '${await getUrlApi()}account-payable/$id',
-        options: Options(
-          headers: getHeader(),
-        ),
-      );
-
-      return AccountsPayableModel.fromJson(response.data);
+      return PaginateResponse.fromJson(params.perPage, response.data,
+          (data) => AccountsPayableModel.fromJson(data));
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;
