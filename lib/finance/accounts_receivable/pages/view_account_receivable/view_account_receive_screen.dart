@@ -9,17 +9,17 @@ import '../../models/index.dart';
 import 'store/payment_account_receive_store.dart';
 import 'widgets/account_receive.dart';
 
-class ViewAccountsReceiveScreen extends StatelessWidget {
+class ViewAccountReceiveScreen extends StatelessWidget {
   final AccountsReceivableModel account;
 
-  const ViewAccountsReceiveScreen({super.key, required this.account});
+  const ViewAccountReceiveScreen({super.key, required this.account});
 
   @override
   Widget build(BuildContext context) {
     Toast.init(context);
 
     return LayoutDashboard(_header(context),
-        screen: ChangeNotifierProvider<PaymentAccountReceiveStore>(
+        screen: ChangeNotifierProvider(
             create: (_) => PaymentAccountReceiveStore(),
             child: AccountReceive(
               account: account,

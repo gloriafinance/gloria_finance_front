@@ -45,4 +45,29 @@ class AccountsPayableService extends AppHttp {
       rethrow;
     }
   }
+
+  sendPayment(Map<String, dynamic> form) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    FormData formData = FormData.fromMap({
+      ...form,
+      if (form['file'] != null) 'file': form['file']!,
+    });
+
+    try {
+      final response = await http.post(
+        '${await getUrlApi()}account-payable/pay',
+        data: formData,
+        options: Options(
+          headers: getHeader(),
+        ),
+      );
+
+      return response.data;
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
 }

@@ -25,8 +25,6 @@ class AccountReceive extends StatefulWidget {
 class _AccountReceiveState extends State<AccountReceive> {
   @override
   Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 600;
-
     final formStore = Provider.of<PaymentAccountReceiveStore>(context);
 
     return SingleChildScrollView(
@@ -36,7 +34,7 @@ class _AccountReceiveState extends State<AccountReceive> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Información general
-            _generalInformation(isMobile, formStore),
+            _generalInformation(isMobile(context), formStore),
 
             const SizedBox(height: 24),
 
@@ -51,10 +49,10 @@ class _AccountReceiveState extends State<AccountReceive> {
                     buildSectionTitle('Informações do Devedor'),
                     const SizedBox(height: 16),
                     buildDetailRow(
-                        isMobile, 'Nome', widget.account.debtor.name),
-                    buildDetailRow(isMobile, 'CPF/CNPJ',
+                        isMobile(context), 'Nome', widget.account.debtor.name),
+                    buildDetailRow(isMobile(context), 'CPF/CNPJ',
                         widget.account.debtor.debtorDNI ?? 'N/A'),
-                    buildDetailRow(isMobile, 'Tipo de devedor',
+                    buildDetailRow(isMobile(context), 'Tipo de devedor',
                         widget.account.debtor.getDebtorType() ?? 'N/A'),
                   ],
                 ),
