@@ -61,7 +61,7 @@ class AccountsReceivableTable extends StatelessWidget {
           (accountsReceivable) => ButtonActionTable(
                 color: AppColors.blue,
                 text: "Visualizar",
-                onPressed: () => _openModal(context, accountsReceivable),
+                onPressed: () => _openDetail(context, accountsReceivable),
                 icon: Icons.remove_red_eye_sharp,
               ),
         ],
@@ -69,9 +69,9 @@ class AccountsReceivableTable extends StatelessWidget {
     );
   }
 
-  void _openModal(
+  void _openDetail(
       BuildContext context, AccountsReceivableModel accountsReceivable) {
-    context.go('/accounts-receivables/view', extra: accountsReceivable);
+    context.go('/account-receivables/view', extra: accountsReceivable);
   }
 
   List<dynamic> accountsReceivableDTO(dynamic accountsReceivable) {
