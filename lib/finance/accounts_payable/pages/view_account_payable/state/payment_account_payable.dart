@@ -63,7 +63,7 @@ class PaymentAccountPayableState {
   Map<String, dynamic> toJson() {
     return {
       'accountPayableId': accountPayableId,
-      'installmentIds': installmentIds.join(','),
+      'installmentId': installmentIds.join(','),
       'amount': amount,
       'isMovementBank': isMovementBank,
       'file': file,

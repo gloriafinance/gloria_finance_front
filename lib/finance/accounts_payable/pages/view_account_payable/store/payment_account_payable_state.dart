@@ -14,6 +14,7 @@ class PaymentAccountPayableStore extends ChangeNotifier {
   }
 
   void setInstallmentIds(List<String> ids) {
+    print('ids: $ids');
     state = state.copyWith(installmentIds: ids);
     notifyListeners();
   }
@@ -23,7 +24,7 @@ class PaymentAccountPayableStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setCostCenter(String id) {
+  void setCostCenterId(String id) {
     state = state.copyWith(costCenterId: id);
     notifyListeners();
   }

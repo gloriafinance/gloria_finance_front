@@ -33,7 +33,7 @@ class ViewAccountPayableScreen extends StatelessWidget {
     return Row(
       children: [
         GestureDetector(
-          onTap: () => context.go("/accounts-payable"),
+          onTap: () => context.go("/accounts-payable/list"),
           child: Icon(
             Icons.arrow_back_ios,
             color: AppColors.purple,

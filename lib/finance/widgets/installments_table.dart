@@ -1,19 +1,19 @@
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../core/theme/index.dart';
-import '../../../../../helpers/index.dart';
-import '../../../models/installment_model.dart';
-import '../store/payment_account_receive_store.dart';
+import '../../core/theme/index.dart';
+import '../../helpers/index.dart';
+import '../models/installment_model.dart';
 
 class InstallmentsTable extends StatefulWidget {
-  final List<InstallmentModel> installments;
-  final PaymentAccountReceiveStore paymentAccountReceiveStore;
+  final List<dynamic> installments;
+  final Function(List<String> ids) setInstallmentIds;
 
-  const InstallmentsTable(
-      {super.key,
-      required this.installments,
-      required this.paymentAccountReceiveStore});
+  const InstallmentsTable({
+    super.key,
+    required this.installments,
+    required this.setInstallmentIds,
+  });
 
   @override
   State<InstallmentsTable> createState() => _InstallmentsTableState();
@@ -21,6 +21,7 @@ class InstallmentsTable extends StatefulWidget {
 
 class _InstallmentsTableState extends State<InstallmentsTable> {
   final Map<String?, bool> _selectedInstallments = {};
+  final List<String> installmentIds = [];
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +59,7 @@ class _InstallmentsTableState extends State<InstallmentsTable> {
                         setState(() {
                           _selectedInstallments[item.installmentId] = value;
                           _setStatedSelectedInstallmentsIds();
+                          installmentIds.add(item.installmentId!);
                         });
                       }
                     },
@@ -79,14 +81,13 @@ class _InstallmentsTableState extends State<InstallmentsTable> {
   }
 
   _setStatedSelectedInstallmentsIds() {
-    List<String?> ids = widget.installments
+    List ids = widget.installments
         .where((installment) =>
             _selectedInstallments[installment.installmentId] == true)
         .map((installment) => installment.installmentId)
         .toList();
 
-    widget.paymentAccountReceiveStore
-        .setInstallmentIds(ids.whereType<String>().toList());
+    widget.setInstallmentIds(ids.whereType<String>().toList());
   }
 
   // Verifica si todas las parcelas están seleccionadas

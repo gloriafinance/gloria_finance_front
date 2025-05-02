@@ -53,7 +53,7 @@ class ViewContribution extends StatelessWidget {
                 mobile,
                 'Status',
                 parseContributionStatus(contribution.status).friendlyName,
-                statusColor: getStatusColor(
+                statusColor: getContributionStatusColor(
                     parseContributionStatus(contribution.status)),
               ),
               buildDetailRow(
