@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/contribution_model.dart';
 
-Color getStatusColor(ContributionStatus status) {
+Color getContributionStatusColor(ContributionStatus status) {
   switch (status) {
     case ContributionStatus.PROCESSED:
       return Colors.green;

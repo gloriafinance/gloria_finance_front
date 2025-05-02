@@ -6,11 +6,10 @@ import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../helpers/index.dart';
+import '../../../../models/installment_model.dart';
+import '../../../../widgets/installments_table.dart';
 import '../../../models/accounts_receivable_model.dart';
-import '../../../models/installment_model.dart';
 import '../store/payment_account_receive_store.dart';
-import 'installments_table.dart';
 import 'payment_account_receive_modal.dart';
 
 class AccountReceive extends StatefulWidget {
@@ -34,7 +33,7 @@ class _AccountReceiveState extends State<AccountReceive> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Información general
-            _generalInformation(isMobile(context), formStore),
+            _generalInformation(isMobile(context)),
 
             const SizedBox(height: 24),
 
@@ -74,7 +73,7 @@ class _AccountReceiveState extends State<AccountReceive> {
       children: [
         buildSectionTitle('Listagem de Parcelas'),
         InstallmentsTable(
-            paymentAccountReceiveStore: formStore,
+            setInstallmentIds: formStore.setInstallmentIds,
             installments: widget.account.installments),
 
         const SizedBox(height: 16),
@@ -96,8 +95,7 @@ class _AccountReceiveState extends State<AccountReceive> {
     );
   }
 
-  Widget _generalInformation(
-      bool isMobile, PaymentAccountReceiveStore formStore) {
+  Widget _generalInformation(bool isMobile) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -165,7 +163,7 @@ class _AccountReceiveState extends State<AccountReceive> {
       totalAmount += installment.amountPending ?? installment.amount;
     }
 
-    formStore.setAccountReceivableId(widget.account.accountReceivableId ?? '');
+    formStore.setAccountReceivableId(widget.account.accountReceivableId!);
 
     ModalPage(
       title: "Registrar Pagamento",

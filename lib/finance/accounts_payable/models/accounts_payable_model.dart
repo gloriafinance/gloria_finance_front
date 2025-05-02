@@ -1,4 +1,7 @@
+import 'package:church_finance_bk/helpers/date_formatter.dart';
 import 'package:church_finance_bk/providers/models/supplier_model.dart';
+
+import '../../models/installment_model.dart';
 
 enum AccountsPayableStatus {
   PENDING,
@@ -22,30 +25,6 @@ extension AccountsPayableStatusExtension on AccountsPayableStatus {
       case AccountsPayableStatus.PAID:
         return 'PAID';
     }
-  }
-}
-
-class InstallmentModel {
-  final double amount;
-  final String dueDate;
-
-  InstallmentModel({
-    required this.amount,
-    required this.dueDate,
-  });
-
-  factory InstallmentModel.fromJson(Map<String, dynamic> json) {
-    return InstallmentModel(
-      amount: json['amount'] ?? 0.0,
-      dueDate: json['dueDate'] ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'amount': amount,
-      'dueDate': dueDate,
-    };
   }
 }
 
@@ -113,6 +92,14 @@ class AccountsPayableModel {
 
   countsInstallments() {
     return installments.length;
+  }
+
+  String get createdAtFormatted {
+    return convertDateFormatToDDMMYYYY(createdAt.toString());
+  }
+
+  String get updatedAtFormatted {
+    return convertDateFormatToDDMMYYYY(updatedAt.toString());
   }
 
   Map<String, dynamic> toJson() {

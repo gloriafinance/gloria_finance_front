@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../models/index.dart';
+import '../../../../models/installment_model.dart';
 
 class FormInstallStore extends ChangeNotifier {
   String _installmentDate = '';
