@@ -48,25 +48,37 @@ class ListAccountsReceivableScreen extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: Row(
               children: [
-                _newPurchase(context),
+                _newAccountReceivable(context),
               ],
             ),
           ),
         ],
       );
     } else {
-      return Text(
-        'Contas a receber',
-        style: TextStyle(
-          fontFamily: AppFonts.fontTitle,
-          fontSize: 20,
-          color: Colors.black,
-        ),
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Contas a receber',
+            style: TextStyle(
+              fontFamily: AppFonts.fontTitle,
+              fontSize: 20,
+              color: Colors.black,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(child: _newAccountReceivable(context)),
+            ],
+          ),
+          const SizedBox(height: 16),
+        ],
       );
     }
   }
 
-  Widget _newPurchase(BuildContext context) {
+  Widget _newAccountReceivable(BuildContext context) {
     return ButtonActionTable(
         color: AppColors.purple,
         text: "Registrar conta a receber",
