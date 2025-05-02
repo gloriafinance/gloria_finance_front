@@ -19,7 +19,6 @@ class PaymentAccountReceiveStore extends ChangeNotifier {
   }
 
   void setAvailabilityAccountId(String id) {
-    print("NICE");
     state = state.copyWith(availabilityAccountId: id);
     notifyListeners();
   }

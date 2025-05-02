@@ -1,15 +1,17 @@
 // lib/finance/router.dart
 
 import 'package:church_finance_bk/core/theme/transition_custom.dart';
+import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_model.dart';
 import 'package:church_finance_bk/finance/accounts_payable/pages/register_accounts_payable/accounts_payable_screen.dart';
+import 'package:church_finance_bk/finance/accounts_payable/pages/view_account_payable/view_account_payable_screen.dart';
 import 'package:church_finance_bk/finance/accounts_receivable/models/accounts_receivable_model.dart';
 import 'package:church_finance_bk/finance/purchase/pages/purchases/purchase_list_screen.dart';
 import 'package:go_router/go_router.dart';
 
 import 'accounts_payable/pages/accounts_payable/accounts_payable_list_screen.dart';
-import 'accounts_receivable/pages/accounts_receivable/list_accounts_receivable_scren.dart';
+import 'accounts_receivable/pages/accounts_receivable/list_accounts_receivable_screen.dart';
 import 'accounts_receivable/pages/register_accounts_receivable/accounts_receivable.dart';
-import 'accounts_receivable/pages/view_accounts_receivable/view_accounts_receive_screen.dart';
+import 'accounts_receivable/pages/view_account_receivable/view_account_receive_screen.dart';
 import 'contributions/pages/app_contribuitions/add_contribution_screen.dart';
 import 'contributions/pages/contributions_list/contributions_list_screen.dart';
 import 'financial_records/pages/add_financial_records/add_financial_record_screen.dart';
@@ -79,10 +81,10 @@ financialRouter() {
       },
     ),
     GoRoute(
-      path: '/accounts-receivables/view',
+      path: '/account-receivables/view',
       pageBuilder: (context, state) {
         final account = state.extra as AccountsReceivableModel;
-        return transitionCustom(ViewAccountsReceiveScreen(account: account));
+        return transitionCustom(ViewAccountReceiveScreen(account: account));
       },
     ),
     GoRoute(
@@ -95,6 +97,13 @@ financialRouter() {
       path: '/accounts-payable/list',
       pageBuilder: (context, state) {
         return transitionCustom(AccountsPayableListScreen());
+      },
+    ),
+    GoRoute(
+      path: '/account-payable/view',
+      pageBuilder: (context, state) {
+        final account = state.extra as AccountsPayableModel;
+        return transitionCustom(ViewAccountPayableScreen(account: account));
       },
     ),
   ];

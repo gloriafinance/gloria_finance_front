@@ -1,11 +1,12 @@
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
+import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
-import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_model.dart';
-import 'package:church_finance_bk/finance/accounts_receivable/helpers/index.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../../models/accounts_payable_model.dart';
 import '../store/accounts_payable_paginate_store.dart';
 
 class AccountsPayableTable extends StatefulWidget {
@@ -47,7 +48,19 @@ class _AccountsPayableTableState extends State<AccountsPayableTable> {
       ],
       data: FactoryDataTable<AccountsPayableModel>(
           data: state.paginate.results, dataBuilder: accountsPayableDTO),
+      actionBuilders: [
+        (accountPayable) => ButtonActionTable(
+              color: AppColors.blue,
+              text: "Visualizar",
+              onPressed: () => _openDetail(context, accountPayable),
+              icon: Icons.remove_red_eye_sharp,
+            ),
+      ],
     );
+  }
+
+  void _openDetail(BuildContext context, AccountsPayableModel accountPayable) {
+    context.go('/account-payable/view', extra: accountPayable);
   }
 
   List<dynamic> accountsPayableDTO(

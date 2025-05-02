@@ -85,10 +85,10 @@ class _PaymentAccountReceiveModalState
                   child: widget.formStore.state.makeRequest
                       ? const CircularProgressIndicator()
                       : CustomButton(
-                          text: "Registrar Pagamento",
+                          text: "Enviar Pagamento",
                           backgroundColor: AppColors.green,
                           textColor: Colors.white,
-                          onPressed: () => _handleSubmit(widget.formStore),
+                          onPressed: () => _handleSubmit(),
                         ),
                 ),
               ],
@@ -158,13 +158,13 @@ class _PaymentAccountReceiveModalState
     );
   }
 
-  void _handleSubmit(PaymentAccountReceiveStore formStore) async {
+  void _handleSubmit() async {
     if (!formKey.currentState!.validate()) {
       return;
     }
 
     setState(() {});
-    final result = await formStore.sendPayment();
+    final result = await widget.formStore.sendPayment();
     if (result) {
       Navigator.of(context).pop();
       context.go("/accounts-receivables");

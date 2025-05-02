@@ -4,7 +4,7 @@ import 'package:church_finance_bk/helpers/currency_formatter.dart';
 import 'package:church_finance_bk/helpers/date_formatter.dart';
 import 'package:flutter/material.dart';
 
-import '../../../models/index.dart';
+import '../../../../models/installment_model.dart';
 import '../store/form_accounts_receivable_store.dart';
 import '../store/form_install_store.dart';
 

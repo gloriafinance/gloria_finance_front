@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../models/installment_model.dart';
 import '../../../accounts_payable_service.dart';
-import '../../../models/accounts_payable_model.dart';
 import '../state/form_accounts_payable_state.dart';
 
 class FormAccountsPayableStore extends ChangeNotifier {
