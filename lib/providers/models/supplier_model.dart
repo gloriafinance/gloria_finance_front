@@ -96,6 +96,15 @@ class SupplierModel {
         phone = json['phone'],
         email = json['email'];
 
+  getType() {
+    return SupplierType.values
+        .firstWhere(
+          (e) => e.apiValue == type,
+          orElse: () => SupplierType.SUPPLIER,
+        )
+        .friendlyName;
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'type': type,

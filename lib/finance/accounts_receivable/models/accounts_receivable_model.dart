@@ -1,7 +1,7 @@
 import 'package:church_finance_bk/helpers/date_formatter.dart';
 
+import '../../models/installment_model.dart';
 import 'debtor_model.dart';
-import 'installment_model.dart';
 
 enum AccountsReceivableStatus {
   PENDING,

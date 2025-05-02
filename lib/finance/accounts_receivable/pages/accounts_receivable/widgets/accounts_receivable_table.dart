@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../../helpers/index.dart';
 import '../../../models/index.dart';
 import '../store/accounts_receivable_store.dart';
 
@@ -61,7 +60,7 @@ class AccountsReceivableTable extends StatelessWidget {
           (accountsReceivable) => ButtonActionTable(
                 color: AppColors.blue,
                 text: "Visualizar",
-                onPressed: () => _openModal(context, accountsReceivable),
+                onPressed: () => _openDetail(context, accountsReceivable),
                 icon: Icons.remove_red_eye_sharp,
               ),
         ],
@@ -69,9 +68,9 @@ class AccountsReceivableTable extends StatelessWidget {
     );
   }
 
-  void _openModal(
+  void _openDetail(
       BuildContext context, AccountsReceivableModel accountsReceivable) {
-    context.go('/accounts-receivables/view', extra: accountsReceivable);
+    context.go('/account-receivables/view', extra: accountsReceivable);
   }
 
   List<dynamic> accountsReceivableDTO(dynamic accountsReceivable) {
