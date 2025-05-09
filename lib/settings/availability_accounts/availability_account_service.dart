@@ -12,14 +12,28 @@ class AvailabilityAccountService extends AppHttp {
     try {
       final response = await http.get(
         '${await getUrlApi()}finance/configuration/availability-account/${session.churchId}',
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: getHeader()),
       );
 
       return (response.data as List)
           .map((e) => AvailabilityAccountModel.fromMap(e))
           .toList();
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<void> saveAvailabilityAccount(Map<String, dynamic> payload) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      await http.post(
+        '${await getUrlApi()}finance/configuration/availability-account',
+        data: payload,
+        options: Options(headers: getHeader()),
+      );
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;

@@ -9,7 +9,7 @@ class FormAvailabilityStore extends ChangeNotifier {
 
   void setAccountName(String accountName) {
     state = state.copyWith(accountName: accountName);
-    notifyListeners();
+    //notifyListeners();
   }
 
   void setAccountType(String accountType) {
@@ -24,7 +24,7 @@ class FormAvailabilityStore extends ChangeNotifier {
 
   void setBalance(double balance) {
     state = state.copyWith(balance: balance);
-    notifyListeners();
+    //notifyListeners();
   }
 
   void setSymbol(String symbol) {
@@ -32,8 +32,19 @@ class FormAvailabilityStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> save() async {
-    //service.save();
-    return true;
+  Future<bool> send() async {
+    state = state.copyWith(makeRequest: true);
+    notifyListeners();
+    try {
+      await service.saveAvailabilityAccount(state.toJson());
+      state = state.copyWith(makeRequest: false);
+      notifyListeners();
+
+      return true;
+    } catch (e) {
+      state = state.copyWith(makeRequest: false);
+      notifyListeners();
+      return false;
+    }
   }
 }
