@@ -8,26 +8,28 @@ class FormAvailabilityState {
   String? source;
   String? symbol;
 
-  FormAvailabilityState(
-      {required this.makeRequest,
-      required this.active,
-      required this.churchId,
-      required this.accountName,
-      required this.accountType,
-      required this.source,
-      required this.balance,
-      required this.symbol});
+  FormAvailabilityState({
+    required this.makeRequest,
+    required this.active,
+    required this.churchId,
+    required this.accountName,
+    required this.accountType,
+    required this.source,
+    required this.balance,
+    required this.symbol,
+  });
 
   factory FormAvailabilityState.init() {
     return FormAvailabilityState(
-        makeRequest: false,
-        active: false,
-        churchId: '',
-        accountName: '',
-        accountType: '',
-        source: null,
-        balance: 0.0,
-        symbol: 'R\$');
+      makeRequest: false,
+      active: false,
+      churchId: '',
+      accountName: '',
+      accountType: '',
+      source: null,
+      balance: 0.0,
+      symbol: 'R\$',
+    );
   }
 
   FormAvailabilityState copyWith({
@@ -53,12 +55,11 @@ class FormAvailabilityState {
   }
 
   Map<String, dynamic> toJson() => {
-        'active': active,
-        'churchId': churchId,
-        'accountName': accountName,
-        'accountType': accountType,
-        'source': source,
-        'balance': balance,
-        'symbol': symbol,
-      };
+    'active': active,
+    'accountName': accountName,
+    'accountType': accountType,
+    'source': source,
+    'balance': balance,
+    'symbol': symbol,
+  };
 }

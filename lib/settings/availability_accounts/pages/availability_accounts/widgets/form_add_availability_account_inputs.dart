@@ -15,9 +15,7 @@ Widget accountName(FormAvailabilityStore formStore) {
   return Input(
     label: 'Nome da conta',
     initialValue: formStore.state.accountName,
-    onChanged: (value) => formStore.setAccountName(
-      value,
-    ),
+    onChanged: (value) => formStore.setAccountName(value),
     onValidator: validator.byField(formStore.state, 'accountName'),
   );
 }
@@ -27,16 +25,17 @@ List<String> _accountTypeFriendlyName() {
     AccountType.BANK.friendlyName,
     AccountType.CASH.friendlyName,
     AccountType.WALLET.friendlyName,
-    AccountType.INVESTMENT.friendlyName
+    AccountType.INVESTMENT.friendlyName,
   ];
 }
 
 Widget accountType(FormAvailabilityStore formStore) {
-  var initValue = formStore.state.accountType != ''
-      ? (AccountType.values
-              .firstWhere((e) => e.apiValue == formStore.state.accountType))
-          .friendlyName
-      : null;
+  var initValue =
+      formStore.state.accountType != ''
+          ? (AccountType.values.firstWhere(
+            (e) => e.apiValue == formStore.state.accountType,
+          )).friendlyName
+          : null;
 
   return Dropdown(
     label: "Tipo de conta",
@@ -44,12 +43,11 @@ Widget accountType(FormAvailabilityStore formStore) {
     items: _accountTypeFriendlyName().map((item) => item).toList(),
     onValidator: validator.byField(formStore.state, 'accountType'),
     onChanged: (value) {
-      final accountType =
-          AccountType.values.firstWhere((e) => e.friendlyName == value);
-
-      formStore.setAccountType(
-        accountType.apiValue,
+      final accountType = AccountType.values.firstWhere(
+        (e) => e.friendlyName == value,
       );
+
+      formStore.setAccountType(accountType.apiValue);
     },
   );
 }
@@ -74,16 +72,18 @@ Widget source(FormAvailabilityStore formStore, BankStore bankStore) {
 Widget symbol(FormAvailabilityStore formStore) {
   return Dropdown(
     label: "Moeda",
-    initialValue: formStore.state.symbol != ''
-        ? CurrencyType.values
-            .firstWhere((e) => e.apiValue == formStore.state.symbol)
-            .friendlyName
-        : null,
+    initialValue:
+        formStore.state.symbol != ''
+            ? CurrencyType.values
+                .firstWhere((e) => e.apiValue == formStore.state.symbol)
+                .friendlyName
+            : null,
     items: CurrencyType.values.map((e) => e.friendlyName).toList(),
     onChanged: (value) {
-      var symbol = CurrencyType.values
-          .firstWhere((e) => e.friendlyName == value)
-          .apiValue;
+      var symbol =
+          CurrencyType.values
+              .firstWhere((e) => e.friendlyName == value)
+              .apiValue;
       formStore.setSymbol(symbol);
     },
   );
@@ -103,8 +103,9 @@ Widget balance(FormAvailabilityStore formStore) {
       ),
     ],
     onChanged: (value) {
-      final cleanedValue =
-          value.replaceAll(RegExp(r'[^\d,]'), '').replaceAll(',', '.');
+      final cleanedValue = value
+          .replaceAll(RegExp(r'[^\d,]'), '')
+          .replaceAll(',', '.');
 
       formStore.setBalance(double.parse(cleanedValue));
     },
