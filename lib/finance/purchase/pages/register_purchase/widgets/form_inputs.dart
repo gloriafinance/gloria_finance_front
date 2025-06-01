@@ -15,6 +15,10 @@ import '../validators/purchase_register_form_validator.dart';
 final validator = PurchaseRegisterFormValidator();
 
 Widget description(PurchaseRegisterFormStore formStore) {
+  if (formStore.state.symbol == "") {
+    return _hiddenComponent();
+  }
+
   return Input(
     label: 'Descrição',
     initialValue: formStore.state.description,
@@ -64,8 +68,18 @@ Widget dropdownAvailabilityAccounts(
       },
       onValidator: validator.byField(formStore.state, 'moneyLocation'));
 }
+Widget _hiddenComponent() {
+  return const SizedBox(
+    width: 0,
+    height: 0,
+  );
+}
 
 Widget total(PurchaseRegisterFormStore formStore) {
+  if (formStore.state.symbol == "") {
+    return _hiddenComponent();
+  }
+
   return Input(
     label: "Total da fatura",
     keyboardType: TextInputType.number,
@@ -80,6 +94,10 @@ Widget total(PurchaseRegisterFormStore formStore) {
 }
 
 Widget tax(PurchaseRegisterFormStore formStore) {
+  if (formStore.state.symbol == "") {
+    return _hiddenComponent();
+  }
+
   return Input(
     label: "Imposto",
     keyboardType: TextInputType.number,
@@ -94,6 +112,10 @@ Widget tax(PurchaseRegisterFormStore formStore) {
 }
 
 Widget uploadFile(PurchaseRegisterFormStore formStore) {
+  if (formStore.state.symbol == "") {
+    return _hiddenComponent();
+  }
+
   return UploadFile(
     label: "Faça o upload da nota fiscal",
     multipartFile: (MultipartFile m) => formStore.setInvoice(m),
