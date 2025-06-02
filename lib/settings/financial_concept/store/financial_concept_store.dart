@@ -18,7 +18,7 @@ class FinancialConceptStore extends ChangeNotifier {
       state = state.copyWith(financialConcepts: financialConcepts);
       notifyListeners();
     } catch (e) {
-      print(e);
+      print("ERROR searchFinancialConcepts: $e");
     }
   }
 }

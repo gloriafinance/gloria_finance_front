@@ -3,10 +3,7 @@ import 'package:church_finance_bk/helpers/date_formatter.dart';
 import '../../models/installment_model.dart';
 import 'debtor_model.dart';
 
-enum AccountsReceivableStatus {
-  PENDING,
-  PAID,
-}
+enum AccountsReceivableStatus { PENDING, PAID, PENDING_ACCEPTANCE }
 
 extension AccountsReceivableStatusExtension on AccountsReceivableStatus {
   String get friendlyName {
@@ -15,6 +12,8 @@ extension AccountsReceivableStatusExtension on AccountsReceivableStatus {
         return 'Pendente';
       case AccountsReceivableStatus.PAID:
         return 'Pago';
+      case AccountsReceivableStatus.PENDING_ACCEPTANCE:
+        return 'Pendente de Aceite';
     }
   }
 
@@ -24,6 +23,8 @@ extension AccountsReceivableStatusExtension on AccountsReceivableStatus {
         return 'PENDING';
       case AccountsReceivableStatus.PAID:
         return 'PAID';
+      case AccountsReceivableStatus.PENDING_ACCEPTANCE:
+        return 'PENDING_ACCEPTANCE';
     }
   }
 }
@@ -43,33 +44,35 @@ class AccountsReceivableModel {
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
-  AccountsReceivableModel(
-      {required this.debtor,
-      required this.churchId,
-      required this.description,
-      required this.installments,
-      this.amountPaid,
-      this.amountPending,
-      this.amountTotal,
-      this.status,
-      this.createdAt,
-      this.updatedAt,
-      this.accountReceivableId});
+  AccountsReceivableModel({
+    required this.debtor,
+    required this.churchId,
+    required this.description,
+    required this.installments,
+    this.amountPaid,
+    this.amountPending,
+    this.amountTotal,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.accountReceivableId,
+  });
 
   AccountsReceivableModel.fromJson(Map<String, dynamic> map)
-      : debtor = DebtorModel.fromMap(map['debtor']),
-        churchId = map['churchId'],
-        description = map['description'],
-        installments = (map['installments'] as List)
-            .map((i) => InstallmentModel.fromJson(i))
-            .toList(),
-        status = map['status'],
-        amountPaid = double.parse(map['amountPaid'].toString()),
-        amountPending = double.parse(map['amountPending'].toString()),
-        amountTotal = double.parse(map['amountTotal'].toString()),
-        createdAt = DateTime.parse(map['createdAt']),
-        updatedAt = DateTime.parse(map['updatedAt']),
-        accountReceivableId = map['accountReceivableId'];
+    : debtor = DebtorModel.fromMap(map['debtor']),
+      churchId = map['churchId'],
+      description = map['description'],
+      installments =
+          (map['installments'] as List)
+              .map((i) => InstallmentModel.fromJson(i))
+              .toList(),
+      status = map['status'],
+      amountPaid = double.parse(map['amountPaid'].toString()),
+      amountPending = double.parse(map['amountPending'].toString()),
+      amountTotal = double.parse(map['amountTotal'].toString()),
+      createdAt = DateTime.parse(map['createdAt']),
+      updatedAt = DateTime.parse(map['updatedAt']),
+      accountReceivableId = map['accountReceivableId'];
 
   String get createdAtFormatted {
     return convertDateFormatToDDMMYYYY(createdAt.toString());

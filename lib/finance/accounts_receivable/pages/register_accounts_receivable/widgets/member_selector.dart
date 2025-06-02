@@ -60,6 +60,7 @@ class _MemberSelectorState extends State<MemberSelector> {
                     isMinister: false,
                     isTreasurer: false,
                     active: true,
+                    address: '',
                   ),
                 );
 
@@ -67,7 +68,7 @@ class _MemberSelectorState extends State<MemberSelector> {
               _selectedMemberId = member.memberId;
             });
 
-            widget.formStore.setMember(member.dni, member.name);
+            widget.formStore.setMember(member);
           },
           onValidator: (value) {
             if (value == null || value.isEmpty) {

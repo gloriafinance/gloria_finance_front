@@ -9,31 +9,43 @@ class ExternalDebtorForm extends StatelessWidget {
   final FormAccountsReceivableStore formStore;
   final FormAccountsReceivableValidator validator;
 
-  const ExternalDebtorForm(
-      {super.key, required this.formStore, required this.validator});
+  const ExternalDebtorForm({
+    super.key,
+    required this.formStore,
+    required this.validator,
+  });
 
   @override
   Widget build(BuildContext context) {
     return isMobile(context)
         ? Column(
-            children: [_inputDNI(), _inputName(), _inputPhone()],
-          )
+          children: [
+            _inputDNI(),
+            _inputName(),
+            _inputPhone(),
+            -_inputEmail(),
+            _inputAddress(),
+          ],
+        )
         : Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: _inputDNI(),
-                  ),
-                  SizedBox(width: 16),
-                  Expanded(child: _inputName()),
-                  SizedBox(width: 16),
-                  Expanded(child: _inputPhone()),
-                ],
-              )
-            ],
-          );
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(child: _inputDNI()),
+                SizedBox(width: 16),
+                Expanded(child: _inputName()),
+                SizedBox(width: 16),
+                Expanded(child: _inputPhone()),
+                SizedBox(width: 16),
+                Expanded(child: _inputEmail()),
+                SizedBox(width: 16),
+              ],
+            ),
+
+            SizedBox(width: 820, child: _inputAddress()),
+          ],
+        );
   }
 
   _inputDNI() {
@@ -60,6 +72,24 @@ class ExternalDebtorForm extends StatelessWidget {
       initialValue: formStore.state.debtorName,
       onChanged: (value) => formStore.setDebtorName(value),
       onValidator: validator.byField(formStore.state, 'debtorName'),
+    );
+  }
+
+  _inputEmail() {
+    return Input(
+      label: 'Email do Deudor',
+      initialValue: formStore.state.debtorEmail,
+      onChanged: (value) => formStore.setDebtorEmail(value),
+      onValidator: validator.byField(formStore.state, 'debtorEmail'),
+    );
+  }
+
+  _inputAddress() {
+    return Input(
+      label: 'Endereço do Deudor',
+      initialValue: formStore.state.debtorAddress,
+      onChanged: (value) => formStore.setDebtorAddress(value),
+      onValidator: validator.byField(formStore.state, 'debtorAddress'),
     );
   }
 }
