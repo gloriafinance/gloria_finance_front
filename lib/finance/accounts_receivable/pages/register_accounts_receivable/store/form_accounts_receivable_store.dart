@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/auth/auth_persistence.dart';
+import 'package:church_finance_bk/settings/members/models/member_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../models/installment_model.dart';
@@ -34,6 +35,16 @@ class FormAccountsReceivableStore extends ChangeNotifier {
     //notifyListeners();
   }
 
+  void setDebtorEmail(String debtorEmail) {
+    state = state.copyWith(debtorEmail: debtorEmail);
+    //notifyListeners();
+  }
+
+  void setDebtorAddress(String debtorAddress) {
+    state = state.copyWith(debtorAddress: debtorAddress);
+    //notifyListeners();
+  }
+
   void setDescription(String description) {
     state = state.copyWith(description: description);
   }
@@ -52,10 +63,15 @@ class FormAccountsReceivableStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setMember(String memberDNI, String memberName) {
+
+  void setMember(MemberModel member) {
     state = state.copyWith(
-      debtorDNI: memberDNI,
-      debtorName: memberName,
+      debtorDNI: member.dni,
+      debtorName: member.name,
+      debtorType: DebtorType.MEMBER,
+      debtorPhone: member.phone ?? '',
+      debtorEmail: member.email ?? '',
+      debtorAddress: member.address ?? '',
     );
     notifyListeners();
   }

@@ -3,6 +3,7 @@ class MemberModel {
   String name;
   String email;
   String phone;
+  String address;
   String dni;
   String conversionDate;
   String? baptismDate;
@@ -26,6 +27,7 @@ class MemberModel {
     required this.isMinister,
     required this.isTreasurer,
     required this.active,
+    required this.address
     // required this.church,
     // required this.region,
   });
@@ -43,6 +45,7 @@ class MemberModel {
       isMinister: json['isMinister'],
       isTreasurer: json['isTreasurer'] ?? false,
       active: json['active'] ?? true,
+      address: json['address'] ?? '',
       //church: Church.fromJson(json['church']),
       //region: Region.fromJson(json['region']),
     );
@@ -61,6 +64,7 @@ class MemberModel {
       'isMinister': isMinister,
       'isTreasurer': isTreasurer,
       'active': active,
+      'address': address,
       // 'church': church.toJson(),
       // 'region': region.toJson(),
     };

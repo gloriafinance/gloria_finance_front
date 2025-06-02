@@ -22,9 +22,10 @@ class _MemberTableState extends State<MemberTable> {
 
     if (state.makeRequest) {
       return Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.only(top: 40.0),
-          child: CircularProgressIndicator());
+        alignment: Alignment.center,
+        margin: const EdgeInsets.only(top: 40.0),
+        child: CircularProgressIndicator(),
+      );
     }
 
     if (state.paginate.results.isEmpty) {
@@ -35,13 +36,7 @@ class _MemberTableState extends State<MemberTable> {
     }
 
     return CustomTable(
-      headers: [
-        "Nome",
-        "Email",
-        "Telefone",
-        "Data de nascimento",
-        "Ativo?",
-      ],
+      headers: ["Nome", "Email", "Telefone", "Data de nascimento", "Ativo?"],
       data: FactoryDataTable<MemberModel>(
         data: state.paginate.results,
         dataBuilder: memberDTO,
@@ -65,7 +60,6 @@ class _MemberTableState extends State<MemberTable> {
   }
 
   List<dynamic> memberDTO(dynamic member) {
-    print(member);
     return [
       member.name,
       member.email,

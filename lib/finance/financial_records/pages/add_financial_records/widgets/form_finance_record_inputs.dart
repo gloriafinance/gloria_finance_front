@@ -99,7 +99,7 @@ Widget searchFinancialConcepts(
     onChanged: (value) {
       final v = conceptStore.state.financialConcepts
           .firstWhere((e) => e.name == value);
-      print(v.type);
+
       formStore.setDescription(v.description);
       formStore.setFinancialConceptId(v.financialConceptId);
       formStore.setType(v.type);

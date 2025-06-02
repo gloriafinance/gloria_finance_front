@@ -24,23 +24,35 @@ class DebtorModel {
   final String debtorType;
   final String debtorDNI;
   final String name;
+  final String phone;
+  final String email;
+  final String address;
 
   DebtorModel({
     required this.debtorType,
     required this.debtorDNI,
     required this.name,
+    required this.phone,
+    required this.email,
+    required this.address,
   });
 
   DebtorModel.fromMap(Map<String, dynamic> map)
-      : debtorType = map['debtorType'],
-        debtorDNI = map['debtorDNI'],
-        name = map['name'];
+    : debtorType = map['debtorType'],
+      debtorDNI = map['debtorDNI'],
+      name = map['name'],
+      phone = map['phone'] ?? '',
+      email = map['email'] ?? '',
+      address = map['address'] ?? '';
 
   Map<String, dynamic> toJson() {
     return {
       'debtorType': debtorType,
       'debtorDNI': debtorDNI,
       'name': name,
+      'phone': phone,
+      'email': email,
+      'address': address,
     };
   }
 

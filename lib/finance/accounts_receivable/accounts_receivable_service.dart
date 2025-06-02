@@ -7,7 +7,8 @@ import 'models/index.dart';
 
 class AccountsReceivableService extends AppHttp {
   Future<void> sendAccountsReceivable(
-      Map<String, dynamic> accountsReceivable) async {
+    Map<String, dynamic> accountsReceivable,
+  ) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
@@ -15,9 +16,7 @@ class AccountsReceivableService extends AppHttp {
       await http.post(
         '${await getUrlApi()}account-receivable',
         data: accountsReceivable,
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: getHeader()),
       );
     } on DioException catch (e) {
       transformResponse(e.response?.data);
@@ -26,7 +25,8 @@ class AccountsReceivableService extends AppHttp {
   }
 
   Future<PaginateResponse<AccountsReceivableModel>> listAccountsReceivable(
-      AccountsReceivableFilterModel params) async {
+    AccountsReceivableFilterModel params,
+  ) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
@@ -34,14 +34,16 @@ class AccountsReceivableService extends AppHttp {
       final response = await http.get(
         '${await getUrlApi()}account-receivable',
         queryParameters: params.toJson(),
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: getHeader()),
       );
 
-      return PaginateResponse.fromJson(params.perPage, response.data,
-          (data) => AccountsReceivableModel.fromJson(data));
+      return PaginateResponse.fromJson(
+        params.perPage,
+        response.data,
+        (data) => AccountsReceivableModel.fromJson(data),
+      );
     } on DioException catch (e) {
+      print("ssss ${e.response?.data}");
       transformResponse(e.response?.data);
       rethrow;
     }
@@ -60,9 +62,7 @@ class AccountsReceivableService extends AppHttp {
       final response = await http.post(
         '${await getUrlApi()}account-receivable/pay',
         data: formData,
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: getHeader()),
       );
 
       return response.data;

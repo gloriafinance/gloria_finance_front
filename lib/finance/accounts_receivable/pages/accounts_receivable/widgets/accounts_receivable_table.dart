@@ -19,9 +19,10 @@ class AccountsReceivableTable extends StatelessWidget {
 
     if (state.makeRequest) {
       return Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.only(top: 40.0),
-          child: CircularProgressIndicator());
+        alignment: Alignment.center,
+        margin: const EdgeInsets.only(top: 40.0),
+        child: CircularProgressIndicator(),
+      );
     }
 
     if (state.paginate.results.isEmpty) {
@@ -38,38 +39,43 @@ class AccountsReceivableTable extends StatelessWidget {
           "Recebido",
           "Pendente",
           "Total a receber",
-          "Status"
+          "Status",
         ],
         data: FactoryDataTable<AccountsReceivableModel>(
-            data: state.paginate.results, dataBuilder: accountsReceivableDTO),
+          data: state.paginate.results,
+          dataBuilder: accountsReceivableDTO,
+        ),
         paginate: PaginationData(
-            totalRecords: state.paginate.count,
-            nextPag: state.paginate.nextPag,
-            perPage: state.paginate.perPage,
-            currentPage: state.filter.page,
-            onNextPag: () {
-              store.nextPage();
-            },
-            onPrevPag: () {
-              store.prevPage();
-            },
-            onChangePerPage: (perPage) {
-              store.setPerPage(perPage);
-            }),
+          totalRecords: state.paginate.count,
+          nextPag: state.paginate.nextPag,
+          perPage: state.paginate.perPage,
+          currentPage: state.filter.page,
+          onNextPag: () {
+            store.nextPage();
+          },
+          onPrevPag: () {
+            store.prevPage();
+          },
+          onChangePerPage: (perPage) {
+            store.setPerPage(perPage);
+          },
+        ),
         actionBuilders: [
           (accountsReceivable) => ButtonActionTable(
-                color: AppColors.blue,
-                text: "Visualizar",
-                onPressed: () => _openDetail(context, accountsReceivable),
-                icon: Icons.remove_red_eye_sharp,
-              ),
+            color: AppColors.blue,
+            text: "Visualizar",
+            onPressed: () => _openDetail(context, accountsReceivable),
+            icon: Icons.remove_red_eye_sharp,
+          ),
         ],
       ),
     );
   }
 
   void _openDetail(
-      BuildContext context, AccountsReceivableModel accountsReceivable) {
+    BuildContext context,
+    AccountsReceivableModel accountsReceivable,
+  ) {
     context.go('/account-receivables/view', extra: accountsReceivable);
   }
 
@@ -84,10 +90,11 @@ class AccountsReceivableTable extends StatelessWidget {
       tagStatus(
         getStatusColor(accountsReceivable.status),
         AccountsReceivableStatus.values
-            .firstWhere((e) =>
-                e.toString().split('.').last == accountsReceivable.status)
+            .firstWhere(
+              (e) => e.toString().split('.').last == accountsReceivable.status,
+            )
             .friendlyName,
-      )
+      ),
     ];
   }
 }
