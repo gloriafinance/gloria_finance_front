@@ -16,6 +16,7 @@ import 'contributions/pages/app_contribuitions/add_contribution_screen.dart';
 import 'contributions/pages/contributions_list/contributions_list_screen.dart';
 import 'financial_records/pages/add_financial_records/add_financial_record_screen.dart';
 import 'financial_records/pages/financial_records/financial_record_list_screen.dart';
+import 'payment_commitment/pages/index.dart';
 import 'purchase/pages/register_purchase/add_purchase_screen.dart';
 import 'reports/pages/income_statement/income_statement_screen.dart';
 import 'reports/pages/monthly_tithes/monthly_tithes_screen.dart';
@@ -59,15 +60,17 @@ financialRouter() {
       },
     ),
     GoRoute(
-        path: '/report/monthly-tithes',
-        pageBuilder: (context, state) {
-          return transitionCustom(MonthlyTithesScreen());
-        }),
+      path: '/report/monthly-tithes',
+      pageBuilder: (context, state) {
+        return transitionCustom(MonthlyTithesScreen());
+      },
+    ),
     GoRoute(
-        path: '/report/income-statement',
-        pageBuilder: (context, state) {
-          return transitionCustom(IncomeStatementScreen());
-        }),
+      path: '/report/income-statement',
+      pageBuilder: (context, state) {
+        return transitionCustom(IncomeStatementScreen());
+      },
+    ),
     GoRoute(
       path: '/accounts-receivables',
       pageBuilder: (context, state) {
@@ -104,6 +107,14 @@ financialRouter() {
       pageBuilder: (context, state) {
         final account = state.extra as AccountsPayableModel;
         return transitionCustom(ViewAccountPayableScreen(account: account));
+      },
+    ),
+    GoRoute(
+      path: '/confirm-payment-commitment',
+      pageBuilder: (context, state) {
+        final token = state.uri.queryParameters['token'];
+        // Aquí puedes pasar el token a tu pantalla o manejarlo como necesites
+        return transitionCustom(PaymentCommitment(token: token));
       },
     ),
   ];

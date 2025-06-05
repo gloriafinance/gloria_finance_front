@@ -22,10 +22,7 @@ class ButtonActionTable extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 5),
       child: OutlinedButton.icon(
         onPressed: onPressed,
-        icon: Icon(
-          icon,
-          size: 18,
-        ),
+        icon: Icon(icon, size: 18),
         label: Text(
           text,
           style: TextStyle(
@@ -35,15 +32,15 @@ class ButtonActionTable extends StatelessWidget {
         ),
         style: OutlinedButton.styleFrom(
           side: BorderSide(color: color),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          padding: isMobile(context)
-              ? const EdgeInsets.symmetric(vertical: 2, horizontal: 8)
-              : const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          padding:
+              isMobile(context)
+                  ? const EdgeInsets.symmetric(vertical: 2, horizontal: 8)
+                  : const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         ).copyWith(
-          iconColor: WidgetStateProperty.resolveWith<Color?>(
-              (Set<WidgetState> states) {
+          iconColor: WidgetStateProperty.resolveWith<Color?>((
+            Set<WidgetState> states,
+          ) {
             if (states.contains(WidgetState.hovered)) {
               return Colors.white;
             }
@@ -57,8 +54,9 @@ class ButtonActionTable extends StatelessWidget {
             return Colors.transparent;
           }),
           // Cambia el color del texto e ícono al hacer hover
-          foregroundColor: WidgetStateProperty.resolveWith<Color?>(
-              (Set<WidgetState> states) {
+          foregroundColor: WidgetStateProperty.resolveWith<Color?>((
+            Set<WidgetState> states,
+          ) {
             if (states.contains(WidgetState.hovered)) {
               return Colors.white;
             }
