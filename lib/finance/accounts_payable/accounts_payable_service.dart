@@ -15,9 +15,7 @@ class AccountsPayableService extends AppHttp {
       await http.post(
         '${await getUrlApi()}account-payable',
         data: data,
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: bearerToken()),
       );
     } on DioException catch (e) {
       transformResponse(e.response?.data);
@@ -26,20 +24,22 @@ class AccountsPayableService extends AppHttp {
   }
 
   Future<PaginateResponse<AccountsPayableModel>> listAccountsPayable(
-      AccountsPayableFilterModel params) async {
+    AccountsPayableFilterModel params,
+  ) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
     try {
       final response = await http.get(
         '${await getUrlApi()}account-payable',
         queryParameters: params.toJson(),
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: bearerToken()),
       );
 
-      return PaginateResponse.fromJson(params.perPage, response.data,
-          (data) => AccountsPayableModel.fromJson(data));
+      return PaginateResponse.fromJson(
+        params.perPage,
+        response.data,
+        (data) => AccountsPayableModel.fromJson(data),
+      );
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;
@@ -59,9 +59,7 @@ class AccountsPayableService extends AppHttp {
       final response = await http.post(
         '${await getUrlApi()}account-payable/pay',
         data: formData,
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: bearerToken()),
       );
 
       return response.data;

@@ -13,9 +13,7 @@ class SaveMemberService extends AppHttp {
       await http.post(
         '${await getUrlApi()}church/member',
         data: jsonForm,
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: bearerToken()),
       );
     } on DioException catch (e) {
       transformResponse(e.response?.data);

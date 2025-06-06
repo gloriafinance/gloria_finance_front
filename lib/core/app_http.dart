@@ -12,7 +12,7 @@ class AppHttp {
 
   AppHttp({this.tokenAPI});
 
-  Map<String, String> getHeader() {
+  Map<String, String> bearerToken() {
     var token = "Bearer $tokenAPI";
     return {HttpHeaders.authorizationHeader: token};
   }

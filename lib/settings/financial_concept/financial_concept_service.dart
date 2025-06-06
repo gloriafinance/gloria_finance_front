@@ -5,7 +5,9 @@ import 'models/financial_concept_model.dart';
 
 class FinancialConceptService extends AppHttp {
   Future<List<FinancialConceptModel>> searchFinancialConcepts(
-      String churchId, FinancialConceptType? type) async {
+    String churchId,
+    FinancialConceptType? type,
+  ) async {
     try {
       String url =
           '${await getUrlApi()}finance/configuration/financial-concepts/$churchId';
@@ -16,9 +18,7 @@ class FinancialConceptService extends AppHttp {
 
       final response = await http.get(
         url,
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: bearerToken()),
       );
 
       return (response.data as List)

@@ -10,7 +10,8 @@ class MemberListService extends AppHttp {
   MemberListService({super.tokenAPI});
 
   Future<PaginateResponse<MemberModel>> searchMembers(
-      MemberFilterModel params) async {
+    MemberFilterModel params,
+  ) async {
     try {
       final session = await AuthPersistence().restore();
       tokenAPI = session.token;
@@ -20,13 +21,14 @@ class MemberListService extends AppHttp {
       final response = await http.get(
         '${await getUrlApi()}church/member/list',
         queryParameters: params.toJson(),
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: bearerToken()),
       );
 
       return PaginateResponse.fromJson(
-          params.perPage, response.data, (data) => MemberModel.fromJson(data));
+        params.perPage,
+        response.data,
+        (data) => MemberModel.fromJson(data),
+      );
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;
@@ -40,13 +42,12 @@ class MemberListService extends AppHttp {
 
       final response = await http.get(
         '${await getUrlApi()}church/member/all',
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: bearerToken()),
       );
 
       return List<MemberModel>.from(
-          response.data.map((data) => MemberModel.fromJson(data)));
+        response.data.map((data) => MemberModel.fromJson(data)),
+      );
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;

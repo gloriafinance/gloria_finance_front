@@ -37,17 +37,17 @@ class FinanceRecordService extends AppHttp {
       // Configuración específica para iOS
       final DarwinInitializationSettings initializationSettingsIOS =
           DarwinInitializationSettings(
-        requestSoundPermission: true,
-        requestBadgePermission: true,
-        requestAlertPermission: true,
-      );
+            requestSoundPermission: true,
+            requestBadgePermission: true,
+            requestAlertPermission: true,
+          );
 
       // Configuración general
       final InitializationSettings initializationSettings =
           InitializationSettings(
-        android: initializationSettingsAndroid,
-        iOS: initializationSettingsIOS,
-      );
+            android: initializationSettingsAndroid,
+            iOS: initializationSettingsIOS,
+          );
 
       // Solicitar permiso de notificación en Android 13+
       if (Platform.isAndroid) {
@@ -74,7 +74,8 @@ class FinanceRecordService extends AppHttp {
 
           await flutterLocalNotificationsPlugin
               .resolvePlatformSpecificImplementation<
-                  AndroidFlutterLocalNotificationsPlugin>()
+                AndroidFlutterLocalNotificationsPlugin
+              >()
               ?.createNotificationChannel(channel);
 
           print("Canal de notificaciones creado");
@@ -98,7 +99,8 @@ class FinanceRecordService extends AppHttp {
 
   // Manejador para cuando se hace clic en la notificación
   void _handleNotificationResponse(
-      NotificationResponse notificationResponse) async {
+    NotificationResponse notificationResponse,
+  ) async {
     print("Notificación seleccionada: ${notificationResponse.payload}");
 
     // Obtener la ruta del archivo desde el payload
@@ -113,8 +115,9 @@ class FinanceRecordService extends AppHttp {
           // ya que abrir puede ser problemático para archivos Excel en algunas configuraciones
           try {
             print("Compartiendo archivo...");
-            await Share.shareXFiles([XFile(filePath)],
-                text: 'Registros financieros exportados');
+            await Share.shareXFiles([
+              XFile(filePath),
+            ], text: 'Registros financieros exportados');
           } catch (e) {
             print("Error al compartir archivo: $e");
 
@@ -123,19 +126,24 @@ class FinanceRecordService extends AppHttp {
               print("Intentando abrir archivo...");
               final result = await OpenFile.open(filePath);
               print(
-                  "Resultado de OpenFile: ${result.type} - ${result.message}");
+                "Resultado de OpenFile: ${result.type} - ${result.message}",
+              );
             } catch (e) {
               print("Error al abrir archivo: $e");
 
               // Como último recurso, mostrar notificación de error
-              _showPermissionNotification('No se pudo abrir el archivo',
-                  'El archivo está guardado en: $filePath');
+              _showPermissionNotification(
+                'No se pudo abrir el archivo',
+                'El archivo está guardado en: $filePath',
+              );
             }
           }
         } else {
           print("El archivo no existe: $filePath");
-          _showPermissionNotification('Archivo no encontrado',
-              'El archivo ya no existe en la ubicación guardada.');
+          _showPermissionNotification(
+            'Archivo no encontrado',
+            'El archivo ya no existe en la ubicación guardada.',
+          );
         }
       } catch (e) {
         print("Error general al manejar archivo: $e");
@@ -147,7 +155,9 @@ class FinanceRecordService extends AppHttp {
 
   // Mostrar notificación con archivo adjunto
   Future<void> showFileDownloadNotification(
-      String filePath, String fileName) async {
+    String filePath,
+    String fileName,
+  ) async {
     try {
       // Guardar la ruta del último archivo descargado
       _lastDownloadedFilePath = filePath;
@@ -171,16 +181,16 @@ class FinanceRecordService extends AppHttp {
 
       const AndroidNotificationDetails androidDetails =
           AndroidNotificationDetails(
-        'download_channel',
-        'Descargas',
-        channelDescription: 'Notificaciones de archivos descargados',
-        importance: Importance.high,
-        priority: Priority.high,
-        ongoing: false,
-        autoCancel: true,
-        // El problema está en la configuración del ícono
-        // Usar valor default (pequeño ícono de Android)
-      );
+            'download_channel',
+            'Descargas',
+            channelDescription: 'Notificaciones de archivos descargados',
+            importance: Importance.high,
+            priority: Priority.high,
+            ongoing: false,
+            autoCancel: true,
+            // El problema está en la configuración del ícono
+            // Usar valor default (pequeño ícono de Android)
+          );
 
       const NotificationDetails notificationDetails = NotificationDetails(
         android: androidDetails,
@@ -188,9 +198,9 @@ class FinanceRecordService extends AppHttp {
 
       // Mostrar la notificación con el payload que es la ruta del archivo
       await flutterLocalNotificationsPlugin.show(
-        DateTime.now()
-            .millisecondsSinceEpoch
-            .remainder(100000), // ID único para cada notificación
+        DateTime.now().millisecondsSinceEpoch.remainder(
+          100000,
+        ), // ID único para cada notificación
         'Archivo descargado',
         locationMessage,
         notificationDetails,
@@ -217,9 +227,7 @@ class FinanceRecordService extends AppHttp {
       await http.post(
         '${await getUrlApi()}finance/financial-record',
         data: formData,
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: bearerToken()),
       );
 
       return true;
@@ -230,7 +238,8 @@ class FinanceRecordService extends AppHttp {
   }
 
   Future<PaginateResponse<FinanceRecordListModel>> searchFinanceRecords(
-      FinanceRecordFilterModel params) async {
+    FinanceRecordFilterModel params,
+  ) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
@@ -240,13 +249,14 @@ class FinanceRecordService extends AppHttp {
       final response = await http.get(
         '${await getUrlApi()}finance/financial-record',
         queryParameters: params.toJson(),
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: bearerToken()),
       );
 
-      return PaginateResponse.fromJson(params.perPage, response.data,
-          (data) => FinanceRecordListModel.fromJson(data));
+      return PaginateResponse.fromJson(
+        params.perPage,
+        response.data,
+        (data) => FinanceRecordListModel.fromJson(data),
+      );
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;
@@ -306,14 +316,14 @@ class FinanceRecordService extends AppHttp {
     try {
       const AndroidNotificationDetails androidDetails =
           AndroidNotificationDetails(
-        'download_channel',
-        'Descargas',
-        channelDescription: 'Notificaciones de archivos descargados',
-        importance: Importance.high,
-        priority: Priority.high,
-        // El problema está en la configuración del ícono
-        // Usar valor default (pequeño ícono de Android)
-      );
+            'download_channel',
+            'Descargas',
+            channelDescription: 'Notificaciones de archivos descargados',
+            importance: Importance.high,
+            priority: Priority.high,
+            // El problema está en la configuración del ícono
+            // Usar valor default (pequeño ícono de Android)
+          );
 
       const NotificationDetails notificationDetails = NotificationDetails(
         android: androidDetails,
@@ -342,7 +352,7 @@ class FinanceRecordService extends AppHttp {
         '${await getUrlApi()}finance/financial-record/export',
         queryParameters: params.toJson(),
         options: Options(
-          headers: getHeader(),
+          headers: bearerToken(),
           responseType: ResponseType.bytes,
         ),
       );
@@ -355,9 +365,10 @@ class FinanceRecordService extends AppHttp {
         try {
           final blob = universal_html.Blob([bytes]);
           final url = universal_html.Url.createObjectUrlFromBlob(blob);
-          final anchor = universal_html.AnchorElement(href: url)
-            ..setAttribute('download', fileName)
-            ..style.display = 'none';
+          final anchor =
+              universal_html.AnchorElement(href: url)
+                ..setAttribute('download', fileName)
+                ..style.display = 'none';
 
           universal_html.document.body?.children.add(anchor);
           anchor.click();
@@ -386,12 +397,12 @@ class FinanceRecordService extends AppHttp {
         try {
           const AndroidNotificationDetails androidDetails =
               AndroidNotificationDetails(
-            'download_channel',
-            'Descargas',
-            channelDescription: 'Notificaciones de archivos descargados',
-            importance: Importance.high,
-            priority: Priority.high,
-          );
+                'download_channel',
+                'Descargas',
+                channelDescription: 'Notificaciones de archivos descargados',
+                importance: Importance.high,
+                priority: Priority.high,
+              );
 
           const NotificationDetails notificationDetails = NotificationDetails(
             android: androidDetails,

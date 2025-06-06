@@ -14,9 +14,7 @@ class SupplierService extends AppHttp {
       await http.post(
         '${await getUrlApi()}suppliers',
         data: jsonForm,
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: bearerToken()),
       );
     } on DioException catch (e) {
       transformResponse(e.response?.data);
@@ -31,9 +29,7 @@ class SupplierService extends AppHttp {
     try {
       final response = await http.get(
         '${await getUrlApi()}account-payable/supplier',
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: bearerToken()),
       );
 
       return (response.data as List)

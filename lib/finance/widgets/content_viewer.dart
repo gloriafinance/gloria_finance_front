@@ -5,8 +5,13 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ContentViewer extends StatelessWidget {
   final String url;
+  final String title;
 
-  const ContentViewer({super.key, required this.url});
+  ContentViewer({
+    super.key,
+    required this.url,
+    this.title = "Abrir PDF no navegador",
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +20,14 @@ class ContentViewer extends StatelessWidget {
         child: CustomButton(
           onPressed: () async {
             //UrlLauncherPlugin().launch(url, useWebView: true);
-            if (!await launchUrl(Uri.parse(url),
-                mode: LaunchMode.inAppBrowserView)) {
+            if (!await launchUrl(
+              Uri.parse(url),
+              mode: LaunchMode.inAppBrowserView,
+            )) {
               throw Exception('Could not launch $url');
             }
           },
-          text: "Abrir PDF no navegador",
+          text: title,
           textColor: Colors.white,
           backgroundColor: AppColors.blue,
         ),

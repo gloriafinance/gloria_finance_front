@@ -12,7 +12,7 @@ class AvailabilityAccountService extends AppHttp {
     try {
       final response = await http.get(
         '${await getUrlApi()}finance/configuration/availability-account/${session.churchId}',
-        options: Options(headers: getHeader()),
+        options: Options(headers: bearerToken()),
       );
 
       return (response.data as List)
@@ -32,7 +32,7 @@ class AvailabilityAccountService extends AppHttp {
       await http.post(
         '${await getUrlApi()}finance/configuration/availability-account',
         data: payload,
-        options: Options(headers: getHeader()),
+        options: Options(headers: bearerToken()),
       );
     } on DioException catch (e) {
       transformResponse(e.response?.data);

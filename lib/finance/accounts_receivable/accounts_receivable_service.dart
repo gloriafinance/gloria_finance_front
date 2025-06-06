@@ -16,7 +16,7 @@ class AccountsReceivableService extends AppHttp {
       await http.post(
         '${await getUrlApi()}account-receivable',
         data: accountsReceivable,
-        options: Options(headers: getHeader()),
+        options: Options(headers: bearerToken()),
       );
     } on DioException catch (e) {
       transformResponse(e.response?.data);
@@ -34,7 +34,7 @@ class AccountsReceivableService extends AppHttp {
       final response = await http.get(
         '${await getUrlApi()}account-receivable',
         queryParameters: params.toJson(),
-        options: Options(headers: getHeader()),
+        options: Options(headers: bearerToken()),
       );
 
       return PaginateResponse.fromJson(
@@ -62,7 +62,7 @@ class AccountsReceivableService extends AppHttp {
       final response = await http.post(
         '${await getUrlApi()}account-receivable/pay',
         data: formData,
-        options: Options(headers: getHeader()),
+        options: Options(headers: bearerToken()),
       );
 
       return response.data;

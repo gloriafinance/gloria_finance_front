@@ -1,24 +1,31 @@
+import 'dart:convert';
+
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/finance/accounts_receivable/models/accounts_receivable_model.dart';
+import 'package:church_finance_bk/finance/widgets/content_viewer.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../payment_commitment_store.dart';
+import 'buttons_accept_reject.dart';
 
 class DetailsPaymentCommitment extends StatelessWidget {
-  final AccountsReceivableModel accountReceivable;
-  final Function() onAccept;
-  final Function() onReject;
+  final String token;
 
-  const DetailsPaymentCommitment({
-    super.key,
-    required this.accountReceivable,
-    required this.onAccept,
-    required this.onReject,
-  });
+  const DetailsPaymentCommitment({super.key, required this.token});
 
   @override
   Widget build(BuildContext context) {
+    final store = Provider.of<PaymentCommitmentStore>(context);
+
+    final decoded = utf8.decode(base64.decode(token));
+    final data = jsonDecode(decoded);
+    final accountReceivable = AccountsReceivableModel.fromJson(data);
+    store.setToken(token);
+
     return Card(
       color: Colors.white, // Cambia el color de fondo aquí
       elevation: 4,
@@ -32,23 +39,9 @@ class DetailsPaymentCommitment extends StatelessWidget {
 
             _buildInfoRow('Descrição:', accountReceivable.description),
             _buildInfoRow('Devedor:', accountReceivable.debtor.name),
-            _buildInfoRow('Estado:', _getStatusText(accountReceivable.status)),
             _buildInfoRow(
               'Valor Total:',
               formatCurrency(accountReceivable.amountTotal ?? 0),
-            ),
-            _buildInfoRow(
-              'Valor Pago:',
-              formatCurrency(accountReceivable.amountPaid ?? 0),
-            ),
-            _buildInfoRow(
-              'Valor Pendente:',
-              formatCurrency(accountReceivable.amountPending ?? 0),
-            ),
-            _buildInfoRow('Criado em:', accountReceivable.createdAtFormatted),
-            _buildInfoRow(
-              'Atualizado em:',
-              accountReceivable.updatedAtFormatted,
             ),
 
             const SizedBox(height: 30),
@@ -61,34 +54,41 @@ class DetailsPaymentCommitment extends StatelessWidget {
               ),
             ),
 
-            _buildInstallmentsTable(),
+            store.state.linkContract == ''
+                ? _buildInstallmentsTable(accountReceivable)
+                : ContentViewer(
+                  url: store.state.linkContract,
+                  title: 'Visualizar Contrato',
+                ),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CustomButton(
-                  text: 'Rejeitar',
-                  backgroundColor: Colors.red,
-                  textColor: Colors.white,
-                  onPressed: onReject,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 12,
-                  ),
+            store.state.makeRequest
+                ? Loading()
+                : Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    CustomButton(
+                      text: 'Rejeitar',
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      onPressed: () => handleReject(context, store),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 12,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    CustomButton(
+                      text: 'Aceitar',
+                      backgroundColor: AppColors.green,
+                      textColor: Colors.white,
+                      onPressed: () => handleAccept(context, store),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 12,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 16),
-                CustomButton(
-                  text: 'Aceitar',
-                  backgroundColor: AppColors.green,
-                  textColor: Colors.white,
-                  onPressed: onAccept,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 12,
-                  ),
-                ),
-              ],
-            ),
           ],
         ),
       ),
@@ -119,7 +119,7 @@ class DetailsPaymentCommitment extends StatelessWidget {
     );
   }
 
-  Widget _buildInstallmentsTable() {
+  Widget _buildInstallmentsTable(AccountsReceivableModel accountReceivable) {
     return CustomTable(
       headers: const ['N°', 'Vencimento', 'Valor'],
       data: FactoryDataTable(
@@ -149,31 +149,5 @@ class DetailsPaymentCommitment extends StatelessWidget {
     } catch (e) {
       return status;
     }
-  }
-}
-
-class DetailsPaymentCommitmentView extends StatelessWidget {
-  final AccountsReceivableModel accountReceivable;
-  final Function(AccountsReceivableModel) onAccept;
-  final Function(AccountsReceivableModel) onReject;
-  final bool isLoading;
-
-  const DetailsPaymentCommitmentView({
-    super.key,
-    required this.accountReceivable,
-    required this.onAccept,
-    required this.onReject,
-    this.isLoading = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return isLoading
-        ? const Center(child: CircularProgressIndicator())
-        : DetailsPaymentCommitment(
-          accountReceivable: accountReceivable,
-          onAccept: () => onAccept(accountReceivable),
-          onReject: () => onReject(accountReceivable),
-        );
   }
 }
