@@ -7,7 +7,8 @@ import 'models/monthly_tithes_list_model.dart';
 
 class MonthlyTithesService extends AppHttp {
   Future<MonthlyTithesListModel> searchMonthlyTithes(
-      MonthlyTithesFilterModel params) async {
+    MonthlyTithesFilterModel params,
+  ) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
@@ -17,9 +18,7 @@ class MonthlyTithesService extends AppHttp {
       final response = await http.get(
         '${await getUrlApi()}reports/finance/monthly-tithes',
         queryParameters: params.toJson(),
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: bearerToken()),
       );
 
       return MonthlyTithesListModel.fromJson(response.data);

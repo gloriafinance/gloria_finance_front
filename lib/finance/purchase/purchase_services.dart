@@ -20,9 +20,7 @@ class PurchaseService extends AppHttp {
       await http.post(
         '${await getUrlApi()}purchase',
         data: formData,
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: bearerToken()),
       );
 
       return true;
@@ -33,7 +31,8 @@ class PurchaseService extends AppHttp {
   }
 
   Future<PaginateResponse<PurchaseListModel>> searchPurchases(
-      PurchaseFilterModel filter) async {
+    PurchaseFilterModel filter,
+  ) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
@@ -41,13 +40,14 @@ class PurchaseService extends AppHttp {
       final response = await http.get(
         '${await getUrlApi()}purchase',
         queryParameters: filter.toJson(),
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: bearerToken()),
       );
 
-      return PaginateResponse.fromJson(filter.perPage, response.data,
-          (data) => PurchaseListModel.fromJson(data));
+      return PaginateResponse.fromJson(
+        filter.perPage,
+        response.data,
+        (data) => PurchaseListModel.fromJson(data),
+      );
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;

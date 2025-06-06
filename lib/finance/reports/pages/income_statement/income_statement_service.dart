@@ -7,7 +7,8 @@ import 'models/income_statement_model.dart';
 
 class IncomeStatementService extends AppHttp {
   Future<IncomeStatementModel> fetchIncomeStatement(
-      IncomeStatementFilterModel params) async {
+    IncomeStatementFilterModel params,
+  ) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
@@ -17,9 +18,7 @@ class IncomeStatementService extends AppHttp {
       final response = await http.get(
         '${await getUrlApi()}reports/finance/income-statement',
         queryParameters: params.toJson(),
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: bearerToken()),
       );
 
       return IncomeStatementModel.fromJson(response.data);

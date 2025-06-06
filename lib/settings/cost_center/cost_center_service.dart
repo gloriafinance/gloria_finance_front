@@ -12,9 +12,7 @@ class CostCenterService extends AppHttp {
     try {
       final response = await http.get(
         '${await getUrlApi()}finance/configuration/cost-center/${session.churchId}',
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: bearerToken()),
       );
 
       return (response.data as List)

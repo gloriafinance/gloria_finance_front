@@ -10,7 +10,8 @@ class ContributionService extends AppHttp {
   ContributionService({super.tokenAPI});
 
   Future<PaginateResponse<ContributionModel>> listContributions(
-      ContributionFilterModel params) async {
+    ContributionFilterModel params,
+  ) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
@@ -18,13 +19,14 @@ class ContributionService extends AppHttp {
       final response = await http.get(
         '${await getUrlApi()}finance/contributions',
         queryParameters: params.toJson(),
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: bearerToken()),
       );
 
-      return PaginateResponse.fromJson(params.perPage, response.data,
-          (data) => ContributionModel.fromJson(data));
+      return PaginateResponse.fromJson(
+        params.perPage,
+        response.data,
+        (data) => ContributionModel.fromJson(data),
+      );
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;
@@ -32,7 +34,9 @@ class ContributionService extends AppHttp {
   }
 
   Future<void> updateContributionStatus(
-      String contributionId, ContributionStatus status) async {
+    String contributionId,
+    ContributionStatus status,
+  ) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
@@ -40,9 +44,7 @@ class ContributionService extends AppHttp {
       final s = status.toString().split('.').last;
       await http.patch(
         '${await getUrlApi()}finance/contributions/$contributionId/status/$s',
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: bearerToken()),
       );
     } on DioException catch (e) {
       transformResponse(e.response?.data);
@@ -64,9 +66,7 @@ class ContributionService extends AppHttp {
       await http.post(
         '${await getUrlApi()}finance/contributions',
         data: formData,
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: bearerToken()),
       );
       return true;
     } on DioException catch (e) {

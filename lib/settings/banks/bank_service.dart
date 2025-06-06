@@ -12,9 +12,7 @@ class BankService extends AppHttp {
     try {
       final response = await http.get(
         '${await getUrlApi()}finance/configuration/bank/${session.churchId}',
-        options: Options(
-          headers: getHeader(),
-        ),
+        options: Options(headers: bearerToken()),
       );
 
       return (response.data as List).map((e) => BankModel.fromJson(e)).toList();
