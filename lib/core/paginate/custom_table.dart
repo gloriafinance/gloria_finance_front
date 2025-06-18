@@ -8,10 +8,7 @@ class FactoryDataTable<T> {
   final List<T> data;
   final List<dynamic> Function(dynamic) dataBuilder;
 
-  FactoryDataTable({
-    required this.data,
-    required this.dataBuilder,
-  });
+  FactoryDataTable({required this.data, required this.dataBuilder});
 }
 
 class CustomTable extends StatefulWidget {
@@ -57,16 +54,17 @@ class _CustomTableState extends State<CustomTable> {
         Container(
           width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.only(top: 52.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
+          child: ClipRRect(
             borderRadius: BorderRadius.circular(12),
+
+            child:
+                isMobile(context)
+                    ? SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: _buildDataTable(context),
+                    )
+                    : _buildDataTable(context),
           ),
-          child: isMobile(context)
-              ? SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: _buildDataTable(context),
-                )
-              : _buildDataTable(context),
         ),
         if (widget.paginate != null) _buildPaginate(context),
       ],
@@ -92,15 +90,16 @@ class _CustomTableState extends State<CustomTable> {
           ),
         ...widget.headers.map(
           (header) => DataColumn(
-            label: header is String
-                ? Text(
-                    header.toUpperCase(),
-                    style: const TextStyle(
-                      fontFamily: AppFonts.fontTitle,
-                      color: Colors.black87,
-                    ),
-                  )
-                : header,
+            label:
+                header is String
+                    ? Text(
+                      header.toUpperCase(),
+                      style: const TextStyle(
+                        fontFamily: AppFonts.fontTitle,
+                        color: Colors.black87,
+                      ),
+                    )
+                    : header,
           ),
         ),
         if (widget.actionBuilders != null)
@@ -115,56 +114,54 @@ class _CustomTableState extends State<CustomTable> {
             ),
           ),
       ],
-      rows: List.generate(
-        widget.data.data.length,
-        (rowIndex) {
-          final item = widget.data.data[rowIndex];
+      rows: List.generate(widget.data.data.length, (rowIndex) {
+        final item = widget.data.data[rowIndex];
 
-          final rowData = widget.data.dataBuilder(item);
+        final rowData = widget.data.dataBuilder(item);
 
-          // Determinar si el checkbox está marcado
-          final bool isItemChecked =
-              widget.isChecked != null ? widget.isChecked!(item) : false;
+        // Determinar si el checkbox está marcado
+        final bool isItemChecked =
+            widget.isChecked != null ? widget.isChecked!(item) : false;
 
-          return DataRow(
-            cells: [
-              // Celda de checkbox si está habilitado
-              if (widget.showCheckbox == true)
-                DataCell(
-                  Checkbox(
-                    value: isItemChecked,
-                    onChanged: (value) {
-                      if (widget.onCheckboxChanged != null && value != null) {
-                        widget.onCheckboxChanged!(item, value);
-                      }
-                    },
-                  ),
-                ),
-              ...rowData.map(
-                (cell) => DataCell(
-                  cell is String
-                      ? Text(
-                          cell,
-                          style: const TextStyle(
-                            fontFamily: AppFonts.fontSubTitle,
-                            color: Colors.black54,
-                          ),
-                        )
-                      : cell,
+        return DataRow(
+          cells: [
+            // Celda de checkbox si está habilitado
+            if (widget.showCheckbox == true)
+              DataCell(
+                Checkbox(
+                  value: isItemChecked,
+                  onChanged: (value) {
+                    if (widget.onCheckboxChanged != null && value != null) {
+                      widget.onCheckboxChanged!(item, value);
+                    }
+                  },
                 ),
               ),
-              if (widget.actionBuilders != null)
-                DataCell(
-                  Row(
-                    children: widget.actionBuilders!
-                        .map((actionBuilder) => actionBuilder(item))
-                        .toList(),
-                  ),
+            ...rowData.map(
+              (cell) => DataCell(
+                cell is String
+                    ? Text(
+                      cell,
+                      style: const TextStyle(
+                        fontFamily: AppFonts.fontSubTitle,
+                        color: Colors.black54,
+                      ),
+                    )
+                    : cell,
+              ),
+            ),
+            if (widget.actionBuilders != null)
+              DataCell(
+                Row(
+                  children:
+                      widget.actionBuilders!
+                          .map((actionBuilder) => actionBuilder(item))
+                          .toList(),
                 ),
-            ],
-          );
-        },
-      ),
+              ),
+          ],
+        );
+      }),
     );
   }
 
@@ -228,7 +225,7 @@ class _CustomTableState extends State<CustomTable> {
               ),
             ],
           ),
-          _selectPerPage()
+          _selectPerPage(),
         ],
       ),
     );
@@ -246,12 +243,13 @@ class _CustomTableState extends State<CustomTable> {
               color: Colors.black87,
             ),
             value: perPageState,
-            items: [20, 50, 70].map((int value) {
-              return DropdownMenuItem<int>(
-                value: value,
-                child: Text("$value por página"),
-              );
-            }).toList(),
+            items:
+                [20, 50, 70].map((int value) {
+                  return DropdownMenuItem<int>(
+                    value: value,
+                    child: Text("$value por página"),
+                  );
+                }).toList(),
             onChanged: (value) {
               if (value != null) {
                 setState(() {
@@ -279,12 +277,13 @@ class _CustomTableState extends State<CustomTable> {
               color: Colors.black87,
             ),
             value: perPageState,
-            items: [20, 50, 70].map((int value) {
-              return DropdownMenuItem<int>(
-                value: value,
-                child: Text("$value por página"),
-              );
-            }).toList(),
+            items:
+                [20, 50, 70].map((int value) {
+                  return DropdownMenuItem<int>(
+                    value: value,
+                    child: Text("$value por página"),
+                  );
+                }).toList(),
             onChanged: (value) {
               if (value != null) {
                 setState(() {
@@ -300,13 +299,9 @@ class _CustomTableState extends State<CustomTable> {
           flex: 2,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _prevButton(),
-              const SizedBox(width: 8),
-              _nextButton(),
-            ],
+            children: [_prevButton(), const SizedBox(width: 8), _nextButton()],
           ),
-        )
+        ),
       ],
     );
   }
@@ -314,31 +309,32 @@ class _CustomTableState extends State<CustomTable> {
   Widget _nextButton() {
     return widget.paginate != null
         ? CustomButton(
-            padding: EdgeInsets.symmetric(vertical: 8),
-            text: "",
-            icon: Icons.skip_next_outlined,
-            backgroundColor: widget.paginate!.nextPag
-                ? AppColors.green
-                : AppColors.greyLight,
-            onPressed:
-                widget.paginate!.nextPag ? widget.paginate!.onNextPag : () {},
-          )
+          padding: EdgeInsets.symmetric(vertical: 8),
+          text: "",
+          icon: Icons.skip_next_outlined,
+          backgroundColor:
+              widget.paginate!.nextPag ? AppColors.green : AppColors.greyLight,
+          onPressed:
+              widget.paginate!.nextPag ? widget.paginate!.onNextPag : () {},
+        )
         : SizedBox.shrink();
   }
 
   Widget _prevButton() {
     return widget.paginate != null
         ? CustomButton(
-            padding: EdgeInsets.symmetric(vertical: 8),
-            text: "",
-            icon: Icons.skip_previous_outlined,
-            backgroundColor: widget.paginate!.currentPage > 1
-                ? AppColors.green
-                : AppColors.greyLight,
-            onPressed: widget.paginate!.currentPage > 1
-                ? widget.paginate!.onPrevPag
-                : () {},
-          )
+          padding: EdgeInsets.symmetric(vertical: 8),
+          text: "",
+          icon: Icons.skip_previous_outlined,
+          backgroundColor:
+              widget.paginate!.currentPage > 1
+                  ? AppColors.green
+                  : AppColors.greyLight,
+          onPressed:
+              widget.paginate!.currentPage > 1
+                  ? widget.paginate!.onPrevPag
+                  : () {},
+        )
         : SizedBox.shrink();
   }
 }
