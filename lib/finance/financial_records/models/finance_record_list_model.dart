@@ -24,23 +24,17 @@ class CostCenter {
   final String costCenterId;
   final String name;
 
-  CostCenter({
-    required this.costCenterId,
-    required this.name,
-  });
+  CostCenter({required this.costCenterId, required this.name});
 
   factory CostCenter.fromJson(Map<String, dynamic> json) {
-    return CostCenter(
-      costCenterId: json['costCenterId'],
-      name: json['name'],
-    );
+    return CostCenter(costCenterId: json['costCenterId'], name: json['name']);
   }
 }
 
 class FinanceRecordListModel {
   final double amount;
   final DateTime date;
-  final FinancialConceptModel financialConcept;
+  final FinancialConceptModel? financialConcept;
   final String financialRecordId;
   final String churchId;
   final String? description;
@@ -64,34 +58,38 @@ class FinanceRecordListModel {
 
   factory FinanceRecordListModel.fromJson(Map<String, dynamic> json) {
     return FinanceRecordListModel(
-      availabilityAccount:
-          AvailabilityAccount.fromJson(json['availabilityAccount']),
+      availabilityAccount: AvailabilityAccount.fromJson(
+        json['availabilityAccount'],
+      ),
       voucher: json['voucher'],
       amount: double.parse(json['amount'].toString()),
       date: DateTime.parse(json['date']),
       financialConcept:
-          FinancialConceptModel.fromJson(json['financialConcept']),
+          json['financialConcept'] != null
+              ? FinancialConceptModel.fromJson(json['financialConcept'])
+              : null,
       financialRecordId: json['financialRecordId'],
       churchId: json['churchId'],
       description: json['description'],
       type: json['type'],
-      costCenter: json['costCenter'] != null
-          ? CostCenter.fromJson(json['costCenter'])
-          : null,
+      costCenter:
+          json['costCenter'] != null
+              ? CostCenter.fromJson(json['costCenter'])
+              : null,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'voucher': voucher,
-      'amount': amount,
-      'date': date.toIso8601String(),
-      'financialConcept': financialConcept.toJson(),
-      'financialRecordId': financialRecordId,
-      'churchId': churchId,
-      'description': description,
-      'type': type,
-      //'availabilityAccount': availabilityAccountId,
-    };
-  }
+  // Map<String, dynamic> toJson() {
+  //   return {
+  //     'voucher': voucher,
+  //     'amount': amount,
+  //     'date': date.toIso8601String(),
+  //     'financialConcept': financialConcept.toJson(),
+  //     'financialRecordId': financialRecordId,
+  //     'churchId': churchId,
+  //     'description': description,
+  //     'type': type,
+  //     //'availabilityAccount': availabilityAccountId,
+  //   };
+  // }
 }

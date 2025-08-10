@@ -2,6 +2,7 @@ import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
+import 'package:church_finance_bk/core/widgets/confirmation_dialog.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,9 +28,10 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
 
     if (state.makeRequest) {
       return Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.only(top: 40.0),
-          child: CircularProgressIndicator());
+        alignment: Alignment.center,
+        margin: const EdgeInsets.only(top: 40.0),
+        child: CircularProgressIndicator(),
+      );
     }
 
     if (state.paginate.results.isEmpty) {
@@ -45,7 +47,7 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
         "Valor",
         "Tipo de movimento",
         "Conceito",
-        "Conta de disponiblidade"
+        "Conta de disponiblidade",
       ],
       data: FactoryDataTable<FinanceRecordListModel>(
         data: state.paginate.results,
@@ -68,13 +70,36 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
       ),
       actionBuilders: [
         (fianceRecord) => ButtonActionTable(
-              color: AppColors.blue,
-              text: "Visualizar",
-              onPressed: () {
-                _openModal(context, fianceRecord);
-              },
-              icon: Icons.remove_red_eye_sharp,
-            ),
+          color: AppColors.blue,
+          text: "Visualizar",
+          onPressed: () {
+            _openModal(context, fianceRecord);
+          },
+          icon: Icons.remove_red_eye_sharp,
+        ),
+        (fianceRecord) => ButtonActionTable(
+          color: Colors.deepOrangeAccent,
+          text: "Anular",
+          onPressed: () async {
+            var res = await confirmationDialog(
+              context,
+              "Deseja anular este movimento financeiro?",
+            );
+
+            print("RES: ${res}");
+
+            if (res != null && res) {
+              store.cancelFinanceRecord(fianceRecord.financialRecordId).then((
+                value,
+              ) {
+                if (value) {
+                  store.searchFinanceRecords();
+                }
+              });
+            }
+          },
+          icon: Icons.cancel_presentation_sharp,
+        ),
       ],
     );
   }
@@ -91,7 +116,7 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
       convertDateFormatToDDMMYYYY(financeRecord.date.toString()),
       CurrencyFormatter.formatCurrency(financeRecord.amount),
       getFriendlyNameFinancialConceptType(financeRecord.type),
-      financeRecord.financialConcept.name,
+      financeRecord?.financialConcept?.name ?? 'N/A',
       financeRecord.availabilityAccount.accountName,
       // getFriendlyNameMoneyLocation(financeRecord.availabilityAccountId),
     ];

@@ -1,4 +1,4 @@
-enum FinancialConceptType { INCOME, OUTGO, PURCHASE }
+enum FinancialConceptType { INCOME, OUTGO, PURCHASE, REVERSAL }
 
 extension FinancialConceptTypeExtension on FinancialConceptType {
   String get friendlyName {
@@ -9,6 +9,8 @@ extension FinancialConceptTypeExtension on FinancialConceptType {
         return 'Saida';
       case FinancialConceptType.PURCHASE:
         return 'Compra';
+      case FinancialConceptType.REVERSAL:
+        return 'Reversão';
     }
   }
 
@@ -20,13 +22,16 @@ extension FinancialConceptTypeExtension on FinancialConceptType {
         return 'OUTGO';
       case FinancialConceptType.PURCHASE:
         return 'PURCHASE';
+      case FinancialConceptType.REVERSAL:
+        return 'REVERSAL';
     }
   }
 }
 
 String getFriendlyNameFinancialConceptType(String apiValue) {
-  final financialConceptType = FinancialConceptType.values
-      .firstWhere((e) => e.toString().split('.').last == apiValue);
+  final financialConceptType = FinancialConceptType.values.firstWhere(
+    (e) => e.toString().split('.').last == apiValue,
+  );
 
   return financialConceptType.friendlyName;
 }
