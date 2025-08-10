@@ -96,4 +96,23 @@ class FinanceRecordPaginateStore extends ChangeNotifier {
       return false;
     }
   }
+
+  Future<bool> cancelFinanceRecord(String id) async {
+    try {
+      state = state.copyWith(makeRequest: true);
+      notifyListeners();
+
+      await service.cancelFinanceRecord(id);
+
+      state = state.copyWith(makeRequest: false);
+      notifyListeners();
+
+      return true;
+    } catch (e) {
+      print("ERROR EN CANCELACIÓN: ${e}");
+      state = state.copyWith(makeRequest: false);
+      notifyListeners();
+      return false;
+    }
+  }
 }

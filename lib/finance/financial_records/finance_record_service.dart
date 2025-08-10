@@ -431,4 +431,19 @@ class FinanceRecordService extends AppHttp {
       return false;
     }
   }
+
+  Future<void> cancelFinanceRecord(String id) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      await http.patch(
+        '${await getUrlApi()}finance/financial-record/cancel/$id',
+        options: Options(headers: bearerToken()),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
 }

@@ -17,63 +17,70 @@ class ViewFinanceRecord extends StatelessWidget {
   Widget build(BuildContext context) {
     bool mobile = isMobile(context);
     return Card(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+      color: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+      elevation: 4,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Divider(),
+            const SizedBox(height: 16),
+            _buildSectionTitle('Conceito Financeiro'),
+            Text(
+              financeRecord?.financialConcept?.name ?? 'N/A',
+              style: const TextStyle(
+                fontSize: 16,
+                fontFamily: AppFonts.fontText,
+              ),
+            ),
+            SizedBox(height: 16),
+            buildDetailRow(
+              mobile,
+              'Valor',
+              'R\$ ${financeRecord.amount.toStringAsFixed(2)}',
+            ),
+            const SizedBox(height: 8),
+            buildDetailRow(
+              mobile,
+              'Data',
+              '${financeRecord.date.day}/${financeRecord.date.month}/${financeRecord.date.year}',
+            ),
+            const SizedBox(height: 8),
+            buildDetailRow(
+              mobile,
+              'Tipo de movimento',
+              getFriendlyNameFinancialConceptType(financeRecord.type),
+            ),
+            if (financeRecord.costCenter != null) ...[
+              const SizedBox(height: 8),
+              buildDetailRow(
+                mobile,
+                'Centro de custo',
+                financeRecord.costCenter!.name,
+              ),
+            ],
+            const SizedBox(height: 8),
+            buildDetailRow(
+              mobile,
+              'Conta de disponibilidade',
+              financeRecord.availabilityAccount.accountName,
+            ),
+            const SizedBox(height: 8),
+            buildDetailRow(
+              mobile,
+              'Descrição',
+              financeRecord.description ?? "",
+            ),
+            if (financeRecord.voucher != null) ...[
+              const SizedBox(height: 26),
+              ContentViewer(url: financeRecord.voucher!),
+            ],
+          ],
         ),
-        elevation: 4,
-        child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Divider(),
-              const SizedBox(height: 16),
-              _buildSectionTitle('Conceito Financeiro'),
-              Text(
-                financeRecord.financialConcept.name,
-                style: const TextStyle(
-                    fontSize: 16, fontFamily: AppFonts.fontText),
-              ),
-              SizedBox(height: 16),
-              buildDetailRow(mobile, 'Valor',
-                  'R\$ ${financeRecord.amount.toStringAsFixed(2)}'),
-              const SizedBox(height: 8),
-              buildDetailRow(
-                mobile,
-                'Data',
-                '${financeRecord.date.day}/${financeRecord.date.month}/${financeRecord.date.year}',
-              ),
-              const SizedBox(height: 8),
-              buildDetailRow(
-                mobile,
-                'Tipo de movimento',
-                getFriendlyNameFinancialConceptType(financeRecord.type),
-              ),
-              if (financeRecord.costCenter != null) ...[
-                const SizedBox(height: 8),
-                buildDetailRow(
-                  mobile,
-                  'Centro de custo',
-                  financeRecord.costCenter!.name,
-                ),
-              ],
-              const SizedBox(height: 8),
-              buildDetailRow(
-                mobile,
-                'Conta de disponibilidade',
-                financeRecord.availabilityAccount.accountName,
-              ),
-              const SizedBox(height: 8),
-              buildDetailRow(
-                mobile,
-                'Descrição',
-                financeRecord.description ?? "",
-              ),
-              if (financeRecord.voucher != null) ...[
-                const SizedBox(height: 26),
-                ContentViewer(url: financeRecord.voucher!),
-              ],
-            ])));
+      ),
+    );
   }
 
   Widget _buildSectionTitle(String title) {
