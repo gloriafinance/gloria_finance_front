@@ -27,6 +27,11 @@ class FormAvailabilityStore extends ChangeNotifier {
     //notifyListeners();
   }
 
+  void setActive(bool active) {
+    state = state.copyWith(active: active);
+    notifyListeners();
+  }
+
   void setSymbol(String symbol) {
     state = state.copyWith(symbol: symbol);
     notifyListeners();

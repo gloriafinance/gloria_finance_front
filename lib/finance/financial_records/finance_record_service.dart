@@ -214,7 +214,7 @@ class FinanceRecordService extends AppHttp {
     }
   }
 
-  Future<bool> sendSaveFinanceRecord(Map<String, dynamic> form) async {
+  Future<void> sendSaveFinanceRecord(Map<String, dynamic> form) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
@@ -229,11 +229,9 @@ class FinanceRecordService extends AppHttp {
         data: formData,
         options: Options(headers: bearerToken()),
       );
-
-      return true;
     } on DioException catch (e) {
       transformResponse(e.response?.data);
-      return false;
+      rethrow;
     }
   }
 
