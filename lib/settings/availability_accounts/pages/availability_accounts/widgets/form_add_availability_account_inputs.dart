@@ -53,10 +53,6 @@ Widget accountType(FormAvailabilityStore formStore) {
 }
 
 Widget source(FormAvailabilityStore formStore, BankStore bankStore) {
-  if (formStore.state.accountType != AccountType.BANK.apiValue) {
-    return Container();
-  }
-
   final data = bankStore.state.banks;
 
   return Dropdown(
@@ -109,5 +105,17 @@ Widget balance(FormAvailabilityStore formStore) {
 
       formStore.setBalance(double.parse(cleanedValue));
     },
+  );
+}
+
+Widget status(FormAvailabilityStore formStore) {
+  return Row(
+    children: [
+      Text('Ativo'),
+      Switch(
+        value: formStore.state.active,
+        onChanged: (value) => formStore.setActive(value),
+      ),
+    ],
   );
 }
