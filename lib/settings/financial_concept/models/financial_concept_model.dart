@@ -26,6 +26,14 @@ extension FinancialConceptTypeExtension on FinancialConceptType {
         return 'REVERSAL';
     }
   }
+
+  static List<String> get listFriendlyName {
+    return FinancialConceptType.values.map((e) => e.friendlyName).toList();
+  }
+
+  static List<FinancialConceptType> get listValues {
+    return FinancialConceptType.values;
+  }
 }
 
 String getFriendlyNameFinancialConceptType(String apiValue) {

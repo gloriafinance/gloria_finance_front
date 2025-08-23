@@ -2,6 +2,7 @@ import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:church_finance_bk/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
+import 'package:church_finance_bk/settings/financial_concept/models/financial_concept_model.dart';
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,9 +32,10 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
   }
 
   Widget _layoutDesktop(
-      AvailabilityAccountsListStore availabilityAccountsListStore,
-      FinanceRecordPaginateStore store,
-      FinancialConceptStore storeConcept) {
+    AvailabilityAccountsListStore availabilityAccountsListStore,
+    FinanceRecordPaginateStore store,
+    FinancialConceptStore storeConcept,
+  ) {
     return Container(
       margin: const EdgeInsets.only(top: 20.0),
       child: Column(
@@ -43,122 +45,131 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                  flex: 10,
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                              flex: 1,
-                              child: _availabilityAccounts(
-                                  availabilityAccountsListStore, store)),
-                          SizedBox(width: 10),
-                          Expanded(
-                            flex: 2,
-                            child: _concept(store, storeConcept),
+                flex: 10,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: _availabilityAccounts(
+                            availabilityAccountsListStore,
+                            store,
                           ),
-                          SizedBox(width: 10),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: _dateStart(store),
-                          ),
-                          SizedBox(width: 10),
-                          Expanded(
-                            flex: 1,
-                            child: _dateEnd(store),
-                          ),
-                          SizedBox(width: 10),
-                        ],
-                      )
-                    ],
-                  )),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          flex: 2,
+                          child: _conceptType(store, storeConcept),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(flex: 2, child: _concept(store, storeConcept)),
+                        SizedBox(width: 10),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(flex: 1, child: _dateStart(store)),
+                        SizedBox(width: 10),
+                        Expanded(flex: 1, child: _dateEnd(store)),
+                        SizedBox(width: 10),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
               Expanded(
-                  flex: 2,
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(top: 50.0),
-                        child: _applyFilterButton(store),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 20.0),
-                        child: _clearButton(store),
-                      ),
-                    ],
-                  ))
+                flex: 2,
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 50.0),
+                      child: _applyFilterButton(store),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 20.0),
+                      child: _clearButton(store),
+                    ),
+                  ],
+                ),
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
   }
 
   Widget _layoutMobile(
-      AvailabilityAccountsListStore availabilityAccountsListStore,
-      FinanceRecordPaginateStore store,
-      FinancialConceptStore storeConcept) {
+    AvailabilityAccountsListStore availabilityAccountsListStore,
+    FinanceRecordPaginateStore store,
+    FinancialConceptStore storeConcept,
+  ) {
     return Container(
-        margin: const EdgeInsets.only(top: 10.0),
-        child: ExpansionPanelList(
-          expansionCallback: (int index, bool isExpanded) {
-            isExpandedFilter = isExpanded;
-            setState(() {});
-          },
-          animationDuration: const Duration(milliseconds: 500),
-          children: [
-            ExpansionPanel(
-                canTapOnHeader: true,
-                isExpanded: isExpandedFilter,
-                headerBuilder: (context, isOpen) {
-                  return ListTile(
-                    title: Text(
-                      "FILTROS",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: AppFonts.fontTitle,
-                        color: AppColors.purple,
+      margin: const EdgeInsets.only(top: 10.0),
+      child: ExpansionPanelList(
+        expansionCallback: (int index, bool isExpanded) {
+          isExpandedFilter = isExpanded;
+          setState(() {});
+        },
+        animationDuration: const Duration(milliseconds: 500),
+        children: [
+          ExpansionPanel(
+            canTapOnHeader: true,
+            isExpanded: isExpandedFilter,
+            headerBuilder: (context, isOpen) {
+              return ListTile(
+                title: Text(
+                  "FILTROS",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: AppFonts.fontTitle,
+                    color: AppColors.purple,
+                  ),
+                ),
+              );
+            },
+            body: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: _availabilityAccounts(
+                        availabilityAccountsListStore,
+                        store,
                       ),
                     ),
-                  );
-                },
-                body: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                            child: _availabilityAccounts(
-                                availabilityAccountsListStore, store)),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(child: _concept(store, storeConcept))
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(child: _dateStart(store)),
-                        SizedBox(width: 10),
-                        Expanded(child: _dateEnd(store)),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Expanded(child: _applyFilterButton(store)),
-                        SizedBox(width: 10),
-                        Expanded(child: _clearButton(store)),
-                      ],
-                    ),
-                    SizedBox(height: 10),
                   ],
-                ))
-          ],
-        ));
+                ),
+                Row(
+                  children: [
+                    Expanded(child: _conceptType(store, storeConcept)),
+                  ],
+                ),
+                Row(children: [Expanded(child: _concept(store, storeConcept))]),
+
+                Row(
+                  children: [
+                    Expanded(child: _dateStart(store)),
+                    SizedBox(width: 10),
+                    Expanded(child: _dateEnd(store)),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(child: _applyFilterButton(store)),
+                    SizedBox(width: 10),
+                    Expanded(child: _clearButton(store)),
+                  ],
+                ),
+                SizedBox(height: 10),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _dateStart(FinanceRecordPaginateStore store) {
@@ -192,34 +203,70 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
     );
   }
 
+  Widget _conceptType(
+    FinanceRecordPaginateStore store,
+    FinancialConceptStore storeConcept,
+  ) {
+    return Dropdown(
+      label: "Tipo de Conceito",
+      items: FinancialConceptTypeExtension.listFriendlyName,
+      onChanged: (value) {
+        final v = FinancialConceptType.values.firstWhere(
+          (e) => e.friendlyName == value,
+        );
+
+        store.setConceptType(v.apiValue);
+      },
+    );
+  }
+
   Widget _concept(
-      FinanceRecordPaginateStore store, FinancialConceptStore storeConcept) {
+    FinanceRecordPaginateStore store,
+    FinancialConceptStore storeConcept,
+  ) {
+    var items =
+        storeConcept.state.financialConcepts.map((e) => e.name).toList();
+    if (store.state.filter.conceptType != null) {
+      items =
+          storeConcept.state.financialConcepts
+              .where(
+                (element) => element.type == store.state.filter.conceptType,
+              )
+              .map((e) => e.name)
+              .toList();
+    }
+
     return Dropdown(
       label: "Conceito",
-      items: storeConcept.state.financialConcepts.map((e) => e.name).toList(),
+      items: items,
       onChanged: (value) {
-        final v = storeConcept.state.financialConcepts
-            .firstWhere((e) => e.name == value);
+        final v = storeConcept.state.financialConcepts.firstWhere(
+          (e) => e.name == value,
+        );
         store.setFinancialConceptId(v.financialConceptId);
       },
     );
   }
 
   Widget _availabilityAccounts(
-      AvailabilityAccountsListStore availabilityAccountsListStore,
-      FinanceRecordPaginateStore store) {
+    AvailabilityAccountsListStore availabilityAccountsListStore,
+    FinanceRecordPaginateStore store,
+  ) {
     return Dropdown(
-        label: "Conta de disponiblidade",
-        items: availabilityAccountsListStore.state.availabilityAccounts
-            .map((a) => a.accountName)
-            .toList(),
-        onChanged: (value) {
-          final selectedAccount = availabilityAccountsListStore
-              .state.availabilityAccounts
-              .firstWhere((e) => e.accountName == value);
+      label: "Conta de disponiblidade",
+      items:
+          availabilityAccountsListStore.state.availabilityAccounts
+              .map((a) => a.accountName)
+              .toList(),
+      onChanged: (value) {
+        final selectedAccount = availabilityAccountsListStore
+            .state
+            .availabilityAccounts
+            .firstWhere((e) => e.accountName == value);
 
-          store.setAvailabilityAccountId(selectedAccount.availabilityAccountId);
-        });
+        store.setAvailabilityAccountId(selectedAccount.availabilityAccountId);
+      },
+    );
   }
 
   Widget _applyFilterButton(FinanceRecordPaginateStore store) {

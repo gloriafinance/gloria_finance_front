@@ -8,6 +8,7 @@ class FinanceRecordFilterModel {
   String churchId;
   String? financialConceptId;
   String? availabilityAccountId;
+  String? conceptType;
 
   FinanceRecordFilterModel({
     this.perPage = 20,
@@ -17,12 +18,11 @@ class FinanceRecordFilterModel {
     required this.churchId,
     this.financialConceptId,
     this.availabilityAccountId,
+    this.conceptType,
   });
 
   factory FinanceRecordFilterModel.init() {
-    return FinanceRecordFilterModel(
-      churchId: '',
-    );
+    return FinanceRecordFilterModel(churchId: '');
   }
 
   FinanceRecordFilterModel copyWith({
@@ -33,6 +33,7 @@ class FinanceRecordFilterModel {
     String? churchId,
     String? financialConceptId,
     String? availabilityAccountId,
+    String? conceptType,
   }) {
     return FinanceRecordFilterModel(
       page: page ?? this.page,
@@ -43,6 +44,7 @@ class FinanceRecordFilterModel {
       financialConceptId: financialConceptId ?? this.financialConceptId,
       availabilityAccountId:
           availabilityAccountId ?? this.availabilityAccountId,
+      conceptType: conceptType ?? this.conceptType,
     );
   }
 
@@ -55,6 +57,7 @@ class FinanceRecordFilterModel {
       'churchId': churchId,
       'financialConceptId': financialConceptId,
       'availabilityAccountId': availabilityAccountId,
+      'conceptType': conceptType,
     };
   }
 }

@@ -36,6 +36,7 @@ class FinanceRecordPaginateState {
     String? churchId,
     String? financialConceptId,
     String? availabilityAccountId,
+    String? conceptType,
   }) {
     return FinanceRecordPaginateState(
       makeRequest: makeRequest ?? this.makeRequest,
@@ -48,6 +49,7 @@ class FinanceRecordPaginateState {
         churchId: churchId,
         financialConceptId: financialConceptId,
         availabilityAccountId: availabilityAccountId,
+        conceptType: conceptType,
       ),
     );
   }
