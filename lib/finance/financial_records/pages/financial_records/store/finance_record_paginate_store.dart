@@ -13,6 +13,11 @@ class FinanceRecordPaginateStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setConceptType(String conceptType) {
+    state = state.copyWith(conceptType: conceptType);
+    notifyListeners();
+  }
+
   void setAvailabilityAccountId(String availabilityAccountId) {
     state = state.copyWith(availabilityAccountId: availabilityAccountId);
     notifyListeners();

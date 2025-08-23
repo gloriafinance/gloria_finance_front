@@ -3,14 +3,10 @@ import '../models/financial_concept_model.dart';
 class FinancialConceptState {
   final List<FinancialConceptModel> financialConcepts;
 
-  FinancialConceptState({
-    required this.financialConcepts,
-  });
+  FinancialConceptState({required this.financialConcepts});
 
   factory FinancialConceptState.init() {
-    return FinancialConceptState(
-      financialConcepts: [],
-    );
+    return FinancialConceptState(financialConcepts: []);
   }
 
   FinancialConceptState copyWith({
