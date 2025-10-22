@@ -25,8 +25,7 @@ class _FinancialConceptListScreenState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final store = context.read<FinancialConceptStore>();
-      if (!store.state.isLoading &&
-          store.state.financialConcepts.isEmpty) {
+      if (!store.state.isLoading && store.state.financialConcepts.isEmpty) {
         store.searchFinancialConcepts();
       }
     });
@@ -82,15 +81,11 @@ class _FilterBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final store = context.watch<FinancialConceptStore>();
 
-    final items = [
-      'Todos',
-      ...FinancialConceptTypeExtension.listFriendlyName,
-    ];
+    final items = ['Todos', ...FinancialConceptTypeExtension.listFriendlyName];
 
     final selectedType = store.state.selectedType;
-    final initialValue = selectedType != null
-        ? selectedType.friendlyName
-        : 'Todos';
+    final initialValue =
+        selectedType != null ? selectedType.friendlyName : 'Todos';
 
     return Padding(
       padding: const EdgeInsets.only(top: 24.0),
@@ -98,18 +93,25 @@ class _FilterBar extends StatelessWidget {
         width: 320,
         child: DropdownButtonFormField<String>(
           decoration: const InputDecoration(
+            labelStyle: TextStyle(fontFamily: AppFonts.fontSubTitle),
             labelText: 'Filtrar por tipo',
-            border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(18))),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(18)),
+            ),
           ),
           value: initialValue,
-          items: items
-              .map(
-                (value) => DropdownMenuItem(
-                  value: value,
-                  child: Text(value),
-                ),
-              )
-              .toList(),
+          items:
+              items
+                  .map(
+                    (value) => DropdownMenuItem(
+                      value: value,
+                      child: Text(
+                        value,
+                        style: TextStyle(fontFamily: AppFonts.fontSubTitle),
+                      ),
+                    ),
+                  )
+                  .toList(),
           onChanged: (value) {
             if (value == null) {
               return;

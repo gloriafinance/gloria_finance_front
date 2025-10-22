@@ -44,22 +44,30 @@ String getFriendlyNameFinancialConceptType(String apiValue) {
   return financialConceptType.friendlyName;
 }
 
-enum StatementCategory { OPEX, CAPEX, OTHER }
+enum StatementCategory { REVENUE, OPEX, CAPEX, COGS, OTHER }
 
 extension StatementCategoryExtension on StatementCategory {
   String get friendlyName {
     switch (this) {
+      case StatementCategory.COGS:
+        return 'Custos diretos para entregar serviços ou projetos';
+      case StatementCategory.REVENUE:
+        return 'Entradas operacionais e doações recorrentes';
       case StatementCategory.OPEX:
-        return 'Operacional (OPEX)';
+        return 'Despesas operacionais do dia a dia';
       case StatementCategory.CAPEX:
-        return 'Investimento (CAPEX)';
+        return 'Investimentos e gastos de capital de longo prazo';
       case StatementCategory.OTHER:
-        return 'Outros';
+        return 'Receitas ou despesas extraordinárias';
     }
   }
 
   String get apiValue {
     switch (this) {
+      case StatementCategory.COGS:
+        return 'COGS';
+      case StatementCategory.REVENUE:
+        return 'REVENUE';
       case StatementCategory.OPEX:
         return 'OPEX';
       case StatementCategory.CAPEX:
@@ -90,7 +98,6 @@ String getFriendlyNameStatementCategory(String apiValue) {
 }
 
 class FinancialConceptModel {
-  final String? id;
   final String financialConceptId;
   final String name;
   final String description;
@@ -103,7 +110,6 @@ class FinancialConceptModel {
   //final String churchId;
 
   FinancialConceptModel({
-    required this.id,
     required this.financialConceptId,
     required this.name,
     required this.description,
@@ -117,7 +123,6 @@ class FinancialConceptModel {
 
   factory FinancialConceptModel.fromJson(Map<String, dynamic> json) {
     return FinancialConceptModel(
-      id: json['id'],
       financialConceptId: json['financialConceptId'],
       name: json['name'],
       description: json['description'],
@@ -125,7 +130,9 @@ class FinancialConceptModel {
       type: json['type'],
       statementCategory: json['statementCategory'] ?? 'OTHER',
       createdAt:
-          json['createdAt'] != null ? DateTime.tryParse(json['createdAt']) : null,
+          json['createdAt'] != null
+              ? DateTime.tryParse(json['createdAt'])
+              : null,
       churchId: json['churchId'],
       //churchId: json['churchId'],
     );
@@ -133,7 +140,6 @@ class FinancialConceptModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'financialConceptId': financialConceptId,
       'name': name,
       'description': description,
@@ -147,7 +153,6 @@ class FinancialConceptModel {
   }
 
   FinancialConceptModel copyWith({
-    String? id,
     String? financialConceptId,
     String? name,
     String? description,
@@ -159,7 +164,6 @@ class FinancialConceptModel {
     //String? churchId,
   }) {
     return FinancialConceptModel(
-      id: id ?? this.id,
       financialConceptId: financialConceptId ?? this.financialConceptId,
       name: name ?? this.name,
       description: description ?? this.description,

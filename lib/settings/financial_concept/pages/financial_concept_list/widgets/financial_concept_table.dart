@@ -1,11 +1,14 @@
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
+import 'package:church_finance_bk/core/widgets/tag_status.dart';
 import 'package:church_finance_bk/settings/financial_concept/models/financial_concept_model.dart';
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../../core/theme/app_fonts.dart';
 
 class FinancialConceptTable extends StatelessWidget {
   const FinancialConceptTable({super.key});
@@ -27,7 +30,10 @@ class FinancialConceptTable extends StatelessWidget {
       return Container(
         margin: const EdgeInsets.only(top: 40.0),
         child: const Center(
-          child: Text('Nenhum conceito financeiro cadastrado.'),
+          child: Text(
+            'Nenhum conceito financeiro cadastrado.',
+            style: TextStyle(fontFamily: AppFonts.fontText),
+          ),
         ),
       );
     }
@@ -40,13 +46,13 @@ class FinancialConceptTable extends StatelessWidget {
       ),
       actionBuilders: [
         (concept) => ButtonActionTable(
-              color: AppColors.blue,
-              text: 'Editar',
-              onPressed: () {
-                _navigateToEdit(context, concept as FinancialConceptModel);
-              },
-              icon: Icons.edit_outlined,
-            ),
+          color: AppColors.blue,
+          text: 'Editar',
+          onPressed: () {
+            _navigateToEdit(context, concept as FinancialConceptModel);
+          },
+          icon: Icons.edit_outlined,
+        ),
       ],
     );
   }
@@ -56,7 +62,9 @@ class FinancialConceptTable extends StatelessWidget {
       concept.name,
       getFriendlyNameFinancialConceptType(concept.type),
       getFriendlyNameStatementCategory(concept.statementCategory),
-      concept.active ? 'Ativo' : 'Inativo',
+      concept.active
+          ? tagStatus(AppColors.green, 'Ativo')
+          : tagStatus(Colors.red, 'Inativo'),
     ];
   }
 
