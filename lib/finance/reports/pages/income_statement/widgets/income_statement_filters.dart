@@ -76,6 +76,16 @@ class _IncomeStatementFiltersState extends State<IncomeStatementFilters> {
                 padding: EdgeInsets.only(top: 45),
                 child: _buttonApplyFilter(store),
               )),
+          SizedBox(
+            width: 16,
+          ),
+          Expanded(
+            flex: 1,
+            child: Padding(
+              padding: EdgeInsets.only(top: 45),
+              child: _buttonDownloadPdf(store),
+            ),
+          ),
         ],
       ),
     );
@@ -125,6 +135,10 @@ class _IncomeStatementFiltersState extends State<IncomeStatementFilters> {
                         height: 20,
                       ),
                       _buttonApplyFilter(store),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      _buttonDownloadPdf(store),
                     ],
                   )),
             ))
@@ -145,6 +159,46 @@ class _IncomeStatementFiltersState extends State<IncomeStatementFilters> {
         }
         store.fetchIncomeStatement();
       },
+    );
+  }
+
+  Widget _buttonDownloadPdf(IncomeStatementStore store) {
+    final isLoading = store.state.downloadingPdf;
+
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Opacity(
+          opacity: isLoading ? 0.5 : 1.0,
+          child: CustomButton(
+            text: "Baixar PDF",
+            backgroundColor: AppColors.blue,
+            textColor: Colors.white,
+            icon: Icons.picture_as_pdf,
+            onPressed: isLoading
+                ? null
+                : () async {
+                    if (isExpandedFilter) {
+                      setState(() {
+                        isExpandedFilter = false;
+                      });
+                    }
+
+                    await store.downloadIncomeStatementPdf();
+                  },
+          ),
+        ),
+        if (isLoading)
+          const Positioned(
+            child: SizedBox(
+              height: 20,
+              width: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

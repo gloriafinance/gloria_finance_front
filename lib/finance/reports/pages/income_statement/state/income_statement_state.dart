@@ -5,11 +5,13 @@ import '../models/income_statement_model.dart';
 
 class IncomeStatementState {
   final bool makeRequest;
+  final bool downloadingPdf;
   final IncomeStatementFilterModel filter;
   final IncomeStatementModel data;
 
   IncomeStatementState({
     required this.makeRequest,
+    required this.downloadingPdf,
     required this.filter,
     required this.data,
   });
@@ -17,6 +19,7 @@ class IncomeStatementState {
   factory IncomeStatementState.empty() {
     return IncomeStatementState(
       makeRequest: false,
+      downloadingPdf: false,
       filter: IncomeStatementFilterModel.init(),
       data: IncomeStatementModel.empty(),
     );
@@ -24,6 +27,7 @@ class IncomeStatementState {
 
   IncomeStatementState copyWith({
     bool? makeRequest,
+    bool? downloadingPdf,
     IncomeStatementModel? data,
     String? churchId,
     int? month,
@@ -31,6 +35,7 @@ class IncomeStatementState {
   }) {
     return IncomeStatementState(
       makeRequest: makeRequest ?? this.makeRequest,
+      downloadingPdf: downloadingPdf ?? this.downloadingPdf,
       data: data ?? this.data,
       filter: filter.copyWith(
         churchId: churchId,

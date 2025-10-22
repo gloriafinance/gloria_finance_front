@@ -21,6 +21,8 @@ class CustomTable extends StatefulWidget {
   final bool? showCheckbox;
   final Function(dynamic, bool)? onCheckboxChanged;
   final bool Function(dynamic)? isChecked;
+  final double? dataRowMinHeight;
+  final double? dataRowMaxHeight;
 
   const CustomTable({
     super.key,
@@ -31,6 +33,8 @@ class CustomTable extends StatefulWidget {
     this.showCheckbox,
     this.onCheckboxChanged,
     this.isChecked,
+    this.dataRowMinHeight,
+    this.dataRowMaxHeight,
   });
 
   @override
@@ -73,6 +77,8 @@ class _CustomTableState extends State<CustomTable> {
 
   Widget _buildDataTable(BuildContext context) {
     return DataTable(
+      dataRowMinHeight: widget.dataRowMinHeight,
+      dataRowMaxHeight: widget.dataRowMaxHeight,
       headingRowColor: WidgetStateProperty.resolveWith(
         (states) => AppColors.greyLight,
       ),
