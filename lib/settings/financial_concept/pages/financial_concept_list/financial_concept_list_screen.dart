@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/financial_concept_model.dart';
 import 'widgets/financial_concept_table.dart';
 
 class FinancialConceptListScreen extends StatefulWidget {
