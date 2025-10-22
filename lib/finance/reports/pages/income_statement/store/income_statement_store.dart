@@ -39,6 +39,13 @@ class IncomeStatementStore extends ChangeNotifier {
   }
 
   Future<void> downloadIncomeStatementPdf() async {
+    if (state.downloadingPdf) {
+      return;
+    }
+
+    state = state.copyWith(downloadingPdf: true);
+    notifyListeners();
+
     try {
       final success =
           await service.downloadIncomeStatementPdf(state.filter);
@@ -60,6 +67,9 @@ class IncomeStatementStore extends ChangeNotifier {
         'Erro ao baixar o PDF',
         ToastType.error,
       );
+    } finally {
+      state = state.copyWith(downloadingPdf: false);
+      notifyListeners();
     }
   }
 }
