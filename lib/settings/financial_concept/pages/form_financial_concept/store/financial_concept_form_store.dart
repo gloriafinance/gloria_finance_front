@@ -17,10 +17,12 @@ class FinancialConceptFormStore extends ChangeNotifier {
 
   void setName(String value) {
     state = state.copyWith(name: value);
+    notifyListeners();
   }
 
   void setDescription(String value) {
     state = state.copyWith(description: value);
+    notifyListeners();
   }
 
   void setType(FinancialConceptType type) {
