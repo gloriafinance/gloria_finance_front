@@ -1,5 +1,4 @@
-// lib/finance/reports/pages/income_statement/store/income_statement_store.dart
-
+import 'package:church_finance_bk/core/toast.dart';
 import 'package:flutter/material.dart';
 
 import '../income_statement_service.dart';
@@ -36,6 +35,31 @@ class IncomeStatementStore extends ChangeNotifier {
       print("Error al obtener el estado de ingresos: $e");
       state = state.copyWith(makeRequest: false);
       notifyListeners();
+    }
+  }
+
+  Future<void> downloadIncomeStatementPdf() async {
+    try {
+      final success =
+          await service.downloadIncomeStatementPdf(state.filter);
+
+      if (success) {
+        Toast.showMessage(
+          'PDF baixado com sucesso',
+          ToastType.info,
+        );
+      } else {
+        Toast.showMessage(
+          'Não foi possível baixar o PDF',
+          ToastType.error,
+        );
+      }
+    } catch (e) {
+      print("Error al descargar el PDF del estado de ingresos: $e");
+      Toast.showMessage(
+        'Erro ao baixar o PDF',
+        ToastType.error,
+      );
     }
   }
 }
