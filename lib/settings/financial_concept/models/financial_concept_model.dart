@@ -44,12 +44,68 @@ String getFriendlyNameFinancialConceptType(String apiValue) {
   return financialConceptType.friendlyName;
 }
 
+enum StatementCategory { REVENUE, OPEX, CAPEX, COGS, OTHER }
+
+extension StatementCategoryExtension on StatementCategory {
+  String get friendlyName {
+    switch (this) {
+      case StatementCategory.COGS:
+        return 'Custos diretos para entregar serviços ou projetos';
+      case StatementCategory.REVENUE:
+        return 'Entradas operacionais e doações recorrentes';
+      case StatementCategory.OPEX:
+        return 'Despesas operacionais do dia a dia';
+      case StatementCategory.CAPEX:
+        return 'Investimentos e gastos de capital de longo prazo';
+      case StatementCategory.OTHER:
+        return 'Receitas ou despesas extraordinárias';
+    }
+  }
+
+  String get apiValue {
+    switch (this) {
+      case StatementCategory.COGS:
+        return 'COGS';
+      case StatementCategory.REVENUE:
+        return 'REVENUE';
+      case StatementCategory.OPEX:
+        return 'OPEX';
+      case StatementCategory.CAPEX:
+        return 'CAPEX';
+      case StatementCategory.OTHER:
+        return 'OTHER';
+    }
+  }
+
+  static List<String> get listFriendlyName {
+    return StatementCategory.values.map((e) => e.friendlyName).toList();
+  }
+
+  static StatementCategory fromFriendlyName(String friendlyName) {
+    return StatementCategory.values.firstWhere(
+      (element) => element.friendlyName == friendlyName,
+    );
+  }
+}
+
+String getFriendlyNameStatementCategory(String apiValue) {
+  final category = StatementCategory.values.firstWhere(
+    (e) => e.apiValue == apiValue,
+    orElse: () => StatementCategory.OTHER,
+  );
+
+  return category.friendlyName;
+}
+
 class FinancialConceptModel {
   final String financialConceptId;
   final String name;
   final String description;
   final bool active;
   final String type;
+  final String statementCategory;
+  final DateTime? createdAt;
+  final String? churchId;
 
   //final String churchId;
 
@@ -59,6 +115,9 @@ class FinancialConceptModel {
     required this.description,
     required this.active,
     required this.type,
+    required this.statementCategory,
+    required this.createdAt,
+    required this.churchId,
     //required this.churchId,
   });
 
@@ -69,6 +128,12 @@ class FinancialConceptModel {
       description: json['description'],
       active: json['active'],
       type: json['type'],
+      statementCategory: json['statementCategory'] ?? 'OTHER',
+      createdAt:
+          json['createdAt'] != null
+              ? DateTime.tryParse(json['createdAt'])
+              : null,
+      churchId: json['churchId'],
       //churchId: json['churchId'],
     );
   }
@@ -80,18 +145,22 @@ class FinancialConceptModel {
       'description': description,
       'active': active,
       'type': type,
+      'statementCategory': statementCategory,
+      'createdAt': createdAt?.toIso8601String(),
+      'churchId': churchId,
       //'churchId': churchId,
     };
   }
 
   FinancialConceptModel copyWith({
-    String? id,
     String? financialConceptId,
     String? name,
     String? description,
     bool? active,
     String? type,
     DateTime? createdAt,
+    String? statementCategory,
+    String? churchId,
     //String? churchId,
   }) {
     return FinancialConceptModel(
@@ -100,7 +169,10 @@ class FinancialConceptModel {
       description: description ?? this.description,
       active: active ?? this.active,
       type: type ?? this.type,
+      statementCategory: statementCategory ?? this.statementCategory,
       //churchId: churchId ?? this.churchId,
+      createdAt: createdAt ?? this.createdAt,
+      churchId: churchId ?? this.churchId,
     );
   }
 }

@@ -13,7 +13,7 @@ class FinancialConceptService extends AppHttp {
           '${await getUrlApi()}finance/configuration/financial-concepts/$churchId';
 
       if (type != null) {
-        url += '/${type.toString().split('.').last}';
+        url += '/${type.apiValue}';
       }
 
       final response = await http.get(
@@ -24,6 +24,19 @@ class FinancialConceptService extends AppHttp {
       return (response.data as List)
           .map((e) => FinancialConceptModel.fromJson(e))
           .toList();
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<void> saveFinancialConcept(Map<String, dynamic> payload) async {
+    try {
+      await http.post(
+        '${await getUrlApi()}finance/configuration/financial-concepts',
+        data: payload,
+        options: Options(headers: bearerToken()),
+      );
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;

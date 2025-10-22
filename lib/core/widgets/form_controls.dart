@@ -9,6 +9,7 @@ class Input extends StatefulWidget {
   final String? Function(String?)? onValidator;
   final Function(String) onChanged;
   final dynamic? initialValue;
+  final Widget? labelSuffix;
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
   final void Function()? onTap;
@@ -24,6 +25,7 @@ class Input extends StatefulWidget {
       this.iconRight,
       this.isPass = false,
       required this.label,
+      this.labelSuffix,
       required this.onChanged,
       this.onValidator,
       this.initialValue,
@@ -65,7 +67,7 @@ class _InputState extends State<Input> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ..._generateLabel(widget.label),
+          ..._generateLabel(widget.label, suffix: widget.labelSuffix),
           TextFormField(
             controller: _controller,
             obscureText: widget.isPass ?? false,
@@ -85,13 +87,23 @@ class _InputState extends State<Input> {
   }
 }
 
-List<Widget> _generateLabel(String label) {
+List<Widget> _generateLabel(String label, {Widget? suffix}) {
   return [
-    Text(label,
-        style: const TextStyle(
-            color: AppColors.purple,
-            fontFamily: AppFonts.fontTitle,
-            fontSize: 15)),
+    Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(label,
+            style: const TextStyle(
+                color: AppColors.purple,
+                fontFamily: AppFonts.fontTitle,
+                fontSize: 15)),
+        if (suffix != null) ...[
+          const SizedBox(width: 6),
+          suffix,
+        ],
+      ],
+    ),
     const SizedBox(height: 8)
   ];
 }
@@ -131,6 +143,7 @@ class Dropdown extends StatefulWidget {
   final String label;
   final String? Function(String?)? onValidator;
   final Function(String) onChanged;
+  final Widget? labelSuffix;
   final String? initialValue;
   final String searchHint;
 
@@ -140,6 +153,7 @@ class Dropdown extends StatefulWidget {
     required this.label,
     this.onValidator,
     required this.onChanged,
+    this.labelSuffix,
     this.initialValue,
     this.searchHint = 'Buscar...',
   }) : super(key: key);
@@ -394,7 +408,7 @@ class _DropdownState extends State<Dropdown> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ..._generateLabel(widget.label),
+          ..._generateLabel(widget.label, suffix: widget.labelSuffix),
           FormField<String>(
             initialValue: _selectedValue,
             validator: widget.onValidator,
