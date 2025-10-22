@@ -163,20 +163,42 @@ class _IncomeStatementFiltersState extends State<IncomeStatementFilters> {
   }
 
   Widget _buttonDownloadPdf(IncomeStatementStore store) {
-    return CustomButton(
-      text: "Baixar PDF",
-      backgroundColor: AppColors.blue,
-      textColor: Colors.white,
-      icon: Icons.picture_as_pdf,
-      onPressed: () async {
-        if (isExpandedFilter) {
-          setState(() {
-            isExpandedFilter = false;
-          });
-        }
+    final isLoading = store.state.downloadingPdf;
 
-        await store.downloadIncomeStatementPdf();
-      },
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Opacity(
+          opacity: isLoading ? 0.5 : 1.0,
+          child: CustomButton(
+            text: "Baixar PDF",
+            backgroundColor: AppColors.blue,
+            textColor: Colors.white,
+            icon: Icons.picture_as_pdf,
+            onPressed: isLoading
+                ? null
+                : () async {
+                    if (isExpandedFilter) {
+                      setState(() {
+                        isExpandedFilter = false;
+                      });
+                    }
+
+                    await store.downloadIncomeStatementPdf();
+                  },
+          ),
+        ),
+        if (isLoading)
+          const Positioned(
+            child: SizedBox(
+              height: 20,
+              width: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+              ),
+            ),
+          ),
+      ],
     );
   }
 }
