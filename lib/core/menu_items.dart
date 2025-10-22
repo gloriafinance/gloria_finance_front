@@ -18,14 +18,14 @@ List<Map<String, dynamic>> items = const [
       {
         "label": "Contas de disponibilidade",
         "icon": Icons.account_balance_wallet_outlined,
-        "to": "/availability-accounts"
+        "to": "/availability-accounts",
       },
-      {"label": "Fornecedores", "icon": Icons.business, "to": "/suppliers"}
-      // {
-      //   "label": "Conceitos de financeiros",
-      //   "icon": Icons.attach_money,
-      //   "to": "/banking-rail"
-      // },
+      {"label": "Fornecedores", "icon": Icons.business, "to": "/suppliers"},
+      {
+        "label": "Conceitos financeiros",
+        "icon": Icons.attach_money,
+        "to": "/financial-concepts",
+      },
     ],
   },
   {
@@ -35,22 +35,22 @@ List<Map<String, dynamic>> items = const [
       {
         "label": "Contribuiçōes",
         "icon": Icons.bar_chart,
-        "to": "/contributions_list"
+        "to": "/contributions_list",
       },
       {
         "label": "Registro financeiros",
         "icon": Icons.money,
-        "to": "/financial-record"
+        "to": "/financial-record",
       },
       {
         "label": "Contas a receber",
         "icon": Icons.account_balance_wallet,
-        "to": "/accounts-receivables"
+        "to": "/accounts-receivables",
       },
       {
         "label": "Contas a pagar",
         "icon": Icons.payments_outlined,
-        "to": "/accounts-payable/list"
+        "to": "/accounts-payable/list",
       },
       //TODO Registro de compras puede ser un mdulo.
       {"label": "Compras", "icon": Icons.sell_outlined, "to": "/purchase"},
@@ -63,15 +63,15 @@ List<Map<String, dynamic>> items = const [
       {
         "label": "Dízimos mensais",
         "icon": Icons.bar_chart,
-        "to": "/report/monthly-tithes"
+        "to": "/report/monthly-tithes",
       },
       {
         "label": "Estado de Ingresos",
         "icon": Icons.account_balance,
-        "to": "/report/income-statement"
+        "to": "/report/income-statement",
       },
     ],
-  }
+  },
 ];
 
 List<Map<String, dynamic>> menuItems(List<Profile> profiles) {
