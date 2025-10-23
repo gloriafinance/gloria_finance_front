@@ -5,73 +5,272 @@ import 'package:church_finance_bk/providers/pages/suppliers/store/suppliers_list
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../state/form_accounts_payable_state.dart';
 import '../store/form_accounts_payable_store.dart';
 import '../validators/form_accounts_payable_validator.dart';
+import 'installment_account_payable_form.dart';
 
-final validator = FormAccountsPayableValidator();
-
-Widget description(FormAccountsPayableStore formStore) {
-  return Input(
-    label: 'Descrição',
-    onChanged: (value) => formStore.setDescription(value),
-    onValidator: validator.byField(formStore.state, 'description'),
+Widget generalInformationSection(
+  FormAccountsPayableStore formStore,
+  FormAccountsPayableValidator validator,
+) {
+  return _SectionCard(
+    title: 'Informações básicas',
+    subtitle: 'Escolha o fornecedor e descreva a conta a pagar.',
+    children: [
+      _supplierDropdown(formStore, validator),
+      _descriptionInput(formStore, validator),
+    ],
   );
 }
 
-Widget supplierDropdown(FormAccountsPayableStore formStore) {
+Widget documentSection(
+  BuildContext context,
+  FormAccountsPayableStore formStore,
+  FormAccountsPayableValidator validator,
+) {
+  final state = formStore.state;
+
+  return _SectionCard(
+    title: 'Documento fiscal',
+    subtitle: 'Inclua detalhes do documento quando necessário.',
+    children: [
+      Row(
+        children: [
+          Switch.adaptive(
+            value: state.includeDocument,
+            activeColor: AppColors.purple,
+            onChanged: formStore.setIncludeDocument,
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              'Adicionar informações do documento',
+              style: const TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+                color: AppColors.grey,
+              ),
+            ),
+          ),
+        ],
+      ),
+      if (state.includeDocument) ...[
+        const SizedBox(height: 16),
+        Dropdown(
+          label: 'Tipo de documento',
+          items: AccountsPayableDocumentType.values
+              .map((type) => type.friendlyName)
+              .toList(),
+          initialValue: state.documentType?.friendlyName,
+          onChanged: (value) {
+            final type = AccountsPayableDocumentType.values.firstWhere(
+              (element) => element.friendlyName == value,
+              orElse: () => AccountsPayableDocumentType.other,
+            );
+            formStore.setDocumentType(type);
+          },
+          onValidator: (_) =>
+              validator.errorByKey(formStore.state, 'documentType'),
+        ),
+        Input(
+          label: 'Número do documento',
+          initialValue: state.documentNumber,
+          onChanged: formStore.setDocumentNumber,
+          onValidator: (_) =>
+              validator.errorByKey(formStore.state, 'documentNumber'),
+        ),
+        Input(
+          label: 'Data de emissão',
+          initialValue: state.documentIssueDate,
+          onChanged: formStore.setDocumentIssueDate,
+          onTap: () async {
+            FocusScope.of(context).requestFocus(FocusNode());
+            final pickedDate = await selectDate(context);
+            if (pickedDate == null) return;
+            final formatted =
+                convertDateFormatToDDMMYYYY(pickedDate.toString());
+            formStore.setDocumentIssueDate(formatted);
+          },
+          onValidator: (_) =>
+              validator.errorByKey(formStore.state, 'documentIssueDate'),
+        ),
+      ],
+    ],
+  );
+}
+
+Widget paymentSection(
+  BuildContext context,
+  FormAccountsPayableStore formStore,
+  FormAccountsPayableValidator validator,
+  bool showValidationMessages,
+) {
+  final selectedMode = formStore.state.paymentMode;
+
+  return _SectionCard(
+    title: 'Configuração do pagamento',
+    subtitle:
+        'Defina como essa conta será quitada e revise o cronograma de parcelas.',
+    children: [
+      Wrap(
+        spacing: 12,
+        runSpacing: 12,
+        children: AccountsPayablePaymentMode.values.map((mode) {
+          final isSelected = selectedMode == mode;
+
+          return ChoiceChip(
+            label: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Text(
+                mode.friendlyName,
+                style: TextStyle(
+                  fontFamily: AppFonts.fontSubTitle,
+                  color: isSelected ? AppColors.purple : AppColors.grey,
+                ),
+              ),
+            ),
+            selected: isSelected,
+            selectedColor: AppColors.purple.withOpacity(0.12),
+            backgroundColor: Colors.white,
+            shape: StadiumBorder(
+              side: BorderSide(
+                color: isSelected ? AppColors.purple : AppColors.greyMiddle,
+              ),
+            ),
+            onSelected: (_) => formStore.setPaymentMode(mode),
+          );
+        }).toList(),
+      ),
+      const SizedBox(height: 20),
+      InstallmentAccountPayableForm(
+        formStore: formStore,
+        validator: validator,
+        showValidationMessages: showValidationMessages,
+      ),
+    ],
+  );
+}
+
+Widget _supplierDropdown(
+  FormAccountsPayableStore formStore,
+  FormAccountsPayableValidator validator,
+) {
   return Consumer<SuppliersListStore>(
     builder: (context, supplierStore, child) {
-      return Dropdown(
+      final suppliers = supplierStore.state.suppliers;
+      final items = suppliers.map((supplier) => supplier.name).toList();
+      final initialValue = suppliers.any(
+        (supplier) => supplier.supplierId == formStore.state.supplierId,
+      )
+          ? formStore.state.supplierName
+          : null;
+
+      final dropdown = Dropdown(
         label: 'Fornecedor',
-        items: supplierStore.state.suppliers.map((e) => e.name).toList(),
+        items: items,
+        initialValue: initialValue,
         onChanged: (value) {
-          final selectedSupplier =
-              supplierStore.state.suppliers.firstWhere((e) => e.name == value);
+          if (value == null || suppliers.isEmpty) return;
+          final selectedSupplier = suppliers.firstWhere(
+            (supplier) => supplier.name == value,
+            orElse: () => suppliers.first,
+          );
           formStore.setSupplier(
-              selectedSupplier.supplierId!, selectedSupplier.name);
+            selectedSupplier.supplierId ?? '',
+            selectedSupplier.name,
+          );
         },
-        onValidator: validator.byField(formStore.state, 'supplierId'),
+        onValidator: (_) =>
+            validator.errorByKey(formStore.state, 'supplierId'),
       );
+
+      if (suppliers.isEmpty) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            dropdown,
+            const SizedBox(height: 8),
+            const Text(
+              'Nenhum fornecedor encontrado. Cadastre um fornecedor para continuar.',
+              style: TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+                color: AppColors.grey,
+              ),
+            ),
+          ],
+        );
+      }
+
+      return dropdown;
     },
   );
 }
 
-// Widget para mostrar las cuotas
-Widget installmentsList(
-    BuildContext context, FormAccountsPayableStore formStore) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text('Listado de parcelas',
-          style: const TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 15)),
-      const SizedBox(height: 8),
-      formStore.state.installments.isEmpty
-          ? Center(
-              child: Text('Nenhuma parcela adicionada',
-                  style: TextStyle(
-                    fontFamily: AppFonts.fontSubTitle,
-                  )),
-            )
-          : ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: formStore.state.installments.length,
-              itemBuilder: (context, index) {
-                final installment = formStore.state.installments[index];
-                return Card(
-                  margin: const EdgeInsets.only(bottom: 8),
-                  child: ListTile(
-                    title: Text('Valor: ${formatCurrency(installment.amount)}'),
-                    subtitle:
-                        Text('Data de vencimento: ${installment.dueDate}'),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: () => formStore.removeInstallment(index),
-                    ),
-                  ),
-                );
-              },
-            ),
-    ],
+Widget _descriptionInput(
+  FormAccountsPayableStore formStore,
+  FormAccountsPayableValidator validator,
+) {
+  return Input(
+    label: 'Descrição',
+    initialValue: formStore.state.description,
+    onChanged: formStore.setDescription,
+    onValidator: (_) => validator.errorByKey(formStore.state, 'description'),
   );
+}
+
+class _SectionCard extends StatelessWidget {
+  final String title;
+  final String? subtitle;
+  final List<Widget> children;
+
+  const _SectionCard({
+    required this.title,
+    this.subtitle,
+    required this.children,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: AppColors.greyMiddle),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.02),
+            blurRadius: 12,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontFamily: AppFonts.fontTitle,
+              fontSize: 18,
+              color: AppColors.purple,
+            ),
+          ),
+          if (subtitle != null) ...[
+            const SizedBox(height: 6),
+            Text(
+              subtitle!,
+              style: const TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+                color: AppColors.grey,
+              ),
+            ),
+          ],
+          const SizedBox(height: 20),
+          ...children,
+        ],
+      ),
+    );
+  }
 }
