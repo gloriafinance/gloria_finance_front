@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../store/form_accounts_payable_store.dart';
+import '../validators/form_accounts_payable_validator.dart';
 import 'layouts/desktop.dart';
 import 'layouts/mobile.dart';
 
@@ -18,6 +19,9 @@ class FormAccountPayable extends StatefulWidget {
 
 class _FormAccountPayableState extends State<FormAccountPayable> {
   final formKey = GlobalKey<FormState>();
+  final FormAccountsPayableValidator validator =
+      FormAccountsPayableValidator();
+  bool showValidationMessages = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +36,15 @@ class _FormAccountPayableState extends State<FormAccountPayable> {
                 ? buildMobileLayout(
                     context,
                     formStore,
+                    validator,
+                    showValidationMessages,
                   )
-                : buildDesktopLayout(context, formStore),
+                : buildDesktopLayout(
+                    context,
+                    formStore,
+                    validator,
+                    showValidationMessages,
+                  ),
           ),
           isMobile(context)
               ? _buildSaveButton(formStore)
@@ -56,35 +67,45 @@ class _FormAccountPayableState extends State<FormAccountPayable> {
   }
 
   void _handleSave(FormAccountsPayableStore formStore) async {
-    if (formKey.currentState!.validate()) {
-      if (formStore.state.installments.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Adicione pelo menos uma parcela'),
-            backgroundColor: Colors.red,
-          ),
-        );
-        return;
-      }
+    setState(() {
+      showValidationMessages = true;
+    });
 
-      final success = await formStore.save();
+    final isValidForm = formKey.currentState?.validate() ?? false;
+    final errors = validator.validateState(formStore.state);
 
-      if (success && mounted) {
+    if (!isValidForm || errors.isNotEmpty) {
+      if (errors.isNotEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Conta a pagar registrada com sucesso!'),
-            backgroundColor: Colors.green,
-          ),
-        );
-        context.pop();
-      } else if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Erro ao registrar conta a pagar'),
+          SnackBar(
+            content: Text(errors.values.first),
             backgroundColor: Colors.red,
           ),
         );
       }
+      return;
+    }
+
+    final success = await formStore.save();
+
+    if (success && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Conta a pagar registrada com sucesso!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+      setState(() {
+        showValidationMessages = false;
+      });
+      context.pop();
+    } else if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro ao registrar conta a pagar'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 }
