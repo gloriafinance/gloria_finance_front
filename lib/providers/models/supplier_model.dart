@@ -4,7 +4,7 @@ enum SupplierType {
   FINANCIAL_PROVIDER,
   LOGISTICS_PROVIDER,
   CONSULTING_PROVIDER,
-  MAINTENANCE_PROVIDER
+  MAINTENANCE_PROVIDER,
 }
 
 extension SupplierTypeExtension on SupplierType {
@@ -86,15 +86,16 @@ class SupplierModel {
   });
 
   SupplierModel.fromMap(Map<String, dynamic> json)
-      : supplierId = json['supplierId'],
-        type = json['type'],
-        dni = json['dni'],
-        name = json['name'],
-        address = json['address'] != null
-            ? SupplierAddress.fromJson(json['address'])
-            : null,
-        phone = json['phone'],
-        email = json['email'];
+    : supplierId = json['supplierId'],
+      type = json['supplierType'],
+      dni = json['supplierDNI'],
+      name = json['name'],
+      address =
+          json['address'] != null
+              ? SupplierAddress.fromJson(json['address'])
+              : null,
+      phone = json['phone'],
+      email = json['email'];
 
   getType() {
     return SupplierType.values
