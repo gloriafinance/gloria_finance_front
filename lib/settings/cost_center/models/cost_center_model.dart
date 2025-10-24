@@ -32,6 +32,7 @@ class CostCenterModel {
   final String description;
   final CostCenterCategory category;
   final CostCenterResponsible? responsible;
+  final String? responsibleMemberId;
 
   CostCenterModel({
     required this.active,
@@ -41,6 +42,7 @@ class CostCenterModel {
     required this.description,
     required this.category,
     required this.responsible,
+    required this.responsibleMemberId,
   });
 
   CostCenterModel.fromMap(Map<String, dynamic> map)
@@ -56,7 +58,10 @@ class CostCenterModel {
             ? CostCenterResponsible.fromJson(
                 map['responsible'] as Map<String, dynamic>,
               )
-            : null;
+            : null,
+        responsibleMemberId = (map['responsibleMemberId'] ??
+                (map['responsible']?['memberId']))
+            ?.toString();
 
   Map<String, dynamic> toJson() => {
         'active': active,
@@ -66,15 +71,19 @@ class CostCenterModel {
         'description': description,
         'category': category.apiValue,
         if (responsible != null) 'responsible': responsible!.toJson(),
+        if (responsibleMemberId != null)
+          'responsibleMemberId': responsibleMemberId,
       };
 }
 
 class CostCenterResponsible {
+  final String? memberId;
   final String name;
   final String email;
   final String phone;
 
   const CostCenterResponsible({
+    this.memberId,
     required this.name,
     required this.email,
     required this.phone,
@@ -82,6 +91,7 @@ class CostCenterResponsible {
 
   factory CostCenterResponsible.fromJson(Map<String, dynamic> json) {
     return CostCenterResponsible(
+      memberId: (json['memberId'] ?? json['id'])?.toString(),
       name: json['name'] ?? '',
       email: json['email'] ?? '',
       phone: json['phone'] ?? '',
@@ -89,6 +99,7 @@ class CostCenterResponsible {
   }
 
   Map<String, dynamic> toJson() => {
+        if (memberId != null) 'memberId': memberId,
         'name': name,
         'email': email,
         'phone': phone,

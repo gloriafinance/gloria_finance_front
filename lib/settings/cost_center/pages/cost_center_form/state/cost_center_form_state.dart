@@ -34,6 +34,29 @@ class CostCenterFormState {
     );
   }
 
+  factory CostCenterFormState.fromModel(CostCenterModel model) {
+    final responsible = model.responsible;
+    String? displayName;
+
+    if (responsible != null && responsible.name.isNotEmpty) {
+      displayName = responsible.email.isNotEmpty
+          ? '${responsible.name} • ${responsible.email}'
+          : responsible.name;
+    }
+
+    return CostCenterFormState(
+      makeRequest: false,
+      costCenterId: model.costCenterId,
+      name: model.name,
+      description: model.description,
+      category: model.category,
+      active: model.active,
+      responsibleMemberId:
+          model.responsibleMemberId ?? model.responsible?.memberId,
+      responsibleMemberName: displayName,
+    );
+  }
+
   CostCenterFormState copyWith({
     bool? makeRequest,
     String? costCenterId,
@@ -56,6 +79,8 @@ class CostCenterFormState {
           responsibleMemberName ?? this.responsibleMemberName,
     );
   }
+
+  bool get isEdit => costCenterId.isNotEmpty;
 
   Map<String, dynamic> toPayload(String churchId) {
     final Map<String, dynamic> payload = {

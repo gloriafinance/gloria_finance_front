@@ -10,9 +10,11 @@ class CostCenterFormStore extends ChangeNotifier {
   final CostCenterService service;
   CostCenterFormState state;
 
-  CostCenterFormStore()
+  CostCenterFormStore({CostCenterModel? costCenter})
       : service = CostCenterService(),
-        state = CostCenterFormState.init();
+        state = costCenter != null
+            ? CostCenterFormState.fromModel(costCenter)
+            : CostCenterFormState.init();
 
   void setCostCenterId(String value) {
     state = state.copyWith(costCenterId: value.trim());

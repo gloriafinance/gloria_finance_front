@@ -6,18 +6,26 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/cost_center_model.dart';
 import 'store/cost_center_form_store.dart';
 import 'widgets/cost_center_form.dart';
 
 class CostCenterFormScreen extends StatelessWidget {
-  const CostCenterFormScreen({super.key});
+  final CostCenterModel? costCenter;
+
+  const CostCenterFormScreen({super.key, this.costCenter});
 
   @override
   Widget build(BuildContext context) {
     Toast.init(context);
 
+    final isEdit = costCenter != null;
+    final title = isEdit
+        ? 'Editar centro de custo'
+        : 'Cadastrar centro de custo';
+
     return ChangeNotifierProvider(
-      create: (_) => CostCenterFormStore(),
+      create: (_) => CostCenterFormStore(costCenter: costCenter),
       child: LayoutDashboard(
         Row(
           children: [
@@ -29,8 +37,8 @@ class CostCenterFormScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            const Text(
-              'Cadastrar centro de custo',
+            Text(
+              title,
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontFamily: AppFonts.fontTitle,

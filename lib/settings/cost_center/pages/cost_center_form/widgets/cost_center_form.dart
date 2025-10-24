@@ -155,6 +155,27 @@ class _CostCenterFormState extends State<CostCenterForm> {
     List<MemberModel> members,
     List<String> memberOptions,
   ) {
+    final responsibleId = formStore.state.responsibleMemberId;
+
+    if (responsibleId != null && memberOptions.isNotEmpty) {
+      final selectedIndex =
+          members.indexWhere((member) => member.memberId == responsibleId);
+
+      if (selectedIndex != -1) {
+        final expectedDisplayName = memberOptions[selectedIndex];
+
+        if (formStore.state.responsibleMemberName != expectedDisplayName) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted) return;
+            formStore.setResponsibleMember(
+              members[selectedIndex],
+              expectedDisplayName,
+            );
+          });
+        }
+      }
+    }
+
     if (memberOptions.isEmpty) {
       return Padding(
         padding: const EdgeInsets.only(top: 20.0),
@@ -256,7 +277,7 @@ class _CostCenterFormState extends State<CostCenterForm> {
     }
 
     return CustomButton(
-      text: 'Salvar',
+      text: formStore.state.isEdit ? 'Atualizar' : 'Salvar',
       backgroundColor: AppColors.green,
       textColor: Colors.black,
       onPressed: () => _save(formStore),
@@ -279,7 +300,12 @@ class _CostCenterFormState extends State<CostCenterForm> {
     final success = await formStore.submit();
 
     if (success && mounted) {
-      Toast.showMessage('Registro salvo com sucesso', ToastType.info);
+      Toast.showMessage(
+        formStore.state.isEdit
+            ? 'Registro atualizado com sucesso'
+            : 'Registro salvo com sucesso',
+        ToastType.info,
+      );
       final listStore = context.read<CostCenterListStore>();
       await listStore.searchCostCenters();
       context.go('/cost-center');
