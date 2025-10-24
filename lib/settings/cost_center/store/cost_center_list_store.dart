@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../cost_center_service.dart';
+import '../models/cost_center_model.dart';
 import '../state/cost_center_list_state.dart';
 
 class CostCenterListStore extends ChangeNotifier {
@@ -17,8 +18,17 @@ class CostCenterListStore extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      state.copyWith(makeRequest: false);
+      state = state.copyWith(makeRequest: false);
       notifyListeners();
+    }
+  }
+
+  CostCenterModel? findByCostCenterId(String costCenterId) {
+    try {
+      return state.costCenters
+          .firstWhere((element) => element.costCenterId == costCenterId);
+    } catch (_) {
+      return null;
     }
   }
 }
