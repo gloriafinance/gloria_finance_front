@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/index.dart';
+import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
@@ -76,12 +77,7 @@ class _FormAccountPayableState extends State<FormAccountPayable> {
 
     if (!isValidForm || errors.isNotEmpty) {
       if (errors.isNotEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(errors.values.first),
-            backgroundColor: Colors.red,
-          ),
-        );
+        Toast.showMessage(errors.values.first, ToastType.warning);
       }
       return;
     }
@@ -89,23 +85,16 @@ class _FormAccountPayableState extends State<FormAccountPayable> {
     final success = await formStore.save();
 
     if (success && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Conta a pagar registrada com sucesso!'),
-          backgroundColor: Colors.green,
-        ),
+      Toast.showMessage(
+        'Conta a pagar registrada com sucesso!',
+        ToastType.info,
       );
       setState(() {
         showValidationMessages = false;
       });
       context.pop();
     } else if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Erro ao registrar conta a pagar'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      Toast.showMessage('Erro ao registrar conta a pagar', ToastType.error);
     }
   }
 }

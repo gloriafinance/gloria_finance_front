@@ -22,10 +22,10 @@ void main() {
             'dueDate': '2024-12-10',
           }
         ],
-        'document': {
+        'taxDocument': {
           'type': 'INVOICE',
           'number': 'NF-102030',
-          'issueDate': '2024-10-01',
+          'date': '2024-10-01',
         },
         'payment': {
           'mode': 'MANUAL_INSTALLMENTS',

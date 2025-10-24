@@ -11,7 +11,7 @@ Widget buildDesktopLayout(
   FormAccountsPayableValidator validator,
   bool showValidationMessages,
 ) {
-  final showTaxSection = formStore.state.includeDocument &&
+  final showTaxSection =
       formStore.state.documentType == AccountsPayableDocumentType.invoice;
 
   return Column(

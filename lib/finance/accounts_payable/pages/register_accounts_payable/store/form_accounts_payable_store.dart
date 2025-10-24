@@ -74,26 +74,14 @@ class FormAccountsPayableStore extends ChangeNotifier {
     }
   }
 
-  void setIncludeDocument(bool value) {
-    var nextState = state.copyWith(includeDocument: value);
-
-    if (!value) {
-      nextState = nextState.copyWith(
+  void setDocumentType(AccountsPayableDocumentType? type) {
+    FormAccountsPayableState nextState;
+    if (type == null) {
+      nextState = state.copyWith(
         resetDocumentType: true,
         documentNumber: '',
         documentIssueDate: '',
       );
-      nextState = _withTaxDefaultsForDocument(nextState, null);
-    }
-
-    state = nextState;
-    notifyListeners();
-  }
-
-  void setDocumentType(AccountsPayableDocumentType? type) {
-    FormAccountsPayableState nextState;
-    if (type == null) {
-      nextState = state.copyWith(resetDocumentType: true);
     } else {
       nextState = state.copyWith(documentType: type);
     }

@@ -36,68 +36,48 @@ Widget documentSection(
 
   return _SectionCard(
     title: 'Documento fiscal',
-    subtitle: 'Inclua detalhes do documento quando necessário.',
+    subtitle: 'Informe o documento fiscal associado ao pagamento.',
     children: [
-      Row(
-        children: [
-          Switch.adaptive(
-            value: state.includeDocument,
-            activeColor: AppColors.purple,
-            onChanged: formStore.setIncludeDocument,
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              'Adicionar informações do documento',
-              style: const TextStyle(
-                fontFamily: AppFonts.fontSubTitle,
-                color: AppColors.grey,
-              ),
-            ),
-          ),
-        ],
+      Dropdown(
+        label: 'Tipo de documento',
+        items: AccountsPayableDocumentType.values
+            .map((type) => type.friendlyName)
+            .toList(),
+        initialValue: state.documentType?.friendlyName,
+        onChanged: (value) {
+          final type = AccountsPayableDocumentType.values.firstWhere(
+            (element) => element.friendlyName == value,
+            orElse: () => AccountsPayableDocumentType.other,
+          );
+          formStore.setDocumentType(type);
+        },
+        onValidator: (_) =>
+            validator.errorByKey(formStore.state, 'documentType'),
       ),
-      if (state.includeDocument) ...[
-        const SizedBox(height: 16),
-        Dropdown(
-          label: 'Tipo de documento',
-          items: AccountsPayableDocumentType.values
-              .map((type) => type.friendlyName)
-              .toList(),
-          initialValue: state.documentType?.friendlyName,
-          onChanged: (value) {
-            final type = AccountsPayableDocumentType.values.firstWhere(
-              (element) => element.friendlyName == value,
-              orElse: () => AccountsPayableDocumentType.other,
-            );
-            formStore.setDocumentType(type);
-          },
-          onValidator: (_) =>
-              validator.errorByKey(formStore.state, 'documentType'),
-        ),
-        Input(
-          label: 'Número do documento',
-          initialValue: state.documentNumber,
-          onChanged: formStore.setDocumentNumber,
-          onValidator: (_) =>
-              validator.errorByKey(formStore.state, 'documentNumber'),
-        ),
-        Input(
-          label: 'Data de emissão',
-          initialValue: state.documentIssueDate,
-          onChanged: formStore.setDocumentIssueDate,
-          onTap: () async {
-            FocusScope.of(context).requestFocus(FocusNode());
-            final pickedDate = await selectDate(context);
-            if (pickedDate == null) return;
-            final formatted =
-                convertDateFormatToDDMMYYYY(pickedDate.toString());
-            formStore.setDocumentIssueDate(formatted);
-          },
-          onValidator: (_) =>
-              validator.errorByKey(formStore.state, 'documentIssueDate'),
-        ),
-      ],
+      const SizedBox(height: 16),
+      Input(
+        label: 'Número do documento',
+        initialValue: state.documentNumber,
+        onChanged: formStore.setDocumentNumber,
+        onValidator: (_) =>
+            validator.errorByKey(formStore.state, 'documentNumber'),
+      ),
+      const SizedBox(height: 16),
+      Input(
+        label: 'Data do documento',
+        initialValue: state.documentIssueDate,
+        onChanged: formStore.setDocumentIssueDate,
+        onTap: () async {
+          FocusScope.of(context).requestFocus(FocusNode());
+          final pickedDate = await selectDate(context);
+          if (pickedDate == null) return;
+          final formatted =
+              convertDateFormatToDDMMYYYY(pickedDate.toString());
+          formStore.setDocumentIssueDate(formatted);
+        },
+        onValidator: (_) =>
+            validator.errorByKey(formStore.state, 'documentIssueDate'),
+      ),
     ],
   );
 }
@@ -110,7 +90,7 @@ Widget taxSection(
 ) {
   final state = formStore.state;
 
-  final shouldShowTaxation = state.includeDocument &&
+  final shouldShowTaxation =
       state.documentType == AccountsPayableDocumentType.invoice;
 
   if (!shouldShowTaxation) {

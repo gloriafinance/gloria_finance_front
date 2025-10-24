@@ -13,20 +13,20 @@ class FormAccountsPayableValidator
         .notEmpty(message: 'A descrição é obrigatória');
 
     ruleFor((m) => m, key: 'documentType').must(
-      (state) => !state.includeDocument || state.documentType != null,
+      (state) => state.documentType != null,
       'Selecione o tipo de documento',
       'documentType_required',
     );
 
     ruleFor((m) => m, key: 'documentNumber').must(
-      (state) => !state.includeDocument || state.documentNumber.isNotEmpty,
+      (state) => state.documentNumber.isNotEmpty,
       'Informe o número do documento',
       'documentNumber_required',
     );
 
     ruleFor((m) => m, key: 'documentIssueDate').must(
-      (state) => !state.includeDocument || state.documentIssueDate.isNotEmpty,
-      'Informe a data de emissão',
+      (state) => state.documentIssueDate.isNotEmpty,
+      'Informe a data do documento',
       'documentIssueDate_required',
     );
 
@@ -166,16 +166,14 @@ class FormAccountsPayableValidator
       errors['description'] = 'A descrição é obrigatória';
     }
 
-    if (state.includeDocument) {
-      if (state.documentType == null) {
-        errors['documentType'] = 'Selecione o tipo de documento';
-      }
-      if (state.documentNumber.isEmpty) {
-        errors['documentNumber'] = 'Informe o número do documento';
-      }
-      if (state.documentIssueDate.isEmpty) {
-        errors['documentIssueDate'] = 'Informe a data de emissão';
-      }
+    if (state.documentType == null) {
+      errors['documentType'] = 'Selecione o tipo de documento';
+    }
+    if (state.documentNumber.isEmpty) {
+      errors['documentNumber'] = 'Informe o número do documento';
+    }
+    if (state.documentIssueDate.isEmpty) {
+      errors['documentIssueDate'] = 'Informe a data do documento';
     }
 
     switch (state.paymentMode) {
