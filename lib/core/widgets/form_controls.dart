@@ -50,13 +50,18 @@ class _InputState extends State<Input> {
   void didUpdateWidget(covariant Input oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.initialValue != oldWidget.initialValue) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          setState(() {
-            _controller.text = widget.initialValue?.toString() ?? '';
-          });
-        }
-      });
+      final updatedText = widget.initialValue?.toString() ?? '';
+
+      if (_controller.text != updatedText) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
+          _controller.value = _controller.value.copyWith(
+            text: updatedText,
+            selection: TextSelection.collapsed(offset: updatedText.length),
+            composing: TextRange.empty,
+          );
+        });
+      }
     }
   }
 
