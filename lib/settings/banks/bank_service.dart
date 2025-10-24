@@ -21,4 +21,20 @@ class BankService extends AppHttp {
       rethrow;
     }
   }
+
+  Future<void> saveBank(Map<String, dynamic> payload) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      await http.post(
+        '${await getUrlApi()}finance/configuration/bank/',
+        data: payload,
+        options: Options(headers: bearerToken()),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
 }

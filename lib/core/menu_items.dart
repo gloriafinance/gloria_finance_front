@@ -20,6 +20,11 @@ List<Map<String, dynamic>> items = const [
         "icon": Icons.account_balance_wallet_outlined,
         "to": "/availability-accounts",
       },
+      {
+        "label": "Bancos",
+        "icon": Icons.account_balance,
+        "to": "/banks",
+      },
       {"label": "Fornecedores", "icon": Icons.business, "to": "/suppliers"},
       {
         "label": "Conceitos financeiros",
