@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/index.dart';
+import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_types.dart';
 import 'package:church_finance_bk/helpers/index.dart';
@@ -214,23 +215,14 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
         }
       }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            message ?? 'Preencha os dados para gerar as parcelas.',
-          ),
-          backgroundColor: Colors.red,
-        ),
+      Toast.showMessage(
+        message ?? 'Preencha os dados para gerar as parcelas.',
+        ToastType.warning,
       );
       return;
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Parcelas geradas com sucesso.'),
-        backgroundColor: AppColors.green,
-      ),
-    );
+    Toast.showMessage('Parcelas geradas com sucesso.', ToastType.info);
   }
 }
 

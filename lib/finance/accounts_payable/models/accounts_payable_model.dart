@@ -29,15 +29,16 @@ class AccountsPayableDocument {
     return AccountsPayableDocument(
       type: AccountsPayableDocumentType.fromApi(json['type'] as String?),
       number: json['number']?.toString() ?? '',
-      issueDate: _parseIsoDate(json['issueDate']),
+      issueDate: _parseIsoDate(json['date'] ?? json['issueDate']),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'type': type.apiValue,
-      'number': number,
-      if (issueDate != null) 'issueDate': issueDate!.toIso8601String(),
+      if (number.isNotEmpty) 'number': number,
+      if (issueDate != null)
+        'date': issueDate!.toIso8601String().split('T').first,
     };
   }
 
@@ -366,9 +367,9 @@ class AccountsPayableModel {
           ? SupplierModel.fromMap(
               Map<String, dynamic>.from(json['supplier'] as Map))
           : null,
-      document: json['document'] != null
-          ? AccountsPayableDocument.fromJson(
-              Map<String, dynamic>.from(json['document'] as Map))
+      document: (json['taxDocument'] ?? json['document']) != null
+          ? AccountsPayableDocument.fromJson(Map<String, dynamic>.from(
+              (json['taxDocument'] ?? json['document']) as Map))
           : null,
       payment: json['payment'] != null
           ? AccountsPayablePayment.fromJson(
@@ -415,7 +416,7 @@ class AccountsPayableModel {
     };
 
     if (document != null) {
-      data['document'] = document!.toJson();
+      data['taxDocument'] = document!.toJson();
     }
 
     if (payment != null) {

@@ -11,7 +11,6 @@ class FormAccountsPayableState {
   String description;
   List<InstallmentModel> installments;
   AccountsPayablePaymentMode paymentMode;
-  bool includeDocument;
   AccountsPayableDocumentType? documentType;
   String documentNumber;
   String documentIssueDate;
@@ -35,7 +34,6 @@ class FormAccountsPayableState {
     required this.description,
     required this.installments,
     required this.paymentMode,
-    required this.includeDocument,
     required this.documentType,
     required this.documentNumber,
     required this.documentIssueDate,
@@ -61,7 +59,6 @@ class FormAccountsPayableState {
       description: '',
       installments: [],
       paymentMode: AccountsPayablePaymentMode.single,
-      includeDocument: false,
       documentType: null,
       documentNumber: '',
       documentIssueDate: '',
@@ -87,7 +84,6 @@ class FormAccountsPayableState {
     String? description,
     List<InstallmentModel>? installments,
     AccountsPayablePaymentMode? paymentMode,
-    bool? includeDocument,
     AccountsPayableDocumentType? documentType,
     bool resetDocumentType = false,
     String? documentNumber,
@@ -112,7 +108,6 @@ class FormAccountsPayableState {
       description: description ?? this.description,
       installments: installments ?? this.installments,
       paymentMode: paymentMode ?? this.paymentMode,
-      includeDocument: includeDocument ?? this.includeDocument,
       documentType: resetDocumentType
           ? null
           : (documentType ?? this.documentType),
@@ -142,15 +137,15 @@ class FormAccountsPayableState {
       'description': description,
     };
 
-    if (includeDocument && documentType != null) {
+    if (documentType != null) {
       final issueDate = documentIssueDate.isNotEmpty
           ? convertDateFormat(documentIssueDate)
           : null;
 
-      payload['document'] = {
+      payload['taxDocument'] = {
         'type': documentType!.apiValue,
-        'number': documentNumber,
-        if (issueDate != null) 'issueDate': issueDate,
+        if (documentNumber.isNotEmpty) 'number': documentNumber,
+        if (issueDate != null && issueDate.isNotEmpty) 'date': issueDate,
       };
     }
 
@@ -216,12 +211,10 @@ class FormAccountsPayableState {
       return false;
     }
 
-    if (includeDocument) {
-      if (documentType == null ||
-          documentNumber.isEmpty ||
-          documentIssueDate.isEmpty) {
-        return false;
-      }
+    if (documentType == null ||
+        documentNumber.isEmpty ||
+        documentIssueDate.isEmpty) {
+      return false;
     }
 
     final hasValidInstallments = installments.isNotEmpty &&

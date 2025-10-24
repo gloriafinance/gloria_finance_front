@@ -14,6 +14,9 @@ void main() {
         paymentMode: AccountsPayablePaymentMode.single,
         totalAmount: 1200.50,
         singleDueDate: '15/09/2024',
+        documentType: AccountsPayableDocumentType.invoice,
+        documentNumber: 'NF-2024/001',
+        documentIssueDate: '10/09/2024',
       );
 
       final payload = state.toJson();
@@ -21,6 +24,11 @@ void main() {
       expect(payload['supplierId'], 'supplier-1');
       expect(payload['description'], 'Conta de energia');
       expect(payload['amountTotal'], 1200.50);
+
+      final document = payload['taxDocument'] as Map<String, dynamic>;
+      expect(document['type'], 'INVOICE');
+      expect(document['number'], 'NF-2024/001');
+      expect(document['date'], '2024-09-10');
 
       final installments = payload['installments'] as List<dynamic>;
       expect(installments, hasLength(1));
@@ -41,6 +49,9 @@ void main() {
           InstallmentModel(amount: 300, dueDate: '01/10/2024'),
           InstallmentModel(amount: 450.75, dueDate: '01/11/2024'),
         ],
+        documentType: AccountsPayableDocumentType.invoice,
+        documentNumber: 'NF-2024/002',
+        documentIssueDate: '01/09/2024',
       );
 
       final payload = state.toJson();
@@ -65,6 +76,9 @@ void main() {
           InstallmentModel(amount: 500, dueDate: '10/02/2025'),
           InstallmentModel(amount: 500, dueDate: '10/03/2025'),
         ],
+        documentType: AccountsPayableDocumentType.contract,
+        documentNumber: 'CONTRATO-001',
+        documentIssueDate: '15/12/2024',
       );
 
       final payload = state.toJson();
@@ -83,19 +97,18 @@ void main() {
         paymentMode: AccountsPayablePaymentMode.single,
         totalAmount: 2500,
         singleDueDate: '20/09/2024',
-        includeDocument: true,
         documentType: AccountsPayableDocumentType.invoice,
         documentNumber: 'NF-9988',
         documentIssueDate: '15/09/2024',
       );
 
       final payload = state.toJson();
-      expect(payload['document'], isNotNull);
+      expect(payload['taxDocument'], isNotNull);
 
-      final document = payload['document'] as Map<String, dynamic>;
+      final document = payload['taxDocument'] as Map<String, dynamic>;
       expect(document['type'], 'INVOICE');
       expect(document['number'], 'NF-9988');
-      expect(document['issueDate'], '2024-09-15');
+      expect(document['date'], '2024-09-15');
     });
 
     test('includes tax metadata and lines when nota is not exempt', () {
@@ -106,6 +119,9 @@ void main() {
         installments: [
           InstallmentModel(amount: 1000, dueDate: '01/12/2024'),
         ],
+        documentType: AccountsPayableDocumentType.invoice,
+        documentNumber: 'NF-7722',
+        documentIssueDate: '01/12/2024',
         taxStatus: AccountsPayableTaxStatus.taxed,
         taxExempt: false,
         taxes: const [
