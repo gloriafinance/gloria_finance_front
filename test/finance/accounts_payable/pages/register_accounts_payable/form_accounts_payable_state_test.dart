@@ -84,5 +84,27 @@ void main() {
       expect(installments.last['sequence'], 3);
       expect(installments.last['dueDate'], '2025-03-10');
     });
+
+    test('includes document metadata when requested', () {
+      final state = FormAccountsPayableState.init().copyWith(
+        supplierId: 'supplier-4',
+        description: 'Manutenção elétrica',
+        paymentMode: AccountsPayablePaymentMode.single,
+        totalAmount: 2500,
+        singleDueDate: '20/09/2024',
+        includeDocument: true,
+        documentType: AccountsPayableDocumentType.invoice,
+        documentNumber: 'NF-9988',
+        documentIssueDate: '15/09/2024',
+      );
+
+      final payload = state.toJson();
+      expect(payload['document'], isNotNull);
+
+      final document = payload['document'] as Map<String, dynamic>;
+      expect(document['type'], 'INVOICE');
+      expect(document['number'], 'NF-9988');
+      expect(document['issueDate'], '2024-09-15');
+    });
   });
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
 
+import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_types.dart';
+
 import '../../../../models/installment_model.dart';
 import '../../../accounts_payable_service.dart';
 import '../state/form_accounts_payable_state.dart';
@@ -227,6 +229,7 @@ class FormAccountsPayableStore extends ChangeNotifier {
       return InstallmentModel(
         amount: currentState.automaticInstallmentAmount,
         dueDate: DateFormat('dd/MM/yyyy').format(dueDate),
+        sequence: index + 1,
       );
     });
   }
@@ -250,13 +253,18 @@ class FormAccountsPayableStore extends ChangeNotifier {
 
   void _setInstallments(List<InstallmentModel> installments,
       {bool notify = true}) {
-    final total = installments.fold<double>(
+    final normalized = installments.asMap().entries.map((entry) {
+      final installment = entry.value;
+      return installment.copyWith(sequence: entry.key + 1);
+    }).toList();
+
+    final total = normalized.fold<double>(
       0,
       (acc, installment) => acc + installment.amount,
     );
 
     state = state.copyWith(
-      installments: installments,
+      installments: normalized,
       totalAmount: state.paymentMode == AccountsPayablePaymentMode.single
           ? state.totalAmount
           : total,

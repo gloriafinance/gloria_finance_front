@@ -1,63 +1,7 @@
+import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_types.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 
 import '../../../../models/installment_model.dart';
-
-enum AccountsPayablePaymentMode { single, manual, automatic }
-
-extension AccountsPayablePaymentModeExtension on AccountsPayablePaymentMode {
-  String get friendlyName {
-    switch (this) {
-      case AccountsPayablePaymentMode.single:
-        return 'Pagamento único';
-      case AccountsPayablePaymentMode.manual:
-        return 'Parcelas manuais';
-      case AccountsPayablePaymentMode.automatic:
-        return 'Parcelas automáticas';
-    }
-  }
-
-  String get apiValue {
-    switch (this) {
-      case AccountsPayablePaymentMode.single:
-        return 'SINGLE';
-      case AccountsPayablePaymentMode.manual:
-        return 'MANUAL_INSTALLMENTS';
-      case AccountsPayablePaymentMode.automatic:
-        return 'AUTOMATIC_INSTALLMENTS';
-    }
-  }
-}
-
-enum AccountsPayableDocumentType { invoice, receipt, contract, other }
-
-extension AccountsPayableDocumentTypeExtension
-    on AccountsPayableDocumentType {
-  String get friendlyName {
-    switch (this) {
-      case AccountsPayableDocumentType.invoice:
-        return 'Nota fiscal';
-      case AccountsPayableDocumentType.receipt:
-        return 'Recibo';
-      case AccountsPayableDocumentType.contract:
-        return 'Contrato';
-      case AccountsPayableDocumentType.other:
-        return 'Outro documento';
-    }
-  }
-
-  String get apiValue {
-    switch (this) {
-      case AccountsPayableDocumentType.invoice:
-        return 'INVOICE';
-      case AccountsPayableDocumentType.receipt:
-        return 'RECEIPT';
-      case AccountsPayableDocumentType.contract:
-        return 'CONTRACT';
-      case AccountsPayableDocumentType.other:
-        return 'OTHER';
-    }
-  }
-}
 
 class FormAccountsPayableState {
   bool makeRequest;
@@ -163,19 +107,26 @@ class FormAccountsPayableState {
     };
 
     if (includeDocument && documentType != null) {
+      final issueDate = documentIssueDate.isNotEmpty
+          ? convertDateFormat(documentIssueDate)
+          : null;
+
       payload['document'] = {
         'type': documentType!.apiValue,
         'number': documentNumber,
-        'issueDate': convertDateFormat(documentIssueDate),
+        if (issueDate != null) 'issueDate': issueDate,
       };
     }
 
     final installmentsPayload = installments.asMap().entries.map((entry) {
       final installment = entry.value;
+      final dueDate = installment.dueDate.isNotEmpty
+          ? convertDateFormat(installment.dueDate)
+          : '';
       return {
-        'sequence': entry.key + 1,
+        'sequence': installment.sequence ?? entry.key + 1,
         'amount': installment.amount,
-        'dueDate': convertDateFormat(installment.dueDate),
+        'dueDate': dueDate,
       };
     }).toList();
 
@@ -185,9 +136,11 @@ class FormAccountsPayableState {
 
     switch (paymentMode) {
       case AccountsPayablePaymentMode.single:
+        final dueDate =
+            singleDueDate.isNotEmpty ? convertDateFormat(singleDueDate) : '';
         payment['single'] = {
           'amount': totalAmount,
-          'dueDate': convertDateFormat(singleDueDate),
+          'dueDate': dueDate,
         };
         break;
       case AccountsPayablePaymentMode.manual:
@@ -200,8 +153,10 @@ class FormAccountsPayableState {
         payment['automatic'] = {
           'installmentsCount': automaticInstallments,
           'amountPerInstallment': automaticInstallmentAmount,
-          'firstDueDate': convertDateFormat(automaticFirstDueDate),
-          'totalAmount': _sumInstallments,
+          'firstDueDate': automaticFirstDueDate.isNotEmpty
+              ? convertDateFormat(automaticFirstDueDate)
+              : '',
+          'totalAmount': _automaticTotalAmount,
           'installments': installmentsPayload,
         };
         break;
@@ -214,6 +169,13 @@ class FormAccountsPayableState {
 
   double get _sumInstallments {
     return installments.fold<double>(0, (acc, item) => acc + item.amount);
+  }
+
+  double get _automaticTotalAmount {
+    if (installments.isNotEmpty) {
+      return _sumInstallments;
+    }
+    return automaticInstallments * automaticInstallmentAmount;
   }
 
   bool get isValid {

@@ -117,12 +117,8 @@ class _AccountPayableState extends State<AccountPayable> {
                   padding:
                       EdgeInsets.symmetric(horizontal: isMobile ? 20 : 140),
                   child: tagStatus(
-                    getStatusColor(widget.account.status ?? 'N/A'),
-                    AccountsPayableStatus.values
-                        .firstWhere((e) =>
-                            e.toString().split('.').last ==
-                            widget.account.status)
-                        .friendlyName,
+                    getStatusColor(widget.account.status ?? ''),
+                    widget.account.statusLabel,
                   )),
             )
           ],
