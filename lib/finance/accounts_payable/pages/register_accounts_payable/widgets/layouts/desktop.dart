@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_types.dart';
 import 'package:flutter/material.dart';
 
 import '../../store/form_accounts_payable_store.dart';
@@ -10,6 +11,9 @@ Widget buildDesktopLayout(
   FormAccountsPayableValidator validator,
   bool showValidationMessages,
 ) {
+  final showTaxSection = formStore.state.includeDocument &&
+      formStore.state.documentType == AccountsPayableDocumentType.invoice;
+
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -23,13 +27,15 @@ Widget buildDesktopLayout(
                 generalInformationSection(formStore, validator),
                 const SizedBox(height: 16),
                 documentSection(context, formStore, validator),
-                const SizedBox(height: 16),
-                taxSection(
-                  context,
-                  formStore,
-                  validator,
-                  showValidationMessages,
-                ),
+                if (showTaxSection) ...[
+                  const SizedBox(height: 16),
+                  taxSection(
+                    context,
+                    formStore,
+                    validator,
+                    showValidationMessages,
+                  ),
+                ],
               ],
             ),
           ),

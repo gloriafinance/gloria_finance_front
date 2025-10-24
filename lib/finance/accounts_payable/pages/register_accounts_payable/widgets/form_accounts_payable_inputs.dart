@@ -109,6 +109,13 @@ Widget taxSection(
   bool showValidationMessages,
 ) {
   final state = formStore.state;
+
+  final shouldShowTaxation = state.includeDocument &&
+      state.documentType == AccountsPayableDocumentType.invoice;
+
+  if (!shouldShowTaxation) {
+    return const SizedBox.shrink();
+  }
   final taxStatusError = showValidationMessages
       ? validator.errorByKey(formStore.state, 'taxStatus')
       : null;
@@ -196,11 +203,13 @@ Widget taxSection(
       if (showTaxCodes) ...[
         Input(
           label: 'Código CST',
+          labelSuffix: _buildCstHelpIcon(context),
           initialValue: state.taxCstCode,
           onChanged: formStore.setTaxCstCode,
         ),
         Input(
           label: 'CFOP',
+          labelSuffix: _buildCfopHelpIcon(context),
           initialValue: state.taxCfop,
           onChanged: formStore.setTaxCfop,
         ),
@@ -333,6 +342,223 @@ Widget _descriptionInput(
     initialValue: formStore.state.description,
     onChanged: formStore.setDescription,
     onValidator: (_) => validator.errorByKey(formStore.state, 'description'),
+  );
+}
+
+Widget _buildCstHelpIcon(BuildContext context) {
+  return Tooltip(
+    message: 'Ajuda rápida sobre CST',
+    child: InkWell(
+      onTap: () => _showCstHelp(context),
+      borderRadius: BorderRadius.circular(12),
+      child: const Padding(
+        padding: EdgeInsets.all(2.0),
+        child: Icon(
+          Icons.help_outline,
+          size: 18,
+          color: AppColors.purple,
+        ),
+      ),
+    ),
+  );
+}
+
+Future<void> _showCstHelp(BuildContext context) async {
+  final entries = <Map<String, String>>[
+    {'code': '00', 'description': 'Tributação integral (ICMS normal)'},
+    {'code': '10', 'description': 'Tributada com ICMS por substituição'},
+    {'code': '20', 'description': 'Com redução de base de cálculo'},
+    {'code': '40', 'description': 'Isenta ou não tributada'},
+    {'code': '60', 'description': 'ICMS cobrado anteriormente por ST'},
+    {'code': '90', 'description': 'Outras situações específicas'},
+  ];
+
+  await showDialog<void>(
+    context: context,
+    builder: (dialogContext) {
+      return AlertDialog(
+        title: const Text(
+          'Código de Situação Tributária (CST)',
+          style: TextStyle(
+            fontFamily: AppFonts.fontTitle,
+            fontSize: 18,
+          ),
+        ),
+        content: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'O CST mostra como o imposto se aplica à operação.',
+                  style: TextStyle(
+                    fontFamily: AppFonts.fontSubTitle,
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                ...entries.map(
+                  (entry) => _buildHelpDialogEntry(
+                    entry['code']!,
+                    entry['description']!,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: const Text(
+              'Entendi',
+              style: TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+              ),
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Widget _buildCfopHelpIcon(BuildContext context) {
+  return Tooltip(
+    message: 'Ajuda rápida sobre CFOP',
+    child: InkWell(
+      onTap: () => _showCfopHelp(context),
+      borderRadius: BorderRadius.circular(12),
+      child: const Padding(
+        padding: EdgeInsets.all(2.0),
+        child: Icon(
+          Icons.help_outline,
+          size: 18,
+          color: AppColors.purple,
+        ),
+      ),
+    ),
+  );
+}
+
+Future<void> _showCfopHelp(BuildContext context) async {
+  final groups = <Map<String, String>>[
+    {'code': '1xxx', 'description': 'Entradas dentro do estado'},
+    {'code': '2xxx', 'description': 'Entradas de outro estado'},
+    {'code': '5xxx', 'description': 'Saídas dentro do estado'},
+    {'code': '6xxx', 'description': 'Saídas para outro estado'},
+    {'code': '7xxx', 'description': 'Operações com o exterior'},
+  ];
+
+  final examples = <Map<String, String>>[
+    {'code': '1.101', 'description': 'Compra para industrialização'},
+    {'code': '1.556', 'description': 'Compra para uso ou consumo interno'},
+    {'code': '5.405', 'description': 'Venda sujeita à substituição tributária'},
+    {'code': '6.102', 'description': 'Venda para comercialização fora do estado'},
+  ];
+
+  await showDialog<void>(
+    context: context,
+    builder: (dialogContext) {
+      return AlertDialog(
+        title: const Text(
+          'Código Fiscal de Operações (CFOP)',
+          style: TextStyle(
+            fontFamily: AppFonts.fontTitle,
+            fontSize: 18,
+          ),
+        ),
+        content: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'O CFOP descreve o tipo de operação (compra, venda, serviço).',
+                  style: TextStyle(
+                    fontFamily: AppFonts.fontSubTitle,
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  'Primeiro dígito indica a origem/destino:',
+                  style: TextStyle(
+                    fontFamily: AppFonts.fontSubTitle,
+                    fontSize: 14,
+                    color: AppColors.purple,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                ...groups.map(
+                  (group) => _buildHelpDialogEntry(
+                    group['code']!,
+                    group['description']!,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Exemplos úteis:',
+                  style: TextStyle(
+                    fontFamily: AppFonts.fontSubTitle,
+                    fontSize: 14,
+                    color: AppColors.purple,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                ...examples.map(
+                  (example) => _buildHelpDialogEntry(
+                    example['code']!,
+                    example['description']!,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: const Text(
+              'Entendi',
+              style: TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+              ),
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Widget _buildHelpDialogEntry(String code, String description) {
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 8),
+    child: RichText(
+      text: TextSpan(
+        text: '$code · ',
+        style: const TextStyle(
+          fontFamily: AppFonts.fontSubTitle,
+          fontSize: 13,
+          color: AppColors.purple,
+        ),
+        children: [
+          TextSpan(
+            text: description,
+            style: const TextStyle(
+              fontFamily: AppFonts.fontSubTitle,
+              fontSize: 13,
+              color: Colors.black87,
+            ),
+          ),
+        ],
+      ),
+    ),
   );
 }
 
