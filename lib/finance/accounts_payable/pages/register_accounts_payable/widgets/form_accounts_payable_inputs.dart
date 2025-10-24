@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
+import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_tax.dart';
 import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_types.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:church_finance_bk/providers/pages/suppliers/store/suppliers_list_store.dart';
@@ -10,6 +11,7 @@ import '../state/form_accounts_payable_state.dart';
 import '../store/form_accounts_payable_store.dart';
 import '../validators/form_accounts_payable_validator.dart';
 import 'installment_account_payable_form.dart';
+import 'tax_account_payable_form.dart';
 
 Widget generalInformationSection(
   FormAccountsPayableStore formStore,
@@ -94,6 +96,121 @@ Widget documentSection(
           },
           onValidator: (_) =>
               validator.errorByKey(formStore.state, 'documentIssueDate'),
+        ),
+      ],
+    ],
+  );
+}
+
+Widget taxSection(
+  BuildContext context,
+  FormAccountsPayableStore formStore,
+  FormAccountsPayableValidator validator,
+  bool showValidationMessages,
+) {
+  final state = formStore.state;
+  final taxStatusError = showValidationMessages
+      ? validator.errorByKey(formStore.state, 'taxStatus')
+      : null;
+
+  final showExemptionReason =
+      state.taxStatus == AccountsPayableTaxStatus.exempt;
+  final showTaxCodes = state.taxStatus == AccountsPayableTaxStatus.taxed ||
+      state.taxStatus == AccountsPayableTaxStatus.substitution;
+
+  return _SectionCard(
+    title: 'Tributação da nota fiscal',
+    subtitle: 'Classifique a nota e informe os impostos destacados.',
+    children: [
+      Wrap(
+        spacing: 12,
+        runSpacing: 12,
+        children: AccountsPayableTaxStatus.values.map((status) {
+          final isSelected = state.taxStatus == status;
+          return ChoiceChip(
+            label: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Text(
+                status.friendlyName,
+                style: TextStyle(
+                  fontFamily: AppFonts.fontSubTitle,
+                  color: isSelected ? AppColors.purple : AppColors.grey,
+                ),
+              ),
+            ),
+            selected: isSelected,
+            selectedColor: AppColors.purple.withOpacity(0.12),
+            backgroundColor: Colors.white,
+            shape: StadiumBorder(
+              side: BorderSide(
+                color: isSelected ? AppColors.purple : AppColors.greyMiddle,
+              ),
+            ),
+            onSelected: (_) => formStore.setTaxStatus(status),
+          );
+        }).toList(),
+      ),
+      if (taxStatusError != null) ...[
+        const SizedBox(height: 8),
+        Text(
+          taxStatusError,
+          style: const TextStyle(
+            fontFamily: AppFonts.fontSubTitle,
+            color: Colors.red,
+          ),
+        ),
+      ],
+      const SizedBox(height: 12),
+      Row(
+        children: [
+          Switch.adaptive(
+            value: state.taxExempt,
+            activeColor: AppColors.purple,
+            onChanged: formStore.setTaxExempt,
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              'Nota fiscal isenta de impostos',
+              style: const TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+                color: AppColors.grey,
+              ),
+            ),
+          ),
+        ],
+      ),
+      if (showExemptionReason)
+        Input(
+          label: 'Motivo da isenção',
+          initialValue: state.taxExemptionReason,
+          onChanged: formStore.setTaxExemptionReason,
+          onValidator: (_) =>
+              validator.errorByKey(formStore.state, 'taxExemptionReason'),
+        ),
+      Input(
+        label: 'Observações',
+        initialValue: state.taxObservation,
+        onChanged: formStore.setTaxObservation,
+      ),
+      if (showTaxCodes) ...[
+        Input(
+          label: 'Código CST',
+          initialValue: state.taxCstCode,
+          onChanged: formStore.setTaxCstCode,
+        ),
+        Input(
+          label: 'CFOP',
+          initialValue: state.taxCfop,
+          onChanged: formStore.setTaxCfop,
+        ),
+      ],
+      if (!state.taxExempt) ...[
+        const SizedBox(height: 16),
+        TaxAccountPayableForm(
+          formStore: formStore,
+          validator: validator,
+          showValidationMessages: showValidationMessages,
         ),
       ],
     ],

@@ -106,6 +106,53 @@ class FormAccountsPayableValidator
       'A quantidade de parcelas geradas deve corresponder ao total informado',
       'installments_count_mismatch',
     );
+
+    ruleFor((m) => m, key: 'taxes').must(
+      (state) {
+        if (state.taxExempt) {
+          return state.taxes.isEmpty;
+        }
+
+        if (state.taxStatus == AccountsPayableTaxStatus.taxed ||
+            state.taxStatus == AccountsPayableTaxStatus.substitution) {
+          return state.taxes.isNotEmpty;
+        }
+
+        return true;
+      },
+      'Adicione os impostos retidos quando a nota não for isenta',
+      'taxes_required',
+    );
+
+    ruleFor((m) => m, key: 'taxesContents').must(
+      (state) {
+        if (state.taxExempt) {
+          return state.taxes.isEmpty;
+        }
+
+        if (state.taxes.isEmpty) {
+          return false;
+        }
+
+        return state.taxes.every(
+          (tax) =>
+              tax.taxType.isNotEmpty && tax.percentage > 0 && tax.amount > 0,
+        );
+      },
+      'Informe tipo, percentual e valor para cada imposto',
+      'taxes_invalid',
+    );
+
+    ruleFor((m) => m, key: 'taxExemptionReason').must(
+      (state) {
+        if (state.taxStatus == AccountsPayableTaxStatus.exempt) {
+          return state.taxExemptionReason.isNotEmpty;
+        }
+        return true;
+      },
+      'Informe o motivo da isenção da nota fiscal',
+      'taxExemptionReason_required',
+    );
   }
 
   Map<String, String> validateState(FormAccountsPayableState state) {
@@ -182,6 +229,38 @@ class FormAccountsPayableValidator
               'A quantidade de parcelas geradas deve corresponder ao total informado';
         }
         break;
+    }
+
+    if (state.taxStatus == AccountsPayableTaxStatus.exempt) {
+      if (state.taxExemptionReason.isEmpty) {
+        errors['taxExemptionReason'] =
+            'Informe o motivo da isenção da nota fiscal';
+      }
+      if (state.taxes.isNotEmpty) {
+        errors['taxes'] = 'Notas isentas não devem possuir impostos retidos';
+      }
+    }
+
+    if (!state.taxExempt &&
+        (state.taxStatus == AccountsPayableTaxStatus.taxed ||
+            state.taxStatus == AccountsPayableTaxStatus.substitution)) {
+      if (state.taxes.isEmpty) {
+        errors['taxes'] =
+            'Adicione os impostos retidos quando a nota não for isenta';
+      } else if (state.taxes.any(
+        (tax) =>
+            tax.taxType.isEmpty || tax.percentage <= 0 || tax.amount <= 0,
+      )) {
+        errors['taxes'] =
+            'Informe tipo, percentual e valor para cada imposto';
+      }
+    }
+
+    if (state.taxExempt &&
+        state.taxStatus != AccountsPayableTaxStatus.exempt &&
+        state.taxStatus != AccountsPayableTaxStatus.notApplicable) {
+      errors['taxStatus'] =
+          'Atualize a situação tributária conforme os impostos destacados';
     }
 
     return errors;

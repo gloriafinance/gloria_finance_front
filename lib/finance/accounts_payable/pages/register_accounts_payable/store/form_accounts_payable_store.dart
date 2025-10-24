@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
 
+import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_tax.dart';
 import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_types.dart';
 
 import '../../../../models/installment_model.dart';
@@ -36,6 +37,7 @@ class FormAccountsPayableStore extends ChangeNotifier {
           automaticInstallments: 0,
           automaticFirstDueDate: '',
           automaticInstallmentAmount: 0,
+          totalAmount: 0,
         );
         _updateInstallmentPreview();
         break;
@@ -96,6 +98,110 @@ class FormAccountsPayableStore extends ChangeNotifier {
 
   void setDocumentIssueDate(String date) {
     state = state.copyWith(documentIssueDate: date);
+    notifyListeners();
+  }
+
+  void setTaxStatus(AccountsPayableTaxStatus status) {
+    var taxes = state.taxes;
+    var taxExempt = state.taxExempt;
+
+    if (status == AccountsPayableTaxStatus.exempt ||
+        status == AccountsPayableTaxStatus.notApplicable) {
+      taxes = const <AccountsPayableTaxLine>[];
+      taxExempt = true;
+    } else {
+      taxExempt = false;
+    }
+
+    state = state.copyWith(
+      taxStatus: status,
+      taxExempt: taxExempt,
+      taxes: taxes,
+      taxExemptionReason:
+          status == AccountsPayableTaxStatus.exempt ? state.taxExemptionReason : '',
+      taxCstCode: status == AccountsPayableTaxStatus.taxed ||
+              status == AccountsPayableTaxStatus.substitution
+          ? state.taxCstCode
+          : '',
+      taxCfop: status == AccountsPayableTaxStatus.taxed ||
+              status == AccountsPayableTaxStatus.substitution
+          ? state.taxCfop
+          : '',
+    );
+    notifyListeners();
+  }
+
+  void setTaxExempt(bool value) {
+    if (value == state.taxExempt) return;
+
+    if (value) {
+      final nextStatus = state.taxStatus == AccountsPayableTaxStatus.exempt ||
+              state.taxStatus == AccountsPayableTaxStatus.notApplicable
+          ? state.taxStatus
+          : AccountsPayableTaxStatus.exempt;
+
+      state = state.copyWith(
+        taxExempt: true,
+        taxStatus: nextStatus,
+        taxes: const <AccountsPayableTaxLine>[],
+        taxCstCode: '',
+        taxCfop: '',
+      );
+    } else {
+      final nextStatus = state.taxStatus == AccountsPayableTaxStatus.taxed ||
+              state.taxStatus == AccountsPayableTaxStatus.substitution
+          ? state.taxStatus
+          : AccountsPayableTaxStatus.taxed;
+
+      state = state.copyWith(
+        taxExempt: false,
+        taxStatus: nextStatus,
+        taxExemptionReason: '',
+      );
+    }
+
+    notifyListeners();
+  }
+
+  void setTaxExemptionReason(String value) {
+    state = state.copyWith(taxExemptionReason: value);
+    notifyListeners();
+  }
+
+  void setTaxObservation(String value) {
+    state = state.copyWith(taxObservation: value);
+    notifyListeners();
+  }
+
+  void setTaxCstCode(String value) {
+    state = state.copyWith(taxCstCode: value);
+    notifyListeners();
+  }
+
+  void setTaxCfop(String value) {
+    state = state.copyWith(taxCfop: value);
+    notifyListeners();
+  }
+
+  void addTaxLine(AccountsPayableTaxLine line) {
+    final updated = [...state.taxes, line];
+    state = state.copyWith(taxes: updated);
+    notifyListeners();
+  }
+
+  void updateTaxLine(int index, AccountsPayableTaxLine line) {
+    if (index < 0 || index >= state.taxes.length) return;
+    final updated = [...state.taxes];
+    updated[index] = line;
+    state = state.copyWith(taxes: updated);
+    notifyListeners();
+  }
+
+  void removeTaxLine(int index) {
+    if (index < 0 || index >= state.taxes.length) return;
+    final updated = [...state.taxes];
+    updated.removeAt(index);
+    state = state.copyWith(taxes: updated);
     notifyListeners();
   }
 
