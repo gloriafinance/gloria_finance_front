@@ -34,22 +34,30 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (_) => StoreManager._instance.sidebarNotifier),
+          create: (_) => StoreManager._instance.sidebarNotifier,
+        ),
         ChangeNotifierProvider(
-            create: (_) => StoreManager._instance.authSessionStore),
+          create: (_) => StoreManager._instance.authSessionStore,
+        ),
         ChangeNotifierProvider(
-            create: (_) => FinancialConceptStore()..searchFinancialConcepts()),
+          create: (_) => FinancialConceptStore()..searchFinancialConcepts(),
+        ),
         ChangeNotifierProvider(
-            create: (_) => StoreManager._instance.bankStore..searchBanks()),
+          create: (_) => StoreManager._instance.bankStore..searchBanks(),
+        ),
         ChangeNotifierProvider(create: (_) => NavigatorMemberNotifier()),
         ChangeNotifierProvider(
-            create: (_) =>
-                AvailabilityAccountsListStore()..searchAvailabilityAccounts()),
+          create:
+              (_) =>
+                  AvailabilityAccountsListStore()..searchAvailabilityAccounts(),
+        ),
         ChangeNotifierProvider(
-            create: (_) => CostCenterListStore()..searchCostCenters()),
+          create: (_) => CostCenterListStore()..searchCostCenters(),
+        ),
         ChangeNotifierProvider(
-            create: (_) =>
-                StoreManager._instance.memberAllStore..searchAllMember()),
+          create:
+              (_) => StoreManager._instance.memberAllStore..searchAllMember(),
+        ),
       ],
       child: MyApp(),
     ),
@@ -72,7 +80,20 @@ class MyApp extends StatelessWidget {
       supportedLocales: [
         Locale('pt', 'BR'), // Soporta portugués
       ],
-      locale: Locale('pt', 'BR'), // Esto fuerza el uso del idioma portugués
+      locale: Locale('pt', 'BR'),
+
+      // Esto fuerza el uso del idioma portugués
+      theme: ThemeData(
+        visualDensity: VisualDensity.compact,
+        useMaterial3: true,
+      ),
+
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 0.90),
+          child: child!,
+        );
+      },
     );
   }
 }
