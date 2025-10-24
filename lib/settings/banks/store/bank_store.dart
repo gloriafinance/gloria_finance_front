@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../bank_service.dart';
+import '../models/bank_model.dart';
 import '../state/bank_state.dart';
 
 class BankStore extends ChangeNotifier {
@@ -9,6 +10,14 @@ class BankStore extends ChangeNotifier {
 
   getBankName(String bankId) {
     return state.banks.firstWhere((element) => element.bankId == bankId).name;
+  }
+
+  BankModel? findByBankId(String bankId) {
+    try {
+      return state.banks.firstWhere((element) => element.bankId == bankId);
+    } catch (e) {
+      return null;
+    }
   }
 
   searchBanks() async {
@@ -21,7 +30,7 @@ class BankStore extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      state.copyWith(makeRequest: false);
+      state = state.copyWith(makeRequest: false);
       notifyListeners();
     }
   }

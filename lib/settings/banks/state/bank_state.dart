@@ -25,4 +25,6 @@ class BankState {
       makeRequest: makeRequest ?? this.makeRequest,
     );
   }
+
+  bool get isLoading => makeRequest;
 }

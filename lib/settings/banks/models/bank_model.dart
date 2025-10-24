@@ -1,7 +1,18 @@
 enum AccountBankType { CURRENT, SAVINGS, PAYMENT, SALARY }
 
 extension AccountBankTypeExtension on AccountBankType {
-  String get name {
+  static AccountBankType fromApiValue(String value) {
+    return AccountBankType.values.firstWhere(
+      (element) => element.apiValue == value,
+      orElse: () => AccountBankType.CURRENT,
+    );
+  }
+
+  String get apiValue {
+    return toString().split('.').last;
+  }
+
+  String get friendlyName {
     switch (this) {
       case AccountBankType.CURRENT:
         return 'Conta Corrente';
@@ -16,16 +27,18 @@ extension AccountBankTypeExtension on AccountBankType {
 }
 
 class BankModel {
-  String accountType;
-  bool active;
-  String bankId;
-  String name;
-  String tag;
-  String addressInstancePayment;
-  BankInstruction bankInstruction;
-  String churchId;
+  final String? id;
+  final AccountBankType accountType;
+  final bool active;
+  final String bankId;
+  final String name;
+  final String tag;
+  final String addressInstancePayment;
+  final BankInstruction bankInstruction;
+  final String churchId;
 
   BankModel({
+    this.id,
     required this.accountType,
     required this.active,
     required this.bankId,
@@ -36,18 +49,27 @@ class BankModel {
     required this.churchId,
   });
 
-  BankModel.fromJson(Map<String, dynamic> json)
-      : accountType = json['accountType'],
-        active = json['active'],
-        bankId = json['bankId'],
-        name = json['name'],
-        tag = json['tag'],
-        addressInstancePayment = json['addressInstancePayment'],
-        bankInstruction = BankInstruction.fromJson(json['bankInstruction']),
-        churchId = json['churchId'];
+  factory BankModel.fromJson(Map<String, dynamic> json) {
+    final rawInstruction = json['bankInstruction'];
+
+    return BankModel(
+      id: json['id'],
+      accountType:
+          AccountBankTypeExtension.fromApiValue(json['accountType'] ?? ''),
+      active: json['active'] ?? false,
+      bankId: json['bankId'] ?? '',
+      name: json['name'] ?? '',
+      tag: json['tag'] ?? '',
+      addressInstancePayment: json['addressInstancePayment'] ?? '',
+      bankInstruction: rawInstruction is Map<String, dynamic>
+          ? BankInstruction.fromJson(rawInstruction)
+          : const BankInstruction(codeBank: '', agency: '', account: ''),
+      churchId: json['churchId'] ?? '',
+    );
+  }
 
   Map<String, dynamic> toJson() => {
-        'accountType': accountType,
+        'accountType': accountType.apiValue,
         'active': active,
         'bankId': bankId,
         'name': name,
@@ -59,20 +81,23 @@ class BankModel {
 }
 
 class BankInstruction {
-  String codeBank;
-  String agency;
-  String account;
+  final String codeBank;
+  final String agency;
+  final String account;
 
-  BankInstruction({
+  const BankInstruction({
     required this.codeBank,
     required this.agency,
     required this.account,
   });
 
-  BankInstruction.fromJson(Map<String, dynamic> json)
-      : codeBank = json['codeBank'],
-        agency = json['agency'],
-        account = json['account'];
+  factory BankInstruction.fromJson(Map<String, dynamic> json) {
+    return BankInstruction(
+      codeBank: json['codeBank'] ?? '',
+      agency: json['agency'] ?? '',
+      account: json['account'] ?? '',
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         'codeBank': codeBank,
