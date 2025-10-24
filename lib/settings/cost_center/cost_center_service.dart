@@ -24,16 +24,24 @@ class CostCenterService extends AppHttp {
     }
   }
 
-  Future<void> saveCostCenter(Map<String, dynamic> payload) async {
+  Future<void> saveCostCenter(Map<String, dynamic> payload, bool isEdit) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
     try {
-      await http.post(
-        '${await getUrlApi()}finance/configuration/cost-center/',
-        data: payload,
-        options: Options(headers: bearerToken()),
-      );
+      if (isEdit) {
+        await http.put(
+          '${await getUrlApi()}finance/configuration/cost-center/',
+          data: payload,
+          options: Options(headers: bearerToken()),
+        );
+      } else {
+        await http.post(
+          '${await getUrlApi()}finance/configuration/cost-center/',
+          data: payload,
+          options: Options(headers: bearerToken()),
+        );
+      }
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;
