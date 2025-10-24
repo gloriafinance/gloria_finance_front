@@ -1,11 +1,18 @@
+import 'package:church_finance_bk/settings/members/models/member_model.dart';
 import 'package:church_finance_bk/settings/members/pages/add_members/state/form_member_state.dart';
 import 'package:flutter/material.dart';
 
 import '../../../services/save_member_service.dart';
 
 class FormMemberStore extends ChangeNotifier {
-  var service = SaveMemberService();
-  FormMemberState state = FormMemberState.init();
+  final SaveMemberService service;
+  FormMemberState state;
+
+  FormMemberStore({MemberModel? member})
+      : service = SaveMemberService(),
+        state = member != null
+            ? FormMemberState.fromModel(member)
+            : FormMemberState.init();
 
   void setName(String name) {
     state = state.copyWith(name: name);
