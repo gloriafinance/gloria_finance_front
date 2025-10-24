@@ -28,9 +28,10 @@ class _BankFormState extends State<BankForm> {
     return SingleChildScrollView(
       child: Form(
         key: formKey,
-        child: isMobile(context)
-            ? _buildMobileLayout(formStore)
-            : _buildDesktopLayout(formStore),
+        child:
+            isMobile(context)
+                ? _buildMobileLayout(formStore)
+                : _buildDesktopLayout(formStore),
       ),
     );
   }
@@ -81,10 +82,7 @@ class _BankFormState extends State<BankForm> {
         const SizedBox(height: 24),
         Align(
           alignment: Alignment.centerRight,
-          child: SizedBox(
-            width: 300,
-            child: _buildSubmitButton(formStore),
-          ),
+          child: SizedBox(width: 300, child: _buildSubmitButton(formStore)),
         ),
       ],
     );
@@ -111,9 +109,7 @@ class _BankFormState extends State<BankForm> {
     return Dropdown(
       label: 'Tipo de conta',
       initialValue: formStore.state.accountType?.friendlyName,
-      items: AccountBankType.values
-          .map((type) => type.friendlyName)
-          .toList(),
+      items: AccountBankType.values.map((type) => type.friendlyName).toList(),
       onValidator: (value) {
         if (value == null || value.isEmpty) {
           return 'Selecione o tipo de conta';
@@ -131,7 +127,7 @@ class _BankFormState extends State<BankForm> {
 
   Widget _buildPixField(BankFormStore formStore) {
     return Input(
-      label: 'Chave PIX (Endereço de pagamento)',
+      label: 'Chave PIX',
       initialValue: formStore.state.addressInstancePayment,
       onValidator: _requiredValidator,
       onChanged: formStore.setAddressInstancePayment,
