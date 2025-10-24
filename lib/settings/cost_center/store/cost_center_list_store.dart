@@ -17,7 +17,7 @@ class CostCenterListStore extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      state.copyWith(makeRequest: false);
+      state = state.copyWith(makeRequest: false);
       notifyListeners();
     }
   }
