@@ -58,7 +58,7 @@ class CostCenterFormState {
   }
 
   Map<String, dynamic> toPayload(String churchId) {
-    final payload = {
+    final Map<String, dynamic> payload = {
       'costCenterId': costCenterId,
       'active': active,
       'name': name,
