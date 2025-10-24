@@ -14,6 +14,8 @@ import 'financial_concept/pages/form_financial_concept/financial_concept_form_sc
 import 'members/models/member_model.dart';
 import 'members/pages/add_members/add_member_screen.dart';
 import 'members/pages/members_list/members_screen.dart';
+import 'cost_center/pages/cost_center_form/cost_center_form_screen.dart';
+import 'cost_center/pages/cost_center_list/cost_center_list_screen.dart';
 
 settingsRouter() {
   return <RouteBase>[
@@ -99,6 +101,18 @@ settingsRouter() {
         }
 
         return transitionCustom(BankFormScreen(bank: bank));
+      },
+    ),
+    GoRoute(
+      path: '/cost-center',
+      pageBuilder: (context, state) {
+        return transitionCustom(const CostCenterListScreen());
+      },
+    ),
+    GoRoute(
+      path: '/cost-center/add',
+      pageBuilder: (context, state) {
+        return transitionCustom(const CostCenterFormScreen());
       },
     ),
   ];

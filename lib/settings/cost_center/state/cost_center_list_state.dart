@@ -17,4 +17,6 @@ class CostCenterListState {
       costCenters: costCenters ?? this.costCenters,
     );
   }
+
+  bool get isLoading => makeRequest;
 }
