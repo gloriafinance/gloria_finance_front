@@ -1,34 +1,52 @@
+import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_types.dart';
 import 'package:flutter/material.dart';
 
 import '../../store/form_accounts_payable_store.dart';
 import '../form_accounts_payable_inputs.dart';
-import '../installment_account_payable_form.dart';
+import '../../validators/form_accounts_payable_validator.dart';
 
 Widget buildDesktopLayout(
   BuildContext context,
   FormAccountsPayableStore formStore,
+  FormAccountsPayableValidator validator,
+  bool showValidationMessages,
 ) {
+  final showTaxSection =
+      formStore.state.documentType == AccountsPayableDocumentType.invoice;
+
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(child: supplierDropdown(formStore)),
-          const SizedBox(width: 16),
-          Expanded(child: description(formStore)),
-        ],
-      ),
-      const SizedBox(height: 24),
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
           Expanded(
-            child: installmentsList(context, formStore),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                generalInformationSection(formStore, validator),
+                const SizedBox(height: 16),
+                documentSection(context, formStore, validator),
+                if (showTaxSection) ...[
+                  const SizedBox(height: 16),
+                  taxSection(
+                    context,
+                    formStore,
+                    validator,
+                    showValidationMessages,
+                  ),
+                ],
+              ],
+            ),
           ),
           const SizedBox(width: 16),
           Expanded(
-            child: InstallmentAccountPayableForm(formStore: formStore),
+            child: paymentSection(
+              context,
+              formStore,
+              validator,
+              showValidationMessages,
+            ),
           ),
         ],
       ),
