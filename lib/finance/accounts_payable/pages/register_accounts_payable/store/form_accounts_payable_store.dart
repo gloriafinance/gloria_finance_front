@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:intl/intl.dart';
+
+import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_tax.dart';
+import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_types.dart';
+
 import '../../../../models/installment_model.dart';
 import '../../../accounts_payable_service.dart';
 import '../state/form_accounts_payable_state.dart';
@@ -9,6 +14,9 @@ class FormAccountsPayableStore extends ChangeNotifier {
   FormAccountsPayableState state = FormAccountsPayableState.init();
 
   void setSupplier(String supplierId, String supplierName) {
+    if (supplierId == state.supplierId && supplierName == state.supplierName) {
+      return;
+    }
     state = state.copyWith(
       supplierId: supplierId,
       supplierName: supplierName,
@@ -17,8 +25,280 @@ class FormAccountsPayableStore extends ChangeNotifier {
   }
 
   void setDescription(String description) {
+    if (description == state.description) {
+      return;
+    }
     state = state.copyWith(description: description);
     notifyListeners();
+  }
+
+  void setPaymentMode(AccountsPayablePaymentMode mode) {
+    if (state.paymentMode == mode) return;
+
+    switch (mode) {
+      case AccountsPayablePaymentMode.single:
+        state = state.copyWith(
+          paymentMode: mode,
+          installments: [],
+          automaticInstallments: 0,
+          automaticFirstDueDate: '',
+          automaticInstallmentAmount: 0,
+          totalAmount: 0,
+        );
+        _updateInstallmentPreview();
+        break;
+      case AccountsPayablePaymentMode.manual:
+        state = state.copyWith(
+          paymentMode: mode,
+          installments: [],
+          totalAmount: 0,
+          singleDueDate: '',
+          automaticInstallments: 0,
+          automaticFirstDueDate: '',
+          automaticInstallmentAmount: 0,
+        );
+        notifyListeners();
+        break;
+      case AccountsPayablePaymentMode.automatic:
+        state = state.copyWith(
+          paymentMode: mode,
+          installments: [],
+          totalAmount: 0,
+          singleDueDate: '',
+          automaticInstallments: 0,
+          automaticFirstDueDate: '',
+          automaticInstallmentAmount: 0,
+        );
+        notifyListeners();
+        break;
+    }
+  }
+
+  void setDocumentType(AccountsPayableDocumentType? type) {
+    FormAccountsPayableState nextState;
+    if (type == null) {
+      nextState = state.copyWith(
+        resetDocumentType: true,
+        documentNumber: '',
+        documentIssueDate: '',
+      );
+    } else {
+      nextState = state.copyWith(documentType: type);
+    }
+
+    nextState = _withTaxDefaultsForDocument(nextState, type);
+
+    state = nextState;
+    notifyListeners();
+  }
+
+  void setDocumentNumber(String number) {
+    if (number == state.documentNumber) {
+      return;
+    }
+    state = state.copyWith(documentNumber: number);
+    notifyListeners();
+  }
+
+  void setDocumentIssueDate(String date) {
+    if (date == state.documentIssueDate) {
+      return;
+    }
+    state = state.copyWith(documentIssueDate: date);
+    notifyListeners();
+  }
+
+  void setTaxStatus(AccountsPayableTaxStatus status) {
+    var taxes = state.taxes;
+    var taxExempt = state.taxExempt;
+
+    if (status == AccountsPayableTaxStatus.exempt ||
+        status == AccountsPayableTaxStatus.notApplicable) {
+      taxes = const <AccountsPayableTaxLine>[];
+      taxExempt = true;
+    } else {
+      taxExempt = false;
+    }
+
+    state = state.copyWith(
+      taxStatus: status,
+      taxExempt: taxExempt,
+      taxes: taxes,
+      taxExemptionReason:
+          status == AccountsPayableTaxStatus.exempt ? state.taxExemptionReason : '',
+      taxCstCode: status == AccountsPayableTaxStatus.taxed ||
+              status == AccountsPayableTaxStatus.substitution
+          ? state.taxCstCode
+          : '',
+      taxCfop: status == AccountsPayableTaxStatus.taxed ||
+              status == AccountsPayableTaxStatus.substitution
+          ? state.taxCfop
+          : '',
+    );
+    notifyListeners();
+  }
+
+  void setTaxExempt(bool value) {
+    if (value == state.taxExempt) return;
+
+    if (value) {
+      final nextStatus = state.taxStatus == AccountsPayableTaxStatus.exempt ||
+              state.taxStatus == AccountsPayableTaxStatus.notApplicable
+          ? state.taxStatus
+          : AccountsPayableTaxStatus.exempt;
+
+      state = state.copyWith(
+        taxExempt: true,
+        taxStatus: nextStatus,
+        taxes: const <AccountsPayableTaxLine>[],
+        taxCstCode: '',
+        taxCfop: '',
+      );
+    } else {
+      final nextStatus = state.taxStatus == AccountsPayableTaxStatus.taxed ||
+              state.taxStatus == AccountsPayableTaxStatus.substitution
+          ? state.taxStatus
+          : AccountsPayableTaxStatus.taxed;
+
+      state = state.copyWith(
+        taxExempt: false,
+        taxStatus: nextStatus,
+        taxExemptionReason: '',
+      );
+    }
+
+    notifyListeners();
+  }
+
+  void setTaxExemptionReason(String value) {
+    if (value == state.taxExemptionReason) {
+      return;
+    }
+    state = state.copyWith(taxExemptionReason: value);
+    notifyListeners();
+  }
+
+  void setTaxObservation(String value) {
+    if (value == state.taxObservation) {
+      return;
+    }
+    state = state.copyWith(taxObservation: value);
+    notifyListeners();
+  }
+
+  void setTaxCstCode(String value) {
+    if (value == state.taxCstCode) {
+      return;
+    }
+    state = state.copyWith(taxCstCode: value);
+    notifyListeners();
+  }
+
+  void setTaxCfop(String value) {
+    if (value == state.taxCfop) {
+      return;
+    }
+    state = state.copyWith(taxCfop: value);
+    notifyListeners();
+  }
+
+  void addTaxLine(AccountsPayableTaxLine line) {
+    final updated = [...state.taxes, line];
+    state = state.copyWith(taxes: updated);
+    notifyListeners();
+  }
+
+  void updateTaxLine(int index, AccountsPayableTaxLine line) {
+    if (index < 0 || index >= state.taxes.length) return;
+    final updated = [...state.taxes];
+    updated[index] = line;
+    state = state.copyWith(taxes: updated);
+    notifyListeners();
+  }
+
+  void removeTaxLine(int index) {
+    if (index < 0 || index >= state.taxes.length) return;
+    final updated = [...state.taxes];
+    updated.removeAt(index);
+    state = state.copyWith(taxes: updated);
+    notifyListeners();
+  }
+
+  FormAccountsPayableState _withTaxDefaultsForDocument(
+    FormAccountsPayableState base,
+    AccountsPayableDocumentType? type,
+  ) {
+    if (type != AccountsPayableDocumentType.invoice) {
+      return base.copyWith(
+        taxStatus: AccountsPayableTaxStatus.notApplicable,
+        taxExempt: true,
+        taxExemptionReason: '',
+        taxObservation: '',
+        taxCstCode: '',
+        taxCfop: '',
+        taxes: const <AccountsPayableTaxLine>[],
+      );
+    }
+
+    if (base.taxStatus == AccountsPayableTaxStatus.notApplicable) {
+      return base.copyWith(
+        taxStatus: AccountsPayableTaxStatus.taxed,
+        taxExempt: false,
+      );
+    }
+
+    return base;
+  }
+
+  void setTotalAmount(double amount) {
+    if (state.totalAmount == amount) {
+      return;
+    }
+    state = state.copyWith(totalAmount: amount);
+    _updateInstallmentPreview();
+  }
+
+  void setSingleDueDate(String dueDate) {
+    if (dueDate == state.singleDueDate) {
+      return;
+    }
+    state = state.copyWith(singleDueDate: dueDate);
+    _updateInstallmentPreview();
+  }
+
+  void setAutomaticInstallments(int count) {
+    if (count == state.automaticInstallments) {
+      return;
+    }
+    state = state.copyWith(automaticInstallments: count);
+    notifyListeners();
+  }
+
+  void setAutomaticFirstDueDate(String dueDate) {
+    if (dueDate == state.automaticFirstDueDate) {
+      return;
+    }
+    state = state.copyWith(automaticFirstDueDate: dueDate);
+    notifyListeners();
+  }
+
+  void setAutomaticInstallmentAmount(double amount) {
+    if (amount == state.automaticInstallmentAmount) {
+      return;
+    }
+    state = state.copyWith(automaticInstallmentAmount: amount);
+    notifyListeners();
+  }
+
+  bool generateAutomaticInstallments() {
+    final generated = _buildAutomaticInstallments(state);
+
+    if (generated.isEmpty) {
+      return false;
+    }
+
+    _setInstallments(generated);
+    return true;
   }
 
   void addInstallment(double amount, String dueDate) {
@@ -27,16 +307,14 @@ class FormAccountsPayableStore extends ChangeNotifier {
       dueDate: dueDate,
     );
     final installments = [...state.installments, newInstallment];
-    state = state.copyWith(installments: installments);
-    notifyListeners();
+    _setInstallments(installments);
   }
 
   void removeInstallment(int index) {
     if (index >= 0 && index < state.installments.length) {
       final installments = [...state.installments];
       installments.removeAt(index);
-      state = state.copyWith(installments: installments);
-      notifyListeners();
+      _setInstallments(installments);
     }
   }
 
@@ -47,26 +325,119 @@ class FormAccountsPayableStore extends ChangeNotifier {
         amount: amount,
         dueDate: dueDate,
       );
-      state = state.copyWith(installments: installments);
-      notifyListeners();
+      _setInstallments(installments);
     }
   }
 
   Future<bool> save() async {
+    final preparedState = _prepareStateForSubmission();
+
     try {
-      state = state.copyWith(makeRequest: true);
+      state = preparedState.copyWith(makeRequest: true);
       notifyListeners();
 
-      await service.saveAccountPayable(state.toJson());
+      await service.saveAccountPayable(preparedState.toJson());
 
       state = FormAccountsPayableState.init();
       notifyListeners();
       return true;
     } catch (e) {
       print("ERROR: $e");
-      state = state.copyWith(makeRequest: false);
+      state = preparedState.copyWith(makeRequest: false);
       notifyListeners();
       return false;
+    }
+  }
+
+  void _updateInstallmentPreview({bool notify = true}) {
+    if (state.paymentMode == AccountsPayablePaymentMode.single) {
+      if (state.totalAmount > 0 && state.singleDueDate.isNotEmpty) {
+        _setInstallments([
+          InstallmentModel(
+            amount: state.totalAmount,
+            dueDate: state.singleDueDate,
+          )
+        ],
+            notify: false);
+      } else {
+        _setInstallments([], notify: false);
+      }
+    }
+
+    if (notify) {
+      notifyListeners();
+    }
+  }
+
+  List<InstallmentModel> _buildAutomaticInstallments(
+      FormAccountsPayableState currentState) {
+    if (currentState.automaticInstallments <= 0 ||
+        currentState.automaticInstallmentAmount <= 0 ||
+        currentState.automaticFirstDueDate.isEmpty) {
+      return [];
+    }
+
+    DateTime firstDueDate;
+    try {
+      firstDueDate =
+          DateFormat('dd/MM/yyyy').parse(currentState.automaticFirstDueDate);
+    } catch (_) {
+      return [];
+    }
+
+    return List.generate(currentState.automaticInstallments, (index) {
+      final dueDate = DateTime(
+        firstDueDate.year,
+        firstDueDate.month + index,
+        firstDueDate.day,
+      );
+
+      return InstallmentModel(
+        amount: currentState.automaticInstallmentAmount,
+        dueDate: DateFormat('dd/MM/yyyy').format(dueDate),
+        sequence: index + 1,
+      );
+    });
+  }
+
+  FormAccountsPayableState _prepareStateForSubmission() {
+    var currentState = state;
+
+    if (currentState.paymentMode == AccountsPayablePaymentMode.single) {
+      _updateInstallmentPreview(notify: false);
+      currentState = state;
+    }
+
+    if (currentState.paymentMode == AccountsPayablePaymentMode.automatic &&
+        currentState.installments.isEmpty) {
+      final generated = _buildAutomaticInstallments(currentState);
+      currentState = currentState.copyWith(installments: generated);
+    }
+
+    return currentState;
+  }
+
+  void _setInstallments(List<InstallmentModel> installments,
+      {bool notify = true}) {
+    final normalized = installments.asMap().entries.map((entry) {
+      final installment = entry.value;
+      return installment.copyWith(sequence: entry.key + 1);
+    }).toList();
+
+    final total = normalized.fold<double>(
+      0,
+      (acc, installment) => acc + installment.amount,
+    );
+
+    state = state.copyWith(
+      installments: normalized,
+      totalAmount: state.paymentMode == AccountsPayablePaymentMode.single
+          ? state.totalAmount
+          : total,
+    );
+
+    if (notify) {
+      notifyListeners();
     }
   }
 }

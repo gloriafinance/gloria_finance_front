@@ -74,10 +74,8 @@ class _AccountsPayableTableState extends State<AccountsPayableTable> {
       CurrencyFormatter.formatCurrency(accountsPayable.amountPending),
       CurrencyFormatter.formatCurrency(accountsPayable.amountTotal),
       tagStatus(
-        getStatusColor(accountsPayable.status),
-        AccountsPayableStatus.values
-            .firstWhere((e) => e.name == accountsPayable.status)
-            .friendlyName,
+        getStatusColor(accountsPayable.status ?? ''),
+        accountsPayable.statusLabel,
       ),
     ];
   }

@@ -29,6 +29,7 @@ extension InstallmentsStatusExtension on InstallmentsStatus {
 class InstallmentModel {
   final double amount;
   final String dueDate;
+  final int? sequence;
   final String? installmentId;
   final double? amountPaid;
   final double? amountPending;
@@ -39,6 +40,7 @@ class InstallmentModel {
   InstallmentModel({
     required this.amount,
     required this.dueDate,
+    this.sequence,
     this.installmentId,
     this.amountPaid,
     this.amountPending,
@@ -50,6 +52,9 @@ class InstallmentModel {
   InstallmentModel.fromJson(Map<String, dynamic> map)
       : amount = double.parse(map['amount'].toString()),
         dueDate = map['dueDate'],
+        sequence = map['sequence'] != null
+            ? int.tryParse(map['sequence'].toString())
+            : null,
         installmentId = map['installmentId'],
         amountPaid = map['amountPaid'] != null
             ? double.parse(map['amountPaid'].toString())
@@ -62,6 +67,31 @@ class InstallmentModel {
             : null,
         status = map['status'],
         financialTransactionId = map['financialTransactionId'];
+
+  InstallmentModel copyWith({
+    double? amount,
+    String? dueDate,
+    int? sequence,
+    String? installmentId,
+    double? amountPaid,
+    double? amountPending,
+    DateTime? paymentDate,
+    String? status,
+    String? financialTransactionId,
+  }) {
+    return InstallmentModel(
+      amount: amount ?? this.amount,
+      dueDate: dueDate ?? this.dueDate,
+      sequence: sequence ?? this.sequence,
+      installmentId: installmentId ?? this.installmentId,
+      amountPaid: amountPaid ?? this.amountPaid,
+      amountPending: amountPending ?? this.amountPending,
+      paymentDate: paymentDate ?? this.paymentDate,
+      status: status ?? this.status,
+      financialTransactionId:
+          financialTransactionId ?? this.financialTransactionId,
+    );
+  }
 
   Map<String, dynamic> toJson() {
     return {
