@@ -14,6 +14,15 @@ import 'financial_concept/pages/form_financial_concept/financial_concept_form_sc
 import 'members/models/member_model.dart';
 import 'members/pages/add_members/add_member_screen.dart';
 import 'members/pages/members_list/members_screen.dart';
+import 'cost_center/models/cost_center_model.dart';
+import 'cost_center/pages/cost_center_form/cost_center_form_screen.dart';
+import 'cost_center/pages/cost_center_list/cost_center_list_screen.dart';
+import 'cost_center/store/cost_center_list_store.dart';
+import 'financial_concept/models/financial_concept_model.dart';
+import 'financial_concept/pages/financial_concept_list/financial_concept_list_screen.dart';
+import 'financial_concept/pages/form_financial_concept/financial_concept_form_screen.dart';
+import 'members/pages/add_members/add_member_screen.dart';
+import 'members/pages/members_list/members_screen.dart';
 
 settingsRouter() {
   return <RouteBase>[
@@ -99,6 +108,36 @@ settingsRouter() {
         }
 
         return transitionCustom(BankFormScreen(bank: bank));
+      },
+    ),
+    GoRoute(
+      path: '/cost-center',
+      pageBuilder: (context, state) {
+        return transitionCustom(const CostCenterListScreen());
+      },
+    ),
+    GoRoute(
+      path: '/cost-center/add',
+      pageBuilder: (context, state) {
+        return transitionCustom(const CostCenterFormScreen());
+      },
+    ),
+    GoRoute(
+      path: '/cost-center/edit/:costCenterId',
+      pageBuilder: (context, state) {
+        CostCenterModel? costCenter;
+        print(state.extra);
+        if (state.extra is CostCenterModel) {
+          costCenter = state.extra as CostCenterModel;
+        } else {
+          final id = state.pathParameters['costCenterId'];
+          if (id != null) {
+            final store = context.read<CostCenterListStore>();
+            costCenter = store.findByCostCenterId(id);
+          }
+        }
+
+        return transitionCustom(CostCenterFormScreen(costCenter: costCenter));
       },
     ),
   ];

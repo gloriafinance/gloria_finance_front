@@ -1,13 +1,38 @@
 enum CostCenterCategory { ESPECIAL_PROJECT, MINISTRIES, OPERATIONS }
 
+extension CostCenterCategoryExtension on CostCenterCategory {
+  static CostCenterCategory fromApiValue(String value) {
+    return CostCenterCategory.values.firstWhere(
+      (element) => element.apiValue == value,
+      orElse: () => CostCenterCategory.OPERATIONS,
+    );
+  }
+
+  String get apiValue {
+    return toString().split('.').last;
+  }
+
+  String get friendlyName {
+    switch (this) {
+      case CostCenterCategory.ESPECIAL_PROJECT:
+        return 'Projetos especiais';
+      case CostCenterCategory.MINISTRIES:
+        return 'Ministérios';
+      case CostCenterCategory.OPERATIONS:
+        return 'Operações';
+    }
+  }
+}
+
 class CostCenterModel {
   final bool active;
   final String churchId;
   final String costCenterId;
   final String name;
   final String description;
-  final String category;
-  final CostCenterManager responsible;
+  final CostCenterCategory category;
+  final CostCenterResponsible? responsible;
+  final String? responsibleMemberId;
 
   CostCenterModel({
     required this.active,
@@ -17,16 +42,26 @@ class CostCenterModel {
     required this.description,
     required this.category,
     required this.responsible,
+    required this.responsibleMemberId,
   });
 
   CostCenterModel.fromMap(Map<String, dynamic> map)
-      : active = map['active'],
-        churchId = map['churchId'],
-        costCenterId = map['costCenterId'],
-        name = map['name'],
-        description = map['description'],
-        category = map['category'],
-        responsible = CostCenterManager.fromJson(map['responsible']);
+      : active = map['active'] ?? false,
+        churchId = map['churchId'] ?? '',
+        costCenterId = map['costCenterId'] ?? '',
+        name = map['name'] ?? '',
+        description = map['description'] ?? '',
+        category = CostCenterCategoryExtension.fromApiValue(
+          map['category'] ?? CostCenterCategory.OPERATIONS.apiValue,
+        ),
+        responsible = map['responsible'] is Map<String, dynamic>
+            ? CostCenterResponsible.fromJson(
+                map['responsible'] as Map<String, dynamic>,
+              )
+            : null,
+        responsibleMemberId = (map['responsibleMemberId'] ??
+                (map['responsible']?['memberId']))
+            ?.toString();
 
   Map<String, dynamic> toJson() => {
         'active': active,
@@ -34,31 +69,37 @@ class CostCenterModel {
         'costCenterId': costCenterId,
         'name': name,
         'description': description,
-        'category': category,
-        'responsible': responsible.toJson(),
+        'category': category.apiValue,
+        if (responsible != null) 'responsible': responsible!.toJson(),
+        if (responsibleMemberId != null)
+          'responsibleMemberId': responsibleMemberId,
       };
 }
 
-class CostCenterManager {
+class CostCenterResponsible {
+  final String? memberId;
   final String name;
   final String email;
   final String phone;
 
-  CostCenterManager({
+  const CostCenterResponsible({
+    this.memberId,
     required this.name,
     required this.email,
     required this.phone,
   });
 
-  factory CostCenterManager.fromJson(Map<String, dynamic> json) {
-    return CostCenterManager(
-      name: json['name'],
-      email: json['email'],
-      phone: json['phone'],
+  factory CostCenterResponsible.fromJson(Map<String, dynamic> json) {
+    return CostCenterResponsible(
+      memberId: (json['memberId'] ?? json['id'])?.toString(),
+      name: json['name'] ?? '',
+      email: json['email'] ?? '',
+      phone: json['phone'] ?? '',
     );
   }
 
   Map<String, dynamic> toJson() => {
+        if (memberId != null) 'memberId': memberId,
         'name': name,
         'email': email,
         'phone': phone,
