@@ -4,12 +4,11 @@ import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payab
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../../models/installment_model.dart';
-import '../state/form_accounts_payable_state.dart';
+
 import '../store/form_accounts_payable_store.dart';
 import '../validators/form_accounts_payable_validator.dart';
 
-class InstallmentAccountPayableForm extends StatefulWidget {
+class InstallmentAccountPayableForm extends StatelessWidget {
   final FormAccountsPayableStore formStore;
   final FormAccountsPayableValidator validator;
   final bool showValidationMessages;
@@ -22,27 +21,65 @@ class InstallmentAccountPayableForm extends StatefulWidget {
   });
 
   @override
-  State<InstallmentAccountPayableForm> createState() =>
-      _InstallmentAccountPayableFormState();
-}
-
-class _InstallmentAccountPayableFormState
-    extends State<InstallmentAccountPayableForm> {
-  @override
   Widget build(BuildContext context) {
-    final state = widget.formStore.state;
+    final state = formStore.state;
 
     switch (state.paymentMode) {
       case AccountsPayablePaymentMode.single:
-        return _buildSinglePayment(state);
-      case AccountsPayablePaymentMode.manual:
-        return _buildManualInstallments(state);
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _SinglePaymentSection(
+              formStore: formStore,
+              validator: validator,
+            ),
+            const SizedBox(height: 16),
+            _InstallmentsPreviewSection(
+              formStore: formStore,
+              validator: validator,
+              showValidationMessages: showValidationMessages,
+              emptyMessage:
+                  'Informe o valor e a data de vencimento para visualizar o resumo.',
+            ),
+          ],
+        );
       case AccountsPayablePaymentMode.automatic:
-        return _buildAutomaticInstallments(state);
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _AutomaticInstallmentsSection(
+              formStore: formStore,
+              validator: validator,
+            ),
+            const SizedBox(height: 16),
+            _InstallmentsPreviewSection(
+              formStore: formStore,
+              validator: validator,
+              showValidationMessages: showValidationMessages,
+              emptyMessage:
+                  'Informe os dados e clique em "Gerar parcelas" para visualizar o cronograma.',
+            ),
+          ],
+        );
+      case AccountsPayablePaymentMode.manual:
+        return const SizedBox.shrink();
     }
   }
+}
 
-  Widget _buildSinglePayment(FormAccountsPayableState state) {
+class _SinglePaymentSection extends StatelessWidget {
+  final FormAccountsPayableStore formStore;
+  final FormAccountsPayableValidator validator;
+
+  const _SinglePaymentSection({
+    required this.formStore,
+    required this.validator,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final state = formStore.state;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -53,58 +90,41 @@ class _InstallmentAccountPayableFormState
               : '',
           keyboardType: TextInputType.number,
           inputFormatters: [CurrencyFormatter.getInputFormatters('R\$')],
-          onChanged: (value) => widget.formStore
+          onChanged: (value) => formStore
               .setTotalAmount(CurrencyFormatter.cleanCurrency(value)),
-          onValidator: (_) =>
-              widget.validator.errorByKey(state, 'totalAmount'),
+          onValidator: (_) => validator.errorByKey(state, 'totalAmount'),
         ),
         Input(
           label: 'Data de vencimento',
           initialValue: state.singleDueDate,
-          onChanged: widget.formStore.setSingleDueDate,
+          onChanged: formStore.setSingleDueDate,
           onTap: () async {
             FocusScope.of(context).requestFocus(FocusNode());
             final pickedDate = await selectDate(context);
             if (pickedDate == null) return;
             final formatted = convertDateFormatToDDMMYYYY(pickedDate.toString());
-            widget.formStore.setSingleDueDate(formatted);
+            formStore.setSingleDueDate(formatted);
           },
-          onValidator: (_) =>
-              widget.validator.errorByKey(state, 'singleDueDate'),
-        ),
-        const SizedBox(height: 16),
-        _buildInstallmentsPreview(
-          emptyMessage:
-              'Informe o valor e a data de vencimento para visualizar o resumo.',
-          showValidationMessages: widget.showValidationMessages,
+          onValidator: (_) => validator.errorByKey(state, 'singleDueDate'),
         ),
       ],
     );
   }
+}
 
-  Widget _buildManualInstallments(FormAccountsPayableState state) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ButtonActionTable(
-          color: AppColors.blue,
-          text: 'Adicionar parcela',
-          icon: Icons.add_box_outlined,
-          onPressed: _openCreateInstallment,
-        ),
-        const SizedBox(height: 12),
-        _buildInstallmentsPreview(
-          enableActions: true,
-          onEdit: _openEditInstallment,
-          onRemove: widget.formStore.removeInstallment,
-          emptyMessage: 'Nenhuma parcela adicionada até o momento.',
-          showValidationMessages: widget.showValidationMessages,
-        ),
-      ],
-    );
-  }
+class _AutomaticInstallmentsSection extends StatelessWidget {
+  final FormAccountsPayableStore formStore;
+  final FormAccountsPayableValidator validator;
 
-  Widget _buildAutomaticInstallments(FormAccountsPayableState state) {
+  const _AutomaticInstallmentsSection({
+    required this.formStore,
+    required this.validator,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final state = formStore.state;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -121,10 +141,10 @@ class _InstallmentAccountPayableFormState
                     : '',
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                onChanged: (value) => widget.formStore.setAutomaticInstallments(
+                onChanged: (value) => formStore.setAutomaticInstallments(
                     int.tryParse(value) ?? 0),
-                onValidator: (_) => widget.validator
-                    .errorByKey(state, 'automaticInstallments'),
+                onValidator: (_) =>
+                    validator.errorByKey(state, 'automaticInstallments'),
               ),
             ),
             SizedBox(
@@ -137,10 +157,9 @@ class _InstallmentAccountPayableFormState
                     : '',
                 keyboardType: TextInputType.number,
                 inputFormatters: [CurrencyFormatter.getInputFormatters('R\$')],
-                onChanged: (value) => widget.formStore
-                    .setAutomaticInstallmentAmount(
-                        CurrencyFormatter.cleanCurrency(value)),
-                onValidator: (_) => widget.validator
+                onChanged: (value) => formStore.setAutomaticInstallmentAmount(
+                    CurrencyFormatter.cleanCurrency(value)),
+                onValidator: (_) => validator
                     .errorByKey(state, 'automaticInstallmentAmount'),
               ),
             ),
@@ -149,17 +168,17 @@ class _InstallmentAccountPayableFormState
               child: Input(
                 label: 'Primeiro vencimento',
                 initialValue: state.automaticFirstDueDate,
-                onChanged: widget.formStore.setAutomaticFirstDueDate,
+                onChanged: formStore.setAutomaticFirstDueDate,
                 onTap: () async {
                   FocusScope.of(context).requestFocus(FocusNode());
                   final pickedDate = await selectDate(context);
                   if (pickedDate == null) return;
                   final formatted =
                       convertDateFormatToDDMMYYYY(pickedDate.toString());
-                  widget.formStore.setAutomaticFirstDueDate(formatted);
+                  formStore.setAutomaticFirstDueDate(formatted);
                 },
-                onValidator: (_) => widget.validator
-                    .errorByKey(state, 'automaticFirstDueDate'),
+                onValidator: (_) =>
+                    validator.errorByKey(state, 'automaticFirstDueDate'),
               ),
             ),
           ],
@@ -169,36 +188,75 @@ class _InstallmentAccountPayableFormState
           color: AppColors.blue,
           text: 'Gerar parcelas',
           icon: Icons.calculate_outlined,
-          onPressed: _handleGenerateAutomatic,
-        ),
-        const SizedBox(height: 12),
-        _buildInstallmentsPreview(
-          emptyMessage:
-              'Informe os dados e clique em "Gerar parcelas" para visualizar o cronograma.',
-          showValidationMessages: widget.showValidationMessages,
+          onPressed: () => _handleGenerateAutomatic(context),
         ),
       ],
     );
   }
 
-  Widget _buildInstallmentsPreview({
-    bool enableActions = false,
-    void Function(int index)? onEdit,
-    void Function(int index)? onRemove,
-    required String emptyMessage,
-    bool showValidationMessages = false,
-  }) {
-    final installments = widget.formStore.state.installments;
+  void _handleGenerateAutomatic(BuildContext context) {
+    final success = formStore.generateAutomaticInstallments();
+
+    if (!success) {
+      final errors = validator.validateState(formStore.state);
+      final keys = [
+        'automaticInstallments',
+        'automaticInstallmentAmount',
+        'automaticFirstDueDate',
+        'installments',
+      ];
+
+      String? message;
+      for (final key in keys) {
+        if (errors.containsKey(key)) {
+          message = errors[key];
+          break;
+        }
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            message ?? 'Preencha os dados para gerar as parcelas.',
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Parcelas geradas com sucesso.'),
+        backgroundColor: AppColors.green,
+      ),
+    );
+  }
+}
+
+class _InstallmentsPreviewSection extends StatelessWidget {
+  final FormAccountsPayableStore formStore;
+  final FormAccountsPayableValidator validator;
+  final bool showValidationMessages;
+  final String emptyMessage;
+
+  const _InstallmentsPreviewSection({
+    required this.formStore,
+    required this.validator,
+    required this.showValidationMessages,
+    required this.emptyMessage,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final installments = formStore.state.installments;
     final totalAmount = installments.fold<double>(
       0,
       (acc, installment) => acc + installment.amount,
     );
 
     final errorMessage = showValidationMessages
-        ? widget.validator.errorByKey(
-            widget.formStore.state,
-            'installments',
-          )
+        ? validator.errorByKey(formStore.state, 'installments')
         : null;
 
     return Column(
@@ -281,31 +339,6 @@ class _InstallmentAccountPayableFormState
                             ],
                           ),
                         ),
-                        if (enableActions)
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                tooltip: 'Editar parcela',
-                                icon: const Icon(
-                                  Icons.edit_outlined,
-                                  color: AppColors.blue,
-                                ),
-                                onPressed:
-                                    onEdit != null ? () => onEdit(index) : null,
-                              ),
-                              IconButton(
-                                tooltip: 'Remover parcela',
-                                icon: const Icon(
-                                  Icons.delete_outline,
-                                  color: Colors.red,
-                                ),
-                                onPressed: onRemove != null
-                                    ? () => onRemove(index)
-                                    : null,
-                              ),
-                            ],
-                          ),
                       ],
                     ),
                   );
@@ -336,182 +369,6 @@ class _InstallmentAccountPayableFormState
             ),
           ),
       ],
-    );
-  }
-
-  Future<void> _openCreateInstallment() async {
-    final result = await _showManualInstallmentDialog(context);
-    if (result == null) return;
-    widget.formStore.addInstallment(result.amount, result.dueDate);
-  }
-
-  Future<void> _openEditInstallment(int index) async {
-    final installments = widget.formStore.state.installments;
-    if (index < 0 || index >= installments.length) return;
-
-    final current = installments[index];
-    final result = await _showManualInstallmentDialog(
-      context,
-      initial: current,
-    );
-
-    if (result == null) return;
-    widget.formStore.updateInstallment(index, result.amount, result.dueDate);
-  }
-
-  void _handleGenerateAutomatic() {
-    final success = widget.formStore.generateAutomaticInstallments();
-
-    if (!success) {
-      final errors = widget.validator.validateState(widget.formStore.state);
-      final keys = [
-        'automaticInstallments',
-        'automaticInstallmentAmount',
-        'automaticFirstDueDate',
-        'installments',
-      ];
-
-      String? message;
-      for (final key in keys) {
-        if (errors.containsKey(key)) {
-          message = errors[key];
-          break;
-        }
-      }
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            message ?? 'Preencha os dados para gerar as parcelas.',
-          ),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Parcelas geradas com sucesso.'),
-        backgroundColor: AppColors.green,
-      ),
-    );
-  }
-
-  Future<InstallmentModel?> _showManualInstallmentDialog(
-    BuildContext context, {
-    InstallmentModel? initial,
-  }) async {
-    final formKey = GlobalKey<FormState>();
-    double amount = initial?.amount ?? 0;
-    String dueDate = initial?.dueDate ?? '';
-
-    return showDialog<InstallmentModel>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
-          ),
-          contentPadding: const EdgeInsets.all(24),
-          content: StatefulBuilder(
-            builder: (context, setState) {
-              return Form(
-                key: formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      initial == null
-                          ? 'Adicionar parcela'
-                          : 'Editar parcela',
-                      style: const TextStyle(
-                        fontFamily: AppFonts.fontTitle,
-                        fontSize: 18,
-                        color: AppColors.purple,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Input(
-                      label: 'Valor da parcela',
-                      initialValue: amount > 0
-                          ? CurrencyFormatter.formatCurrency(amount)
-                          : '',
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        CurrencyFormatter.getInputFormatters('R\$'),
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          amount = CurrencyFormatter.cleanCurrency(value);
-                        });
-                      },
-                      onValidator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Informe o valor da parcela';
-                        }
-                        final parsed = CurrencyFormatter.cleanCurrency(value);
-                        if (parsed <= 0) {
-                          return 'Informe um valor maior que zero';
-                        }
-                        return null;
-                      },
-                    ),
-                    Input(
-                      label: 'Data de vencimento',
-                      initialValue: dueDate,
-                      onChanged: (value) {
-                        setState(() {
-                          dueDate = value;
-                        });
-                      },
-                      onTap: () async {
-                        FocusScope.of(context).requestFocus(FocusNode());
-                        final pickedDate = await selectDate(context);
-                        if (pickedDate == null) return;
-                        final formatted =
-                            convertDateFormatToDDMMYYYY(pickedDate.toString());
-                        setState(() {
-                          dueDate = formatted;
-                        });
-                      },
-                      onValidator: (_) {
-                        if (dueDate.isEmpty) {
-                          return 'Selecione a data de vencimento';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      width: double.infinity,
-                      child: CustomButton(
-                        text: initial == null
-                            ? 'Adicionar parcela'
-                            : 'Atualizar parcela',
-                        backgroundColor: AppColors.green,
-                        textColor: Colors.black,
-                        onPressed: () {
-                          if (!(formKey.currentState?.validate() ?? false)) {
-                            return;
-                          }
-                          Navigator.of(context).pop(
-                            InstallmentModel(
-                              amount: amount,
-                              dueDate: dueDate,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        );
-      },
     );
   }
 }
