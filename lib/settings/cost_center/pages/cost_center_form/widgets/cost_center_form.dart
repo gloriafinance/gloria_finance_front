@@ -11,6 +11,7 @@ import 'package:church_finance_bk/settings/cost_center/store/cost_center_list_st
 import 'package:church_finance_bk/settings/members/models/member_model.dart';
 import 'package:church_finance_bk/settings/members/store/member_all_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +23,7 @@ class CostCenterForm extends StatefulWidget {
 }
 
 class _CostCenterFormState extends State<CostCenterForm> {
+  static const int _costCenterIdMaxLength = 12;
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -107,9 +109,13 @@ class _CostCenterFormState extends State<CostCenterForm> {
   Widget _buildCostCenterIdField(CostCenterFormStore formStore) {
     return Input(
       label: 'Código',
+      labelSuffix: _buildCostCenterIdHelpIcon(),
       initialValue: formStore.state.costCenterId,
       onValidator: _requiredValidator,
       onChanged: formStore.setCostCenterId,
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(_costCenterIdMaxLength),
+      ],
     );
   }
 
@@ -188,9 +194,40 @@ class _CostCenterFormState extends State<CostCenterForm> {
   Widget _buildDescriptionField(CostCenterFormStore formStore) {
     return Input(
       label: 'Descrição',
+      labelSuffix: _buildDescriptionHelpIcon(),
       initialValue: formStore.state.description,
       onValidator: _requiredValidator,
       onChanged: formStore.setDescription,
+    );
+  }
+
+  Widget _buildCostCenterIdHelpIcon() {
+    return Tooltip(
+      message:
+          'Use um código fácil de lembrar com até $_costCenterIdMaxLength caracteres.',
+      child: const Padding(
+        padding: EdgeInsets.all(2.0),
+        child: Icon(
+          Icons.help_outline,
+          size: 18,
+          color: AppColors.purple,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDescriptionHelpIcon() {
+    return const Tooltip(
+      message:
+          'Descreva de forma objetiva como este centro de custo será utilizado.',
+      child: Padding(
+        padding: EdgeInsets.all(2.0),
+        child: Icon(
+          Icons.help_outline,
+          size: 18,
+          color: AppColors.purple,
+        ),
+      ),
     );
   }
 
