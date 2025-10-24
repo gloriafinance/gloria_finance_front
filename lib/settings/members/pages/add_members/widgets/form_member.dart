@@ -11,7 +11,9 @@ import 'form_member_desktop_layout.dart';
 import 'form_member_mobile.layout.dart';
 
 class FormMember extends StatefulWidget {
-  const FormMember({super.key});
+  final bool isEditing;
+
+  const FormMember({super.key, this.isEditing = false});
 
   @override
   State<StatefulWidget> createState() => _FormMemberState();
@@ -54,7 +56,7 @@ class _FormMemberState extends State<FormMember> {
         : Padding(
             padding: EdgeInsets.only(top: 20),
             child: CustomButton(
-                text: "Salvar",
+                text: widget.isEditing ? "Atualizar" : "Salvar",
                 backgroundColor: AppColors.green,
                 textColor: Colors.black,
                 onPressed: () => _saveRecord(formStore)));
