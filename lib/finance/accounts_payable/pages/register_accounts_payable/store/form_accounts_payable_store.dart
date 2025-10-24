@@ -69,25 +69,32 @@ class FormAccountsPayableStore extends ChangeNotifier {
   }
 
   void setIncludeDocument(bool value) {
-    state = state.copyWith(includeDocument: value);
+    var nextState = state.copyWith(includeDocument: value);
 
     if (!value) {
-      state = state.copyWith(
+      nextState = nextState.copyWith(
         resetDocumentType: true,
         documentNumber: '',
         documentIssueDate: '',
       );
+      nextState = _withTaxDefaultsForDocument(nextState, null);
     }
 
+    state = nextState;
     notifyListeners();
   }
 
   void setDocumentType(AccountsPayableDocumentType? type) {
+    FormAccountsPayableState nextState;
     if (type == null) {
-      state = state.copyWith(resetDocumentType: true);
+      nextState = state.copyWith(resetDocumentType: true);
     } else {
-      state = state.copyWith(documentType: type);
+      nextState = state.copyWith(documentType: type);
     }
+
+    nextState = _withTaxDefaultsForDocument(nextState, type);
+
+    state = nextState;
     notifyListeners();
   }
 
@@ -203,6 +210,32 @@ class FormAccountsPayableStore extends ChangeNotifier {
     updated.removeAt(index);
     state = state.copyWith(taxes: updated);
     notifyListeners();
+  }
+
+  FormAccountsPayableState _withTaxDefaultsForDocument(
+    FormAccountsPayableState base,
+    AccountsPayableDocumentType? type,
+  ) {
+    if (type != AccountsPayableDocumentType.invoice) {
+      return base.copyWith(
+        taxStatus: AccountsPayableTaxStatus.notApplicable,
+        taxExempt: true,
+        taxExemptionReason: '',
+        taxObservation: '',
+        taxCstCode: '',
+        taxCfop: '',
+        taxes: const <AccountsPayableTaxLine>[],
+      );
+    }
+
+    if (base.taxStatus == AccountsPayableTaxStatus.notApplicable) {
+      return base.copyWith(
+        taxStatus: AccountsPayableTaxStatus.taxed,
+        taxExempt: false,
+      );
+    }
+
+    return base;
   }
 
   void setTotalAmount(double amount) {
