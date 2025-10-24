@@ -157,7 +157,7 @@ class FormAccountsPayableState {
   }
 
   Map<String, dynamic> toJson() {
-    final payload = {
+    final payload = <String, dynamic>{
       'supplierId': supplierId,
       'description': description,
     };

@@ -11,75 +11,100 @@ class FormAccountsPayableValidator
     ruleFor((m) => m.description, key: 'description')
         .notEmpty(message: 'A descrição é obrigatória');
 
-    ruleFor((m) => m.documentType, key: 'documentType').when(
-        (m) => m.includeDocument,
-        must: (value) => value != null,
-        otherwise: (_) => true,
-        message: 'Selecione o tipo de documento');
-
-    ruleFor((m) => m.documentNumber, key: 'documentNumber').when(
-        (m) => m.includeDocument,
-        must: (value) => value.isNotEmpty,
-        otherwise: (_) => true,
-        message: 'Informe o número do documento');
-
-    ruleFor((m) => m.documentIssueDate, key: 'documentIssueDate').when(
-        (m) => m.includeDocument,
-        must: (value) => value.isNotEmpty,
-        otherwise: (_) => true,
-        message: 'Informe a data de emissão');
-
-    ruleFor((m) => m.totalAmount, key: 'totalAmount').when(
-        (m) =>
-            m.paymentMode == AccountsPayablePaymentMode.single ||
-            m.paymentMode == AccountsPayablePaymentMode.automatic,
-        must: (value) => value > 0,
-        otherwise: (_) => true,
-        message: 'Informe um valor maior que zero');
-
-    ruleFor((m) => m.singleDueDate, key: 'singleDueDate').when(
-        (m) => m.paymentMode == AccountsPayablePaymentMode.single,
-        must: (value) => value.isNotEmpty,
-        otherwise: (_) => true,
-        message: 'Informe a data de vencimento');
-
-    ruleFor((m) => m.installments, key: 'installments').when(
-        (m) => m.paymentMode != AccountsPayablePaymentMode.single,
-        must: (installments) => installments.isNotEmpty,
-        otherwise: (_) => true,
-        message: 'Gere ou adicione ao menos uma parcela');
-
-    ruleFor((m) => m.installments, key: 'installmentsContents').when(
-      (m) => m.paymentMode != AccountsPayablePaymentMode.single,
-      must: (installments) => installments.every(
-        (installment) =>
-            installment.amount > 0 && installment.dueDate.isNotEmpty,
-      ),
-      otherwise: (_) => true,
-      message: 'Preencha valor e vencimento de cada parcela',
+    ruleFor((m) => m, key: 'documentType').must(
+      (state) => !state.includeDocument || state.documentType != null,
+      'Selecione o tipo de documento',
+      'documentType_required',
     );
 
-    ruleFor((m) => m.automaticInstallments, key: 'automaticInstallments').when(
-        (m) => m.paymentMode == AccountsPayablePaymentMode.automatic,
-        must: (value) => value > 0,
-        otherwise: (_) => true,
-        message: 'Informe a quantidade de parcelas');
+    ruleFor((m) => m, key: 'documentNumber').must(
+      (state) => !state.includeDocument || state.documentNumber.isNotEmpty,
+      'Informe o número do documento',
+      'documentNumber_required',
+    );
 
-    ruleFor((m) => m.automaticInstallmentAmount,
-            key: 'automaticInstallmentAmount')
-        .when(
-            (m) => m.paymentMode == AccountsPayablePaymentMode.automatic,
-            must: (value) => value > 0,
-            otherwise: (_) => true,
-            message: 'Informe o valor por parcela');
+    ruleFor((m) => m, key: 'documentIssueDate').must(
+      (state) => !state.includeDocument || state.documentIssueDate.isNotEmpty,
+      'Informe a data de emissão',
+      'documentIssueDate_required',
+    );
 
-    ruleFor((m) => m.automaticFirstDueDate,
-            key: 'automaticFirstDueDate')
-        .when(
-            (m) => m.paymentMode == AccountsPayablePaymentMode.automatic,
-            must: (value) => value.isNotEmpty,
-            otherwise: (_) => true,
-            message: 'Informe a data da primeira parcela');
+    ruleFor((m) => m, key: 'totalAmount').must(
+      (state) {
+        if (state.paymentMode == AccountsPayablePaymentMode.single ||
+            state.paymentMode == AccountsPayablePaymentMode.automatic) {
+          return state.totalAmount > 0;
+        }
+        return true;
+      },
+      'Informe um valor maior que zero',
+      'totalAmount_required',
+    );
+
+    ruleFor((m) => m, key: 'singleDueDate').must(
+      (state) =>
+          state.paymentMode != AccountsPayablePaymentMode.single ||
+          state.singleDueDate.isNotEmpty,
+      'Informe a data de vencimento',
+      'singleDueDate_required',
+    );
+
+    ruleFor((m) => m, key: 'installments').must(
+      (state) =>
+          state.paymentMode == AccountsPayablePaymentMode.single ||
+          state.installments.isNotEmpty,
+      'Gere ou adicione ao menos uma parcela',
+      'installments_required',
+    );
+
+    ruleFor((m) => m, key: 'installments').must(
+      (state) =>
+          state.paymentMode == AccountsPayablePaymentMode.single ||
+          state.installments.every(
+            (installment) =>
+                installment.amount > 0 && installment.dueDate.isNotEmpty,
+          ),
+      'Preencha valor e vencimento de cada parcela',
+      'installments_contents',
+    );
+
+    ruleFor((m) => m, key: 'automaticInstallments').must(
+      (state) =>
+          state.paymentMode != AccountsPayablePaymentMode.automatic ||
+          state.automaticInstallments > 0,
+      'Informe a quantidade de parcelas',
+      'automaticInstallments_required',
+    );
+
+    ruleFor((m) => m, key: 'automaticInstallmentAmount').must(
+      (state) =>
+          state.paymentMode != AccountsPayablePaymentMode.automatic ||
+          state.automaticInstallmentAmount > 0,
+      'Informe o valor por parcela',
+      'automaticInstallmentAmount_required',
+    );
+
+    ruleFor((m) => m, key: 'automaticFirstDueDate').must(
+      (state) =>
+          state.paymentMode != AccountsPayablePaymentMode.automatic ||
+          state.automaticFirstDueDate.isNotEmpty,
+      'Informe a data da primeira parcela',
+      'automaticFirstDueDate_required',
+    );
+
+    ruleFor((m) => m, key: 'installments').must(
+      (state) {
+        if (state.paymentMode != AccountsPayablePaymentMode.automatic) {
+          return true;
+        }
+        if (state.installments.isEmpty) {
+          return false;
+        }
+        return state.installments.length == state.automaticInstallments;
+      },
+      'A quantidade de parcelas geradas deve corresponder ao total informado',
+      'installments_count_mismatch',
+    );
   }
 
   Map<String, String> validateState(FormAccountsPayableState state) {
