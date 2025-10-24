@@ -39,11 +39,10 @@ class _BankFormState extends State<BankForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildBankIdField(formStore),
         _buildNameField(formStore),
         _buildTagField(formStore),
         _buildAccountTypeField(formStore),
-        _buildAddressField(formStore),
+        _buildPixField(formStore),
         _buildInstructionSection(formStore, isMobileLayout: true),
         const SizedBox(height: 16),
         _buildActiveToggle(formStore),
@@ -60,26 +59,22 @@ class _BankFormState extends State<BankForm> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(child: _buildBankIdField(formStore)),
-            const SizedBox(width: 24),
             Expanded(child: _buildAccountTypeField(formStore)),
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+            const SizedBox(width: 24),
             Expanded(child: _buildNameField(formStore)),
-            const SizedBox(width: 24),
-            Expanded(child: _buildTagField(formStore)),
           ],
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(child: _buildAddressField(formStore)),
+            Expanded(child: _buildTagField(formStore)),
             const SizedBox(width: 24),
-            Expanded(child: _buildActiveToggle(formStore)),
+            Expanded(child: _buildPixField(formStore)),
           ],
+        ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: _buildActiveToggle(formStore),
         ),
         const SizedBox(height: 24),
         _buildInstructionSection(formStore, isMobileLayout: false),
@@ -92,15 +87,6 @@ class _BankFormState extends State<BankForm> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildBankIdField(BankFormStore formStore) {
-    return Input(
-      label: 'Identificador do banco (bankId)',
-      initialValue: formStore.state.bankId,
-      onValidator: _requiredValidator,
-      onChanged: formStore.setBankId,
     );
   }
 
@@ -143,10 +129,11 @@ class _BankFormState extends State<BankForm> {
     );
   }
 
-  Widget _buildAddressField(BankFormStore formStore) {
+  Widget _buildPixField(BankFormStore formStore) {
     return Input(
-      label: 'Endereço de pagamento',
+      label: 'Chave PIX (Endereço de pagamento)',
       initialValue: formStore.state.addressInstancePayment,
+      onValidator: _requiredValidator,
       onChanged: formStore.setAddressInstancePayment,
     );
   }

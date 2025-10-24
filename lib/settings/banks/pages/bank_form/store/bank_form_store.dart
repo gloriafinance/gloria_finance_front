@@ -15,11 +15,6 @@ class BankFormStore extends ChangeNotifier {
             ? BankFormState.fromModel(bank)
             : BankFormState.init();
 
-  void setBankId(String value) {
-    state = state.copyWith(bankId: value.trim());
-    notifyListeners();
-  }
-
   void setName(String value) {
     state = state.copyWith(name: value.trim());
     notifyListeners();

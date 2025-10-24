@@ -33,7 +33,7 @@ class BankFormState {
       tag: '',
       accountType: null,
       active: true,
-      addressInstancePayment: '',
+      addressInstancePayment: 'PIX',
       codeBank: '',
       agency: '',
       account: '',
@@ -86,7 +86,6 @@ class BankFormState {
 
   Map<String, dynamic> toPayload(String churchId) {
     final payload = {
-      'bankId': bankId,
       'active': active,
       'name': name,
       'tag': tag,
@@ -98,6 +97,10 @@ class BankFormState {
       },
       'churchId': churchId,
     };
+
+    if (isEdit) {
+      payload['bankId'] = bankId;
+    }
 
     if (accountType != null) {
       payload['accountType'] = accountType!.apiValue;
