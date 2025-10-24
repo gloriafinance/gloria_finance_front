@@ -14,6 +14,9 @@ class FormAccountsPayableStore extends ChangeNotifier {
   FormAccountsPayableState state = FormAccountsPayableState.init();
 
   void setSupplier(String supplierId, String supplierName) {
+    if (supplierId == state.supplierId && supplierName == state.supplierName) {
+      return;
+    }
     state = state.copyWith(
       supplierId: supplierId,
       supplierName: supplierName,
@@ -22,6 +25,9 @@ class FormAccountsPayableStore extends ChangeNotifier {
   }
 
   void setDescription(String description) {
+    if (description == state.description) {
+      return;
+    }
     state = state.copyWith(description: description);
     notifyListeners();
   }
@@ -99,11 +105,17 @@ class FormAccountsPayableStore extends ChangeNotifier {
   }
 
   void setDocumentNumber(String number) {
+    if (number == state.documentNumber) {
+      return;
+    }
     state = state.copyWith(documentNumber: number);
     notifyListeners();
   }
 
   void setDocumentIssueDate(String date) {
+    if (date == state.documentIssueDate) {
+      return;
+    }
     state = state.copyWith(documentIssueDate: date);
     notifyListeners();
   }
@@ -171,21 +183,33 @@ class FormAccountsPayableStore extends ChangeNotifier {
   }
 
   void setTaxExemptionReason(String value) {
+    if (value == state.taxExemptionReason) {
+      return;
+    }
     state = state.copyWith(taxExemptionReason: value);
     notifyListeners();
   }
 
   void setTaxObservation(String value) {
+    if (value == state.taxObservation) {
+      return;
+    }
     state = state.copyWith(taxObservation: value);
     notifyListeners();
   }
 
   void setTaxCstCode(String value) {
+    if (value == state.taxCstCode) {
+      return;
+    }
     state = state.copyWith(taxCstCode: value);
     notifyListeners();
   }
 
   void setTaxCfop(String value) {
+    if (value == state.taxCfop) {
+      return;
+    }
     state = state.copyWith(taxCfop: value);
     notifyListeners();
   }
@@ -239,26 +263,41 @@ class FormAccountsPayableStore extends ChangeNotifier {
   }
 
   void setTotalAmount(double amount) {
+    if (state.totalAmount == amount) {
+      return;
+    }
     state = state.copyWith(totalAmount: amount);
     _updateInstallmentPreview();
   }
 
   void setSingleDueDate(String dueDate) {
+    if (dueDate == state.singleDueDate) {
+      return;
+    }
     state = state.copyWith(singleDueDate: dueDate);
     _updateInstallmentPreview();
   }
 
   void setAutomaticInstallments(int count) {
+    if (count == state.automaticInstallments) {
+      return;
+    }
     state = state.copyWith(automaticInstallments: count);
     notifyListeners();
   }
 
   void setAutomaticFirstDueDate(String dueDate) {
+    if (dueDate == state.automaticFirstDueDate) {
+      return;
+    }
     state = state.copyWith(automaticFirstDueDate: dueDate);
     notifyListeners();
   }
 
   void setAutomaticInstallmentAmount(double amount) {
+    if (amount == state.automaticInstallmentAmount) {
+      return;
+    }
     state = state.copyWith(automaticInstallmentAmount: amount);
     notifyListeners();
   }
