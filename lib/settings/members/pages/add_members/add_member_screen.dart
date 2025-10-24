@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/settings/members/models/member_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -9,14 +10,18 @@ import 'store/form_member_store.dart';
 import 'widgets/form_member.dart';
 
 class AddMemberScreen extends StatelessWidget {
-  const AddMemberScreen({super.key});
+  final MemberModel? member;
+
+  const AddMemberScreen({super.key, this.member});
+
+  bool get isEditing => member != null;
 
   @override
   Widget build(BuildContext context) {
     Toast.init(context);
 
     return ChangeNotifierProvider(
-      create: (_) => FormMemberStore(),
+      create: (_) => FormMemberStore(member: member),
       child: LayoutDashboard(
           Row(
             children: [
@@ -28,7 +33,7 @@ class AddMemberScreen extends StatelessWidget {
                 ),
               ),
               Text(
-                "Registrar membro",
+                isEditing ? "Editar membro" : "Registrar membro",
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontFamily: AppFonts.fontTitle,
@@ -38,7 +43,7 @@ class AddMemberScreen extends StatelessWidget {
               ),
             ],
           ),
-          screen: FormMember()),
+          screen: FormMember(isEditing: isEditing)),
     );
   }
 }

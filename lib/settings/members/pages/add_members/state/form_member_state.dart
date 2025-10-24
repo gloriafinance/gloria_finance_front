@@ -1,4 +1,7 @@
+import '../../../models/member_model.dart';
+
 class FormMemberState {
+  String? memberId;
   String name;
   String email;
   String phone;
@@ -11,6 +14,7 @@ class FormMemberState {
 
   FormMemberState(
       {required this.makeRequest,
+      this.memberId,
       required this.name,
       required this.email,
       required this.phone,
@@ -24,6 +28,7 @@ class FormMemberState {
     return FormMemberState(
       makeRequest: false,
       active: true,
+      memberId: null,
       name: '',
       email: '',
       phone: '',
@@ -33,7 +38,23 @@ class FormMemberState {
     );
   }
 
+  factory FormMemberState.fromModel(MemberModel member) {
+    return FormMemberState(
+      makeRequest: false,
+      memberId: member.memberId,
+      name: member.name,
+      email: member.email,
+      phone: member.phone,
+      dni: member.dni,
+      conversionDate: member.conversionDate,
+      baptismDate: member.baptismDate,
+      birthdate: member.birthdate,
+      active: member.active,
+    );
+  }
+
   FormMemberState copyWith({
+    String? memberId,
     String? name,
     String? email,
     String? phone,
@@ -45,6 +66,7 @@ class FormMemberState {
     bool? active,
   }) {
     return FormMemberState(
+      memberId: memberId ?? this.memberId,
       name: name ?? this.name,
       email: email ?? this.email,
       phone: phone ?? this.phone,
@@ -58,7 +80,7 @@ class FormMemberState {
   }
 
   Map<String, dynamic> toJson() {
-    return {
+    final payload = {
       'name': name,
       'email': email,
       'phone': phone,
@@ -68,5 +90,11 @@ class FormMemberState {
       'birthdate': birthdate,
       'active': active,
     };
+
+    if (memberId != null) {
+      payload['memberId'] = memberId;
+    }
+
+    return payload;
   }
 }

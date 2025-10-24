@@ -1,6 +1,9 @@
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
+import 'package:church_finance_bk/core/theme/app_color.dart';
+import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/tag_status.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/member_model.dart';
@@ -41,6 +44,14 @@ class _MemberTableState extends State<MemberTable> {
         data: state.paginate.results,
         dataBuilder: memberDTO,
       ),
+      actionBuilders: [
+        (member) => ButtonActionTable(
+              color: AppColors.blue,
+              text: 'Editar',
+              onPressed: () => _goToEdit(context, member as MemberModel),
+              icon: Icons.edit_outlined,
+            )
+      ],
       paginate: PaginationData(
         totalRecords: state.paginate.count,
         nextPag: state.paginate.nextPag,
@@ -70,5 +81,9 @@ class _MemberTableState extends State<MemberTable> {
           ? tagStatus(Colors.green, "Sim")
           : tagStatus(Colors.red, "Nāo"),
     ];
+  }
+
+  void _goToEdit(BuildContext context, MemberModel member) {
+    GoRouter.of(context).go('/member/edit/${member.memberId}', extra: member);
   }
 }
