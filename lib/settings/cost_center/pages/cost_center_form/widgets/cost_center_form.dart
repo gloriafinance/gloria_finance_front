@@ -32,23 +32,28 @@ class _CostCenterFormState extends State<CostCenterForm> {
     final membersStore = context.watch<MemberAllStore>();
 
     final members = membersStore.getMembers();
-    final memberOptions = members
-        .map((member) => _buildMemberDisplayName(member))
-        .toList(growable: false);
+    final memberLookup = <String, MemberModel>{};
+
+    for (final member in members) {
+      final label = _buildMemberDisplayName(member);
+      memberLookup[label] = member;
+    }
+
+    final memberOptions = memberLookup.keys.toList(growable: false);
 
     return SingleChildScrollView(
       child: Form(
         key: formKey,
         child: isMobile(context)
-            ? _buildMobileLayout(formStore, members, memberOptions)
-            : _buildDesktopLayout(formStore, members, memberOptions),
+            ? _buildMobileLayout(formStore, memberLookup, memberOptions)
+            : _buildDesktopLayout(formStore, memberLookup, memberOptions),
       ),
     );
   }
 
   Widget _buildMobileLayout(
     CostCenterFormStore formStore,
-    List<MemberModel> members,
+    Map<String, MemberModel> memberLookup,
     List<String> memberOptions,
   ) {
     return Column(
@@ -57,7 +62,7 @@ class _CostCenterFormState extends State<CostCenterForm> {
         _buildCostCenterIdField(formStore),
         _buildNameField(formStore),
         _buildCategoryField(formStore),
-        _buildResponsibleField(formStore, members, memberOptions),
+        _buildResponsibleField(formStore, memberLookup, memberOptions),
         _buildDescriptionField(formStore),
         const SizedBox(height: 16),
         _buildActiveToggle(formStore),
@@ -69,7 +74,7 @@ class _CostCenterFormState extends State<CostCenterForm> {
 
   Widget _buildDesktopLayout(
     CostCenterFormStore formStore,
-    List<MemberModel> members,
+    Map<String, MemberModel> memberLookup,
     List<String> memberOptions,
   ) {
     return Column(
@@ -89,8 +94,8 @@ class _CostCenterFormState extends State<CostCenterForm> {
             Expanded(child: _buildCategoryField(formStore)),
             const SizedBox(width: 24),
             Expanded(
-              child:
-                  _buildResponsibleField(formStore, members, memberOptions),
+              child: _buildResponsibleField(
+                  formStore, memberLookup, memberOptions),
             ),
           ],
         ),
@@ -152,41 +157,19 @@ class _CostCenterFormState extends State<CostCenterForm> {
 
   Widget _buildResponsibleField(
     CostCenterFormStore formStore,
-    List<MemberModel> members,
+    Map<String, MemberModel> memberLookup,
     List<String> memberOptions,
   ) {
     final responsibleId = formStore.state.responsibleMemberId;
     final responsibleName = formStore.state.responsibleMemberName;
 
     if (memberOptions.isNotEmpty) {
-      int selectedIndex = -1;
-
-      if (responsibleId != null) {
-        selectedIndex =
-            members.indexWhere((member) => member.memberId == responsibleId);
-      } else if (responsibleName != null && responsibleName.isNotEmpty) {
-        selectedIndex = memberOptions.indexOf(responsibleName);
-      }
-
-      if (selectedIndex != -1) {
-        final expectedDisplayName = memberOptions[selectedIndex];
-        final selectedMember = members[selectedIndex];
-
-        final shouldUpdateId =
-            formStore.state.responsibleMemberId != selectedMember.memberId;
-        final shouldUpdateName =
-            formStore.state.responsibleMemberName != expectedDisplayName;
-
-        if (shouldUpdateId || shouldUpdateName) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (!mounted) return;
-            formStore.setResponsibleMember(
-              selectedMember,
-              expectedDisplayName,
-            );
-          });
-        }
-      }
+      _syncResponsibleSelection(
+        formStore,
+        memberLookup,
+        responsibleId,
+        responsibleName,
+      );
     }
 
     if (memberOptions.isEmpty) {
@@ -219,10 +202,76 @@ class _CostCenterFormState extends State<CostCenterForm> {
           return;
         }
 
-        final member = members[selectedIndex];
+        final member = memberLookup[value];
+        if (member == null) {
+          return;
+        }
+
         formStore.setResponsibleMember(member, value);
       },
     );
+  }
+
+  void _syncResponsibleSelection(
+    CostCenterFormStore formStore,
+    Map<String, MemberModel> memberLookup,
+    String? responsibleId,
+    String? responsibleName,
+  ) {
+    MemberModel? matchedMember;
+    String? matchedLabel;
+
+    if (responsibleId != null && responsibleId.isNotEmpty) {
+      for (final entry in memberLookup.entries) {
+        if (entry.value.memberId == responsibleId) {
+          matchedMember = entry.value;
+          matchedLabel = entry.key;
+          break;
+        }
+      }
+    }
+
+    if (matchedMember == null && responsibleName != null) {
+      final target = responsibleName.trim().toLowerCase();
+
+      for (final entry in memberLookup.entries) {
+        final displayName = entry.key;
+        final member = entry.value;
+
+        final normalizedDisplay = displayName.trim().toLowerCase();
+        final normalizedName = member.name.trim().toLowerCase();
+        final normalizedEmail = member.email.trim().toLowerCase();
+
+        final matchesDisplay = normalizedDisplay == target;
+        final matchesName = normalizedName == target;
+        final matchesEmail =
+            normalizedEmail.isNotEmpty && target.contains(normalizedEmail);
+
+        if (matchesDisplay || matchesName || matchesEmail) {
+          matchedMember = member;
+          matchedLabel = displayName;
+          break;
+        }
+      }
+    }
+
+    if (matchedMember == null || matchedLabel == null) {
+      return;
+    }
+
+    final shouldUpdateId =
+        formStore.state.responsibleMemberId != matchedMember.memberId;
+    final shouldUpdateName =
+        formStore.state.responsibleMemberName != matchedLabel;
+
+    if (!shouldUpdateId && !shouldUpdateName) {
+      return;
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      formStore.setResponsibleMember(matchedMember!, matchedLabel!);
+    });
   }
 
   Widget _buildDescriptionField(CostCenterFormStore formStore) {
@@ -331,7 +380,7 @@ class _CostCenterFormState extends State<CostCenterForm> {
       buffer.write(' • ');
       buffer.write(member.email);
     }
-    return buffer.toString();
+    return buffer.toString().trim();
   }
 
   String? _requiredValidator(String? value) {
