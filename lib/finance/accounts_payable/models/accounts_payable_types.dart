@@ -45,3 +45,26 @@ enum AccountsPayableDocumentType {
     return AccountsPayableDocumentType.other;
   }
 }
+
+/// Status used to classify tax situations for accounts payable documents.
+enum AccountsPayableTaxStatus {
+  exempt('EXEMPT', 'Isenta'),
+  taxed('TAXED', 'Tributada'),
+  substitution('SUBSTITUTION', 'Substituição tributária'),
+  notApplicable('NOT_APPLICABLE', 'Sem nota fiscal');
+
+  const AccountsPayableTaxStatus(this.apiValue, this.friendlyName);
+
+  final String apiValue;
+  final String friendlyName;
+
+  static AccountsPayableTaxStatus? fromApi(String? value) {
+    if (value == null) return null;
+    for (final status in AccountsPayableTaxStatus.values) {
+      if (status.apiValue == value) {
+        return status;
+      }
+    }
+    return null;
+  }
+}

@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_tax.dart';
 import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_types.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 
@@ -19,6 +20,13 @@ class FormAccountsPayableState {
   int automaticInstallments;
   String automaticFirstDueDate;
   double automaticInstallmentAmount;
+  AccountsPayableTaxStatus taxStatus;
+  bool taxExempt;
+  String taxExemptionReason;
+  String taxObservation;
+  String taxCstCode;
+  String taxCfop;
+  List<AccountsPayableTaxLine> taxes;
 
   FormAccountsPayableState({
     required this.makeRequest,
@@ -36,6 +44,13 @@ class FormAccountsPayableState {
     required this.automaticInstallments,
     required this.automaticFirstDueDate,
     required this.automaticInstallmentAmount,
+    required this.taxStatus,
+    required this.taxExempt,
+    required this.taxExemptionReason,
+    required this.taxObservation,
+    required this.taxCstCode,
+    required this.taxCfop,
+    required this.taxes,
   });
 
   factory FormAccountsPayableState.init() {
@@ -55,6 +70,13 @@ class FormAccountsPayableState {
       automaticInstallments: 0,
       automaticFirstDueDate: '',
       automaticInstallmentAmount: 0,
+      taxStatus: AccountsPayableTaxStatus.notApplicable,
+      taxExempt: true,
+      taxExemptionReason: '',
+      taxObservation: '',
+      taxCstCode: '',
+      taxCfop: '',
+      taxes: const [],
     );
   }
 
@@ -75,6 +97,13 @@ class FormAccountsPayableState {
     int? automaticInstallments,
     String? automaticFirstDueDate,
     double? automaticInstallmentAmount,
+    AccountsPayableTaxStatus? taxStatus,
+    bool? taxExempt,
+    String? taxExemptionReason,
+    String? taxObservation,
+    String? taxCstCode,
+    String? taxCfop,
+    List<AccountsPayableTaxLine>? taxes,
   }) {
     return FormAccountsPayableState(
       makeRequest: makeRequest ?? this.makeRequest,
@@ -97,6 +126,13 @@ class FormAccountsPayableState {
           automaticFirstDueDate ?? this.automaticFirstDueDate,
       automaticInstallmentAmount:
           automaticInstallmentAmount ?? this.automaticInstallmentAmount,
+      taxStatus: taxStatus ?? this.taxStatus,
+      taxExempt: taxExempt ?? this.taxExempt,
+      taxExemptionReason: taxExemptionReason ?? this.taxExemptionReason,
+      taxObservation: taxObservation ?? this.taxObservation,
+      taxCstCode: taxCstCode ?? this.taxCstCode,
+      taxCfop: taxCfop ?? this.taxCfop,
+      taxes: taxes ?? this.taxes,
     );
   }
 
@@ -124,58 +160,55 @@ class FormAccountsPayableState {
           ? convertDateFormat(installment.dueDate)
           : '';
       return {
-        'sequence': installment.sequence ?? entry.key + 1,
         'amount': installment.amount,
         'dueDate': dueDate,
       };
     }).toList();
 
-    final payment = <String, dynamic>{
-      'mode': paymentMode.apiValue,
-    };
-
     switch (paymentMode) {
       case AccountsPayablePaymentMode.single:
-        final dueDate =
-            singleDueDate.isNotEmpty ? convertDateFormat(singleDueDate) : '';
-        payment['single'] = {
-          'amount': totalAmount,
-          'dueDate': dueDate,
-        };
+        payload['amountTotal'] = totalAmount;
+        if (singleDueDate.isNotEmpty) {
+          payload['installments'] = [
+            {
+              'amount': totalAmount,
+              'dueDate': convertDateFormat(singleDueDate),
+            }
+          ];
+        }
         break;
       case AccountsPayablePaymentMode.manual:
-        payment['manual'] = {
-          'totalAmount': _sumInstallments,
-          'installments': installmentsPayload,
-        };
+        payload['installments'] = installmentsPayload;
         break;
       case AccountsPayablePaymentMode.automatic:
-        payment['automatic'] = {
-          'installmentsCount': automaticInstallments,
-          'amountPerInstallment': automaticInstallmentAmount,
-          'firstDueDate': automaticFirstDueDate.isNotEmpty
-              ? convertDateFormat(automaticFirstDueDate)
-              : '',
-          'totalAmount': _automaticTotalAmount,
-          'installments': installmentsPayload,
-        };
+        payload['installments'] = installmentsPayload;
         break;
     }
 
-    payload['payment'] = payment;
+    if (paymentMode != AccountsPayablePaymentMode.single &&
+        installmentsPayload.isNotEmpty) {
+      payload['amountTotal'] = _sumInstallments;
+    }
+
+    payload['taxMetadata'] = {
+      'status': taxStatus.apiValue,
+      'taxExempt': taxExempt,
+      if (taxExemptionReason.isNotEmpty)
+        'exemptionReason': taxExemptionReason,
+      if (taxObservation.isNotEmpty) 'observation': taxObservation,
+      if (taxCstCode.isNotEmpty) 'cstCode': taxCstCode,
+      if (taxCfop.isNotEmpty) 'cfop': taxCfop,
+    };
+
+    if (!taxExempt && taxes.isNotEmpty) {
+      payload['taxes'] = taxes.map((tax) => tax.toJson()).toList();
+    }
 
     return payload;
   }
 
   double get _sumInstallments {
     return installments.fold<double>(0, (acc, item) => acc + item.amount);
-  }
-
-  double get _automaticTotalAmount {
-    if (installments.isNotEmpty) {
-      return _sumInstallments;
-    }
-    return automaticInstallments * automaticInstallmentAmount;
   }
 
   bool get isValid {
@@ -195,19 +228,46 @@ class FormAccountsPayableState {
         installments.every((installment) =>
             installment.amount > 0 && installment.dueDate.isNotEmpty);
 
+    bool paymentValid;
     switch (paymentMode) {
       case AccountsPayablePaymentMode.single:
-        return totalAmount > 0 &&
+        paymentValid = totalAmount > 0 &&
             singleDueDate.isNotEmpty &&
             hasValidInstallments;
+        break;
       case AccountsPayablePaymentMode.manual:
-        return hasValidInstallments;
+        paymentValid = hasValidInstallments;
+        break;
       case AccountsPayablePaymentMode.automatic:
-        return automaticInstallments > 0 &&
+        paymentValid = automaticInstallments > 0 &&
             automaticInstallmentAmount > 0 &&
             automaticFirstDueDate.isNotEmpty &&
             hasValidInstallments &&
             installments.length == automaticInstallments;
+        break;
     }
+
+    if (!paymentValid) {
+      return false;
+    }
+
+    final requiresTaxes = !taxExempt &&
+        (taxStatus == AccountsPayableTaxStatus.taxed ||
+            taxStatus == AccountsPayableTaxStatus.substitution);
+
+    if (requiresTaxes) {
+      final hasValidTaxes = taxes.isNotEmpty &&
+          taxes.every(
+            (tax) =>
+                tax.taxType.isNotEmpty && tax.amount > 0 && tax.percentage > 0,
+          );
+      if (!hasValidTaxes) {
+        return false;
+      }
+    } else if (taxExempt && taxes.isNotEmpty) {
+      return false;
+    }
+
+    return true;
   }
 }

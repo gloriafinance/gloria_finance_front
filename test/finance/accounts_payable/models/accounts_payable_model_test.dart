@@ -40,6 +40,21 @@ void main() {
             ],
           },
         },
+        'taxMetadata': {
+          'status': 'TAXED',
+          'taxExempt': false,
+          'observation': 'Retenção municipal',
+          'cstCode': '01',
+          'cfop': '5933',
+        },
+        'taxes': [
+          {
+            'taxType': 'ISS',
+            'percentage': 5,
+            'amount': 62.53,
+            'status': 'TAXED',
+          }
+        ],
       });
 
       expect(model.document, isNotNull);
@@ -55,6 +70,17 @@ void main() {
       expect(model.statusEnum, AccountsPayableStatus.PARTIAL);
       expect(model.statusLabel, 'Pagamento parcial');
       expect(model.installments.first.sequence, 1);
+
+      expect(model.taxMetadata, isNotNull);
+      expect(model.taxMetadata!.status, AccountsPayableTaxStatus.taxed);
+      expect(model.taxMetadata!.taxExempt, isFalse);
+      expect(model.taxMetadata!.observation, 'Retenção municipal');
+      expect(model.taxMetadata!.cstCode, '01');
+      expect(model.taxMetadata!.cfop, '5933');
+
+      expect(model.taxes, hasLength(1));
+      expect(model.taxes.first.taxType, 'ISS');
+      expect(model.taxes.first.amount, closeTo(62.53, 0.0001));
     });
   });
 }

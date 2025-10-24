@@ -23,6 +23,13 @@ Widget buildDesktopLayout(
                 generalInformationSection(formStore, validator),
                 const SizedBox(height: 16),
                 documentSection(context, formStore, validator),
+                const SizedBox(height: 16),
+                taxSection(
+                  context,
+                  formStore,
+                  validator,
+                  showValidationMessages,
+                ),
               ],
             ),
           ),

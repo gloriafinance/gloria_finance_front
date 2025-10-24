@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_tax.dart';
 import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_types.dart';
 import 'package:church_finance_bk/helpers/date_formatter.dart';
 import 'package:church_finance_bk/providers/models/supplier_model.dart';
@@ -314,6 +315,8 @@ class AccountsPayableModel {
   final SupplierModel? supplier;
   final AccountsPayableDocument? document;
   final AccountsPayablePayment? payment;
+  final AccountsPayableTaxMetadata? taxMetadata;
+  final List<AccountsPayableTaxLine> taxes;
 
   AccountsPayableModel({
     this.accountPayableId,
@@ -331,6 +334,8 @@ class AccountsPayableModel {
     this.supplier,
     this.document,
     this.payment,
+    this.taxMetadata,
+    this.taxes = const [],
   });
 
   factory AccountsPayableModel.fromJson(Map<String, dynamic> json) {
@@ -369,6 +374,17 @@ class AccountsPayableModel {
           ? AccountsPayablePayment.fromJson(
               Map<String, dynamic>.from(json['payment'] as Map))
           : null,
+      taxMetadata: json['taxMetadata'] != null
+          ? AccountsPayableTaxMetadata.fromJson(
+              Map<String, dynamic>.from(json['taxMetadata'] as Map))
+          : null,
+      taxes: (json['taxes'] as List<dynamic>? ?? [])
+          .map(
+            (entry) => AccountsPayableTaxLine.fromJson(
+              Map<String, dynamic>.from(entry as Map),
+            ),
+          )
+          .toList(),
     );
   }
 
@@ -404,6 +420,14 @@ class AccountsPayableModel {
 
     if (payment != null) {
       data['payment'] = payment!.toJson();
+    }
+
+    if (taxMetadata != null) {
+      data['taxMetadata'] = taxMetadata!.toJson();
+    }
+
+    if (taxes.isNotEmpty) {
+      data['taxes'] = taxes.map((tax) => tax.toJson()).toList();
     }
 
     return data;

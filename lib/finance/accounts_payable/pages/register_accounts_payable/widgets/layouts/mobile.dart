@@ -17,6 +17,13 @@ Widget buildMobileLayout(
       const SizedBox(height: 16),
       documentSection(context, formStore, validator),
       const SizedBox(height: 16),
+      taxSection(
+        context,
+        formStore,
+        validator,
+        showValidationMessages,
+      ),
+      const SizedBox(height: 16),
       paymentSection(
         context,
         formStore,
