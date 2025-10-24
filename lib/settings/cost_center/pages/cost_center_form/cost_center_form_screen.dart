@@ -20,9 +20,8 @@ class CostCenterFormScreen extends StatelessWidget {
     Toast.init(context);
 
     final isEdit = costCenter != null;
-    final title = isEdit
-        ? 'Editar centro de custo'
-        : 'Cadastrar centro de custo';
+    final title =
+        isEdit ? 'Editar centro de custo' : 'Cadastrar centro de custo';
 
     return ChangeNotifierProvider(
       create: (_) => CostCenterFormStore(costCenter: costCenter),
@@ -31,10 +30,7 @@ class CostCenterFormScreen extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () => context.go('/cost-center'),
-              child: const Icon(
-                Icons.arrow_back_ios,
-                color: AppColors.purple,
-              ),
+              child: const Icon(Icons.arrow_back_ios, color: AppColors.purple),
             ),
             const SizedBox(width: 8),
             Text(
@@ -48,7 +44,7 @@ class CostCenterFormScreen extends StatelessWidget {
             ),
           ],
         ),
-        screen: const CostCenterForm(),
+        screen: CostCenterForm(isEdit: isEdit),
       ),
     );
   }

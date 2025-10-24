@@ -16,7 +16,9 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class CostCenterForm extends StatefulWidget {
-  const CostCenterForm({super.key});
+  final bool isEdit;
+
+  const CostCenterForm({super.key, required this.isEdit});
 
   @override
   State<CostCenterForm> createState() => _CostCenterFormState();
@@ -32,21 +34,19 @@ class _CostCenterFormState extends State<CostCenterForm> {
     final membersStore = context.watch<MemberAllStore>();
 
     final members = membersStore.getMembers();
-    final memberLookup = <String, MemberModel>{};
-
-    for (final member in members) {
-      final label = _buildMemberDisplayName(member);
-      memberLookup[label] = member;
-    }
+    final memberLookup = <String, MemberModel>{
+      for (final member in members) _buildMemberDisplayName(member): member,
+    };
 
     final memberOptions = memberLookup.keys.toList(growable: false);
 
     return SingleChildScrollView(
       child: Form(
         key: formKey,
-        child: isMobile(context)
-            ? _buildMobileLayout(formStore, memberLookup, memberOptions)
-            : _buildDesktopLayout(formStore, memberLookup, memberOptions),
+        child:
+            isMobile(context)
+                ? _buildMobileLayout(formStore, memberLookup, memberOptions)
+                : _buildDesktopLayout(formStore, memberLookup, memberOptions),
       ),
     );
   }
@@ -95,7 +95,10 @@ class _CostCenterFormState extends State<CostCenterForm> {
             const SizedBox(width: 24),
             Expanded(
               child: _buildResponsibleField(
-                  formStore, memberLookup, memberOptions),
+                formStore,
+                memberLookup,
+                memberOptions,
+              ),
             ),
           ],
         ),
@@ -160,18 +163,6 @@ class _CostCenterFormState extends State<CostCenterForm> {
     Map<String, MemberModel> memberLookup,
     List<String> memberOptions,
   ) {
-    final responsibleId = formStore.state.responsibleMemberId;
-    final responsibleName = formStore.state.responsibleMemberName;
-
-    if (memberOptions.isNotEmpty) {
-      _syncResponsibleSelection(
-        formStore,
-        memberLookup,
-        responsibleId,
-        responsibleName,
-      );
-    }
-
     if (memberOptions.isEmpty) {
       return Padding(
         padding: const EdgeInsets.only(top: 20.0),
@@ -188,7 +179,11 @@ class _CostCenterFormState extends State<CostCenterForm> {
 
     return Dropdown(
       label: 'Responsável',
-      initialValue: formStore.state.responsibleMemberName,
+      initialValue: _resolveResponsibleLabel(
+        formStore,
+        memberLookup,
+        memberOptions,
+      ),
       items: memberOptions,
       onValidator: (value) {
         if (value == null || value.isEmpty) {
@@ -212,66 +207,26 @@ class _CostCenterFormState extends State<CostCenterForm> {
     );
   }
 
-  void _syncResponsibleSelection(
+  String? _resolveResponsibleLabel(
     CostCenterFormStore formStore,
     Map<String, MemberModel> memberLookup,
-    String? responsibleId,
-    String? responsibleName,
+    List<String> memberOptions,
   ) {
-    MemberModel? matchedMember;
-    String? matchedLabel;
-
+    final responsibleId = formStore.state.responsibleMemberId;
     if (responsibleId != null && responsibleId.isNotEmpty) {
       for (final entry in memberLookup.entries) {
         if (entry.value.memberId == responsibleId) {
-          matchedMember = entry.value;
-          matchedLabel = entry.key;
-          break;
+          return entry.key;
         }
       }
     }
 
-    if (matchedMember == null && responsibleName != null) {
-      final target = responsibleName.trim().toLowerCase();
-
-      for (final entry in memberLookup.entries) {
-        final displayName = entry.key;
-        final member = entry.value;
-
-        final normalizedDisplay = displayName.trim().toLowerCase();
-        final normalizedName = member.name.trim().toLowerCase();
-        final normalizedEmail = member.email.trim().toLowerCase();
-
-        final matchesDisplay = normalizedDisplay == target;
-        final matchesName = normalizedName == target;
-        final matchesEmail =
-            normalizedEmail.isNotEmpty && target.contains(normalizedEmail);
-
-        if (matchesDisplay || matchesName || matchesEmail) {
-          matchedMember = member;
-          matchedLabel = displayName;
-          break;
-        }
-      }
+    final currentLabel = formStore.state.responsibleMemberName;
+    if (currentLabel != null && memberOptions.contains(currentLabel)) {
+      return currentLabel;
     }
 
-    if (matchedMember == null || matchedLabel == null) {
-      return;
-    }
-
-    final shouldUpdateId =
-        formStore.state.responsibleMemberId != matchedMember.memberId;
-    final shouldUpdateName =
-        formStore.state.responsibleMemberName != matchedLabel;
-
-    if (!shouldUpdateId && !shouldUpdateName) {
-      return;
-    }
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      formStore.setResponsibleMember(matchedMember!, matchedLabel!);
-    });
+    return null;
   }
 
   Widget _buildDescriptionField(CostCenterFormStore formStore) {
@@ -290,11 +245,7 @@ class _CostCenterFormState extends State<CostCenterForm> {
           'Use um código fácil de lembrar com até $_costCenterIdMaxLength caracteres.',
       child: const Padding(
         padding: EdgeInsets.all(2.0),
-        child: Icon(
-          Icons.help_outline,
-          size: 18,
-          color: AppColors.purple,
-        ),
+        child: Icon(Icons.help_outline, size: 18, color: AppColors.purple),
       ),
     );
   }
@@ -305,11 +256,7 @@ class _CostCenterFormState extends State<CostCenterForm> {
           'Descreva de forma objetiva como este centro de custo será utilizado.',
       child: Padding(
         padding: EdgeInsets.all(2.0),
-        child: Icon(
-          Icons.help_outline,
-          size: 18,
-          color: AppColors.purple,
-        ),
+        child: Icon(Icons.help_outline, size: 18, color: AppColors.purple),
       ),
     );
   }
@@ -319,10 +266,7 @@ class _CostCenterFormState extends State<CostCenterForm> {
       children: [
         const Text(
           'Ativo',
-          style: TextStyle(
-            fontFamily: AppFonts.fontSubTitle,
-            fontSize: 14,
-          ),
+          style: TextStyle(fontFamily: AppFonts.fontSubTitle, fontSize: 14),
         ),
         Switch(
           value: formStore.state.active,
@@ -359,7 +303,7 @@ class _CostCenterFormState extends State<CostCenterForm> {
       return;
     }
 
-    final success = await formStore.submit();
+    final success = await formStore.submit(widget.isEdit);
 
     if (success && mounted) {
       Toast.showMessage(

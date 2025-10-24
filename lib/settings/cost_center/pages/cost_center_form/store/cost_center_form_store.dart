@@ -11,10 +11,11 @@ class CostCenterFormStore extends ChangeNotifier {
   CostCenterFormState state;
 
   CostCenterFormStore({CostCenterModel? costCenter})
-      : service = CostCenterService(),
-        state = costCenter != null
-            ? CostCenterFormState.fromModel(costCenter)
-            : CostCenterFormState.init();
+    : service = CostCenterService(),
+      state =
+          costCenter != null
+              ? CostCenterFormState.fromModel(costCenter)
+              : CostCenterFormState.init() {}
 
   void setCostCenterId(String value) {
     state = state.copyWith(costCenterId: value.trim());
@@ -37,6 +38,7 @@ class CostCenterFormStore extends ChangeNotifier {
   }
 
   void setResponsibleMember(MemberModel member, String displayName) {
+    print('Setting responsible member: ${member.memberId} - $displayName');
     state = state.copyWith(
       responsibleMemberId: member.memberId,
       responsibleMemberName: displayName,
@@ -49,7 +51,7 @@ class CostCenterFormStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> submit() async {
+  Future<bool> submit(bool isEdit) async {
     state = state.copyWith(makeRequest: true);
     notifyListeners();
 
@@ -57,7 +59,7 @@ class CostCenterFormStore extends ChangeNotifier {
       final session = await AuthPersistence().restore();
       final payload = state.toPayload(session.churchId);
 
-      await service.saveCostCenter(payload);
+      await service.saveCostCenter(payload, isEdit);
 
       state = state.copyWith(makeRequest: false);
       notifyListeners();
