@@ -156,19 +156,32 @@ class _CostCenterFormState extends State<CostCenterForm> {
     List<String> memberOptions,
   ) {
     final responsibleId = formStore.state.responsibleMemberId;
+    final responsibleName = formStore.state.responsibleMemberName;
 
-    if (responsibleId != null && memberOptions.isNotEmpty) {
-      final selectedIndex =
-          members.indexWhere((member) => member.memberId == responsibleId);
+    if (memberOptions.isNotEmpty) {
+      int selectedIndex = -1;
+
+      if (responsibleId != null) {
+        selectedIndex =
+            members.indexWhere((member) => member.memberId == responsibleId);
+      } else if (responsibleName != null && responsibleName.isNotEmpty) {
+        selectedIndex = memberOptions.indexOf(responsibleName);
+      }
 
       if (selectedIndex != -1) {
         final expectedDisplayName = memberOptions[selectedIndex];
+        final selectedMember = members[selectedIndex];
 
-        if (formStore.state.responsibleMemberName != expectedDisplayName) {
+        final shouldUpdateId =
+            formStore.state.responsibleMemberId != selectedMember.memberId;
+        final shouldUpdateName =
+            formStore.state.responsibleMemberName != expectedDisplayName;
+
+        if (shouldUpdateId || shouldUpdateName) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (!mounted) return;
             formStore.setResponsibleMember(
-              members[selectedIndex],
+              selectedMember,
               expectedDisplayName,
             );
           });
