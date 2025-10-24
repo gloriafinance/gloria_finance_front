@@ -232,42 +232,12 @@ Widget paymentSection(
   FormAccountsPayableValidator validator,
   bool showValidationMessages,
 ) {
-  final selectedMode = formStore.state.paymentMode;
-
   return _SectionCard(
     title: 'Configuração do pagamento',
     subtitle:
         'Defina como essa conta será quitada e revise o cronograma de parcelas.',
     children: [
-      Wrap(
-        spacing: 12,
-        runSpacing: 12,
-        children: AccountsPayablePaymentMode.values.map((mode) {
-          final isSelected = selectedMode == mode;
-
-          return ChoiceChip(
-            label: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
-              child: Text(
-                mode.friendlyName,
-                style: TextStyle(
-                  fontFamily: AppFonts.fontSubTitle,
-                  color: isSelected ? AppColors.purple : AppColors.grey,
-                ),
-              ),
-            ),
-            selected: isSelected,
-            selectedColor: AppColors.purple.withOpacity(0.12),
-            backgroundColor: Colors.white,
-            shape: StadiumBorder(
-              side: BorderSide(
-                color: isSelected ? AppColors.purple : AppColors.greyMiddle,
-              ),
-            ),
-            onSelected: (_) => formStore.setPaymentMode(mode),
-          );
-        }).toList(),
-      ),
+      _PaymentModeSelector(formStore: formStore),
       const SizedBox(height: 20),
       InstallmentAccountPayableForm(
         formStore: formStore,
@@ -343,6 +313,66 @@ Widget _descriptionInput(
     onChanged: formStore.setDescription,
     onValidator: (_) => validator.errorByKey(formStore.state, 'description'),
   );
+}
+
+class _PaymentModeSelector extends StatelessWidget {
+  final FormAccountsPayableStore formStore;
+
+  const _PaymentModeSelector({
+    required this.formStore,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final selectedMode = formStore.state.paymentMode;
+    final availableModes = AccountsPayablePaymentMode.values
+        .where((mode) => mode != AccountsPayablePaymentMode.manual)
+        .toList();
+
+    if (availableModes.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    final effectiveMode = availableModes.contains(selectedMode)
+        ? selectedMode
+        : availableModes.first;
+
+    if (effectiveMode != selectedMode) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        formStore.setPaymentMode(effectiveMode);
+      });
+    }
+
+    return Wrap(
+      spacing: 12,
+      runSpacing: 12,
+      children: availableModes.map((mode) {
+        final isSelected = effectiveMode == mode;
+
+        return ChoiceChip(
+          label: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Text(
+              mode.friendlyName,
+              style: TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+                color: isSelected ? AppColors.purple : AppColors.grey,
+              ),
+            ),
+          ),
+          selected: isSelected,
+          selectedColor: AppColors.purple.withOpacity(0.12),
+          backgroundColor: Colors.white,
+          shape: StadiumBorder(
+            side: BorderSide(
+              color: isSelected ? AppColors.purple : AppColors.greyMiddle,
+            ),
+          ),
+          onSelected: (_) => formStore.setPaymentMode(mode),
+        );
+      }).toList(),
+    );
+  }
 }
 
 Widget _buildCstHelpIcon(BuildContext context) {
