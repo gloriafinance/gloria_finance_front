@@ -67,6 +67,17 @@ List<Map<String, dynamic>> items = const [
     ],
   },
   {
+    "label": "Patrimônio",
+    "icon": Icons.inventory_2_outlined,
+    "items": [
+      {
+        "label": "Bens patrimoniais",
+        "icon": Icons.account_balance,
+        "to": "/patrimony/assets",
+      },
+    ],
+  },
+  {
     "label": "Relatórios",
     "icon": Icons.insert_chart,
     "items": [
