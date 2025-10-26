@@ -1,13 +1,14 @@
 import 'dart:convert';
 
+import 'package:church_finance_bk/helpers/currency_formatter.dart';
 import 'package:church_finance_bk/helpers/date_formatter.dart';
 import 'package:dio/dio.dart';
 
 import '../../../../models/patrimony_asset_enums.dart';
+import '../../../../models/patrimony_asset_model.dart';
 import '../../../../models/patrimony_attachment_model.dart';
 
 class PatrimonyAssetFormState {
-  final bool loadingAsset;
   final bool makeRequest;
   final String? assetId;
   final String name;
@@ -25,7 +26,6 @@ class PatrimonyAssetFormState {
   final Set<String> attachmentsToRemove;
 
   const PatrimonyAssetFormState({
-    required this.loadingAsset,
     required this.makeRequest,
     required this.assetId,
     required this.name,
@@ -45,7 +45,6 @@ class PatrimonyAssetFormState {
 
   factory PatrimonyAssetFormState.initial() {
     return const PatrimonyAssetFormState(
-      loadingAsset: false,
       makeRequest: false,
       assetId: null,
       name: '',
@@ -65,6 +64,30 @@ class PatrimonyAssetFormState {
   }
 
   bool get isEditing => assetId != null;
+
+  factory PatrimonyAssetFormState.fromModel(PatrimonyAssetModel asset) {
+    final acquisitionDate = asset.acquisitionDate != null
+        ? convertDateFormatToDDMMYYYY(asset.acquisitionDate!.toIso8601String())
+        : '';
+
+    return PatrimonyAssetFormState(
+      makeRequest: false,
+      assetId: asset.assetId,
+      name: asset.name,
+      category: asset.category?.apiValue,
+      value: asset.value,
+      valueText: CurrencyFormatter.formatCurrency(asset.value),
+      acquisitionDate: acquisitionDate,
+      churchId: asset.churchId,
+      location: asset.location ?? '',
+      responsibleId: asset.responsibleId ?? '',
+      status: asset.status?.apiValue,
+      notes: asset.notes ?? '',
+      newAttachments: const [],
+      existingAttachments: List<PatrimonyAttachmentModel>.from(asset.attachments),
+      attachmentsToRemove: {},
+    );
+  }
 
   String? get categoryLabel {
     if (category == null) {
@@ -89,7 +112,6 @@ class PatrimonyAssetFormState {
   }
 
   PatrimonyAssetFormState copyWith({
-    bool? loadingAsset,
     bool? makeRequest,
     String? assetId,
     String? name,
@@ -108,7 +130,6 @@ class PatrimonyAssetFormState {
     Set<String>? attachmentsToRemove,
   }) {
     return PatrimonyAssetFormState(
-      loadingAsset: loadingAsset ?? this.loadingAsset,
       makeRequest: makeRequest ?? this.makeRequest,
       assetId: assetId ?? this.assetId,
       name: name ?? this.name,

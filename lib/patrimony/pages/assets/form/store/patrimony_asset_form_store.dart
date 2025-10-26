@@ -1,5 +1,4 @@
 import 'package:church_finance_bk/helpers/currency_formatter.dart';
-import 'package:church_finance_bk/helpers/date_formatter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -10,11 +9,17 @@ import '../../../../services/patrimony_service.dart';
 import '../state/patrimony_asset_form_state.dart';
 
 class PatrimonyAssetFormStore extends ChangeNotifier {
-  PatrimonyAssetFormState state = PatrimonyAssetFormState.initial();
+  PatrimonyAssetFormState state;
   final PatrimonyService service;
 
-  PatrimonyAssetFormStore({PatrimonyService? service})
-      : service = service ?? PatrimonyService();
+  PatrimonyAssetFormStore({
+    PatrimonyService? service,
+    PatrimonyAssetModel? asset,
+    String? assetId,
+  })  : service = service ?? PatrimonyService(),
+        state = asset != null
+            ? PatrimonyAssetFormState.fromModel(asset)
+            : PatrimonyAssetFormState.initial().copyWith(assetId: assetId);
 
   void setName(String value) {
     state = state.copyWith(name: value);
@@ -100,21 +105,6 @@ class PatrimonyAssetFormStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loadAsset(String assetId) async {
-    state = state.copyWith(loadingAsset: true);
-    notifyListeners();
-
-    try {
-      final asset = await service.getAsset(assetId);
-      _populateFromAsset(asset);
-    } catch (e) {
-      // A mensagem de erro já é tratada pelo AppHttp.transformResponse.
-    } finally {
-      state = state.copyWith(loadingAsset: false);
-      notifyListeners();
-    }
-  }
-
   Future<bool> submit() async {
     state = state.copyWith(makeRequest: true);
     notifyListeners();
@@ -142,28 +132,4 @@ class PatrimonyAssetFormStore extends ChangeNotifier {
     }
   }
 
-  void _populateFromAsset(PatrimonyAssetModel asset) {
-    final acquisition = asset.acquisitionDate != null
-        ? convertDateFormatToDDMMYYYY(asset.acquisitionDate!.toIso8601String())
-        : '';
-
-    final valueFormatted = CurrencyFormatter.formatCurrency(asset.value);
-
-    state = state.copyWith(
-      assetId: asset.assetId,
-      name: asset.name,
-      category: asset.category?.apiValue,
-      value: asset.value,
-      valueText: valueFormatted,
-      acquisitionDate: acquisition,
-      churchId: asset.churchId,
-      location: asset.location ?? '',
-      responsibleId: asset.responsibleId ?? '',
-      status: asset.status?.apiValue,
-      notes: asset.notes ?? '',
-      existingAttachments: List<PatrimonyAttachmentModel>.from(asset.attachments),
-      attachmentsToRemove: {},
-      newAttachments: [],
-    );
-  }
 }

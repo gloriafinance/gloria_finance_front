@@ -2,6 +2,7 @@ import 'package:church_finance_bk/core/theme/transition_custom.dart';
 import 'package:church_finance_bk/patrimony/pages/assets/detail/patrimony_asset_detail_screen.dart';
 import 'package:church_finance_bk/patrimony/pages/assets/form/patrimony_asset_form_screen.dart';
 import 'package:church_finance_bk/patrimony/pages/assets/list/patrimony_assets_list_screen.dart';
+import 'package:church_finance_bk/patrimony/models/patrimony_asset_model.dart';
 import 'package:go_router/go_router.dart';
 
 List<RouteBase> patrimonyRouter() {
@@ -31,8 +32,11 @@ List<RouteBase> patrimonyRouter() {
       path: '/patrimony/assets/:assetId/edit',
       pageBuilder: (context, state) {
         final assetId = state.pathParameters['assetId']!;
+        final asset = state.extra is PatrimonyAssetModel
+            ? state.extra as PatrimonyAssetModel
+            : null;
         return transitionCustom(
-          PatrimonyAssetFormScreen(assetId: assetId),
+          PatrimonyAssetFormScreen(assetId: assetId, asset: asset),
         );
       },
     ),

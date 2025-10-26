@@ -9,10 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import 'package:church_finance_bk/patrimony/models/patrimony_asset_model.dart';
+
 class PatrimonyAssetFormScreen extends StatelessWidget {
   final String? assetId;
+  final PatrimonyAssetModel? asset;
 
-  const PatrimonyAssetFormScreen({super.key, this.assetId});
+  const PatrimonyAssetFormScreen({super.key, this.assetId, this.asset});
 
   bool get isEditing => assetId != null;
 
@@ -21,11 +24,10 @@ class PatrimonyAssetFormScreen extends StatelessWidget {
     Toast.init(context);
 
     return ChangeNotifierProvider(
-      create: (_) {
-        final store = PatrimonyAssetFormStore();
-        store.loadAssetIfNeeded(assetId);
-        return store;
-      },
+      create: (_) => PatrimonyAssetFormStore(
+        assetId: assetId,
+        asset: asset,
+      ),
       child: LayoutDashboard(
         Builder(builder: (context) => _header(context)),
         screen: const PatrimonyAssetForm(),
@@ -71,15 +73,5 @@ class PatrimonyAssetFormScreen extends StatelessWidget {
         title,
       ],
     );
-  }
-}
-
-extension on PatrimonyAssetFormStore {
-  void loadAssetIfNeeded(String? assetId) {
-    if (assetId == null) {
-      return;
-    }
-
-    loadAsset(assetId);
   }
 }

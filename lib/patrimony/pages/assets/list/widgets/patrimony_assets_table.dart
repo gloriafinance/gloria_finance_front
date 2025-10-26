@@ -76,7 +76,8 @@ class PatrimonyAssetsTable extends StatelessWidget {
             (asset) => IconButton(
                   tooltip: 'Editar',
                   icon: const Icon(Icons.edit_outlined, color: AppColors.purple),
-                  onPressed: () => context.go('/patrimony/assets/${asset.assetId}/edit'),
+                  onPressed: () => context
+                      .go('/patrimony/assets/${asset.assetId}/edit', extra: asset),
                 ),
           ],
           paginate: PaginationData(
