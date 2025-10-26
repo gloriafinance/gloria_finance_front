@@ -58,7 +58,7 @@ class PatrimonyAssetDetailView extends StatelessWidget {
         final isCompact = constraints.maxWidth < 720;
         final columnWidth = isCompact
             ? constraints.maxWidth
-            : math.min(360, (constraints.maxWidth - 16) / 2);
+            : math.min(360.0, (constraints.maxWidth - 16) / 2).toDouble();
 
         final entries = [
           _InfoEntry(label: 'Categoria', value: asset.categoryLabel),
@@ -280,7 +280,7 @@ class PatrimonyAssetDetailView extends StatelessWidget {
         final isCompact = constraints.maxWidth < 640;
         final cardWidth = isCompact
             ? constraints.maxWidth
-            : math.min(320, (constraints.maxWidth - 16) / 2);
+            : math.min(320.0, (constraints.maxWidth - 16) / 2).toDouble();
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
