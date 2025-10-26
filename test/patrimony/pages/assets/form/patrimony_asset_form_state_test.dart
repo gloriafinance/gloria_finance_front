@@ -48,7 +48,9 @@ void main() {
 
       final formData = state.toFormData();
 
-      final fields = {for (final field in formData.fields) field.key: field.value};
+      final fields = {
+        for (final field in formData.fields) field.key: field.value,
+      };
 
       expect(fields['name'], 'Piano Yamaha C3');
       expect(fields['value'], '48000.0');
@@ -62,10 +64,12 @@ void main() {
       expect(decoded, hasLength(1));
       expect(decoded.first['name'], 'Factura.pdf');
 
-      final attachmentsToRemove = formData.fields
-          .where((field) => field.key == 'attachmentsToRemove')
-          .map((field) => field.value)
-          .toList();
+      final attachmentsToRemoveJson = fields['attachmentsToRemove'];
+      expect(attachmentsToRemoveJson, isNotNull);
+
+      final attachmentsToRemove =
+          (jsonDecode(attachmentsToRemoveJson!) as List<dynamic>)
+              .cast<String>();
 
       expect(attachmentsToRemove, contains('urn:attachment:2'));
       expect(formData.files, hasLength(1));

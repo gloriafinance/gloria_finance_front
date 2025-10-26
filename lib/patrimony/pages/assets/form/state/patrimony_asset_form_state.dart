@@ -180,8 +180,13 @@ class PatrimonyAssetFormState {
       );
     }
 
-    for (final removeId in attachmentsToRemove) {
-      formData.fields.add(MapEntry('attachmentsToRemove', removeId));
+    if (attachmentsToRemove.isNotEmpty) {
+      formData.fields.add(
+        MapEntry(
+          'attachmentsToRemove',
+          jsonEncode(List<String>.from(attachmentsToRemove)),
+        ),
+      );
     }
 
     for (final attachment in newAttachments) {
