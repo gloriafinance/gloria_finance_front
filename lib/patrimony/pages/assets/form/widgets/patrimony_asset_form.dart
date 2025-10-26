@@ -203,7 +203,7 @@ class _PatrimonyAssetFormState extends State<PatrimonyAssetForm> {
                 store.state.isEditing
                     ? 'Bem atualizado com sucesso'
                     : 'Bem cadastrado com sucesso',
-                ToastType.success,
+                ToastType.info,
               );
               GoRouter.of(context).go('/patrimony/assets');
             } else {
