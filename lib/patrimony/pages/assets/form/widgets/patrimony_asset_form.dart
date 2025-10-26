@@ -9,6 +9,7 @@ import 'package:church_finance_bk/helpers/index.dart';
 import 'package:church_finance_bk/patrimony/models/patrimony_asset_enums.dart';
 import 'package:church_finance_bk/patrimony/pages/assets/form/store/patrimony_asset_form_store.dart';
 import 'package:church_finance_bk/patrimony/pages/assets/form/widgets/patrimony_attachments_editor.dart';
+import 'package:church_finance_bk/settings/members/store/member_all_store.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +55,12 @@ class _PatrimonyAssetFormState extends State<PatrimonyAssetForm> {
     );
   }
 
-  Widget _responsiveGrid(BuildContext context, PatrimonyAssetFormStore store, String valueInitial) {
+  Widget _responsiveGrid(
+      BuildContext context, PatrimonyAssetFormStore store, String valueInitial) {
+    final categoryItems =
+        PatrimonyAssetCategory.values.map((e) => e.label).toList();
+    final statusItems = PatrimonyAssetStatus.values.map((e) => e.label).toList();
+
     final fields = [
       Input(
         label: 'Nome do bem',
@@ -67,7 +73,7 @@ class _PatrimonyAssetFormState extends State<PatrimonyAssetForm> {
       Dropdown(
         label: 'Categoria',
         initialValue: store.state.categoryLabel,
-        items: PatrimonyAssetCategory.values.map((e) => e.label).toList(),
+        items: categoryItems,
         onChanged: store.setCategoryByLabel,
         onValidator: (_) => store.state.category == null
             ? 'Selecione uma categoria'
@@ -103,14 +109,6 @@ class _PatrimonyAssetFormState extends State<PatrimonyAssetForm> {
         },
       ),
       Input(
-        label: 'Congregação (churchId)',
-        initialValue: store.state.churchId,
-        onChanged: store.setChurchId,
-        onValidator: (value) => (value == null || value.trim().isEmpty)
-            ? 'Informe o identificador da congregação'
-            : null,
-      ),
-      Input(
         label: 'Localização física',
         initialValue: store.state.location,
         onChanged: store.setLocation,
@@ -118,18 +116,11 @@ class _PatrimonyAssetFormState extends State<PatrimonyAssetForm> {
             ? 'Informe a localização atual'
             : null,
       ),
-      Input(
-        label: 'Responsável (ID)',
-        initialValue: store.state.responsibleId,
-        onChanged: store.setResponsibleId,
-        onValidator: (value) => (value == null || value.trim().isEmpty)
-            ? 'Informe o responsável pelo bem'
-            : null,
-      ),
+      _responsibleSelector(store),
       Dropdown(
         label: 'Status',
         initialValue: store.state.statusLabel,
-        items: PatrimonyAssetStatus.values.map((e) => e.label).toList(),
+        items: statusItems,
         onChanged: store.setStatusByLabel,
         onValidator: (_) => store.state.status == null
             ? 'Selecione o status do bem'
@@ -139,27 +130,67 @@ class _PatrimonyAssetFormState extends State<PatrimonyAssetForm> {
       ),
     ];
 
-    if (isMobile(context)) {
-      return Column(
-        children: [
-          for (final field in fields) ...[
-            field,
-          ],
-        ],
-      );
-    }
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isSmall = constraints.maxWidth < 720;
+        final double fieldWidth = isSmall
+            ? constraints.maxWidth
+            : (constraints.maxWidth / 2) - 20;
 
-    return Wrap(
-      spacing: 16,
-      runSpacing: 16,
-      children: fields
-          .map(
-            (field) => SizedBox(
-              width: MediaQuery.of(context).size.width / 2 - 60,
-              child: field,
-            ),
-          )
-          .toList(),
+        return Wrap(
+          spacing: 16,
+          runSpacing: 16,
+          children: fields
+              .map(
+                (field) => SizedBox(
+                  width: fieldWidth,
+                  child: field,
+                ),
+              )
+              .toList(),
+        );
+      },
+    );
+  }
+
+  Widget _responsibleSelector(PatrimonyAssetFormStore store) {
+    return Consumer<MemberAllStore>(
+      builder: (context, memberStore, _) {
+        final members = memberStore.getMembers();
+        final items = members.map((member) => member.name).toList();
+
+        String? selectedName;
+        if (store.state.responsibleId.isNotEmpty) {
+          for (final member in members) {
+            if (member.memberId == store.state.responsibleId) {
+              selectedName = member.name;
+              break;
+            }
+          }
+        }
+
+        return Dropdown(
+          label: 'Responsável',
+          items: items,
+          initialValue: selectedName,
+          searchHint: 'Busque pelo nome do membro...',
+          onChanged: (selected) {
+            if (members.isEmpty) {
+              store.setResponsibleId(null);
+              return;
+            }
+
+            final member = members.firstWhere(
+              (m) => m.name == selected,
+              orElse: () => members.first,
+            );
+            store.setResponsibleId(member.memberId);
+          },
+          onValidator: (value) => (value == null || value.isEmpty)
+              ? 'Selecione o responsável pelo bem'
+              : null,
+        );
+      },
     );
   }
 

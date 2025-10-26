@@ -22,7 +22,6 @@ class PatrimonyAssetsListStore extends ChangeNotifier {
         search: state.search.isEmpty ? null : state.search,
         status: state.status,
         category: state.category,
-        churchId: state.churchId,
       );
 
       state = state.copyWith(
@@ -69,15 +68,6 @@ class PatrimonyAssetsListStore extends ChangeNotifier {
     );
     notifyListeners();
     applyFilters();
-  }
-
-  void setChurch(String? churchId) {
-    state = state.copyWith(
-      churchId: churchId,
-      page: 1,
-      clearChurch: churchId == null || churchId.isEmpty,
-    );
-    notifyListeners();
   }
 
   void goToNextPage() {

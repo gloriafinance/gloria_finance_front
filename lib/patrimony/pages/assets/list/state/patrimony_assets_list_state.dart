@@ -10,7 +10,6 @@ class PatrimonyAssetsListState {
   final String search;
   final String? status;
   final String? category;
-  final String? churchId;
 
   PatrimonyAssetsListState({
     required this.loading,
@@ -21,7 +20,6 @@ class PatrimonyAssetsListState {
     required this.search,
     this.status,
     this.category,
-    this.churchId,
   });
 
   factory PatrimonyAssetsListState.initial() {
@@ -46,8 +44,6 @@ class PatrimonyAssetsListState {
     bool clearStatus = false,
     String? category,
     bool clearCategory = false,
-    String? churchId,
-    bool clearChurch = false,
   }) {
     return PatrimonyAssetsListState(
       loading: loading ?? this.loading,
@@ -58,7 +54,6 @@ class PatrimonyAssetsListState {
       search: search ?? this.search,
       status: clearStatus ? null : (status ?? this.status),
       category: clearCategory ? null : (category ?? this.category),
-      churchId: clearChurch ? null : (churchId ?? this.churchId),
     );
   }
 }

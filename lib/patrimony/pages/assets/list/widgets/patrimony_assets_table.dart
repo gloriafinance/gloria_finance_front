@@ -1,7 +1,9 @@
+import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/widgets/tag_status.dart';
 import 'package:church_finance_bk/patrimony/models/patrimony_asset_model.dart';
+import 'package:church_finance_bk/patrimony/pages/assets/detail/widgets/patrimony_asset_detail_view.dart';
 import 'package:church_finance_bk/patrimony/pages/assets/list/store/patrimony_assets_list_store.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -68,11 +70,18 @@ class PatrimonyAssetsTable extends StatelessWidget {
             dataBuilder: (asset) => _buildRow(context, asset as PatrimonyAssetModel),
           ),
           actionBuilders: [
-            (asset) => IconButton(
+            (asset) {
+              final patrimony = asset as PatrimonyAssetModel;
+              return IconButton(
                   tooltip: 'Ver detalhes',
                   icon: const Icon(Icons.visibility_outlined, color: AppColors.blue),
-                  onPressed: () => context.go('/patrimony/assets/${asset.assetId}'),
-                ),
+                  onPressed: () => ModalPage(
+                    title: patrimony.name,
+                    body: PatrimonyAssetDetailView(asset: patrimony),
+                    width: 900,
+                  ).show(context),
+                );
+            },
             (asset) => IconButton(
                   tooltip: 'Editar',
                   icon: const Icon(Icons.edit_outlined, color: AppColors.purple),

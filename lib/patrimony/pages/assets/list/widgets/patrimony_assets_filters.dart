@@ -17,150 +17,142 @@ class PatrimonyAssetsFilters extends StatelessWidget {
         final statusItems = PatrimonyAssetStatus.values.map((e) => e.label).toList();
         final categoryItems = PatrimonyAssetCategory.values.map((e) => e.label).toList();
 
-        final actionButtons = Row(
+        final content = Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (!isMobile(context))
-              CustomButton(
-                text: 'Aplicar filtros',
-                backgroundColor: AppColors.purple,
-                textColor: Colors.white,
-                onPressed: store.applyFilters,
+            if (isMobile(context))
+              ...[
+                Input(
+                  label: 'Buscar',
+                  initialValue: store.state.search,
+                  iconRight:
+                      const Icon(Icons.search, color: AppColors.purple),
+                  onIconTap: store.applySearch,
+                  onChanged: store.setSearch,
+                ),
+                Dropdown(
+                  label: 'Status',
+                  initialValue: store.statusLabel,
+                  items: statusItems,
+                  onChanged: (value) => store
+                      .setStatusByLabel(value?.isEmpty == true ? null : value),
+                  labelSuffix: _clearFilterButton(
+                    visible: store.state.status != null,
+                    onPressed: () => store.setStatusByLabel(null),
+                  ),
+                ),
+                Dropdown(
+                  label: 'Categoria',
+                  initialValue: store.categoryLabel,
+                  items: categoryItems,
+                  onChanged: (value) => store
+                      .setCategoryByLabel(value?.isEmpty == true ? null : value),
+                  labelSuffix: _clearFilterButton(
+                    visible: store.state.category != null,
+                    onPressed: () => store.setCategoryByLabel(null),
+                  ),
+                ),
+              ]
+            else
+              ...[
+                Row(
+                  children: [
+                    Expanded(
+                      child: Input(
+                        label: 'Buscar',
+                        initialValue: store.state.search,
+                        iconRight: const Icon(Icons.search,
+                            color: AppColors.purple),
+                        onIconTap: store.applySearch,
+                        onChanged: store.setSearch,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Dropdown(
+                        label: 'Status',
+                        initialValue: store.statusLabel,
+                        items: statusItems,
+                        onChanged: (value) => store.setStatusByLabel(
+                            value?.isEmpty == true ? null : value),
+                        labelSuffix: _clearFilterButton(
+                          visible: store.state.status != null,
+                          onPressed: () => store.setStatusByLabel(null),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Dropdown(
+                        label: 'Categoria',
+                        initialValue: store.categoryLabel,
+                        items: categoryItems,
+                        onChanged: (value) => store.setCategoryByLabel(
+                            value?.isEmpty == true ? null : value),
+                        labelSuffix: _clearFilterButton(
+                          visible: store.state.category != null,
+                          onPressed: () => store.setCategoryByLabel(null),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            const SizedBox(height: 16),
+            if (isMobile(context))
+              Column(
+                children: [
+                  CustomButton(
+                    text: 'Aplicar filtros',
+                    backgroundColor: AppColors.purple,
+                    textColor: Colors.white,
+                    onPressed: store.applyFilters,
+                  ),
+                  const SizedBox(height: 12),
+                  CustomButton(
+                    text: 'Limpar',
+                    backgroundColor: AppColors.greyLight,
+                    textColor: Colors.white,
+                    onPressed: store.clearFilters,
+                  ),
+                ],
               )
             else
-              Expanded(
-                child: CustomButton(
-                  text: 'Aplicar filtros',
-                  backgroundColor: AppColors.purple,
-                  textColor: Colors.white,
-                  onPressed: store.applyFilters,
-                ),
-              ),
-            const SizedBox(width: 12),
-            if (!isMobile(context))
-              CustomButton(
-                text: 'Limpar',
-                backgroundColor: AppColors.greyLight,
-                textColor: Colors.white,
-                onPressed: store.clearFilters,
-              )
-            else
-              Expanded(
-                child: CustomButton(
-                  text: 'Limpar',
-                  backgroundColor: AppColors.greyLight,
-                  textColor: Colors.white,
-                  onPressed: store.clearFilters,
-                ),
+              Row(
+                children: [
+                  CustomButton(
+                    text: 'Aplicar filtros',
+                    backgroundColor: AppColors.purple,
+                    textColor: Colors.white,
+                    onPressed: store.applyFilters,
+                  ),
+                  const SizedBox(width: 12),
+                  CustomButton(
+                    text: 'Limpar',
+                    backgroundColor: AppColors.greyLight,
+                    textColor: Colors.white,
+                    onPressed: store.clearFilters,
+                  ),
+                ],
               ),
           ],
         );
 
-        if (isMobile(context)) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Input(
-                label: 'Buscar',
-                initialValue: store.state.search,
-                iconRight: const Icon(Icons.search, color: AppColors.purple),
-                onIconTap: store.applySearch,
-                onChanged: store.setSearch,
+        return Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 12,
+                offset: Offset(0, 4),
               ),
-              Dropdown(
-                label: 'Status',
-                initialValue: store.statusLabel,
-                items: statusItems,
-                onChanged: (value) => store.setStatusByLabel(value?.isEmpty == true ? null : value),
-                labelSuffix: _clearFilterButton(
-                  visible: store.state.status != null,
-                  onPressed: () => store.setStatusByLabel(null),
-                ),
-              ),
-              Dropdown(
-                label: 'Categoria',
-                initialValue: store.categoryLabel,
-                items: categoryItems,
-                onChanged: (value) => store.setCategoryByLabel(value?.isEmpty == true ? null : value),
-                labelSuffix: _clearFilterButton(
-                  visible: store.state.category != null,
-                  onPressed: () => store.setCategoryByLabel(null),
-                ),
-              ),
-              Input(
-                label: 'Congregação (churchId)',
-                initialValue: store.state.churchId,
-                onChanged: store.setChurch,
-              ),
-              const SizedBox(height: 12),
-              actionButtons,
             ],
-          );
-        }
-
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Input(
-                    label: 'Buscar',
-                    initialValue: store.state.search,
-                    iconRight:
-                        const Icon(Icons.search, color: AppColors.purple),
-                    onIconTap: store.applySearch,
-                    onChanged: store.setSearch,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Dropdown(
-                    label: 'Status',
-                    initialValue: store.statusLabel,
-                    items: statusItems,
-                    onChanged: (value) =>
-                        store.setStatusByLabel(value?.isEmpty == true ? null : value),
-                    labelSuffix: _clearFilterButton(
-                      visible: store.state.status != null,
-                      onPressed: () => store.setStatusByLabel(null),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Dropdown(
-                    label: 'Categoria',
-                    initialValue: store.categoryLabel,
-                    items: categoryItems,
-                    onChanged: (value) => store
-                        .setCategoryByLabel(value?.isEmpty == true ? null : value),
-                    labelSuffix: _clearFilterButton(
-                      visible: store.state.category != null,
-                      onPressed: () => store.setCategoryByLabel(null),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: Input(
-                    label: 'Congregação (churchId)',
-                    initialValue: store.state.churchId,
-                    onChanged: store.setChurch,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(child: SizedBox()),
-                const SizedBox(width: 16),
-                Expanded(child: SizedBox()),
-              ],
-            ),
-            const SizedBox(height: 16),
-            actionButtons,
-          ],
+          ),
+          child: content,
         );
       },
     );
