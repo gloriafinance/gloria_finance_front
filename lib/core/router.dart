@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/auth/auth_router.dart';
 import 'package:church_finance_bk/finance/router.dart';
 import 'package:church_finance_bk/home/home_screen.dart';
+import 'package:church_finance_bk/patrimony/router.dart';
 import 'package:church_finance_bk/providers/router.dart';
 import 'package:church_finance_bk/settings/router.dart';
 import 'package:go_router/go_router.dart';
@@ -41,6 +42,7 @@ final GoRouter router = GoRouter(
     ...providerRouter(),
     ...authRouters(),
     ...financialRouter(),
-    ...settingsRouter()
+    ...settingsRouter(),
+    ...patrimonyRouter(),
   ],
 );
