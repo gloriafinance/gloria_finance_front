@@ -56,22 +56,23 @@ class PatrimonyAssetDetailView extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isCompact = constraints.maxWidth < 720;
-        final columnWidth = isCompact
-            ? constraints.maxWidth
-            : math.min(360.0, (constraints.maxWidth - 16) / 2).toDouble();
+        final columnWidth =
+            isCompact
+                ? constraints.maxWidth
+                : math.min(360.0, (constraints.maxWidth - 16) / 2).toDouble();
 
         final entries = [
           _InfoEntry(label: 'Categoria', value: asset.categoryLabel),
           _InfoEntry(
             label: 'Data de aquisição',
-            value: asset.acquisitionDateLabel.isEmpty
-                ? '-'
-                : asset.acquisitionDateLabel,
+            value:
+                asset.acquisitionDateLabel.isEmpty
+                    ? '-'
+                    : asset.acquisitionDateLabel,
           ),
           _InfoEntry(
             label: 'Localização',
-            value:
-                asset.location?.isNotEmpty == true ? asset.location! : '-',
+            value: asset.location?.isNotEmpty == true ? asset.location! : '-',
           ),
           _InfoEntry(label: 'Responsável', value: responsibleName),
           _InfoEntry(
@@ -175,32 +176,26 @@ class PatrimonyAssetDetailView extends StatelessWidget {
               ],
               if (metadataBadges.isNotEmpty) ...[
                 const SizedBox(height: 20),
-                Wrap(
-                  spacing: 12,
-                  runSpacing: 12,
-                  children: metadataBadges,
-                ),
+                Wrap(spacing: 12, runSpacing: 12, children: metadataBadges),
               ],
               const SizedBox(height: 24),
               Wrap(
                 spacing: 16,
                 runSpacing: 16,
-                children: entries
-                    .map(
-                      (entry) {
-                        final width = (entry.fullWidth || isCompact)
-                            ? constraints.maxWidth
-                            : columnWidth;
-                        return ConstrainedBox(
-                          constraints: BoxConstraints(
-                            minWidth: width,
-                            maxWidth: width,
-                          ),
-                          child: _InfoTile(entry: entry),
-                        );
-                      },
-                    )
-                    .toList(),
+                children:
+                    entries.map((entry) {
+                      final width =
+                          (entry.fullWidth || isCompact)
+                              ? constraints.maxWidth
+                              : columnWidth;
+                      return ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minWidth: width,
+                          maxWidth: width,
+                        ),
+                        child: _InfoTile(entry: entry),
+                      );
+                    }).toList(),
               ),
             ],
           ),
@@ -212,9 +207,8 @@ class PatrimonyAssetDetailView extends StatelessWidget {
   Widget _buildPendingBadge() {
     final pending = asset.documentsPending;
     final color = pending ? AppColors.mustard : AppColors.green;
-    final icon = pending
-        ? Icons.warning_amber_outlined
-        : Icons.check_circle_outline;
+    final icon =
+        pending ? Icons.warning_amber_outlined : Icons.check_circle_outline;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -229,10 +223,7 @@ class PatrimonyAssetDetailView extends StatelessWidget {
           const SizedBox(width: 8),
           Text(
             pending ? 'Sim' : 'Não',
-            style: TextStyle(
-              fontFamily: AppFonts.fontSubTitle,
-              color: color,
-            ),
+            style: TextStyle(fontFamily: AppFonts.fontSubTitle, color: color),
           ),
         ],
       ),
@@ -240,24 +231,15 @@ class PatrimonyAssetDetailView extends StatelessWidget {
   }
 
   Widget _editButton(BuildContext context, {bool fullWidth = false}) {
-    final button = OutlinedButton.icon(
-      onPressed: () => GoRouter.of(context)
-          .go('/patrimony/assets/${asset.assetId}/edit', extra: asset),
-      icon: const Icon(Icons.edit_outlined, color: AppColors.purple),
-      label: const Text(
-        'Editar',
-        style: TextStyle(
-          fontFamily: AppFonts.fontSubTitle,
-          color: AppColors.purple,
-        ),
-      ),
-      style: OutlinedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        side: const BorderSide(color: AppColors.purple),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
+    final button = CustomButton(
+      text: 'Editar',
+      typeButton: 'outline',
+      backgroundColor: AppColors.purple,
+      textColor: AppColors.purple,
+      onPressed: () {
+        Navigator.of(context).pop();
+        context.go('/patrimony/assets/${asset.assetId}/edit', extra: asset);
+      },
     );
 
     if (fullWidth) {
@@ -278,50 +260,57 @@ class PatrimonyAssetDetailView extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isCompact = constraints.maxWidth < 640;
-        final cardWidth = isCompact
-            ? constraints.maxWidth
-            : math.min(320.0, (constraints.maxWidth - 16) / 2).toDouble();
+        final cardWidth =
+            isCompact
+                ? constraints.maxWidth
+                : math.min(320.0, (constraints.maxWidth - 16) / 2).toDouble();
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
               'Anexos',
-              style: TextStyle(
-                fontFamily: AppFonts.fontTitle,
-                fontSize: 18,
-              ),
+              style: TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 18),
             ),
             const SizedBox(height: 12),
             Wrap(
               spacing: 16,
               runSpacing: 16,
-              children: asset.attachments.map((attachment) {
-                final isImage =
-                    attachment.mimetype.toLowerCase().startsWith('image/');
-                final isPdf = attachment.mimetype.toLowerCase().contains('pdf');
-                return _AttachmentCard(
-                  width: cardWidth,
-                  name: attachment.name,
-                  sizeLabel: attachment.formattedSize,
-                  uploadedLabel: attachment.uploadedAtLabel,
-                  preview: isImage
-                      ? _AttachmentPreview.network(attachment.url)
-                      : const Icon(
-                          Icons.insert_drive_file,
-                          color: AppColors.purple,
-                          size: 42,
-                        ),
-                  actionLabel: isPdf ? 'Ver PDF' : 'Abrir',
-                  onView: () => _openUrl(attachment.url),
-                  onPreviewTap: isImage
-                      ? () => _showImageDialog(
-                            context,
-                            Image.network(attachment.url, fit: BoxFit.contain),
-                          )
-                      : null,
-                );
-              }).toList(),
+              children:
+                  asset.attachments.map((attachment) {
+                    final isImage = attachment.mimetype
+                        .toLowerCase()
+                        .startsWith('image/');
+                    final isPdf = attachment.mimetype.toLowerCase().contains(
+                      'pdf',
+                    );
+                    return _AttachmentCard(
+                      width: cardWidth,
+                      name: attachment.name,
+                      sizeLabel: attachment.formattedSize,
+                      uploadedLabel: attachment.uploadedAtLabel,
+                      preview:
+                          isImage
+                              ? _AttachmentPreview.network(attachment.url)
+                              : const Icon(
+                                Icons.insert_drive_file,
+                                color: AppColors.purple,
+                                size: 42,
+                              ),
+                      actionLabel: isPdf ? 'Ver PDF' : 'Abrir',
+                      onView: () => _openUrl(attachment.url),
+                      onPreviewTap:
+                          isImage
+                              ? () => _showImageDialog(
+                                context,
+                                Image.network(
+                                  attachment.url,
+                                  fit: BoxFit.contain,
+                                ),
+                              )
+                              : null,
+                    );
+                  }).toList(),
             ),
           ],
         );
@@ -342,10 +331,7 @@ class PatrimonyAssetDetailView extends StatelessWidget {
       children: [
         const Text(
           'Histórico de movimentações',
-          style: TextStyle(
-            fontFamily: AppFonts.fontTitle,
-            fontSize: 18,
-          ),
+          style: TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 18),
         ),
         const SizedBox(height: 12),
         ...asset.history.map((entry) {
@@ -368,8 +354,10 @@ class PatrimonyAssetDetailView extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 if (entry.notes?.isNotEmpty == true)
-                  Text('Notas: ${entry.notes}',
-                      style: const TextStyle(fontFamily: AppFonts.fontSubTitle)),
+                  Text(
+                    'Notas: ${entry.notes}',
+                    style: const TextStyle(fontFamily: AppFonts.fontSubTitle),
+                  ),
                 if (entry.changes.isNotEmpty) ...[
                   const SizedBox(height: 8),
                   const Text(
@@ -377,9 +365,7 @@ class PatrimonyAssetDetailView extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 4),
-                  ...entry.formattedChanges.map(
-                    (change) => Text('- $change'),
-                  ),
+                  ...entry.formattedChanges.map((change) => Text('- $change')),
                 ],
               ],
             ),
@@ -420,21 +406,25 @@ class PatrimonyAssetDetailView extends StatelessWidget {
     await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 
-  static Future<void> _showImageDialog(BuildContext context, Widget image) async {
+  static Future<void> _showImageDialog(
+    BuildContext context,
+    Widget image,
+  ) async {
     await showDialog<void>(
       context: context,
-      builder: (context) => Dialog(
-        insetPadding: const EdgeInsets.all(24),
-        child: SizedBox(
-          width: 480,
-          child: InteractiveViewer(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: image,
+      builder:
+          (context) => Dialog(
+            insetPadding: const EdgeInsets.all(24),
+            child: SizedBox(
+              width: 480,
+              child: InteractiveViewer(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: image,
+                ),
+              ),
             ),
           ),
-        ),
-      ),
     );
   }
 }
@@ -460,38 +450,23 @@ class _InfoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.greyMiddle),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 8,
-            offset: Offset(0, 3),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          entry.label,
+          style: const TextStyle(
+            fontFamily: AppFonts.fontTitle,
+            color: AppColors.purple,
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            entry.label,
-            style: const TextStyle(
-              fontFamily: AppFonts.fontTitle,
-              color: AppColors.purple,
+        ),
+        const SizedBox(height: 8),
+        entry.valueWidget ??
+            SelectableText(
+              entry.value!,
+              style: const TextStyle(fontFamily: AppFonts.fontSubTitle),
             ),
-          ),
-          const SizedBox(height: 8),
-          entry.valueWidget ??
-              SelectableText(
-                entry.value!,
-                style: const TextStyle(fontFamily: AppFonts.fontSubTitle),
-              ),
-        ],
-      ),
+      ],
     );
   }
 }
@@ -538,10 +513,7 @@ class _AttachmentCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GestureDetector(
-              onTap: onPreviewTap ?? onView,
-              child: preview,
-            ),
+            GestureDetector(onTap: onPreviewTap ?? onView, child: preview),
             const SizedBox(height: 12),
             Text(
               name,
@@ -587,12 +559,17 @@ class _AttachmentPreview extends StatelessWidget {
           height: 160,
           width: double.infinity,
           fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) => const SizedBox(
-            height: 160,
-            child: Center(
-              child: Icon(Icons.broken_image, color: AppColors.grey, size: 48),
-            ),
-          ),
+          errorBuilder:
+              (context, error, stackTrace) => const SizedBox(
+                height: 160,
+                child: Center(
+                  child: Icon(
+                    Icons.broken_image,
+                    color: AppColors.grey,
+                    size: 48,
+                  ),
+                ),
+              ),
         ),
       ),
     );
@@ -607,12 +584,17 @@ class _AttachmentPreview extends StatelessWidget {
           height: 160,
           width: double.infinity,
           fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) => const SizedBox(
-            height: 160,
-            child: Center(
-              child: Icon(Icons.broken_image, color: AppColors.grey, size: 48),
-            ),
-          ),
+          errorBuilder:
+              (context, error, stackTrace) => const SizedBox(
+                height: 160,
+                child: Center(
+                  child: Icon(
+                    Icons.broken_image,
+                    color: AppColors.grey,
+                    size: 48,
+                  ),
+                ),
+              ),
         ),
       ),
     );
@@ -642,10 +624,7 @@ Widget _metaBadge({
         const SizedBox(width: 8),
         Text(
           label,
-          style: TextStyle(
-            fontFamily: AppFonts.fontSubTitle,
-            color: color,
-          ),
+          style: TextStyle(fontFamily: AppFonts.fontSubTitle, color: color),
         ),
       ],
     ),

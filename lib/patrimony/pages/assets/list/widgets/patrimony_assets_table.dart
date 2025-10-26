@@ -31,10 +31,15 @@ class PatrimonyAssetsTable extends StatelessWidget {
           return Center(
             child: Column(
               children: [
-                const Icon(Icons.warning_amber_rounded,
-                    color: AppColors.mustard, size: 48),
+                const Icon(
+                  Icons.warning_amber_rounded,
+                  color: AppColors.mustard,
+                  size: 48,
+                ),
                 const SizedBox(height: 12),
-                const Text('Não foi possível carregar os bens. Tente novamente.'),
+                const Text(
+                  'Não foi possível carregar os bens. Tente novamente.',
+                ),
                 const SizedBox(height: 12),
                 TextButton(
                   onPressed: store.refresh,
@@ -68,7 +73,8 @@ class PatrimonyAssetsTable extends StatelessWidget {
           ],
           data: FactoryDataTable(
             data: state.assets.results,
-            dataBuilder: (asset) => _buildRow(context, asset as PatrimonyAssetModel),
+            dataBuilder:
+                (asset) => _buildRow(context, asset as PatrimonyAssetModel),
           ),
           actionBuilders: [
             (asset) {
@@ -79,7 +85,7 @@ class PatrimonyAssetsTable extends StatelessWidget {
                 icon: Icons.visibility_outlined,
                 onPressed: () {
                   ModalPage(
-                    title: patrimony.name,
+                    title: "",
                     body: PatrimonyAssetDetailView(asset: patrimony),
                     width: 900,
                   ).show(context);
@@ -87,12 +93,15 @@ class PatrimonyAssetsTable extends StatelessWidget {
               );
             },
             (asset) => ButtonActionTable(
-                  color: AppColors.purple,
-                  text: 'Editar',
-                  icon: Icons.edit_outlined,
-                  onPressed: () => context
-                      .go('/patrimony/assets/${asset.assetId}/edit', extra: asset),
-                ),
+              color: AppColors.purple,
+              text: 'Editar',
+              icon: Icons.edit_outlined,
+              onPressed:
+                  () => context.go(
+                    '/patrimony/assets/${asset.assetId}/edit',
+                    extra: asset,
+                  ),
+            ),
           ],
           paginate: PaginationData(
             totalRecords: state.assets.count,
@@ -122,10 +131,7 @@ class PatrimonyAssetsTable extends StatelessWidget {
 
   Widget _statusTag(PatrimonyAssetModel asset) {
     final color = _statusColor(asset);
-    return SizedBox(
-      width: 140,
-      child: tagStatus(color, asset.statusLabel),
-    );
+    return SizedBox(width: 140, child: tagStatus(color, asset.statusLabel));
   }
 
   Color _statusColor(PatrimonyAssetModel asset) {
