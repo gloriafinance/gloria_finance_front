@@ -47,18 +47,13 @@ class PatrimonyAssetFormStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setChurchId(String value) {
-    state = state.copyWith(churchId: value);
-    notifyListeners();
-  }
-
   void setLocation(String value) {
     state = state.copyWith(location: value);
     notifyListeners();
   }
 
-  void setResponsibleId(String value) {
-    state = state.copyWith(responsibleId: value);
+  void setResponsibleId(String? value) {
+    state = state.copyWith(responsibleId: value ?? '');
     notifyListeners();
   }
 
@@ -73,21 +68,23 @@ class PatrimonyAssetFormStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool addAttachment(MultipartFile file) {
+  bool addAttachment(PatrimonyNewAttachment attachment) {
     final totalAttachments =
         state.newAttachments.length + state.existingAttachments.length;
     if (totalAttachments >= 3) {
       return false;
     }
 
-    final updated = List<MultipartFile>.from(state.newAttachments)..add(file);
+    final updated = List<PatrimonyNewAttachment>.from(state.newAttachments)
+      ..add(attachment);
     state = state.copyWith(newAttachments: updated);
     notifyListeners();
     return true;
   }
 
   void removeNewAttachmentAt(int index) {
-    final updated = List<MultipartFile>.from(state.newAttachments)..removeAt(index);
+    final updated = List<PatrimonyNewAttachment>.from(state.newAttachments)
+      ..removeAt(index);
     state = state.copyWith(newAttachments: updated);
     notifyListeners();
   }
@@ -115,7 +112,7 @@ class PatrimonyAssetFormStore extends ChangeNotifier {
         await service.updateAsset(state.assetId!, payload);
         state = state.copyWith(
           makeRequest: false,
-          newAttachments: [],
+          newAttachments: const [],
           attachmentsToRemove: {},
         );
       } else {

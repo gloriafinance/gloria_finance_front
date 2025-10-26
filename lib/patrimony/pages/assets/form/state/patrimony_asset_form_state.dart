@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:church_finance_bk/helpers/currency_formatter.dart';
 import 'package:church_finance_bk/helpers/date_formatter.dart';
@@ -16,12 +17,11 @@ class PatrimonyAssetFormState {
   final double value;
   final String valueText;
   final String acquisitionDate;
-  final String churchId;
   final String location;
   final String responsibleId;
   final String? status;
   final String notes;
-  final List<MultipartFile> newAttachments;
+  final List<PatrimonyNewAttachment> newAttachments;
   final List<PatrimonyAttachmentModel> existingAttachments;
   final Set<String> attachmentsToRemove;
 
@@ -33,7 +33,6 @@ class PatrimonyAssetFormState {
     required this.value,
     required this.valueText,
     required this.acquisitionDate,
-    required this.churchId,
     required this.location,
     required this.responsibleId,
     required this.status,
@@ -52,7 +51,6 @@ class PatrimonyAssetFormState {
       value: 0,
       valueText: '',
       acquisitionDate: '',
-      churchId: '',
       location: '',
       responsibleId: '',
       status: null,
@@ -78,7 +76,6 @@ class PatrimonyAssetFormState {
       value: asset.value,
       valueText: CurrencyFormatter.formatCurrency(asset.value),
       acquisitionDate: acquisitionDate,
-      churchId: asset.churchId,
       location: asset.location ?? '',
       responsibleId: asset.responsibleId ?? '',
       status: asset.status?.apiValue,
@@ -119,13 +116,12 @@ class PatrimonyAssetFormState {
     double? value,
     String? valueText,
     String? acquisitionDate,
-    String? churchId,
     String? location,
     String? responsibleId,
     String? status,
     bool clearStatus = false,
     String? notes,
-    List<MultipartFile>? newAttachments,
+    List<PatrimonyNewAttachment>? newAttachments,
     List<PatrimonyAttachmentModel>? existingAttachments,
     Set<String>? attachmentsToRemove,
   }) {
@@ -137,7 +133,6 @@ class PatrimonyAssetFormState {
       value: value ?? this.value,
       valueText: valueText ?? this.valueText,
       acquisitionDate: acquisitionDate ?? this.acquisitionDate,
-      churchId: churchId ?? this.churchId,
       location: location ?? this.location,
       responsibleId: responsibleId ?? this.responsibleId,
       status: clearStatus ? null : (status ?? this.status),
@@ -154,9 +149,11 @@ class PatrimonyAssetFormState {
     formData.fields
       ..add(MapEntry('name', name))
       ..add(MapEntry('value', value.toString()))
-      ..add(MapEntry('churchId', churchId))
-      ..add(MapEntry('location', location))
-      ..add(MapEntry('responsibleId', responsibleId));
+      ..add(MapEntry('location', location));
+
+    if (responsibleId.isNotEmpty) {
+      formData.fields.add(MapEntry('responsibleId', responsibleId));
+    }
 
     if (acquisitionDate.isNotEmpty) {
       formData.fields
@@ -188,9 +185,57 @@ class PatrimonyAssetFormState {
     }
 
     for (final attachment in newAttachments) {
-      formData.files.add(MapEntry('attachments', attachment));
+      formData.files.add(MapEntry('attachments', attachment.file));
     }
 
     return formData;
+  }
+}
+
+class PatrimonyNewAttachment {
+  final MultipartFile file;
+  final String name;
+  final int size;
+  final Uint8List? bytes;
+  final String? mimeType;
+
+  const PatrimonyNewAttachment({
+    required this.file,
+    required this.name,
+    required this.size,
+    this.bytes,
+    this.mimeType,
+  });
+
+  String get formattedSize {
+    if (size <= 0) {
+      return '0 KB';
+    }
+
+    const suffixes = ['B', 'KB', 'MB', 'GB'];
+    double value = size.toDouble();
+    int index = 0;
+
+    while (value >= 1024 && index < suffixes.length - 1) {
+      value /= 1024;
+      index++;
+    }
+
+    return '${value.toStringAsFixed(index == 0 ? 0 : 1)} ${suffixes[index]}';
+  }
+
+  bool get isImage {
+    final lowerMime = mimeType?.toLowerCase();
+    final lowerName = name.toLowerCase();
+    return lowerMime?.startsWith('image/') == true ||
+        lowerName.endsWith('.png') ||
+        lowerName.endsWith('.jpg') ||
+        lowerName.endsWith('.jpeg');
+  }
+
+  bool get isPdf {
+    final lowerMime = mimeType?.toLowerCase();
+    final lowerName = name.toLowerCase();
+    return lowerMime?.contains('pdf') == true || lowerName.endsWith('.pdf');
   }
 }

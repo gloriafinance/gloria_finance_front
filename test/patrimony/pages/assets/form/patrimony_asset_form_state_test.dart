@@ -18,7 +18,6 @@ void main() {
         value: 48000,
         valueText: 'R\$ 48.000,00',
         acquisitionDate: '15/04/2024',
-        churchId: 'urn:church:central',
         location: 'Salão principal',
         responsibleId: 'urn:user:music-director',
         status: 'ACTIVE',
@@ -34,7 +33,15 @@ void main() {
           ),
         ],
         newAttachments: [
-          MultipartFile.fromBytes('conteudo'.codeUnits, filename: 'inventario.pdf'),
+          PatrimonyNewAttachment(
+            file: MultipartFile.fromBytes(
+              'conteudo'.codeUnits,
+              filename: 'inventario.pdf',
+            ),
+            name: 'inventario.pdf',
+            size: 'conteudo'.codeUnits.length,
+            mimeType: 'application/pdf',
+          ),
         ],
         attachmentsToRemove: {'urn:attachment:2'},
       );
@@ -45,7 +52,6 @@ void main() {
 
       expect(fields['name'], 'Piano Yamaha C3');
       expect(fields['value'], '48000.0');
-      expect(fields['churchId'], 'urn:church:central');
       expect(fields['status'], 'ACTIVE');
       expect(fields['category'], 'instrument');
       expect(fields['acquisitionDate'], '2024-04-15');
@@ -108,7 +114,6 @@ void main() {
       expect(state.value, 48000);
       expect(state.valueText, CurrencyFormatter.formatCurrency(48000));
       expect(state.acquisitionDate, '15/04/2024');
-      expect(state.churchId, 'urn:church:central');
       expect(state.location, 'Salão principal');
       expect(state.responsibleId, 'urn:user:music-director');
       expect(state.notes, 'Doado pela família');

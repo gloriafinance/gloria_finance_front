@@ -13,7 +13,6 @@ class PatrimonyService extends AppHttp {
     String? search,
     String? status,
     String? category,
-    String? churchId,
   }) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
@@ -27,7 +26,6 @@ class PatrimonyService extends AppHttp {
           if (search != null && search.trim().isNotEmpty) 'search': search.trim(),
           if (status != null && status.isNotEmpty) 'status': status,
           if (category != null && category.isNotEmpty) 'category': category,
-          if (churchId != null && churchId.isNotEmpty) 'churchId': churchId,
         },
         options: Options(headers: bearerToken()),
       );
