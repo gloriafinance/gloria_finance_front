@@ -111,7 +111,7 @@ class PatrimonyAssetDetailView extends StatelessWidget {
                 textColor: Colors.white,
                 icon: Icons.edit_outlined,
                 onPressed: () => GoRouter.of(context)
-                    .go('/patrimony/assets/${asset.assetId}/edit'),
+                    .go('/patrimony/assets/${asset.assetId}/edit', extra: asset),
               ),
             ],
           ),

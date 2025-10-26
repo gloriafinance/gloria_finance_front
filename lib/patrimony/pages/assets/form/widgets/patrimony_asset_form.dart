@@ -29,10 +29,6 @@ class _PatrimonyAssetFormState extends State<PatrimonyAssetForm> {
       builder: (context, store, _) {
         final state = store.state;
 
-        if (state.loadingAsset) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
         final valueInitial = state.valueText.isNotEmpty
             ? state.valueText
             : (state.value > 0
