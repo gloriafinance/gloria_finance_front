@@ -607,36 +607,70 @@ Widget _historySection(PatrimonyAssetModel asset) {
     );
   }
 
-  final maxHeight = math.min<double>(420, entries.length * 128.0);
-
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       header,
       const SizedBox(height: 12),
-      Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.greyMiddle),
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: SizedBox(
-          height: maxHeight,
-          child: Scrollbar(
-            thumbVisibility: true,
-            child: ListView.separated(
-              physics: const ClampingScrollPhysics(),
-              padding: const EdgeInsets.all(16),
-              itemBuilder: (context, index) => _buildHistoryCard(entries[index]),
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
-              itemCount: entries.length,
-            ),
+      _HistoryScrollableList(entries: entries),
+    ],
+  );
+}
+
+class _HistoryScrollableList extends StatefulWidget {
+  final List<PatrimonyHistoryEntry> entries;
+
+  const _HistoryScrollableList({required this.entries});
+
+  @override
+  State<_HistoryScrollableList> createState() => _HistoryScrollableListState();
+}
+
+class _HistoryScrollableListState extends State<_HistoryScrollableList> {
+  late final ScrollController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final entries = widget.entries;
+    final maxHeight = math.min<double>(420, entries.length * 128.0);
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.greyMiddle),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: SizedBox(
+        height: maxHeight,
+        child: Scrollbar(
+          controller: _controller,
+          thumbVisibility: true,
+          child: ListView.separated(
+            controller: _controller,
+            physics: const ClampingScrollPhysics(),
+            padding: const EdgeInsets.all(16),
+            itemBuilder: (context, index) =>
+                _buildHistoryCard(entries[index]),
+            separatorBuilder: (_, __) => const SizedBox(height: 12),
+            itemCount: entries.length,
           ),
         ),
       ),
-    ],
-  );
+    );
+  }
 }
 
 Widget _buildHistoryCard(PatrimonyHistoryEntry entry) {
