@@ -4,6 +4,7 @@ import 'package:church_finance_bk/helpers/date_formatter.dart';
 import 'patrimony_asset_enums.dart';
 import 'patrimony_attachment_model.dart';
 import 'patrimony_history_entry.dart';
+import 'patrimony_member_summary.dart';
 
 class PatrimonyAssetModel {
   final String assetId;
@@ -29,7 +30,7 @@ class PatrimonyAssetModel {
   final String? disposalNotes;
   final PatrimonyInventoryStatus? inventoryStatus;
   final DateTime? inventoryCheckedAt;
-  final String? inventoryCheckedBy;
+  final PatrimonyMemberSummary? inventoryCheckedBy;
   final String? inventoryNotes;
 
   PatrimonyAssetModel({
@@ -113,7 +114,13 @@ class PatrimonyAssetModel {
       inventoryCheckedAt: map['inventoryCheckedAt'] != null
           ? DateTime.tryParse(map['inventoryCheckedAt'] as String)
           : null,
-      inventoryCheckedBy: map['inventoryCheckedBy'] as String?,
+      inventoryCheckedBy: map['inventoryCheckedBy'] != null
+          ? PatrimonyMemberSummary.fromMap(
+              Map<String, dynamic>.from(
+                map['inventoryCheckedBy'] as Map,
+              ),
+            )
+          : null,
       inventoryNotes: map['inventoryNotes'] as String?,
     );
   }
