@@ -12,6 +12,7 @@ class PatrimonyAssetsListState {
   final String? category;
   final bool downloadingSummary;
   final bool downloadingChecklist;
+  final bool importingInventory;
 
   PatrimonyAssetsListState({
     required this.loading,
@@ -24,6 +25,7 @@ class PatrimonyAssetsListState {
     this.category,
     required this.downloadingSummary,
     required this.downloadingChecklist,
+    required this.importingInventory,
   });
 
   factory PatrimonyAssetsListState.initial() {
@@ -36,6 +38,7 @@ class PatrimonyAssetsListState {
       search: '',
       downloadingSummary: false,
       downloadingChecklist: false,
+      importingInventory: false,
     );
   }
 
@@ -52,6 +55,7 @@ class PatrimonyAssetsListState {
     bool clearCategory = false,
     bool? downloadingSummary,
     bool? downloadingChecklist,
+    bool? importingInventory,
   }) {
     return PatrimonyAssetsListState(
       loading: loading ?? this.loading,
@@ -64,6 +68,7 @@ class PatrimonyAssetsListState {
       category: clearCategory ? null : (category ?? this.category),
       downloadingSummary: downloadingSummary ?? this.downloadingSummary,
       downloadingChecklist: downloadingChecklist ?? this.downloadingChecklist,
+      importingInventory: importingInventory ?? this.importingInventory,
     );
   }
 }

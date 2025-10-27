@@ -2,6 +2,7 @@ import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:church_finance_bk/core/app_http.dart';
 import 'package:church_finance_bk/core/paginate/paginate_response.dart';
 import 'package:church_finance_bk/patrimony/models/patrimony_asset_model.dart';
+import 'package:church_finance_bk/patrimony/models/patrimony_inventory_import_result.dart';
 import 'package:church_finance_bk/patrimony/reports/download/patrimony_report_downloader.dart';
 import 'package:dio/dio.dart';
 
@@ -243,6 +244,32 @@ class PatrimonyService extends AppHttp {
         bytes,
         'checklist_inventario.csv',
         'text/csv',
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<PatrimonyInventoryImportResult> importInventoryChecklist({
+    required MultipartFile file,
+  }) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    final payload = FormData.fromMap({
+      'inventoryFile': file,
+    });
+
+    try {
+      final response = await http.post(
+        '${await getUrlApi()}patrimony/inventory/import',
+        data: payload,
+        options: Options(headers: bearerToken()),
+      );
+
+      return PatrimonyInventoryImportResult.fromMap(
+        Map<String, dynamic>.from(response.data as Map),
       );
     } on DioException catch (e) {
       transformResponse(e.response?.data);
