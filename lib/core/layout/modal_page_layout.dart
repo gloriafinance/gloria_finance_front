@@ -14,12 +14,13 @@ class ModalPage {
     this.width = 750.0,
   });
 
-  Future<void> show(BuildContext context) {
-    return showDialog<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return _modal(context);
-        });
+  Future<T?> show<T>(BuildContext context) {
+    return showDialog<T>(
+      context: context,
+      builder: (BuildContext context) {
+        return _modal(context);
+      },
+    );
   }
 
   Widget _modal(BuildContext context) {

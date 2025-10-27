@@ -1,5 +1,4 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/helpers/index.dart';
@@ -29,66 +28,61 @@ class _PatrimonyAssetInventoryDialogState
   Widget build(BuildContext context) {
     final detailStore = context.watch<PatrimonyAssetDetailStore>();
 
-    return AlertDialog(
-      title: const Text(
-        'Registrar inventário físico',
-        style: TextStyle(
-          fontFamily: AppFonts.fontTitle,
-          fontSize: 18,
-        ),
-      ),
-      content: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 420),
-        child: SingleChildScrollView(
-          child: Form(
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 420),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Form(
             key: _formKey,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _statusField(),
+                const SizedBox(height: 16),
                 _dateField(context),
+                const SizedBox(height: 16),
                 _notesField(),
               ],
             ),
           ),
-        ),
-      ),
-      actionsPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      actions: [
-        SizedBox(
-          width: double.infinity,
-          child: Wrap(
-            spacing: 12,
-            runSpacing: 12,
-            alignment: WrapAlignment.end,
-            children: [
-              AbsorbPointer(
-                absorbing: detailStore.registeringInventory,
-                child: ButtonActionTable(
-                  color: AppColors.greyMiddle,
-                  text: 'Cancelar',
-                  icon: Icons.close,
-                  onPressed: () => Navigator.of(context).pop(false),
+          const SizedBox(height: 24),
+          SizedBox(
+            width: double.infinity,
+            child: Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              alignment: WrapAlignment.end,
+              children: [
+                AbsorbPointer(
+                  absorbing: detailStore.registeringInventory,
+                  child: ButtonActionTable(
+                    color: AppColors.greyMiddle,
+                    text: 'Cancelar',
+                    icon: Icons.close,
+                    onPressed: () => Navigator.of(context).pop(false),
+                  ),
                 ),
-              ),
-              AbsorbPointer(
-                absorbing: detailStore.registeringInventory,
-                child: ButtonActionTable(
-                  color: AppColors.purple,
-                  text: detailStore.registeringInventory
-                      ? 'Registrando...'
-                      : 'Confirmar',
-                  icon: detailStore.registeringInventory
-                      ? Icons.hourglass_top
-                      : Icons.check_circle_outline,
-                  onPressed: () => _submit(detailStore),
+                AbsorbPointer(
+                  absorbing: detailStore.registeringInventory,
+                  child: ButtonActionTable(
+                    color: AppColors.purple,
+                    text: detailStore.registeringInventory
+                        ? 'Registrando...'
+                        : 'Confirmar',
+                    icon: detailStore.registeringInventory
+                        ? Icons.hourglass_top
+                        : Icons.check_circle_outline,
+                    onPressed: () => _submit(detailStore),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
