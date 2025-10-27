@@ -11,6 +11,7 @@ import 'package:church_finance_bk/patrimony/pages/assets/detail/store/patrimony_
 import 'package:church_finance_bk/patrimony/pages/assets/detail/widgets/patrimony_asset_disposal_dialog.dart';
 import 'package:church_finance_bk/patrimony/pages/assets/detail/widgets/patrimony_asset_inventory_dialog.dart';
 import 'package:church_finance_bk/patrimony/pages/assets/list/store/patrimony_assets_list_store.dart';
+import 'package:church_finance_bk/patrimony/models/patrimony_history_entry.dart';
 import 'package:church_finance_bk/settings/members/store/member_all_store.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -516,9 +517,20 @@ Widget _attachmentsSection(BuildContext context, PatrimonyAssetModel asset) {
   return LayoutBuilder(
     builder: (context, constraints) {
       final isCompact = constraints.maxWidth < 640;
+      final attachmentsCount = asset.attachments.length;
+      final crossAxisCount = isCompact
+          ? 1
+          : (attachmentsCount >= 3
+              ? 3
+              : math.max(1, attachmentsCount));
+      const spacing = 16.0;
       final cardWidth = isCompact
           ? constraints.maxWidth
-          : math.min(320.0, (constraints.maxWidth - 16) / 2).toDouble();
+          : ((constraints.maxWidth -
+                      spacing * (crossAxisCount - 1)) /
+                  crossAxisCount)
+              .clamp(0, constraints.maxWidth)
+              .toDouble();
 
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -529,8 +541,8 @@ Widget _attachmentsSection(BuildContext context, PatrimonyAssetModel asset) {
           ),
           const SizedBox(height: 12),
           Wrap(
-            spacing: 16,
-            runSpacing: 16,
+            spacing: spacing,
+            runSpacing: spacing,
             children: asset.attachments.map((attachment) {
               final isImage =
                   attachment.mimetype.toLowerCase().startsWith('image/');
@@ -575,52 +587,214 @@ Widget _historySection(PatrimonyAssetModel asset) {
     );
   }
 
+  final entries = asset.history;
+  const header = Text(
+    'Histórico de movimentações',
+    style: TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 18),
+  );
+
+  if (entries.length <= 4) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        header,
+        const SizedBox(height: 12),
+        for (var i = 0; i < entries.length; i++) ...[
+          _buildHistoryCard(entries[i]),
+          if (i != entries.length - 1) const SizedBox(height: 12),
+        ],
+      ],
+    );
+  }
+
+  final maxHeight = math.min<double>(420, entries.length * 128.0);
+
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      const Text(
-        'Histórico de movimentações',
-        style: TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 18),
-      ),
+      header,
       const SizedBox(height: 12),
-      ...asset.history.map((entry) {
-        return Container(
-          margin: const EdgeInsets.only(bottom: 12),
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            border: Border.all(color: AppColors.greyMiddle),
-            borderRadius: BorderRadius.circular(12),
+      Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColors.greyMiddle),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: SizedBox(
+          height: maxHeight,
+          child: Scrollbar(
+            thumbVisibility: true,
+            child: ListView.separated(
+              physics: const ClampingScrollPhysics(),
+              padding: const EdgeInsets.all(16),
+              itemBuilder: (context, index) => _buildHistoryCard(entries[index]),
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              itemCount: entries.length,
+            ),
           ),
-          child: Column(
+        ),
+      ),
+    ],
+  );
+}
+
+Widget _buildHistoryCard(PatrimonyHistoryEntry entry) {
+  final changes = entry.formattedChanges;
+  final hasNotes = entry.notes?.isNotEmpty == true;
+  final hasChanges = changes.isNotEmpty;
+
+  return Container(
+    width: double.infinity,
+    padding: const EdgeInsets.all(16),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(color: AppColors.greyMiddle),
+      color: Colors.white,
+      boxShadow: const [
+        BoxShadow(
+          color: Colors.black12,
+          blurRadius: 4,
+          offset: Offset(0, 2),
+        ),
+      ],
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppColors.purple.withOpacity(0.12),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Icon(
+                Icons.history,
+                color: AppColors.purple,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    entry.action,
+                    style: const TextStyle(
+                      fontFamily: AppFonts.fontSubTitle,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 4,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      if (entry.performedAtLabel.isNotEmpty)
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.schedule,
+                              size: 16,
+                              color: AppColors.grey,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              entry.performedAtLabel,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: AppColors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      if (entry.performedBy?.isNotEmpty == true)
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.person_outline,
+                              size: 16,
+                              color: AppColors.grey,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              entry.performedBy!,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: AppColors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        if (hasNotes || hasChanges) const SizedBox(height: 12),
+        if (hasNotes)
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                '${entry.action} • ${entry.performedAtLabel}',
-                style: const TextStyle(
+              const Text(
+                'Notas',
+                style: TextStyle(
                   fontFamily: AppFonts.fontSubTitle,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 8),
-              if (entry.notes?.isNotEmpty == true)
-                Text(
-                  'Notas: ${entry.notes}',
-                  style: const TextStyle(fontFamily: AppFonts.fontSubTitle),
-                ),
-              if (entry.changes.isNotEmpty) ...[
-                const SizedBox(height: 8),
-                const Text(
-                  'Alterações registradas:',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 4),
-                ...entry.formattedChanges.map((change) => Text('- $change')),
-              ],
+              const SizedBox(height: 4),
+              Text(
+                entry.notes!,
+                style: const TextStyle(fontFamily: AppFonts.fontSubTitle),
+              ),
             ],
           ),
-        );
-      }),
-    ],
+        if (hasNotes && hasChanges) const SizedBox(height: 12),
+        if (hasChanges)
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Alterações registradas',
+                style: TextStyle(
+                  fontFamily: AppFonts.fontSubTitle,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 4),
+              ...changes.map(
+                (change) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('• '),
+                      Expanded(
+                        child: Text(
+                          change,
+                          style: const TextStyle(
+                            fontFamily: AppFonts.fontSubTitle,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+      ],
+    ),
   );
 }
 
