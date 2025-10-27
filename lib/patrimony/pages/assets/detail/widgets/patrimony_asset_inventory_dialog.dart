@@ -46,10 +46,20 @@ class _PatrimonyAssetInventoryDialogState
   Widget build(BuildContext context) {
     final detailStore = context.watch<PatrimonyAssetDetailStore>();
 
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 420),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30),
+          bottomLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
+          bottomRight: Radius.circular(30),
+        ),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Form(

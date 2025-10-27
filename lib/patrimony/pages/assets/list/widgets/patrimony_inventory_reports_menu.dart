@@ -40,10 +40,7 @@ class _PatrimonyInventoryReportsMenuState
 
     final selection = await showMenu<_InventoryReportOption>(
       context: context,
-      position: RelativeRect.fromRect(
-        buttonRect,
-        Offset.zero & overlay.size,
-      ),
+      position: RelativeRect.fromRect(buttonRect, Offset.zero & overlay.size),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       items: const [
         PopupMenuItem<_InventoryReportOption>(
@@ -84,7 +81,10 @@ class _PatrimonyInventoryReportsMenuState
     if (success) {
       Toast.showMessage('Relatório de inventário gerado.', ToastType.info);
     } else {
-      Toast.showMessage('Não foi possível gerar o relatório.', ToastType.warning);
+      Toast.showMessage(
+        'Não foi possível gerar o relatório.',
+        ToastType.warning,
+      );
     }
   }
 
@@ -96,7 +96,7 @@ class _PatrimonyInventoryReportsMenuState
       absorbing: isLoading,
       child: ButtonActionTable(
         key: _buttonKey,
-        color: AppColors.purple,
+        color: AppColors.blue,
         text: isLoading ? 'Gerando relatório...' : 'Exportar inventário',
         icon: isLoading ? Icons.hourglass_top : Icons.download_outlined,
         onPressed: _showMenu,
@@ -117,7 +117,10 @@ class PatrimonyInventoryChecklistButton extends StatelessWidget {
     if (success) {
       Toast.showMessage('Checklist gerado com sucesso.', ToastType.info);
     } else {
-      Toast.showMessage('Não foi possível gerar o checklist.', ToastType.warning);
+      Toast.showMessage(
+        'Não foi possível gerar o checklist.',
+        ToastType.warning,
+      );
     }
   }
 
