@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
+import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/helpers/index.dart';
@@ -7,147 +8,191 @@ import 'package:church_finance_bk/patrimony/pages/assets/list/store/patrimony_as
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class PatrimonyAssetsFilters extends StatelessWidget {
+class PatrimonyAssetsFilters extends StatefulWidget {
   const PatrimonyAssetsFilters({super.key});
+
+  @override
+  State<PatrimonyAssetsFilters> createState() => _PatrimonyAssetsFiltersState();
+}
+
+class _PatrimonyAssetsFiltersState extends State<PatrimonyAssetsFilters> {
+  bool _isExpandedFilter = false;
 
   @override
   Widget build(BuildContext context) {
     return Consumer<PatrimonyAssetsListStore>(
       builder: (context, store, _) {
-        final statusItems =
-            PatrimonyAssetStatusCollection.labels();
+        final statusItems = PatrimonyAssetStatusCollection.labels();
         final categoryItems =
             PatrimonyAssetCategory.values.map((e) => e.label).toList();
 
-        final content = Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (isMobile(context)) ...[
-              Input(
-                label: 'Buscar',
-                initialValue: store.state.search,
-                iconRight: const Icon(Icons.search, color: AppColors.purple),
-                onIconTap: store.applySearch,
-                onChanged: store.setSearch,
-              ),
-              Dropdown(
-                label: 'Status',
-                initialValue: store.statusLabel,
-                items: statusItems,
-                onChanged:
-                    (value) => store.setStatusByLabel(
-                      value?.isEmpty == true ? null : value,
-                    ),
-                labelSuffix: _clearFilterButton(
-                  visible: store.state.status != null,
-                  onPressed: () => store.setStatusByLabel(null),
-                ),
-              ),
-              Dropdown(
-                label: 'Categoria',
-                initialValue: store.categoryLabel,
-                items: categoryItems,
-                onChanged:
-                    (value) => store.setCategoryByLabel(
-                      value?.isEmpty == true ? null : value,
-                    ),
-                labelSuffix: _clearFilterButton(
-                  visible: store.state.category != null,
-                  onPressed: () => store.setCategoryByLabel(null),
-                ),
-              ),
-            ] else ...[
-              Row(
-                children: [
-                  Expanded(
-                    child: Input(
-                      label: 'Buscar',
-                      initialValue: store.state.search,
-                      iconRight: const Icon(
-                        Icons.search,
-                        color: AppColors.purple,
-                      ),
-                      onIconTap: store.applySearch,
-                      onChanged: store.setSearch,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Dropdown(
-                      label: 'Status',
-                      initialValue: store.statusLabel,
-                      items: statusItems,
-                      onChanged:
-                          (value) => store.setStatusByLabel(
-                            value?.isEmpty == true ? null : value,
-                          ),
-                      labelSuffix: _clearFilterButton(
-                        visible: store.state.status != null,
-                        onPressed: () => store.setStatusByLabel(null),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Dropdown(
-                      label: 'Categoria',
-                      initialValue: store.categoryLabel,
-                      items: categoryItems,
-                      onChanged:
-                          (value) => store.setCategoryByLabel(
-                            value?.isEmpty == true ? null : value,
-                          ),
-                      labelSuffix: _clearFilterButton(
-                        visible: store.state.category != null,
-                        onPressed: () => store.setCategoryByLabel(null),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-            const SizedBox(height: 16),
-            if (isMobile(context))
-              Column(
-                children: [
-                  CustomButton(
-                    text: 'Aplicar filtros',
-                    backgroundColor: AppColors.purple,
-                    textColor: Colors.white,
-                    onPressed: store.applyFilters,
-                  ),
-                  const SizedBox(height: 12),
-                  CustomButton(
-                    text: 'Limpar',
-                    backgroundColor: AppColors.greyLight,
-                    textColor: Colors.white,
-                    onPressed: store.clearFilters,
-                  ),
-                ],
-              )
-            else
-              Row(
-                children: [
-                  CustomButton(
-                    text: 'Aplicar filtros',
-                    backgroundColor: AppColors.purple,
-                    textColor: Colors.white,
-                    onPressed: store.applyFilters,
-                  ),
-                  const SizedBox(width: 12),
-                  CustomButton(
-                    text: 'Limpar',
-                    backgroundColor: AppColors.greyLight,
-                    textColor: Colors.white,
-                    onPressed: store.clearFilters,
-                  ),
-                ],
-              ),
-          ],
-        );
-
-        return content;
+        return isMobile(context)
+            ? _mobileLayout(store, statusItems, categoryItems)
+            : _desktopLayout(store, statusItems, categoryItems);
       },
+    );
+  }
+
+  Widget _mobileLayout(
+    PatrimonyAssetsListStore store,
+    List<String> statusItems,
+    List<String> categoryItems,
+  ) {
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      child: ExpansionPanelList(
+        expansionCallback: (index, isExpanded) {
+          setState(() {
+            _isExpandedFilter = !_isExpandedFilter;
+          });
+        },
+        animationDuration: const Duration(milliseconds: 500),
+        children: [
+          ExpansionPanel(
+            canTapOnHeader: true,
+            isExpanded: _isExpandedFilter,
+            headerBuilder: (context, isOpen) {
+              return ListTile(
+                title: Text(
+                  'FILTROS',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontFamily: AppFonts.fontTitle,
+                    color: AppColors.purple,
+                  ),
+                ),
+              );
+            },
+            body: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(child: _searchInput(store)),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(child: _statusDropdown(store, statusItems)),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(child: _categoryDropdown(store, categoryItems)),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomButton(
+                        text: 'Aplicar filtros',
+                        backgroundColor: AppColors.purple,
+                        textColor: Colors.white,
+                        onPressed: store.applyFilters,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: CustomButton(
+                        text: 'Limpar',
+                        backgroundColor: AppColors.greyLight,
+                        textColor: Colors.white,
+                        onPressed: store.clearFilters,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _desktopLayout(
+    PatrimonyAssetsListStore store,
+    List<String> statusItems,
+    List<String> categoryItems,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Expanded(child: _searchInput(store)),
+            const SizedBox(width: 16),
+            Expanded(child: _statusDropdown(store, statusItems)),
+            const SizedBox(width: 16),
+            Expanded(child: _categoryDropdown(store, categoryItems)),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            CustomButton(
+              text: 'Aplicar filtros',
+              backgroundColor: AppColors.purple,
+              textColor: Colors.white,
+              onPressed: store.applyFilters,
+            ),
+            const SizedBox(width: 12),
+            CustomButton(
+              text: 'Limpar',
+              backgroundColor: AppColors.greyLight,
+              textColor: Colors.white,
+              onPressed: store.clearFilters,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _searchInput(PatrimonyAssetsListStore store) {
+    return Input(
+      label: 'Buscar',
+      initialValue: store.state.search,
+      iconRight: const Icon(Icons.search, color: AppColors.purple),
+      onIconTap: store.applySearch,
+      onChanged: store.setSearch,
+    );
+  }
+
+  Widget _statusDropdown(
+    PatrimonyAssetsListStore store,
+    List<String> statusItems,
+  ) {
+    return Dropdown(
+      label: 'Status',
+      initialValue: store.statusLabel,
+      items: statusItems,
+      onChanged: (value) => store.setStatusByLabel(
+        value?.isEmpty == true ? null : value,
+      ),
+      labelSuffix: _clearFilterButton(
+        visible: store.state.status != null,
+        onPressed: () => store.setStatusByLabel(null),
+      ),
+    );
+  }
+
+  Widget _categoryDropdown(
+    PatrimonyAssetsListStore store,
+    List<String> categoryItems,
+  ) {
+    return Dropdown(
+      label: 'Categoria',
+      initialValue: store.categoryLabel,
+      items: categoryItems,
+      onChanged: (value) => store.setCategoryByLabel(
+        value?.isEmpty == true ? null : value,
+      ),
+      labelSuffix: _clearFilterButton(
+        visible: store.state.category != null,
+        onPressed: () => store.setCategoryByLabel(null),
+      ),
     );
   }
 
