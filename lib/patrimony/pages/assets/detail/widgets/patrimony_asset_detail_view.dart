@@ -102,6 +102,10 @@ Widget _summaryCard(
       final entries = [
         _InfoEntry(label: 'Categoria', value: asset.categoryLabel),
         _InfoEntry(
+          label: 'Quantidade',
+          value: asset.quantityLabel.isNotEmpty ? asset.quantityLabel : '-',
+        ),
+        _InfoEntry(
           label: 'Data de aquisição',
           value: asset.acquisitionDateLabel.isEmpty
               ? '-'
@@ -130,6 +134,15 @@ Widget _summaryCard(
             icon: Icons.confirmation_number_outlined,
             label: asset.code,
             color: AppColors.blue,
+          ),
+        );
+      }
+      if (asset.quantity > 0) {
+        metadataBadges.add(
+          _metaBadge(
+            icon: Icons.inventory_2_outlined,
+            label: 'Qtd: ${asset.quantity}',
+            color: AppColors.mustard,
           ),
         );
       }

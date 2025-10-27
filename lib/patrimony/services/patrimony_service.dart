@@ -144,6 +144,8 @@ class PatrimonyService extends AppHttp {
     required String status,
     String? checkedAt,
     String? notes,
+    required String code,
+    required int quantity,
   }) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
@@ -155,6 +157,8 @@ class PatrimonyService extends AppHttp {
           'status': status,
           if (checkedAt != null) 'checkedAt': checkedAt,
           if (notes != null) 'notes': notes,
+          'code': code,
+          'quantity': quantity,
         },
         options: Options(headers: bearerToken()),
       );

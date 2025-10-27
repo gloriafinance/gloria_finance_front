@@ -13,6 +13,7 @@ class PatrimonyAssetModel {
   final PatrimonyAssetCategory? category;
   final DateTime? acquisitionDate;
   final double value;
+  final int quantity;
   final String churchId;
   final String? location;
   final String? responsibleId;
@@ -40,6 +41,7 @@ class PatrimonyAssetModel {
     required this.category,
     required this.acquisitionDate,
     required this.value,
+    required this.quantity,
     required this.churchId,
     this.location,
     this.responsibleId,
@@ -88,6 +90,9 @@ class PatrimonyAssetModel {
       value: map['value'] is num
           ? (map['value'] as num).toDouble()
           : double.tryParse('${map['value']}') ?? 0,
+      quantity: map['quantity'] is num
+          ? (map['quantity'] as num).toInt()
+          : int.tryParse('${map['quantity']}') ?? 0,
       churchId: map['churchId'] as String? ?? '',
       location: map['location'] as String?,
       responsibleId: map['responsibleId'] as String?,
@@ -133,6 +138,8 @@ class PatrimonyAssetModel {
       acquisitionDate != null ? convertDateFormatToDDMMYYYY(acquisitionDate!.toIso8601String()) : '';
 
   String get valueLabel => CurrencyFormatter.formatCurrency(value);
+
+  String get quantityLabel => quantity > 0 ? '$quantity' : '';
 
   bool get hasDisposal => disposalStatus != null && disposalStatus!.isNotEmpty;
 
