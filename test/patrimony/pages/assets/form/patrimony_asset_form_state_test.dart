@@ -13,10 +13,13 @@ void main() {
   group('PatrimonyAssetFormState.toFormData', () {
     test('builds multipart payload with metadata and attachments', () async {
       final state = PatrimonyAssetFormState.initial().copyWith(
+        code: 'BEM-000123',
         name: 'Piano Yamaha C3',
         category: 'instrument',
         value: 48000,
         valueText: 'R\$ 48.000,00',
+        quantity: 3,
+        quantityText: '3',
         acquisitionDate: '15/04/2024',
         location: 'Salão principal',
         responsibleId: 'urn:user:music-director',
@@ -54,6 +57,8 @@ void main() {
 
       expect(fields['name'], 'Piano Yamaha C3');
       expect(fields['value'], '48000.0');
+      expect(fields['code'], 'BEM-000123');
+      expect(fields['quantity'], '3');
       expect(fields['status'], 'ACTIVE');
       expect(fields['category'], 'instrument');
       expect(fields['acquisitionDate'], '2024-04-15');
@@ -76,6 +81,27 @@ void main() {
       expect(formData.files.first.key, 'attachments');
       expect(formData.files.first.value.filename, 'inventario.pdf');
     });
+
+    test('omits immutable fields when requested', () {
+      final state = PatrimonyAssetFormState.initial().copyWith(
+        code: 'BEM-000999',
+        name: 'Projeto Som',
+        category: 'equipment',
+        value: 2500,
+        valueText: 'R\$ 2.500,00',
+        quantity: 4,
+        quantityText: '4',
+        acquisitionDate: '10/06/2024',
+        location: 'Sala de áudio',
+      );
+
+      final formData = state.toFormData(includeImmutableFields: false);
+
+      final keys = formData.fields.map((entry) => entry.key).toSet();
+
+      expect(keys, isNot(contains('code')));
+      expect(keys, isNot(contains('quantity')));
+    });
   });
 
   group('PatrimonyAssetFormState.fromModel', () {
@@ -96,6 +122,7 @@ void main() {
         category: PatrimonyAssetCategory.instrument,
         acquisitionDate: DateTime.parse('2024-04-15T00:00:00.000Z'),
         value: 48000,
+        quantity: 2,
         churchId: 'urn:church:central',
         location: 'Salão principal',
         responsibleId: 'urn:user:music-director',
@@ -114,6 +141,9 @@ void main() {
       expect(state.assetId, 'asset-123');
       expect(state.name, 'Piano Yamaha C3');
       expect(state.category, PatrimonyAssetCategory.instrument.apiValue);
+      expect(state.code, 'BEM-000123');
+      expect(state.quantity, 2);
+      expect(state.quantityText, '2');
       expect(state.status, PatrimonyAssetStatus.active.apiValue);
       expect(state.value, 48000);
       expect(state.valueText, CurrencyFormatter.formatCurrency(48000));

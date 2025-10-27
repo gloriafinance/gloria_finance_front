@@ -13,15 +13,16 @@ class CustomButton extends StatelessWidget {
   final IconData? icon;
   EdgeInsetsGeometry? padding;
 
-  CustomButton(
-      {super.key,
-      required this.text,
-      required this.backgroundColor,
-      required this.onPressed,
-      this.textColor = Colors.black87,
-      this.typeButton = 'basic',
-      this.icon,
-      this.padding});
+  CustomButton({
+    super.key,
+    required this.text,
+    required this.backgroundColor,
+    required this.onPressed,
+    this.textColor = Colors.black87,
+    this.typeButton = 'basic',
+    this.icon,
+    this.padding,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +30,11 @@ class CustomButton extends StatelessWidget {
       style: typeButton == 'basic' ? _basicStyle() : _outlineStyle(),
       onPressed: onPressed,
       child: Padding(
-        padding: padding ??= isMobile(context)
-            ? EdgeInsets.only(top: 18, bottom: 18)
-            : EdgeInsets.only(top: 14, bottom: 14),
+        padding:
+            padding ??=
+                isMobile(context)
+                    ? EdgeInsets.only(top: 18, bottom: 18)
+                    : EdgeInsets.only(top: 14, bottom: 14),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center, // Centra el contenido
           children: [
@@ -41,7 +44,7 @@ class CustomButton extends StatelessWidget {
                 color: textColor, // Color del icono
               ),
             if (icon != null) // Espacio entre el icono y el texto
-              const SizedBox(width: 8),
+              const SizedBox(width: 14),
             Text(
               text.toUpperCase(),
               style: TextStyle(
@@ -59,9 +62,7 @@ class CustomButton extends StatelessWidget {
   ButtonStyle _basicStyle() {
     return ElevatedButton.styleFrom(
       backgroundColor: backgroundColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       // elevation: 4.0,
     );
   }
@@ -69,9 +70,7 @@ class CustomButton extends StatelessWidget {
   ButtonStyle _outlineStyle() {
     return ElevatedButton.styleFrom(
       backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       elevation: 4.0,
       side: BorderSide(color: backgroundColor, width: 1.0),
     );
