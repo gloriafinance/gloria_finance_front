@@ -54,37 +54,122 @@ class _PatrimonyAssetDetailBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<MemberAllStore, PatrimonyAssetDetailStore>(
-      builder: (context, memberStore, detailStore, _) {
-        final asset = detailStore.asset;
-        final responsibleName =
-            PatrimonyAssetDetailView.resolveResponsible(memberStore, asset);
+    return DefaultTabController(
+      length: 2,
+      child: Consumer2<MemberAllStore, PatrimonyAssetDetailStore>(
+        builder: (context, memberStore, detailStore, _) {
+          final asset = detailStore.asset;
+          final responsibleName =
+              PatrimonyAssetDetailView.resolveResponsible(memberStore, asset);
 
-        return SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _summaryCard(context, asset, detailStore, responsibleName),
-              const SizedBox(height: 24),
-              if (asset.hasDisposal) ...[
-                _disposalSection(asset),
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _summaryCard(context, asset, detailStore, responsibleName),
+                const SizedBox(height: 24),
+                _PatrimonyDetailTabs(asset: asset),
                 const SizedBox(height: 24),
               ],
-              if (asset.inventoryStatus != null ||
-                  asset.inventoryCheckedAt != null ||
-                  (asset.inventoryNotes?.isNotEmpty ?? false)) ...[
-                _inventorySection(asset),
-                const SizedBox(height: 24),
-              ],
-              _attachmentsSection(context, asset),
-              const SizedBox(height: 24),
-              _historySection(asset),
-            ],
-          ),
-        );
-      },
+            ),
+          );
+        },
+      ),
     );
   }
+}
+
+class _PatrimonyDetailTabs extends StatelessWidget {
+  final PatrimonyAssetModel asset;
+
+  const _PatrimonyDetailTabs({required this.asset});
+
+  @override
+  Widget build(BuildContext context) {
+    final tabController = DefaultTabController.of(context)!;
+
+    final detailContent = _detailTabContent(context, asset);
+    final historyContent = _historyTabContent(asset);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColors.greyMiddle),
+          ),
+          child: TabBar(
+            labelColor: AppColors.purple,
+            unselectedLabelColor: AppColors.grey,
+            indicator: BoxDecoration(
+              color: AppColors.purple.withOpacity(0.12),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            indicatorSize: TabBarIndicatorSize.tab,
+            labelStyle: const TextStyle(
+              fontFamily: AppFonts.fontSubTitle,
+              fontWeight: FontWeight.w600,
+            ),
+            tabs: const [
+              Tab(text: 'Detalhes'),
+              Tab(text: 'Histórico'),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        AnimatedBuilder(
+          animation: tabController,
+          builder: (context, _) {
+            return IndexedStack(
+              index: tabController.index,
+              children: [
+                detailContent,
+                historyContent,
+              ],
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+Widget _detailTabContent(BuildContext context, PatrimonyAssetModel asset) {
+  final sections = <Widget>[];
+
+  if (asset.hasDisposal) {
+    sections
+      ..add(_disposalSection(asset))
+      ..add(const SizedBox(height: 24));
+  }
+
+  if (asset.inventoryStatus != null ||
+      asset.inventoryCheckedAt != null ||
+      (asset.inventoryNotes?.isNotEmpty ?? false)) {
+    sections
+      ..add(_inventorySection(asset))
+      ..add(const SizedBox(height: 24));
+  }
+
+  sections.add(_attachmentsSection(context, asset));
+
+  sections.add(const SizedBox(height: 8));
+
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: sections,
+  );
+}
+
+Widget _historyTabContent(PatrimonyAssetModel asset) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      _historySection(asset, showHeader: false),
+    ],
+  );
 }
 
 Widget _summaryCard(
@@ -579,7 +664,7 @@ Widget _attachmentsSection(BuildContext context, PatrimonyAssetModel asset) {
   );
 }
 
-Widget _historySection(PatrimonyAssetModel asset) {
+Widget _historySection(PatrimonyAssetModel asset, {bool showHeader = true}) {
   if (asset.history.isEmpty) {
     return const Text(
       'Sem histórico de alterações.',
@@ -588,31 +673,36 @@ Widget _historySection(PatrimonyAssetModel asset) {
   }
 
   final entries = asset.history;
-  const header = Text(
-    'Histórico de movimentações',
-    style: TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 18),
-  );
 
-  if (entries.length <= 4) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        header,
-        const SizedBox(height: 12),
-        for (var i = 0; i < entries.length; i++) ...[
-          _buildHistoryCard(entries[i]),
-          if (i != entries.length - 1) const SizedBox(height: 12),
+  Widget buildEntries() {
+    if (entries.length <= 4) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          for (var i = 0; i < entries.length; i++) ...[
+            _buildHistoryCard(entries[i]),
+            if (i != entries.length - 1) const SizedBox(height: 12),
+          ],
         ],
-      ],
-    );
+      );
+    }
+
+    return _HistoryScrollableList(entries: entries);
+  }
+
+  if (!showHeader) {
+    return buildEntries();
   }
 
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      header,
+      const Text(
+        'Histórico de movimentações',
+        style: TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 18),
+      ),
       const SizedBox(height: 12),
-      _HistoryScrollableList(entries: entries),
+      buildEntries(),
     ],
   );
 }
