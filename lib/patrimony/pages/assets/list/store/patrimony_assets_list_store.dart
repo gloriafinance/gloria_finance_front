@@ -1,6 +1,11 @@
+import 'dart:async';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../models/patrimony_asset_enums.dart';
+import '../../../../models/patrimony_asset_model.dart';
+import '../../../../models/patrimony_inventory_import_result.dart';
 import '../../../../services/patrimony_service.dart';
 import '../state/patrimony_assets_list_state.dart';
 
@@ -10,6 +15,12 @@ class PatrimonyAssetsListStore extends ChangeNotifier {
 
   PatrimonyAssetsListStore({PatrimonyService? service})
       : service = service ?? PatrimonyService();
+
+  bool get downloadingSummary => state.downloadingSummary;
+
+  bool get downloadingChecklist => state.downloadingChecklist;
+
+  bool get importingInventory => state.importingInventory;
 
   Future<void> loadAssets({int? page}) async {
     state = state.copyWith(loading: true, hasError: false);
@@ -102,6 +113,17 @@ class PatrimonyAssetsListStore extends ChangeNotifier {
     loadAssets(page: state.page);
   }
 
+  void updateAssetEntry(PatrimonyAssetModel updated) {
+    final updatedResults = state.assets.results
+        .map((asset) => asset.assetId == updated.assetId ? updated : asset)
+        .toList();
+
+    state = state.copyWith(
+      assets: state.assets.copyWith(results: updatedResults),
+    );
+    notifyListeners();
+  }
+
   void clearFilters() {
     state = PatrimonyAssetsListState.initial().copyWith(perPage: state.perPage);
     notifyListeners();
@@ -110,6 +132,81 @@ class PatrimonyAssetsListStore extends ChangeNotifier {
 
   Future<void> applyFilters() async {
     await loadAssets(page: 1);
+  }
+
+  Future<bool> downloadInventorySummary(String format) async {
+    if (state.downloadingSummary) {
+      return false;
+    }
+
+    state = state.copyWith(downloadingSummary: true);
+    notifyListeners();
+
+    try {
+      final success = await service.downloadInventorySummary(
+        format: format,
+        status: state.status,
+        category: state.category,
+      );
+      return success;
+    } catch (e) {
+      return false;
+    } finally {
+      state = state.copyWith(downloadingSummary: false);
+      notifyListeners();
+    }
+  }
+
+  Future<bool> downloadPhysicalChecklist() async {
+    if (state.downloadingChecklist) {
+      return false;
+    }
+
+    state = state.copyWith(downloadingChecklist: true);
+    notifyListeners();
+
+    try {
+      final success = await service.downloadPhysicalChecklist(
+        status: state.status,
+        category: state.category,
+      );
+      return success;
+    } catch (e) {
+      return false;
+    } finally {
+      state = state.copyWith(downloadingChecklist: false);
+      notifyListeners();
+    }
+  }
+
+  Future<PatrimonyInventoryImportResult?> importInventoryChecklist(
+    MultipartFile file,
+  ) async {
+    if (state.importingInventory) {
+      return null;
+    }
+
+    state = state.copyWith(importingInventory: true);
+    notifyListeners();
+
+    PatrimonyInventoryImportResult? result;
+
+    try {
+      result = await service.importInventoryChecklist(file: file);
+    } catch (e) {
+      result = null;
+    } finally {
+      state = state.copyWith(importingInventory: false);
+      notifyListeners();
+    }
+
+    if (result != null) {
+      // Refresh the list to reflect the updates performed by the import.
+      // ignore: unawaited_futures
+      unawaited(loadAssets(page: state.page));
+    }
+
+    return result;
   }
 
   String? get statusLabel {

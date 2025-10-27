@@ -14,23 +14,22 @@ class ModalPage {
     this.width = 750.0,
   });
 
-  Future<void> show(BuildContext context) {
-    return showDialog<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return _modal(context);
-        });
+  Future<T?> show<T>(BuildContext context) {
+    return showDialog<T>(
+      context: context,
+      builder: (BuildContext context) {
+        return _modal(context);
+      },
+    );
   }
 
   Widget _modal(BuildContext context) {
     return Dialog(
       //backgroundColor: Colors.white,
       insetPadding: const EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
         width: isMobile(context) ? MediaQuery.of(context).size.width : width,
         child: SingleChildScrollView(
           child: Column(
