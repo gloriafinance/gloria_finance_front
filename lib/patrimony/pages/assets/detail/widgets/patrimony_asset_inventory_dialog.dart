@@ -3,6 +3,7 @@ import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../models/patrimony_asset_enums.dart';
@@ -23,6 +24,23 @@ class _PatrimonyAssetInventoryDialogState
   String? _statusLabel = PatrimonyInventoryStatus.confirmed.label;
   String _checkedAtDisplay = '';
   String _notes = '';
+  String _code = '';
+  String _quantityText = '';
+  bool _initialized = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_initialized) {
+      return;
+    }
+
+    final detailStore = context.read<PatrimonyAssetDetailStore>();
+    final asset = detailStore.asset;
+    _code = asset.code;
+    _quantityText = asset.quantity > 0 ? '${asset.quantity}' : '';
+    _initialized = true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +58,10 @@ class _PatrimonyAssetInventoryDialogState
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                _codeField(detailStore),
+                const SizedBox(height: 16),
+                _quantityField(detailStore),
+                const SizedBox(height: 16),
                 _statusField(),
                 const SizedBox(height: 16),
                 _dateField(context),
@@ -143,6 +165,38 @@ class _PatrimonyAssetInventoryDialogState
     );
   }
 
+  Widget _codeField(PatrimonyAssetDetailStore detailStore) {
+    return Input(
+      label: 'Código patrimonial',
+      initialValue: _code,
+      onChanged: (value) => setState(() => _code = value),
+      onValidator: (value) =>
+          value == null || value.trim().isEmpty ? 'Informe o código' : null,
+      readOnly: detailStore.registeringInventory,
+    );
+  }
+
+  Widget _quantityField(PatrimonyAssetDetailStore detailStore) {
+    return Input(
+      label: 'Quantidade',
+      initialValue: _quantityText,
+      onChanged: (value) => setState(() => _quantityText = value),
+      onValidator: (value) {
+        if (value == null || value.trim().isEmpty) {
+          return 'Informe a quantidade';
+        }
+        final parsed = int.tryParse(value);
+        if (parsed == null || parsed <= 0) {
+          return 'Quantidade inválida';
+        }
+        return null;
+      },
+      keyboardType: TextInputType.number,
+      inputFormatters: const [FilteringTextInputFormatter.digitsOnly],
+      readOnly: detailStore.registeringInventory,
+    );
+  }
+
   Future<void> _submit(PatrimonyAssetDetailStore detailStore) async {
     if (!_formKey.currentState!.validate()) {
       return;
@@ -155,12 +209,19 @@ class _PatrimonyAssetInventoryDialogState
       return;
     }
 
+    final quantity = int.tryParse(_quantityText);
+    if (quantity == null || quantity <= 0) {
+      return;
+    }
+
     final success = await detailStore.registerInventory(
       status: status,
       checkedAt: _checkedAtDisplay.isEmpty
           ? null
           : convertDateFormat(_checkedAtDisplay.trim()),
       notes: _notes.trim().isEmpty ? null : _notes.trim(),
+      code: _code.trim(),
+      quantity: quantity,
     );
 
     if (success && mounted) {

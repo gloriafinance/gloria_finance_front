@@ -26,6 +26,11 @@ class PatrimonyAssetFormStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setCode(String value) {
+    state = state.copyWith(code: value.trim());
+    notifyListeners();
+  }
+
   void setCategoryByLabel(String? label) {
     final apiValue = PatrimonyAssetCategoryCollection.apiValueFromLabel(label);
     state = state.copyWith(category: apiValue);
@@ -44,6 +49,20 @@ class PatrimonyAssetFormStore extends ChangeNotifier {
 
   void setAcquisitionDate(String date) {
     state = state.copyWith(acquisitionDate: date);
+    notifyListeners();
+  }
+
+  void setQuantityFromInput(String valueText) {
+    if (valueText.isEmpty) {
+      state = state.copyWith(quantity: 0, quantityText: '');
+    } else {
+      final sanitized = valueText.replaceAll(RegExp(r'[^0-9]'), '');
+      final parsed = int.tryParse(sanitized);
+      state = state.copyWith(
+        quantity: parsed ?? 0,
+        quantityText: parsed != null ? parsed.toString() : sanitized,
+      );
+    }
     notifyListeners();
   }
 
@@ -107,7 +126,9 @@ class PatrimonyAssetFormStore extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final payload = state.toFormData();
+      final payload = state.toFormData(
+        includeImmutableFields: !state.isEditing,
+      );
       if (state.isEditing && state.assetId != null) {
         await service.updateAsset(state.assetId!, payload);
         state = state.copyWith(

@@ -56,6 +56,8 @@ class PatrimonyAssetDetailStore extends ChangeNotifier {
     required String status,
     String? checkedAt,
     String? notes,
+    required String code,
+    required int quantity,
   }) async {
     if (_registeringInventory) {
       return false;
@@ -70,6 +72,8 @@ class PatrimonyAssetDetailStore extends ChangeNotifier {
         status: status,
         checkedAt: checkedAt,
         notes: notes,
+        code: code,
+        quantity: quantity,
       );
 
       asset = updated;

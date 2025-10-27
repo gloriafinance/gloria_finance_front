@@ -11,6 +11,7 @@ import 'package:church_finance_bk/patrimony/pages/assets/form/store/patrimony_as
 import 'package:church_finance_bk/patrimony/pages/assets/form/widgets/patrimony_attachments_editor.dart';
 import 'package:church_finance_bk/settings/members/store/member_all_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -64,12 +65,32 @@ class _PatrimonyAssetFormState extends State<PatrimonyAssetForm> {
 
     final fields = [
       Input(
+        label: 'Código patrimonial',
+        initialValue: store.state.code,
+        onChanged: store.setCode,
+        onValidator: (value) => (value == null || value.trim().isEmpty)
+            ? 'Informe o código patrimonial'
+            : null,
+        readOnly: store.state.isEditing,
+      ),
+      Input(
         label: 'Nome do bem',
         initialValue: store.state.name,
         onChanged: store.setName,
         onValidator: (value) => (value == null || value.trim().isEmpty)
             ? 'Informe o nome do bem'
             : null,
+      ),
+      Input(
+        label: 'Quantidade',
+        initialValue: store.state.quantityText,
+        keyboardType: TextInputType.number,
+        inputFormatters: const [FilteringTextInputFormatter.digitsOnly],
+        onChanged: store.setQuantityFromInput,
+        onValidator: (_) => store.state.quantity <= 0
+            ? 'Informe a quantidade'
+            : null,
+        readOnly: store.state.isEditing,
       ),
       Dropdown(
         label: 'Categoria',

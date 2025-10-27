@@ -12,10 +12,13 @@ import '../../../../models/patrimony_attachment_model.dart';
 class PatrimonyAssetFormState {
   final bool makeRequest;
   final String? assetId;
+  final String code;
   final String name;
   final String? category;
   final double value;
   final String valueText;
+  final int quantity;
+  final String quantityText;
   final String acquisitionDate;
   final String location;
   final String responsibleId;
@@ -28,10 +31,13 @@ class PatrimonyAssetFormState {
   const PatrimonyAssetFormState({
     required this.makeRequest,
     required this.assetId,
+    required this.code,
     required this.name,
     required this.category,
     required this.value,
     required this.valueText,
+    required this.quantity,
+    required this.quantityText,
     required this.acquisitionDate,
     required this.location,
     required this.responsibleId,
@@ -46,10 +52,13 @@ class PatrimonyAssetFormState {
     return const PatrimonyAssetFormState(
       makeRequest: false,
       assetId: null,
+      code: '',
       name: '',
       category: null,
       value: 0,
       valueText: '',
+      quantity: 0,
+      quantityText: '',
       acquisitionDate: '',
       location: '',
       responsibleId: '',
@@ -71,10 +80,13 @@ class PatrimonyAssetFormState {
     return PatrimonyAssetFormState(
       makeRequest: false,
       assetId: asset.assetId,
+      code: asset.code,
       name: asset.name,
       category: asset.category?.apiValue,
       value: asset.value,
       valueText: CurrencyFormatter.formatCurrency(asset.value),
+      quantity: asset.quantity,
+      quantityText: asset.quantity > 0 ? '${asset.quantity}' : '',
       acquisitionDate: acquisitionDate,
       location: asset.location ?? '',
       responsibleId: asset.responsibleId ?? '',
@@ -111,10 +123,13 @@ class PatrimonyAssetFormState {
   PatrimonyAssetFormState copyWith({
     bool? makeRequest,
     String? assetId,
+    String? code,
     String? name,
     String? category,
     double? value,
     String? valueText,
+    int? quantity,
+    String? quantityText,
     String? acquisitionDate,
     String? location,
     String? responsibleId,
@@ -128,10 +143,13 @@ class PatrimonyAssetFormState {
     return PatrimonyAssetFormState(
       makeRequest: makeRequest ?? this.makeRequest,
       assetId: assetId ?? this.assetId,
+      code: code ?? this.code,
       name: name ?? this.name,
       category: category ?? this.category,
       value: value ?? this.value,
       valueText: valueText ?? this.valueText,
+      quantity: quantity ?? this.quantity,
+      quantityText: quantityText ?? this.quantityText,
       acquisitionDate: acquisitionDate ?? this.acquisitionDate,
       location: location ?? this.location,
       responsibleId: responsibleId ?? this.responsibleId,
@@ -143,13 +161,20 @@ class PatrimonyAssetFormState {
     );
   }
 
-  FormData toFormData() {
+  FormData toFormData({bool includeImmutableFields = true}) {
     final formData = FormData();
 
     formData.fields
       ..add(MapEntry('name', name))
       ..add(MapEntry('value', value.toString()))
       ..add(MapEntry('location', location));
+
+    if (includeImmutableFields) {
+      if (code.isNotEmpty) {
+        formData.fields.add(MapEntry('code', code));
+      }
+      formData.fields.add(MapEntry('quantity', '$quantity'));
+    }
 
     if (responsibleId.isNotEmpty) {
       formData.fields.add(MapEntry('responsibleId', responsibleId));
