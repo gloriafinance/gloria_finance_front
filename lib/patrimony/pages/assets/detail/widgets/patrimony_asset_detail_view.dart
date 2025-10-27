@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'dart:typed_data';
 
+import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
@@ -292,13 +293,14 @@ Future<void> _openInventoryDialog(
   BuildContext context,
   PatrimonyAssetDetailStore store,
 ) async {
-  final success = await showDialog<bool>(
-    context: context,
-    builder: (dialogContext) => ChangeNotifierProvider.value(
+  final success = await ModalPage(
+    title: 'Registrar inventário físico',
+    width: 520,
+    body: ChangeNotifierProvider.value(
       value: store,
       child: const PatrimonyAssetInventoryDialog(),
     ),
-  );
+  ).show<bool>(context);
 
   if (success == true) {
     if (!context.mounted) return;
@@ -311,13 +313,14 @@ Future<void> _openDisposalDialog(
   BuildContext context,
   PatrimonyAssetDetailStore store,
 ) async {
-  final success = await showDialog<bool>(
-    context: context,
-    builder: (dialogContext) => ChangeNotifierProvider.value(
+  final success = await ModalPage(
+    title: 'Registrar baixa',
+    width: 520,
+    body: ChangeNotifierProvider.value(
       value: store,
       child: const PatrimonyAssetDisposalDialog(),
     ),
-  );
+  ).show<bool>(context);
 
   if (success == true) {
     if (!context.mounted) return;
