@@ -1,5 +1,9 @@
+import 'package:church_finance_bk/core/theme/app_color.dart';
+import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
+import 'package:church_finance_bk/core/widgets/form_controls.dart';
+import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../models/patrimony_asset_enums.dart';
@@ -16,59 +20,75 @@ class PatrimonyAssetDisposalDialog extends StatefulWidget {
 class _PatrimonyAssetDisposalDialogState
     extends State<PatrimonyAssetDisposalDialog> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _reasonController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
-  final TextEditingController _notesController = TextEditingController();
 
   String? _statusLabel;
-  String? _dateValue;
-
-  @override
-  void dispose() {
-    _reasonController.dispose();
-    _dateController.dispose();
-    _notesController.dispose();
-    super.dispose();
-  }
+  String _reason = '';
+  String _disposedAtDisplay = '';
+  String _notes = '';
 
   @override
   Widget build(BuildContext context) {
     final detailStore = context.watch<PatrimonyAssetDetailStore>();
 
     return AlertDialog(
-      title: const Text('Registrar baixa'),
-      content: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _statusField(),
-              const SizedBox(height: 16),
-              _reasonField(),
-              const SizedBox(height: 16),
-              _dateField(context),
-              const SizedBox(height: 16),
-              _notesField(),
-            ],
+      title: const Text(
+        'Registrar baixa',
+        style: TextStyle(
+          fontFamily: AppFonts.fontTitle,
+          fontSize: 18,
+        ),
+      ),
+      content: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 420),
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _statusField(),
+                _reasonField(),
+                _dateField(context),
+                _notesField(),
+              ],
+            ),
           ),
         ),
       ),
+      actionsPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       actions: [
-        TextButton(
-          onPressed:
-              detailStore.registeringDisposal ? null : () => Navigator.of(context).pop(false),
-          child: const Text('Cancelar'),
-        ),
-        ElevatedButton(
-          onPressed: detailStore.registeringDisposal ? null : () => _submit(detailStore),
-          child: detailStore.registeringDisposal
-              ? const SizedBox(
-                  width: 18,
-                  height: 18,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              : const Text('Confirmar'),
+        SizedBox(
+          width: double.infinity,
+          child: Wrap(
+            spacing: 12,
+            runSpacing: 12,
+            alignment: WrapAlignment.end,
+            children: [
+              AbsorbPointer(
+                absorbing: detailStore.registeringDisposal,
+                child: ButtonActionTable(
+                  color: AppColors.greyMiddle,
+                  text: 'Cancelar',
+                  icon: Icons.close,
+                  onPressed: () => Navigator.of(context).pop(false),
+                ),
+              ),
+              AbsorbPointer(
+                absorbing: detailStore.registeringDisposal,
+                child: ButtonActionTable(
+                  color: AppColors.purple,
+                  text: detailStore.registeringDisposal
+                      ? 'Registrando...'
+                      : 'Confirmar',
+                  icon: detailStore.registeringDisposal
+                      ? Icons.hourglass_top
+                      : Icons.check_circle_outline,
+                  onPressed: () => _submit(detailStore),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -77,59 +97,67 @@ class _PatrimonyAssetDisposalDialogState
   Widget _statusField() {
     final options = PatrimonyAssetStatusCollection.disposalLabels();
 
-    return DropdownButtonFormField<String>(
-      decoration: _inputDecoration('Status'),
-      items: options
-          .map((label) => DropdownMenuItem<String>(
-                value: label,
-                child: Text(label),
-              ))
-          .toList(),
-      value: _statusLabel,
+    return Dropdown(
+      label: 'Status da baixa',
+      items: options,
+      initialValue: _statusLabel,
       onChanged: (value) => setState(() => _statusLabel = value),
-      validator: (value) => value == null || value.isEmpty ? 'Selecione um status' : null,
+      onValidator: (value) =>
+          value == null || value.isEmpty ? 'Selecione um status' : null,
     );
   }
 
   Widget _reasonField() {
-    return TextFormField(
-      controller: _reasonController,
-      decoration: _inputDecoration('Motivo'),
-      validator: (value) => value == null || value.trim().isEmpty ? 'Informe o motivo da baixa' : null,
+    return Input(
+      label: 'Motivo',
+      initialValue: _reason,
+      onChanged: (value) => setState(() => _reason = value),
+      onValidator: (value) =>
+          value == null || value.trim().isEmpty ? 'Informe o motivo da baixa' : null,
       maxLines: 2,
     );
   }
 
   Widget _dateField(BuildContext context) {
-    return TextFormField(
-      controller: _dateController,
-      readOnly: true,
-      decoration: _inputDecoration('Data da baixa (opcional)').copyWith(
-        suffixIcon: const Icon(Icons.calendar_today_outlined),
-      ),
-      onTap: () async {
-        final selected = await showDatePicker(
-          context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(1970),
-          lastDate: DateTime(2100),
-        );
+    Future<void> pickDate() async {
+      final selected = await selectDate(context);
+      if (selected == null) {
+        return;
+      }
 
-        if (selected != null) {
-          final display = DateFormat('dd/MM/yyyy').format(selected);
-          setState(() {
-            _dateController.text = display;
-            _dateValue = DateFormat('yyyy-MM-dd').format(selected);
-          });
+      setState(() {
+        _disposedAtDisplay =
+            convertDateFormatToDDMMYYYY(selected.toIso8601String());
+      });
+    }
+
+    return Input(
+      label: 'Data da baixa (opcional)',
+      initialValue: _disposedAtDisplay,
+      onChanged: (value) => setState(() => _disposedAtDisplay = value),
+      onValidator: (value) {
+        if (value == null || value.isEmpty) {
+          return null;
         }
+        final regExp = RegExp(r'^[0-9]{2}/[0-9]{2}/[0-9]{4}$');
+        return regExp.hasMatch(value) ? null : 'Informe no formato DD/MM/AAAA';
       },
+      onTap: pickDate,
+      onIconTap: pickDate,
+      readOnly: true,
+      iconRight: const Icon(
+        Icons.calendar_today_outlined,
+        color: AppColors.greyMiddle,
+      ),
+      keyboardType: TextInputType.datetime,
     );
   }
 
   Widget _notesField() {
-    return TextFormField(
-      controller: _notesController,
-      decoration: _inputDecoration('Observações (opcional)'),
+    return Input(
+      label: 'Observações (opcional)',
+      initialValue: _notes,
+      onChanged: (value) => setState(() => _notes = value),
       maxLines: 3,
     );
   }
@@ -146,12 +174,18 @@ class _PatrimonyAssetDisposalDialogState
       return;
     }
 
+    String? disposedAt;
+    if (_disposedAtDisplay.isNotEmpty) {
+      disposedAt = convertDateFormat(_disposedAtDisplay.trim());
+    }
+
+    final notes = _notes.trim().isEmpty ? null : _notes.trim();
+
     final success = await detailStore.registerDisposal(
       status: status,
-      reason: _reasonController.text.trim(),
-      disposedAt: _dateValue,
-      observations:
-          _notesController.text.trim().isEmpty ? null : _notesController.text.trim(),
+      reason: _reason.trim(),
+      disposedAt: disposedAt,
+      observations: notes,
     );
 
     if (success && mounted) {
@@ -159,10 +193,4 @@ class _PatrimonyAssetDisposalDialogState
     }
   }
 
-  InputDecoration _inputDecoration(String label) {
-    return InputDecoration(
-      labelText: label,
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-    );
-  }
 }
