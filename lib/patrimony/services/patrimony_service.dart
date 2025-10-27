@@ -2,6 +2,7 @@ import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:church_finance_bk/core/app_http.dart';
 import 'package:church_finance_bk/core/paginate/paginate_response.dart';
 import 'package:church_finance_bk/patrimony/models/patrimony_asset_model.dart';
+import 'package:church_finance_bk/patrimony/reports/download/patrimony_report_downloader.dart';
 import 'package:dio/dio.dart';
 
 class PatrimonyService extends AppHttp {
@@ -100,6 +101,144 @@ class PatrimonyService extends AppHttp {
       await http.delete(
         '${await getUrlApi()}patrimony/$assetId',
         options: Options(headers: bearerToken()),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<PatrimonyAssetModel> registerDisposal(
+    String assetId, {
+    required String status,
+    required String reason,
+    String? disposedAt,
+    String? observations,
+  }) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.post(
+        '${await getUrlApi()}patrimony/$assetId/disposal',
+        data: {
+          'status': status,
+          'reason': reason,
+          if (disposedAt != null) 'disposedAt': disposedAt,
+          if (observations != null) 'observations': observations,
+        },
+        options: Options(headers: bearerToken()),
+      );
+
+      return PatrimonyAssetModel.fromMap(
+        Map<String, dynamic>.from(response.data as Map),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<PatrimonyAssetModel> registerInventory(
+    String assetId, {
+    required String status,
+    String? checkedAt,
+    String? notes,
+  }) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.post(
+        '${await getUrlApi()}patrimony/$assetId/inventory',
+        data: {
+          'status': status,
+          if (checkedAt != null) 'checkedAt': checkedAt,
+          if (notes != null) 'notes': notes,
+        },
+        options: Options(headers: bearerToken()),
+      );
+
+      return PatrimonyAssetModel.fromMap(
+        Map<String, dynamic>.from(response.data as Map),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<bool> downloadInventorySummary({
+    required String format,
+    String? status,
+    String? category,
+  }) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    final queryParameters = <String, dynamic>{
+      'format': format,
+      if (session.churchId != null) 'churchId': session.churchId,
+      if (status != null && status.isNotEmpty) 'status': status,
+      if (category != null && category.isNotEmpty) 'category': category,
+    };
+
+    try {
+      final response = await http.get(
+        '${await getUrlApi()}patrimony/report/inventory',
+        queryParameters: queryParameters,
+        options: Options(
+          headers: bearerToken(),
+          responseType: ResponseType.bytes,
+        ),
+      );
+
+      final downloader = getPatrimonyReportDownloader();
+      final bytes = response.data as List<int>;
+      final normalizedFormat = format.toLowerCase();
+      final fileName = normalizedFormat == 'pdf'
+          ? 'relatorio_patrimonio.pdf'
+          : 'relatorio_patrimonio.csv';
+      final mimeType =
+          normalizedFormat == 'pdf' ? 'application/pdf' : 'text/csv';
+
+      return await downloader.saveFile(bytes, fileName, mimeType);
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<bool> downloadPhysicalChecklist({
+    String? status,
+    String? category,
+  }) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    final queryParameters = <String, dynamic>{
+      if (session.churchId != null) 'churchId': session.churchId,
+      if (status != null && status.isNotEmpty) 'status': status,
+      if (category != null && category.isNotEmpty) 'category': category,
+    };
+
+    try {
+      final response = await http.get(
+        '${await getUrlApi()}patrimony/report/inventory/physical',
+        queryParameters: queryParameters,
+        options: Options(
+          headers: bearerToken(),
+          responseType: ResponseType.bytes,
+        ),
+      );
+
+      final downloader = getPatrimonyReportDownloader();
+      final bytes = response.data as List<int>;
+
+      return await downloader.saveFile(
+        bytes,
+        'checklist_inventario.csv',
+        'text/csv',
       );
     } on DioException catch (e) {
       transformResponse(e.response?.data);
