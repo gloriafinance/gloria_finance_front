@@ -17,6 +17,8 @@ class Input extends StatefulWidget {
   final Icon? iconRight;
   final IconData? icon;
   final GestureTapCallback? onIconTap;
+  final int maxLines;
+  final bool readOnly;
 
   const Input(
       {super.key,
@@ -31,7 +33,9 @@ class Input extends StatefulWidget {
       this.initialValue,
       this.keyboardType,
       this.inputFormatters,
-      this.onTap});
+      this.onTap,
+      this.maxLines = 1,
+      this.readOnly = false});
 
   @override
   State<Input> createState() => _InputState();
@@ -84,6 +88,8 @@ class _InputState extends State<Input> {
             validator: widget.onValidator,
             onChanged: widget.onChanged,
             onTap: widget.onTap,
+            readOnly: widget.readOnly,
+            maxLines: widget.isPass == true ? 1 : widget.maxLines,
             style: const TextStyle(fontFamily: AppFonts.fontSubTitle),
           ),
         ],
