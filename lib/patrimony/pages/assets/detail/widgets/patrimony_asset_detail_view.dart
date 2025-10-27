@@ -419,6 +419,8 @@ Widget _inventorySection(PatrimonyAssetModel asset) {
           ? constraints.maxWidth
           : math.min(360.0, (constraints.maxWidth - 16) / 2).toDouble();
 
+      final inventoryCheckedByName = asset.inventoryCheckedBy?.name ?? '';
+
       final entries = [
         _InfoEntry(
           label: 'Resultado',
@@ -434,9 +436,8 @@ Widget _inventorySection(PatrimonyAssetModel asset) {
         ),
         _InfoEntry(
           label: 'Conferido por',
-          value: asset.inventoryCheckedBy?.isNotEmpty == true
-              ? asset.inventoryCheckedBy!
-              : '-',
+          value:
+              inventoryCheckedByName.isNotEmpty ? inventoryCheckedByName : '-',
         ),
         _InfoEntry(
           label: 'Notas',
