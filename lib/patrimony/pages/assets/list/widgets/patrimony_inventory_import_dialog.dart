@@ -29,8 +29,17 @@ class _PatrimonyInventoryImportDialogState
     final store = context.watch<PatrimonyAssetsListStore>();
     final isProcessing = store.importingInventory;
 
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 520),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30),
+          bottomLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
+          bottomRight: Radius.circular(30),
+        ),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -64,10 +73,7 @@ class _PatrimonyInventoryImportDialogState
             const SizedBox(height: 8),
             Text(
               _errorMessage!,
-              style: const TextStyle(
-                color: Colors.redAccent,
-                fontSize: 13,
-              ),
+              style: const TextStyle(color: Colors.redAccent, fontSize: 13),
             ),
           ],
           const SizedBox(height: 24),
@@ -90,9 +96,10 @@ class _PatrimonyInventoryImportDialogState
                 child: ButtonActionTable(
                   color: AppColors.purple,
                   text: isProcessing ? 'Importando...' : 'Importar checklist',
-                  icon: isProcessing
-                      ? Icons.hourglass_top
-                      : Icons.cloud_upload_outlined,
+                  icon:
+                      isProcessing
+                          ? Icons.hourglass_top
+                          : Icons.cloud_upload_outlined,
                   onPressed: () => _submit(store),
                 ),
               ),
@@ -109,21 +116,14 @@ class _PatrimonyInventoryImportDialogState
       children: const [
         Text(
           'Envie o checklist físico preenchido para atualizar os bens.',
-          style: TextStyle(
-            fontFamily: AppFonts.fontSubTitle,
-            fontSize: 14,
-          ),
+          style: TextStyle(fontFamily: AppFonts.fontSubTitle, fontSize: 14),
         ),
         SizedBox(height: 8),
         Text(
           'Certifique-se de manter as colunas "ID do ativo", "Código inventário" e '
           '"Quantidade inventário" preenchidas. Campos opcionais como status e '
           'observações também serão processados, quando informados.',
-          style: TextStyle(
-            fontSize: 13,
-            color: AppColors.greyMiddle,
-            fontFamily: AppFonts.fontSubTitle,
-          ),
+          style: TextStyle(fontSize: 13, fontFamily: AppFonts.fontSubTitle),
         ),
       ],
     );
@@ -168,7 +168,8 @@ class _PatrimonyInventoryImportDialogState
     }
 
     final file = _selectedFile!;
-    final bytes = file.bytes ??
+    final bytes =
+        file.bytes ??
         (file.path != null ? File(file.path!).readAsBytesSync() : null);
 
     if (bytes == null) {
@@ -182,13 +183,10 @@ class _PatrimonyInventoryImportDialogState
       _errorMessage = null;
     });
 
-    final multipart = MultipartFile.fromBytes(
-      bytes,
-      filename: file.name,
-    );
+    final multipart = MultipartFile.fromBytes(bytes, filename: file.name);
 
-    final PatrimonyInventoryImportResult? result =
-        await store.importInventoryChecklist(multipart);
+    final PatrimonyInventoryImportResult? result = await store
+        .importInventoryChecklist(multipart);
 
     if (!mounted) {
       return;
@@ -198,7 +196,8 @@ class _PatrimonyInventoryImportDialogState
       Navigator.of(context).pop(result);
     } else {
       setState(() {
-        _errorMessage = 'Não foi possível importar o checklist. Tente novamente.';
+        _errorMessage =
+            'Não foi possível importar o checklist. Tente novamente.';
       });
     }
   }

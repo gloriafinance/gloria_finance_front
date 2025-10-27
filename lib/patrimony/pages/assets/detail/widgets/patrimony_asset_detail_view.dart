@@ -7,11 +7,11 @@ import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/patrimony/models/patrimony_asset_model.dart';
+import 'package:church_finance_bk/patrimony/models/patrimony_history_entry.dart';
 import 'package:church_finance_bk/patrimony/pages/assets/detail/store/patrimony_asset_detail_store.dart';
 import 'package:church_finance_bk/patrimony/pages/assets/detail/widgets/patrimony_asset_disposal_dialog.dart';
 import 'package:church_finance_bk/patrimony/pages/assets/detail/widgets/patrimony_asset_inventory_dialog.dart';
 import 'package:church_finance_bk/patrimony/pages/assets/list/store/patrimony_assets_list_store.dart';
-import 'package:church_finance_bk/patrimony/models/patrimony_history_entry.dart';
 import 'package:church_finance_bk/settings/members/store/member_all_store.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -59,8 +59,10 @@ class _PatrimonyAssetDetailBody extends StatelessWidget {
       child: Consumer2<MemberAllStore, PatrimonyAssetDetailStore>(
         builder: (context, memberStore, detailStore, _) {
           final asset = detailStore.asset;
-          final responsibleName =
-              PatrimonyAssetDetailView.resolveResponsible(memberStore, asset);
+          final responsibleName = PatrimonyAssetDetailView.resolveResponsible(
+            memberStore,
+            asset,
+          );
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,20 +97,32 @@ class _PatrimonyDetailTabs extends StatelessWidget {
   Widget build(BuildContext context) {
     final tabController = DefaultTabController.of(context)!;
 
-    final detailContent =
-        _detailTabContent(context, asset, store, responsibleName);
+    final detailContent = _detailTabContent(
+      context,
+      asset,
+      store,
+      responsibleName,
+    );
     final historyContent = _historyTabContent(asset);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.greyMiddle),
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 16,
+            offset: Offset(0, 6),
           ),
-          child: TabBar(
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TabBar(
             labelColor: AppColors.purple,
             unselectedLabelColor: AppColors.grey,
             indicator: BoxDecoration(
@@ -120,26 +134,21 @@ class _PatrimonyDetailTabs extends StatelessWidget {
               fontFamily: AppFonts.fontSubTitle,
               fontWeight: FontWeight.w600,
             ),
-            tabs: const [
-              Tab(text: 'Detalhes'),
-              Tab(text: 'Histórico'),
-            ],
+            tabs: const [Tab(text: 'Detalhes'), Tab(text: 'Histórico')],
           ),
-        ),
-        const SizedBox(height: 16),
-        AnimatedBuilder(
-          animation: tabController,
-          builder: (context, _) {
-            return IndexedStack(
-              index: tabController.index,
-              children: [
-                detailContent,
-                historyContent,
-              ],
-            );
-          },
-        ),
-      ],
+
+          const SizedBox(height: 16),
+          AnimatedBuilder(
+            animation: tabController,
+            builder: (context, _) {
+              return IndexedStack(
+                index: tabController.index,
+                children: [detailContent, historyContent],
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }
@@ -183,10 +192,7 @@ Widget _detailTabContent(
 Widget _historyTabContent(PatrimonyAssetModel asset) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      _historySection(asset),
-      const SizedBox(height: 8),
-    ],
+    children: [_historySection(asset), const SizedBox(height: 8)],
   );
 }
 
@@ -199,9 +205,10 @@ Widget _summaryCard(
   return LayoutBuilder(
     builder: (context, constraints) {
       final isCompact = constraints.maxWidth < 720;
-      final columnWidth = isCompact
-          ? constraints.maxWidth
-          : math.min(360.0, (constraints.maxWidth - 16) / 2).toDouble();
+      final columnWidth =
+          isCompact
+              ? constraints.maxWidth
+              : math.min(340.0, (constraints.maxWidth - 16) / 2).toDouble();
 
       final entries = [
         _InfoEntry(label: 'Categoria', value: asset.categoryLabel),
@@ -211,9 +218,10 @@ Widget _summaryCard(
         ),
         _InfoEntry(
           label: 'Data de aquisição',
-          value: asset.acquisitionDateLabel.isEmpty
-              ? '-'
-              : asset.acquisitionDateLabel,
+          value:
+              asset.acquisitionDateLabel.isEmpty
+                  ? '-'
+                  : asset.acquisitionDateLabel,
         ),
         _InfoEntry(
           label: 'Localização',
@@ -269,89 +277,70 @@ Widget _summaryCard(
         );
       }
 
-      return Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 16,
-              offset: Offset(0, 6),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        asset.name,
-                        style: const TextStyle(
-                          fontFamily: AppFonts.fontTitle,
-                          fontSize: 20,
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.schedule_outlined,
+                          size: 16,
+                          color: AppColors.grey,
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.schedule_outlined,
-                            size: 16,
-                            color: AppColors.grey,
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                            asset.updatedAt != null
-                                ? 'Atualizado em ${_formatDate(asset.updatedAt!)}'
-                                : 'Atualizado em -',
-                            style: const TextStyle(color: AppColors.grey),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        const SizedBox(width: 6),
+                        Text(
+                          asset.updatedAt != null
+                              ? 'Atualizado em ${_formatDate(asset.updatedAt!)}'
+                              : 'Atualizado em -',
+                          style: const TextStyle(color: AppColors.grey),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                if (!isCompact) _editButton(context, asset),
-              ],
-            ),
-            if (isCompact) ...[
-              const SizedBox(height: 16),
-              _editButton(context, asset, fullWidth: true),
+              ),
+              if (!isCompact) _editButton(context, asset),
             ],
-            if (metadataBadges.isNotEmpty) ...[
-              const SizedBox(height: 20),
-              Wrap(spacing: 12, runSpacing: 12, children: metadataBadges),
-            ],
+          ),
+          if (isCompact) ...[
             const SizedBox(height: 16),
-            _actionButtons(context, asset, store),
-            const SizedBox(height: 24),
-            Wrap(
-              spacing: 16,
-              runSpacing: 16,
-              children: entries.map((entry) {
-                final width =
-                    (entry.fullWidth || isCompact) ? constraints.maxWidth : columnWidth;
-                return ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minWidth: width,
-                    maxWidth: width,
-                  ),
-                  child: _InfoTile(entry: entry),
-                );
-              }).toList(),
-            ),
+            _editButton(context, asset, fullWidth: true),
           ],
-        ),
+          if (metadataBadges.isNotEmpty) ...[
+            const SizedBox(height: 20),
+            Wrap(spacing: 12, runSpacing: 12, children: metadataBadges),
+          ],
+          const SizedBox(height: 16),
+          _actionButtons(context, asset, store),
+          const SizedBox(height: 24),
+          Wrap(
+            spacing: 16,
+            runSpacing: 16,
+            children:
+                entries.map((entry) {
+                  final width =
+                      (entry.fullWidth || isCompact)
+                          ? constraints.maxWidth
+                          : columnWidth;
+                  return ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minWidth: width,
+                      maxWidth: width,
+                    ),
+                    child: _InfoTile(entry: entry),
+                  );
+                }).toList(),
+          ),
+        ],
       );
     },
   );
@@ -363,22 +352,25 @@ Widget _actionButtons(
   PatrimonyAssetDetailStore store,
 ) {
   final buttons = <Widget>[];
-  final inventoryLabel = (asset.inventoryStatus == null &&
-          asset.inventoryCheckedAt == null &&
-          (asset.inventoryNotes?.isEmpty ?? true))
-      ? 'Registrar inventário'
-      : 'Atualizar inventário';
+  final inventoryLabel =
+      (asset.inventoryStatus == null &&
+              asset.inventoryCheckedAt == null &&
+              (asset.inventoryNotes?.isEmpty ?? true))
+          ? 'Registrar inventário'
+          : 'Atualizar inventário';
 
   buttons.add(
     SizedBox(
-      width: 220,
+      width: 230,
       child: CustomButton(
         text: store.registeringInventory ? 'Processando...' : inventoryLabel,
+        icon: Icons.published_with_changes_sharp,
         backgroundColor: AppColors.blue,
         textColor: Colors.white,
-        onPressed: store.registeringInventory
-            ? null
-            : () => _openInventoryDialog(context, store),
+        onPressed:
+            store.registeringInventory
+                ? null
+                : () => _openInventoryDialog(context, store),
       ),
     ),
   );
@@ -386,24 +378,23 @@ Widget _actionButtons(
   if (!asset.hasDisposal) {
     buttons.add(
       SizedBox(
-        width: 220,
+        width: 230,
         child: CustomButton(
-          text: store.registeringDisposal ? 'Processando...' : 'Registrar baixa',
+          icon: Icons.delete_forever_outlined,
+          text:
+              store.registeringDisposal ? 'Processando...' : 'Registrar baixa',
           backgroundColor: Colors.redAccent,
           textColor: Colors.white,
-          onPressed: store.registeringDisposal
-              ? null
-              : () => _openDisposalDialog(context, store),
+          onPressed:
+              store.registeringDisposal
+                  ? null
+                  : () => _openDisposalDialog(context, store),
         ),
       ),
     );
   }
 
-  return Wrap(
-    spacing: 12,
-    runSpacing: 12,
-    children: buttons,
-  );
+  return Wrap(spacing: 12, runSpacing: 12, children: buttons);
 }
 
 Future<void> _openInventoryDialog(
@@ -450,36 +441,39 @@ Widget _disposalSection(PatrimonyAssetModel asset) {
   return LayoutBuilder(
     builder: (context, constraints) {
       final isCompact = constraints.maxWidth < 720;
-      final columnWidth = isCompact
-          ? constraints.maxWidth
-          : math.min(360.0, (constraints.maxWidth - 16) / 2).toDouble();
+      final columnWidth =
+          isCompact
+              ? constraints.maxWidth
+              : math.min(360.0, (constraints.maxWidth - 16) / 2).toDouble();
 
       final entries = [
         _InfoEntry(label: 'Status', value: asset.disposalStatusLabel),
         _InfoEntry(
           label: 'Motivo',
-          value: asset.disposalReason?.isNotEmpty == true
-              ? asset.disposalReason!
-              : '-',
+          value:
+              asset.disposalReason?.isNotEmpty == true
+                  ? asset.disposalReason!
+                  : '-',
           fullWidth: true,
         ),
         _InfoEntry(
           label: 'Data da baixa',
-          value: asset.disposalDateLabel.isEmpty
-              ? '-'
-              : asset.disposalDateLabel,
+          value:
+              asset.disposalDateLabel.isEmpty ? '-' : asset.disposalDateLabel,
         ),
         _InfoEntry(
           label: 'Registrado por',
-          value: asset.disposalPerformedBy?.isNotEmpty == true
-              ? asset.disposalPerformedBy!
-              : '-',
+          value:
+              asset.disposalPerformedBy?.isNotEmpty == true
+                  ? asset.disposalPerformedBy!
+                  : '-',
         ),
         _InfoEntry(
           label: 'Observações',
-          value: asset.disposalNotes?.isNotEmpty == true
-              ? asset.disposalNotes!
-              : '-',
+          value:
+              asset.disposalNotes?.isNotEmpty == true
+                  ? asset.disposalNotes!
+                  : '-',
           fullWidth: true,
         ),
       ];
@@ -509,17 +503,20 @@ Widget _disposalSection(PatrimonyAssetModel asset) {
             Wrap(
               spacing: 16,
               runSpacing: 16,
-              children: entries.map((entry) {
-                final width =
-                    (entry.fullWidth || isCompact) ? constraints.maxWidth : columnWidth;
-                return ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minWidth: width,
-                    maxWidth: width,
-                  ),
-                  child: _InfoTile(entry: entry),
-                );
-              }).toList(),
+              children:
+                  entries.map((entry) {
+                    final width =
+                        (entry.fullWidth || isCompact)
+                            ? constraints.maxWidth
+                            : columnWidth;
+                    return ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minWidth: width,
+                        maxWidth: width,
+                      ),
+                      child: _InfoTile(entry: entry),
+                    );
+                  }).toList(),
             ),
           ],
         ),
@@ -532,24 +529,27 @@ Widget _inventorySection(PatrimonyAssetModel asset) {
   return LayoutBuilder(
     builder: (context, constraints) {
       final isCompact = constraints.maxWidth < 720;
-      final columnWidth = isCompact
-          ? constraints.maxWidth
-          : math.min(360.0, (constraints.maxWidth - 16) / 2).toDouble();
+      final columnWidth =
+          isCompact
+              ? constraints.maxWidth
+              : math.min(360.0, (constraints.maxWidth - 16) / 2).toDouble();
 
       final inventoryCheckedByName = asset.inventoryCheckedBy?.name ?? '';
 
       final entries = [
         _InfoEntry(
           label: 'Resultado',
-          value: asset.inventoryStatusLabel.isEmpty
-              ? '-'
-              : asset.inventoryStatusLabel,
+          value:
+              asset.inventoryStatusLabel.isEmpty
+                  ? '-'
+                  : asset.inventoryStatusLabel,
         ),
         _InfoEntry(
           label: 'Data da conferência',
-          value: asset.inventoryCheckedAtLabel.isEmpty
-              ? '-'
-              : asset.inventoryCheckedAtLabel,
+          value:
+              asset.inventoryCheckedAtLabel.isEmpty
+                  ? '-'
+                  : asset.inventoryCheckedAtLabel,
         ),
         _InfoEntry(
           label: 'Conferido por',
@@ -558,52 +558,41 @@ Widget _inventorySection(PatrimonyAssetModel asset) {
         ),
         _InfoEntry(
           label: 'Notas',
-          value: asset.inventoryNotes?.isNotEmpty == true
-              ? asset.inventoryNotes!
-              : '-',
+          value:
+              asset.inventoryNotes?.isNotEmpty == true
+                  ? asset.inventoryNotes!
+                  : '-',
           fullWidth: true,
         ),
       ];
 
-      return Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 16,
-              offset: Offset(0, 6),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Inventário físico',
-              style: TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 18),
-            ),
-            const SizedBox(height: 16),
-            Wrap(
-              spacing: 16,
-              runSpacing: 16,
-              children: entries.map((entry) {
-                final width =
-                    (entry.fullWidth || isCompact) ? constraints.maxWidth : columnWidth;
-                return ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minWidth: width,
-                    maxWidth: width,
-                  ),
-                  child: _InfoTile(entry: entry),
-                );
-              }).toList(),
-            ),
-          ],
-        ),
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Inventário físico',
+            style: TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 18),
+          ),
+          const SizedBox(height: 16),
+          Wrap(
+            spacing: 16,
+            runSpacing: 16,
+            children:
+                entries.map((entry) {
+                  final width =
+                      (entry.fullWidth || isCompact)
+                          ? constraints.maxWidth
+                          : columnWidth;
+                  return ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minWidth: width,
+                      maxWidth: width,
+                    ),
+                    child: _InfoTile(entry: entry),
+                  );
+                }).toList(),
+          ),
+        ],
       );
     },
   );
@@ -621,19 +610,18 @@ Widget _attachmentsSection(BuildContext context, PatrimonyAssetModel asset) {
     builder: (context, constraints) {
       final isCompact = constraints.maxWidth < 640;
       final attachmentsCount = asset.attachments.length;
-      final crossAxisCount = isCompact
-          ? 1
-          : (attachmentsCount >= 3
-              ? 3
-              : math.max(1, attachmentsCount));
+      final crossAxisCount =
+          isCompact
+              ? 1
+              : (attachmentsCount >= 3 ? 3 : math.max(1, attachmentsCount));
       const spacing = 16.0;
-      final cardWidth = isCompact
-          ? constraints.maxWidth
-          : ((constraints.maxWidth -
-                      spacing * (crossAxisCount - 1)) /
-                  crossAxisCount)
-              .clamp(0, constraints.maxWidth)
-              .toDouble();
+      final cardWidth =
+          isCompact
+              ? constraints.maxWidth
+              : ((constraints.maxWidth - spacing * (crossAxisCount - 1)) /
+                      crossAxisCount)
+                  .clamp(0, constraints.maxWidth)
+                  .toDouble();
 
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -646,35 +634,41 @@ Widget _attachmentsSection(BuildContext context, PatrimonyAssetModel asset) {
           Wrap(
             spacing: spacing,
             runSpacing: spacing,
-            children: asset.attachments.map((attachment) {
-              final isImage =
-                  attachment.mimetype.toLowerCase().startsWith('image/');
-              final isPdf = attachment.mimetype.toLowerCase().contains('pdf');
-              return _AttachmentCard(
-                width: cardWidth,
-                name: attachment.name,
-                sizeLabel: attachment.formattedSize,
-                uploadedLabel: attachment.uploadedAtLabel,
-                preview: isImage
-                    ? _AttachmentPreview.network(attachment.url)
-                    : const Icon(
-                        Icons.insert_drive_file,
-                        color: AppColors.purple,
-                        size: 42,
-                      ),
-                actionLabel: isPdf ? 'Ver PDF' : 'Abrir',
-                onView: () => _openUrl(attachment.url),
-                onPreviewTap: isImage
-                    ? () => _showImageDialog(
-                          context,
-                          Image.network(
-                            attachment.url,
-                            fit: BoxFit.contain,
-                          ),
-                        )
-                    : null,
-              );
-            }).toList(),
+            children:
+                asset.attachments.map((attachment) {
+                  final isImage = attachment.mimetype.toLowerCase().startsWith(
+                    'image/',
+                  );
+                  final isPdf = attachment.mimetype.toLowerCase().contains(
+                    'pdf',
+                  );
+                  return _AttachmentCard(
+                    width: cardWidth,
+                    name: attachment.name,
+                    sizeLabel: attachment.formattedSize,
+                    uploadedLabel: attachment.uploadedAtLabel,
+                    preview:
+                        isImage
+                            ? _AttachmentPreview.network(attachment.url)
+                            : const Icon(
+                              Icons.insert_drive_file,
+                              color: AppColors.purple,
+                              size: 42,
+                            ),
+                    actionLabel: isPdf ? 'Ver PDF' : 'Abrir',
+                    onView: () => _openUrl(attachment.url),
+                    onPreviewTap:
+                        isImage
+                            ? () => _showImageDialog(
+                              context,
+                              Image.network(
+                                attachment.url,
+                                fit: BoxFit.contain,
+                              ),
+                            )
+                            : null,
+                  );
+                }).toList(),
           ),
         ],
       );
@@ -752,7 +746,7 @@ class _HistoryScrollableListState extends State<_HistoryScrollableList> {
   @override
   Widget build(BuildContext context) {
     final entries = widget.entries;
-    final maxHeight = math.min<double>(420, entries.length * 128.0);
+    final maxHeight = math.min<double>(600, entries.length * 128.0);
 
     return Container(
       decoration: BoxDecoration(
@@ -770,8 +764,7 @@ class _HistoryScrollableListState extends State<_HistoryScrollableList> {
             controller: _controller,
             physics: const ClampingScrollPhysics(),
             padding: const EdgeInsets.all(16),
-            itemBuilder: (context, index) =>
-                _buildHistoryCard(entries[index]),
+            itemBuilder: (context, index) => _buildHistoryCard(entries[index]),
             separatorBuilder: (_, __) => const SizedBox(height: 12),
             itemCount: entries.length,
           ),
@@ -794,11 +787,7 @@ Widget _buildHistoryCard(PatrimonyHistoryEntry entry) {
       border: Border.all(color: AppColors.greyMiddle),
       color: Colors.white,
       boxShadow: const [
-        BoxShadow(
-          color: Colors.black12,
-          blurRadius: 4,
-          offset: Offset(0, 2),
-        ),
+        BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
       ],
     ),
     child: Column(
@@ -943,7 +932,8 @@ Widget _buildHistoryCard(PatrimonyHistoryEntry entry) {
 Widget _buildPendingBadge(PatrimonyAssetModel asset) {
   final pending = asset.documentsPending;
   final color = pending ? AppColors.mustard : AppColors.green;
-  final icon = pending ? Icons.warning_amber_outlined : Icons.check_circle_outline;
+  final icon =
+      pending ? Icons.warning_amber_outlined : Icons.check_circle_outline;
 
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -972,6 +962,7 @@ Widget _editButton(
 }) {
   final button = CustomButton(
     text: 'Editar',
+    icon: Icons.edit_note_rounded,
     typeButton: CustomButton.outline,
     backgroundColor: AppColors.purple,
     textColor: AppColors.purple,
@@ -1021,12 +1012,7 @@ Future<void> _showImageDialog(BuildContext context, Widget image) async {
   await showDialog<void>(
     context: context,
     builder: (context) {
-      return Dialog(
-        child: InteractiveViewer(
-          maxScale: 4,
-          child: image,
-        ),
-      );
+      return Dialog(child: InteractiveViewer(maxScale: 4, child: image));
     },
   );
 }
@@ -1165,17 +1151,26 @@ class _AttachmentCard extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             name,
-            style: const TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 14),
+            style: const TextStyle(
+              fontFamily: AppFonts.fontTitle,
+              fontSize: 14,
+            ),
           ),
           const SizedBox(height: 4),
           Text(
             sizeLabel,
-            style: const TextStyle(fontFamily: AppFonts.fontSubTitle, fontSize: 12),
+            style: const TextStyle(
+              fontFamily: AppFonts.fontSubTitle,
+              fontSize: 12,
+            ),
           ),
           const SizedBox(height: 4),
           Text(
             uploadedLabel,
-            style: const TextStyle(fontFamily: AppFonts.fontSubTitle, fontSize: 12),
+            style: const TextStyle(
+              fontFamily: AppFonts.fontSubTitle,
+              fontSize: 12,
+            ),
           ),
           const SizedBox(height: 12),
           Align(
@@ -1197,22 +1192,15 @@ class _AttachmentPreview extends StatelessWidget {
   const _AttachmentPreview({required this.child});
 
   factory _AttachmentPreview.network(String url) {
-    return _AttachmentPreview(
-      child: Image.network(url, fit: BoxFit.cover),
-    );
+    return _AttachmentPreview(child: Image.network(url, fit: BoxFit.cover));
   }
 
   factory _AttachmentPreview.memory(Uint8List bytes) {
-    return _AttachmentPreview(
-      child: Image.memory(bytes, fit: BoxFit.cover),
-    );
+    return _AttachmentPreview(child: Image.memory(bytes, fit: BoxFit.cover));
   }
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
-      child: child,
-    );
+    return ClipRRect(borderRadius: BorderRadius.circular(12), child: child);
   }
 }

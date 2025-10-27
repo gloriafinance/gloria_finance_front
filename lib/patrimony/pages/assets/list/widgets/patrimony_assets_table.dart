@@ -85,9 +85,9 @@ class PatrimonyAssetsTable extends StatelessWidget {
                 icon: Icons.visibility_outlined,
                 onPressed: () {
                   ModalPage(
-                    title: "",
+                    title: patrimony.name,
                     body: PatrimonyAssetDetailView(asset: patrimony),
-                    width: 900,
+                    width: 1100,
                   ).show(context);
                 },
               );

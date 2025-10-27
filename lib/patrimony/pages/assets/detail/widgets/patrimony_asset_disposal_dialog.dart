@@ -29,8 +29,17 @@ class _PatrimonyAssetDisposalDialogState
   Widget build(BuildContext context) {
     final detailStore = context.watch<PatrimonyAssetDetailStore>();
 
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 420),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30),
+          bottomLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
+          bottomRight: Radius.circular(30),
+        ),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -72,12 +81,14 @@ class _PatrimonyAssetDisposalDialogState
                   absorbing: detailStore.registeringDisposal,
                   child: ButtonActionTable(
                     color: AppColors.purple,
-                    text: detailStore.registeringDisposal
-                        ? 'Registrando...'
-                        : 'Confirmar',
-                    icon: detailStore.registeringDisposal
-                        ? Icons.hourglass_top
-                        : Icons.check_circle_outline,
+                    text:
+                        detailStore.registeringDisposal
+                            ? 'Registrando...'
+                            : 'Confirmar',
+                    icon:
+                        detailStore.registeringDisposal
+                            ? Icons.hourglass_top
+                            : Icons.check_circle_outline,
                     onPressed: () => _submit(detailStore),
                   ),
                 ),
@@ -97,8 +108,9 @@ class _PatrimonyAssetDisposalDialogState
       items: options,
       initialValue: _statusLabel,
       onChanged: (value) => setState(() => _statusLabel = value),
-      onValidator: (value) =>
-          value == null || value.isEmpty ? 'Selecione um status' : null,
+      onValidator:
+          (value) =>
+              value == null || value.isEmpty ? 'Selecione um status' : null,
     );
   }
 
@@ -107,8 +119,11 @@ class _PatrimonyAssetDisposalDialogState
       label: 'Motivo',
       initialValue: _reason,
       onChanged: (value) => setState(() => _reason = value),
-      onValidator: (value) =>
-          value == null || value.trim().isEmpty ? 'Informe o motivo da baixa' : null,
+      onValidator:
+          (value) =>
+              value == null || value.trim().isEmpty
+                  ? 'Informe o motivo da baixa'
+                  : null,
       maxLines: 2,
     );
   }
@@ -121,8 +136,9 @@ class _PatrimonyAssetDisposalDialogState
       }
 
       setState(() {
-        _disposedAtDisplay =
-            convertDateFormatToDDMMYYYY(selected.toIso8601String());
+        _disposedAtDisplay = convertDateFormatToDDMMYYYY(
+          selected.toIso8601String(),
+        );
       });
     }
 
@@ -162,8 +178,9 @@ class _PatrimonyAssetDisposalDialogState
       return;
     }
 
-    final status =
-        PatrimonyAssetStatusCollection.disposalApiValueFromLabel(_statusLabel);
+    final status = PatrimonyAssetStatusCollection.disposalApiValueFromLabel(
+      _statusLabel,
+    );
 
     if (status == null) {
       return;
@@ -187,5 +204,4 @@ class _PatrimonyAssetDisposalDialogState
       Navigator.of(context).pop(true);
     }
   }
-
 }

@@ -3,8 +3,6 @@ import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
-import 'package:church_finance_bk/helpers/currency_formatter.dart';
-import 'package:church_finance_bk/helpers/date_formatter.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:church_finance_bk/patrimony/models/patrimony_asset_enums.dart';
 import 'package:church_finance_bk/patrimony/pages/assets/form/store/patrimony_asset_form_store.dart';
@@ -31,11 +29,12 @@ class _PatrimonyAssetFormState extends State<PatrimonyAssetForm> {
       builder: (context, store, _) {
         final state = store.state;
 
-        final valueInitial = state.valueText.isNotEmpty
-            ? state.valueText
-            : (state.value > 0
-                ? CurrencyFormatter.formatCurrency(state.value)
-                : '');
+        final valueInitial =
+            state.valueText.isNotEmpty
+                ? state.valueText
+                : (state.value > 0
+                    ? CurrencyFormatter.formatCurrency(state.value)
+                    : '');
 
         return Form(
           key: formKey,
@@ -57,29 +56,37 @@ class _PatrimonyAssetFormState extends State<PatrimonyAssetForm> {
   }
 
   Widget _responsiveGrid(
-      BuildContext context, PatrimonyAssetFormStore store, String valueInitial) {
+    BuildContext context,
+    PatrimonyAssetFormStore store,
+    String valueInitial,
+  ) {
     final categoryItems =
         PatrimonyAssetCategory.values.map((e) => e.label).toList();
-    final statusItems =
-        PatrimonyAssetStatusCollection.labels(includeDisposal: false);
+    final statusItems = PatrimonyAssetStatusCollection.labels(
+      includeDisposal: false,
+    );
 
     final fields = [
       Input(
         label: 'Código patrimonial',
         initialValue: store.state.code,
         onChanged: store.setCode,
-        onValidator: (value) => (value == null || value.trim().isEmpty)
-            ? 'Informe o código patrimonial'
-            : null,
+        onValidator:
+            (value) =>
+                (value == null || value.trim().isEmpty)
+                    ? 'Informe o código patrimonial'
+                    : null,
         readOnly: store.state.isEditing,
       ),
       Input(
         label: 'Nome do bem',
         initialValue: store.state.name,
         onChanged: store.setName,
-        onValidator: (value) => (value == null || value.trim().isEmpty)
-            ? 'Informe o nome do bem'
-            : null,
+        onValidator:
+            (value) =>
+                (value == null || value.trim().isEmpty)
+                    ? 'Informe o nome do bem'
+                    : null,
       ),
       Input(
         label: 'Quantidade',
@@ -87,9 +94,8 @@ class _PatrimonyAssetFormState extends State<PatrimonyAssetForm> {
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         onChanged: store.setQuantityFromInput,
-        onValidator: (_) => store.state.quantity <= 0
-            ? 'Informe a quantidade'
-            : null,
+        onValidator:
+            (_) => store.state.quantity <= 0 ? 'Informe a quantidade' : null,
         readOnly: store.state.isEditing,
       ),
       Dropdown(
@@ -97,36 +103,42 @@ class _PatrimonyAssetFormState extends State<PatrimonyAssetForm> {
         initialValue: store.state.categoryLabel,
         items: categoryItems,
         onChanged: store.setCategoryByLabel,
-        onValidator: (_) => store.state.category == null
-            ? 'Selecione uma categoria'
-            : null,
-        labelSuffix: _clearSuffix(() => store.setCategoryByLabel(null),
-            visible: store.state.category != null),
+        onValidator:
+            (_) =>
+                store.state.category == null ? 'Selecione uma categoria' : null,
+        labelSuffix: _clearSuffix(
+          () => store.setCategoryByLabel(null),
+          visible: store.state.category != null,
+        ),
       ),
       Input(
         label: 'Valor estimado',
         initialValue: valueInitial,
         keyboardType: TextInputType.number,
-        inputFormatters: [
-          CurrencyFormatter.getInputFormatters('R\$'),
-        ],
+        inputFormatters: [CurrencyFormatter.getInputFormatters('R\$')],
         onChanged: store.setValueFromInput,
-        onValidator: (_) => store.state.value <= 0
-            ? 'Informe um valor maior que zero'
-            : null,
+        onValidator:
+            (_) =>
+                store.state.value <= 0
+                    ? 'Informe um valor maior que zero'
+                    : null,
       ),
       Input(
         label: 'Data de aquisição',
         initialValue: store.state.acquisitionDate,
         keyboardType: TextInputType.number,
         onChanged: store.setAcquisitionDate,
-        onValidator: (value) => (value == null || value.isEmpty)
-            ? 'Informe a data de aquisição'
-            : null,
+        onValidator:
+            (value) =>
+                (value == null || value.isEmpty)
+                    ? 'Informe a data de aquisição'
+                    : null,
         onTap: () async {
           final picked = await selectDate(context);
           if (picked == null) return;
-          final formatted = convertDateFormatToDDMMYYYY(picked.toIso8601String());
+          final formatted = convertDateFormatToDDMMYYYY(
+            picked.toIso8601String(),
+          );
           store.setAcquisitionDate(formatted);
         },
       ),
@@ -134,9 +146,11 @@ class _PatrimonyAssetFormState extends State<PatrimonyAssetForm> {
         label: 'Localização física',
         initialValue: store.state.location,
         onChanged: store.setLocation,
-        onValidator: (value) => (value == null || value.trim().isEmpty)
-            ? 'Informe a localização atual'
-            : null,
+        onValidator:
+            (value) =>
+                (value == null || value.trim().isEmpty)
+                    ? 'Informe a localização atual'
+                    : null,
       ),
       _responsibleSelector(store),
       Dropdown(
@@ -144,32 +158,29 @@ class _PatrimonyAssetFormState extends State<PatrimonyAssetForm> {
         initialValue: store.state.statusLabel,
         items: statusItems,
         onChanged: store.setStatusByLabel,
-        onValidator: (_) => store.state.status == null
-            ? 'Selecione o status do bem'
-            : null,
-        labelSuffix: _clearSuffix(() => store.setStatusByLabel(null),
-            visible: store.state.status != null),
+        onValidator:
+            (_) =>
+                store.state.status == null ? 'Selecione o status do bem' : null,
+        labelSuffix: _clearSuffix(
+          () => store.setStatusByLabel(null),
+          visible: store.state.status != null,
+        ),
       ),
     ];
 
     return LayoutBuilder(
       builder: (context, constraints) {
         final isSmall = constraints.maxWidth < 720;
-        final double fieldWidth = isSmall
-            ? constraints.maxWidth
-            : (constraints.maxWidth / 2) - 20;
+        final double fieldWidth =
+            isSmall ? constraints.maxWidth : (constraints.maxWidth / 2) - 20;
 
         return Wrap(
           spacing: 16,
           runSpacing: 16,
-          children: fields
-              .map(
-                (field) => SizedBox(
-                  width: fieldWidth,
-                  child: field,
-                ),
-              )
-              .toList(),
+          children:
+              fields
+                  .map((field) => SizedBox(width: fieldWidth, child: field))
+                  .toList(),
         );
       },
     );
@@ -208,9 +219,11 @@ class _PatrimonyAssetFormState extends State<PatrimonyAssetForm> {
             );
             store.setResponsibleId(member.memberId);
           },
-          onValidator: (value) => (value == null || value.isEmpty)
-              ? 'Selecione o responsável pelo bem'
-              : null,
+          onValidator:
+              (value) =>
+                  (value == null || value.isEmpty)
+                      ? 'Selecione o responsável pelo bem'
+                      : null,
         );
       },
     );
