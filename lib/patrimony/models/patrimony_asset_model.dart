@@ -22,6 +22,15 @@ class PatrimonyAssetModel {
   final String? notes;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+  final String? disposalStatus;
+  final String? disposalReason;
+  final String? disposalPerformedBy;
+  final DateTime? disposalOccurredAt;
+  final String? disposalNotes;
+  final PatrimonyInventoryStatus? inventoryStatus;
+  final DateTime? inventoryCheckedAt;
+  final String? inventoryCheckedBy;
+  final String? inventoryNotes;
 
   PatrimonyAssetModel({
     required this.assetId,
@@ -40,6 +49,15 @@ class PatrimonyAssetModel {
     this.notes,
     this.createdAt,
     this.updatedAt,
+    this.disposalStatus,
+    this.disposalReason,
+    this.disposalPerformedBy,
+    this.disposalOccurredAt,
+    this.disposalNotes,
+    this.inventoryStatus,
+    this.inventoryCheckedAt,
+    this.inventoryCheckedBy,
+    this.inventoryNotes,
   });
 
   factory PatrimonyAssetModel.fromMap(Map<String, dynamic> map) {
@@ -55,6 +73,8 @@ class PatrimonyAssetModel {
                 Map<String, dynamic>.from(entry as Map<dynamic, dynamic>)))
             .toList() ??
         [];
+
+    final disposal = map['disposal'] as Map?;
 
     return PatrimonyAssetModel(
       assetId: map['assetId'] as String? ?? '',
@@ -81,6 +101,20 @@ class PatrimonyAssetModel {
       updatedAt: map['updatedAt'] != null
           ? DateTime.tryParse(map['updatedAt'] as String)
           : null,
+      disposalStatus: disposal?['status'] as String?,
+      disposalReason: disposal?['reason'] as String?,
+      disposalPerformedBy: disposal?['performedBy'] as String?,
+      disposalOccurredAt: disposal?['occurredAt'] != null
+          ? DateTime.tryParse(disposal?['occurredAt'] as String)
+          : null,
+      disposalNotes: disposal?['notes'] as String?,
+      inventoryStatus:
+          PatrimonyInventoryStatus.fromApiValue(map['inventoryStatus'] as String?),
+      inventoryCheckedAt: map['inventoryCheckedAt'] != null
+          ? DateTime.tryParse(map['inventoryCheckedAt'] as String)
+          : null,
+      inventoryCheckedBy: map['inventoryCheckedBy'] as String?,
+      inventoryNotes: map['inventoryNotes'] as String?,
     );
   }
 
@@ -92,4 +126,19 @@ class PatrimonyAssetModel {
       acquisitionDate != null ? convertDateFormatToDDMMYYYY(acquisitionDate!.toIso8601String()) : '';
 
   String get valueLabel => CurrencyFormatter.formatCurrency(value);
+
+  bool get hasDisposal => disposalStatus != null && disposalStatus!.isNotEmpty;
+
+  String get disposalStatusLabel =>
+      PatrimonyAssetStatus.fromApiValue(disposalStatus)?.label ?? '';
+
+  String get disposalDateLabel => disposalOccurredAt != null
+      ? convertDateFormatToDDMMYYYY(disposalOccurredAt!.toIso8601String())
+      : '';
+
+  String get inventoryStatusLabel => inventoryStatus?.label ?? '';
+
+  String get inventoryCheckedAtLabel => inventoryCheckedAt != null
+      ? convertDateFormatToDDMMYYYY(inventoryCheckedAt!.toIso8601String())
+      : '';
 }

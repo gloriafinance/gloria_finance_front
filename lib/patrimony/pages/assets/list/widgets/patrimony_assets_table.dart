@@ -144,6 +144,9 @@ class PatrimonyAssetsTable extends StatelessWidget {
         return AppColors.grey;
       case 'ARCHIVED':
         return AppColors.greyMiddle;
+      case 'DONATED':
+      case 'SOLD':
+      case 'LOST':
       case 'DISPOSED':
         return Colors.redAccent;
       default:

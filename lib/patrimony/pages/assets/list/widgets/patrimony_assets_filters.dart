@@ -15,7 +15,7 @@ class PatrimonyAssetsFilters extends StatelessWidget {
     return Consumer<PatrimonyAssetsListStore>(
       builder: (context, store, _) {
         final statusItems =
-            PatrimonyAssetStatus.values.map((e) => e.label).toList();
+            PatrimonyAssetStatusCollection.labels();
         final categoryItems =
             PatrimonyAssetCategory.values.map((e) => e.label).toList();
 

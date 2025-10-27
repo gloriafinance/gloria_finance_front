@@ -59,7 +59,8 @@ class _PatrimonyAssetFormState extends State<PatrimonyAssetForm> {
       BuildContext context, PatrimonyAssetFormStore store, String valueInitial) {
     final categoryItems =
         PatrimonyAssetCategory.values.map((e) => e.label).toList();
-    final statusItems = PatrimonyAssetStatus.values.map((e) => e.label).toList();
+    final statusItems =
+        PatrimonyAssetStatusCollection.labels(includeDisposal: false);
 
     final fields = [
       Input(
