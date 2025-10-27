@@ -50,6 +50,7 @@ class PatrimonyAssetsListScreen extends StatelessWidget {
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             registerButton,
+            PatrimonyInventoryImportButton(store: store),
             PatrimonyInventoryReportsMenu(store: store),
             PatrimonyInventoryChecklistButton(store: store),
           ],
