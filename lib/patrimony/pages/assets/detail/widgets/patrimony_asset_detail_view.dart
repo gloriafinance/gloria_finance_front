@@ -62,16 +62,17 @@ class _PatrimonyAssetDetailBody extends StatelessWidget {
           final responsibleName =
               PatrimonyAssetDetailView.resolveResponsible(memberStore, asset);
 
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _summaryCard(context, asset, detailStore, responsibleName),
-                const SizedBox(height: 24),
-                _PatrimonyDetailTabs(asset: asset),
-                const SizedBox(height: 24),
-              ],
-            ),
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 8),
+              _PatrimonyDetailTabs(
+                asset: asset,
+                store: detailStore,
+                responsibleName: responsibleName,
+              ),
+              const SizedBox(height: 24),
+            ],
           );
         },
       ),
@@ -81,14 +82,21 @@ class _PatrimonyAssetDetailBody extends StatelessWidget {
 
 class _PatrimonyDetailTabs extends StatelessWidget {
   final PatrimonyAssetModel asset;
+  final PatrimonyAssetDetailStore store;
+  final String responsibleName;
 
-  const _PatrimonyDetailTabs({required this.asset});
+  const _PatrimonyDetailTabs({
+    required this.asset,
+    required this.store,
+    required this.responsibleName,
+  });
 
   @override
   Widget build(BuildContext context) {
     final tabController = DefaultTabController.of(context)!;
 
-    final detailContent = _detailTabContent(context, asset);
+    final detailContent =
+        _detailTabContent(context, asset, store, responsibleName);
     final historyContent = _historyTabContent(asset);
 
     return Column(
@@ -136,24 +144,33 @@ class _PatrimonyDetailTabs extends StatelessWidget {
   }
 }
 
-Widget _detailTabContent(BuildContext context, PatrimonyAssetModel asset) {
-  final sections = <Widget>[];
+Widget _detailTabContent(
+  BuildContext context,
+  PatrimonyAssetModel asset,
+  PatrimonyAssetDetailStore store,
+  String responsibleName,
+) {
+  final sections = <Widget>[
+    _summaryCard(context, asset, store, responsibleName),
+  ];
+
+  void addSection(Widget section) {
+    sections
+      ..add(const SizedBox(height: 24))
+      ..add(section);
+  }
 
   if (asset.hasDisposal) {
-    sections
-      ..add(_disposalSection(asset))
-      ..add(const SizedBox(height: 24));
+    addSection(_disposalSection(asset));
   }
 
   if (asset.inventoryStatus != null ||
       asset.inventoryCheckedAt != null ||
       (asset.inventoryNotes?.isNotEmpty ?? false)) {
-    sections
-      ..add(_inventorySection(asset))
-      ..add(const SizedBox(height: 24));
+    addSection(_inventorySection(asset));
   }
 
-  sections.add(_attachmentsSection(context, asset));
+  addSection(_attachmentsSection(context, asset));
 
   sections.add(const SizedBox(height: 8));
 
@@ -167,7 +184,8 @@ Widget _historyTabContent(PatrimonyAssetModel asset) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      _historySection(asset, showHeader: false),
+      _historySection(asset),
+      const SizedBox(height: 8),
     ],
   );
 }

@@ -85,7 +85,7 @@ class _PatrimonyAssetFormState extends State<PatrimonyAssetForm> {
         label: 'Quantidade',
         initialValue: store.state.quantityText,
         keyboardType: TextInputType.number,
-        inputFormatters: const [FilteringTextInputFormatter.digitsOnly],
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         onChanged: store.setQuantityFromInput,
         onValidator: (_) => store.state.quantity <= 0
             ? 'Informe a quantidade'

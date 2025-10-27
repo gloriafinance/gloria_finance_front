@@ -192,7 +192,7 @@ class _PatrimonyAssetInventoryDialogState
         return null;
       },
       keyboardType: TextInputType.number,
-      inputFormatters: const [FilteringTextInputFormatter.digitsOnly],
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       readOnly: detailStore.registeringInventory,
     );
   }
