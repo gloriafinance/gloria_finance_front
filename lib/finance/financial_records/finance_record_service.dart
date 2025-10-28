@@ -3,6 +3,7 @@ import 'package:church_finance_bk/core/app_http.dart';
 import 'package:church_finance_bk/core/download/report_downloader.dart';
 import 'package:church_finance_bk/core/paginate/paginate_response.dart';
 import 'package:church_finance_bk/finance/financial_records/models/finance_record_filter_model.dart';
+import 'package:church_finance_bk/finance/financial_records/models/finance_record_export_format.dart';
 import 'package:dio/dio.dart';
 import 'models/finance_record_list_model.dart';
 
@@ -56,7 +57,10 @@ class FinanceRecordService extends AppHttp {
     }
   }
 
-  Future<bool> exportFinanceRecords(FinanceRecordFilterModel params) async {
+  Future<bool> exportFinanceRecords(
+    FinanceRecordFilterModel params, {
+    required FinanceRecordExportFormat format,
+  }) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
@@ -65,7 +69,10 @@ class FinanceRecordService extends AppHttp {
     try {
       final response = await http.get(
         '${await getUrlApi()}finance/financial-record/export',
-        queryParameters: params.toJson(),
+        queryParameters: {
+          ...params.toJson(),
+          'format': format.queryValue,
+        },
         options: Options(
           headers: bearerToken(),
           responseType: ResponseType.bytes,
@@ -73,9 +80,10 @@ class FinanceRecordService extends AppHttp {
       );
 
       final bytes = response.data as List<int>;
-      final fileName = 'registros_financieros.csv';
+      final fileName = format.fileName;
+      final mimeType = format.mimeType;
       final downloader = getReportDownloader();
-      final result = await downloader.saveFile(bytes, fileName, 'text/csv');
+      final result = await downloader.saveFile(bytes, fileName, mimeType);
 
       if (!result.success) {
         print("No se pudo guardar el archivo");
