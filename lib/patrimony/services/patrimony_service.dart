@@ -1,9 +1,9 @@
 import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:church_finance_bk/core/app_http.dart';
+import 'package:church_finance_bk/core/download/report_downloader.dart';
 import 'package:church_finance_bk/core/paginate/paginate_response.dart';
 import 'package:church_finance_bk/patrimony/models/patrimony_asset_model.dart';
 import 'package:church_finance_bk/patrimony/models/patrimony_inventory_import_result.dart';
-import 'package:church_finance_bk/patrimony/reports/download/patrimony_report_downloader.dart';
 import 'package:dio/dio.dart';
 
 class PatrimonyService extends AppHttp {
@@ -25,7 +25,8 @@ class PatrimonyService extends AppHttp {
         queryParameters: {
           'page': page,
           'perPage': perPage,
-          if (search != null && search.trim().isNotEmpty) 'search': search.trim(),
+          if (search != null && search.trim().isNotEmpty)
+            'search': search.trim(),
           if (status != null && status.isNotEmpty) 'status': status,
           if (category != null && category.isNotEmpty) 'category': category,
         },
@@ -198,16 +199,18 @@ class PatrimonyService extends AppHttp {
         ),
       );
 
-      final downloader = getPatrimonyReportDownloader();
+      final downloader = getReportDownloader();
       final bytes = response.data as List<int>;
       final normalizedFormat = format.toLowerCase();
-      final fileName = normalizedFormat == 'pdf'
-          ? 'relatorio_patrimonio.pdf'
-          : 'relatorio_patrimonio.csv';
+      final fileName =
+          normalizedFormat == 'pdf'
+              ? 'relatorio_patrimonio.pdf'
+              : 'relatorio_patrimonio.csv';
       final mimeType =
           normalizedFormat == 'pdf' ? 'application/pdf' : 'text/csv';
 
-      return await downloader.saveFile(bytes, fileName, mimeType);
+      final result = await downloader.saveFile(bytes, fileName, mimeType);
+      return result.success;
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;
@@ -237,14 +240,15 @@ class PatrimonyService extends AppHttp {
         ),
       );
 
-      final downloader = getPatrimonyReportDownloader();
+      final downloader = getReportDownloader();
       final bytes = response.data as List<int>;
 
-      return await downloader.saveFile(
+      final result = await downloader.saveFile(
         bytes,
         'checklist_inventario.csv',
         'text/csv',
       );
+      return result.success;
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;
@@ -257,9 +261,7 @@ class PatrimonyService extends AppHttp {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
-    final payload = FormData.fromMap({
-      'inventoryFile': file,
-    });
+    final payload = FormData.fromMap({'inventoryFile': file});
 
     try {
       final response = await http.post(
