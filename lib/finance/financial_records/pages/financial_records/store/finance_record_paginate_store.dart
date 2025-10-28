@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/finance/financial_records/finance_record_service.dart';
+import 'package:church_finance_bk/finance/financial_records/models/finance_record_export_format.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +8,9 @@ import '../state/finance_record_paginate_state.dart';
 class FinanceRecordPaginateStore extends ChangeNotifier {
   var service = FinanceRecordService();
   FinanceRecordPaginateState state = FinanceRecordPaginateState.empty();
+  bool _exporting = false;
+
+  bool get exporting => _exporting;
 
   void setFinancialConceptId(String financialConceptId) {
     state = state.copyWith(financialConceptId: financialConceptId);
@@ -83,19 +87,25 @@ class FinanceRecordPaginateStore extends ChangeNotifier {
     }
   }
 
-  Future<bool> exportFinanceRecords() async {
+  Future<bool> exportFinanceRecords(FinanceRecordExportFormat format) async {
     try {
+      _exporting = true;
       state = state.copyWith(makeRequest: true);
       notifyListeners();
 
-      final result = await service.exportFinanceRecords(state.filter);
+      final result = await service.exportFinanceRecords(
+        state.filter,
+        format: format,
+      );
 
+      _exporting = false;
       state = state.copyWith(makeRequest: false);
       notifyListeners();
 
       return result;
     } catch (e) {
       print("ERROR EN EXPORTACIÓN: ${e}");
+      _exporting = false;
       state = state.copyWith(makeRequest: false);
       notifyListeners();
       return false;
