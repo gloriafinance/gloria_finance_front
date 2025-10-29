@@ -130,6 +130,11 @@ class _AccountReceiveState extends State<AccountReceive> {
           buildDetailRow(false, 'Descrição', widget.account.description),
           buildDetailRow(
             false,
+            'Tipo',
+            widget.account.type?.friendlyName ?? '-',
+          ),
+          buildDetailRow(
+            false,
             'Valor Total',
             formatCurrency(widget.account.amountTotal ?? 0),
           ),

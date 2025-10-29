@@ -29,11 +29,76 @@ extension AccountsReceivableStatusExtension on AccountsReceivableStatus {
   }
 }
 
+enum AccountsReceivableType {
+  CONTRIBUTION,
+  SERVICE,
+  INTERINSTITUTIONAL,
+  RENTAL,
+  LOAN,
+  FINANCIAL,
+  LEGAL,
+}
+
+extension AccountsReceivableTypeExtension on AccountsReceivableType {
+  String get friendlyName {
+    switch (this) {
+      case AccountsReceivableType.CONTRIBUTION:
+        return 'Contribuição';
+      case AccountsReceivableType.SERVICE:
+        return 'Serviço';
+      case AccountsReceivableType.INTERINSTITUTIONAL:
+        return 'Interinstitucional';
+      case AccountsReceivableType.RENTAL:
+        return 'Locação';
+      case AccountsReceivableType.LOAN:
+        return 'Empréstimo';
+      case AccountsReceivableType.FINANCIAL:
+        return 'Financeiro';
+      case AccountsReceivableType.LEGAL:
+        return 'Jurídico';
+    }
+  }
+
+  String get apiValue {
+    switch (this) {
+      case AccountsReceivableType.CONTRIBUTION:
+        return 'CONTRIBUTION';
+      case AccountsReceivableType.SERVICE:
+        return 'SERVICE';
+      case AccountsReceivableType.INTERINSTITUTIONAL:
+        return 'INTERINSTITUTIONAL';
+      case AccountsReceivableType.RENTAL:
+        return 'RENTAL';
+      case AccountsReceivableType.LOAN:
+        return 'LOAN';
+      case AccountsReceivableType.FINANCIAL:
+        return 'FINANCIAL';
+      case AccountsReceivableType.LEGAL:
+        return 'LEGAL';
+    }
+  }
+}
+
+class AccountsReceivableTypeHelper {
+  static AccountsReceivableType? fromApiValue(String? value) {
+    if (value == null) return null;
+
+    try {
+      return AccountsReceivableType.values.firstWhere(
+        (element) => element.apiValue == value,
+      );
+    } catch (_) {
+      return null;
+    }
+  }
+}
+
 class AccountsReceivableModel {
   final DebtorModel debtor;
   final String churchId;
   final String description;
   final List<InstallmentModel> installments;
+  final AccountsReceivableType? type;
 
   final String? accountReceivableId;
   final double? amountPaid;
@@ -53,6 +118,7 @@ class AccountsReceivableModel {
     this.amountPending,
     this.amountTotal,
     this.status,
+    this.type,
     this.createdAt,
     this.updatedAt,
     this.accountReceivableId,
@@ -67,6 +133,10 @@ class AccountsReceivableModel {
               .map((i) => InstallmentModel.fromJson(i))
               .toList(),
       status = map['status'],
+      type =
+          map['type'] == ""
+              ? AccountsReceivableType.LOAN
+              : AccountsReceivableTypeHelper.fromApiValue(map['type']),
       amountPaid = double.parse(map['amountPaid'].toString()),
       amountPending = double.parse(map['amountPending'].toString()),
       amountTotal = double.parse(map['amountTotal'].toString()),
@@ -88,6 +158,7 @@ class AccountsReceivableModel {
       'churchId': churchId,
       'description': description,
       'installments': installments.map((i) => i.toJson()).toList(),
+      'type': type?.apiValue,
     };
   }
 }
