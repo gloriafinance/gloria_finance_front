@@ -49,6 +49,11 @@ class FormAccountsReceivableStore extends ChangeNotifier {
     state = state.copyWith(description: description);
   }
 
+  void setType(AccountsReceivableType type) {
+    state = state.copyWith(type: type);
+    notifyListeners();
+  }
+
   void addInstallment(InstallmentModel installment) {
     state = state.copyWith(
       installments: [...state.installments, installment],
@@ -71,7 +76,7 @@ class FormAccountsReceivableStore extends ChangeNotifier {
       debtorType: DebtorType.MEMBER,
       debtorPhone: member.phone ?? '',
       debtorEmail: member.email ?? '',
-      debtorAddress: member.address ?? '',
+      debtorAddress: member.address.trim(),
     );
     notifyListeners();
   }

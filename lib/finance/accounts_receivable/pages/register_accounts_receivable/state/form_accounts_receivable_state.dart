@@ -4,6 +4,7 @@ import '../../../models/index.dart';
 class FormAccountsReceivableState {
   bool makeRequest;
   DebtorType debtorType;
+  AccountsReceivableType type;
   String debtorDNI;
   String debtorName;
   String description;
@@ -16,6 +17,7 @@ class FormAccountsReceivableState {
   FormAccountsReceivableState({
     required this.makeRequest,
     required this.debtorType,
+    required this.type,
     required this.debtorDNI,
     required this.debtorName,
     required this.description,
@@ -30,6 +32,7 @@ class FormAccountsReceivableState {
     return FormAccountsReceivableState(
       makeRequest: false,
       debtorType: DebtorType.MEMBER,
+      type: AccountsReceivableType.CONTRIBUTION,
       debtorDNI: '',
       debtorName: '',
       description: '',
@@ -44,6 +47,7 @@ class FormAccountsReceivableState {
   FormAccountsReceivableState copyWith({
     bool? makeRequest,
     DebtorType? debtorType,
+    AccountsReceivableType? type,
     String? debtorDNI,
     String? debtorName,
     String? description,
@@ -56,6 +60,7 @@ class FormAccountsReceivableState {
     return FormAccountsReceivableState(
       makeRequest: makeRequest ?? this.makeRequest,
       debtorType: debtorType ?? this.debtorType,
+      type: type ?? this.type,
       debtorDNI: debtorDNI ?? this.debtorDNI,
       debtorName: debtorName ?? this.debtorName,
       description: description ?? this.description,
@@ -80,6 +85,7 @@ class FormAccountsReceivableState {
       'churchId': churchId,
       'description': description,
       'installments': installments.map((e) => e.toJson()).toList(),
+      'type': type.apiValue,
     };
   }
 }

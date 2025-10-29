@@ -35,6 +35,7 @@ class AccountsReceivableTable extends StatelessWidget {
         headers: [
           "Devedor",
           "Descricao",
+          "Tipo",
           "Nro. parcelas",
           "Recebido",
           "Pendente",
@@ -80,20 +81,32 @@ class AccountsReceivableTable extends StatelessWidget {
   }
 
   List<dynamic> accountsReceivableDTO(dynamic accountsReceivable) {
-    return [
-      accountsReceivable.debtor.name,
-      accountsReceivable.description,
-      accountsReceivable.installments.length.toString(),
-      CurrencyFormatter.formatCurrency(accountsReceivable.amountPaid),
-      CurrencyFormatter.formatCurrency(accountsReceivable.amountPending),
-      CurrencyFormatter.formatCurrency(accountsReceivable.amountTotal),
-      tagStatus(
-        getStatusColor(accountsReceivable.status),
-        AccountsReceivableStatus.values
+    final model = accountsReceivable as AccountsReceivableModel;
+
+    String statusLabel = '-';
+    if (model.status != null) {
+      try {
+        statusLabel = AccountsReceivableStatus.values
             .firstWhere(
-              (e) => e.toString().split('.').last == accountsReceivable.status,
+              (e) => e.toString().split('.').last == model.status,
             )
-            .friendlyName,
+            .friendlyName;
+      } catch (_) {
+        statusLabel = model.status ?? '-';
+      }
+    }
+
+    return [
+      model.debtor.name,
+      model.description,
+      model.type?.friendlyName ?? '-',
+      model.installments.length.toString(),
+      CurrencyFormatter.formatCurrency(model.amountPaid ?? 0),
+      CurrencyFormatter.formatCurrency(model.amountPending ?? 0),
+      CurrencyFormatter.formatCurrency(model.amountTotal ?? 0),
+      tagStatus(
+        getStatusColor(model.status ?? ''),
+        statusLabel,
       ),
     ];
   }
