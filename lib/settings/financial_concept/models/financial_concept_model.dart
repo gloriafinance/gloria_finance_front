@@ -104,6 +104,10 @@ class FinancialConceptModel {
   final bool active;
   final String type;
   final String statementCategory;
+  final bool affectsCashFlow;
+  final bool affectsResult;
+  final bool affectsBalance;
+  final bool isOperational;
   final DateTime? createdAt;
   final String? churchId;
 
@@ -116,6 +120,10 @@ class FinancialConceptModel {
     required this.active,
     required this.type,
     required this.statementCategory,
+    required this.affectsCashFlow,
+    required this.affectsResult,
+    required this.affectsBalance,
+    required this.isOperational,
     required this.createdAt,
     required this.churchId,
     //required this.churchId,
@@ -129,6 +137,10 @@ class FinancialConceptModel {
       active: json['active'],
       type: json['type'],
       statementCategory: json['statementCategory'] ?? 'OTHER',
+      affectsCashFlow: (json['affectsCashFlow'] as bool?) ?? false,
+      affectsResult: (json['affectsResult'] as bool?) ?? false,
+      affectsBalance: (json['affectsBalance'] as bool?) ?? false,
+      isOperational: (json['isOperational'] as bool?) ?? false,
       createdAt:
           json['createdAt'] != null
               ? DateTime.tryParse(json['createdAt'])
@@ -146,6 +158,10 @@ class FinancialConceptModel {
       'active': active,
       'type': type,
       'statementCategory': statementCategory,
+      'affectsCashFlow': affectsCashFlow,
+      'affectsResult': affectsResult,
+      'affectsBalance': affectsBalance,
+      'isOperational': isOperational,
       'createdAt': createdAt?.toIso8601String(),
       'churchId': churchId,
       //'churchId': churchId,
@@ -160,6 +176,10 @@ class FinancialConceptModel {
     String? type,
     DateTime? createdAt,
     String? statementCategory,
+    bool? affectsCashFlow,
+    bool? affectsResult,
+    bool? affectsBalance,
+    bool? isOperational,
     String? churchId,
     //String? churchId,
   }) {
@@ -170,6 +190,10 @@ class FinancialConceptModel {
       active: active ?? this.active,
       type: type ?? this.type,
       statementCategory: statementCategory ?? this.statementCategory,
+      affectsCashFlow: affectsCashFlow ?? this.affectsCashFlow,
+      affectsResult: affectsResult ?? this.affectsResult,
+      affectsBalance: affectsBalance ?? this.affectsBalance,
+      isOperational: isOperational ?? this.isOperational,
       //churchId: churchId ?? this.churchId,
       createdAt: createdAt ?? this.createdAt,
       churchId: churchId ?? this.churchId,
