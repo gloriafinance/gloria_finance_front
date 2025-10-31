@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
@@ -48,6 +49,8 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
         _buildTypeField(formStore),
         _buildStatementCategoryField(context, formStore),
         const SizedBox(height: 16),
+        _buildIndicatorsSection(context, formStore),
+        const SizedBox(height: 16),
         _buildActiveToggle(formStore),
         const SizedBox(height: 24),
         _buildSubmitButton(formStore),
@@ -78,6 +81,8 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
             Expanded(child: _buildStatementCategoryField(context, formStore)),
           ],
         ),
+        const SizedBox(height: 16),
+        _buildIndicatorsSection(context, formStore),
         const SizedBox(height: 16),
         _buildActiveToggle(formStore),
         const SizedBox(height: 24),
@@ -165,6 +170,102 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
           onChanged: formStore.setActive,
         ),
       ],
+    );
+  }
+
+  Widget _buildIndicatorsSection(
+    BuildContext context,
+    FinancialConceptFormStore formStore,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'Indicadores contábeis',
+              style: TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Tooltip(
+              message: 'Entenda os indicadores',
+              child: InkWell(
+                borderRadius: BorderRadius.circular(12),
+                onTap: () => _showIndicatorsHelp(context),
+                child: const Padding(
+                  padding: EdgeInsets.all(2.0),
+                  child: Icon(
+                    Icons.help_outline,
+                    size: 18,
+                    color: AppColors.purple,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Wrap(
+          spacing: 24,
+          runSpacing: 12,
+          children: [
+            _buildIndicatorToggle(
+              label: 'Impacta fluxo de caixa',
+              value: formStore.state.affectsCashFlow,
+              onChanged: formStore.setAffectsCashFlow,
+            ),
+            _buildIndicatorToggle(
+              label: 'Impacta o resultado (DRE)',
+              value: formStore.state.affectsResult,
+              onChanged: formStore.setAffectsResult,
+            ),
+            _buildIndicatorToggle(
+              label: 'Impacta o balanço patrimonial',
+              value: formStore.state.affectsBalance,
+              onChanged: formStore.setAffectsBalance,
+            ),
+            _buildIndicatorToggle(
+              label: 'Evento operacional recorrente',
+              value: formStore.state.isOperational,
+              onChanged: formStore.setIsOperational,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildIndicatorToggle({
+    required String label,
+    required bool value,
+    required ValueChanged<bool> onChanged,
+  }) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minWidth: 200),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Expanded(
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+                fontSize: 14,
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Switch(
+            activeColor: AppColors.purple,
+            value: value,
+            onChanged: onChanged,
+          ),
+        ],
+      ),
     );
   }
 
@@ -334,5 +435,86 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
       await conceptStore.searchFinancialConcepts();
       context.go('/financial-concepts');
     }
+  }
+
+  void _showIndicatorsHelp(BuildContext context) {
+    ModalPage(
+      title: 'Como usar os indicadores',
+      body: const _IndicatorsHelpContent(),
+      width: 540,
+    ).show(context);
+  }
+}
+
+class _IndicatorsHelpContent extends StatelessWidget {
+  const _IndicatorsHelpContent();
+
+  @override
+  Widget build(BuildContext context) {
+    final items = [
+      {
+        'title': 'Impacta fluxo de caixa',
+        'description':
+            'Marque quando o lançamento altera o saldo disponível após o pagamento ou recebimento.',
+      },
+      {
+        'title': 'Impacta o resultado (DRE)',
+        'description':
+            'Use quando o valor deve compor a Demonstração do Resultado, afetando lucro ou prejuízo.',
+      },
+      {
+        'title': 'Impacta o balanço patrimonial',
+        'description':
+            'Selecione para eventos que criam ou liquidam ativos e passivos diretamente no balanço.',
+      },
+      {
+        'title': 'Evento operacional recorrente',
+        'description':
+            'Habilite para compromissos rotineiros do dia a dia da igreja, ligados às operações principais.',
+      },
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Text(
+          'Esses indicadores determinam como o conceito será refletido nos relatórios financeiros. '
+          'Eles podem ser ajustados conforme necessário para casos específicos.',
+          style: TextStyle(
+            fontFamily: AppFonts.fontSubTitle,
+            fontSize: 14,
+          ),
+        ),
+        const SizedBox(height: 16),
+        ...items.map(
+          (item) => Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  item['title']!,
+                  style: const TextStyle(
+                    fontFamily: AppFonts.fontSubTitle,
+                    fontSize: 15,
+                    color: AppColors.purple,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  item['description']!,
+                  style: const TextStyle(
+                    fontFamily: AppFonts.fontSubTitle,
+                    fontSize: 13,
+                    color: Colors.black87,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

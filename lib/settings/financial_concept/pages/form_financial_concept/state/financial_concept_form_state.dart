@@ -8,6 +8,11 @@ class FinancialConceptFormState {
   final FinancialConceptType? type;
   final StatementCategory? statementCategory;
   final bool active;
+  final bool affectsCashFlow;
+  final bool affectsResult;
+  final bool affectsBalance;
+  final bool isOperational;
+  final bool indicatorsEdited;
 
   FinancialConceptFormState({
     required this.makeRequest,
@@ -17,6 +22,11 @@ class FinancialConceptFormState {
     required this.type,
     required this.statementCategory,
     required this.active,
+    required this.affectsCashFlow,
+    required this.affectsResult,
+    required this.affectsBalance,
+    required this.isOperational,
+    required this.indicatorsEdited,
   });
 
   factory FinancialConceptFormState.init() {
@@ -28,6 +38,11 @@ class FinancialConceptFormState {
       type: null,
       statementCategory: null,
       active: true,
+      affectsCashFlow: true,
+      affectsResult: true,
+      affectsBalance: false,
+      isOperational: true,
+      indicatorsEdited: false,
     );
   }
 
@@ -46,6 +61,11 @@ class FinancialConceptFormState {
         orElse: () => StatementCategory.OTHER,
       ),
       active: model.active,
+      affectsCashFlow: model.affectsCashFlow,
+      affectsResult: model.affectsResult,
+      affectsBalance: model.affectsBalance,
+      isOperational: model.isOperational,
+      indicatorsEdited: true,
     );
   }
 
@@ -57,6 +77,11 @@ class FinancialConceptFormState {
     FinancialConceptType? type,
     StatementCategory? statementCategory,
     bool? active,
+    bool? affectsCashFlow,
+    bool? affectsResult,
+    bool? affectsBalance,
+    bool? isOperational,
+    bool? indicatorsEdited,
   }) {
     return FinancialConceptFormState(
       makeRequest: makeRequest ?? this.makeRequest,
@@ -66,6 +91,11 @@ class FinancialConceptFormState {
       type: type ?? this.type,
       statementCategory: statementCategory ?? this.statementCategory,
       active: active ?? this.active,
+      affectsCashFlow: affectsCashFlow ?? this.affectsCashFlow,
+      affectsResult: affectsResult ?? this.affectsResult,
+      affectsBalance: affectsBalance ?? this.affectsBalance,
+      isOperational: isOperational ?? this.isOperational,
+      indicatorsEdited: indicatorsEdited ?? this.indicatorsEdited,
     );
   }
 
@@ -76,6 +106,10 @@ class FinancialConceptFormState {
       'name': name,
       'description': description,
       'active': active,
+      'affectsCashFlow': affectsCashFlow,
+      'affectsResult': affectsResult,
+      'affectsBalance': affectsBalance,
+      'isOperational': isOperational,
     };
 
     if (type != null) {
