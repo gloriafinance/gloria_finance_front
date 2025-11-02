@@ -59,6 +59,7 @@ class FormRecordOfferingState {
       'financialConceptId': financialConceptId,
       'bankId': bankId,
       'file': file,
+      'type': 'OFFERING',
     };
   }
 }
