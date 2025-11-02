@@ -11,8 +11,8 @@ class ContributionPaginationStore extends ChangeNotifier {
   ContributionPaginationState state = ContributionPaginationState.empty();
 
   void setStatus(String status) {
-    final v =
-        ContributionStatus.values.firstWhere((e) => e.friendlyName == status);
+    final v = ContributionStatus.values
+        .firstWhere((e) => e.friendlyName == status, orElse: () => ContributionStatus.PENDING_VERIFICATION);
     state = state.copyWith(status: v.toString().split('.').last);
     notifyListeners();
   }
@@ -49,13 +49,12 @@ class ContributionPaginationStore extends ChangeNotifier {
     searchContributions();
   }
 
-  _updateStatusContributionModel(String contributionId, String status) {
+  _updateStatusContributionModel(
+      String contributionId, ContributionStatus status) {
     final List<ContributionModel> contributions =
         state.paginate.results.map<ContributionModel>((ContributionModel e) {
       if (e.contributionId == contributionId) {
-        final v = ContributionStatus.values
-            .firstWhere((e) => e.friendlyName == status);
-        return e.copyWith(status: v.toString().split('.').last);
+        return e.copyWith(status: status);
       }
       return e;
     }).toList();
@@ -70,7 +69,7 @@ class ContributionPaginationStore extends ChangeNotifier {
       String contributionId, ContributionStatus status) async {
     try {
       await service.updateContributionStatus(contributionId, status);
-      _updateStatusContributionModel(contributionId, status.friendlyName);
+      _updateStatusContributionModel(contributionId, status);
     } catch (e) {
       Toast.showMessage(
           "Erro ao atualizar o status da contribuição", ToastType.error);

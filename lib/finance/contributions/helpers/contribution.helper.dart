@@ -13,15 +13,23 @@ Color getContributionStatusColor(ContributionStatus status) {
   }
 }
 
-ContributionStatus parseContributionStatus(String status) {
-  switch (status) {
+ContributionStatus parseContributionStatus(dynamic status) {
+  if (status is ContributionStatus) {
+    return status;
+  }
+
+  final normalized = status?.toString().toUpperCase();
+  switch (normalized) {
     case "PROCESSED":
+    case "PROCESSADA":
       return ContributionStatus.PROCESSED;
     case "PENDING_VERIFICATION":
+    case "VERIFICAÇÃO PENDENTE":
       return ContributionStatus.PENDING_VERIFICATION;
     case "REJECTED":
+    case "REJEITADA":
       return ContributionStatus.REJECTED;
     default:
-      throw ArgumentError("Unknown status: $status");
+      return ContributionStatus.PENDING_VERIFICATION;
   }
 }

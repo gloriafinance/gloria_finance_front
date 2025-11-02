@@ -56,11 +56,26 @@ class ContributionService extends AppHttp {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
-    FormData formData = FormData.fromMap({
+    final payload = <String, dynamic>{
       ...form,
       if (form['file'] != null) 'file': form['file']!,
       'memberId': session.memberId,
+    };
+
+    if (payload.containsKey('month') && payload['month'] != null) {
+      payload['monthReference'] = payload['month'];
+    }
+
+    payload.removeWhere((key, value) {
+      if (value == null) return true;
+      if (value is String) {
+        return value.trim().isEmpty;
+      }
+
+      return false;
     });
+
+    FormData formData = FormData.fromMap(payload);
 
     try {
       await http.post(

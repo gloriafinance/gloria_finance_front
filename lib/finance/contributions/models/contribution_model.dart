@@ -22,44 +22,143 @@ extension ContributionStatusExtension on ContributionStatus {
   }
 }
 
+ContributionType? _parseContributionType(dynamic value) {
+  if (value is String) {
+    final normalized = value.toUpperCase();
+    try {
+      return ContributionType.values.firstWhere(
+        (type) => type.toString().split('.').last == normalized,
+      );
+    } catch (_) {
+      return null;
+    }
+  }
+
+  return null;
+}
+
+ContributionStatus _parseContributionStatus(dynamic value) {
+  if (value is ContributionStatus) {
+    return value;
+  }
+
+  if (value is String) {
+    return ContributionStatus.values.firstWhere(
+      (status) => status.toString().split('.').last == value.toUpperCase(),
+      orElse: () => ContributionStatus.PENDING_VERIFICATION,
+    );
+  }
+
+  return ContributionStatus.PENDING_VERIFICATION;
+}
+
+double _parseAmount(dynamic value) {
+  if (value == null) {
+    return 0;
+  }
+
+  if (value is num) {
+    return value.toDouble();
+  }
+
+  if (value is Map<String, dynamic>) {
+    final nestedValue = value['amount'] ?? value['value'];
+    return _parseAmount(nestedValue);
+  }
+
+  return double.tryParse(value.toString()) ?? 0;
+}
+
+DateTime _parseCreatedAt(dynamic value) {
+  if (value is DateTime) {
+    return value;
+  }
+
+  if (value is String && value.isNotEmpty) {
+    return DateTime.parse(value);
+  }
+
+  return DateTime.fromMillisecondsSinceEpoch(0);
+}
+
+String? _parseBankTransferReceipt(Map<String, dynamic> json) {
+  final receipt = json['bankTransferReceipt'] ??
+      json['bankTransferReceiptUrl'] ??
+      json['receiptUrl'];
+
+  if (receipt is Map<String, dynamic>) {
+    return receipt['url'] as String?;
+  }
+
+  return receipt?.toString();
+}
+
+Map<String, dynamic>? _extractAccount(Map<String, dynamic> json) {
+  return (json['availabilityAccount'] ??
+          json['account'] ??
+          json['availabilityAccountBank']) as Map<String, dynamic>?;
+}
+
+Map<String, dynamic>? _extractConcept(Map<String, dynamic> json) {
+  return (json['financeConcept'] ??
+          json['financialConcept'] ??
+          json['concept']) as Map<String, dynamic>?;
+}
+
+Map<String, dynamic>? _extractMember(Map<String, dynamic> json) {
+  return (json['member'] ?? json['contributor'] ?? json['person'])
+      as Map<String, dynamic>?;
+}
+
 class ContributionModel {
   final double amount;
-  final String status;
+  final ContributionStatus status;
   final DateTime createdAt;
-  final String bankTransferReceipt;
-  final ContributionFinancialConcept financeConcept;
-  final ContributionAvailabilityAccount account;
-  final ContributionMember member;
+  final String? bankTransferReceipt;
+  final ContributionFinancialConcept? financeConcept;
+  final ContributionAvailabilityAccount? account;
+  final ContributionMember? member;
   final String contributionId;
+  final ContributionType? type;
 
   ContributionModel({
-    required this.account,
+    this.account,
     required this.contributionId,
     required this.amount,
     required this.status,
     required this.createdAt,
-    required this.bankTransferReceipt,
-    required this.financeConcept,
-    required this.member,
+    this.bankTransferReceipt,
+    this.financeConcept,
+    this.member,
+    this.type,
   });
 
   factory ContributionModel.fromJson(Map<String, dynamic> json) {
+    final accountJson = _extractAccount(json);
+    final conceptJson = _extractConcept(json);
+    final memberJson = _extractMember(json);
+
     return ContributionModel(
-        contributionId: json['contributionId'],
-        amount: double.parse(json['amount'].toString()),
-        status: json['status'],
-        createdAt: DateTime.parse(json['createdAt']),
-        bankTransferReceipt: json['bankTransferReceipt'],
-        financeConcept:
-            ContributionFinancialConcept.fromJson(json['financeConcept']),
-        member: ContributionMember.fromJson(json['member']),
-        account: ContributionAvailabilityAccount.fromJson(
-            json['availabilityAccount']));
+      contributionId: json['contributionId'] ?? json['id'],
+      amount: _parseAmount(json['amount']),
+      status: _parseContributionStatus(json['status'] ?? json['currentStatus']),
+      createdAt: _parseCreatedAt(json['createdAt'] ?? json['contributionDate']),
+      bankTransferReceipt: _parseBankTransferReceipt(json),
+      financeConcept: conceptJson != null
+          ? ContributionFinancialConcept.fromJson(conceptJson)
+          : null,
+      member:
+          memberJson != null ? ContributionMember.fromJson(memberJson) : null,
+      account: accountJson != null
+          ? ContributionAvailabilityAccount.fromJson(accountJson)
+          : null,
+      type: _parseContributionType(json['type']),
+    );
   }
 
-  copyWith({
+  ContributionModel copyWith({
     double? amount,
-    String? status,
+    ContributionStatus? status,
     DateTime? createdAt,
     String? bankTransferReceipt,
     ContributionType? type,
@@ -77,18 +176,21 @@ class ContributionModel {
       member: member ?? this.member,
       contributionId: contributionId ?? this.contributionId,
       account: availableContribution ?? this.account,
+      type: type ?? this.type,
     );
   }
 
-  toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'amount': amount,
-      'status': status,
-      'createdAt': createdAt,
+      'status': status.toString().split('.').last,
+      'createdAt': createdAt.toIso8601String(),
       'bankTransferReceipt': bankTransferReceipt,
-      'financeConcept': financeConcept,
-      'member': member,
+      'financeConcept': financeConcept?.toJson(),
+      'member': member?.toJson(),
       'contributionId': contributionId,
+      'type': type?.toString().split('.').last,
+      'availabilityAccount': account?.toJson(),
     };
   }
 }
@@ -154,8 +256,15 @@ class ContributionAvailabilityAccount {
 
   factory ContributionAvailabilityAccount.fromJson(Map<String, dynamic> json) {
     return ContributionAvailabilityAccount(
-      symbol: json['symbol'],
-      accountName: json['accountName'],
+      symbol: json['symbol']?.toString() ?? '',
+      accountName: json['accountName']?.toString() ?? '',
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'symbol': symbol,
+      'accountName': accountName,
+    };
   }
 }

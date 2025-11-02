@@ -69,6 +69,7 @@ class FormTitheState {
       'bankId': bankId,
       'memberId': memberId,
       'financialConceptId': financialConceptId,
+      'type': 'TITHE',
     };
   }
 }

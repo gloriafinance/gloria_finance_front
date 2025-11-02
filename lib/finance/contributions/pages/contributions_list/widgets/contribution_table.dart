@@ -77,14 +77,11 @@ class _ContributionTableState extends State<ContributionTable> {
 
   List<dynamic> contributionDTO(dynamic contribution) {
     return [
-      contribution.member.name,
+      contribution.member?.name ?? '---',
       CurrencyFormatter.formatCurrency(contribution.amount,
-          symbol: contribution.account.symbol),
-      contribution.financeConcept.name,
-      ContributionStatus.values
-          .firstWhere(
-              (e) => e.toString().split('.').last == contribution.status)
-          .friendlyName,
+          symbol: contribution.account?.symbol ?? ''),
+      contribution.financeConcept?.name ?? '---',
+      contribution.status.friendlyName,
       contribution.createdAt.toString(),
     ];
   }
