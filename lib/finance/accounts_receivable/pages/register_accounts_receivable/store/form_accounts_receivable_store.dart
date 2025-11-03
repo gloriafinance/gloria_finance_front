@@ -127,7 +127,7 @@ class FormAccountsReceivableStore extends ChangeNotifier {
   }
 
   bool generateAutomaticInstallments() {
-    final generated = _buildAutomaticInstallments();
+    final generated = _buildAutomaticInstallments(state);
 
     if (generated.isEmpty) {
       return false;
@@ -137,21 +137,23 @@ class FormAccountsReceivableStore extends ChangeNotifier {
     return true;
   }
 
-  List<InstallmentModel> _buildAutomaticInstallments() {
-    if (state.automaticInstallments <= 0 ||
-        state.automaticInstallmentAmount <= 0 ||
-        state.automaticFirstDueDate.isEmpty) {
+  List<InstallmentModel> _buildAutomaticInstallments(
+      FormAccountsReceivableState currentState) {
+    if (currentState.automaticInstallments <= 0 ||
+        currentState.automaticInstallmentAmount <= 0 ||
+        currentState.automaticFirstDueDate.isEmpty) {
       return [];
     }
 
     DateTime firstDueDate;
     try {
-      firstDueDate = DateFormat('dd/MM/yyyy').parse(state.automaticFirstDueDate);
+      firstDueDate =
+          DateFormat('dd/MM/yyyy').parse(currentState.automaticFirstDueDate);
     } catch (_) {
       return [];
     }
 
-    return List.generate(state.automaticInstallments, (index) {
+    return List.generate(currentState.automaticInstallments, (index) {
       final dueDate = DateTime(
         firstDueDate.year,
         firstDueDate.month + index,
@@ -159,33 +161,37 @@ class FormAccountsReceivableStore extends ChangeNotifier {
       );
 
       return InstallmentModel(
-        amount: state.automaticInstallmentAmount,
+        amount: currentState.automaticInstallmentAmount,
         dueDate: DateFormat('dd/MM/yyyy').format(dueDate),
         sequence: index + 1,
       );
     });
   }
 
-  void _setInstallments(List<InstallmentModel> installments, {bool notify = true}) {
-    final total = installments.fold<double>(0, (sum, installment) {
+  void _setInstallments(List<InstallmentModel> installments,
+      {bool notify = true}) {
+    final normalized = installments.asMap().entries.map((entry) {
+      final installment = entry.value;
+      return installment.copyWith(sequence: entry.key + 1);
+    }).toList();
+
+    final total = normalized.fold<double>(0, (sum, installment) {
       return sum + installment.amount;
     });
 
-    final nextState = state.copyWith(
-      installments: installments,
-      totalAmount: state.paymentMode == AccountsReceivablePaymentMode.automatic
-          ? total
-          : state.totalAmount,
+    state = state.copyWith(
+      installments: normalized,
+      totalAmount: state.paymentMode == AccountsReceivablePaymentMode.single
+          ? state.totalAmount
+          : total,
     );
-
-    state = nextState;
 
     if (notify) {
       notifyListeners();
     }
   }
 
-  void _updateSingleInstallment() {
+  void _updateSingleInstallment({bool notify = true}) {
     if (state.paymentMode != AccountsReceivablePaymentMode.single) {
       return;
     }
@@ -204,7 +210,9 @@ class FormAccountsReceivableStore extends ChangeNotifier {
       _setInstallments(const <InstallmentModel>[], notify: false);
     }
 
-    notifyListeners();
+    if (notify) {
+      notifyListeners();
+    }
   }
 
 
@@ -242,27 +250,23 @@ class FormAccountsReceivableStore extends ChangeNotifier {
     var currentState = state;
 
     if (currentState.paymentMode == AccountsReceivablePaymentMode.single) {
-      if (currentState.totalAmount > 0 &&
-          currentState.singleDueDate.isNotEmpty) {
-        final installment = InstallmentModel(
-          amount: currentState.totalAmount,
-          dueDate: currentState.singleDueDate,
-        );
-        currentState = currentState.copyWith(installments: [installment]);
-      }
+      _updateSingleInstallment(notify: false);
+      currentState = state;
     }
 
     if (currentState.paymentMode == AccountsReceivablePaymentMode.automatic &&
         currentState.installments.isEmpty) {
-      final generated = _buildAutomaticInstallments();
-      final total = generated.fold<double>(
-        0,
-        (sum, installment) => sum + installment.amount,
-      );
-      currentState = currentState.copyWith(
-        installments: generated,
-        totalAmount: total,
-      );
+      final generated = _buildAutomaticInstallments(currentState);
+      if (generated.isNotEmpty) {
+        final total = generated.fold<double>(
+          0,
+          (sum, installment) => sum + installment.amount,
+        );
+        currentState = currentState.copyWith(
+          installments: generated,
+          totalAmount: total,
+        );
+      }
     }
 
     return currentState;
