@@ -11,7 +11,10 @@ class FormAccountsReceivableState {
   String debtorPhone;
   String debtorEmail;
   String debtorAddress;
-  String churchId;
+  String financialConceptId;
+  int automaticInstallments;
+  double automaticInstallmentAmount;
+  String automaticFirstDueDate;
   List<InstallmentModel> installments;
 
   FormAccountsReceivableState({
@@ -21,11 +24,14 @@ class FormAccountsReceivableState {
     required this.debtorDNI,
     required this.debtorName,
     required this.description,
-    required this.churchId,
     required this.installments,
     required this.debtorPhone,
     required this.debtorEmail,
-    required this.debtorAddress
+    required this.debtorAddress,
+    required this.financialConceptId,
+    required this.automaticInstallments,
+    required this.automaticInstallmentAmount,
+    required this.automaticFirstDueDate,
   });
 
   factory FormAccountsReceivableState.init() {
@@ -36,11 +42,14 @@ class FormAccountsReceivableState {
       debtorDNI: '',
       debtorName: '',
       description: '',
-      churchId: '',
       installments: [],
       debtorPhone: '',
       debtorEmail: '',
       debtorAddress: '',
+      financialConceptId: '',
+      automaticInstallments: 0,
+      automaticInstallmentAmount: 0,
+      automaticFirstDueDate: '',
     );
   }
 
@@ -51,11 +60,14 @@ class FormAccountsReceivableState {
     String? debtorDNI,
     String? debtorName,
     String? description,
-    String? churchId,
     List<InstallmentModel>? installments,
     String? debtorPhone,
     String? debtorEmail,
     String? debtorAddress,
+    String? financialConceptId,
+    int? automaticInstallments,
+    double? automaticInstallmentAmount,
+    String? automaticFirstDueDate,
   }) {
     return FormAccountsReceivableState(
       makeRequest: makeRequest ?? this.makeRequest,
@@ -64,11 +76,17 @@ class FormAccountsReceivableState {
       debtorDNI: debtorDNI ?? this.debtorDNI,
       debtorName: debtorName ?? this.debtorName,
       description: description ?? this.description,
-      churchId: churchId ?? this.churchId,
       installments: installments ?? this.installments,
       debtorPhone: debtorPhone ?? this.debtorPhone,
       debtorEmail: debtorEmail ?? this.debtorEmail,
       debtorAddress: debtorAddress ?? this.debtorAddress,
+      financialConceptId: financialConceptId ?? this.financialConceptId,
+      automaticInstallments:
+          automaticInstallments ?? this.automaticInstallments,
+      automaticInstallmentAmount:
+          automaticInstallmentAmount ?? this.automaticInstallmentAmount,
+      automaticFirstDueDate:
+          automaticFirstDueDate ?? this.automaticFirstDueDate,
     );
   }
 
@@ -78,12 +96,11 @@ class FormAccountsReceivableState {
         'debtorType': debtorType.apiValue,
         'debtorDNI': debtorDNI,
         'name': debtorName,
-        'phone': debtorPhone,
         'email': debtorEmail,
-        'address': debtorAddress,
+        'phone': debtorPhone,
       },
-      'churchId': churchId,
       'description': description,
+      'financialConceptId': financialConceptId,
       'installments': installments.map((e) => e.toJson()).toList(),
       'type': type.apiValue,
     };

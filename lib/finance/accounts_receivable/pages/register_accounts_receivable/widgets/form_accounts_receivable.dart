@@ -3,7 +3,10 @@ import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/helpers/index.dart';
+import 'package:church_finance_bk/settings/financial_concept/models/financial_concept_model.dart';
+import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -30,6 +33,7 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
   @override
   Widget build(BuildContext context) {
     final formStore = Provider.of<FormAccountsReceivableStore>(context);
+    final conceptStore = context.watch<FinancialConceptStore>();
 
     return SingleChildScrollView(
       child: Form(
@@ -57,7 +61,15 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
 
             SizedBox(height: 20),
 
+            _financialConceptSelector(formStore, conceptStore),
+
+            SizedBox(height: 20),
+
             _description(formStore, validator),
+
+            SizedBox(height: 20),
+
+            _automaticInstallmentsSection(formStore),
 
             SizedBox(height: 20),
 
@@ -99,6 +111,124 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _financialConceptSelector(
+    FormAccountsReceivableStore formStore,
+    FinancialConceptStore conceptStore,
+  ) {
+    final List<FinancialConceptModel> incomeConcepts = conceptStore
+        .state.financialConcepts
+        .where((concept) =>
+            concept.type == FinancialConceptType.INCOME.apiValue &&
+            concept.active)
+        .toList();
+
+    final initialValue = incomeConcepts.any((concept) =>
+            concept.financialConceptId ==
+            formStore.state.financialConceptId)
+        ? incomeConcepts
+            .firstWhere((concept) =>
+                concept.financialConceptId ==
+                formStore.state.financialConceptId)
+            .name
+        : null;
+
+    return Dropdown(
+      label: 'Conceito financeiro',
+      initialValue: initialValue,
+      items: incomeConcepts.map((concept) => concept.name).toList(),
+      onChanged: (value) {
+        final selected = incomeConcepts.firstWhere((concept) => concept.name == value);
+        formStore.setFinancialConceptId(selected.financialConceptId);
+      },
+      onValidator: validator.byField(formStore.state, 'financialConceptId'),
+    );
+  }
+
+  Widget _automaticInstallmentsSection(
+    FormAccountsReceivableStore formStore,
+  ) {
+    final state = formStore.state;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Wrap(
+          spacing: 16,
+          runSpacing: 16,
+          children: [
+            SizedBox(
+              width: 220,
+              child: Input(
+                label: 'Quantidade de parcelas',
+                initialValue: state.automaticInstallments > 0
+                    ? state.automaticInstallments.toString()
+                    : '',
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                onChanged: (value) => formStore.setAutomaticInstallments(
+                    int.tryParse(value) ?? 0),
+              ),
+            ),
+            SizedBox(
+              width: 220,
+              child: Input(
+                label: 'Valor por parcela',
+                initialValue: state.automaticInstallmentAmount > 0
+                    ? CurrencyFormatter
+                        .formatCurrency(state.automaticInstallmentAmount)
+                    : '',
+                keyboardType: TextInputType.number,
+                inputFormatters: [CurrencyFormatter.getInputFormatters('R\$')],
+                onChanged: (value) => formStore.setAutomaticInstallmentAmount(
+                  value.trim().isEmpty
+                      ? 0
+                      : CurrencyFormatter.cleanCurrency(value),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 220,
+              child: Input(
+                label: 'Primeiro vencimento',
+                initialValue: state.automaticFirstDueDate,
+                onChanged: formStore.setAutomaticFirstDueDate,
+                onTap: () async {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  final pickedDate = await selectDate(context);
+                  if (pickedDate == null) return;
+                  final formatted =
+                      convertDateFormatToDDMMYYYY(pickedDate.toString());
+                  formStore.setAutomaticFirstDueDate(formatted);
+                },
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        ButtonActionTable(
+          color: AppColors.blue,
+          text: 'Gerar parcelas automaticamente',
+          icon: Icons.calculate_outlined,
+          onPressed: () {
+            final generated = formStore.generateAutomaticInstallments();
+            if (!generated) {
+              Toast.showMessage(
+                'Preencha os dados para gerar as parcelas automaticamente.',
+                ToastType.warning,
+              );
+              return;
+            }
+
+            Toast.showMessage(
+              'Parcelas geradas automaticamente.',
+              ToastType.info,
+            );
+          },
+        ),
+      ],
     );
   }
 
