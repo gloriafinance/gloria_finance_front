@@ -48,12 +48,13 @@ class ViewContribution extends StatelessWidget {
                   mobile,
                   'Valor',
                   CurrencyFormatter.formatCurrency(contribution.amount,
-                      symbol: contribution.account?.symbol ?? '')),
+                      symbol: contribution.account.symbol)),
               buildDetailRow(
                 mobile,
                 'Status',
-                contribution.status.friendlyName,
-                statusColor: getContributionStatusColor(contribution.status),
+                parseContributionStatus(contribution.status).friendlyName,
+                statusColor: getContributionStatusColor(
+                    parseContributionStatus(contribution.status)),
               ),
               buildDetailRow(
                 mobile,
@@ -64,39 +65,26 @@ class ViewContribution extends StatelessWidget {
               buildDetailRow(
                 mobile,
                 'Conta',
-                contribution.account?.accountName ?? '--',
+                contribution.account.accountName,
               ),
               const SizedBox(height: 16),
               buildSectionTitle('Membro'),
               Text(
-                contribution.member != null
-                    ? '${contribution.member!.name} (ID: ${contribution.member!.memberId})'
-                    : '---',
+                '${contribution.member.name} (ID: ${contribution.member.memberId})',
                 style: const TextStyle(
                     fontSize: 14, fontFamily: AppFonts.fontText),
               ),
               const SizedBox(height: 16),
               buildSectionTitle('Conceito Financeiro'),
               Text(
-                contribution.financeConcept?.name ?? '--',
+                contribution.financeConcept.name,
                 style: const TextStyle(
                     fontSize: 14, fontFamily: AppFonts.fontText),
               ),
               const SizedBox(height: 26),
               buildSectionTitle('Comprovante da Transferência'),
               const SizedBox(height: 26),
-              if (contribution.bankTransferReceipt != null &&
-                  contribution.bankTransferReceipt!.isNotEmpty)
-                ContentViewer(url: contribution.bankTransferReceipt!)
-              else
-                const Text(
-                  'Sem comprovante disponível',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontFamily: AppFonts.fontText,
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
+              ContentViewer(url: contribution.bankTransferReceipt),
               const SizedBox(height: 46),
               if (_showButton(contribution, store))
                 _buildButton(context, contribution.contributionId),
@@ -106,10 +94,11 @@ class ViewContribution extends StatelessWidget {
   }
 
   bool _showButton(ContributionModel contribution, AuthSessionStore store) {
-    return contribution.status == ContributionStatus.PENDING_VERIFICATION &&
+    return parseContributionStatus(contribution.status) ==
+                ContributionStatus.PENDING_VERIFICATION &&
             store.isAdmin() ||
-            store.isTreasurer() ||
-            store.isSuperUser();
+        store.isTreasurer() ||
+        store.isSuperUser();
   }
 
   Widget _buildButton(BuildContext context, String contributionId) {
