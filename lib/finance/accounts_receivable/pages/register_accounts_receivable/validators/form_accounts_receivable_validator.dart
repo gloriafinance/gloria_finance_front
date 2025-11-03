@@ -155,4 +155,9 @@ class FormAccountsReceivableValidator
 
     return errors;
   }
+
+  String? errorByKey(FormAccountsReceivableState state, String key) {
+    final errors = validateState(state);
+    return errors[key];
+  }
 }
