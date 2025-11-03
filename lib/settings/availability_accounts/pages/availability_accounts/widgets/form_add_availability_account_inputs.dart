@@ -57,9 +57,11 @@ Widget source(FormAvailabilityStore formStore, BankStore bankStore) {
 
   return Dropdown(
     label: "Selecione o banco",
-    items: data.map((e) => e.name).toList(),
+    items: data.map((e) => "${e.name} - ${e.tag}").toList(),
     onChanged: (value) {
-      final selectedBank = data.firstWhere((e) => e.name == value);
+      final selectedBank = data.firstWhere(
+        (e) => "${e.name} - ${e.tag}" == value,
+      );
       formStore.setSource(selectedBank.bankId);
     },
   );
