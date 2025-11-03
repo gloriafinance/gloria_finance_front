@@ -1,19 +1,26 @@
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/helpers/index.dart';
-import 'package:church_finance_bk/providers/pages/suppliers/widgets/suppliers_table.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-import '../../../core/layout/layout_dashboard.dart' show LayoutDashboard;
+import '../../../core/layout/layout_dashboard.dart';
+import 'store/suppliers_list_store.dart';
+import 'widgets/suppliers_table.dart';
 
 class ListSuppliersScreen extends StatelessWidget {
   const ListSuppliersScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return LayoutDashboard(Builder(builder: (context) => _header(context)),
-        screen: SuppliersTable());
+    return ChangeNotifierProvider(
+      create: (_) => SuppliersListStore(),
+      child: LayoutDashboard(
+        Builder(builder: (context) => _header(context)),
+        screen: SuppliersTable(),
+      ),
+    );
   }
 
   Widget _header(BuildContext context) {
@@ -33,11 +40,7 @@ class ListSuppliersScreen extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.centerRight,
-            child: Row(
-              children: [
-                _newRecord(context),
-              ],
-            ),
+            child: Row(children: [_newRecord(context)]),
           ),
         ],
       );
@@ -56,9 +59,7 @@ class ListSuppliersScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        Row(
-          children: [Expanded(child: _newRecord(context))],
-        ),
+        Row(children: [Expanded(child: _newRecord(context))]),
         const SizedBox(height: 16),
       ],
     );
@@ -66,9 +67,10 @@ class ListSuppliersScreen extends StatelessWidget {
 
   Widget _newRecord(BuildContext context) {
     return ButtonActionTable(
-        color: AppColors.purple,
-        text: "Registrar",
-        onPressed: () => GoRouter.of(context).go('/suppliers/register'),
-        icon: Icons.add_chart);
+      color: AppColors.purple,
+      text: "Registrar",
+      onPressed: () => GoRouter.of(context).go('/suppliers/register'),
+      icon: Icons.add_chart,
+    );
   }
 }
