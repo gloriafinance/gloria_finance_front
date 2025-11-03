@@ -22,36 +22,6 @@ extension ContributionStatusExtension on ContributionStatus {
   }
 }
 
-ContributionType? _parseContributionType(dynamic value) {
-  if (value is String) {
-    final normalized = value.toUpperCase();
-    try {
-      return ContributionType.values.firstWhere(
-        (type) => type.toString().split('.').last == normalized,
-      );
-    } catch (_) {
-      return null;
-    }
-  }
-
-  return null;
-}
-
-ContributionStatus _parseContributionStatus(dynamic value) {
-  if (value is ContributionStatus) {
-    return value;
-  }
-
-  if (value is String) {
-    return ContributionStatus.values.firstWhere(
-      (status) => status.toString().split('.').last == value.toUpperCase(),
-      orElse: () => ContributionStatus.PENDING_VERIFICATION,
-    );
-  }
-
-  return ContributionStatus.PENDING_VERIFICATION;
-}
-
 double _parseAmount(dynamic value) {
   if (value == null) {
     return 0;
@@ -112,25 +82,23 @@ Map<String, dynamic>? _extractMember(Map<String, dynamic> json) {
 
 class ContributionModel {
   final double amount;
-  final ContributionStatus status;
+  final String status;
   final DateTime createdAt;
-  final String? bankTransferReceipt;
-  final ContributionFinancialConcept? financeConcept;
-  final ContributionAvailabilityAccount? account;
-  final ContributionMember? member;
+  final String bankTransferReceipt;
+  final ContributionFinancialConcept financeConcept;
+  final ContributionAvailabilityAccount account;
+  final ContributionMember member;
   final String contributionId;
-  final ContributionType? type;
 
   ContributionModel({
-    this.account,
     required this.contributionId,
     required this.amount,
     required this.status,
     required this.createdAt,
-    this.bankTransferReceipt,
-    this.financeConcept,
-    this.member,
-    this.type,
+    required this.bankTransferReceipt,
+    required this.financeConcept,
+    required this.member,
+    required this.account,
   });
 
   factory ContributionModel.fromJson(Map<String, dynamic> json) {
@@ -141,27 +109,23 @@ class ContributionModel {
     return ContributionModel(
       contributionId: json['contributionId'] ?? json['id'],
       amount: _parseAmount(json['amount']),
-      status: _parseContributionStatus(json['status'] ?? json['currentStatus']),
+      status: (json['status'] ?? json['currentStatus'] ?? '').toString(),
       createdAt: _parseCreatedAt(json['createdAt'] ?? json['contributionDate']),
-      bankTransferReceipt: _parseBankTransferReceipt(json),
-      financeConcept: conceptJson != null
-          ? ContributionFinancialConcept.fromJson(conceptJson)
-          : null,
-      member:
-          memberJson != null ? ContributionMember.fromJson(memberJson) : null,
-      account: accountJson != null
-          ? ContributionAvailabilityAccount.fromJson(accountJson)
-          : null,
-      type: _parseContributionType(json['type']),
+      bankTransferReceipt: _parseBankTransferReceipt(json) ?? '',
+      financeConcept:
+          ContributionFinancialConcept.fromJson(
+              conceptJson ?? <String, dynamic>{}),
+      member: ContributionMember.fromJson(memberJson ?? <String, dynamic>{}),
+      account: ContributionAvailabilityAccount.fromJson(
+          accountJson ?? <String, dynamic>{}),
     );
   }
 
   ContributionModel copyWith({
     double? amount,
-    ContributionStatus? status,
+    String? status,
     DateTime? createdAt,
     String? bankTransferReceipt,
-    ContributionType? type,
     ContributionFinancialConcept? financeConcept,
     ContributionMember? member,
     String? contributionId,
@@ -176,21 +140,19 @@ class ContributionModel {
       member: member ?? this.member,
       contributionId: contributionId ?? this.contributionId,
       account: availableContribution ?? this.account,
-      type: type ?? this.type,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'amount': amount,
-      'status': status.toString().split('.').last,
+      'status': status,
       'createdAt': createdAt.toIso8601String(),
       'bankTransferReceipt': bankTransferReceipt,
-      'financeConcept': financeConcept?.toJson(),
-      'member': member?.toJson(),
+      'financeConcept': financeConcept.toJson(),
+      'member': member.toJson(),
       'contributionId': contributionId,
-      'type': type?.toString().split('.').last,
-      'availabilityAccount': account?.toJson(),
+      'availabilityAccount': account.toJson(),
     };
   }
 }
@@ -208,9 +170,9 @@ class ContributionMember {
 
   factory ContributionMember.fromJson(Map<String, dynamic> json) {
     return ContributionMember(
-      memberId: json['memberId'],
-      name: json['name'],
-      churchId: json['churchId'],
+      memberId: json['memberId']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      churchId: json['churchId']?.toString() ?? '',
     );
   }
 
@@ -234,8 +196,8 @@ class ContributionFinancialConcept {
 
   factory ContributionFinancialConcept.fromJson(Map<String, dynamic> json) {
     return ContributionFinancialConcept(
-      financialConceptId: json['financialConceptId'],
-      name: json['name'],
+      financialConceptId: json['financialConceptId']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
     );
   }
 

@@ -62,10 +62,6 @@ class ContributionService extends AppHttp {
       'memberId': session.memberId,
     };
 
-    if (payload.containsKey('month') && payload['month'] != null) {
-      payload['monthReference'] = payload['month'];
-    }
-
     payload.removeWhere((key, value) {
       if (value == null) return true;
       if (value is String) {

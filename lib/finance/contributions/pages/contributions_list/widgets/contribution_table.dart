@@ -7,6 +7,7 @@ import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../helpers/contribution.helper.dart';
 import '../../../store/contribution_pagination_store.dart';
 import 'view_contribution.dart';
 
@@ -77,11 +78,11 @@ class _ContributionTableState extends State<ContributionTable> {
 
   List<dynamic> contributionDTO(dynamic contribution) {
     return [
-      contribution.member?.name ?? '---',
+      contribution.member.name,
       CurrencyFormatter.formatCurrency(contribution.amount,
-          symbol: contribution.account?.symbol ?? ''),
-      contribution.financeConcept?.name ?? '---',
-      contribution.status.friendlyName,
+          symbol: contribution.account.symbol),
+      contribution.financeConcept.name,
+      parseContributionStatus(contribution.status).friendlyName,
       contribution.createdAt.toString(),
     ];
   }
