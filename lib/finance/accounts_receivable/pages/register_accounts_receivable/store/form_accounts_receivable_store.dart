@@ -1,6 +1,7 @@
-import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:church_finance_bk/settings/members/models/member_model.dart';
 import 'package:flutter/material.dart';
+
+import 'package:intl/intl.dart';
 
 import '../../../../models/installment_model.dart';
 import '../../../accounts_receivable_service.dart';
@@ -45,6 +46,11 @@ class FormAccountsReceivableStore extends ChangeNotifier {
     //notifyListeners();
   }
 
+  void setFinancialConceptId(String financialConceptId) {
+    state = state.copyWith(financialConceptId: financialConceptId);
+    notifyListeners();
+  }
+
   void setDescription(String description) {
     state = state.copyWith(description: description);
   }
@@ -55,16 +61,74 @@ class FormAccountsReceivableStore extends ChangeNotifier {
   }
 
   void addInstallment(InstallmentModel installment) {
-    state = state.copyWith(
-      installments: [...state.installments, installment],
-    );
-    notifyListeners();
+    final updated = [...state.installments, installment];
+    _setInstallments(updated);
   }
 
   void removeInstallment(int index) {
     final List<InstallmentModel> updatedInstallments = [...state.installments];
     updatedInstallments.removeAt(index);
     state = state.copyWith(installments: updatedInstallments);
+    notifyListeners();
+  }
+
+  void setAutomaticInstallments(int count) {
+    state = state.copyWith(automaticInstallments: count);
+    notifyListeners();
+  }
+
+  void setAutomaticInstallmentAmount(double amount) {
+    state = state.copyWith(automaticInstallmentAmount: amount);
+    notifyListeners();
+  }
+
+  void setAutomaticFirstDueDate(String dueDate) {
+    state = state.copyWith(automaticFirstDueDate: dueDate);
+    notifyListeners();
+  }
+
+  bool generateAutomaticInstallments() {
+    final generated = _buildAutomaticInstallments();
+
+    if (generated.isEmpty) {
+      return false;
+    }
+
+    _setInstallments(generated);
+    return true;
+  }
+
+  List<InstallmentModel> _buildAutomaticInstallments() {
+    if (state.automaticInstallments <= 0 ||
+        state.automaticInstallmentAmount <= 0 ||
+        state.automaticFirstDueDate.isEmpty) {
+      return [];
+    }
+
+    DateTime firstDueDate;
+    try {
+      firstDueDate = DateFormat('dd/MM/yyyy').parse(state.automaticFirstDueDate);
+    } catch (_) {
+      return [];
+    }
+
+    return List.generate(state.automaticInstallments, (index) {
+      final dueDate = DateTime(
+        firstDueDate.year,
+        firstDueDate.month + index,
+        firstDueDate.day,
+      );
+
+      return InstallmentModel(
+        amount: state.automaticInstallmentAmount,
+        dueDate: DateFormat('dd/MM/yyyy').format(dueDate),
+        sequence: index + 1,
+      );
+    });
+  }
+
+  void _setInstallments(List<InstallmentModel> installments) {
+    state = state.copyWith(installments: installments);
     notifyListeners();
   }
 
@@ -83,17 +147,14 @@ class FormAccountsReceivableStore extends ChangeNotifier {
 
   Future<void> save() async {
     try {
-      final session = await AuthPersistence().restore();
       state = state.copyWith(
         makeRequest: true,
-        churchId: session.churchId,
       );
       notifyListeners();
 
       await service.sendAccountsReceivable(state.toJson());
 
       state = FormAccountsReceivableState.init();
-      state = state.copyWith(makeRequest: false);
       notifyListeners();
     } catch (e) {
       print("ERROR: $e");
