@@ -1,5 +1,7 @@
 import 'package:church_finance_bk/settings/financial_concept/models/financial_concept_model.dart';
 
+import 'finance_record_model.dart';
+
 class AvailabilityAccount {
   final String availabilityAccountId;
   final String accountName;
@@ -42,6 +44,7 @@ class FinanceRecordListModel {
   final String? voucher;
   final AvailabilityAccount availabilityAccount;
   final CostCenter? costCenter;
+  final FinancialRecordStatus? status;
 
   FinanceRecordListModel({
     this.voucher,
@@ -54,6 +57,7 @@ class FinanceRecordListModel {
     required this.description,
     required this.type,
     required this.availabilityAccount,
+    required this.status,
   });
 
   factory FinanceRecordListModel.fromJson(Map<String, dynamic> json) {
@@ -75,6 +79,10 @@ class FinanceRecordListModel {
       costCenter:
           json['costCenter'] != null
               ? CostCenter.fromJson(json['costCenter'])
+              : null,
+      status:
+          json['status'] != null
+              ? FinancialRecordStatusExtension.fromApiValue(json['status'])
               : null,
     );
   }

@@ -37,11 +37,7 @@ class AccountsPayableListScreen extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.centerRight,
-            child: Row(
-              children: [
-                _newRecord(context),
-              ],
-            ),
+            child: Row(children: [_newRecord(context)]),
           ),
         ],
       );
@@ -60,9 +56,7 @@ class AccountsPayableListScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        Row(
-          children: [Expanded(child: _newRecord(context))],
-        ),
+        Row(children: [Expanded(child: _newRecord(context))]),
         const SizedBox(height: 16),
       ],
     );
@@ -70,9 +64,10 @@ class AccountsPayableListScreen extends StatelessWidget {
 
   Widget _newRecord(BuildContext context) {
     return ButtonActionTable(
-        color: AppColors.purple,
-        text: "Registrar",
-        onPressed: () => GoRouter.of(context).go('/accounts-payable/add'),
-        icon: Icons.add_chart);
+      color: AppColors.purple,
+      text: "Registrar Contas a pagar",
+      onPressed: () => GoRouter.of(context).go('/accounts-payable/add'),
+      icon: Icons.add_chart,
+    );
   }
 }
