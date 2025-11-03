@@ -60,16 +60,55 @@ class FormAccountsReceivableStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addInstallment(InstallmentModel installment) {
-    final updated = [...state.installments, installment];
-    _setInstallments(updated);
+  void setPaymentMode(AccountsReceivablePaymentMode paymentMode) {
+    if (paymentMode == state.paymentMode) {
+      return;
+    }
+
+    switch (paymentMode) {
+      case AccountsReceivablePaymentMode.single:
+        state = state.copyWith(
+          paymentMode: paymentMode,
+          installments: const <InstallmentModel>[],
+          totalAmount: 0,
+          singleDueDate: '',
+          automaticInstallments: 0,
+          automaticInstallmentAmount: 0,
+          automaticFirstDueDate: '',
+        );
+        _updateSingleInstallment();
+        break;
+      case AccountsReceivablePaymentMode.automatic:
+        state = state.copyWith(
+          paymentMode: paymentMode,
+          installments: const <InstallmentModel>[],
+          totalAmount: 0,
+          singleDueDate: '',
+          automaticInstallments: 0,
+          automaticInstallmentAmount: 0,
+          automaticFirstDueDate: '',
+        );
+        notifyListeners();
+        break;
+    }
   }
 
-  void removeInstallment(int index) {
-    final List<InstallmentModel> updatedInstallments = [...state.installments];
-    updatedInstallments.removeAt(index);
-    state = state.copyWith(installments: updatedInstallments);
-    notifyListeners();
+  void setTotalAmount(double amount) {
+    if (amount == state.totalAmount) {
+      return;
+    }
+
+    state = state.copyWith(totalAmount: amount);
+    _updateSingleInstallment();
+  }
+
+  void setSingleDueDate(String dueDate) {
+    if (dueDate == state.singleDueDate) {
+      return;
+    }
+
+    state = state.copyWith(singleDueDate: dueDate);
+    _updateSingleInstallment();
   }
 
   void setAutomaticInstallments(int count) {
@@ -127,8 +166,44 @@ class FormAccountsReceivableStore extends ChangeNotifier {
     });
   }
 
-  void _setInstallments(List<InstallmentModel> installments) {
-    state = state.copyWith(installments: installments);
+  void _setInstallments(List<InstallmentModel> installments, {bool notify = true}) {
+    final total = installments.fold<double>(0, (sum, installment) {
+      return sum + installment.amount;
+    });
+
+    final nextState = state.copyWith(
+      installments: installments,
+      totalAmount: state.paymentMode == AccountsReceivablePaymentMode.automatic
+          ? total
+          : state.totalAmount,
+    );
+
+    state = nextState;
+
+    if (notify) {
+      notifyListeners();
+    }
+  }
+
+  void _updateSingleInstallment() {
+    if (state.paymentMode != AccountsReceivablePaymentMode.single) {
+      return;
+    }
+
+    if (state.totalAmount > 0 && state.singleDueDate.isNotEmpty) {
+      _setInstallments(
+        [
+          InstallmentModel(
+            amount: state.totalAmount,
+            dueDate: state.singleDueDate,
+          ),
+        ],
+        notify: false,
+      );
+    } else {
+      _setInstallments(const <InstallmentModel>[], notify: false);
+    }
+
     notifyListeners();
   }
 
@@ -147,12 +222,11 @@ class FormAccountsReceivableStore extends ChangeNotifier {
 
   Future<void> save() async {
     try {
-      state = state.copyWith(
-        makeRequest: true,
-      );
+      final preparedState = _prepareStateForSubmission();
+      state = preparedState.copyWith(makeRequest: true);
       notifyListeners();
 
-      await service.sendAccountsReceivable(state.toJson());
+      await service.sendAccountsReceivable(preparedState.toJson());
 
       state = FormAccountsReceivableState.init();
       notifyListeners();
@@ -162,5 +236,35 @@ class FormAccountsReceivableStore extends ChangeNotifier {
       notifyListeners();
       rethrow;
     }
+  }
+
+  FormAccountsReceivableState _prepareStateForSubmission() {
+    var currentState = state;
+
+    if (currentState.paymentMode == AccountsReceivablePaymentMode.single) {
+      if (currentState.totalAmount > 0 &&
+          currentState.singleDueDate.isNotEmpty) {
+        final installment = InstallmentModel(
+          amount: currentState.totalAmount,
+          dueDate: currentState.singleDueDate,
+        );
+        currentState = currentState.copyWith(installments: [installment]);
+      }
+    }
+
+    if (currentState.paymentMode == AccountsReceivablePaymentMode.automatic &&
+        currentState.installments.isEmpty) {
+      final generated = _buildAutomaticInstallments();
+      final total = generated.fold<double>(
+        0,
+        (sum, installment) => sum + installment.amount,
+      );
+      currentState = currentState.copyWith(
+        installments: generated,
+        totalAmount: total,
+      );
+    }
+
+    return currentState;
   }
 }
