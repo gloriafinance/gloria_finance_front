@@ -12,7 +12,7 @@ class SupplierService extends AppHttp {
 
     try {
       await http.post(
-        '${await getUrlApi()}suppliers',
+        '${await getUrlApi()}account-payable/supplier',
         data: jsonForm,
         options: Options(headers: bearerToken()),
       );

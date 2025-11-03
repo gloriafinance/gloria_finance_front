@@ -15,7 +15,7 @@ class ListSuppliersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SuppliersListStore(),
+      create: (_) => SuppliersListStore()..searchSuppliers(),
       child: LayoutDashboard(
         Builder(builder: (context) => _header(context)),
         screen: SuppliersTable(),
