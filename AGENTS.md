@@ -1,74 +1,145 @@
-# Guía de arquitectura y prácticas de `church_finance_front`
+# 🧭 Guía de Arquitectura y Prácticas de `church_finance_front`
 
-> Este documento aplica a todo el repositorio. Resume la arquitectura vigente y añade **instrucciones operativas para cualquier agente** que modifique el proyecto.
+> Este documento aplica a todo el repositorio. Resume la arquitectura vigente y define **reglas operativas y técnicas**
+> para cualquier agente o colaborador que modifique el proyecto.
 
-## TL;DR para agentes
-- Respeta la separación `service` (infraestructura) / `store` (estado) / `widget` (UI) de cada feature.
-- Al tocar `lib/`, acompaña los cambios con tests en `test/` si existe lógica nueva o corrección de bugs.
-- Reutiliza las utilidades de `core/` (HTTP, rutas, widgets) en vez de duplicar código.
-- Incluye en la respuesta final un resumen por archivo y las pruebas ejecutadas.
-- Las cadenas visibles para usuarios deben pasar por los helpers de formato o localización existentes.
+---
+
+## ⚡ TL;DR para agentes
+
+- Respeta la estructura `service` (infraestructura) / `store` (estado) / `widget` (UI) en cada *feature*.
+- Todo cambio en `lib/` debe ir acompañado de pruebas en `test/` si agrega lógica o corrige bugs.
+- Reutiliza utilidades existentes en `core/` (HTTP, rutas, widgets, helpers) antes de crear duplicados.
+- Mantén la **coherencia total con el backend** [
+  `church_finance_api`](https://github.com/abejarano/church_finance_api):  
+  al mapear campos o modelos, **valida siempre las claves y estructuras** contra el backend.
+- Las cadenas visibles para el usuario deben pasar por los helpers de localización y formato existentes.
+- En la respuesta final, incluye resumen por archivo modificado, comandos ejecutados y pruebas realizadas.
+
+---
 
 ## 1. Visión general del proyecto
-- Aplicación Flutter organizada por *features* (`auth/`, `finance/`, `providers/`, `settings/`, etc.) y soportada por un módulo `core/` con utilidades compartidas.
-- Navegación declarativa gestionada con `go_router` desde `lib/core/router.dart`, ensamblando rutas de cada feature mediante funciones `...Router()` dedicadas.
-- `main.dart` inicializa un `MultiProvider` que inyecta *stores* compartidos (p. ej. `AuthSessionStore`, `FinancialConceptStore`) siguiendo el patrón *Service Locator* ligero vía `StoreManager` singleton.
+
+- Aplicación **Flutter modularizada por features** (`auth/`, `finance/`, `providers/`, `settings/`, etc.).
+- Módulo `core/` provee utilidades globales (tema, HTTP, router, layout, paginación, widgets).
+- Navegación declarativa mediante `go_router` (`lib/core/router.dart`), ensamblada dinámicamente con funciones
+  `...Router()`.
+- `main.dart` inicializa un `MultiProvider` con *stores* compartidos (p. ej. `AuthSessionStore`,
+  `FinancialConceptStore`) usando el patrón **Service Locator** a través de `StoreManager`.
+
+---
 
 ## 2. Mapa de carpetas
-- `lib/core/`: layout base, tema, router, cliente HTTP (`AppHttp`), widgets reutilizables y paginación.
-- `lib/finance/`: submódulos financieros (cuentas por pagar/cobrar, contribuciones, compromisos) con modelos, servicios y stores propios.
-- `lib/providers/`: catálogo de proveedores con rutas específicas (`providerRouter`) y servicios como `SupplierService`.
-- `lib/settings/`: configuración de catálogos auxiliares (bancos, centros de costo, conceptos financieros).
-- `lib/helpers/`: funciones puras para formato de fecha (`date_formatter.dart`), selección de rangos, etc.
-- `test/`: pruebas de widgets y stores; agregar nuevas suites al reflejar lógica de negocio.
+
+| Ruta             | Propósito                                                                               |
+|------------------|-----------------------------------------------------------------------------------------|
+| `lib/core/`      | Router, layout, tema, cliente HTTP (`AppHttp`), widgets globales y paginación           |
+| `lib/finance/`   | Módulos financieros (cuentas por pagar/cobrar, contribuciones, compromisos)             |
+| `lib/providers/` | Catálogo de proveedores, con router propio y `SupplierService`                          |
+| `lib/settings/`  | Configuración de catálogos auxiliares (bancos, centros de costo, conceptos financieros) |
+| `lib/helpers/`   | Funciones puras: formato de fechas, rangos, transformaciones                            |
+| `test/`          | Pruebas unitarias y de widgets para lógica de negocio y UI                              |
+
+---
 
 ## 3. Buenas prácticas implementadas
-- **Inyección de dependencias vía Provider:** uso consistente de `ChangeNotifierProvider`/`MultiProvider` para exponer estado reactivo a la UI (`lib/main.dart`).
-- **Gestión de errores HTTP centralizada:** clase base `AppHttp` concentra configuración de `Dio`, encabezados y transformación de errores con `Toast.showMessage`, reduciendo duplicación en los servicios (`lib/core/app_http.dart`).
-- **Serialización tipada:** modelos usan `factory` constructors y `toJson()` para mapear datos (`lib/providers/models/supplier_model.dart`, `lib/finance/models/installment_model.dart`).
-- **Extensiones semánticas:** `enum`  `extension` aportan nombres amigables y valores de API (`AccountsPayableStatusExtension`, `SupplierTypeExtension`).
-- **Componentización de UI:** widgets reutilizables en `lib/core/widgets/` y `lib/finance/widgets/` (por ejemplo `ContentViewer`) encapsulan lógica visual y uso de librerías como `url_launcher`.
-- **Utilidades compartidas:** helpers como `convertDateFormatToDDMMYYYY` centralizan transformaciones de fecha (`lib/helpers/date_formatter.dart`).
-- **Paginación genérica:** `PaginateResponse<T>` implementa un contenedor genérico reutilizable para listar datos paginados (`lib/core/paginate/paginate_response.dart`).
+
+- **Inyección de dependencias:** `ChangeNotifierProvider` / `MultiProvider` exponen estado reactivo en toda la app.
+- **Gestión de errores centralizada:** `AppHttp` maneja encabezados, autenticación, errores y `Toast.showMessage`.
+- **Serialización tipada:** todos los modelos usan `factory fromJson()` y `toJson()`.
+- **Extensiones semánticas:** las `enum` poseen extensiones para traducción y etiquetas legibles (
+  `AccountsPayableStatusExtension`).
+- **Componentización:** widgets modulares en `core/widgets/` o en `feature/widgets/` encapsulan lógica visual
+  reutilizable.
+- **Paginación genérica:** `PaginateResponse<T>` implementa contenedor de datos reutilizable para listados grandes.
+- **Formateo y helpers:** funciones en `helpers/` garantizan consistencia de formatos (fechas, máscaras, strings).
+
+---
 
 ## 4. Patrones de diseño y gestión de estado
-- **Patrón Service  Store:** cada feature expone servicios HTTP (infraestructura) que heredan de `AppHttp` y *stores* `ChangeNotifier` para orquestar la UI (`PaymentCommitmentStore`).
-- **Singleton controlado:** `StoreManager` concentra instancias largas con un constructor privado y acceso estático.
-- **Builder pattern en rutas:** funciones que devuelven `List<RouteBase>` permiten componer rutas modularmente (`providerRouter`, `authRouters`, `financialRouter`).
+
+- **Patrón Service–Store:** separación clara entre acceso a datos (`Service`) y orquestación/UI (`Store`).
+- **Singleton controlado:** `StoreManager` centraliza instancias persistentes de stores.
+- **Builder Pattern en rutas:** funciones `...Router()` devuelven `List<RouteBase>` para modularidad en la navegación.
+- **Flujo de datos reactivo:** stores notifican cambios a la UI vía `notifyListeners()`.
+
+---
 
 ## 5. Convenciones de código
-- Directorios en *snake_case* y archivos `.dart` en minúsculas, alineados con las guías oficiales de Flutter.
-- Clases, enums y widgets en `PascalCase`; métodos, variables y propiedades en `camelCase`.
-- Sufijos semánticos: `...Service` para capa de datos, `...Store` para administradores de estado, `...Model` para entidades.
-- Mantén los widgets junto a su feature (`finance/widgets/`, `providers/pages/...`) y utiliza `core/widgets/` solo para componentes verdaderamente globales.
 
-## 6. Desacoplamiento infraestructura vs. dominio
-- **Infraestructura:**
-  - `core/app_http.dart` gestiona clientes HTTP y URLs (incluye distinción `kReleaseMode` para endpoints prod/dev).
-  - Servicios de features (`accounts_payable_service.dart`, `supplier_service.dart`) solo se encargan de llamadas REST y manejo de tokens.
-     - **Dominio/UI:**
-  - Modelos (`AccountsPayableModel`, `InstallmentModel`, `SupplierModel`) encapsulan reglas de negocio ligeras (formatos, conteos).
-  - Stores (`PaymentCommitmentStore`) mantienen estado de UI y orquestan servicios sin conocer detalles de red.
-  - Widgets presentan datos formateados sin depender de `Dio` u otros detalles de infraestructura.
+- Directorios en `snake_case` y archivos `.dart` en minúsculas.
+- Clases, enums y widgets en `PascalCase`; variables, métodos y propiedades en `camelCase`.
+- Sufijos semánticos:
+    - `...Service` → capa de infraestructura
+    - `...Store` → gestor de estado
+    - `...Model` → entidad o DTO
+- Widgets de UI van en el módulo correspondiente; usa `core/widgets/` solo para componentes globales.
+
+---
+
+## 6. Desacoplamiento infraestructura / dominio
+
+### Infraestructura (`service`)
+
+- `core/app_http.dart` define el cliente HTTP (`Dio`) con manejo de entornos (`kReleaseMode`).
+- Los `...Service` de cada módulo (ej. `accounts_payable_service.dart`) implementan REST calls y gestión de tokens.
+
+### Dominio y UI (`store`, `model`, `widget`)
+
+- Modelos (`AccountsPayableModel`, `SupplierModel`) encapsulan validaciones y formateos.
+- Stores (`PaymentCommitmentStore`) mantienen estado y coordinan llamadas de servicio.
+- Widgets muestran datos formateados sin conocer la capa HTTP.
+
+> 🔗 **Importante:** Todos los modelos y servicios deben mantener correspondencia exacta con los endpoints y DTOs
+> definidos en [`church_finance_api`](https://github.com/abejarano/church_finance_api).  
+> Antes de modificar o agregar campos, **valida en el backend los
+contratos (`src/AccountsReceivable`, `src/AccountsPayable`, etc.)** para evitar inconsistencias de mapeo.
+
+---
 
 ## 7. División de responsabilidades
-- `auth/`: pantallas y stores relacionados con autenticación y sesión (`AuthSessionStore`).
-- `core/`: utilidades compartidas (tema, layout, navegación, HTTP, paginación, widgets comunes).
-- `finance/`: módulos financieros (cuentas por pagar/cobrar, contribuciones, compromisos de pago, reportes) cada uno con modelos, servicios y widgets especializados.
-- `providers/`: gestión de proveedores; incluye router propio, modelos (`SupplierModel`) y servicios (`SupplierService`).
-- `settings/`: administración de catálogos auxiliares (bancos, centros de costo, conceptos financieros) con sus respectivos stores.
-- `helpers/`: funciones puras para formato/selección de fechas.
 
-## 8. Recomendaciones para futuras contribuciones
-- Mantener la separación `service` / `store` / `widget` dentro de cada feature y documentar dependencias cruzadas.
-- Reutilizar `AppHttp` para nuevos servicios HTTP y registrar cualquier mensaje de error mediante `transformResponse` para feedback consistente al usuario.
-- Declarar nuevas rutas dentro de la función `...Router()` correspondiente y agregarlas al ensamblador en `core/router.dart`.
-- Preferir extensiones sobre enums para mapear valores de API y etiquetas amigables.
-- Centralizar helpers o constantes compartidas en `core/` o `helpers/` para evitar duplicación.
+| Módulo       | Función principal                                            |
+|--------------|--------------------------------------------------------------|
+| `auth/`      | Autenticación y sesión (`AuthSessionStore`)                  |
+| `core/`      | Tema, layout, navegación, widgets globales, paginación, HTTP |
+| `finance/`   | Gestión de cuentas, contribuciones, compromisos, reportes    |
+| `providers/` | CRUD de proveedores y servicios REST asociados               |
+| `settings/`  | Catálogos auxiliares: bancos, centros de costo, conceptos    |
+| `helpers/`   | Funciones puras, sin dependencias de UI                      |
+
+---
+
+## 8. Recomendaciones para contribuciones futuras
+
+- Mantén la separación `service` / `store` / `widget` en cada módulo.
+- **Explora el backend** (`church_finance_api`) antes de crear o modificar modelos para asegurar correspondencia.
+- Usa `AppHttp` y sus métodos (`get`, `post`, `transformResponse`) para consistencia en el manejo de errores.
+- Nuevas rutas deben definirse en el `...Router()` del módulo y agregarse al ensamblador de `core/router.dart`.
+- Prefiere **extensiones sobre enums** para valores API ↔ etiquetas amigables.
+- Centraliza helpers compartidos en `core/` o `helpers/` antes de crear nuevas utilidades.
+
+---
 
 ## 9. Reglas adicionales para agentes
-- No introduces capturas de `try/catch` alrededor de imports.
-- Mantén los `ChangeNotifier` ligeros: delega la lógica pesada a servicios o helpers.
-- Si modificas estilos o UI visibles en la web, adjunta captura al entregar el cambio.
-- Ejecuta `flutter test` cuando añadas o modifiques lógica crítica; si no es viable, explica la razón en la respuesta final.
-- Describe en las respuestas los comandos ejecutados usando el formato requerido por el repositorio.
+
+- 🚫 No añadas `try/catch` alrededor de imports.
+- ⚖️ Mantén `ChangeNotifier` livianos; la lógica de negocio va en servicios o helpers.
+- 🖼️ Si cambias estilos o UI visibles, incluye **captura de pantalla** del resultado.
+- 🧪 Ejecuta `flutter test` para validar nueva lógica o correcciones críticas.
+    - Si no es posible, explica el motivo en la respuesta.
+- 🧾 Incluye en la salida final:
+    1. Archivos modificados
+    2. Comandos ejecutados
+    3. Resultados de tests
+    4. Notas sobre compatibilidad con el backend
+
+---
+
+## ✅ Ejemplo de flujo correcto
+
+1. Revisar modelo en `church_finance_api` → confirmar estructura JSON esperada.
+2. Actualizar `...Model` y `...Service` para mapear los campos correctamente.
+3. Verificar que el store usa los nombres de propiedades alineados con backend.
+4. Probar en entorno local (`flutter run`) y ejecutar `flutter test`.
+5. Adjuntar resumen + evidencias visuales si aplica.
