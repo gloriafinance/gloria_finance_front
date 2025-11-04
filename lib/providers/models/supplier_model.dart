@@ -87,8 +87,8 @@ class SupplierModel {
 
   SupplierModel.fromMap(Map<String, dynamic> json)
     : supplierId = json['supplierId'],
-      type = json['supplierType'],
-      dni = json['supplierDNI'],
+      type = json['type'],
+      dni = json['dni'],
       name = json['name'],
       address =
           json['address'] != null
