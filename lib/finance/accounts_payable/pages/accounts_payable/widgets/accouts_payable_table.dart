@@ -24,9 +24,10 @@ class _AccountsPayableTableState extends State<AccountsPayableTable> {
 
     if (state.makeRequest) {
       return Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.only(top: 40.0),
-          child: CircularProgressIndicator());
+        alignment: Alignment.center,
+        margin: const EdgeInsets.only(top: 40.0),
+        child: CircularProgressIndicator(),
+      );
     }
 
     if (state.paginate.results.isEmpty) {
@@ -44,17 +45,19 @@ class _AccountsPayableTableState extends State<AccountsPayableTable> {
         "Pago",
         "Pendente",
         "Total a pagar",
-        "Status"
+        "Status",
       ],
       data: FactoryDataTable<AccountsPayableModel>(
-          data: state.paginate.results, dataBuilder: accountsPayableDTO),
+        data: state.paginate.results,
+        dataBuilder: accountsPayableDTO,
+      ),
       actionBuilders: [
         (accountPayable) => ButtonActionTable(
-              color: AppColors.blue,
-              text: "Visualizar",
-              onPressed: () => _openDetail(context, accountPayable),
-              icon: Icons.remove_red_eye_sharp,
-            ),
+          color: AppColors.blue,
+          text: "Visualizar",
+          onPressed: () => _openDetail(context, accountPayable),
+          icon: Icons.remove_red_eye_sharp,
+        ),
       ],
     );
   }
@@ -63,16 +66,17 @@ class _AccountsPayableTableState extends State<AccountsPayableTable> {
     context.go('/account-payable/view', extra: accountPayable);
   }
 
-  List<dynamic> accountsPayableDTO(
-    dynamic accountsPayable,
-  ) {
+  List<dynamic> accountsPayableDTO(dynamic accountsPayable) {
+    final supplierName =
+        accountsPayable.supplier?.name ?? accountsPayable.supplierName ?? '-';
+
     return [
-      accountsPayable.supplier.name,
+      supplierName,
       accountsPayable.description,
       accountsPayable.countsInstallments().toString(),
-      CurrencyFormatter.formatCurrency(accountsPayable.amountPaid),
-      CurrencyFormatter.formatCurrency(accountsPayable.amountPending),
-      CurrencyFormatter.formatCurrency(accountsPayable.amountTotal),
+      CurrencyFormatter.formatCurrency(accountsPayable.amountPaid ?? 0),
+      CurrencyFormatter.formatCurrency(accountsPayable.amountPending ?? 0),
+      CurrencyFormatter.formatCurrency(accountsPayable.amountTotal ?? 0),
       tagStatus(
         getStatusColor(accountsPayable.status ?? ''),
         accountsPayable.statusLabel,

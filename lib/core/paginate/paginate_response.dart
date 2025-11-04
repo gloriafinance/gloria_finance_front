@@ -15,9 +15,13 @@ class PaginateResponse<T> {
     return PaginateResponse(nextPag: false, count: 0, results: [], perPage: 10);
   }
 
-  factory PaginateResponse.fromJson(perPage, Map<dynamic, dynamic> json,
-      T Function(Map<String, dynamic>) fromJsonT) {
+  factory PaginateResponse.fromJson(
+    perPage,
+    Map<dynamic, dynamic> json,
+    T Function(Map<String, dynamic>) fromJsonT,
+  ) {
     final List<dynamic> resultsJson = json['results'];
+    print(resultsJson);
     final List<T> results =
         resultsJson.map((result) => fromJsonT(result)).toList();
 
