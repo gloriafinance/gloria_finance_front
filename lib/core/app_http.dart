@@ -23,7 +23,7 @@ class AppHttp {
   }
 
   _urlServer() async {
-    final apiProd = 'https://church-api.jaspesoft.com/api/';
+    final apiProd = 'https://api.gloriafinance.com/api/';
     //final apiDev = 'https://church-api.abejarano.dev/api/';
     final apiDev = 'http://localhost:5200/api/';
 
