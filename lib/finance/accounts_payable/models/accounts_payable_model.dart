@@ -14,6 +14,43 @@ DateTime? _parseIsoDate(dynamic value) {
   return DateTime.tryParse(stringValue);
 }
 
+Map<String, dynamic>? _mapOrNull(dynamic value) {
+  if (value is Map) {
+    return Map<String, dynamic>.from(value as Map);
+  }
+  return null;
+}
+
+String? _stringOrNull(dynamic value) {
+  if (value == null) return null;
+  final stringValue = value.toString();
+  if (stringValue.isEmpty || stringValue == 'null') {
+    return null;
+  }
+  return stringValue;
+}
+
+String _stringOrEmpty(dynamic value) {
+  return _stringOrNull(value) ?? '';
+}
+
+double _parseAmount(dynamic value) {
+  if (value == null) return 0.0;
+  return double.tryParse(value.toString()) ?? 0.0;
+}
+
+bool? _parseNullableBool(dynamic value) {
+  if (value == null) return null;
+  if (value is bool) return value;
+  if (value is num) return value != 0;
+  if (value is String) {
+    final normalized = value.toLowerCase();
+    if (normalized == 'true') return true;
+    if (normalized == 'false') return false;
+  }
+  return null;
+}
+
 class AccountsPayableDocument {
   final AccountsPayableDocumentType type;
   final String number;
@@ -52,10 +89,7 @@ class AccountsPayableSinglePayment {
   final double amount;
   final DateTime? dueDate;
 
-  const AccountsPayableSinglePayment({
-    required this.amount,
-    this.dueDate,
-  });
+  const AccountsPayableSinglePayment({required this.amount, this.dueDate});
 
   factory AccountsPayableSinglePayment.fromJson(Map<String, dynamic> json) {
     return AccountsPayableSinglePayment(
@@ -90,23 +124,30 @@ class AccountsPayableManualPayment {
     final installmentsJson = (json['installments'] as List<dynamic>?) ?? [];
     return AccountsPayableManualPayment(
       totalAmount: double.parse(json['totalAmount'].toString()),
-      installments: installmentsJson
-          .map((entry) => InstallmentModel.fromJson(
-              Map<String, dynamic>.from(entry as Map)))
-          .toList(),
+      installments:
+          installmentsJson
+              .map(
+                (entry) => InstallmentModel.fromJson(
+                  Map<String, dynamic>.from(entry as Map),
+                ),
+              )
+              .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'totalAmount': totalAmount,
-      'installments': installments
-          .map((installment) => {
-                'sequence': installment.sequence,
-                'amount': installment.amount,
-                'dueDate': installment.dueDate,
-              })
-          .toList(),
+      'installments':
+          installments
+              .map(
+                (installment) => {
+                  'sequence': installment.sequence,
+                  'amount': installment.amount,
+                  'dueDate': installment.dueDate,
+                },
+              )
+              .toList(),
     };
   }
 }
@@ -130,14 +171,19 @@ class AccountsPayableAutomaticPayment {
     final installmentsJson = (json['installments'] as List<dynamic>?) ?? [];
     return AccountsPayableAutomaticPayment(
       installmentsCount: int.parse(json['installmentsCount'].toString()),
-      amountPerInstallment:
-          double.parse(json['amountPerInstallment'].toString()),
+      amountPerInstallment: double.parse(
+        json['amountPerInstallment'].toString(),
+      ),
       firstDueDate: _parseIsoDate(json['firstDueDate']),
       totalAmount: double.parse(json['totalAmount'].toString()),
-      installments: installmentsJson
-          .map((entry) => InstallmentModel.fromJson(
-              Map<String, dynamic>.from(entry as Map)))
-          .toList(),
+      installments:
+          installmentsJson
+              .map(
+                (entry) => InstallmentModel.fromJson(
+                  Map<String, dynamic>.from(entry as Map),
+                ),
+              )
+              .toList(),
     );
   }
 
@@ -147,13 +193,16 @@ class AccountsPayableAutomaticPayment {
       'amountPerInstallment': amountPerInstallment,
       if (firstDueDate != null) 'firstDueDate': firstDueDate!.toIso8601String(),
       'totalAmount': totalAmount,
-      'installments': installments
-          .map((installment) => {
-                'sequence': installment.sequence,
-                'amount': installment.amount,
-                'dueDate': installment.dueDate,
-              })
-          .toList(),
+      'installments':
+          installments
+              .map(
+                (installment) => {
+                  'sequence': installment.sequence,
+                  'amount': installment.amount,
+                  'dueDate': installment.dueDate,
+                },
+              )
+              .toList(),
     };
   }
 
@@ -177,7 +226,8 @@ class AccountsPayablePayment {
   });
 
   factory AccountsPayablePayment.fromJson(Map<String, dynamic> json) {
-    final mode = AccountsPayablePaymentMode.fromApi(json['mode'] as String?) ??
+    final mode =
+        AccountsPayablePaymentMode.fromApi(json['mode'] as String?) ??
         AccountsPayablePaymentMode.single;
 
     AccountsPayableSinglePayment? single;
@@ -186,18 +236,21 @@ class AccountsPayablePayment {
 
     if (mode == AccountsPayablePaymentMode.single && json['single'] is Map) {
       single = AccountsPayableSinglePayment.fromJson(
-          Map<String, dynamic>.from(json['single'] as Map));
+        Map<String, dynamic>.from(json['single'] as Map),
+      );
     }
 
     if (mode == AccountsPayablePaymentMode.manual && json['manual'] is Map) {
       manual = AccountsPayableManualPayment.fromJson(
-          Map<String, dynamic>.from(json['manual'] as Map));
+        Map<String, dynamic>.from(json['manual'] as Map),
+      );
     }
 
     if (mode == AccountsPayablePaymentMode.automatic &&
         json['automatic'] is Map) {
       automatic = AccountsPayableAutomaticPayment.fromJson(
-          Map<String, dynamic>.from(json['automatic'] as Map));
+        Map<String, dynamic>.from(json['automatic'] as Map),
+      );
     }
 
     return AccountsPayablePayment(
@@ -233,13 +286,7 @@ class AccountsPayablePayment {
   }
 }
 
-enum AccountsPayableStatus {
-  PENDING,
-  PAID,
-  PARTIAL,
-  OVERDUE,
-  CANCELLED,
-}
+enum AccountsPayableStatus { PENDING, PAID, PARTIAL, OVERDUE, CANCELLED }
 
 extension AccountsPayableStatusExtension on AccountsPayableStatus {
   String get friendlyName {
@@ -311,6 +358,7 @@ class AccountsPayableModel {
   final double? amountPaid;
   final double? amountPending;
   final double? amountTotal;
+  final double taxAmountTotal;
   final String? status;
   final DateTime? updatedAt;
   final SupplierModel? supplier;
@@ -330,6 +378,7 @@ class AccountsPayableModel {
     this.amountPaid,
     this.amountPending,
     this.amountTotal,
+    this.taxAmountTotal = 0.0,
     this.status,
     this.updatedAt,
     this.supplier,
@@ -340,52 +389,69 @@ class AccountsPayableModel {
   });
 
   factory AccountsPayableModel.fromJson(Map<String, dynamic> json) {
+    final supplierJson = _mapOrNull(json['supplier']);
+    final documentJson = _mapOrNull(json['taxDocument'] ?? json['document']);
+    final paymentJson = _mapOrNull(json['payment']);
+    final taxMetadataJson = _mapOrNull(json['taxMetadata']);
+    final status = _stringOrNull(json['status']);
+    final parsedIsPaid = _parseNullableBool(json['isPaid']);
+    final statusEnum = AccountsPayableStatusExtension.fromApi(status);
+
     return AccountsPayableModel(
-      accountPayableId: json['accountPayableId'],
-      supplierId: json['supplierId']?.toString() ?? '',
-      description: json['description'] ?? '',
-      installments: (json['installments'] as List<dynamic>?)
-              ?.map((e) => InstallmentModel.fromJson(
-                  Map<String, dynamic>.from(e as Map)))
-              .toList() ??
-          [],
+      accountPayableId: _stringOrNull(json['accountPayableId']),
+      supplierId: _stringOrEmpty(
+        json['supplierId'] ??
+            supplierJson?['supplierId'] ??
+            supplierJson?['id'],
+      ),
+      description: _stringOrEmpty(json['description']),
+      installments:
+          (json['installments'] as List<dynamic>? ?? [])
+              .whereType<Map>()
+              .map(
+                (entry) =>
+                    InstallmentModel.fromJson(Map<String, dynamic>.from(entry)),
+              )
+              .toList(),
       createdAt: _parseIsoDate(json['createdAt']),
-      isPaid: json['isPaid'] ?? true,
-      supplierName: json['supplierName'] ?? '',
-      amountPaid: json['amountPaid'] != null
-          ? double.parse(json['amountPaid'].toString())
-          : 0.0,
-      amountPending: json['amountPending'] != null
-          ? double.parse(json['amountPending'].toString())
-          : 0.0,
-      amountTotal: json['amountTotal'] != null
-          ? double.parse(json['amountTotal'].toString())
-          : 0.0,
-      status: json['status']?.toString(),
+      isPaid:
+          parsedIsPaid ??
+          (statusEnum == null
+              ? null
+              : statusEnum == AccountsPayableStatus.PAID),
+      supplierName:
+          _stringOrNull(json['supplierName']) ??
+          _stringOrNull(supplierJson?['name']) ??
+          '',
+      amountPaid: _parseAmount(json['amountPaid']),
+      amountPending: _parseAmount(json['amountPending']),
+      amountTotal: _parseAmount(json['amountTotal']),
+      taxAmountTotal: _parseAmount(json['taxAmountTotal']),
+      status: status,
       updatedAt: _parseIsoDate(json['updatedAt']),
-      supplier: json['supplier'] != null
-          ? SupplierModel.fromMap(
-              Map<String, dynamic>.from(json['supplier'] as Map))
-          : null,
-      document: (json['taxDocument'] ?? json['document']) != null
-          ? AccountsPayableDocument.fromJson(Map<String, dynamic>.from(
-              (json['taxDocument'] ?? json['document']) as Map))
-          : null,
-      payment: json['payment'] != null
-          ? AccountsPayablePayment.fromJson(
-              Map<String, dynamic>.from(json['payment'] as Map))
-          : null,
-      taxMetadata: json['taxMetadata'] != null
-          ? AccountsPayableTaxMetadata.fromJson(
-              Map<String, dynamic>.from(json['taxMetadata'] as Map))
-          : null,
-      taxes: (json['taxes'] as List<dynamic>? ?? [])
-          .map(
-            (entry) => AccountsPayableTaxLine.fromJson(
-              Map<String, dynamic>.from(entry as Map),
-            ),
-          )
-          .toList(),
+      supplier:
+          supplierJson != null ? SupplierModel.fromMap(supplierJson) : null,
+      document:
+          documentJson != null
+              ? AccountsPayableDocument.fromJson(documentJson)
+              : null,
+      payment:
+          paymentJson != null
+              ? AccountsPayablePayment.fromJson(paymentJson)
+              : null,
+      taxMetadata:
+          taxMetadataJson != null
+              ? AccountsPayableTaxMetadata.fromJson(taxMetadataJson)
+              : null,
+      taxes:
+          (json['taxes'] as List<dynamic>? ?? [])
+              .whereType<Map>()
+              .map(
+                (entry) => AccountsPayableTaxLine.fromJson(
+                  Map<String, dynamic>.from(entry),
+                ),
+              )
+              .toList(),
     );
   }
 
