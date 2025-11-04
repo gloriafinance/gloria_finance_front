@@ -1,4 +1,5 @@
 import '../../../../models/installment_model.dart';
+import '../../../models/accounts_receivable_payment_mode.dart';
 import '../../../models/index.dart';
 
 class FormAccountsReceivableState {
@@ -11,7 +12,13 @@ class FormAccountsReceivableState {
   String debtorPhone;
   String debtorEmail;
   String debtorAddress;
-  String churchId;
+  String financialConceptId;
+  AccountsReceivablePaymentMode paymentMode;
+  double totalAmount;
+  String singleDueDate;
+  int automaticInstallments;
+  double automaticInstallmentAmount;
+  String automaticFirstDueDate;
   List<InstallmentModel> installments;
 
   FormAccountsReceivableState({
@@ -21,11 +28,17 @@ class FormAccountsReceivableState {
     required this.debtorDNI,
     required this.debtorName,
     required this.description,
-    required this.churchId,
     required this.installments,
     required this.debtorPhone,
     required this.debtorEmail,
-    required this.debtorAddress
+    required this.debtorAddress,
+    required this.financialConceptId,
+    required this.paymentMode,
+    required this.totalAmount,
+    required this.singleDueDate,
+    required this.automaticInstallments,
+    required this.automaticInstallmentAmount,
+    required this.automaticFirstDueDate,
   });
 
   factory FormAccountsReceivableState.init() {
@@ -36,11 +49,17 @@ class FormAccountsReceivableState {
       debtorDNI: '',
       debtorName: '',
       description: '',
-      churchId: '',
       installments: [],
       debtorPhone: '',
       debtorEmail: '',
       debtorAddress: '',
+      financialConceptId: '',
+      paymentMode: AccountsReceivablePaymentMode.single,
+      totalAmount: 0,
+      singleDueDate: '',
+      automaticInstallments: 0,
+      automaticInstallmentAmount: 0,
+      automaticFirstDueDate: '',
     );
   }
 
@@ -51,11 +70,17 @@ class FormAccountsReceivableState {
     String? debtorDNI,
     String? debtorName,
     String? description,
-    String? churchId,
     List<InstallmentModel>? installments,
     String? debtorPhone,
     String? debtorEmail,
     String? debtorAddress,
+    String? financialConceptId,
+    AccountsReceivablePaymentMode? paymentMode,
+    double? totalAmount,
+    String? singleDueDate,
+    int? automaticInstallments,
+    double? automaticInstallmentAmount,
+    String? automaticFirstDueDate,
   }) {
     return FormAccountsReceivableState(
       makeRequest: makeRequest ?? this.makeRequest,
@@ -64,28 +89,60 @@ class FormAccountsReceivableState {
       debtorDNI: debtorDNI ?? this.debtorDNI,
       debtorName: debtorName ?? this.debtorName,
       description: description ?? this.description,
-      churchId: churchId ?? this.churchId,
       installments: installments ?? this.installments,
       debtorPhone: debtorPhone ?? this.debtorPhone,
       debtorEmail: debtorEmail ?? this.debtorEmail,
       debtorAddress: debtorAddress ?? this.debtorAddress,
+      financialConceptId: financialConceptId ?? this.financialConceptId,
+      paymentMode: paymentMode ?? this.paymentMode,
+      totalAmount: totalAmount ?? this.totalAmount,
+      singleDueDate: singleDueDate ?? this.singleDueDate,
+      automaticInstallments:
+          automaticInstallments ?? this.automaticInstallments,
+      automaticInstallmentAmount:
+          automaticInstallmentAmount ?? this.automaticInstallmentAmount,
+      automaticFirstDueDate:
+          automaticFirstDueDate ?? this.automaticFirstDueDate,
     );
   }
 
   toJson() {
+    final effectiveInstallments = _resolveInstallments();
+
     return {
       'debtor': {
         'debtorType': debtorType.apiValue,
         'debtorDNI': debtorDNI,
         'name': debtorName,
-        'phone': debtorPhone,
         'email': debtorEmail,
-        'address': debtorAddress,
+        'phone': debtorPhone,
       },
-      'churchId': churchId,
       'description': description,
-      'installments': installments.map((e) => e.toJson()).toList(),
+      'financialConceptId': financialConceptId,
+      'installments':
+          effectiveInstallments.map((e) => e.toJson()).toList(),
       'type': type.apiValue,
     };
+  }
+
+  List<InstallmentModel> _resolveInstallments() {
+    if (paymentMode == AccountsReceivablePaymentMode.single) {
+      if (installments.isNotEmpty) {
+        return installments;
+      }
+
+      if (totalAmount > 0 && singleDueDate.isNotEmpty) {
+        return [
+          InstallmentModel(
+            amount: totalAmount,
+            dueDate: singleDueDate,
+          ),
+        ];
+      }
+
+      return const [];
+    }
+
+    return installments;
   }
 }
