@@ -1,17 +1,53 @@
 import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_tax.dart';
 import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_types.dart';
-import 'package:church_finance_bk/helpers/date_formatter.dart';
 import 'package:church_finance_bk/providers/models/supplier_model.dart';
 
+import '../../../helpers/index.dart';
 import '../../models/installment_model.dart';
 
-DateTime? _parseIsoDate(dynamic value) {
-  if (value == null) return null;
-  final stringValue = value.toString();
-  if (stringValue.isEmpty || stringValue == 'null') {
-    return null;
+enum AccountsPayableStatus { PENDING, PARTIAL, PAID }
+
+extension AccountsPayableStatusExtension on AccountsPayableStatus {
+  String get friendlyName {
+    switch (this) {
+      case AccountsPayableStatus.PENDING:
+        return 'Pendente';
+      case AccountsPayableStatus.PARTIAL:
+        return 'Pagamento parcial';
+      case AccountsPayableStatus.PAID:
+        return 'Pago';
+    }
   }
-  return DateTime.tryParse(stringValue);
+
+  String get apiValue {
+    switch (this) {
+      case AccountsPayableStatus.PENDING:
+        return 'PENDING';
+      case AccountsPayableStatus.PARTIAL:
+        return 'PARTIAL';
+      case AccountsPayableStatus.PAID:
+        return 'PAID';
+    }
+  }
+
+  static AccountsPayableStatus? fromApi(String? value) {
+    if (value == null) return null;
+    switch (value) {
+      case 'PENDING':
+        return AccountsPayableStatus.PENDING;
+      case 'PARTIAL':
+        return AccountsPayableStatus.PARTIAL;
+      case 'PAID':
+        return AccountsPayableStatus.PAID;
+      default:
+        return null;
+    }
+  }
+
+  static String labelFor(String? value) {
+    final status = fromApi(value);
+    return status?.friendlyName ?? 'Status desconhecido';
+  }
 }
 
 class AccountsPayableDocument {
@@ -29,7 +65,7 @@ class AccountsPayableDocument {
     return AccountsPayableDocument(
       type: AccountsPayableDocumentType.fromApi(json['type'] as String?),
       number: json['number']?.toString() ?? '',
-      issueDate: _parseIsoDate(json['date'] ?? json['issueDate']),
+      issueDate: parseIsoDate(json['date']),
     );
   }
 
@@ -48,258 +84,6 @@ class AccountsPayableDocument {
   }
 }
 
-class AccountsPayableSinglePayment {
-  final double amount;
-  final DateTime? dueDate;
-
-  const AccountsPayableSinglePayment({
-    required this.amount,
-    this.dueDate,
-  });
-
-  factory AccountsPayableSinglePayment.fromJson(Map<String, dynamic> json) {
-    return AccountsPayableSinglePayment(
-      amount: double.parse(json['amount'].toString()),
-      dueDate: _parseIsoDate(json['dueDate']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'amount': amount,
-      if (dueDate != null) 'dueDate': dueDate!.toIso8601String(),
-    };
-  }
-
-  String get dueDateFormatted {
-    if (dueDate == null) return '';
-    return convertDateFormatToDDMMYYYY(dueDate!.toIso8601String());
-  }
-}
-
-class AccountsPayableManualPayment {
-  final double totalAmount;
-  final List<InstallmentModel> installments;
-
-  const AccountsPayableManualPayment({
-    required this.totalAmount,
-    required this.installments,
-  });
-
-  factory AccountsPayableManualPayment.fromJson(Map<String, dynamic> json) {
-    final installmentsJson = (json['installments'] as List<dynamic>?) ?? [];
-    return AccountsPayableManualPayment(
-      totalAmount: double.parse(json['totalAmount'].toString()),
-      installments: installmentsJson
-          .map((entry) => InstallmentModel.fromJson(
-              Map<String, dynamic>.from(entry as Map)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'totalAmount': totalAmount,
-      'installments': installments
-          .map((installment) => {
-                'sequence': installment.sequence,
-                'amount': installment.amount,
-                'dueDate': installment.dueDate,
-              })
-          .toList(),
-    };
-  }
-}
-
-class AccountsPayableAutomaticPayment {
-  final int installmentsCount;
-  final double amountPerInstallment;
-  final DateTime? firstDueDate;
-  final double totalAmount;
-  final List<InstallmentModel> installments;
-
-  const AccountsPayableAutomaticPayment({
-    required this.installmentsCount,
-    required this.amountPerInstallment,
-    required this.firstDueDate,
-    required this.totalAmount,
-    required this.installments,
-  });
-
-  factory AccountsPayableAutomaticPayment.fromJson(Map<String, dynamic> json) {
-    final installmentsJson = (json['installments'] as List<dynamic>?) ?? [];
-    return AccountsPayableAutomaticPayment(
-      installmentsCount: int.parse(json['installmentsCount'].toString()),
-      amountPerInstallment:
-          double.parse(json['amountPerInstallment'].toString()),
-      firstDueDate: _parseIsoDate(json['firstDueDate']),
-      totalAmount: double.parse(json['totalAmount'].toString()),
-      installments: installmentsJson
-          .map((entry) => InstallmentModel.fromJson(
-              Map<String, dynamic>.from(entry as Map)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'installmentsCount': installmentsCount,
-      'amountPerInstallment': amountPerInstallment,
-      if (firstDueDate != null) 'firstDueDate': firstDueDate!.toIso8601String(),
-      'totalAmount': totalAmount,
-      'installments': installments
-          .map((installment) => {
-                'sequence': installment.sequence,
-                'amount': installment.amount,
-                'dueDate': installment.dueDate,
-              })
-          .toList(),
-    };
-  }
-
-  String get firstDueDateFormatted {
-    if (firstDueDate == null) return '';
-    return convertDateFormatToDDMMYYYY(firstDueDate!.toIso8601String());
-  }
-}
-
-class AccountsPayablePayment {
-  final AccountsPayablePaymentMode mode;
-  final AccountsPayableSinglePayment? single;
-  final AccountsPayableManualPayment? manual;
-  final AccountsPayableAutomaticPayment? automatic;
-
-  const AccountsPayablePayment({
-    required this.mode,
-    this.single,
-    this.manual,
-    this.automatic,
-  });
-
-  factory AccountsPayablePayment.fromJson(Map<String, dynamic> json) {
-    final mode = AccountsPayablePaymentMode.fromApi(json['mode'] as String?) ??
-        AccountsPayablePaymentMode.single;
-
-    AccountsPayableSinglePayment? single;
-    AccountsPayableManualPayment? manual;
-    AccountsPayableAutomaticPayment? automatic;
-
-    if (mode == AccountsPayablePaymentMode.single && json['single'] is Map) {
-      single = AccountsPayableSinglePayment.fromJson(
-          Map<String, dynamic>.from(json['single'] as Map));
-    }
-
-    if (mode == AccountsPayablePaymentMode.manual && json['manual'] is Map) {
-      manual = AccountsPayableManualPayment.fromJson(
-          Map<String, dynamic>.from(json['manual'] as Map));
-    }
-
-    if (mode == AccountsPayablePaymentMode.automatic &&
-        json['automatic'] is Map) {
-      automatic = AccountsPayableAutomaticPayment.fromJson(
-          Map<String, dynamic>.from(json['automatic'] as Map));
-    }
-
-    return AccountsPayablePayment(
-      mode: mode,
-      single: single,
-      manual: manual,
-      automatic: automatic,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final payload = <String, dynamic>{'mode': mode.apiValue};
-
-    switch (mode) {
-      case AccountsPayablePaymentMode.single:
-        if (single != null) {
-          payload['single'] = single!.toJson();
-        }
-        break;
-      case AccountsPayablePaymentMode.manual:
-        if (manual != null) {
-          payload['manual'] = manual!.toJson();
-        }
-        break;
-      case AccountsPayablePaymentMode.automatic:
-        if (automatic != null) {
-          payload['automatic'] = automatic!.toJson();
-        }
-        break;
-    }
-
-    return payload;
-  }
-}
-
-enum AccountsPayableStatus {
-  PENDING,
-  PAID,
-  PARTIAL,
-  OVERDUE,
-  CANCELLED,
-}
-
-extension AccountsPayableStatusExtension on AccountsPayableStatus {
-  String get friendlyName {
-    switch (this) {
-      case AccountsPayableStatus.PENDING:
-        return 'Pendente';
-      case AccountsPayableStatus.PAID:
-        return 'Pago';
-      case AccountsPayableStatus.PARTIAL:
-        return 'Pagamento parcial';
-      case AccountsPayableStatus.OVERDUE:
-        return 'Em atraso';
-      case AccountsPayableStatus.CANCELLED:
-        return 'Cancelado';
-    }
-  }
-
-  String get apiValue {
-    switch (this) {
-      case AccountsPayableStatus.PENDING:
-        return 'PENDING';
-      case AccountsPayableStatus.PAID:
-        return 'PAID';
-      case AccountsPayableStatus.PARTIAL:
-        return 'PARTIAL';
-      case AccountsPayableStatus.OVERDUE:
-        return 'OVERDUE';
-      case AccountsPayableStatus.CANCELLED:
-        return 'CANCELLED';
-    }
-  }
-
-  static AccountsPayableStatus? fromApi(String? value) {
-    if (value == null) return null;
-    switch (value) {
-      case 'PENDING':
-        return AccountsPayableStatus.PENDING;
-      case 'PAID':
-        return AccountsPayableStatus.PAID;
-      case 'PARTIAL':
-      case 'PARTIAL_PAYMENT':
-      case 'PARTIALLY_PAID':
-        return AccountsPayableStatus.PARTIAL;
-      case 'OVERDUE':
-      case 'LATE':
-        return AccountsPayableStatus.OVERDUE;
-      case 'CANCELLED':
-      case 'CANCELED':
-        return AccountsPayableStatus.CANCELLED;
-      default:
-        return null;
-    }
-  }
-
-  static String labelFor(String? value) {
-    final status = fromApi(value);
-    return status?.friendlyName ?? 'Status desconhecido';
-  }
-}
-
 class AccountsPayableModel {
   final String? accountPayableId;
   final String supplierId;
@@ -311,11 +95,11 @@ class AccountsPayableModel {
   final double? amountPaid;
   final double? amountPending;
   final double? amountTotal;
+  final double taxAmountTotal;
   final String? status;
   final DateTime? updatedAt;
   final SupplierModel? supplier;
   final AccountsPayableDocument? document;
-  final AccountsPayablePayment? payment;
   final AccountsPayableTaxMetadata? taxMetadata;
   final List<AccountsPayableTaxLine> taxes;
 
@@ -330,62 +114,74 @@ class AccountsPayableModel {
     this.amountPaid,
     this.amountPending,
     this.amountTotal,
+    this.taxAmountTotal = 0.0,
     this.status,
     this.updatedAt,
     this.supplier,
     this.document,
-    this.payment,
     this.taxMetadata,
     this.taxes = const [],
   });
 
   factory AccountsPayableModel.fromJson(Map<String, dynamic> json) {
+    final supplierJson = mapOrNull(json['supplier']);
+    final documentJson = mapOrNull(json['taxDocument'] ?? json['document']);
+    final taxMetadataJson = mapOrNull(json['taxMetadata']);
+    final status = stringOrNull(json['status']);
+    final parsedIsPaid = parseNullableBool(json['isPaid']);
+    final statusEnum = AccountsPayableStatusExtension.fromApi(status);
+
     return AccountsPayableModel(
-      accountPayableId: json['accountPayableId'],
-      supplierId: json['supplierId']?.toString() ?? '',
-      description: json['description'] ?? '',
-      installments: (json['installments'] as List<dynamic>?)
-              ?.map((e) => InstallmentModel.fromJson(
-                  Map<String, dynamic>.from(e as Map)))
-              .toList() ??
-          [],
-      createdAt: _parseIsoDate(json['createdAt']),
-      isPaid: json['isPaid'] ?? true,
-      supplierName: json['supplierName'] ?? '',
-      amountPaid: json['amountPaid'] != null
-          ? double.parse(json['amountPaid'].toString())
-          : 0.0,
-      amountPending: json['amountPending'] != null
-          ? double.parse(json['amountPending'].toString())
-          : 0.0,
-      amountTotal: json['amountTotal'] != null
-          ? double.parse(json['amountTotal'].toString())
-          : 0.0,
-      status: json['status']?.toString(),
-      updatedAt: _parseIsoDate(json['updatedAt']),
-      supplier: json['supplier'] != null
-          ? SupplierModel.fromMap(
-              Map<String, dynamic>.from(json['supplier'] as Map))
-          : null,
-      document: (json['taxDocument'] ?? json['document']) != null
-          ? AccountsPayableDocument.fromJson(Map<String, dynamic>.from(
-              (json['taxDocument'] ?? json['document']) as Map))
-          : null,
-      payment: json['payment'] != null
-          ? AccountsPayablePayment.fromJson(
-              Map<String, dynamic>.from(json['payment'] as Map))
-          : null,
-      taxMetadata: json['taxMetadata'] != null
-          ? AccountsPayableTaxMetadata.fromJson(
-              Map<String, dynamic>.from(json['taxMetadata'] as Map))
-          : null,
-      taxes: (json['taxes'] as List<dynamic>? ?? [])
-          .map(
-            (entry) => AccountsPayableTaxLine.fromJson(
-              Map<String, dynamic>.from(entry as Map),
-            ),
-          )
-          .toList(),
+      accountPayableId: stringOrNull(json['accountPayableId']),
+      supplierId: stringOrEmpty(
+        json['supplierId'] ??
+            supplierJson?['supplierId'] ??
+            supplierJson?['id'],
+      ),
+      description: stringOrEmpty(json['description']),
+      installments:
+          (json['installments'] as List<dynamic>? ?? [])
+              .whereType<Map>()
+              .map(
+                (entry) =>
+                    InstallmentModel.fromJson(Map<String, dynamic>.from(entry)),
+              )
+              .toList(),
+      createdAt: parseIsoDate(json['createdAt']),
+      isPaid:
+          parsedIsPaid ??
+          (statusEnum == null
+              ? null
+              : statusEnum == AccountsPayableStatus.PAID),
+      supplierName:
+          stringOrNull(json['supplierName']) ??
+          stringOrNull(supplierJson?['name']) ??
+          '',
+      amountPaid: parseAmount(json['amountPaid']),
+      amountPending: parseAmount(json['amountPending']),
+      amountTotal: parseAmount(json['amountTotal']),
+      taxAmountTotal: parseAmount(json['taxAmountTotal']),
+      status: status,
+      updatedAt: parseIsoDate(json['updatedAt']),
+      supplier:
+          supplierJson != null ? SupplierModel.fromMap(supplierJson) : null,
+      document:
+          documentJson != null
+              ? AccountsPayableDocument.fromJson(documentJson)
+              : null,
+      taxMetadata:
+          taxMetadataJson != null
+              ? AccountsPayableTaxMetadata.fromJson(taxMetadataJson)
+              : null,
+      taxes:
+          (json['taxes'] as List<dynamic>? ?? [])
+              .whereType<Map>()
+              .map(
+                (entry) => AccountsPayableTaxLine.fromJson(
+                  Map<String, dynamic>.from(entry),
+                ),
+              )
+              .toList(),
     );
   }
 
@@ -417,10 +213,6 @@ class AccountsPayableModel {
 
     if (document != null) {
       data['taxDocument'] = document!.toJson();
-    }
-
-    if (payment != null) {
-      data['payment'] = payment!.toJson();
     }
 
     if (taxMetadata != null) {

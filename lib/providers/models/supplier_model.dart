@@ -1,3 +1,29 @@
+String? _readStringOrNull(Map<String, dynamic> json, List<String> keys) {
+  for (final key in keys) {
+    final value = json[key];
+    if (value == null) continue;
+    final stringValue = value.toString();
+    if (stringValue.isEmpty || stringValue == 'null') continue;
+    return stringValue;
+  }
+  return null;
+}
+
+String _readString(
+  Map<String, dynamic> json,
+  List<String> keys, {
+  String fallback = '',
+}) {
+  return _readStringOrNull(json, keys) ?? fallback;
+}
+
+Map<String, dynamic>? _mapOrNull(dynamic value) {
+  if (value is Map) {
+    return Map<String, dynamic>.from(value as Map);
+  }
+  return null;
+}
+
 enum SupplierType {
   SUPPLIER,
   TECHNOLOGY_PROVIDER,
@@ -47,11 +73,11 @@ class SupplierAddress {
 
   factory SupplierAddress.fromJson(Map<String, dynamic> json) {
     return SupplierAddress(
-      street: json['street'],
-      number: json['number'],
-      city: json['city'],
-      state: json['state'],
-      zipCode: json['zipCode'],
+      street: _readString(json, ['street', 'addressStreet']),
+      number: _readString(json, ['number', 'addressNumber']),
+      city: _readString(json, ['city', 'addressCity']),
+      state: _readString(json, ['state', 'addressState']),
+      zipCode: _readString(json, ['zipCode', 'postalCode']),
     );
   }
 
@@ -86,16 +112,21 @@ class SupplierModel {
   });
 
   SupplierModel.fromMap(Map<String, dynamic> json)
-    : supplierId = json['supplierId'],
-      type = json['type'],
-      dni = json['dni'],
-      name = json['name'],
+    : supplierId = _readStringOrNull(json, ['supplierId', 'id']),
+      type = _readString(json, [
+        'type',
+        'supplierType',
+      ], fallback: SupplierType.SUPPLIER.apiValue),
+      dni = _readString(json, ['dni', 'supplierDNI']),
+      name = _readString(json, ['name', 'supplierName']),
       address =
-          json['address'] != null
-              ? SupplierAddress.fromJson(json['address'])
-              : null,
-      phone = json['phone'],
-      email = json['email'];
+          (() {
+            final addressJson = _mapOrNull(json['address']);
+            if (addressJson == null) return null;
+            return SupplierAddress.fromJson(addressJson);
+          })(),
+      phone = _readString(json, ['phone', 'supplierPhone']),
+      email = _readStringOrNull(json, ['email', 'supplierEmail']);
 
   getType() {
     return SupplierType.values

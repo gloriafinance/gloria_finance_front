@@ -1,3 +1,47 @@
+String? _readStringOrNull(Map<String, dynamic> json, List<String> keys) {
+  for (final key in keys) {
+    final value = json[key];
+    if (value == null) continue;
+    final stringValue = value.toString().trim();
+    if (stringValue.isEmpty || stringValue == 'null') continue;
+    return stringValue;
+  }
+  return null;
+}
+
+String _buildAddress(Map<String, dynamic> json) {
+  final directAddress = _readStringOrNull(json, ['address']);
+  if (directAddress != null) {
+    return directAddress;
+  }
+
+  final street = _readStringOrNull(json, ['addressStreet', 'street']);
+  final number = _readStringOrNull(json, ['addressNumber', 'number']);
+  final complement =
+      _readStringOrNull(json, ['addressComplement', 'complement']);
+  final district = _readStringOrNull(json, ['addressDistrict', 'district']);
+  final city = _readStringOrNull(json, ['addressCity', 'city']);
+  final state = _readStringOrNull(json, ['addressState', 'state']);
+  final zipCode =
+      _readStringOrNull(json, ['addressZipCode', 'zipCode', 'postalCode']);
+
+  final cityState = [
+    if (city != null) city,
+    if (state != null) state,
+  ];
+
+  final segments = [
+    street,
+    number,
+    complement,
+    district,
+    if (cityState.isNotEmpty) cityState.join('/'),
+    zipCode,
+  ].whereType<String>().toList();
+
+  return segments.isEmpty ? '' : segments.join(', ');
+}
+
 class MemberModel {
   String memberId;
   String name;
@@ -45,7 +89,7 @@ class MemberModel {
       isMinister: json['isMinister'],
       isTreasurer: json['isTreasurer'] ?? false,
       active: json['active'] ?? true,
-      address: json['address'] ?? '',
+      address: _buildAddress(json),
       //church: Church.fromJson(json['church']),
       //region: Region.fromJson(json['region']),
     );
