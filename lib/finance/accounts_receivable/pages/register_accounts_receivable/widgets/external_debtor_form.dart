@@ -23,7 +23,7 @@ class ExternalDebtorForm extends StatelessWidget {
             _inputDNI(),
             _inputName(),
             _inputPhone(),
-            -_inputEmail(),
+            _inputEmail(),
             _inputAddress(),
           ],
         )
