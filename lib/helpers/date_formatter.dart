@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 
+DateTime? parseIsoDate(dynamic value) {
+  if (value == null) return null;
+  final stringValue = value.toString();
+  if (stringValue.isEmpty || stringValue == 'null') {
+    return null;
+  }
+  return DateTime.tryParse(stringValue);
+}
+
 String convertDateFormat(String? date) {
   if (date == null || date.isEmpty) {
     return '';

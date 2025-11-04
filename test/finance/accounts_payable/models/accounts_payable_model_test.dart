@@ -4,29 +4,24 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('AccountsPayableModel.fromJson', () {
-    test('parses document and payment information from backend payload', () {
+    test('parses document and installment information from backend payload',
+        () {
       final model = AccountsPayableModel.fromJson({
         'accountPayableId': 'ap-001',
         'supplierId': 'supplier-99',
         'description': 'Serviço de manutenção',
-        'status': 'PARTIAL_PAYMENT',
+        'status': 'PARTIAL',
         'installments': [
           {'sequence': 1, 'amount': 1250.75, 'dueDate': '2024-11-10'},
           {'sequence': 2, 'amount': 1250.75, 'dueDate': '2024-12-10'},
         ],
+        'amountTotal': 2501.5,
+        'amountPaid': 1250.75,
+        'amountPending': 1250.75,
         'taxDocument': {
           'type': 'INVOICE',
           'number': 'NF-102030',
           'date': '2024-10-01',
-        },
-        'payment': {
-          'mode': 'MANUAL_INSTALLMENTS',
-          'manual': {
-            'totalAmount': 2501.5,
-            'installments': [
-              {'sequence': 1, 'amount': 1250.75, 'dueDate': '2024-11-10'},
-            ],
-          },
         },
         'taxMetadata': {
           'status': 'TAXED',
@@ -49,16 +44,13 @@ void main() {
       expect(model.document!.type, AccountsPayableDocumentType.invoice);
       expect(model.document!.issueDateFormatted, '01/10/2024');
 
-      expect(model.payment, isNotNull);
-      expect(model.payment!.mode, AccountsPayablePaymentMode.manual);
-      expect(model.payment!.manual, isNotNull);
-      expect(model.payment!.manual!.installments, hasLength(1));
-      expect(model.payment!.manual!.totalAmount, 2501.5);
-
       expect(model.statusEnum, AccountsPayableStatus.PARTIAL);
       expect(model.statusLabel, 'Pagamento parcial');
       expect(model.installments.first.sequence, 1);
       expect(model.taxAmountTotal, 0.0);
+      expect(model.amountTotal, closeTo(2501.5, 0.0001));
+      expect(model.amountPending, closeTo(1250.75, 0.0001));
+      expect(model.amountPaid, closeTo(1250.75, 0.0001));
 
       expect(model.taxMetadata, isNotNull);
       expect(model.taxMetadata!.status, AccountsPayableTaxStatus.taxed);
