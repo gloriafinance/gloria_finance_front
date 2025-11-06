@@ -21,7 +21,6 @@ class PaginateResponse<T> {
     T Function(Map<String, dynamic>) fromJsonT,
   ) {
     final List<dynamic> resultsJson = json['results'];
-    print(resultsJson);
     final List<T> results =
         resultsJson.map((result) => fromJsonT(result)).toList();
 

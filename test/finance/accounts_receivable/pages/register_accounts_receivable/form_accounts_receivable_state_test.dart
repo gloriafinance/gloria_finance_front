@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/finance/accounts_receivable/models/accounts_receivable_payment_mode.dart';
 import 'package:church_finance_bk/finance/accounts_receivable/models/index.dart';
 import 'package:church_finance_bk/finance/models/installment_model.dart';
+import 'package:church_finance_bk/finance/accounts_receivable/pages/register_accounts_receivable/state/form_accounts_receivable_state.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -33,10 +34,7 @@ void main() {
         'description': 'Outro Emprestimo',
         'financialConceptId': '2b2a16cc-b6a2-4d3f-bfc1-d1b661e00726',
         'installments': [
-          {
-            'amount': 500,
-            'dueDate': '2023-06-01',
-          },
+          {'amount': 500, 'dueDate': '2023-06-01'},
         ],
         'type': 'LOAN',
       });
