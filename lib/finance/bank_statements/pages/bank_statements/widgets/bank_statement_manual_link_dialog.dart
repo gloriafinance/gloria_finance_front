@@ -1,0 +1,326 @@
+import 'package:church_finance_bk/core/theme/app_color.dart';
+import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/finance/bank_statements/models/bank_statement_model.dart';
+import 'package:church_finance_bk/finance/financial_records/finance_record_service.dart';
+import 'package:church_finance_bk/finance/financial_records/models/finance_record_filter_model.dart';
+import 'package:church_finance_bk/finance/financial_records/models/finance_record_list_model.dart';
+import 'package:church_finance_bk/helpers/index.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+class BankStatementManualLinkDialog extends StatefulWidget {
+  final BankStatementModel statement;
+  final Future<void> Function(String financialRecordId) onSubmit;
+
+  const BankStatementManualLinkDialog({
+    super.key,
+    required this.statement,
+    required this.onSubmit,
+  });
+
+  @override
+  State<BankStatementManualLinkDialog> createState() =>
+      _BankStatementManualLinkDialogState();
+}
+
+class _BankStatementManualLinkDialogState
+    extends State<BankStatementManualLinkDialog> {
+  final _formKey = GlobalKey<FormState>();
+  final _controller = TextEditingController();
+  final _financeRecordService = FinanceRecordService();
+
+  bool _loadingSuggestions = true;
+  bool _submitting = false;
+  List<FinanceRecordListModel> _suggestions = [];
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.statement.financialRecordId != null) {
+      _controller.text = widget.statement.financialRecordId!;
+    }
+    _loadSuggestions();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> _loadSuggestions() async {
+    setState(() {
+      _loadingSuggestions = true;
+      _error = null;
+    });
+
+    try {
+      final filter = FinanceRecordFilterModel.init();
+      filter.perPage = 20;
+      filter.page = 1;
+
+      final rangeStart = widget.statement.postedAt.subtract(
+        const Duration(days: 1),
+      );
+      final rangeEnd = widget.statement.postedAt.add(const Duration(days: 1));
+
+      final formatter = DateFormat('dd/MM/yyyy');
+      filter.startDate = formatter.format(rangeStart);
+      filter.endDate = formatter.format(rangeEnd);
+      filter.conceptType =
+          widget.statement.direction == BankStatementDirection.income
+              ? 'INCOME'
+              : 'OUTGO';
+
+      final response = await _financeRecordService.searchFinanceRecords(filter);
+
+      final directionApi =
+          widget.statement.direction == BankStatementDirection.income
+              ? 'INCOME'
+              : 'OUTGO';
+
+      final matches =
+          response.results.where((record) {
+            final sameDirection = record.type.toUpperCase() == directionApi;
+            final sameAmount =
+                (record.amount - widget.statement.amount).abs() < 0.01;
+            return sameDirection && sameAmount;
+          }).toList();
+
+      setState(() {
+        _suggestions = matches;
+        _loadingSuggestions = false;
+      });
+    } catch (e) {
+      setState(() {
+        _error =
+            'Não foi possível carregar sugestões. Tente novamente mais tarde.';
+        _loadingSuggestions = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      title: const Text(
+        'Vincular lançamento financeiro',
+        style: TextStyle(fontFamily: AppFonts.fontTitle),
+      ),
+      content: SizedBox(
+        width: isMobile(context) ? double.infinity : 520,
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _StatementSummary(statement: widget.statement),
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _controller,
+                  decoration: const InputDecoration(
+                    labelText: 'ID do lançamento financeiro',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Informe o identificador do lançamento.';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  'Sugestões automáticas',
+                  style: const TextStyle(
+                    fontFamily: AppFonts.fontTitle,
+                    color: AppColors.purple,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                if (_loadingSuggestions)
+                  const Center(child: CircularProgressIndicator()),
+                if (!_loadingSuggestions && _error != null)
+                  Text(
+                    _error!,
+                    style: const TextStyle(color: Colors.redAccent),
+                  ),
+                if (!_loadingSuggestions &&
+                    _error == null &&
+                    _suggestions.isEmpty)
+                  const Text(
+                    'Nenhum lançamento corresponde ao valor e data informados.',
+                    style: TextStyle(fontFamily: AppFonts.fontSubTitle),
+                  ),
+                if (_suggestions.isNotEmpty)
+                  ..._suggestions.map(
+                    (record) => _SuggestionTile(
+                      record: record,
+                      onSelect: () {
+                        _controller.text = record.financialRecordId;
+                      },
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: _submitting ? null : () => Navigator.of(context).pop(),
+          child: const Text('Cancelar'),
+        ),
+        FilledButton.icon(
+          icon:
+              _submitting
+                  ? const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                  : const Icon(Icons.check),
+          label: Text(_submitting ? 'Salvando...' : 'Vincular'),
+          onPressed:
+              _submitting
+                  ? null
+                  : () async {
+                    if (!_formKey.currentState!.validate()) return;
+
+                    setState(() {
+                      _submitting = true;
+                    });
+
+                    try {
+                      await widget.onSubmit(_controller.text.trim());
+                      if (mounted) Navigator.of(context).pop(true);
+                    } catch (e) {
+                      setState(() {
+                        _submitting = false;
+                        _error =
+                            'Não foi possível vincular. Verifique o identificador informado.';
+                      });
+                    }
+                  },
+        ),
+      ],
+    );
+  }
+}
+
+class _SuggestionTile extends StatelessWidget {
+  final FinanceRecordListModel record;
+  final VoidCallback onSelect;
+
+  const _SuggestionTile({required this.record, required this.onSelect});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.greyLight),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                CurrencyFormatter.formatCurrency(record.amount),
+                style: const TextStyle(
+                  fontFamily: AppFonts.fontTitle,
+                  fontSize: 16,
+                ),
+              ),
+              TextButton(onPressed: onSelect, child: const Text('Usar ID')),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            record.financialConcept?.name ?? 'Sem conceito',
+            style: const TextStyle(fontFamily: AppFonts.fontSubTitle),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            record.description ?? '',
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontFamily: AppFonts.fontSubTitle,
+              color: AppColors.grey,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Row(
+            children: [
+              Icon(Icons.calendar_today, size: 16, color: AppColors.grey),
+              const SizedBox(width: 4),
+              Text(
+                DateFormat('dd/MM/yyyy').format(record.date),
+                style: const TextStyle(fontFamily: AppFonts.fontSubTitle),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'ID: ${record.financialRecordId}',
+            style: const TextStyle(
+              fontFamily: AppFonts.fontSubTitle,
+              color: AppColors.blue,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StatementSummary extends StatelessWidget {
+  final BankStatementModel statement;
+
+  const _StatementSummary({required this.statement});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: AppColors.greyLight.withOpacity(0.4),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            CurrencyFormatter.formatCurrency(statement.amount),
+            style: const TextStyle(
+              fontFamily: AppFonts.fontTitle,
+              fontSize: 18,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            statement.description,
+            style: const TextStyle(fontFamily: AppFonts.fontSubTitle),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Data: ${DateFormat('dd/MM/yyyy').format(statement.postedAt)}',
+            style: const TextStyle(
+              fontFamily: AppFonts.fontSubTitle,
+              color: AppColors.grey,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
