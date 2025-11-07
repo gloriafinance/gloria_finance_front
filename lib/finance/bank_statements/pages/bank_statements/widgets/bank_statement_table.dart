@@ -32,29 +32,31 @@ class BankStatementTable extends StatelessWidget {
     }
 
     if (state.statements.isEmpty) {
-      return Container(
-        margin: const EdgeInsets.only(top: 60.0),
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.greyLight),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            Icon(Icons.account_balance, size: 48, color: AppColors.grey),
-            SizedBox(height: 12),
-            Text(
-              'Nenhum extrato importado ainda.',
-              style: TextStyle(fontFamily: AppFonts.fontSubTitle),
-            ),
-            SizedBox(height: 4),
-            Text(
-              'Importe um arquivo CSV para iniciar a conciliação bancária.',
-              style: TextStyle(color: AppColors.grey),
-            ),
-          ],
+      return Center(
+        child: Container(
+          margin: const EdgeInsets.only(top: 60.0),
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColors.greyLight),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: const [
+              Icon(Icons.account_balance, size: 48, color: AppColors.grey),
+              SizedBox(height: 12),
+              Text(
+                'Nenhum extrato importado ainda.',
+                style: TextStyle(fontFamily: AppFonts.fontSubTitle),
+              ),
+              SizedBox(height: 4),
+              Text(
+                'Importe um arquivo CSV para iniciar a conciliação bancária.',
+                style: TextStyle(color: AppColors.grey),
+              ),
+            ],
+          ),
         ),
       );
     }

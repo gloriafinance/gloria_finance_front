@@ -272,9 +272,9 @@ class _FormFields extends StatelessWidget {
       children: [
         Expanded(flex: 2, child: bankField),
         const SizedBox(width: 16),
-        Expanded(child: monthField),
+        Expanded(flex: 2, child: monthField),
         const SizedBox(width: 16),
-        Expanded(child: yearField),
+        Expanded(flex: 1, child: yearField),
       ],
     );
   }

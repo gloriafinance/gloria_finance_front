@@ -16,11 +16,11 @@ class BankStatementImportState {
   });
 
   factory BankStatementImportState.initial() {
-    return const BankStatementImportState(
+    return BankStatementImportState(
       importing: false,
       bankId: null,
       month: null,
-      year: null,
+      year: DateTime.now().year,
       file: null,
     );
   }
