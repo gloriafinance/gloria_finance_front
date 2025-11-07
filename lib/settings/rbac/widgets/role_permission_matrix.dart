@@ -227,7 +227,7 @@ class _PermissionTile extends StatelessWidget {
 
   final PermissionActionModel permission;
   final PermissionModuleGroup module;
-  final PermissionToggleCallback onPermissionToggle;
+  final PermissionToggleCallback? onPermissionToggle;
   final String? searchQuery;
 
   @override
@@ -352,7 +352,7 @@ class _ModuleHeader extends StatelessWidget {
   });
 
   final PermissionModuleGroup module;
-  final ModuleToggleCallback onModuleToggle;
+  final ModuleToggleCallback? onModuleToggle;
 
   @override
   Widget build(BuildContext context) {
@@ -378,7 +378,7 @@ class _ModuleToggleButton extends StatelessWidget {
   });
 
   final PermissionModuleGroup module;
-  final ModuleToggleCallback onModuleToggle;
+  final ModuleToggleCallback? onModuleToggle;
 
   @override
   Widget build(BuildContext context) {
