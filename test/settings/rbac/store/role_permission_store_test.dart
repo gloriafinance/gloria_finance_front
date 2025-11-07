@@ -15,8 +15,25 @@ class _FakeRolePermissionService extends RolePermissionService {
   final Map<String, List<PermissionModuleGroup>> modulesByRole;
 
   int updateCalls = 0;
+  int createCalls = 0;
   String? lastRoleId;
   List<PermissionActionModel>? lastPermissions;
+
+  @override
+  Future<RoleModel> createRole({
+    required String name,
+    String? description,
+  }) async {
+    createCalls++;
+    final role = RoleModel(
+      id: 'generated-$createCalls',
+      name: name,
+      description: description,
+      assignedUsers: const [],
+    );
+    roles.add(role);
+    return role;
+  }
 
   @override
   Future<List<RoleModel>> fetchRoles() async {
@@ -169,6 +186,18 @@ void main() {
 
       final updatedModule = store.state.modules.first;
       expect(updatedModule.permissions.first.granted, isTrue);
+    });
+
+    test('createRole delegates to service and selects returned role', () async {
+      await store.bootstrap();
+
+      final created = await store.createRole(name: 'Auditor');
+
+      expect(service.createCalls, equals(1));
+      expect(created.name, equals('Auditor'));
+      expect(store.state.roles.any((role) => role.id == created.id), isTrue);
+      expect(store.state.selectedRole?.id, equals(created.id));
+      expect(store.state.modules, isEmpty);
     });
   });
 }

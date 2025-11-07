@@ -162,17 +162,32 @@ class RolePermissionStore extends ChangeNotifier {
     required String name,
     String? description,
   }) async {
-    final newRole = RoleModel(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      name: name,
-      description: description,
-      assignedUsers: const [],
-    );
-    final updatedRoles = List<RoleModel>.from(state.roles)..add(newRole);
-    state = state.copyWith(roles: updatedRoles);
+    state = state.copyWith(loadingRoles: true);
     _notify();
-    await selectRole(newRole);
-    return newRole;
+
+    try {
+      final newRole = await service.createRole(
+        name: name,
+        description: description,
+      );
+
+      final updatedRoles = List<RoleModel>.from(state.roles)
+        ..removeWhere((role) => role.id == newRole.id)
+        ..add(newRole);
+
+      state = state.copyWith(
+        loadingRoles: false,
+        roles: updatedRoles,
+      );
+      _notify();
+
+      await selectRole(newRole);
+      return newRole;
+    } catch (error) {
+      state = state.copyWith(loadingRoles: false);
+      _notify();
+      rethrow;
+    }
   }
 
   void _scheduleAutoSave() {
