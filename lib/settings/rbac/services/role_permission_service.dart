@@ -1,6 +1,5 @@
 import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 
 import '../../../core/app_http.dart';
 import '../models/permission_action_model.dart';
@@ -8,13 +7,84 @@ import '../models/permission_module_group.dart';
 import '../models/role_model.dart';
 
 class RolePermissionService extends AppHttp {
+  RolePermissionService({AuthPersistence? authPersistence})
+      : _authPersistence = authPersistence ?? AuthPersistence();
+
+  final AuthPersistence _authPersistence;
+
   Future<List<RoleModel>> fetchRoles() async {
-    final session = await AuthPersistence().restore();
+    final session = await _authPersistence.restore();
     tokenAPI = session.token;
 
     try {
-      // TODO(backend): reemplazar por request real
-      return _demoRoles();
+      final response = await http.get(
+        '${await getUrlApi()}rbac/roles',
+        options: Options(headers: bearerToken()),
+      );
+
+      final data = response.data;
+      if (data is List) {
+        return data
+            .whereType<Map<String, dynamic>>()
+            .map(RoleModel.fromJson)
+            .toList();
+      }
+      if (data is Map<String, dynamic>) {
+        final items = data['roles'] ?? data['data'];
+        if (items is List) {
+          return items
+              .whereType<Map<String, dynamic>>()
+              .map(RoleModel.fromJson)
+              .toList();
+        }
+      }
+      return const [];
+    } on DioException catch (error) {
+      transformResponse(error.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<RoleModel> createRole({
+    required String name,
+    String? description,
+  }) async {
+    final session = await _authPersistence.restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.post(
+        '${await getUrlApi()}rbac/roles',
+        data: <String, dynamic>{
+          'name': name,
+          if (description != null && description.isNotEmpty)
+            'description': description,
+        },
+        options: Options(headers: bearerToken()),
+      );
+
+      final data = response.data;
+      if (data is Map<String, dynamic>) {
+        if (data.containsKey('role')) {
+          final role = data['role'];
+          if (role is Map<String, dynamic>) {
+            return RoleModel.fromJson(role);
+          }
+        }
+        return RoleModel.fromJson(data);
+      }
+      if (data is List && data.isNotEmpty) {
+        final first = data.first;
+        if (first is Map<String, dynamic>) {
+          return RoleModel.fromJson(first);
+        }
+      }
+      return RoleModel(
+        id: response.headers.map['location']?.first ?? '',
+        name: name,
+        description: description,
+        assignedUsers: const [],
+      );
     } on DioException catch (error) {
       transformResponse(error.response?.data);
       rethrow;
@@ -22,12 +92,16 @@ class RolePermissionService extends AppHttp {
   }
 
   Future<List<PermissionModuleGroup>> fetchRolePermissions(String roleId) async {
-    final session = await AuthPersistence().restore();
+    final session = await _authPersistence.restore();
     tokenAPI = session.token;
 
     try {
-      // TODO(backend): reemplazar por request real
-      return _demoModules(roleId);
+      final response = await http.get(
+        '${await getUrlApi()}rbac/roles/$roleId/permissions',
+        options: Options(headers: bearerToken()),
+      );
+
+      return _parsePermissionModules(response.data);
     } on DioException catch (error) {
       transformResponse(error.response?.data);
       rethrow;
@@ -38,132 +112,83 @@ class RolePermissionService extends AppHttp {
     required String roleId,
     required List<PermissionActionModel> permissions,
   }) async {
-    final session = await AuthPersistence().restore();
+    final session = await _authPersistence.restore();
     tokenAPI = session.token;
 
     try {
-      // TODO(backend): reemplazar por request real
-      await Future<void>.delayed(const Duration(milliseconds: 350));
-      if (kDebugMode) {
-        // ignore: avoid_print
-        print('Role $roleId updated with ${permissions.length} permissions');
-      }
+      await http.post(
+        '${await getUrlApi()}rbac/roles/$roleId/permissions',
+        data: <String, dynamic>{
+          'permissions': permissions
+              .map(
+                (permission) => {
+                  'module': permission.module,
+                  'action': permission.action,
+                  'granted': permission.granted,
+                },
+              )
+              .toList(),
+        },
+        options: Options(headers: bearerToken()),
+      );
     } on DioException catch (error) {
       transformResponse(error.response?.data);
       rethrow;
     }
   }
 
-  List<RoleModel> _demoRoles() {
-    return const [
-      RoleModel(
-        id: '1',
-        name: 'Administrador Financeiro',
-        description: 'Acesso completo aos módulos financeiros',
-        isCustom: false,
-        isDefault: true,
-        assignedUsers: ['João', 'Maria', 'Ana'],
-      ),
-      RoleModel(
-        id: '2',
-        name: 'Tesoureiro',
-        description: 'Pode cadastrar e aprovar pagamentos',
-        assignedUsers: ['Carlos'],
-      ),
-      RoleModel(
-        id: '3',
-        name: 'Convidado',
-        description: 'Somente leitura de relatórios financeiros',
-        assignedUsers: const [],
-      ),
-    ];
+  Future<List<PermissionModuleGroup>> fetchPermissionsCatalog() async {
+    final session = await _authPersistence.restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.get(
+        '${await getUrlApi()}rbac/permissions',
+        options: Options(headers: bearerToken()),
+      );
+
+      return _parsePermissionModules(response.data);
+    } on DioException catch (error) {
+      transformResponse(error.response?.data);
+      rethrow;
+    }
   }
 
-  List<PermissionModuleGroup> _demoModules(String roleId) {
-    return [
-      PermissionModuleGroup(
-        module: 'financial_records',
-        label: 'Registros Financeiros',
-        description: 'Permissões para registrar e acompanhar entradas e saídas.',
-        permissions: [
-          PermissionActionModel(
-            module: 'financial_records',
-            action: 'create',
-            label: 'Registrar Movimento',
-            granted: roleId != '3',
-            description: 'Permite lançar entradas e saídas no caixa da igreja.',
-            impactLabel: 'Pleno acesso',
-          ),
-          PermissionActionModel(
-            module: 'financial_records',
-            action: 'cancel',
-            label: 'Cancelar Movimento',
-            granted: roleId == '1',
-            isCritical: true,
-            description: 'Remove permanentemente um movimento já registrado.',
-            impactLabel: 'Ação crítica',
-          ),
-          PermissionActionModel(
-            module: 'financial_records',
-            action: 'report',
-            label: 'Ver Relatórios',
-            granted: true,
-            isInherited: roleId == '3',
-            isReadOnly: roleId == '3',
-            description: 'Permite visualizar relatórios consolidados de finanças.',
-            impactLabel: 'Somente leitura',
-          ),
-        ],
-      ),
-      PermissionModuleGroup(
-        module: 'accounts_payable',
-        label: 'Contas a Pagar',
-        description: 'Controle e aprovação dos pagamentos da igreja.',
-        permissions: [
-          PermissionActionModel(
-            module: 'accounts_payable',
-            action: 'create',
-            label: 'Criar Conta a Pagar',
-            granted: roleId != '3',
-            description: 'Cadastro de novas contas e despesas recorrentes.',
-            impactLabel: 'Acesso operacional',
-          ),
-          PermissionActionModel(
-            module: 'accounts_payable',
-            action: 'approve',
-            label: 'Aprovar Pagamento',
-            granted: roleId == '1',
-            isCritical: true,
-            description: 'Autoriza pagamentos e liquidações de contas.',
-            impactLabel: 'Acesso crítico',
-          ),
-        ],
-      ),
-      PermissionModuleGroup(
-        module: 'banking',
-        label: 'Bancário',
-        description:
-            'Sincronização com extratos bancários e conciliações automáticas.',
-        permissions: [
-          PermissionActionModel(
-            module: 'banking',
-            action: 'sync',
-            label: 'Sincronizar Extratos',
-            granted: roleId == '1',
-            isCritical: true,
-            description: 'Importa dados bancários e atualiza saldos automaticamente.',
-            impactLabel: 'Pleno acesso',
-          ),
-          PermissionActionModel(
-            module: 'banking',
-            action: 'view',
-            label: 'Visualizar Saldos',
-            granted: roleId != '3',
-            description: 'Exibe saldos consolidados das contas bancárias.',
-            impactLabel: 'Somente leitura',
-          ),
-        ],
-      ),
-    ];
+  Future<void> bootstrapPermissions() async {
+    final session = await _authPersistence.restore();
+    tokenAPI = session.token;
+
+    try {
+      await http.post(
+        '${await getUrlApi()}rbac/permissions/bootstrap',
+        options: Options(headers: bearerToken()),
+      );
+    } on DioException catch (error) {
+      transformResponse(error.response?.data);
+      rethrow;
+    }
+  }
+
+  List<PermissionModuleGroup> _parsePermissionModules(dynamic data) {
+    final modules = <PermissionModuleGroup>[];
+    if (data is List) {
+      for (final item in data) {
+        if (item is Map<String, dynamic>) {
+          modules.add(PermissionModuleGroup.fromJson(item));
+        }
+      }
+      return modules;
+    }
+    if (data is Map<String, dynamic>) {
+      final items = data['modules'] ?? data['permissions'] ?? data['data'];
+      if (items is List) {
+        for (final item in items) {
+          if (item is Map<String, dynamic>) {
+            modules.add(PermissionModuleGroup.fromJson(item));
+          }
+        }
+      }
+    }
+    return modules;
   }
 }
