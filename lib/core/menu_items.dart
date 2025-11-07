@@ -20,11 +20,7 @@ List<Map<String, dynamic>> items = const [
         "icon": Icons.account_balance_wallet_outlined,
         "to": "/availability-accounts",
       },
-      {
-        "label": "Bancos",
-        "icon": Icons.account_balance,
-        "to": "/banks",
-      },
+      {"label": "Bancos", "icon": Icons.account_balance, "to": "/banks"},
       {
         "label": "Centros de custo",
         "icon": Icons.account_tree,
@@ -51,6 +47,11 @@ List<Map<String, dynamic>> items = const [
         "label": "Registro financeiros",
         "icon": Icons.money,
         "to": "/financial-record",
+      },
+      {
+        "label": "Conciliação bancária",
+        "icon": Icons.account_balance_outlined,
+        "to": "/finance/bank-statements",
       },
       {
         "label": "Contas a receber",

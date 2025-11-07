@@ -11,7 +11,7 @@ class BankService extends AppHttp {
 
     try {
       final response = await http.get(
-        '${await getUrlApi()}finance/configuration/bank/${session.churchId}',
+        '${await getUrlApi()}bank/list/${session.churchId}',
         options: Options(headers: bearerToken()),
       );
 
@@ -28,7 +28,7 @@ class BankService extends AppHttp {
 
     try {
       await http.post(
-        '${await getUrlApi()}finance/configuration/bank/',
+        '${await getUrlApi()}bank/',
         data: payload,
         options: Options(headers: bearerToken()),
       );

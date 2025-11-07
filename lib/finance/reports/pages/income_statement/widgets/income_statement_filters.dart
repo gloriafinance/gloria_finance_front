@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/finance/contributions/pages/app_contribuitions/widgets/month_dropdown.dart';
@@ -58,27 +59,22 @@ class _IncomeStatementFiltersState extends State<IncomeStatementFilters> {
 
   Widget _layoutDesktop(BuildContext context, IncomeStatementStore store) {
     return SizedBox(
-      width: 700,
+      width: 760,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(flex: 1, child: _dropdownMonth(context, store)),
-          SizedBox(
-            width: 20,
-          ),
+          SizedBox(width: 20),
           Expanded(flex: 1, child: _inputYear(store)),
-          SizedBox(
-            width: 80,
-          ),
+          SizedBox(width: 80),
           Expanded(
-              flex: 1,
-              child: Padding(
-                padding: EdgeInsets.only(top: 45),
-                child: _buttonApplyFilter(store),
-              )),
-          SizedBox(
-            width: 16,
+            flex: 1,
+            child: Padding(
+              padding: EdgeInsets.only(top: 45),
+              child: _buttonApplyFilter(store),
+            ),
           ),
+          SizedBox(width: 16),
           Expanded(
             flex: 1,
             child: Padding(
@@ -100,57 +96,52 @@ class _IncomeStatementFiltersState extends State<IncomeStatementFilters> {
       animationDuration: const Duration(milliseconds: 500),
       children: [
         ExpansionPanel(
-            canTapOnHeader: true,
-            isExpanded: isExpandedFilter,
-            headerBuilder: (context, isOpen) {
-              return ListTile(
-                title: Text(
-                  "FILTROS",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: AppFonts.fontTitle,
-                    color: AppColors.purple,
-                  ),
+          canTapOnHeader: true,
+          isExpanded: isExpandedFilter,
+          headerBuilder: (context, isOpen) {
+            return ListTile(
+              title: Text(
+                "FILTROS",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: AppFonts.fontTitle,
+                  color: AppColors.purple,
                 ),
-              );
-            },
-            body: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
+              ),
+            );
+          },
+          body: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Expanded(
-                              flex: 1, child: _dropdownMonth(context, store)),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(flex: 1, child: _inputYear(store)),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      _buttonApplyFilter(store),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      _buttonDownloadPdf(store),
+                      Expanded(flex: 1, child: _dropdownMonth(context, store)),
+                      SizedBox(width: 20),
+                      Expanded(flex: 1, child: _inputYear(store)),
                     ],
-                  )),
-            ))
+                  ),
+                  SizedBox(height: 20),
+                  _buttonApplyFilter(store),
+                  SizedBox(height: 12),
+                  _buttonDownloadPdf(store),
+                ],
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
 
   Widget _buttonApplyFilter(IncomeStatementStore store) {
-    return CustomButton(
-      text: "Filtrar",
-      backgroundColor: AppColors.purple,
-      textColor: Colors.white,
+    return ButtonActionTable(
+      color: AppColors.blue,
+      text: 'Aplicar filtros',
+      icon: Icons.search,
       onPressed: () {
         if (isExpandedFilter) {
           setState(() {
@@ -175,17 +166,18 @@ class _IncomeStatementFiltersState extends State<IncomeStatementFilters> {
             backgroundColor: AppColors.blue,
             textColor: Colors.white,
             icon: Icons.picture_as_pdf,
-            onPressed: isLoading
-                ? null
-                : () async {
-                    if (isExpandedFilter) {
-                      setState(() {
-                        isExpandedFilter = false;
-                      });
-                    }
+            onPressed:
+                isLoading
+                    ? null
+                    : () async {
+                      if (isExpandedFilter) {
+                        setState(() {
+                          isExpandedFilter = false;
+                        });
+                      }
 
-                    await store.downloadIncomeStatementPdf();
-                  },
+                      await store.downloadIncomeStatementPdf();
+                    },
           ),
         ),
         if (isLoading)
@@ -193,9 +185,7 @@ class _IncomeStatementFiltersState extends State<IncomeStatementFilters> {
             child: SizedBox(
               height: 20,
               width: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-              ),
+              child: CircularProgressIndicator(strokeWidth: 2),
             ),
           ),
       ],
