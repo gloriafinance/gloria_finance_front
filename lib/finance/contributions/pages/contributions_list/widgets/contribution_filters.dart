@@ -1,5 +1,5 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/widgets/custom_button.dart';
+import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/finance/contributions/models/contribution_model.dart';
 import 'package:church_finance_bk/helpers/index.dart';
@@ -25,11 +25,7 @@ class _ContributionFiltersState extends State<ContributionFilters> {
   Widget _layoutMobile() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _dropdownStatus(),
-        SizedBox(height: 10),
-        _buttonApplyFilter(),
-      ],
+      children: [_dropdownStatus(), SizedBox(height: 10), _buttonApplyFilter()],
     );
   }
 
@@ -40,15 +36,12 @@ class _ContributionFiltersState extends State<ContributionFilters> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              width: 300,
-              child: _dropdownStatus(),
-            ),
+            SizedBox(width: 300, child: _dropdownStatus()),
             SizedBox(width: 10), // Espaciado entre el dropdown y el botón
             Container(
               margin: EdgeInsets.only(top: 48),
               child: _buttonApplyFilter(),
-            )
+            ),
           ],
         ),
       ],
@@ -56,10 +49,10 @@ class _ContributionFiltersState extends State<ContributionFilters> {
   }
 
   Widget _buttonApplyFilter() {
-    return CustomButton(
-      text: "Filtrar",
-      backgroundColor: AppColors.purple,
-      textColor: Colors.white,
+    return ButtonActionTable(
+      color: AppColors.blue,
+      text: 'Aplicar filtros',
+      icon: Icons.search,
       onPressed: () => applyFilter(),
     );
   }

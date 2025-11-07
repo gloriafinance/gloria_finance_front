@@ -1,6 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
-import 'package:church_finance_bk/core/widgets/custom_button.dart';
+import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:church_finance_bk/patrimony/models/patrimony_asset_enums.dart';
@@ -65,11 +65,7 @@ class _PatrimonyAssetsFiltersState extends State<PatrimonyAssetsFilters> {
             },
             body: Column(
               children: [
-                Row(
-                  children: [
-                    Expanded(child: _searchInput(store)),
-                  ],
-                ),
+                Row(children: [Expanded(child: _searchInput(store))]),
                 Row(
                   children: [
                     Expanded(child: _statusDropdown(store, statusItems)),
@@ -84,20 +80,28 @@ class _PatrimonyAssetsFiltersState extends State<PatrimonyAssetsFilters> {
                 Row(
                   children: [
                     Expanded(
-                      child: CustomButton(
-                        text: 'Aplicar filtros',
-                        backgroundColor: AppColors.purple,
-                        textColor: Colors.white,
-                        onPressed: store.applyFilters,
+                      child: TextButton(
+                        onPressed: () {
+                          setState(() {
+                            _isExpandedFilter = false;
+                          });
+                          store.clearFilters();
+                        },
+                        child: const Text('Limpar filtros'),
                       ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: CustomButton(
-                        text: 'Limpar',
-                        backgroundColor: AppColors.greyLight,
-                        textColor: Colors.white,
-                        onPressed: store.clearFilters,
+                      child: ButtonActionTable(
+                        color: AppColors.blue,
+                        text: 'Aplicar filtros',
+                        icon: Icons.search,
+                        onPressed: () {
+                          setState(() {
+                            _isExpandedFilter = false;
+                          });
+                          store.applyFilters();
+                        },
                       ),
                     ),
                   ],
@@ -130,19 +134,18 @@ class _PatrimonyAssetsFiltersState extends State<PatrimonyAssetsFilters> {
         ),
         const SizedBox(height: 16),
         Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            CustomButton(
-              text: 'Aplicar filtros',
-              backgroundColor: AppColors.purple,
-              textColor: Colors.white,
-              onPressed: store.applyFilters,
+            TextButton(
+              onPressed: store.clearFilters,
+              child: const Text('Limpar filtros'),
             ),
             const SizedBox(width: 12),
-            CustomButton(
-              text: 'Limpar',
-              backgroundColor: AppColors.greyLight,
-              textColor: Colors.white,
-              onPressed: store.clearFilters,
+            ButtonActionTable(
+              color: AppColors.blue,
+              text: 'Aplicar filtros',
+              icon: Icons.search,
+              onPressed: store.applyFilters,
             ),
           ],
         ),
@@ -168,9 +171,9 @@ class _PatrimonyAssetsFiltersState extends State<PatrimonyAssetsFilters> {
       label: 'Status',
       initialValue: store.statusLabel,
       items: statusItems,
-      onChanged: (value) => store.setStatusByLabel(
-        value?.isEmpty == true ? null : value,
-      ),
+      onChanged:
+          (value) =>
+              store.setStatusByLabel(value?.isEmpty == true ? null : value),
       labelSuffix: _clearFilterButton(
         visible: store.state.status != null,
         onPressed: () => store.setStatusByLabel(null),
@@ -186,9 +189,9 @@ class _PatrimonyAssetsFiltersState extends State<PatrimonyAssetsFilters> {
       label: 'Categoria',
       initialValue: store.categoryLabel,
       items: categoryItems,
-      onChanged: (value) => store.setCategoryByLabel(
-        value?.isEmpty == true ? null : value,
-      ),
+      onChanged:
+          (value) =>
+              store.setCategoryByLabel(value?.isEmpty == true ? null : value),
       labelSuffix: _clearFilterButton(
         visible: store.state.category != null,
         onPressed: () => store.setCategoryByLabel(null),

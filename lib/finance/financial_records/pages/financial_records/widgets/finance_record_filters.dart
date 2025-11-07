@@ -42,57 +42,37 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                flex: 10,
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: _availabilityAccounts(
-                            availabilityAccountsListStore,
-                            store,
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        Expanded(
-                          flex: 2,
-                          child: _conceptType(store, storeConcept),
-                        ),
-                        SizedBox(width: 10),
-                        Expanded(flex: 2, child: _concept(store, storeConcept)),
-                        SizedBox(width: 10),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(flex: 1, child: _dateStart(store)),
-                        SizedBox(width: 10),
-                        Expanded(flex: 1, child: _dateEnd(store)),
-                        SizedBox(width: 10),
-                      ],
-                    ),
-                  ],
+                flex: 1,
+                child: _availabilityAccounts(
+                  availabilityAccountsListStore,
+                  store,
                 ),
               ),
-              Expanded(
-                flex: 2,
-                child: Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 50.0),
-                      child: _applyFilterButton(store),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 20.0),
-                      child: _clearButton(store),
-                    ),
-                  ],
-                ),
-              ),
+              SizedBox(width: 10),
+              Expanded(flex: 2, child: _conceptType(store, storeConcept)),
+              SizedBox(width: 10),
+              Expanded(flex: 2, child: _concept(store, storeConcept)),
+              SizedBox(width: 10),
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(flex: 1, child: _dateStart(store)),
+              SizedBox(width: 10),
+              Expanded(flex: 1, child: _dateEnd(store)),
+              Expanded(flex: 3, child: SizedBox()),
+            ],
+          ),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              _clearButton(store),
+              SizedBox(width: 12),
+              _applyFilterButton(store),
             ],
           ),
         ],
@@ -158,9 +138,9 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
                 SizedBox(height: 20),
                 Row(
                   children: [
-                    Expanded(child: _applyFilterButton(store)),
-                    SizedBox(width: 10),
                     Expanded(child: _clearButton(store)),
+                    SizedBox(width: 10),
+                    Expanded(child: _applyFilterButton(store)),
                   ],
                 ),
                 SizedBox(height: 10),
@@ -270,24 +250,27 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
   }
 
   Widget _applyFilterButton(FinanceRecordPaginateStore store) {
-    return CustomButton(
-      text: "Filtrar",
-      backgroundColor: AppColors.purple,
-      textColor: Colors.white,
+    final isLoading = store.state.makeRequest;
+    return ButtonActionTable(
+      color: AppColors.blue,
+      text: isLoading ? 'Carregando...' : 'Aplicar filtros',
+      icon: isLoading ? Icons.hourglass_bottom : Icons.search,
       onPressed: () {
-        isExpandedFilter = false;
-        setState(() {});
-        store.apply();
+        if (!isLoading) {
+          isExpandedFilter = false;
+          setState(() {});
+          store.apply();
+        }
       },
     );
   }
 
   Widget _clearButton(FinanceRecordPaginateStore store) {
-    return CustomButton(
-      text: "Limpar",
-      backgroundColor: AppColors.greyLight,
-      textColor: Colors.white,
-      onPressed: () => store.clearFilters(),
+    return TextButton(
+      onPressed: () {
+        store.clearFilters();
+      },
+      child: const Text('Limpar filtros'),
     );
   }
 }
