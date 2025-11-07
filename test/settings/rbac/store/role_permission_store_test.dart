@@ -1,0 +1,174 @@
+import 'package:church_finance_bk/settings/rbac/models/permission_action_model.dart';
+import 'package:church_finance_bk/settings/rbac/models/permission_module_group.dart';
+import 'package:church_finance_bk/settings/rbac/models/role_model.dart';
+import 'package:church_finance_bk/settings/rbac/services/role_permission_service.dart';
+import 'package:church_finance_bk/settings/rbac/store/role_permission_store.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+class _FakeRolePermissionService extends RolePermissionService {
+  _FakeRolePermissionService({
+    required this.roles,
+    required this.modulesByRole,
+  });
+
+  final List<RoleModel> roles;
+  final Map<String, List<PermissionModuleGroup>> modulesByRole;
+
+  int updateCalls = 0;
+  String? lastRoleId;
+  List<PermissionActionModel>? lastPermissions;
+
+  @override
+  Future<List<RoleModel>> fetchRoles() async {
+    return roles;
+  }
+
+  @override
+  Future<List<PermissionModuleGroup>> fetchRolePermissions(String roleId) async {
+    return modulesByRole[roleId] ?? [];
+  }
+
+  @override
+  Future<void> updateRolePermissions({
+    required String roleId,
+    required List<PermissionActionModel> permissions,
+  }) async {
+    updateCalls++;
+    lastRoleId = roleId;
+    lastPermissions = permissions;
+
+    final grouped = <String, List<PermissionActionModel>>{};
+    for (final permission in permissions) {
+      grouped.putIfAbsent(permission.module, () => []).add(permission);
+    }
+    modulesByRole[roleId] = grouped.entries
+        .map(
+          (entry) => PermissionModuleGroup(
+            module: entry.key,
+            label: entry.key,
+            permissions: entry.value,
+          ),
+        )
+        .toList();
+  }
+}
+
+PermissionModuleGroup _buildModule({
+  required String module,
+  required List<PermissionActionModel> permissions,
+}) {
+  return PermissionModuleGroup(
+    module: module,
+    label: module,
+    permissions: permissions,
+  );
+}
+
+void main() {
+  group('RolePermissionStore', () {
+    late _FakeRolePermissionService service;
+    late RolePermissionStore store;
+
+    setUp(() {
+      final roles = [
+        const RoleModel(id: '1', name: 'Administrador'),
+        const RoleModel(id: '2', name: 'Leitor'),
+      ];
+
+      final modulesByRole = {
+        '1': [
+          _buildModule(
+            module: 'financial_records',
+            permissions: [
+              const PermissionActionModel(
+                module: 'financial_records',
+                action: 'create',
+                label: 'Criar',
+                granted: true,
+              ),
+              const PermissionActionModel(
+                module: 'financial_records',
+                action: 'approve',
+                label: 'Aprovar',
+                granted: true,
+              ),
+            ],
+          ),
+        ],
+        '2': [
+          _buildModule(
+            module: 'reports',
+            permissions: [
+              const PermissionActionModel(
+                module: 'reports',
+                action: 'view',
+                label: 'Visualizar',
+                granted: true,
+                isReadOnly: true,
+              ),
+            ],
+          ),
+        ],
+      };
+
+      service = _FakeRolePermissionService(
+        roles: roles,
+        modulesByRole: modulesByRole,
+      );
+
+      store = RolePermissionStore(
+        service: service,
+        debounceDuration: Duration.zero,
+      );
+    });
+
+    test('bootstrap loads roles and selects first role', () async {
+      await store.bootstrap();
+
+      expect(store.state.roles, isNotEmpty);
+      expect(store.state.selectedRole?.id, equals('1'));
+      expect(store.state.modules, isNotEmpty);
+      expect(store.state.modules.first.permissions.length, equals(2));
+      expect(store.state.loadingPermissions, isFalse);
+    });
+
+    test('togglePermission updates granted state and syncs with service', () async {
+      await store.bootstrap();
+      final module = store.state.modules.first;
+      final permission = module.permissions.first;
+
+      expect(permission.granted, isTrue);
+
+      store.togglePermission(
+        moduleId: permission.module,
+        action: permission.action,
+        granted: false,
+      );
+
+      expect(store.state.modules.first.permissions.first.granted, isFalse);
+      expect(service.updateCalls, equals(1));
+      expect(service.lastRoleId, equals('1'));
+      expect(
+        service.lastPermissions!
+            .firstWhere((element) => element.action == permission.action)
+            .granted,
+        isFalse,
+      );
+      expect(store.state.pendingChanges, equals(0));
+    });
+
+    test('toggleModule keeps read only permissions untouched', () async {
+      await store.bootstrap();
+      await store.selectRole(const RoleModel(id: '2', name: 'Leitor'));
+
+      final module = store.state.modules.first;
+      final readOnlyPermission = module.permissions.first;
+      expect(readOnlyPermission.isReadOnly, isTrue);
+
+      store.toggleModule(module.module, false);
+
+      final updatedModule = store.state.modules.first;
+      expect(updatedModule.permissions.first.granted, isTrue);
+    });
+  });
+}
