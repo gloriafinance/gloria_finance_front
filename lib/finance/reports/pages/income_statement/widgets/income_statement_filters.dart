@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/finance/contributions/pages/app_contribuitions/widgets/month_dropdown.dart';
@@ -137,10 +138,10 @@ class _IncomeStatementFiltersState extends State<IncomeStatementFilters> {
   }
 
   Widget _buttonApplyFilter(IncomeStatementStore store) {
-    return CustomButton(
-      text: "Filtrar",
-      backgroundColor: AppColors.purple,
-      textColor: Colors.white,
+    return ButtonActionTable(
+      color: AppColors.blue,
+      text: 'Aplicar filtros',
+      icon: Icons.search,
       onPressed: () {
         if (isExpandedFilter) {
           setState(() {

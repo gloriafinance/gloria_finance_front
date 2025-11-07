@@ -1,6 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
-import 'package:church_finance_bk/core/widgets/custom_button.dart';
+import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/finance/contributions/pages/app_contribuitions/widgets/month_dropdown.dart';
 import 'package:church_finance_bk/finance/reports/pages/monthly_tithes/store/monthly_tithes_list_store.dart';
@@ -42,11 +42,15 @@ class _MonthlyTithesFiltersState extends State<MonthlyTithesFilters> {
   }
 
   Widget _dropdownMonth(
-      BuildContext context, MonthlyTithesListStore tithesListStore) {
+    BuildContext context,
+    MonthlyTithesListStore tithesListStore,
+  ) {
     return Dropdown(
       label: "Mês",
-      initialValue:
-          tithesListStore.state.filter.month.toString().padLeft(2, '0'),
+      initialValue: tithesListStore.state.filter.month.toString().padLeft(
+        2,
+        '0',
+      ),
       items:
           monthDropdown(context).map((item) => item.value.toString()).toList(),
       onChanged: (value) => tithesListStore.setMonth(int.parse(value)),
@@ -54,7 +58,9 @@ class _MonthlyTithesFiltersState extends State<MonthlyTithesFilters> {
   }
 
   Widget _layoutDesktop(
-      BuildContext context, MonthlyTithesListStore tithesListStore) {
+    BuildContext context,
+    MonthlyTithesListStore tithesListStore,
+  ) {
     return SizedBox(
       //width: isMobile(context) ? MediaQuery.of(context).size.width : 300,
       width: 700,
@@ -62,26 +68,25 @@ class _MonthlyTithesFiltersState extends State<MonthlyTithesFilters> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(flex: 1, child: _dropdownMonth(context, tithesListStore)),
-          SizedBox(
-            width: 20,
-          ),
+          SizedBox(width: 20),
           Expanded(flex: 1, child: _inputYear(tithesListStore)),
-          SizedBox(
-            width: 80,
-          ),
+          SizedBox(width: 80),
           Expanded(
-              flex: 1,
-              child: Padding(
-                padding: EdgeInsets.only(top: 45),
-                child: _buttonApplyFilter(tithesListStore),
-              )),
+            flex: 1,
+            child: Padding(
+              padding: EdgeInsets.only(top: 45),
+              child: _buttonApplyFilter(tithesListStore),
+            ),
+          ),
         ],
       ),
     );
   }
 
   Widget _layoutMobile(
-      BuildContext context, MonthlyTithesListStore tithesListStore) {
+    BuildContext context,
+    MonthlyTithesListStore tithesListStore,
+  ) {
     return ExpansionPanelList(
       expansionCallback: (int index, bool isExpanded) {
         isExpandedFilter = isExpanded;
@@ -90,56 +95,62 @@ class _MonthlyTithesFiltersState extends State<MonthlyTithesFilters> {
       animationDuration: const Duration(milliseconds: 500),
       children: [
         ExpansionPanel(
-            canTapOnHeader: true,
-            isExpanded: isExpandedFilter,
-            headerBuilder: (context, isOpen) {
-              return ListTile(
-                title: Text(
-                  "FILTROS",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: AppFonts.fontTitle,
-                    color: AppColors.purple,
-                  ),
+          canTapOnHeader: true,
+          isExpanded: isExpandedFilter,
+          headerBuilder: (context, isOpen) {
+            return ListTile(
+              title: Text(
+                "FILTROS",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: AppFonts.fontTitle,
+                  color: AppColors.purple,
                 ),
-              );
-            },
-            body: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: SizedBox(
-                  //width: isMobile(context) ? MediaQuery.of(context).size.width : 300,
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
+              ),
+            );
+          },
+          body: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: SizedBox(
+              //width: isMobile(context) ? MediaQuery.of(context).size.width : 300,
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Expanded(
-                              flex: 1,
-                              child: _dropdownMonth(context, tithesListStore)),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(flex: 1, child: _inputYear(tithesListStore)),
-                        ],
+                      Expanded(
+                        flex: 1,
+                        child: _dropdownMonth(context, tithesListStore),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      _buttonApplyFilter(tithesListStore),
+                      SizedBox(width: 20),
+                      Expanded(flex: 1, child: _inputYear(tithesListStore)),
                     ],
-                  )),
-            ))
+                  ),
+                  SizedBox(height: 20),
+                  _buttonApplyFilter(tithesListStore),
+                ],
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
 
   Widget _buttonApplyFilter(MonthlyTithesListStore tithesListStore) {
-    return CustomButton(
-      text: "Filtrar",
-      backgroundColor: AppColors.purple,
-      textColor: Colors.white,
-      onPressed: () => tithesListStore.searchMonthlyTithes(),
+    return ButtonActionTable(
+      color: AppColors.blue,
+      text: 'Aplicar filtros',
+      icon: Icons.search,
+      onPressed: () {
+        if (isExpandedFilter) {
+          setState(() {
+            isExpandedFilter = false;
+          });
+        }
+        tithesListStore.searchMonthlyTithes();
+      },
     );
   }
 }

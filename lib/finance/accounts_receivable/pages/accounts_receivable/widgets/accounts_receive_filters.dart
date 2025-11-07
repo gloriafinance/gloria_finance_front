@@ -31,32 +31,21 @@ class _AccountsReceiveFilters extends State<AccountsReceiveFilters> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                  flex: 10,
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(flex: 1, child: _status(store)),
-                          SizedBox(width: 10),
-                          Expanded(flex: 2, child: _dateStart(store)),
-                          SizedBox(width: 10),
-                          Expanded(flex: 2, child: _dateEnd(store)),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          _applyFilterButton(store),
-                          SizedBox(width: 10),
-                          _clearButton(store),
-                        ],
-                      ),
-                    ],
-                  )),
+              Expanded(flex: 1, child: _status(store)),
+              SizedBox(width: 10),
+              Expanded(flex: 2, child: _dateStart(store)),
+              SizedBox(width: 10),
+              Expanded(flex: 2, child: _dateEnd(store)),
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              _clearButton(store),
+              SizedBox(width: 12),
+              _applyFilterButton(store),
             ],
           ),
         ],
@@ -91,11 +80,7 @@ class _AccountsReceiveFilters extends State<AccountsReceiveFilters> {
             },
             body: Column(
               children: [
-                Row(
-                  children: [
-                    Expanded(child: _status(store)),
-                  ],
-                ),
+                Row(children: [Expanded(child: _status(store))]),
                 SizedBox(height: 10),
                 Row(
                   children: [
@@ -107,15 +92,15 @@ class _AccountsReceiveFilters extends State<AccountsReceiveFilters> {
                 SizedBox(height: 20),
                 Row(
                   children: [
-                    Expanded(child: _applyFilterButton(store)),
-                    SizedBox(width: 10),
                     Expanded(child: _clearButton(store)),
+                    SizedBox(width: 10),
+                    Expanded(child: _applyFilterButton(store)),
                   ],
                 ),
                 SizedBox(height: 10),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -124,8 +109,9 @@ class _AccountsReceiveFilters extends State<AccountsReceiveFilters> {
   Widget _status(AccountsReceivableStore store) {
     AccountsReceivableStatus? status;
     try {
-      status = AccountsReceivableStatus.values
-          .firstWhere((e) => e.apiValue == store.state.filter.status);
+      status = AccountsReceivableStatus.values.firstWhere(
+        (e) => e.apiValue == store.state.filter.status,
+      );
     } catch (e) {
       status = null;
     }
@@ -133,9 +119,10 @@ class _AccountsReceiveFilters extends State<AccountsReceiveFilters> {
     return Dropdown(
       label: "Status",
       initialValue: status?.friendlyName,
-      items: AccountsReceivableStatus.values
-          .map((status) => status.friendlyName)
-          .toList(),
+      items:
+          AccountsReceivableStatus.values
+              .map((status) => status.friendlyName)
+              .toList(),
       onChanged: (value) {
         store.setStatus(value);
       },
@@ -174,24 +161,25 @@ class _AccountsReceiveFilters extends State<AccountsReceiveFilters> {
   }
 
   Widget _applyFilterButton(AccountsReceivableStore store) {
-    return CustomButton(
-      text: "Filtrar",
-      backgroundColor: AppColors.purple,
-      textColor: Colors.white,
+    final isLoading = store.state.makeRequest;
+    return ButtonActionTable(
+      color: AppColors.blue,
+      text: isLoading ? 'Carregando...' : 'Aplicar filtros',
+      icon: isLoading ? Icons.hourglass_bottom : Icons.search,
       onPressed: () {
-        isExpandedFilter = false;
-        setState(() {});
-        store.apply();
+        if (!isLoading) {
+          isExpandedFilter = false;
+          setState(() {});
+          store.apply();
+        }
       },
     );
   }
 
   Widget _clearButton(AccountsReceivableStore store) {
-    return CustomButton(
-      text: "Limpar",
-      backgroundColor: AppColors.greyLight,
-      textColor: Colors.white,
+    return TextButton(
       onPressed: () => store.clearFilters(),
+      child: const Text('Limpar filtros'),
     );
   }
 }
