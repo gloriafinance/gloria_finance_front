@@ -26,7 +26,7 @@ class _FakeRolePermissionService extends RolePermissionService {
   }) async {
     createCalls++;
     final role = RoleModel(
-      id: 'generated-$createCalls',
+      roleId: 'generated-$createCalls',
       name: name,
       description: description,
       roleId: 'generated-$createCalls',
@@ -42,7 +42,9 @@ class _FakeRolePermissionService extends RolePermissionService {
   }
 
   @override
-  Future<List<PermissionModuleGroup>> fetchRolePermissions(String roleId) async {
+  Future<List<PermissionModuleGroup>> fetchRolePermissions(
+    String roleId,
+  ) async {
     return modulesByRole[roleId] ?? [];
   }
 
@@ -59,15 +61,16 @@ class _FakeRolePermissionService extends RolePermissionService {
     for (final permission in permissions) {
       grouped.putIfAbsent(permission.module, () => []).add(permission);
     }
-    modulesByRole[roleId] = grouped.entries
-        .map(
-          (entry) => PermissionModuleGroup(
-            module: entry.key,
-            label: entry.key,
-            permissions: entry.value,
-          ),
-        )
-        .toList();
+    modulesByRole[roleId] =
+        grouped.entries
+            .map(
+              (entry) => PermissionModuleGroup(
+                module: entry.key,
+                label: entry.key,
+                permissions: entry.value,
+              ),
+            )
+            .toList();
   }
 }
 
@@ -89,8 +92,8 @@ void main() {
 
     setUp(() {
       final roles = [
-        const RoleModel(id: '1', name: 'Administrador'),
-        const RoleModel(id: '2', name: 'Leitor'),
+        const RoleModel(roleId: '1', name: 'Administrador'),
+        const RoleModel(roleId: '2', name: 'Leitor'),
       ];
 
       final modulesByRole = {
@@ -144,40 +147,43 @@ void main() {
       await store.bootstrap();
 
       expect(store.state.roles, isNotEmpty);
-      expect(store.state.selectedRole?.id, equals('1'));
+      expect(store.state.selectedRole?.roleId, equals('1'));
       expect(store.state.modules, isNotEmpty);
       expect(store.state.modules.first.permissions.length, equals(2));
       expect(store.state.loadingPermissions, isFalse);
     });
 
-    test('togglePermission updates granted state and syncs with service', () async {
-      await store.bootstrap();
-      final module = store.state.modules.first;
-      final permission = module.permissions.first;
+    test(
+      'togglePermission updates granted state and syncs with service',
+      () async {
+        await store.bootstrap();
+        final module = store.state.modules.first;
+        final permission = module.permissions.first;
 
-      expect(permission.granted, isTrue);
+        expect(permission.granted, isTrue);
 
-      store.togglePermission(
-        moduleId: permission.module,
-        action: permission.action,
-        granted: false,
-      );
+        store.togglePermission(
+          moduleId: permission.module,
+          action: permission.action,
+          granted: false,
+        );
 
-      expect(store.state.modules.first.permissions.first.granted, isFalse);
-      expect(service.updateCalls, equals(1));
-      expect(service.lastRoleId, equals('1'));
-      expect(
-        service.lastPermissions!
-            .firstWhere((element) => element.action == permission.action)
-            .granted,
-        isFalse,
-      );
-      expect(store.state.pendingChanges, equals(0));
-    });
+        expect(store.state.modules.first.permissions.first.granted, isFalse);
+        expect(service.updateCalls, equals(1));
+        expect(service.lastRoleId, equals('1'));
+        expect(
+          service.lastPermissions!
+              .firstWhere((element) => element.action == permission.action)
+              .granted,
+          isFalse,
+        );
+        expect(store.state.pendingChanges, equals(0));
+      },
+    );
 
     test('toggleModule keeps read only permissions untouched', () async {
       await store.bootstrap();
-      await store.selectRole(const RoleModel(id: '2', name: 'Leitor'));
+      await store.selectRole(const RoleModel(roleId: '2', name: 'Leitor'));
 
       final module = store.state.modules.first;
       final readOnlyPermission = module.permissions.first;
@@ -196,8 +202,11 @@ void main() {
 
       expect(service.createCalls, equals(1));
       expect(created.name, equals('Auditor'));
-      expect(store.state.roles.any((role) => role.id == created.id), isTrue);
-      expect(store.state.selectedRole?.id, equals(created.id));
+      expect(
+        store.state.roles.any((role) => role.roleId == created.roleId),
+        isTrue,
+      );
+      expect(store.state.selectedRole?.roleId, equals(created.roleId));
       expect(store.state.modules, isEmpty);
     });
   });

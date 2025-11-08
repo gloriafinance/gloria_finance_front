@@ -12,9 +12,9 @@ class RolePermissionStore extends ChangeNotifier {
   RolePermissionStore({
     RolePermissionService? service,
     Duration debounceDuration = const Duration(milliseconds: 900),
-  })  : service = service ?? RolePermissionService(),
-        debounceDuration = debounceDuration,
-        state = RolePermissionState.initial();
+  }) : service = service ?? RolePermissionService(),
+       debounceDuration = debounceDuration,
+       state = RolePermissionState.initial();
 
   final RolePermissionService service;
   RolePermissionState state;
@@ -100,24 +100,26 @@ class RolePermissionStore extends ChangeNotifier {
     if (!state.hasSelection) {
       return;
     }
-    final updatedModules = state.modules.map((module) {
-      if (module.module != moduleId) {
-        return module;
-      }
-      final updatedPermissions = module.permissions.map((permission) {
-        if (permission.action != action) {
-          return permission;
-        }
-        if (permission.isReadOnly) {
-          return permission;
-        }
-        if (permission.isInherited && !granted) {
-          return permission;
-        }
-        return permission.copyWith(granted: granted);
-      }).toList();
-      return module.copyWith(permissions: updatedPermissions);
-    }).toList();
+    final updatedModules =
+        state.modules.map((module) {
+          if (module.module != moduleId) {
+            return module;
+          }
+          final updatedPermissions =
+              module.permissions.map((permission) {
+                if (permission.action != action) {
+                  return permission;
+                }
+                if (permission.isReadOnly) {
+                  return permission;
+                }
+                if (permission.isInherited && !granted) {
+                  return permission;
+                }
+                return permission.copyWith(granted: granted);
+              }).toList();
+          return module.copyWith(permissions: updatedPermissions);
+        }).toList();
 
     state = state.copyWith(modules: updatedModules);
     _notify();
@@ -128,21 +130,23 @@ class RolePermissionStore extends ChangeNotifier {
     if (!state.hasSelection) {
       return;
     }
-    final updatedModules = state.modules.map((module) {
-      if (module.module != moduleId) {
-        return module;
-      }
-      final updatedPermissions = module.permissions.map((permission) {
-        if (permission.isReadOnly) {
-          return permission;
-        }
-        if (permission.isInherited && !granted) {
-          return permission;
-        }
-        return permission.copyWith(granted: granted);
-      }).toList();
-      return module.copyWith(permissions: updatedPermissions);
-    }).toList();
+    final updatedModules =
+        state.modules.map((module) {
+          if (module.module != moduleId) {
+            return module;
+          }
+          final updatedPermissions =
+              module.permissions.map((permission) {
+                if (permission.isReadOnly) {
+                  return permission;
+                }
+                if (permission.isInherited && !granted) {
+                  return permission;
+                }
+                return permission.copyWith(granted: granted);
+              }).toList();
+          return module.copyWith(permissions: updatedPermissions);
+        }).toList();
 
     state = state.copyWith(modules: updatedModules);
     _notify();
@@ -173,18 +177,12 @@ class RolePermissionStore extends ChangeNotifier {
         description: description,
       );
 
-      final updatedRoles = List<RoleModel>.from(state.roles)
-        ..removeWhere(
-          (role) =>
-              role.id == newRole.id ||
-              role.apiIdentifier == newRole.apiIdentifier,
-        )
-        ..add(newRole);
+      final updatedRoles =
+          List<RoleModel>.from(state.roles)
+            ..removeWhere((role) => role.apiIdentifier == newRole.apiIdentifier)
+            ..add(newRole);
 
-      state = state.copyWith(
-        loadingRoles: false,
-        roles: updatedRoles,
-      );
+      state = state.copyWith(loadingRoles: false, roles: updatedRoles);
       _notify();
 
       await selectRole(newRole);
@@ -228,30 +226,33 @@ class RolePermissionStore extends ChangeNotifier {
     _notify();
   }
 
-  List<PermissionModuleGroup> _cloneModules(List<PermissionModuleGroup> modules) {
+  List<PermissionModuleGroup> _cloneModules(
+    List<PermissionModuleGroup> modules,
+  ) {
     return modules
         .map(
           (module) => PermissionModuleGroup(
             module: module.module,
             label: module.label,
             description: module.description,
-            permissions: module.permissions
-                .map(
-                  (permission) => PermissionActionModel(
-                    module: permission.module,
-                    action: permission.action,
-                    label: permission.label,
-                    permissionId: permission.permissionId,
-                    granted: permission.granted,
-                    isInherited: permission.isInherited,
-                    isCritical: permission.isCritical,
-                    isReadOnly: permission.isReadOnly,
-                    isSystem: permission.isSystem,
-                    description: permission.description,
-                    impactLabel: permission.impactLabel,
-                  ),
-                )
-                .toList(),
+            permissions:
+                module.permissions
+                    .map(
+                      (permission) => PermissionActionModel(
+                        module: permission.module,
+                        action: permission.action,
+                        label: permission.label,
+                        permissionId: permission.permissionId,
+                        granted: permission.granted,
+                        isInherited: permission.isInherited,
+                        isCritical: permission.isCritical,
+                        isReadOnly: permission.isReadOnly,
+                        isSystem: permission.isSystem,
+                        description: permission.description,
+                        impactLabel: permission.impactLabel,
+                      ),
+                    )
+                    .toList(),
           ),
         )
         .toList();
