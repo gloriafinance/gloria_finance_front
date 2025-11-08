@@ -74,7 +74,8 @@ class RoleSelectorPanel extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   final role = roles[index];
-                  final isSelected = role.id == selectedRole?.id;
+                  final isSelected =
+                      role.apiIdentifier == selectedRole?.apiIdentifier;
                   return _RoleTile(
                     role: role,
                     isSelected: isSelected,

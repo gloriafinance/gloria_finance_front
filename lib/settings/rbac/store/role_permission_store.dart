@@ -55,7 +55,9 @@ class RolePermissionStore extends ChangeNotifier {
   }
 
   Future<void> selectRole(RoleModel role) async {
-    if (state.selectedRole?.id == role.id && state.loadingPermissions) {
+    if (state.selectedRole != null &&
+        state.selectedRole!.apiIdentifier == role.apiIdentifier &&
+        state.loadingPermissions) {
       return;
     }
     state = state.copyWith(
@@ -67,7 +69,7 @@ class RolePermissionStore extends ChangeNotifier {
     );
     _notify();
     try {
-      final modules = await service.fetchRolePermissions(role.id);
+      final modules = await service.fetchRolePermissions(role.apiIdentifier);
       state = state.copyWith(
         loadingPermissions: false,
         modules: modules,
@@ -172,7 +174,11 @@ class RolePermissionStore extends ChangeNotifier {
       );
 
       final updatedRoles = List<RoleModel>.from(state.roles)
-        ..removeWhere((role) => role.id == newRole.id)
+        ..removeWhere(
+          (role) =>
+              role.id == newRole.id ||
+              role.apiIdentifier == newRole.apiIdentifier,
+        )
         ..add(newRole);
 
       state = state.copyWith(
@@ -207,7 +213,7 @@ class RolePermissionStore extends ChangeNotifier {
     _notify();
     try {
       await service.updateRolePermissions(
-        roleId: state.selectedRole!.id,
+        roleId: state.selectedRole!.apiIdentifier,
         permissions: _collectPermissions(),
       );
       state = state.copyWith(
@@ -235,10 +241,12 @@ class RolePermissionStore extends ChangeNotifier {
                     module: permission.module,
                     action: permission.action,
                     label: permission.label,
+                    permissionId: permission.permissionId,
                     granted: permission.granted,
                     isInherited: permission.isInherited,
                     isCritical: permission.isCritical,
                     isReadOnly: permission.isReadOnly,
+                    isSystem: permission.isSystem,
                     description: permission.description,
                     impactLabel: permission.impactLabel,
                   ),
@@ -257,10 +265,12 @@ class RolePermissionStore extends ChangeNotifier {
             module: permission.module,
             action: permission.action,
             label: permission.label,
+            permissionId: permission.permissionId,
             granted: permission.granted,
             isInherited: permission.isInherited,
             isCritical: permission.isCritical,
             isReadOnly: permission.isReadOnly,
+            isSystem: permission.isSystem,
             description: permission.description,
             impactLabel: permission.impactLabel,
           ),

@@ -29,6 +29,7 @@ class _FakeRolePermissionService extends RolePermissionService {
       id: 'generated-$createCalls',
       name: name,
       description: description,
+      roleId: 'generated-$createCalls',
       assignedUsers: const [],
     );
     roles.add(role);
