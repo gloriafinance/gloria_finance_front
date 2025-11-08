@@ -11,9 +11,7 @@ class AuthSessionStore extends ChangeNotifier {
   var service = AuthService();
   FormLoginState formState = FormLoginState.init();
 
-  AuthSessionState state = AuthSessionState(
-    session: AuthSessionModel.empty(),
-  );
+  AuthSessionState state = AuthSessionState(session: AuthSessionModel.empty());
 
   AuthSessionStore() {
     _initialize();
@@ -21,9 +19,7 @@ class AuthSessionStore extends ChangeNotifier {
 
   Future<void> _initialize() async {
     var session = await AuthPersistence().restore();
-    state = state.copyWith(
-      session: session,
-    );
+    state = state.copyWith(session: session);
 
     notifyListeners();
   }
@@ -42,10 +38,7 @@ class AuthSessionStore extends ChangeNotifier {
         return false;
       }
       print(session);
-      state = state.copyWith(
-        session: session,
-        makeRequest: false,
-      );
+      state = state.copyWith(session: session, makeRequest: false);
 
       await AuthPersistence().save(session);
 
@@ -55,8 +48,9 @@ class AuthSessionStore extends ChangeNotifier {
     } catch (e) {
       print("ERRRRORRRR ${e}");
       Toast.showMessage(
-          "Ocorreu um erro interno no sistema, informe ao administrador do sistema",
-          ToastType.warning);
+        "Ocorreu um erro interno no sistema, informe ao administrador do sistema",
+        ToastType.warning,
+      );
       formState = formState.copyWith(makeRequest: false);
       notifyListeners();
       return false;
@@ -65,9 +59,7 @@ class AuthSessionStore extends ChangeNotifier {
 
   void logout() async {
     await AuthPersistence().clear();
-    state = state.copyWith(
-      session: null,
-    );
+    state = state.copyWith(session: null);
 
     notifyListeners();
   }
@@ -89,10 +81,6 @@ class AuthSessionStore extends ChangeNotifier {
 
   bool isLoggedIn() {
     return state.session.token.isNotEmpty;
-  }
-
-  List<Profile> profiles() {
-    return state.session.profiles;
   }
 
   isSuperUser() {

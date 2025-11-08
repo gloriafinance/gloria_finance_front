@@ -1,6 +1,5 @@
 class RoleModel {
   const RoleModel({
-    required this.id,
     required this.name,
     this.roleId = '',
     this.churchId,
@@ -15,13 +14,14 @@ class RoleModel {
 
   factory RoleModel.fromJson(Map<String, dynamic> json) {
     return RoleModel(
-      id: json['id']?.toString() ?? '',
       name: json['name']?.toString() ?? '',
       roleId: json['roleId']?.toString() ?? json['role_id']?.toString() ?? '',
       churchId: json['churchId']?.toString() ?? json['church_id']?.toString(),
       description: json['description'] as String?,
-      isSystem: json['isSystem'] as bool? ?? json['is_system'] as bool? ?? false,
-      isCustom: json['is_custom'] as bool? ??
+      isSystem:
+          json['isSystem'] as bool? ?? json['is_system'] as bool? ?? false,
+      isCustom:
+          json['is_custom'] as bool? ??
           !(json['isSystem'] as bool? ?? json['is_system'] as bool? ?? false),
       isDefault: json['is_default'] as bool? ?? false,
       isActive: json['is_active'] as bool? ?? true,
@@ -30,7 +30,6 @@ class RoleModel {
     );
   }
 
-  final String id;
   final String name;
   final String roleId;
   final String? churchId;
@@ -43,7 +42,6 @@ class RoleModel {
   final DateTime? createdAt;
 
   RoleModel copyWith({
-    String? id,
     String? name,
     String? roleId,
     String? churchId,
@@ -56,7 +54,6 @@ class RoleModel {
     DateTime? createdAt,
   }) {
     return RoleModel(
-      id: id ?? this.id,
       name: name ?? this.name,
       roleId: roleId ?? this.roleId,
       churchId: churchId ?? this.churchId,
@@ -72,7 +69,6 @@ class RoleModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'name': name,
       'roleId': roleId,
       'churchId': churchId,
@@ -88,29 +84,27 @@ class RoleModel {
 
   int get membersCount => assignedUsers.length;
 
-  String get apiIdentifier => roleId.isNotEmpty ? roleId : id;
+  String get apiIdentifier => roleId;
 
   @override
   int get hashCode => Object.hash(
-        id,
-        name,
-        roleId,
-        churchId,
-        description,
-        isSystem,
-        isCustom,
-        isDefault,
-        isActive,
-        Object.hashAll(assignedUsers),
-        createdAt,
-      );
+    name,
+    roleId,
+    churchId,
+    description,
+    isSystem,
+    isCustom,
+    isDefault,
+    isActive,
+    Object.hashAll(assignedUsers),
+    createdAt,
+  );
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other.runtimeType != runtimeType) return false;
     return other is RoleModel &&
-        other.id == id &&
         other.name == name &&
         other.roleId == roleId &&
         other.churchId == churchId &&
@@ -132,11 +126,7 @@ class RoleModel {
   }
 
   static List<String> _extractUsers(Map<String, dynamic> json) {
-    final candidates = [
-      json['assigned_users'],
-      json['users'],
-      json['members'],
-    ];
+    final candidates = [json['assigned_users'], json['users'], json['members']];
     for (final candidate in candidates) {
       if (candidate is List) {
         return candidate.map((item) => item.toString()).toList();
