@@ -26,7 +26,6 @@ class _FakeRolePermissionService extends RolePermissionService {
   }) async {
     createCalls++;
     final role = RoleModel(
-      roleId: 'generated-$createCalls',
       name: name,
       description: description,
       roleId: 'generated-$createCalls',
@@ -167,6 +166,8 @@ void main() {
           action: permission.action,
           granted: false,
         );
+
+        await Future<void>.delayed(Duration.zero);
 
         expect(store.state.modules.first.permissions.first.granted, isFalse);
         expect(service.updateCalls, equals(1));

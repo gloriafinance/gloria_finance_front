@@ -148,19 +148,25 @@ class RolePermissionService extends AppHttp {
     tokenAPI = session.token;
 
     try {
+      final permissionIds = <String>[];
+      final seen = <String>{};
+      for (final permission in permissions) {
+        if (!permission.granted) {
+          continue;
+        }
+        final identifier =
+            (permission.permissionId?.isNotEmpty ?? false)
+                ? permission.permissionId!
+                : '${permission.module}:${permission.action}';
+        if (seen.add(identifier)) {
+          permissionIds.add(identifier);
+        }
+      }
+
       await http.post(
         '${await getUrlApi()}rbac/roles/$roleId/permissions',
         data: <String, dynamic>{
-          'permissions':
-              permissions
-                  .map(
-                    (permission) => {
-                      'module': permission.module,
-                      'action': permission.action,
-                      'granted': permission.granted,
-                    },
-                  )
-                  .toList(),
+          'permissionIds': permissionIds,
         },
         options: Options(headers: bearerToken()),
       );
