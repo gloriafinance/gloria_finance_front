@@ -1,5 +1,9 @@
 import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
+import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
+import 'package:church_finance_bk/core/widgets/custom_button.dart';
+import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -20,23 +24,6 @@ class RolePermissionScreen extends StatefulWidget {
 }
 
 class _RolePermissionScreenState extends State<RolePermissionScreen> {
-  late final TextEditingController _roleSearchController;
-  late final TextEditingController _permissionSearchController;
-
-  @override
-  void initState() {
-    super.initState();
-    _roleSearchController = TextEditingController();
-    _permissionSearchController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _roleSearchController.dispose();
-    _permissionSearchController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -44,7 +31,6 @@ class _RolePermissionScreenState extends State<RolePermissionScreen> {
       child: Consumer<RolePermissionStore>(
         builder: (context, store, _) {
           final state = store.state;
-          _syncControllers(state);
 
           return LayoutDashboard(
             _buildHeader(context, store),
@@ -69,21 +55,6 @@ class _RolePermissionScreenState extends State<RolePermissionScreen> {
     );
   }
 
-  void _syncControllers(RolePermissionState state) {
-    if (_roleSearchController.text != state.roleSearchQuery) {
-      _roleSearchController.value = TextEditingValue(
-        text: state.roleSearchQuery,
-        selection: TextSelection.collapsed(offset: state.roleSearchQuery.length),
-      );
-    }
-    if (_permissionSearchController.text != state.searchQuery) {
-      _permissionSearchController.value = TextEditingValue(
-        text: state.searchQuery,
-        selection: TextSelection.collapsed(offset: state.searchQuery.length),
-      );
-    }
-  }
-
   Widget _buildDesktopLayout(BuildContext context, RolePermissionStore store) {
     final state = store.state;
     final filteredRoles = state.filteredRoles();
@@ -97,7 +68,7 @@ class _RolePermissionScreenState extends State<RolePermissionScreen> {
           child: RoleSelectorPanel(
             roles: filteredRoles,
             selectedRole: state.selectedRole,
-            searchController: _roleSearchController,
+            searchValue: state.roleSearchQuery,
             onSearchChanged: store.updateRoleSearch,
             onRoleSelected: (role) => store.selectRole(role),
             onCreateRole: () => _showCreateRoleDialog(context, store),
@@ -109,7 +80,7 @@ class _RolePermissionScreenState extends State<RolePermissionScreen> {
           child: _RoleDetailPanel(
             store: store,
             modules: filteredModules,
-            permissionSearchController: _permissionSearchController,
+            permissionSearchQuery: state.searchQuery,
             onPermissionSearch: store.updatePermissionSearch,
             onPermissionToggle: (permission, granted) =>
                 _handlePermissionToggle(context, store, permission, granted),
@@ -133,7 +104,7 @@ class _RolePermissionScreenState extends State<RolePermissionScreen> {
         RoleSelectorPanel(
           roles: filteredRoles,
           selectedRole: state.selectedRole,
-          searchController: _roleSearchController,
+          searchValue: state.roleSearchQuery,
           onSearchChanged: store.updateRoleSearch,
           onRoleSelected: (role) {
             store.selectRole(role);
@@ -145,7 +116,7 @@ class _RolePermissionScreenState extends State<RolePermissionScreen> {
         _RoleDetailPanel(
           store: store,
           modules: filteredModules,
-          permissionSearchController: _permissionSearchController,
+          permissionSearchQuery: state.searchQuery,
           onPermissionSearch: store.updatePermissionSearch,
           onPermissionToggle: (permission, granted) =>
               _handlePermissionToggle(context, store, permission, granted),
@@ -182,10 +153,11 @@ class _RolePermissionScreenState extends State<RolePermissionScreen> {
             ],
           ),
         ),
-        FilledButton.icon(
+        ButtonActionTable(
+          color: AppColors.purple,
+          text: 'Novo papel',
+          icon: Icons.add,
           onPressed: () => _showCreateRoleDialog(context, store),
-          icon: const Icon(Icons.add),
-          label: const Text('Novo papel'),
         ),
       ],
     );
@@ -195,9 +167,9 @@ class _RolePermissionScreenState extends State<RolePermissionScreen> {
     BuildContext context,
     RolePermissionStore store,
   ) async {
-    final nameController = TextEditingController();
-    final descriptionController = TextEditingController();
     final formKey = GlobalKey<FormState>();
+    var roleName = '';
+    var roleDescription = '';
 
     final result = await showDialog<(String name, String? description)>(
       context: context,
@@ -211,50 +183,52 @@ class _RolePermissionScreenState extends State<RolePermissionScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  TextFormField(
-                    controller: nameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Nome do papel',
-                      border: OutlineInputBorder(),
-                    ),
-                    validator: (value) {
+                  Input(
+                    label: 'Nome do papel',
+                    icon: Icons.badge_outlined,
+                    initialValue: roleName,
+                    onChanged: (value) {
+                      roleName = value;
+                    },
+                    onValidator: (value) {
                       if (value == null || value.trim().isEmpty) {
                         return 'Informe um nome válido';
                       }
                       return null;
                     },
                   ),
-                  const SizedBox(height: 12),
-                  TextFormField(
-                    controller: descriptionController,
-                    decoration: const InputDecoration(
-                      labelText: 'Descrição',
-                      border: OutlineInputBorder(),
-                    ),
-                    minLines: 2,
-                    maxLines: 4,
+                  Input(
+                    label: 'Descrição',
+                    icon: Icons.description_outlined,
+                    initialValue: roleDescription,
+                    onChanged: (value) {
+                      roleDescription = value;
+                    },
+                    maxLines: 3,
                   ),
                 ],
               ),
             ),
           ),
           actions: [
-            TextButton(
+            CustomButton(
+              text: 'Cancelar',
+              backgroundColor: AppColors.purple,
+              typeButton: CustomButton.outline,
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancelar'),
             ),
-            FilledButton(
+            CustomButton(
+              text: 'Criar',
+              backgroundColor: AppColors.purple,
+              textColor: Colors.white,
               onPressed: () {
                 if (formKey.currentState?.validate() ?? false) {
                   Navigator.of(context).pop((
-                    nameController.text.trim(),
-                    descriptionController.text.trim().isEmpty
-                        ? null
-                        : descriptionController.text.trim(),
+                    roleName.trim(),
+                    roleDescription.trim().isEmpty ? null : roleDescription.trim(),
                   ));
                 }
               },
-              child: const Text('Criar'),
             ),
           ],
         );
@@ -325,13 +299,17 @@ class _RolePermissionScreenState extends State<RolePermissionScreen> {
           title: const Text('Remover permissão crítica?'),
           content: Text(message),
           actions: [
-            TextButton(
+            CustomButton(
+              text: 'Cancelar',
+              backgroundColor: AppColors.purple,
+              typeButton: CustomButton.outline,
               onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('Cancelar'),
             ),
-            FilledButton(
+            CustomButton(
+              text: 'Remover',
+              backgroundColor: AppColors.purple,
+              textColor: Colors.white,
               onPressed: () => Navigator.of(context).pop(true),
-              child: const Text('Remover'),
             ),
           ],
         );
@@ -344,7 +322,7 @@ class _RoleDetailPanel extends StatelessWidget {
   const _RoleDetailPanel({
     required this.store,
     required this.modules,
-    required this.permissionSearchController,
+    required this.permissionSearchQuery,
     required this.onPermissionSearch,
     required this.onPermissionToggle,
     required this.onModuleToggle,
@@ -354,7 +332,7 @@ class _RoleDetailPanel extends StatelessWidget {
 
   final RolePermissionStore store;
   final List<PermissionModuleGroup> modules;
-  final TextEditingController permissionSearchController;
+  final String permissionSearchQuery;
   final ValueChanged<String> onPermissionSearch;
   final PermissionToggleCallback onPermissionToggle;
   final ModuleToggleCallback onModuleToggle;
@@ -380,17 +358,13 @@ class _RoleDetailPanel extends StatelessWidget {
               _RoleHeaderSummary(state: state),
               const SizedBox(height: 16),
               _RoleAssignmentSummary(role: selectedRole),
-              const SizedBox(height: 16),
-              TextField(
-                controller: permissionSearchController,
+              Input(
+                label: 'Buscar módulo ou permissão',
+                icon: Icons.search,
+                initialValue: permissionSearchQuery,
                 onChanged: onPermissionSearch,
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.search),
-                  hintText: 'Buscar módulo ou permissão',
-                  border: OutlineInputBorder(),
-                ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               _SavingIndicator(state: state),
               const SizedBox(height: 8),
               RolePermissionMatrix(
