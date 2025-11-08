@@ -14,6 +14,8 @@ import 'financial_concept/pages/form_financial_concept/financial_concept_form_sc
 import 'members/models/member_model.dart';
 import 'members/pages/add_members/add_member_screen.dart';
 import 'members/pages/members_list/members_screen.dart';
+import 'rbac/pages/role_permission_screen.dart';
+import 'rbac/pages/user_access_screen.dart';
 import 'cost_center/models/cost_center_model.dart';
 import 'cost_center/pages/cost_center_form/cost_center_form_screen.dart';
 import 'cost_center/pages/cost_center_list/cost_center_list_screen.dart';
@@ -30,6 +32,18 @@ settingsRouter() {
       path: '/members',
       pageBuilder: (context, state) {
         return transitionCustom(MembersScreen());
+      },
+    ),
+    GoRoute(
+      path: '/rbac/roles',
+      pageBuilder: (context, state) {
+        return transitionCustom(const RolePermissionScreen());
+      },
+    ),
+    GoRoute(
+      path: '/rbac/users',
+      pageBuilder: (context, state) {
+        return transitionCustom(const UserAccessScreen());
       },
     ),
     GoRoute(
