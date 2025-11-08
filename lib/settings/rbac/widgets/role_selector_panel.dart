@@ -1,3 +1,7 @@
+import 'package:church_finance_bk/core/theme/app_color.dart';
+import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
+import 'package:church_finance_bk/core/widgets/custom_button.dart';
+import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:flutter/material.dart';
 
 import '../models/role_model.dart';
@@ -7,7 +11,7 @@ class RoleSelectorPanel extends StatelessWidget {
     super.key,
     required this.roles,
     required this.selectedRole,
-    required this.searchController,
+    required this.searchValue,
     required this.onSearchChanged,
     required this.onRoleSelected,
     this.onCreateRole,
@@ -16,7 +20,7 @@ class RoleSelectorPanel extends StatelessWidget {
 
   final List<RoleModel> roles;
   final RoleModel? selectedRole;
-  final TextEditingController searchController;
+  final String searchValue;
   final ValueChanged<String> onSearchChanged;
   final ValueChanged<RoleModel> onRoleSelected;
   final VoidCallback? onCreateRole;
@@ -45,22 +49,19 @@ class RoleSelectorPanel extends StatelessWidget {
                   ),
                 ),
                 if (onCreateRole != null)
-                  IconButton(
-                    icon: const Icon(Icons.add_circle_outline),
-                    tooltip: 'Criar novo papel',
-                    onPressed: onCreateRole,
+                  ButtonActionTable(
+                    color: AppColors.purple,
+                    text: 'Novo',
+                    icon: Icons.add,
+                    onPressed: onCreateRole!,
                   ),
               ],
             ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: searchController,
+            Input(
+              label: 'Buscar papéis',
+              icon: Icons.search,
+              initialValue: searchValue,
               onChanged: onSearchChanged,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                hintText: 'Buscar por nome ou descrição',
-                border: OutlineInputBorder(),
-              ),
             ),
             const SizedBox(height: 16),
             if (isBusy)
@@ -266,10 +267,11 @@ class _EmptyRolesState extends StatelessWidget {
           const Text('Crie um papel personalizado para começar a atribuir permissões.'),
           const SizedBox(height: 12),
           if (onCreateRole != null)
-            FilledButton.icon(
+            CustomButton(
+              text: 'Criar papel',
+              backgroundColor: AppColors.purple,
+              textColor: Colors.white,
               onPressed: onCreateRole,
-              icon: const Icon(Icons.add),
-              label: const Text('Criar papel'),
             ),
         ],
       ),
