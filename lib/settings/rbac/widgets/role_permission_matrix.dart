@@ -23,6 +23,7 @@ class RolePermissionMatrix extends StatelessWidget {
     this.isLoading = false,
     this.searchQuery,
     this.useExpansionLayout = false,
+    this.readOnly = false,
   });
 
   final List<PermissionModuleGroup> modules;
@@ -31,6 +32,7 @@ class RolePermissionMatrix extends StatelessWidget {
   final bool isLoading;
   final String? searchQuery;
   final bool useExpansionLayout;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +57,7 @@ class RolePermissionMatrix extends StatelessWidget {
             onModuleToggle: onModuleToggle,
             onPermissionToggle: onPermissionToggle,
             searchQuery: searchQuery,
+            readOnly: readOnly,
           );
         },
       );
@@ -72,6 +75,7 @@ class RolePermissionMatrix extends StatelessWidget {
           onModuleToggle: onModuleToggle,
           onPermissionToggle: onPermissionToggle,
           searchQuery: searchQuery,
+          readOnly: readOnly,
         );
       },
       separatorBuilder: (_, __) => const SizedBox(height: 12),
@@ -85,12 +89,14 @@ class _ModuleCard extends StatelessWidget {
     required this.onPermissionToggle,
     required this.onModuleToggle,
     this.searchQuery,
+    this.readOnly = false,
   });
 
   final PermissionModuleGroup module;
   final PermissionToggleCallback? onPermissionToggle;
   final ModuleToggleCallback? onModuleToggle;
   final String? searchQuery;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -113,6 +119,7 @@ class _ModuleCard extends StatelessWidget {
             _ModuleHeader(
               module: module,
               onModuleToggle: onModuleToggle,
+              readOnly: readOnly,
             ),
             const SizedBox(height: 8),
             _ModuleSummary(module: module),
@@ -129,6 +136,7 @@ class _ModuleCard extends StatelessWidget {
               onPermissionToggle: onPermissionToggle,
               module: module,
               searchQuery: searchQuery,
+              readOnly: readOnly,
             ),
           ],
         ),
@@ -143,12 +151,14 @@ class _ModuleExpansionTile extends StatelessWidget {
     required this.onPermissionToggle,
     required this.onModuleToggle,
     this.searchQuery,
+    this.readOnly = false,
   });
 
   final PermissionModuleGroup module;
   final PermissionToggleCallback? onPermissionToggle;
   final ModuleToggleCallback? onModuleToggle;
   final String? searchQuery;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +168,11 @@ class _ModuleExpansionTile extends StatelessWidget {
       child: ExpansionTile(
         title: _ModuleTitle(module: module),
         subtitle: _ModuleSummary(module: module),
-        trailing: _ModuleToggleButton(module: module, onModuleToggle: onModuleToggle),
+        trailing: _ModuleToggleButton(
+          module: module,
+          onModuleToggle: onModuleToggle,
+          readOnly: readOnly,
+        ),
         children: [
           if (module.description != null)
             Padding(
@@ -177,6 +191,7 @@ class _ModuleExpansionTile extends StatelessWidget {
             onPermissionToggle: onPermissionToggle,
             module: module,
             searchQuery: searchQuery,
+            readOnly: readOnly,
           ),
         ],
       ),
@@ -190,12 +205,14 @@ class _PermissionList extends StatelessWidget {
     required this.onPermissionToggle,
     required this.module,
     this.searchQuery,
+    this.readOnly = false,
   });
 
   final List<PermissionActionModel> permissions;
   final PermissionToggleCallback? onPermissionToggle;
   final PermissionModuleGroup module;
   final String? searchQuery;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -211,6 +228,7 @@ class _PermissionList extends StatelessWidget {
           module: module,
           onPermissionToggle: onPermissionToggle,
           searchQuery: searchQuery,
+          readOnly: readOnly,
         );
       },
     );
@@ -223,12 +241,14 @@ class _PermissionTile extends StatelessWidget {
     required this.module,
     required this.onPermissionToggle,
     this.searchQuery,
+    this.readOnly = false,
   });
 
   final PermissionActionModel permission;
   final PermissionModuleGroup module;
   final PermissionToggleCallback? onPermissionToggle;
   final String? searchQuery;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -247,7 +267,7 @@ class _PermissionTile extends StatelessWidget {
     return CheckboxListTile(
       value: permission.granted,
       controlAffinity: ListTileControlAffinity.leading,
-      onChanged: permission.isReadOnly
+      onChanged: (permission.isReadOnly || readOnly)
           ? null
           : (value) {
               if (value == null) {
@@ -349,17 +369,23 @@ class _ModuleHeader extends StatelessWidget {
   const _ModuleHeader({
     required this.module,
     required this.onModuleToggle,
+    this.readOnly = false,
   });
 
   final PermissionModuleGroup module;
   final ModuleToggleCallback? onModuleToggle;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        _ModuleToggleButton(module: module, onModuleToggle: onModuleToggle),
+        _ModuleToggleButton(
+          module: module,
+          onModuleToggle: onModuleToggle,
+          readOnly: readOnly,
+        ),
         const SizedBox(width: 12),
         Expanded(child: _ModuleTitle(module: module)),
         Tooltip(
@@ -375,10 +401,12 @@ class _ModuleToggleButton extends StatelessWidget {
   const _ModuleToggleButton({
     required this.module,
     required this.onModuleToggle,
+    this.readOnly = false,
   });
 
   final PermissionModuleGroup module;
   final ModuleToggleCallback? onModuleToggle;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -395,7 +423,7 @@ class _ModuleToggleButton extends StatelessWidget {
     return Checkbox(
       value: value,
       tristate: true,
-      onChanged: total == 0
+      onChanged: total == 0 || readOnly
           ? null
           : (checked) {
               final callback = onModuleToggle;

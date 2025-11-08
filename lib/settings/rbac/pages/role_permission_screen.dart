@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
+import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
@@ -10,11 +11,11 @@ import 'package:provider/provider.dart';
 
 import '../models/permission_action_model.dart';
 import '../models/permission_module_group.dart';
-import '../models/role_model.dart';
+import '../state/role_permission_state.dart';
 import '../store/role_permission_store.dart';
+import '../widgets/create_role_form.dart';
 import '../widgets/role_permission_matrix.dart';
 import '../widgets/role_selector_panel.dart';
-import '../state/role_permission_state.dart';
 
 class RolePermissionScreen extends StatefulWidget {
   const RolePermissionScreen({super.key});
@@ -82,10 +83,16 @@ class _RolePermissionScreenState extends State<RolePermissionScreen> {
             modules: filteredModules,
             permissionSearchQuery: state.searchQuery,
             onPermissionSearch: store.updatePermissionSearch,
-            onPermissionToggle: (permission, granted) =>
-                _handlePermissionToggle(context, store, permission, granted),
-            onModuleToggle: (module, granted) =>
-                _handleModuleToggle(context, store, module, granted),
+            onPermissionToggle:
+                (permission, granted) => _handlePermissionToggle(
+                  context,
+                  store,
+                  permission,
+                  granted,
+                ),
+            onModuleToggle:
+                (module, granted) =>
+                    _handleModuleToggle(context, store, module, granted),
             isLoading: state.loadingPermissions,
           ),
         ),
@@ -118,10 +125,12 @@ class _RolePermissionScreenState extends State<RolePermissionScreen> {
           modules: filteredModules,
           permissionSearchQuery: state.searchQuery,
           onPermissionSearch: store.updatePermissionSearch,
-          onPermissionToggle: (permission, granted) =>
-              _handlePermissionToggle(context, store, permission, granted),
-          onModuleToggle: (module, granted) =>
-              _handleModuleToggle(context, store, module, granted),
+          onPermissionToggle:
+              (permission, granted) =>
+                  _handlePermissionToggle(context, store, permission, granted),
+          onModuleToggle:
+              (module, granted) =>
+                  _handleModuleToggle(context, store, module, granted),
           isLoading: state.loadingPermissions,
           useExpansion: true,
         ),
@@ -167,72 +176,23 @@ class _RolePermissionScreenState extends State<RolePermissionScreen> {
     BuildContext context,
     RolePermissionStore store,
   ) async {
-    final formKey = GlobalKey<FormState>();
-    var roleName = '';
-    var roleDescription = '';
+    final modal = ModalPage(
+      title: 'Criar novo papel',
+      width: 520,
+      body: Builder(
+        builder: (dialogContext) {
+          return CreateRoleForm(
+            onCancel: () => Navigator.of(dialogContext).pop(),
+            onSubmit: (name, description) {
+              Navigator.of(dialogContext).pop((name, description));
+            },
+          );
+        },
+      ),
+    );
 
-    final result = await showDialog<(String name, String? description)>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Criar novo papel'),
-          content: Form(
-            key: formKey,
-            child: SizedBox(
-              width: 420,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Input(
-                    label: 'Nome do papel',
-                    icon: Icons.badge_outlined,
-                    initialValue: roleName,
-                    onChanged: (value) {
-                      roleName = value;
-                    },
-                    onValidator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'Informe um nome válido';
-                      }
-                      return null;
-                    },
-                  ),
-                  Input(
-                    label: 'Descrição',
-                    icon: Icons.description_outlined,
-                    initialValue: roleDescription,
-                    onChanged: (value) {
-                      roleDescription = value;
-                    },
-                    maxLines: 3,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          actions: [
-            CustomButton(
-              text: 'Cancelar',
-              backgroundColor: AppColors.purple,
-              typeButton: CustomButton.outline,
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            CustomButton(
-              text: 'Criar',
-              backgroundColor: AppColors.purple,
-              textColor: Colors.white,
-              onPressed: () {
-                if (formKey.currentState?.validate() ?? false) {
-                  Navigator.of(context).pop((
-                    roleName.trim(),
-                    roleDescription.trim().isEmpty ? null : roleDescription.trim(),
-                  ));
-                }
-              },
-            ),
-          ],
-        );
-      },
+    final result = await modal.show<(String name, String? description)>(
+      context,
     );
 
     if (result != null) {
@@ -253,7 +213,8 @@ class _RolePermissionScreenState extends State<RolePermissionScreen> {
     if (!granted && permission.isCritical) {
       final confirmed = await _showCriticalRemovalDialog(
         context,
-        message: 'Remover a permissão "${permission.label}" pode bloquear ações críticas. Deseja continuar?',
+        message:
+            'Remover a permissão "${permission.label}" pode bloquear ações críticas. Deseja continuar?',
       );
       if (confirmed != true) {
         return;
@@ -273,10 +234,13 @@ class _RolePermissionScreenState extends State<RolePermissionScreen> {
     bool granted,
   ) async {
     if (!granted) {
-      final fullModule = store.state.modules
-          .firstWhere((element) => element.module == module.module, orElse: () => module);
-      final hasCritical =
-          fullModule.permissions.any((permission) => permission.isCritical && permission.granted);
+      final fullModule = store.state.modules.firstWhere(
+        (element) => element.module == module.module,
+        orElse: () => module,
+      );
+      final hasCritical = fullModule.permissions.any(
+        (permission) => permission.isCritical && permission.granted,
+      );
       if (hasCritical) {
         final confirmed = await _showCriticalRemovalDialog(
           context,
@@ -291,7 +255,10 @@ class _RolePermissionScreenState extends State<RolePermissionScreen> {
     store.toggleModule(module.module, granted);
   }
 
-  Future<bool?> _showCriticalRemovalDialog(BuildContext context, {required String message}) {
+  Future<bool?> _showCriticalRemovalDialog(
+    BuildContext context, {
+    required String message,
+  }) {
     return showDialog<bool>(
       context: context,
       builder: (context) {
@@ -357,7 +324,6 @@ class _RoleDetailPanel extends StatelessWidget {
             else ...[
               _RoleHeaderSummary(state: state),
               const SizedBox(height: 16),
-              _RoleAssignmentSummary(role: selectedRole),
               Input(
                 label: 'Buscar módulo ou permissão',
                 icon: Icons.search,
@@ -401,7 +367,9 @@ class _RoleHeaderSummary extends StatelessWidget {
             children: [
               Text(
                 state.selectedRole?.name ?? '',
-                style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               if (state.selectedRole?.description != null)
                 Padding(
@@ -417,7 +385,9 @@ class _RoleHeaderSummary extends StatelessWidget {
           children: [
             Chip(
               avatar: const Icon(Icons.check_circle_outline),
-              label: Text('${state.totalGranted} de ${state.totalPermissions} ativas'),
+              label: Text(
+                '${state.totalGranted} de ${state.totalPermissions} ativas',
+              ),
               visualDensity: VisualDensity.compact,
             ),
             if (state.pendingChanges > 0)
@@ -438,38 +408,6 @@ class _RoleHeaderSummary extends StatelessWidget {
   }
 }
 
-class _RoleAssignmentSummary extends StatelessWidget {
-  const _RoleAssignmentSummary({required this.role});
-
-  final RoleModel role;
-
-  @override
-  Widget build(BuildContext context) {
-    if (role.assignedUsers.isEmpty) {
-      return const ListTile(
-        contentPadding: EdgeInsets.zero,
-        leading: Icon(Icons.group_add_outlined),
-        title: Text('Nenhum usuário vinculado'),
-        subtitle: Text('Atribua este papel para liberar acessos na igreja.'),
-      );
-    }
-
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      leading: const Icon(Icons.groups),
-      title: Text('${role.assignedUsers.length} pessoas com este papel'),
-      subtitle: Wrap(
-        spacing: 8,
-        runSpacing: 8,
-        children: role.assignedUsers
-            .take(8)
-            .map((user) => Chip(label: Text(user), visualDensity: VisualDensity.compact))
-            .toList(),
-      ),
-    );
-  }
-}
-
 class _SavingIndicator extends StatelessWidget {
   const _SavingIndicator({required this.state});
 
@@ -485,9 +423,10 @@ class _SavingIndicator extends StatelessWidget {
       duration: const Duration(milliseconds: 300),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: state.saving
-            ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
-            : Theme.of(context).colorScheme.surfaceVariant,
+        color:
+            state.saving
+                ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
+                : Theme.of(context).colorScheme.surfaceVariant,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -520,7 +459,11 @@ class _RoleNotSelectedPlaceholder extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.shield_outlined, size: 56, color: theme.colorScheme.primary),
+          Icon(
+            Icons.shield_outlined,
+            size: 56,
+            color: theme.colorScheme.primary,
+          ),
           const SizedBox(height: 12),
           Text(
             'Selecione um papel para gerenciar suas permissões.',

@@ -12,6 +12,16 @@ List<Map<String, dynamic>> items = const [
       //   "icon": Icons.person_add,
       //   "to": "/security-system/users"
       // },
+      {
+        "label": "Usuários e acesso",
+        "icon": Icons.admin_panel_settings,
+        "to": "/rbac/users",
+      },
+      {
+        "label": "Papéis e permissões",
+        "icon": Icons.badge_outlined,
+        "to": "/rbac/roles",
+      },
       {"label": "Membros", "icon": Icons.people, "to": "/members"},
       {
         "label": "Contas de disponibilidade",
