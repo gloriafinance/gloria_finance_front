@@ -9,21 +9,22 @@ class PermissionModuleGroup {
   });
 
   factory PermissionModuleGroup.fromJson(Map<String, dynamic> json) {
+    final module = json['module']?.toString() ?? '';
+    final label = _resolveLabel(json['label'], module);
+    final description = json['description'] as String? ??
+        json['module_description'] as String? ??
+        json['tooltip'] as String?;
+
     return PermissionModuleGroup(
-      module: json['module']?.toString() ?? '',
-      label: json['label']?.toString() ?? '',
-      description: json['description'] as String?,
+      module: module,
+      label: label,
+      description: description,
       permissions: (json['permissions'] as List?)
-              ?.map((item) {
-                final map = <String, dynamic>{
-                  'module': json['module'],
-                  ...Map<String, dynamic>.from(
-                    item is Map<String, dynamic> ? item : {},
-                  ),
-                };
-                if (!map.containsKey('label')) {
-                  map['label'] = map['action']?.toString() ?? '';
-                }
+              ?.whereType<Map<String, dynamic>>()
+              .map((item) {
+                final map = Map<String, dynamic>.from(item);
+                map['module'] = map['module'] ?? module;
+                map['label'] = map['label'] ?? map['title'] ?? map['name'];
                 return PermissionActionModel.fromJson(map);
               })
               .toList() ??
@@ -37,12 +38,14 @@ class PermissionModuleGroup {
   final List<PermissionActionModel> permissions;
 
   PermissionModuleGroup copyWith({
+    String? label,
+    String? description,
     List<PermissionActionModel>? permissions,
   }) {
     return PermissionModuleGroup(
       module: module,
-      label: label,
-      description: description,
+      label: label ?? this.label,
+      description: description ?? this.description,
       permissions: permissions ?? this.permissions,
     );
   }
@@ -79,4 +82,25 @@ class PermissionModuleGroup {
           permission.action.toLowerCase().contains(normalizedQuery),
     );
   }
+}
+
+String _resolveLabel(dynamic rawLabel, String module) {
+  final label = rawLabel?.toString() ?? '';
+  if (label.trim().isNotEmpty) {
+    return label.trim();
+  }
+  return _humanizeIdentifier(module);
+}
+
+String _humanizeIdentifier(String value) {
+  if (value.isEmpty) {
+    return '';
+  }
+  return value
+      .replaceAll(RegExp(r'[_\-]+'), ' ')
+      .split(' ')
+      .where((segment) => segment.isNotEmpty)
+      .map((segment) =>
+          segment[0].toUpperCase() + segment.substring(1).toLowerCase())
+      .join(' ');
 }

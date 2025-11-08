@@ -30,12 +30,20 @@ class RolePermissionService extends AppHttp {
             .toList();
       }
       if (data is Map<String, dynamic>) {
-        final items = data['roles'] ?? data['data'];
-        if (items is List) {
-          return items
-              .whereType<Map<String, dynamic>>()
-              .map(RoleModel.fromJson)
-              .toList();
+        final possibleCollections = [
+          data['roles'],
+          data['data'],
+          (data['data'] is Map<String, dynamic>)
+              ? (data['data'] as Map<String, dynamic>)['roles']
+              : null,
+        ];
+        for (final collection in possibleCollections) {
+          if (collection is List) {
+            return collection
+                .whereType<Map<String, dynamic>>()
+                .map(RoleModel.fromJson)
+                .toList();
+          }
         }
       }
       return const [];
@@ -82,6 +90,7 @@ class RolePermissionService extends AppHttp {
       return RoleModel(
         id: response.headers.map['location']?.first ?? '',
         name: name,
+        roleId: name,
         description: description,
         assignedUsers: const [],
       );
@@ -96,12 +105,32 @@ class RolePermissionService extends AppHttp {
     tokenAPI = session.token;
 
     try {
-      final response = await http.get(
-        '${await getUrlApi()}rbac/roles/$roleId/permissions',
-        options: Options(headers: bearerToken()),
-      );
+      final baseUrl = await getUrlApi();
+      final options = Options(headers: bearerToken());
 
-      return _parsePermissionModules(response.data);
+      final assignedResponse = await http.get(
+        '${baseUrl}rbac/roles/$roleId/permissions',
+        options: options,
+      );
+      final assignedModules =
+          _parsePermissionModules(assignedResponse.data, grantByDefault: true);
+
+      List<PermissionModuleGroup> catalogModules = const [];
+      try {
+        final catalogResponse = await http.get(
+          '${baseUrl}rbac/permissions',
+          options: options,
+        );
+        catalogModules = _parsePermissionModules(catalogResponse.data);
+      } on DioException {
+        // Ignore catalog errors and fall back to the assigned permissions only.
+      }
+
+      if (catalogModules.isEmpty) {
+        return assignedModules;
+      }
+
+      return _mergeWithCatalog(catalogModules, assignedModules);
     } on DioException catch (error) {
       transformResponse(error.response?.data);
       rethrow;
@@ -169,26 +198,177 @@ class RolePermissionService extends AppHttp {
     }
   }
 
-  List<PermissionModuleGroup> _parsePermissionModules(dynamic data) {
-    final modules = <PermissionModuleGroup>[];
+  List<PermissionModuleGroup> _parsePermissionModules(
+    dynamic data, {
+    bool grantByDefault = false,
+  }) {
     if (data is List) {
-      for (final item in data) {
-        if (item is Map<String, dynamic>) {
-          modules.add(PermissionModuleGroup.fromJson(item));
-        }
+      final maps = data.whereType<Map<String, dynamic>>().toList();
+      if (maps.isEmpty) {
+        return const [];
       }
-      return modules;
-    }
-    if (data is Map<String, dynamic>) {
-      final items = data['modules'] ?? data['permissions'] ?? data['data'];
-      if (items is List) {
-        for (final item in items) {
-          if (item is Map<String, dynamic>) {
-            modules.add(PermissionModuleGroup.fromJson(item));
+
+      final containsNestedPermissions = maps.any((item) => item['permissions'] is List);
+      if (containsNestedPermissions) {
+        final modules = <PermissionModuleGroup>[];
+        for (final item in maps) {
+          final moduleId = item['module']?.toString() ?? '';
+          final normalized = Map<String, dynamic>.from(item)
+            ..['module'] = moduleId;
+          if (grantByDefault) {
+            normalized['permissions'] = (normalized['permissions'] as List?)
+                    ?.whereType<Map<String, dynamic>>()
+                    .map((permission) {
+              final map = Map<String, dynamic>.from(permission);
+              map['module'] = map['module'] ?? moduleId;
+              map['granted'] = map['granted'] ?? true;
+              return map;
+            }).toList() ??
+                const [];
           }
+          modules.add(PermissionModuleGroup.fromJson(normalized));
+        }
+        modules.sort((a, b) => a.label.compareTo(b.label));
+        return modules;
+      }
+
+      final permissions = maps.map((item) {
+        final map = Map<String, dynamic>.from(item);
+        if (grantByDefault) {
+          map['granted'] = map['granted'] ?? true;
+        }
+        return PermissionActionModel.fromJson(map);
+      }).toList();
+
+      return _groupPermissions(permissions);
+    }
+
+    if (data is Map<String, dynamic>) {
+      final keys = ['modules', 'permissions', 'data', 'items'];
+      for (final key in keys) {
+        final value = data[key];
+        if (value == null) {
+          continue;
+        }
+        final result = _parsePermissionModules(value, grantByDefault: grantByDefault);
+        if (result.isNotEmpty) {
+          return result;
         }
       }
     }
+
+    return const [];
+  }
+
+  List<PermissionModuleGroup> _mergeWithCatalog(
+    List<PermissionModuleGroup> catalog,
+    List<PermissionModuleGroup> assigned,
+  ) {
+    final assignedByModule = {for (final module in assigned) module.module: module};
+    final merged = <PermissionModuleGroup>[];
+
+    for (final module in catalog) {
+      final assignedModule = assignedByModule[module.module];
+      final assignedPermissions = <String, PermissionActionModel>{};
+      if (assignedModule != null) {
+        for (final permission in assignedModule.permissions) {
+          assignedPermissions['${permission.module}:${permission.action}'] = permission;
+        }
+      }
+
+      final permissions = module.permissions.map((permission) {
+        final key = '${permission.module}:${permission.action}';
+        final assignedPermission = assignedPermissions.remove(key);
+        if (assignedPermission == null) {
+          return permission.copyWith(granted: false);
+        }
+        return permission.copyWith(
+          granted: assignedPermission.granted,
+          isInherited: assignedPermission.isInherited,
+          isCritical: assignedPermission.isCritical,
+          isReadOnly: assignedPermission.isReadOnly,
+          isSystem: assignedPermission.isSystem,
+          description: assignedPermission.description ?? permission.description,
+          impactLabel: assignedPermission.impactLabel ?? permission.impactLabel,
+          label: assignedPermission.label.isEmpty ? permission.label : assignedPermission.label,
+        );
+      }).toList();
+
+      if (assignedPermissions.isNotEmpty) {
+        permissions.addAll(assignedPermissions.values.map((permission) {
+          return permission.copyWith(
+            label: permission.label.isEmpty
+                ? _humanizeIdentifier(permission.action)
+                : permission.label,
+          );
+        }));
+      }
+
+      permissions.sort((a, b) => a.label.compareTo(b.label));
+
+      merged.add(module.copyWith(permissions: permissions));
+    }
+
+    final catalogModules = {for (final module in catalog) module.module};
+    for (final module in assigned) {
+      if (!catalogModules.contains(module.module)) {
+        final normalizedModule = module.copyWith(
+          label: module.label.isEmpty ? _humanizeIdentifier(module.module) : module.label,
+          permissions: module.permissions
+              .map(
+                (permission) => permission.copyWith(
+                  label: permission.label.isEmpty
+                      ? _humanizeIdentifier(permission.action)
+                      : permission.label,
+                ),
+              )
+              .toList()
+            ..sort((a, b) => a.label.compareTo(b.label)),
+        );
+        merged.add(normalizedModule);
+      }
+    }
+
+    merged.sort((a, b) => a.label.compareTo(b.label));
+    return merged;
+  }
+
+  List<PermissionModuleGroup> _groupPermissions(
+    List<PermissionActionModel> permissions,
+  ) {
+    if (permissions.isEmpty) {
+      return const [];
+    }
+    final grouped = <String, List<PermissionActionModel>>{};
+    for (final permission in permissions) {
+      grouped.putIfAbsent(permission.module, () => []).add(permission);
+    }
+
+    final modules = grouped.entries.map((entry) {
+      final moduleId = entry.key;
+      final modulePermissions = List<PermissionActionModel>.from(entry.value)
+        ..sort((a, b) => a.label.compareTo(b.label));
+      return PermissionModuleGroup(
+        module: moduleId,
+        label: _humanizeIdentifier(moduleId),
+        permissions: modulePermissions,
+      );
+    }).toList();
+
+    modules.sort((a, b) => a.label.compareTo(b.label));
     return modules;
   }
+}
+
+String _humanizeIdentifier(String value) {
+  if (value.isEmpty) {
+    return '';
+  }
+  return value
+      .replaceAll(RegExp(r'[_\-]+'), ' ')
+      .split(' ')
+      .where((segment) => segment.isNotEmpty)
+      .map((segment) =>
+          segment[0].toUpperCase() + segment.substring(1).toLowerCase())
+      .join(' ');
 }
