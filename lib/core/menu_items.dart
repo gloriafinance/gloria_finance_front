@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 
-import '../auth/auth_session_model.dart';
-
 List<Map<String, dynamic>> items = const [
   {
     "label": "Configuraçōes",
@@ -14,6 +12,16 @@ List<Map<String, dynamic>> items = const [
       //   "icon": Icons.person_add,
       //   "to": "/security-system/users"
       // },
+      {
+        "label": "Usuários e acesso",
+        "icon": Icons.admin_panel_settings,
+        "to": "/rbac/users",
+      },
+      {
+        "label": "Papéis e permissões",
+        "icon": Icons.badge_outlined,
+        "to": "/rbac/roles",
+      },
       {"label": "Membros", "icon": Icons.people, "to": "/members"},
       {
         "label": "Contas de disponibilidade",
@@ -96,18 +104,21 @@ List<Map<String, dynamic>> items = const [
   },
 ];
 
-List<Map<String, dynamic>> menuItems(List<Profile> profiles) {
-  if (profiles.where((p) => p.profileType == 'SUPERUSER').isNotEmpty) {
-    return items;
-  }
+//List<Map<String, dynamic>> menuItems(List<Profile> profiles) {
+List<Map<String, dynamic>> menuItems() {
+  // if (profiles.where((p) => p.profileType == 'SUPERUSER').isNotEmpty) {
+  //   return items;
+  // }
+  //
+  // if (profiles
+  //     .where((p) => ['TREASURER', 'ADMINISTRATOR'].contains(p.profileType))
+  //     .isNotEmpty) {
+  //   return items
+  //       .where((element) => element['label'] != 'Configuraçōes')
+  //       .toList();
+  // }
 
-  if (profiles
-      .where((p) => ['TREASURER', 'ADMINISTRATOR'].contains(p.profileType))
-      .isNotEmpty) {
-    return items
-        .where((element) => element['label'] != 'Configuraçōes')
-        .toList();
-  }
+  //return [];
 
-  return [];
+  return items;
 }
