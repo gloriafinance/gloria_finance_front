@@ -82,7 +82,7 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
         ),
         (fianceRecord) {
           // Solo mostrar el botón si es OUTGO y no está VOID ni RECONCILED
-          if (fianceRecord.type == "OUTGO" &&
+          if ((fianceRecord.type == "OUTGO" || fianceRecord.type == "INCOME") &&
               fianceRecord.status != FinancialRecordStatus.VOID &&
               fianceRecord.status != FinancialRecordStatus.RECONCILED) {
             return ButtonActionTable(
