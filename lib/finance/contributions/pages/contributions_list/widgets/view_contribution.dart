@@ -18,10 +18,11 @@ class ViewContribution extends StatelessWidget {
   final ContributionModel contribution;
   final ContributionPaginationStore contributionPaginationStore;
 
-  const ViewContribution(
-      {super.key,
-      required this.contribution,
-      required this.contributionPaginationStore});
+  const ViewContribution({
+    super.key,
+    required this.contribution,
+    required this.contributionPaginationStore,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,74 +32,76 @@ class ViewContribution extends StatelessWidget {
     bool mobile = isMobile(context);
 
     return Card(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+      color: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+      elevation: 4,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildTitle('Contribuição #${contribution.contributionId}'),
+            const Divider(),
+            SizedBox(height: 16),
+            buildDetailRow(
+              mobile,
+              'Valor',
+              CurrencyFormatter.formatCurrency(
+                contribution.amount,
+                symbol: contribution.account.symbol,
+              ),
+            ),
+            buildDetailRow(
+              mobile,
+              'Status',
+              parseContributionStatus(contribution.status).friendlyName,
+              statusColor: getContributionStatusColor(
+                parseContributionStatus(contribution.status),
+              ),
+            ),
+            buildDetailRow(
+              mobile,
+              'Data',
+              '${contribution.createdAt.day}/${contribution.createdAt.month}/${contribution.createdAt.year}',
+            ),
+            const SizedBox(height: 16),
+            buildDetailRow(mobile, 'Conta', contribution.account.accountName),
+            const SizedBox(height: 16),
+            buildSectionTitle('Membro'),
+            Text(
+              '${contribution.member.name} (ID: ${contribution.member.memberId})',
+              style: const TextStyle(
+                fontSize: 14,
+                fontFamily: AppFonts.fontText,
+              ),
+            ),
+            const SizedBox(height: 16),
+            buildSectionTitle('Conceito Financeiro'),
+            Text(
+              contribution.financeConcept.name,
+              style: const TextStyle(
+                fontSize: 14,
+                fontFamily: AppFonts.fontText,
+              ),
+            ),
+            const SizedBox(height: 26),
+            buildSectionTitle('Comprovante da Transferência'),
+            const SizedBox(height: 26),
+            ContentViewer(url: contribution.bankTransferReceipt),
+            const SizedBox(height: 46),
+            if (_showButton(contribution, store))
+              _buildButton(context, contribution.contributionId),
+          ],
         ),
-        elevation: 4,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              buildTitle('Contribuição #${contribution.contributionId}'),
-              const Divider(),
-              SizedBox(height: 16),
-              buildDetailRow(
-                  mobile,
-                  'Valor',
-                  CurrencyFormatter.formatCurrency(contribution.amount,
-                      symbol: contribution.account.symbol)),
-              buildDetailRow(
-                mobile,
-                'Status',
-                parseContributionStatus(contribution.status).friendlyName,
-                statusColor: getContributionStatusColor(
-                    parseContributionStatus(contribution.status)),
-              ),
-              buildDetailRow(
-                mobile,
-                'Data',
-                '${contribution.createdAt.day}/${contribution.createdAt.month}/${contribution.createdAt.year}',
-              ),
-              const SizedBox(height: 16),
-              buildDetailRow(
-                mobile,
-                'Conta',
-                contribution.account.accountName,
-              ),
-              const SizedBox(height: 16),
-              buildSectionTitle('Membro'),
-              Text(
-                '${contribution.member.name} (ID: ${contribution.member.memberId})',
-                style: const TextStyle(
-                    fontSize: 14, fontFamily: AppFonts.fontText),
-              ),
-              const SizedBox(height: 16),
-              buildSectionTitle('Conceito Financeiro'),
-              Text(
-                contribution.financeConcept.name,
-                style: const TextStyle(
-                    fontSize: 14, fontFamily: AppFonts.fontText),
-              ),
-              const SizedBox(height: 26),
-              buildSectionTitle('Comprovante da Transferência'),
-              const SizedBox(height: 26),
-              ContentViewer(url: contribution.bankTransferReceipt),
-              const SizedBox(height: 46),
-              if (_showButton(contribution, store))
-                _buildButton(context, contribution.contributionId),
-            ],
-          ),
-        ));
+      ),
+    );
   }
 
   bool _showButton(ContributionModel contribution, AuthSessionStore store) {
     return parseContributionStatus(contribution.status) ==
                 ContributionStatus.PENDING_VERIFICATION &&
             store.isAdmin() ||
-        store.isTreasurer() ||
-        store.isSuperUser();
+        store.isTreasurer();
   }
 
   Widget _buildButton(BuildContext context, String contributionId) {
@@ -111,7 +114,9 @@ class ViewContribution extends StatelessWidget {
           text: 'Aprovar',
           onPressed: () async {
             await _updateContributionStatus(
-                contributionId, ContributionStatus.PROCESSED);
+              contributionId,
+              ContributionStatus.PROCESSED,
+            );
 
             Navigator.of(context).pop();
           },
@@ -122,12 +127,14 @@ class ViewContribution extends StatelessWidget {
           text: "Rejeitar",
           onPressed: () async {
             await _updateContributionStatus(
-                contributionId, ContributionStatus.REJECTED);
+              contributionId,
+              ContributionStatus.REJECTED,
+            );
 
             Navigator.of(context).pop();
           },
           icon: Icons.cancel,
-        )
+        ),
       ],
     );
   }
@@ -141,7 +148,9 @@ class ViewContribution extends StatelessWidget {
           Text(
             title,
             style: const TextStyle(
-                fontSize: 16, fontFamily: AppFonts.fontSubTitle),
+              fontSize: 16,
+              fontFamily: AppFonts.fontSubTitle,
+            ),
           ),
           Text(
             value,
@@ -157,8 +166,12 @@ class ViewContribution extends StatelessWidget {
   }
 
   Future<void> _updateContributionStatus(
-      String contributionId, ContributionStatus status) async {
+    String contributionId,
+    ContributionStatus status,
+  ) async {
     contributionPaginationStore.updateStatusContribution(
-        contributionId, status);
+      contributionId,
+      status,
+    );
   }
 }

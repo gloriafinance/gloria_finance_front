@@ -7,11 +7,6 @@ List<Map<String, dynamic>> items = const [
     "label": "Configuraçōes",
     "icon": Icons.settings,
     "items": [
-      // {
-      //   "label": "Usuarios",
-      //   "icon": Icons.person_add,
-      //   "to": "/security-system/users"
-      // },
       {
         "label": "Usuários e acesso",
         "icon": Icons.admin_panel_settings,
@@ -104,21 +99,16 @@ List<Map<String, dynamic>> items = const [
   },
 ];
 
-//List<Map<String, dynamic>> menuItems(List<Profile> profiles) {
-List<Map<String, dynamic>> menuItems() {
-  // if (profiles.where((p) => p.profileType == 'SUPERUSER').isNotEmpty) {
-  //   return items;
-  // }
-  //
-  // if (profiles
-  //     .where((p) => ['TREASURER', 'ADMINISTRATOR'].contains(p.profileType))
-  //     .isNotEmpty) {
-  //   return items
-  //       .where((element) => element['label'] != 'Configuraçōes')
-  //       .toList();
-  // }
+List<Map<String, dynamic>> menuItems(List<String> roles) {
+  if (roles.contains('ADMIN')) {
+    return items;
+  }
 
-  //return [];
+  if (roles.contains('PASTOR') || roles.contains('TREASURER')) {
+    return items
+        .where((element) => element['label'] != 'Configuraçōes')
+        .toList();
+  }
 
-  return items;
+  return [];
 }

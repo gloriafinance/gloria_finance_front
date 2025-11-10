@@ -83,10 +83,6 @@ class AuthSessionStore extends ChangeNotifier {
     return state.session.token.isNotEmpty;
   }
 
-  isSuperUser() {
-    return state.session.isSuperUser();
-  }
-
   isAdmin() {
     return state.session.isAdmin();
   }
@@ -97,5 +93,9 @@ class AuthSessionStore extends ChangeNotifier {
 
   isTreasurer() {
     return state.session.isTreasurer();
+  }
+
+  isPastor() {
+    return state.session.isPastor();
   }
 }

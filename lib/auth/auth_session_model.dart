@@ -6,6 +6,7 @@ class AuthSessionModel {
   final bool isActive;
   final String userId;
   final String churchId;
+  final List<String> roles;
   String? memberId;
 
   AuthSessionModel({
@@ -16,6 +17,7 @@ class AuthSessionModel {
     required this.createdAt,
     required this.isActive,
     required this.userId,
+    required this.roles,
     this.memberId,
   });
 
@@ -28,6 +30,7 @@ class AuthSessionModel {
       isActive: false,
       userId: "",
       churchId: '',
+      roles: [],
     );
   }
 
@@ -40,6 +43,7 @@ class AuthSessionModel {
     bool? isActive,
     String? userId,
     String? memberId,
+    List<String>? roles,
   }) {
     return AuthSessionModel(
       createdAt: createdAt ?? this.createdAt,
@@ -50,11 +54,13 @@ class AuthSessionModel {
       email: email ?? this.email,
       churchId: churchId ?? this.churchId,
       memberId: memberId ?? this.memberId,
+      roles: roles ?? this.roles,
     );
   }
 
   static AuthSessionModel fromJson(Map<String, dynamic> json) {
     return AuthSessionModel(
+      roles: json['roles'] != null ? List<String>.from(json['roles']) : [],
       token: json['token'],
       name: json['name'],
       email: json['email'],
@@ -68,6 +74,7 @@ class AuthSessionModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'roles': roles,
       'token': token,
       'name': name,
       'email': email,
@@ -88,37 +95,18 @@ class AuthSessionModel {
   }
 
   isAdmin() {
-    return true;
+    return roles.contains('ADMIN');
   }
 
   isMember() {
-    return true;
+    return roles.contains('MEMBER');
   }
 
   isTreasurer() {
-    return true;
+    return roles.contains('TREASURER');
   }
 
-  isSuperUser() {
-    return true;
-  }
-}
-
-class Profile {
-  final String profileType;
-  final List<String> actions;
-
-  Profile({required this.profileType, required this.actions});
-
-  factory Profile.fromJson(Map<String, dynamic> json) {
-    return Profile(
-      profileType: json['profileType'],
-      actions:
-          json['actions'] != null ? List<String>.from(json['actions']) : [],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {'profileType': profileType, 'actions': actions};
+  isPastor() {
+    return roles.contains('PASTOR');
   }
 }

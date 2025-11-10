@@ -57,9 +57,8 @@ class _LayoutDashboardState extends State<LayoutDashboard> {
     final store = Provider.of<AuthSessionStore>(context);
     final storeSidebar = Provider.of<SidebarNotifier>(context);
 
-    //final List<Profile> profiles = store.profiles();
-    //final items = menuItems(profiles);
-    final items = menuItems();
+    final List<String> roles = store.state.session.roles;
+    final items = menuItems(roles);
 
     Future.delayed(const Duration(seconds: 5)).then((_) {
       if (mounted && !store.state.isLogged()) {
@@ -84,8 +83,7 @@ class _LayoutDashboardState extends State<LayoutDashboard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (!isMobile(context) && items.isNotEmpty)
-                //_sidebar(profiles, storeSidebar),
-                _sidebar(storeSidebar),
+                _sidebar(storeSidebar, roles),
               Expanded(
                 child: Container(
                   margin:
@@ -131,8 +129,7 @@ class _LayoutDashboardState extends State<LayoutDashboard> {
     );
   }
 
-  //Widget _sidebar(List<Profile> profiles, SidebarNotifier storeSidebar) {
-  Widget _sidebar(SidebarNotifier storeSidebar) {
+  Widget _sidebar(SidebarNotifier storeSidebar, List<String> roles) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       width: storeSidebar.isSidebarVisible ? 330 : 20,
@@ -146,8 +143,7 @@ class _LayoutDashboardState extends State<LayoutDashboard> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12.0),
                 ),
-                //child: Sidebar(menuItems: menuItems(profiles)),
-                child: Sidebar(menuItems: menuItems()),
+                child: Sidebar(menuItems: menuItems(roles)),
               ),
             ),
         ],
