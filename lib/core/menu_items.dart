@@ -95,6 +95,11 @@ List<Map<String, dynamic>> items = const [
         "icon": Icons.account_balance,
         "to": "/report/income-statement",
       },
+      {
+        "label": "DRE",
+        "icon": Icons.assessment,
+        "to": "/report/dre",
+      },
     ],
   },
 ];
