@@ -110,7 +110,7 @@ class DREScreen extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              'O DRE filtra apenas registros financeiros com status CLEARED ou RECONCILED que afetam o resultado (affectsResult = true).',
+              'Nota: Este relatório considera apenas lançamentos confirmados e reconciliados que afetam o resultado contábil.',
               style: TextStyle(
                 fontFamily: AppFonts.fontBody,
                 fontSize: 13,
