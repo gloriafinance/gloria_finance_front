@@ -85,7 +85,7 @@ class DREScreen extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          'Relatório contábil que apresenta o resultado das operações em um período específico',
+          'Entenda como sua igreja recebeu e utilizou os recursos no período',
           style: TextStyle(
             fontFamily: AppFonts.fontBody,
             fontSize: 14,
