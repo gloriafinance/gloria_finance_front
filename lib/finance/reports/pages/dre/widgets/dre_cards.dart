@@ -18,82 +18,132 @@ class DRECards extends StatelessWidget {
       builder: (context, constraints) {
         final isMobileView = constraints.maxWidth < 768;
 
-        return Wrap(
-          spacing: 16,
-          runSpacing: 16,
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildCard(
-              context,
-              'Receita Bruta',
-              '💰',
-              'Total de dízimos, ofertas e doações recebidas',
-              data.receitaBruta,
-              const Color(0xFF1B998B),
-              isMobileView,
+            // Section title for key metrics
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: Text(
+                'Indicadores Principais',
+                style: TextStyle(
+                  fontFamily: AppFonts.fontTitle,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey.shade800,
+                ),
+              ),
             ),
-            _buildCard(
-              context,
-              'Receita Líquida',
-              '💵',
-              'Receita bruta menos devoluções e ajustes',
-              data.receitaLiquida,
-              const Color(0xFF2EC4B6),
-              isMobileView,
+            // Three main cards
+            Wrap(
+              spacing: 16,
+              runSpacing: 16,
+              children: [
+                _buildCard(
+                  context,
+                  'Receita Bruta',
+                  '💰',
+                  'Total de dízimos, ofertas e doações recebidas',
+                  data.receitaBruta,
+                  const Color(0xFF1B998B),
+                  isMobileView,
+                ),
+                _buildCard(
+                  context,
+                  'Resultado Operacional',
+                  '📈',
+                  'Resultado bruto menos despesas operacionais',
+                  data.resultadoOperacional,
+                  const Color(0xFFFFB703),
+                  isMobileView,
+                ),
+                _buildCard(
+                  context,
+                  'Resultado Líquido',
+                  '📊',
+                  'Resultado final do período (superávit ou déficit)',
+                  data.resultadoLiquido,
+                  AppColors.purple,
+                  isMobileView,
+                  isHighlight: true,
+                ),
+              ],
             ),
-            _buildCard(
-              context,
-              'Custos Diretos',
-              '⚙️',
-              'Gastos de eventos, materiais e atividades específicas',
-              data.custosDiretos,
-              const Color(0xFF8ECAE6),
-              isMobileView,
+            const SizedBox(height: 32),
+            // Section title for detailed breakdown
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: Text(
+                'Detalhamento',
+                style: TextStyle(
+                  fontFamily: AppFonts.fontTitle,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey.shade800,
+                ),
+              ),
             ),
-            _buildCard(
-              context,
-              'Resultado Bruto',
-              '🧮',
-              'Receita líquida menos custos diretos',
-              data.resultadoBruto,
-              const Color(0xFF023047),
-              isMobileView,
-            ),
-            _buildCard(
-              context,
-              'Despesas Operacionais',
-              '🏢',
-              'Gastos do dia a dia: energia, água, salários, limpeza',
-              data.despesasOperacionais,
-              const Color(0xFFD62839),
-              isMobileView,
-            ),
-            _buildCard(
-              context,
-              'Resultado Operacional',
-              '📈',
-              'Resultado bruto menos despesas operacionais',
-              data.resultadoOperacional,
-              const Color(0xFFFFB703),
-              isMobileView,
-            ),
-            _buildCard(
-              context,
-              'Resultados Extraordinários',
-              '💫',
-              'Ingressos ou gastos eventuais fora da rotina',
-              data.resultadosExtraordinarios,
-              const Color(0xFF6A4C93),
-              isMobileView,
-            ),
-            _buildCard(
-              context,
-              'Resultado Líquido',
-              '📊',
-              'Resultado final do período (superávit ou déficit)',
-              data.resultadoLiquido,
-              AppColors.purple,
-              isMobileView,
-              isHighlight: true,
+            // List of remaining indicators
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey.shade300),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.1),
+                    spreadRadius: 1,
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  _buildListItem(
+                    context,
+                    'Receita Líquida',
+                    '💵',
+                    'Receita bruta menos devoluções e ajustes',
+                    data.receitaLiquida,
+                    const Color(0xFF2EC4B6),
+                    isFirst: true,
+                  ),
+                  _buildListItem(
+                    context,
+                    'Custos Diretos',
+                    '⚙️',
+                    'Gastos de eventos, materiais e atividades específicas',
+                    data.custosDiretos,
+                    const Color(0xFF8ECAE6),
+                  ),
+                  _buildListItem(
+                    context,
+                    'Resultado Bruto',
+                    '🧮',
+                    'Receita líquida menos custos diretos',
+                    data.resultadoBruto,
+                    const Color(0xFF023047),
+                  ),
+                  _buildListItem(
+                    context,
+                    'Despesas Operacionais',
+                    '🏢',
+                    'Gastos do dia a dia: energia, água, salários, limpeza',
+                    data.despesasOperacionais,
+                    const Color(0xFFD62839),
+                  ),
+                  _buildListItem(
+                    context,
+                    'Resultados Extraordinários',
+                    '💫',
+                    'Ingressos ou gastos eventuais fora da rotina',
+                    data.resultadosExtraordinarios,
+                    const Color(0xFF6A4C93),
+                    isLast: true,
+                  ),
+                ],
+              ),
             ),
           ],
         );
@@ -195,6 +245,100 @@ class DRECards extends StatelessWidget {
               fontWeight: FontWeight.bold,
               color: value < 0 ? Colors.red.shade700 : color,
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildListItem(
+    BuildContext context,
+    String title,
+    String emoji,
+    String description,
+    double value,
+    Color color, {
+    bool isFirst = false,
+    bool isLast = false,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          top: isFirst
+              ? BorderSide.none
+              : BorderSide(color: Colors.grey.shade200, width: 1),
+        ),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      child: Row(
+        children: [
+          // Color indicator
+          Container(
+            width: 4,
+            height: 40,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(width: 12),
+          // Emoji
+          Text(
+            emoji,
+            style: const TextStyle(fontSize: 20),
+          ),
+          const SizedBox(width: 12),
+          // Title and description
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontFamily: AppFonts.fontTitle,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey.shade800,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  description,
+                  style: TextStyle(
+                    fontFamily: AppFonts.fontBody,
+                    fontSize: 11,
+                    color: Colors.grey.shade600,
+                    height: 1.2,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          // Value
+          Text(
+            formatCurrency(value),
+            style: TextStyle(
+              fontFamily: AppFonts.fontTitle,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: value < 0 ? Colors.red.shade700 : color,
+            ),
+          ),
+          const SizedBox(width: 8),
+          // Help button
+          IconButton(
+            icon: Icon(
+              Icons.help_outline,
+              size: 18,
+              color: Colors.grey.shade600,
+            ),
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            onPressed: () => _showHelp(context, title, emoji, description, value),
           ),
         ],
       ),
