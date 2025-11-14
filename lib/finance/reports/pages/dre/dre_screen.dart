@@ -87,7 +87,7 @@ class DREScreen extends StatelessWidget {
         Text(
           'Entenda como sua igreja recebeu e utilizou os recursos no período',
           style: TextStyle(
-            fontFamily: AppFonts.fontBody,
+            fontFamily: AppFonts.fontTitle,
             fontSize: 14,
             color: Colors.grey.shade600,
           ),
@@ -112,7 +112,7 @@ class DREScreen extends StatelessWidget {
             child: Text(
               'Nota: Este relatório considera apenas lançamentos confirmados e reconciliados que afetam o resultado contábil.',
               style: TextStyle(
-                fontFamily: AppFonts.fontBody,
+                fontFamily: AppFonts.fontTitle,
                 fontSize: 13,
                 color: Colors.blue.shade900,
               ),
