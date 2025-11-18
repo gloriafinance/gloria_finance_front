@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 
 import '../theme/app_color.dart';
 import '../theme/app_fonts.dart';
-import '../widgets/app_logo.dart';
 import '../widgets/app_logo_horizontal.dart';
 import 'state/sidebar_state.dart';
 
@@ -32,7 +31,8 @@ class _HeaderLayoutState extends State<HeaderLayout> {
     final authStore = Provider.of<AuthSessionStore>(context);
 
     return Container(
-      padding: const EdgeInsets.only(top: 4.0, bottom: 4.0, left: 4.0),
+      padding: const EdgeInsets.only(top: 4.0, bottom: 0, left: 4.0),
+      height: 110,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: const [
@@ -47,36 +47,35 @@ class _HeaderLayoutState extends State<HeaderLayout> {
         backgroundColor: Colors.white,
         automaticallyImplyLeading: MediaQuery.of(context).size.width < 800,
         flexibleSpace: Container(
-            alignment: Alignment.centerLeft,
-            margin: const EdgeInsets.only(left: 10.0, top: 0),
-            child: Row(
-              children: [
-                if (isMobile(context)) const SizedBox(width: 10),
-                if (isMobile(context))
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 16.0, right: 8.0, top: 8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        context.go('/dashboard');
-                      },
-                      child: ApplicationLogo(
-                        height: 50,
-                      ),
-                    ),
-                  )
-                else
-                  GestureDetector(
-                      onTap: () {
-                        context.go('/dashboard');
-                      },
-                      child: _logoDesktop()),
-                const SizedBox(width: 20),
-              ],
-            )),
+          alignment: Alignment.centerLeft,
+          color: Colors.white,
+          child: Row(
+            children: [
+              if (isMobile(context)) const SizedBox(width: 20),
+              if (isMobile(context))
+                Container(
+                  margin: EdgeInsets.only(top: 42),
+                  padding: const EdgeInsets.only(left: 26.0, right: 8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      context.go('/dashboard');
+                    },
+                    child: Image.asset('images/applogo.jpg', height: 55),
+                  ),
+                )
+              else
+                GestureDetector(
+                  onTap: () {
+                    context.go('/dashboard');
+                  },
+                  child: _logoDesktop(),
+                ),
+              const SizedBox(width: 20),
+            ],
+          ),
+        ),
         actions: [
-          Container(
-            margin: const EdgeInsets.only(top: 10.0),
+          Padding(
             padding: const EdgeInsets.only(right: 16.0),
             child: Row(
               children: [
@@ -84,17 +83,20 @@ class _HeaderLayoutState extends State<HeaderLayout> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   // Alineado al inicio
                   children: [
-                    Text(
-                      authStore.state.session.name.split(' ').first,
-                      style: TextStyle(
-                        fontFamily: AppFonts.fontTitle,
-                        color: Colors.black,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 18.0),
+                      child: Text(
+                        authStore.state.session.name.split(' ').first,
+                        style: TextStyle(
+                          fontFamily: AppFonts.fontTitle,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(width: 12),
-                _avatar(authStore.state.session.name)
+                _avatar(authStore.state.session.name),
               ],
             ),
           ),
@@ -108,10 +110,7 @@ class _HeaderLayoutState extends State<HeaderLayout> {
       return const CircleAvatar(
         radius: 20,
         backgroundColor: AppColors.purple,
-        child: Icon(
-          Icons.person,
-          color: Colors.white,
-        ),
+        child: Icon(Icons.person, color: Colors.white),
       );
     }
 
@@ -139,44 +138,43 @@ class _HeaderLayoutState extends State<HeaderLayout> {
 
     return PopupMenuButton<String>(
       offset: const Offset(0, 40),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-        PopupMenuItem<String>(
-          value: 'trocar_senha',
-          child: Row(
-            children: [
-              Icon(Icons.lock_outline, color: AppColors.purple),
-              const SizedBox(width: 8),
-              Text(
-                'Trocar senha',
-                style: TextStyle(
-                  fontFamily: AppFonts.fontText,
-                  fontWeight: FontWeight.w500,
-                ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      itemBuilder:
+          (BuildContext context) => <PopupMenuEntry<String>>[
+            PopupMenuItem<String>(
+              value: 'trocar_senha',
+              child: Row(
+                children: [
+                  Icon(Icons.lock_outline, color: AppColors.purple),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Trocar senha',
+                    style: TextStyle(
+                      fontFamily: AppFonts.fontText,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        const PopupMenuDivider(),
-        PopupMenuItem<String>(
-          value: 'sair',
-          child: Row(
-            children: [
-              Icon(Icons.logout, color: AppColors.purple),
-              const SizedBox(width: 8),
-              Text(
-                'Sair',
-                style: TextStyle(
-                  fontFamily: AppFonts.fontText,
-                  fontWeight: FontWeight.w500,
-                ),
+            ),
+            const PopupMenuDivider(),
+            PopupMenuItem<String>(
+              value: 'sair',
+              child: Row(
+                children: [
+                  Icon(Icons.logout, color: AppColors.purple),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Sair',
+                    style: TextStyle(
+                      fontFamily: AppFonts.fontText,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-      ],
+            ),
+          ],
       onSelected: (String value) {
         if (value == 'trocar_senha') {
           context.push('/change-password');
@@ -186,7 +184,7 @@ class _HeaderLayoutState extends State<HeaderLayout> {
         }
       },
       child: CircleAvatar(
-        radius: 20,
+        radius: 25,
         backgroundColor: AppColors.purple,
         child: Text(
           initials.length > 2 ? initials.substring(0, 2) : initials,
@@ -204,17 +202,13 @@ class _HeaderLayoutState extends State<HeaderLayout> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         IconButton(
-          icon: Icon(
-            Icons.menu,
-          ),
+          icon: Icon(Icons.menu),
           onPressed: () {
             Provider.of<SidebarNotifier>(context, listen: false).toggle();
           },
         ),
         const SizedBox(width: 10),
-        ApplicationLogoHorizontal(
-          width: 270,
-        )
+        ApplicationLogoHorizontal(width: 270),
       ],
     );
   }
