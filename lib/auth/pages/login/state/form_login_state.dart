@@ -10,11 +10,7 @@ class FormLoginState {
   });
 
   factory FormLoginState.init() {
-    return FormLoginState(
-      email: '',
-      password: '',
-      makeRequest: false,
-    );
+    return FormLoginState(email: '', password: '', makeRequest: false);
   }
 
   FormLoginState copyWith({
@@ -30,11 +26,6 @@ class FormLoginState {
   }
 
   Map<String, dynamic> toJson() {
-    // print(email);
-    // print(password);
-    return {
-      "email": email,
-      "password": password,
-    };
+    return {"email": email, "password": password};
   }
 }

@@ -24,7 +24,7 @@ class AppHttp {
 
   _urlServer() async {
     final apiProd = 'https://api.gloriafinance.com.br/api/';
-    //final apiDev = 'https://church-api.abejarano.dev/api/';
+    //final apiDev = 'https://api.gloriafinance.com.br/api/';
     final apiDev = 'http://localhost:5200/api/';
 
     if (kReleaseMode) {
@@ -35,8 +35,9 @@ class AppHttp {
   }
 
   transformResponse(data) {
-    final Map<String, dynamic> error =
-        Map<String, dynamic>.from(jsonDecode(jsonEncode(data)));
+    final Map<String, dynamic> error = Map<String, dynamic>.from(
+      jsonDecode(jsonEncode(data)),
+    );
 
     if (error.containsKey('requiredPermission')) {
       final description = error['permissionDescription'];

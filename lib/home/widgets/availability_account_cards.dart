@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/auth/pages/login/store/auth_session_store.dart';
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/finance/widgets/account_style.dart';
@@ -11,6 +12,13 @@ class AvailabilityAccountCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sessionStore = Provider.of<AuthSessionStore>(context);
+
+    if (sessionStore.state.session.roles.length == 1 &&
+        sessionStore.state.session.isMember()) {
+      return const Center(child: Text('Seja bem-vindo ao Church Finance!\n\n'));
+    }
+
     final accountsStore = Provider.of<AvailabilityAccountsListStore>(context);
     final accounts = accountsStore.state.availabilityAccounts;
 

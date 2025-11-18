@@ -1,7 +1,7 @@
 import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
+import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/finance/contributions/models/contribution_model.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
@@ -35,30 +35,33 @@ class _ContributionTableState extends State<ContributionTable> {
       child: CustomTable(
         headers: ["Nome", "Valor", "Tipo de contribuçāo", "Status", "Fecha"],
         data: FactoryDataTable<ContributionModel>(
-            data: state.paginate.results, dataBuilder: contributionDTO),
+          data: state.paginate.results,
+          dataBuilder: contributionDTO,
+        ),
         paginate: PaginationData(
-            totalRecords: state.paginate.count,
-            nextPag: state.paginate.nextPag,
-            perPage: state.paginate.perPage,
-            currentPage: state.filter.page,
-            onNextPag: () {
-              contributionPaginationStore.nextPage();
-            },
-            onPrevPag: () {
-              contributionPaginationStore.prevPage();
-            },
-            onChangePerPage: (perPage) {
-              contributionPaginationStore.setPerPage(perPage);
-            }),
+          totalRecords: state.paginate.count,
+          nextPag: state.paginate.nextPag,
+          perPage: state.paginate.perPage,
+          currentPage: state.filter.page,
+          onNextPag: () {
+            contributionPaginationStore.nextPage();
+          },
+          onPrevPag: () {
+            contributionPaginationStore.prevPage();
+          },
+          onChangePerPage: (perPage) {
+            contributionPaginationStore.setPerPage(perPage);
+          },
+        ),
         actionBuilders: [
           (contribution) => ButtonActionTable(
-                color: AppColors.blue,
-                text: "Visualizar",
-                onPressed: () {
-                  _openModal(context, contribution);
-                },
-                icon: Icons.remove_red_eye_sharp,
-              ),
+            color: AppColors.blue,
+            text: "Visualizar",
+            onPressed: () {
+              _openModal(context, contribution);
+            },
+            icon: Icons.remove_red_eye_sharp,
+          ),
         ],
       ),
     );
@@ -66,24 +69,30 @@ class _ContributionTableState extends State<ContributionTable> {
 
   void _openModal(BuildContext context, ContributionModel contribution) {
     ModalPage(
-      title: isMobile(context)
-          ? ""
-          : 'Contribuição #${contribution.contributionId}',
+      title:
+          isMobile(context)
+              ? ""
+              : 'Contribuição #${contribution.contributionId}',
       body: ViewContribution(
-          contribution: contribution,
-          contributionPaginationStore:
-              context.read<ContributionPaginationStore>()),
+        contribution: contribution,
+        contributionPaginationStore:
+            context.read<ContributionPaginationStore>(),
+      ),
     ).show(context);
   }
 
   List<dynamic> contributionDTO(dynamic contribution) {
+    final status = parseContributionStatus(contribution.status);
+
     return [
       contribution.member.name,
-      CurrencyFormatter.formatCurrency(contribution.amount,
-          symbol: contribution.account.symbol),
+      CurrencyFormatter.formatCurrency(
+        contribution.amount,
+        symbol: contribution.account.symbol,
+      ),
       contribution.financeConcept.name,
-      parseContributionStatus(contribution.status).friendlyName,
-      contribution.createdAt.toString(),
+      tagStatus(getContributionStatusColor(status), status.friendlyName),
+      convertDateFormatToDDMMYYYY(contribution.createdAt.toString()),
     ];
   }
 }
