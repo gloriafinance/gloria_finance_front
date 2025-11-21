@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/finance/accounts_receivable/accounts_receivable_service.dart';
+import 'package:church_finance_bk/finance/models/installment_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -83,6 +84,19 @@ class MemberCommitmentsStore extends ChangeNotifier {
   String statusLabel(String? status) {
     final parsed = AccountsReceivableStatusHelper.fromApiValue(status);
     return parsed?.friendlyName ?? 'Sem status';
+  }
+
+  String installmentStatusLabel(String? status) {
+    if (status == null) return 'Sem status';
+
+    try {
+      final parsed = InstallmentsStatus.values.firstWhere(
+        (element) => element.apiValue == status,
+      );
+      return parsed.friendlyName;
+    } catch (_) {
+      return 'Sem status';
+    }
   }
 
   void showFeedback(String message, ToastType type) {
