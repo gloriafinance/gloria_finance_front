@@ -35,6 +35,12 @@ AccountsReceivableModel _commitmentWithInstallments() {
         installmentId: 'urn:installment:4c68d008-b6a7-49de-9c22-e8a73ee2b57f',
         status: 'PAID',
       ),
+      InstallmentModel(
+        amount: 5,
+        dueDate: '2026-02-15T00:00:00.000Z',
+        installmentId: 'urn:installment:extra-in-review',
+        status: 'IN_REVIEW',
+      ),
     ],
     amountPending: 10,
     amountTotal: 10,
@@ -74,11 +80,13 @@ void main() {
       ),
     );
 
-    expect(find.text('Oferta mensal pro terreno'), findsNWidgets(2));
-    expect(find.text('R\$ 5,00'), findsNWidgets(2));
+    expect(find.text('Oferta mensal pro terreno'), findsNWidgets(3));
+    expect(find.text('R\$ 5,00'), findsNWidgets(3));
     expect(find.text('15/12/2025'), findsOneWidget);
     expect(find.text('15/01/2026'), findsOneWidget);
+    expect(find.text('15/02/2026'), findsOneWidget);
     expect(find.text('Pendente'), findsOneWidget);
     expect(find.text('Pago'), findsOneWidget);
+    expect(find.text('Em revisão'), findsOneWidget);
   });
 }
