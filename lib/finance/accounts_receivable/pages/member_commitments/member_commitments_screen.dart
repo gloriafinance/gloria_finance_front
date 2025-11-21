@@ -1,6 +1,6 @@
 import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
+import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/helpers/general.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -11,14 +11,12 @@ import 'widgets/member_commitments_filters.dart';
 import 'widgets/member_commitments_table.dart';
 
 class MemberCommitmentsScreen extends StatelessWidget {
-  final String? debtorDNI;
-
-  const MemberCommitmentsScreen({super.key, this.debtorDNI});
+  const MemberCommitmentsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => MemberCommitmentsStore(debtorDNI: debtorDNI)..initialize(),
+      create: (_) => MemberCommitmentsStore()..initialize(),
       child: LayoutDashboard(
         _header(context),
         screen: Consumer<MemberCommitmentsStore>(
@@ -44,10 +42,7 @@ class MemberCommitmentsScreen extends StatelessWidget {
 
             return const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                MemberCommitmentsFilters(),
-                MemberCommitmentsTable(),
-              ],
+              children: [MemberCommitmentsFilters(), MemberCommitmentsTable()],
             );
           },
         ),
@@ -131,7 +126,10 @@ class MemberCommitmentsScreen extends StatelessWidget {
             onPressed: primaryAction,
             child: Text(
               primaryLabel,
-              style: const TextStyle(fontFamily: AppFonts.fontSubTitle, color: Colors.white),
+              style: const TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+                color: Colors.white,
+              ),
             ),
           ),
         ],

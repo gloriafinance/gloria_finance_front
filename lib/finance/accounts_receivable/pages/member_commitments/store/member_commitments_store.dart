@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/finance/accounts_receivable/accounts_receivable_service.dart';
 import 'package:church_finance_bk/finance/models/installment_model.dart';
@@ -12,35 +11,22 @@ class MemberCommitmentsStore extends ChangeNotifier {
   final AccountsReceivableService service;
   MemberCommitmentsState state;
 
-  MemberCommitmentsStore({
-    String? debtorDNI,
-    AccountsReceivableService? service,
-  })  : service = service ?? AccountsReceivableService(),
-        state = MemberCommitmentsState.initial(debtorDNI ?? '');
+  MemberCommitmentsStore({AccountsReceivableService? service})
+    : service = service ?? AccountsReceivableService(),
+      state = MemberCommitmentsState.initial();
 
-  Future<void> initialize({String? debtorDNI}) async {
-    var dni = debtorDNI ?? state.filter.debtorDNI;
-
-    if (dni.isEmpty) {
-      final session = await AuthPersistence().restore();
-      dni = session.memberId ?? '';
-    }
-
-    if (dni.isEmpty) {
-      state = state.copyWith(errorMessage: 'Não foi possível localizar seus dados.');
-      notifyListeners();
-      return;
-    }
-
-    state = MemberCommitmentsState.initial(dni);
+  Future<void> initialize() async {
+    state = MemberCommitmentsState.initial();
     notifyListeners();
     await fetchCommitments();
   }
 
   Future<void> fetchCommitments() async {
-    if (state.filter.debtorDNI.isEmpty) return;
-
-    state = state.copyWith(isLoading: true, permissionDenied: false, errorMessage: null);
+    state = state.copyWith(
+      isLoading: true,
+      permissionDenied: false,
+      errorMessage: null,
+    );
     notifyListeners();
 
     try {
@@ -52,9 +38,10 @@ class MemberCommitmentsStore extends ChangeNotifier {
       state = state.copyWith(
         isLoading: false,
         permissionDenied: isForbidden,
-        errorMessage: isForbidden
-            ? 'Você não tem permissão para visualizar esta informação.'
-            : 'Não foi possível carregar seus compromissos. Tente novamente.',
+        errorMessage:
+            isForbidden
+                ? 'Você não tem permissão para visualizar esta informação.'
+                : 'Não foi possível carregar seus compromissos. Tente novamente.',
       );
       notifyListeners();
     }
@@ -76,7 +63,9 @@ class MemberCommitmentsStore extends ChangeNotifier {
   }
 
   void setPerPage(int perPage) {
-    state = state.copyWith(filter: state.filter.copyWith(perPage: perPage, page: 1));
+    state = state.copyWith(
+      filter: state.filter.copyWith(perPage: perPage, page: 1),
+    );
     notifyListeners();
     fetchCommitments();
   }

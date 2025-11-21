@@ -46,68 +46,98 @@ class _PaymentDeclarationFormState extends State<PaymentDeclarationForm> {
           }
 
           final state = declarationStore.state;
-          final accounts = availabilityStore.state.availabilityAccounts
-              .where((account) => account.active)
-              .toList();
+          final accounts =
+              availabilityStore.state.availabilityAccounts
+                  .where((account) => account.active)
+                  .toList();
 
           if (!_initializedAccount &&
               accounts.isNotEmpty &&
               declarationStore.state.availabilityAccountId == null) {
             _initializedAccount = true;
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              declarationStore.setAvailabilityAccount(accounts.first.availabilityAccountId);
+              declarationStore.setAvailabilityAccount(
+                accounts.first.availabilityAccountId,
+              );
             });
           }
 
-          return Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _commitmentInfo(),
-                const SizedBox(height: 12),
-                _availabilityDropdown(declarationStore, accounts),
-                _amountField(declarationStore),
-                _voucherPicker(declarationStore),
-                if (state.errorMessage != null) _errorText(state.errorMessage!),
-                const SizedBox(height: 12),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: ElevatedButton.icon(
-                    icon: state.isSubmitting
-                        ? const SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Icon(Icons.check),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.purple,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-                    ),
-                    onPressed: state.isSubmitting
-                        ? null
-                        : () async {
-                            final canProceed = _formKey.currentState?.validate() ?? false;
-                            if (!canProceed) return;
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 14),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 16.0,
+                  offset: Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _commitmentInfo(),
+                  const SizedBox(height: 12),
+                  _availabilityDropdown(declarationStore, accounts),
+                  _amountField(declarationStore),
+                  _voucherPicker(declarationStore),
+                  if (state.errorMessage != null)
+                    _errorText(state.errorMessage!),
+                  const SizedBox(height: 12),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: ElevatedButton.icon(
+                      icon:
+                          state.isSubmitting
+                              ? const SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              )
+                              : const Icon(Icons.check),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.purple,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 14,
+                        ),
+                      ),
+                      onPressed:
+                          state.isSubmitting
+                              ? null
+                              : () async {
+                                final canProceed =
+                                    _formKey.currentState?.validate() ?? false;
+                                if (!canProceed) return;
 
-                            final success = await declarationStore.submit(
-                              widget.commitment,
-                              widget.installment,
-                            );
+                                final success = await declarationStore.submit(
+                                  widget.commitment,
+                                  widget.installment,
+                                );
 
-                            if (success && mounted) {
-                              Navigator.of(context).pop();
-                            }
-                          },
-                    label: Text(
-                      state.isSubmitting ? 'Enviando...' : 'Declarar pagamento',
-                      style: const TextStyle(fontFamily: AppFonts.fontSubTitle),
+                                if (success && mounted) {
+                                  Navigator.of(context).pop();
+                                }
+                              },
+                      label: Text(
+                        state.isSubmitting
+                            ? 'Enviando...'
+                            : 'Declarar pagamento',
+                        style: const TextStyle(
+                          fontFamily: AppFonts.fontSubTitle,
+                        ),
+                      ),
                     ),
                   ),
-                )
-              ],
+                ],
+              ),
             ),
           );
         },
@@ -128,7 +158,10 @@ class _PaymentDeclarationFormState extends State<PaymentDeclarationForm> {
         children: [
           Text(
             widget.commitment.description,
-            style: const TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 16),
+            style: const TextStyle(
+              fontFamily: AppFonts.fontTitle,
+              fontSize: 16,
+            ),
           ),
           const SizedBox(height: 4),
           Text(
@@ -144,52 +177,16 @@ class _PaymentDeclarationFormState extends State<PaymentDeclarationForm> {
     PaymentDeclarationStore declarationStore,
     List<AvailabilityAccountModel> accounts,
   ) {
-    if (accounts.isEmpty) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text(
-            'Conta de origem',
-            style: TextStyle(
-              color: AppColors.purple,
-              fontFamily: AppFonts.fontTitle,
-              fontSize: 15,
-            ),
-          ),
-          SizedBox(height: 8),
-          Text(
-            'Nenhuma conta de disponibilidade encontrada. Adicione uma conta para continuar.',
-            style: TextStyle(fontFamily: AppFonts.fontSubTitle),
-          ),
-        ],
-      );
-    }
-
-    AvailabilityAccountModel? selected;
-    if (declarationStore.state.availabilityAccountId != null) {
-      try {
-        selected = accounts.firstWhere(
-          (account) =>
-              account.availabilityAccountId == declarationStore.state.availabilityAccountId,
-        );
-      } catch (_) {
-        selected = null;
-      }
-    }
-
-    final selectedLabel = selected?.accountName;
-
     return Dropdown(
-      label: 'Conta de origem',
+      label: 'Conta de disponibilidade',
       items: accounts.map((a) => a.accountName).toList(),
-      initialValue: selectedLabel,
       onChanged: (value) {
         final account = accounts.firstWhere((a) => a.accountName == value);
         declarationStore.setAvailabilityAccount(account.availabilityAccountId);
       },
       onValidator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Selecione a conta de origem';
+          return 'Selecione a conta de disponibilidade';
         }
         return null;
       },
@@ -245,7 +242,10 @@ class _PaymentDeclarationFormState extends State<PaymentDeclarationForm> {
           Expanded(
             child: Text(
               message,
-              style: const TextStyle(color: Colors.red, fontFamily: AppFonts.fontSubTitle),
+              style: const TextStyle(
+                color: Colors.red,
+                fontFamily: AppFonts.fontSubTitle,
+              ),
             ),
           ),
         ],
