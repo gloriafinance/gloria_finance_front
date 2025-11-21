@@ -72,7 +72,7 @@ class PaymentDeclarationStore extends ChangeNotifier {
       state = state.copyWith(isSubmitting: false);
       notifyListeners();
       if (showToast) {
-        Toast.showMessage('Pagamento declarado! Agora está em validação.', ToastType.success);
+        Toast.showMessage('Pagamento declarado! Agora está em validação.', ToastType.info);
       }
       return true;
     } on DioException catch (e) {
