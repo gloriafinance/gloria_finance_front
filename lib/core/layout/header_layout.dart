@@ -86,7 +86,7 @@ class _HeaderLayoutState extends State<HeaderLayout> {
                     Padding(
                       padding: const EdgeInsets.only(top: 18.0),
                       child: Text(
-                        authStore.state.session.name.split(' ').first,
+                        '${authStore.state.session.name.split(' ').first} ${authStore.state.session.name.split(' ').last}',
                         style: TextStyle(
                           fontFamily: AppFonts.fontTitle,
                           color: Colors.black,
@@ -184,7 +184,7 @@ class _HeaderLayoutState extends State<HeaderLayout> {
         }
       },
       child: CircleAvatar(
-        radius: 25,
+        radius: 20,
         backgroundColor: AppColors.purple,
         child: Text(
           initials.length > 2 ? initials.substring(0, 2) : initials,
