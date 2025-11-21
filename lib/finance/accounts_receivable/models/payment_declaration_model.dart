@@ -5,7 +5,7 @@ class PaymentDeclarationModel {
   final String installmentId;
   final String availabilityAccountId;
   final double amount;
-  final MultipartFile? voucher;
+  final MultipartFile? file;
   final String? memberId;
 
   PaymentDeclarationModel({
@@ -13,7 +13,7 @@ class PaymentDeclarationModel {
     required this.installmentId,
     required this.availabilityAccountId,
     required this.amount,
-    this.voucher,
+    this.file,
     this.memberId,
   });
 
@@ -24,7 +24,7 @@ class PaymentDeclarationModel {
       'availabilityAccountId': availabilityAccountId,
       'amount': amount,
       if (memberId != null) 'memberId': memberId,
-      if (voucher != null) 'voucher': voucher,
+      if (file != null) 'file': file,
     });
   }
 }

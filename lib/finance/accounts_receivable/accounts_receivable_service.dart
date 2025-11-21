@@ -57,7 +57,7 @@ class AccountsReceivableService extends AppHttp {
 
     try {
       final response = await http.get(
-        '${await getUrlApi()}account-receivable/member/${filter.debtorDNI}/commitments',
+        '${await getUrlApi()}account-receivable/member/commitments',
         queryParameters: filter.toQuery(),
         options: Options(headers: bearerToken()),
       );
@@ -96,9 +96,7 @@ class AccountsReceivableService extends AppHttp {
     }
   }
 
-  Future<void> declareMemberPayment(
-    PaymentDeclarationModel declaration,
-  ) async {
+  Future<void> declareMemberPayment(PaymentDeclarationModel declaration) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
