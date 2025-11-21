@@ -111,7 +111,7 @@ class MemberCommitmentsTable extends StatelessWidget {
         'Vencimento',
         'Status',
       ],
-      data: FactoryDataTable<AccountsReceivableModel>(
+      data: FactoryDataTable<_CommitmentInstallmentRow>(
         data: rows,
         dataBuilder: (item) => _buildRow(item as _CommitmentInstallmentRow, store),
       ),
