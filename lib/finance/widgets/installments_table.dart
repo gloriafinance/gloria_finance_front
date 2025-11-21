@@ -127,6 +127,10 @@ class _InstallmentsTableState extends State<InstallmentsTable> {
         statusText = InstallmentsStatus.PENDING.friendlyName;
         statusColor = AppColors.mustard;
         break;
+      case 'IN_REVIEW':
+        statusText = InstallmentsStatus.IN_REVIEW.friendlyName;
+        statusColor = AppColors.purple;
+        break;
       default:
         statusText = InstallmentsStatus.PARTIAL.friendlyName;
         statusColor = Colors.blue;
