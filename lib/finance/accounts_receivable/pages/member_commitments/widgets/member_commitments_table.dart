@@ -16,45 +16,60 @@ import 'payment_declaration_form.dart';
 class MemberCommitmentsTable extends StatelessWidget {
   const MemberCommitmentsTable({super.key});
 
-  AccountsReceivableStatus? _statusFromModel(AccountsReceivableModel model) {
-    return AccountsReceivableStatusHelper.fromApiValue(model.status);
+  InstallmentsStatus? _installmentStatus(InstallmentModel installment) {
+    try {
+      return InstallmentsStatus.values.firstWhere(
+        (element) => element.apiValue == installment.status,
+      );
+    } catch (_) {
+      return null;
+    }
   }
 
-  Color _statusColor(AccountsReceivableStatus? status) {
+  Color _installmentStatusColor(InstallmentsStatus? status) {
     switch (status) {
-      case AccountsReceivableStatus.PAID:
+      case InstallmentsStatus.PAID:
         return AppColors.green;
-      case AccountsReceivableStatus.PENDING_ACCEPTANCE:
+      case InstallmentsStatus.PARTIAL:
         return AppColors.blue;
-      case AccountsReceivableStatus.DENIED:
-        return Colors.redAccent;
-      case AccountsReceivableStatus.PENDING:
+      case InstallmentsStatus.PENDING:
       default:
         return AppColors.mustard;
     }
   }
 
-  InstallmentModel? _nextPendingInstallment(AccountsReceivableModel model) {
-    for (final installment in model.installments) {
-      if (installment.status == InstallmentsStatus.PENDING.apiValue ||
-          installment.status == InstallmentsStatus.PARTIAL.apiValue ||
-          installment.status == null) {
-        return installment;
-      }
-    }
-    return null;
+  bool _canDeclare(InstallmentModel installment) {
+    final status = _installmentStatus(installment);
+    return status == null ||
+        status == InstallmentsStatus.PENDING ||
+        status == InstallmentsStatus.PARTIAL;
   }
 
-  bool _canDeclare(AccountsReceivableModel model) {
-    return _nextPendingInstallment(model) != null;
+  List<_CommitmentInstallmentRow> _flattenRows(
+    List<AccountsReceivableModel> commitments,
+  ) {
+    final rows = <_CommitmentInstallmentRow>[];
+
+    for (final commitment in commitments) {
+      if (commitment.installments.isEmpty) {
+        continue;
+      }
+
+      for (final installment in commitment.installments) {
+        rows.add(_CommitmentInstallmentRow(commitment, installment));
+      }
+    }
+
+    return rows;
   }
 
   @override
   Widget build(BuildContext context) {
     final store = context.watch<MemberCommitmentsStore>();
     final state = store.state;
+    final rows = _flattenRows(state.paginate.results);
 
-    if (state.isLoading && state.paginate.results.isEmpty) {
+    if (state.isLoading && rows.isEmpty) {
       return Container(
         alignment: Alignment.center,
         margin: const EdgeInsets.only(top: 60),
@@ -62,7 +77,7 @@ class MemberCommitmentsTable extends StatelessWidget {
       );
     }
 
-    if (state.paginate.results.isEmpty) {
+    if (rows.isEmpty) {
       return Container(
         width: double.infinity,
         margin: const EdgeInsets.only(top: 32),
@@ -92,19 +107,18 @@ class MemberCommitmentsTable extends StatelessWidget {
     return CustomTable(
       headers: const [
         'Descrição',
-        'Próxima parcela',
+        'Valor da parcela',
         'Vencimento',
         'Status',
       ],
       data: FactoryDataTable<AccountsReceivableModel>(
-        data: state.paginate.results,
-        dataBuilder: (item) => _buildRow(item as AccountsReceivableModel, store),
+        data: rows,
+        dataBuilder: (item) => _buildRow(item as _CommitmentInstallmentRow, store),
       ),
       actionBuilders: [
         (item) {
-          final model = item as AccountsReceivableModel;
-          final pendingInstallment = _nextPendingInstallment(model);
-          if (!_canDeclare(model)) {
+          final row = item as _CommitmentInstallmentRow;
+          if (!_canDeclare(row.installment)) {
             return const SizedBox.shrink();
           }
 
@@ -113,9 +127,7 @@ class MemberCommitmentsTable extends StatelessWidget {
             text: 'Declarar pagamento',
             icon: Icons.attach_money,
             onPressed: () {
-              if (pendingInstallment != null) {
-                _openDeclaration(context, model, pendingInstallment);
-              }
+              _openDeclaration(context, row.commitment, row.installment);
             },
           );
         },
@@ -133,31 +145,29 @@ class MemberCommitmentsTable extends StatelessWidget {
   }
 
   List<dynamic> _buildRow(
-    AccountsReceivableModel model,
+    _CommitmentInstallmentRow row,
     MemberCommitmentsStore store,
   ) {
-    final pendingInstallment = _nextPendingInstallment(model);
-    final status = _statusFromModel(model);
+    final status = _installmentStatus(row.installment);
 
     return [
       SizedBox(
         width: 260,
         child: Text(
-          model.description,
+          row.commitment.description,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(fontFamily: AppFonts.fontSubTitle),
         ),
       ),
-      pendingInstallment != null
-          ? CurrencyFormatter.formatCurrency(pendingInstallment.amount)
-          : CurrencyFormatter.formatCurrency(model.amountPending ?? 0),
-      pendingInstallment != null
-          ? convertDateFormatToDDMMYYYY(pendingInstallment.dueDate)
-          : '-',
+      CurrencyFormatter.formatCurrency(row.installment.amount),
+      convertDateFormatToDDMMYYYY(row.installment.dueDate),
       SizedBox(
         width: 140,
-        child: tagStatus(_statusColor(status), store.statusLabel(model.status)),
+        child: tagStatus(
+          _installmentStatusColor(status),
+          store.installmentStatusLabel(row.installment.status),
+        ),
       ),
     ];
   }
@@ -177,4 +187,11 @@ class MemberCommitmentsTable extends StatelessWidget {
       context.read<MemberCommitmentsStore>().fetchCommitments();
     });
   }
+}
+
+class _CommitmentInstallmentRow {
+  final AccountsReceivableModel commitment;
+  final InstallmentModel installment;
+
+  _CommitmentInstallmentRow(this.commitment, this.installment);
 }
