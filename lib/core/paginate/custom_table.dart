@@ -44,6 +44,16 @@ class CustomTable extends StatefulWidget {
 class _CustomTableState extends State<CustomTable> {
   int? perPageState;
 
+  List<int> _perPageOptions() {
+    final options = <int>{10, 20, 50, 70};
+    if (perPageState != null) {
+      options.add(perPageState!);
+    }
+
+    final sorted = options.toList()..sort();
+    return sorted;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -249,8 +259,8 @@ class _CustomTableState extends State<CustomTable> {
               color: Colors.black87,
             ),
             value: perPageState,
-            items:
-                [20, 50, 70].map((int value) {
+            items: _perPageOptions()
+                .map((int value) {
                   return DropdownMenuItem<int>(
                     value: value,
                     child: Text("$value por página"),
@@ -283,8 +293,8 @@ class _CustomTableState extends State<CustomTable> {
               color: Colors.black87,
             ),
             value: perPageState,
-            items:
-                [20, 50, 70].map((int value) {
+            items: _perPageOptions()
+                .map((int value) {
                   return DropdownMenuItem<int>(
                     value: value,
                     child: Text("$value por página"),
