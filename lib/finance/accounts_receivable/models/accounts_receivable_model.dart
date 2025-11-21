@@ -3,7 +3,7 @@ import 'package:church_finance_bk/helpers/date_formatter.dart';
 import '../../models/installment_model.dart';
 import 'debtor_model.dart';
 
-enum AccountsReceivableStatus { PENDING, PAID, PENDING_ACCEPTANCE }
+enum AccountsReceivableStatus { PENDING, PAID, PENDING_ACCEPTANCE, DENIED }
 
 extension AccountsReceivableStatusExtension on AccountsReceivableStatus {
   String get friendlyName {
@@ -14,6 +14,8 @@ extension AccountsReceivableStatusExtension on AccountsReceivableStatus {
         return 'Pago';
       case AccountsReceivableStatus.PENDING_ACCEPTANCE:
         return 'Pendente de Aceite';
+      case AccountsReceivableStatus.DENIED:
+        return 'Recusado';
     }
   }
 
@@ -25,6 +27,22 @@ extension AccountsReceivableStatusExtension on AccountsReceivableStatus {
         return 'PAID';
       case AccountsReceivableStatus.PENDING_ACCEPTANCE:
         return 'PENDING_ACCEPTANCE';
+      case AccountsReceivableStatus.DENIED:
+        return 'DENIED';
+    }
+  }
+}
+
+class AccountsReceivableStatusHelper {
+  static AccountsReceivableStatus? fromApiValue(String? value) {
+    if (value == null) return null;
+
+    try {
+      return AccountsReceivableStatus.values.firstWhere(
+        (element) => element.apiValue == value,
+      );
+    } catch (_) {
+      return null;
     }
   }
 }
