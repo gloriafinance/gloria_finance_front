@@ -30,6 +30,7 @@ class PaymentDeclarationForm extends StatefulWidget {
 class _PaymentDeclarationFormState extends State<PaymentDeclarationForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _prefilledAmount = false;
+  bool _initializedAccount = false;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,9 @@ class _PaymentDeclarationFormState extends State<PaymentDeclarationForm> {
         builder: (context, declarationStore, availabilityStore, _) {
           if (!_prefilledAmount) {
             _prefilledAmount = true;
-            declarationStore.setAmount(widget.installment.amount);
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              declarationStore.setAmount(widget.installment.amount);
+            });
           }
 
           final state = declarationStore.state;
@@ -47,9 +50,13 @@ class _PaymentDeclarationFormState extends State<PaymentDeclarationForm> {
               .where((account) => account.active)
               .toList();
 
-          if (accounts.isNotEmpty &&
+          if (!_initializedAccount &&
+              accounts.isNotEmpty &&
               declarationStore.state.availabilityAccountId == null) {
-            declarationStore.setAvailabilityAccount(accounts.first.availabilityAccountId);
+            _initializedAccount = true;
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              declarationStore.setAvailabilityAccount(accounts.first.availabilityAccountId);
+            });
           }
 
           return Form(
