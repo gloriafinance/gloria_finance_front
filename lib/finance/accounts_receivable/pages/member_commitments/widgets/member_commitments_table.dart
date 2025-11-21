@@ -32,6 +32,8 @@ class MemberCommitmentsTable extends StatelessWidget {
         return AppColors.green;
       case InstallmentsStatus.PARTIAL:
         return AppColors.blue;
+      case InstallmentsStatus.IN_REVIEW:
+        return AppColors.purple;
       case InstallmentsStatus.PENDING:
       default:
         return AppColors.mustard;
