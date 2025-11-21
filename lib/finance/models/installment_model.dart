@@ -1,6 +1,6 @@
 import '../../../helpers/date_formatter.dart';
 
-enum InstallmentsStatus { PENDING, PAID, PARTIAL }
+enum InstallmentsStatus { PENDING, PAID, PARTIAL, IN_REVIEW }
 
 extension InstallmentsStatusExtension on InstallmentsStatus {
   String get friendlyName {
@@ -11,6 +11,8 @@ extension InstallmentsStatusExtension on InstallmentsStatus {
         return 'Pago';
       case InstallmentsStatus.PARTIAL:
         return 'Pagamento parcial';
+      case InstallmentsStatus.IN_REVIEW:
+        return 'Em revisão';
     }
   }
 
@@ -22,6 +24,8 @@ extension InstallmentsStatusExtension on InstallmentsStatus {
         return 'PAID';
       case InstallmentsStatus.PARTIAL:
         return 'PARTIAL_PAYMENT';
+      case InstallmentsStatus.IN_REVIEW:
+        return 'IN_REVIEW';
     }
   }
 }

@@ -120,6 +120,17 @@ void main() {
       expect(fakeService.calls, 1);
       expect(fakeService.lastFilter?.status, AccountsReceivableStatus.PAID);
     });
+
+    test('installmentStatusLabel maps IN_REVIEW to friendly text', () {
+      final store = MemberCommitmentsStore(
+        debtorDNI: '999',
+        service: _FakeAccountsReceivableService(),
+      );
+
+      final label = store.installmentStatusLabel('IN_REVIEW');
+
+      expect(label, 'Em revisão');
+    });
   });
 
   group('PaymentDeclarationStore', () {
