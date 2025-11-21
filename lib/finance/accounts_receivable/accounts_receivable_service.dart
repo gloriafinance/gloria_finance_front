@@ -49,6 +49,30 @@ class AccountsReceivableService extends AppHttp {
     }
   }
 
+  Future<PaginateResponse<AccountsReceivableModel>> listMemberCommitments(
+    MemberCommitmentFilter filter,
+  ) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.get(
+        '${await getUrlApi()}account-receivable/member/commitments',
+        queryParameters: filter.toQuery(),
+        options: Options(headers: bearerToken()),
+      );
+
+      return PaginateResponse.fromJson(
+        filter.perPage,
+        response.data,
+        (data) => AccountsReceivableModel.fromJson(data),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
   sendPayment(Map<String, dynamic> form) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
@@ -66,6 +90,22 @@ class AccountsReceivableService extends AppHttp {
       );
 
       return response.data;
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<void> declareMemberPayment(PaymentDeclarationModel declaration) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      await http.post(
+        '${await getUrlApi()}account-receivable/member/payment-declaration',
+        data: declaration.toFormData(),
+        options: Options(headers: bearerToken()),
+      );
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;
