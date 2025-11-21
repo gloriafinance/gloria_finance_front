@@ -36,6 +36,11 @@ class _NavigatorMember extends State<NavigatorMember> {
           color: AppColors.purple,
           tabs: [
             _item("Inicio", Icons.home_outlined, "/dashboard"),
+            _item(
+              "Compromissos",
+              Icons.assignment_outlined,
+              "/member/commitments",
+            ),
             _item("Contribuiçōes", Icons.monetization_on_outlined,
                 "/contributions_list"),
             _item("Perfil", Icons.settings_rounded, "/settings"),
