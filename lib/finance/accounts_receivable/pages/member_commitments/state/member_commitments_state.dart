@@ -17,10 +17,10 @@ class MemberCommitmentsState {
     this.errorMessage,
   });
 
-  factory MemberCommitmentsState.initial(String debtorDNI) {
+  factory MemberCommitmentsState.initial() {
     return MemberCommitmentsState(
       paginate: PaginateResponse.init(),
-      filter: MemberCommitmentFilter(debtorDNI: debtorDNI),
+      filter: MemberCommitmentFilter(),
     );
   }
 

@@ -13,8 +13,10 @@ class PaymentDeclarationStore extends ChangeNotifier {
   final bool showToast;
   PaymentDeclarationState state = const PaymentDeclarationState();
 
-  PaymentDeclarationStore({AccountsReceivableService? service, this.showToast = true})
-      : service = service ?? AccountsReceivableService();
+  PaymentDeclarationStore({
+    AccountsReceivableService? service,
+    this.showToast = true,
+  }) : service = service ?? AccountsReceivableService();
 
   void setAvailabilityAccount(String value) {
     state = state.copyWith(availabilityAccountId: value);
@@ -35,14 +37,20 @@ class PaymentDeclarationStore extends ChangeNotifier {
     AccountsReceivableModel commitment,
     InstallmentModel installment,
   ) async {
-    if (commitment.accountReceivableId == null || installment.installmentId == null) {
-      state = state.copyWith(errorMessage: 'Registro do compromisso incompleto.');
+    if (commitment.accountReceivableId == null ||
+        installment.installmentId == null) {
+      state = state.copyWith(
+        errorMessage: 'Registro do compromisso incompleto.',
+      );
       notifyListeners();
       return false;
     }
 
-    if (state.availabilityAccountId == null || state.availabilityAccountId!.isEmpty) {
-      state = state.copyWith(errorMessage: 'Selecione a conta de origem para o pagamento.');
+    if (state.availabilityAccountId == null ||
+        state.availabilityAccountId!.isEmpty) {
+      state = state.copyWith(
+        errorMessage: 'Selecione a conta de disponibilidade para o pagamento.',
+      );
       notifyListeners();
       return false;
     }
@@ -53,7 +61,11 @@ class PaymentDeclarationStore extends ChangeNotifier {
       return false;
     }
 
-    state = state.copyWith(isSubmitting: true, errorMessage: null, validationErrors: {});
+    state = state.copyWith(
+      isSubmitting: true,
+      errorMessage: null,
+      validationErrors: {},
+    );
     notifyListeners();
 
     try {
@@ -64,7 +76,7 @@ class PaymentDeclarationStore extends ChangeNotifier {
           installmentId: installment.installmentId!,
           availabilityAccountId: state.availabilityAccountId!,
           amount: state.amount!,
-          voucher: state.voucher,
+          file: state.voucher,
           memberId: session.memberId,
         ),
       );
@@ -72,7 +84,10 @@ class PaymentDeclarationStore extends ChangeNotifier {
       state = state.copyWith(isSubmitting: false);
       notifyListeners();
       if (showToast) {
-        Toast.showMessage('Pagamento declarado! Agora está em validação.', ToastType.info);
+        Toast.showMessage(
+          'Pagamento declarado! Agora está em validação.',
+          ToastType.info,
+        );
       }
       return true;
     } on DioException catch (e) {
@@ -81,7 +96,8 @@ class PaymentDeclarationStore extends ChangeNotifier {
       if (e.response?.statusCode == 422 && data is Map<String, dynamic>) {
         for (final entry in data.entries) {
           if (entry.value is List && (entry.value as List).isNotEmpty) {
-            validationErrors[entry.key] = (entry.value as List).first.toString();
+            validationErrors[entry.key] =
+                (entry.value as List).first.toString();
           } else if (entry.value is String) {
             validationErrors[entry.key] = entry.value;
           }
@@ -91,9 +107,10 @@ class PaymentDeclarationStore extends ChangeNotifier {
       state = state.copyWith(
         isSubmitting: false,
         validationErrors: validationErrors,
-        errorMessage: validationErrors.isNotEmpty
-            ? validationErrors.values.join('\n')
-            : 'Não foi possível registrar o pagamento. Tente novamente.',
+        errorMessage:
+            validationErrors.isNotEmpty
+                ? validationErrors.values.join('\n')
+                : 'Não foi possível registrar o pagamento. Tente novamente.',
       );
       notifyListeners();
       return false;
