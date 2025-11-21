@@ -5,7 +5,6 @@ import 'package:church_finance_bk/core/widgets/loading.dart';
 import 'package:church_finance_bk/core/widgets/upload_file.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:church_finance_bk/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
-import 'package:church_finance_bk/settings/banks/store/bank_store.dart';
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +15,7 @@ import 'package:provider/provider.dart';
 
 import '../../store/form_record_offerings_store.dart';
 import '../../validators/form_record_offerings.dart';
+import 'widgets/availability_account_dropdown.dart';
 
 class ContributionOfferingsScreen extends StatefulWidget {
   const ContributionOfferingsScreen({super.key});
@@ -34,30 +34,24 @@ class _ContributionOfferingsScreenState
   Widget build(BuildContext context) {
     final formOfferingStore = Provider.of<FormRecordOfferingStore>(context);
     final conceptStore = Provider.of<FinancialConceptStore>(context);
-    final bankStore = Provider.of<BankStore>(context);
     final availabilityAccountsListStore =
         Provider.of<AvailabilityAccountsListStore>(context);
-
-    //TODO esto porque existe un solo banco, pero si existen mas de uno, se debe seleccionar
-    if (bankStore.state.banks.isNotEmpty) {
-      final bank = bankStore.state.banks.first;
-
-      formOfferingStore.setBankId(bank.bankId);
-    }
-
-    //TODO esto porque existe una sola cuenta de disponibilidad, pero si existen mas de uno, se debe seleccionar
-    if (availabilityAccountsListStore.state.availabilityAccounts.isNotEmpty) {
-      final account = availabilityAccountsListStore.state.availabilityAccounts
-          .firstWhere((e) => e.accountType == "BANK");
-
-      formOfferingStore.setAvailabilityAccountId(account.availabilityAccountId);
-    }
 
     return Form(
         key: formKey,
         child: Column(
           children: [
             _searchFinancialConcepts(formOfferingStore, conceptStore),
+            const SizedBox(height: 16),
+            availabilityAccountDropdown(
+              availabilityAccountsListStore: availabilityAccountsListStore,
+              selectedAvailabilityAccountId:
+                  formOfferingStore.state.availabilityAccountId,
+              onValidator:
+                  validator.byField(formOfferingStore.state, 'moneyLocation'),
+              onChanged: (selectedAccount) =>
+                  formOfferingStore.setAvailabilityAccount(selectedAccount),
+            ),
             const SizedBox(height: 16),
             amount(formOfferingStore),
             const SizedBox(height: 16),

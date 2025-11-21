@@ -5,7 +5,6 @@ import 'package:church_finance_bk/core/widgets/loading.dart';
 import 'package:church_finance_bk/core/widgets/upload_file.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:church_finance_bk/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
-import 'package:church_finance_bk/settings/banks/store/bank_store.dart';
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +14,7 @@ import 'package:provider/provider.dart';
 
 import '../../store/form_tithes_store.dart';
 import '../../validators/form_tithes_validator.dart';
+import 'widgets/availability_account_dropdown.dart';
 import 'widgets/month_dropdown.dart';
 
 class ContributionTithesScreen extends StatefulWidget {
@@ -33,7 +33,6 @@ class _ContributionTithesScreenState extends State<ContributionTithesScreen> {
   Widget build(BuildContext context) {
     final formTitheStore = Provider.of<FormTitheStore>(context);
     final conceptStore = Provider.of<FinancialConceptStore>(context);
-    final bankStore = Provider.of<BankStore>(context);
     final availabilityAccountsListStore =
         Provider.of<AvailabilityAccountsListStore>(context);
 
@@ -42,20 +41,6 @@ class _ContributionTithesScreenState extends State<ContributionTithesScreen> {
           .firstWhere((e) => e.name.startsWith("Dízimo"));
 
       formTitheStore.setFinancialConceptId(titheConcept.financialConceptId);
-    }
-
-    //TODO esto porque existe un solo banco, pero si existen mas de uno, se debe seleccionar
-    if (bankStore.state.banks.isNotEmpty) {
-      final bank = bankStore.state.banks.first;
-      formTitheStore.setBankId(bank.bankId);
-    }
-
-    //TODO esto porque existe una sola cuenta de disponibilidad, pero si existen mas de uno, se debe seleccionar
-    if (availabilityAccountsListStore.state.availabilityAccounts.isNotEmpty) {
-      final account = availabilityAccountsListStore.state.availabilityAccounts
-          .firstWhere((e) => e.accountType == "BANK");
-
-      formTitheStore.setAvailabilityAccount(account);
     }
 
     return Form(
@@ -79,6 +64,16 @@ class _ContributionTithesScreenState extends State<ContributionTithesScreen> {
               const SizedBox(width: 16),
               Expanded(child: amount(formTitheStore)),
             ],
+          ),
+          const SizedBox(height: 16),
+          availabilityAccountDropdown(
+            availabilityAccountsListStore: availabilityAccountsListStore,
+            selectedAvailabilityAccountId:
+                formTitheStore.state.availabilityAccountId,
+            onValidator:
+                validator.byField(formTitheStore.state, 'moneyLocation'),
+            onChanged: (selectedAccount) =>
+                formTitheStore.setAvailabilityAccount(selectedAccount),
           ),
           const SizedBox(height: 16),
           _uploadFile(formTitheStore),

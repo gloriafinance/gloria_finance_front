@@ -10,5 +10,8 @@ class FormRecordOfferingsValidator
 
     ruleFor((m) => m.financialConceptId, key: 'financialConceptId')
         .notEmpty(message: 'Selecione um conceito financeiro');
+
+    ruleFor((m) => m.availabilityAccountId, key: 'moneyLocation')
+        .notEmpty(message: 'Selecione a conta de disponibilidade');
   }
 }

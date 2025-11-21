@@ -1,3 +1,5 @@
+import 'package:church_finance_bk/settings/availability_accounts/models/availability_account_model.dart';
+import 'package:church_finance_bk/settings/banks/models/bank_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -20,10 +22,20 @@ class FormRecordOfferingStore extends ChangeNotifier {
 
   void setBankId(String bankId) {
     state = state.copyWith(bankId: bankId);
+    notifyListeners();
+  }
+
+  void setAvailabilityAccount(
+      AvailabilityAccountModel availabilityAccount) {
+    state = state.copyWith(
+        availabilityAccountId: availabilityAccount.availabilityAccountId,
+        bankId: _bankIdFromAvailabilityAccount(availabilityAccount));
+    notifyListeners();
   }
 
   void setAvailabilityAccountId(String availabilityAccountId) {
     state = state.copyWith(availabilityAccountId: availabilityAccountId);
+    notifyListeners();
   }
 
   void setFinancialConceptId(String financialConceptId) {
@@ -55,5 +67,19 @@ class FormRecordOfferingStore extends ChangeNotifier {
 
       return false;
     }
+  }
+
+  String _bankIdFromAvailabilityAccount(
+      AvailabilityAccountModel availabilityAccount) {
+    if (availabilityAccount.accountType != AccountType.BANK.apiValue) {
+      return '';
+    }
+
+    final source = availabilityAccount.getSource();
+    if (source is BankModel) {
+      return source.bankId;
+    }
+
+    return '';
   }
 }
