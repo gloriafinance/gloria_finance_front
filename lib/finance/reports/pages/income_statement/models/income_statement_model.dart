@@ -23,7 +23,7 @@ int _toInt(dynamic value) {
   return int.tryParse(value.toString()) ?? 0;
 }
 
-/// Periodo consolidado del reporte.
+/// Período consolidado do relatório.
 class IncomeStatementPeriod {
   final int year;
   final int month;
