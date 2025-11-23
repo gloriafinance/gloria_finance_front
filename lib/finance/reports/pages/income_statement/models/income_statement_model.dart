@@ -50,6 +50,7 @@ enum IncomeStatementCategory {
   cogs,
   opex,
   capex,
+  ministryTransfers,
   other,
   unknown,
 }
@@ -64,6 +65,8 @@ IncomeStatementCategory incomeStatementCategoryFromApi(String? value) {
       return IncomeStatementCategory.opex;
     case 'CAPEX':
       return IncomeStatementCategory.capex;
+    case 'MINISTRY_TRANSFERS':
+      return IncomeStatementCategory.ministryTransfers;
     case 'OTHER':
       return IncomeStatementCategory.other;
     default:
@@ -82,6 +85,8 @@ extension IncomeStatementCategoryExtension on IncomeStatementCategory {
         return 'Despesas Operacionais';
       case IncomeStatementCategory.capex:
         return 'Investimentos de Capital';
+      case IncomeStatementCategory.ministryTransfers:
+        return 'Repasses Ministeriais';
       case IncomeStatementCategory.other:
         return 'Outras Receitas/Despesas';
       case IncomeStatementCategory.unknown:
@@ -99,6 +104,8 @@ extension IncomeStatementCategoryExtension on IncomeStatementCategory {
         return 'Despesas necessárias para manter a igreja ativa.';
       case IncomeStatementCategory.capex:
         return 'Investimentos e gastos de capital de longo prazo.';
+      case IncomeStatementCategory.ministryTransfers:
+        return 'Repasses e contribuições ministeriais.';
       case IncomeStatementCategory.other:
         return 'Receitas ou despesas extraordinárias.';
       case IncomeStatementCategory.unknown:
@@ -116,6 +123,8 @@ extension IncomeStatementCategoryExtension on IncomeStatementCategory {
         return const Color(0xFFD62839);
       case IncomeStatementCategory.capex:
         return const Color(0xFFFB8500);
+      case IncomeStatementCategory.ministryTransfers:
+        return const Color(0xFF9B59B6);
       case IncomeStatementCategory.other:
         return const Color(0xFF6A4C93);
       case IncomeStatementCategory.unknown:
