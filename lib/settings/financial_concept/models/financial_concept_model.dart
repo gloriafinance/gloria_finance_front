@@ -44,7 +44,7 @@ String getFriendlyNameFinancialConceptType(String apiValue) {
   return financialConceptType.friendlyName;
 }
 
-enum StatementCategory { REVENUE, OPEX, CAPEX, COGS, OTHER }
+enum StatementCategory { REVENUE, OPEX, CAPEX, COGS, MINISTRY_TRANSFERS, OTHER }
 
 extension StatementCategoryExtension on StatementCategory {
   String get friendlyName {
@@ -59,6 +59,8 @@ extension StatementCategoryExtension on StatementCategory {
         return 'Investimentos e gastos de capital de longo prazo';
       case StatementCategory.OTHER:
         return 'Receitas ou despesas extraordinárias';
+      case StatementCategory.MINISTRY_TRANSFERS:
+        return 'Repasses e contribuições ministeriais';
     }
   }
 
@@ -74,6 +76,8 @@ extension StatementCategoryExtension on StatementCategory {
         return 'CAPEX';
       case StatementCategory.OTHER:
         return 'OTHER';
+      case StatementCategory.MINISTRY_TRANSFERS:
+        return 'MINISTRY_TRANSFERS';
     }
   }
 
