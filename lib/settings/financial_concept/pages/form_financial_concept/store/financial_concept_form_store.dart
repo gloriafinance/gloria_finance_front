@@ -10,10 +10,11 @@ class FinancialConceptFormStore extends ChangeNotifier {
   FinancialConceptFormState state;
 
   FinancialConceptFormStore({FinancialConceptModel? concept})
-      : service = FinancialConceptService(),
-        state = concept != null
-            ? FinancialConceptFormState.fromModel(concept)
-            : FinancialConceptFormState.init();
+    : service = FinancialConceptService(),
+      state =
+          concept != null
+              ? FinancialConceptFormState.fromModel(concept)
+              : FinancialConceptFormState.init();
 
   void setName(String value) {
     state = state.copyWith(name: value);
@@ -43,34 +44,22 @@ class FinancialConceptFormStore extends ChangeNotifier {
   }
 
   void setAffectsCashFlow(bool value) {
-    state = state.copyWith(
-      affectsCashFlow: value,
-      indicatorsEdited: true,
-    );
+    state = state.copyWith(affectsCashFlow: value, indicatorsEdited: true);
     notifyListeners();
   }
 
   void setAffectsResult(bool value) {
-    state = state.copyWith(
-      affectsResult: value,
-      indicatorsEdited: true,
-    );
+    state = state.copyWith(affectsResult: value, indicatorsEdited: true);
     notifyListeners();
   }
 
   void setAffectsBalance(bool value) {
-    state = state.copyWith(
-      affectsBalance: value,
-      indicatorsEdited: true,
-    );
+    state = state.copyWith(affectsBalance: value, indicatorsEdited: true);
     notifyListeners();
   }
 
   void setIsOperational(bool value) {
-    state = state.copyWith(
-      isOperational: value,
-      indicatorsEdited: true,
-    );
+    state = state.copyWith(isOperational: value, indicatorsEdited: true);
     notifyListeners();
   }
 
@@ -143,6 +132,7 @@ class _IndicatorDefaults {
           affectsBalance: false,
           isOperational: true,
         );
+
       case StatementCategory.CAPEX:
         return const _IndicatorDefaults(
           affectsCashFlow: true,
@@ -150,6 +140,16 @@ class _IndicatorDefaults {
           affectsBalance: true,
           isOperational: false,
         );
+
+      /// 🔹 Nueva categoría para Repasses e Contribuições Ministeriais
+      case StatementCategory.MINISTRY_TRANSFERS:
+        return const _IndicatorDefaults(
+          affectsCashFlow: true, // sale dinero de caja
+          affectsResult: true, // es despesa del período (va al DRE)
+          affectsBalance: false, // no crea activo/pasivo directo
+          isOperational: true, // es gasto operacional recurrente
+        );
+
       case StatementCategory.OTHER:
         switch (type) {
           case FinancialConceptType.REVERSAL:
