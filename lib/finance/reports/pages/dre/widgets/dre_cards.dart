@@ -135,6 +135,22 @@ class DRECards extends StatelessWidget {
                   ),
                   _buildListItem(
                     context,
+                    'Repasses Ministeriais',
+                    '🤝',
+                    'Transferências para ministérios, missões ou para a directoria',
+                    data.repassesMinisteriais,
+                    const Color(0xFF3A86FF),
+                  ),
+                  _buildListItem(
+                    context,
+                    'Investimentos CAPEX',
+                    '🏗️',
+                    'Aquisição ou melhoria de ativos (obras, equipamentos, infraestrutura)',
+                    data.investimentosCAPEX,
+                    const Color(0xFFEE964B),
+                  ),
+                  _buildListItem(
+                    context,
                     'Resultados Extraordinários',
                     '💫',
                     'Ingressos ou gastos eventuais fora da rotina',
@@ -466,6 +482,20 @@ class DRECards extends StatelessWidget {
               'São os gastos necessários para manter as atividades diárias da igreja. Inclui: energia, água, limpeza, salários, manutenção, transporte, etc.',
           'example':
               'Se a igreja pagou R\$ 101,50 de energia elétrica, despesas operacionais = R\$ 101,50',
+        };
+      case 'Repasses Ministeriais':
+        return {
+          'meaning':
+              'São transferências destinadas a ministérios internos, missões ou parceiros externos. Representam valores que saem diretamente para apoiar esses trabalhos.',
+          'example':
+              'Se foram enviados R\$ 500,00 para missões e ministérios parceiros, repasses ministeriais = R\$ 500,00.',
+        };
+      case 'Investimentos CAPEX':
+        return {
+          'meaning':
+              'Investimentos em bens de capital ou infraestrutura, como obras, reformas, equipamentos ou melhorias que aumentam a capacidade da igreja.',
+          'example':
+              'Se foi comprado um novo sistema de som por R\$ 2.000,00, investimentos CAPEX = R\$ 2.000,00.',
         };
       case 'Resultado Operacional':
         return {
