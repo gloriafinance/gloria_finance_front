@@ -28,10 +28,7 @@ class IncomeStatementPeriod {
   final int year;
   final int month;
 
-  IncomeStatementPeriod({
-    required this.year,
-    required this.month,
-  });
+  IncomeStatementPeriod({required this.year, required this.month});
 
   factory IncomeStatementPeriod.fromJson(Map<String, dynamic>? json) {
     if (json == null) {
@@ -52,6 +49,7 @@ enum IncomeStatementCategory {
   capex,
   other,
   unknown,
+  ministry_transfers,
 }
 
 IncomeStatementCategory incomeStatementCategoryFromApi(String? value) {
@@ -66,6 +64,8 @@ IncomeStatementCategory incomeStatementCategoryFromApi(String? value) {
       return IncomeStatementCategory.capex;
     case 'OTHER':
       return IncomeStatementCategory.other;
+    case 'MINISTRY_TRANSFERS':
+      return IncomeStatementCategory.ministry_transfers;
     default:
       return IncomeStatementCategory.unknown;
   }
@@ -84,6 +84,8 @@ extension IncomeStatementCategoryExtension on IncomeStatementCategory {
         return 'Investimentos de Capital';
       case IncomeStatementCategory.other:
         return 'Outras Receitas/Despesas';
+      case IncomeStatementCategory.ministry_transfers:
+        return 'Repasses e contribuições ministeriais';
       case IncomeStatementCategory.unknown:
         return 'Categoria';
     }
@@ -101,6 +103,8 @@ extension IncomeStatementCategoryExtension on IncomeStatementCategory {
         return 'Investimentos e gastos de capital de longo prazo.';
       case IncomeStatementCategory.other:
         return 'Receitas ou despesas extraordinárias.';
+      case IncomeStatementCategory.ministry_transfers:
+        return 'Repasses de valores para ministérios ou departamentos da diretoria.';
       case IncomeStatementCategory.unknown:
         return '';
     }
@@ -118,6 +122,8 @@ extension IncomeStatementCategoryExtension on IncomeStatementCategory {
         return const Color(0xFFFB8500);
       case IncomeStatementCategory.other:
         return const Color(0xFF6A4C93);
+      case IncomeStatementCategory.ministry_transfers:
+        return const Color(0xFF2A9D8F);
       case IncomeStatementCategory.unknown:
         return const Color(0xFFADB5BD);
     }
@@ -260,10 +266,10 @@ class AvailabilityAccountEntry {
       year: _toInt(json['year']),
       totalOutput: _toDouble(json['totalOutput']),
       totalInput: _toDouble(json['totalInput']),
-      availabilityAccount:
-          AvailabilityAccountInfo.fromJson(json['availabilityAccount']),
-      availabilityAccountMasterId:
-          json['availabilityAccountMasterId'] ?? '',
+      availabilityAccount: AvailabilityAccountInfo.fromJson(
+        json['availabilityAccount'],
+      ),
+      availabilityAccountMasterId: json['availabilityAccountMasterId'] ?? '',
       churchId: json['churchId'] ?? '',
     );
   }
@@ -290,10 +296,14 @@ class AvailabilityAccountsSnapshot {
     }
 
     return AvailabilityAccountsSnapshot(
-      accounts: (json['accounts'] as List<dynamic>? ?? [])
-          .map((account) =>
-              AvailabilityAccountEntry.fromJson(account as Map<String, dynamic>))
-          .toList(),
+      accounts:
+          (json['accounts'] as List<dynamic>? ?? [])
+              .map(
+                (account) => AvailabilityAccountEntry.fromJson(
+                  account as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
       total: _toDouble(json['total']),
       income: _toDouble(json['income']),
       expenses: _toDouble(json['expenses']),
@@ -314,10 +324,7 @@ class CostCenterInfo {
   final String costCenterId;
   final String costCenterName;
 
-  CostCenterInfo({
-    required this.costCenterId,
-    required this.costCenterName,
-  });
+  CostCenterInfo({required this.costCenterId, required this.costCenterName});
 
   factory CostCenterInfo.fromJson(Map<String, dynamic>? json) {
     if (json == null) {
@@ -358,9 +365,8 @@ class CostCenterUsage {
       total: _toDouble(json['total']),
       costCenter: CostCenterInfo.fromJson(json['costCenter']),
       churchId: json['churchId'] ?? '',
-      lastMove: json['lastMove'] != null
-          ? DateTime.tryParse(json['lastMove'])
-          : null,
+      lastMove:
+          json['lastMove'] != null ? DateTime.tryParse(json['lastMove']) : null,
     );
   }
 }
@@ -369,10 +375,7 @@ class CostCentersSnapshot {
   final List<CostCenterUsage> costCenters;
   final double total;
 
-  CostCentersSnapshot({
-    required this.costCenters,
-    required this.total,
-  });
+  CostCentersSnapshot({required this.costCenters, required this.total});
 
   factory CostCentersSnapshot.fromJson(Map<String, dynamic>? json) {
     if (json == null) {
@@ -380,12 +383,14 @@ class CostCentersSnapshot {
     }
 
     return CostCentersSnapshot(
-      costCenters: (json['costCenters'] as List<dynamic>? ?? [])
-          .map(
-            (costCenter) =>
-                CostCenterUsage.fromJson(costCenter as Map<String, dynamic>),
-          )
-          .toList(),
+      costCenters:
+          (json['costCenters'] as List<dynamic>? ?? [])
+              .map(
+                (costCenter) => CostCenterUsage.fromJson(
+                  costCenter as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
       total: _toDouble(json['total']),
     );
   }
@@ -410,10 +415,10 @@ class CashFlowSnapshot {
     }
 
     return CashFlowSnapshot(
-      availabilityAccounts:
-          AvailabilityAccountsSnapshot.fromJson(json['availabilityAccounts']),
-      costCenters:
-          CostCentersSnapshot.fromJson(json['costCenters']),
+      availabilityAccounts: AvailabilityAccountsSnapshot.fromJson(
+        json['availabilityAccounts'],
+      ),
+      costCenters: CostCentersSnapshot.fromJson(json['costCenters']),
     );
   }
 
@@ -445,12 +450,14 @@ class IncomeStatementModel {
 
     return IncomeStatementModel(
       period: IncomeStatementPeriod.fromJson(json['period']),
-      breakdown: (json['breakdown'] as List<dynamic>? ?? [])
-          .map(
-            (item) =>
-                IncomeStatementBreakdown.fromJson(item as Map<String, dynamic>),
-          )
-          .toList(),
+      breakdown:
+          (json['breakdown'] as List<dynamic>? ?? [])
+              .map(
+                (item) => IncomeStatementBreakdown.fromJson(
+                  item as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
       summary: IncomeStatementSummary.fromJson(json['summary']),
       cashFlowSnapshot: CashFlowSnapshot.fromJson(json['cashFlowSnapshot']),
     );
