@@ -162,13 +162,16 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               if (filter.hasAnyFilter)
-                TextButton(
+                ButtonActionTable(
+                  color: AppColors.greyMiddle,
+                  text: 'Limpar filtros',
+                  icon: Icons.clear,
                   onPressed: () {
                     store.clearFilters();
                     store.fetchStatements();
                   },
-                  child: const Text('Limpar filtros'),
                 ),
+
               const SizedBox(width: 12),
               ButtonActionTable(
                 color: AppColors.blue,
@@ -324,14 +327,16 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
                   children: [
                     if (filter.hasAnyFilter)
                       Expanded(
-                        child: TextButton(
+                        child: ButtonActionTable(
+                          icon: Icons.clear,
+                          color: AppColors.mustard,
+                          text: 'Limpar filtros',
                           onPressed: () {
                             isExpandedFilter = false;
                             setState(() {});
                             store.clearFilters();
                             store.fetchStatements();
                           },
-                          child: const Text('Limpar filtros'),
                         ),
                       ),
                     if (filter.hasAnyFilter) const SizedBox(width: 10),

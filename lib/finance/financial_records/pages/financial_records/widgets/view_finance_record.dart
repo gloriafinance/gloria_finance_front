@@ -25,11 +25,26 @@ class ViewFinanceRecord extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              "Identificador:",
+              style: const TextStyle(
+                fontSize: 16,
+                fontFamily: AppFonts.fontTitle,
+              ),
+            ),
+            SelectableText(
+              financeRecord.financialRecordId,
+              style: const TextStyle(
+                fontSize: 14,
+                fontFamily: AppFonts.fontText,
+              ),
+            ),
             const Divider(),
             const SizedBox(height: 16),
+
             _buildSectionTitle('Conceito Financeiro'),
             Text(
-              financeRecord?.financialConcept?.name ?? 'N/A',
+              financeRecord.financialConcept?.name ?? 'N/A',
               style: const TextStyle(
                 fontSize: 16,
                 fontFamily: AppFonts.fontText,

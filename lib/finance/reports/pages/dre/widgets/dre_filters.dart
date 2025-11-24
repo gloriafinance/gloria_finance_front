@@ -54,20 +54,21 @@ class _DREFiltersState extends State<DREFilters> {
       initialValue: (store.state.filter.month ?? DateTime.now().month)
           .toString()
           .padLeft(2, '0'),
-      items: [
-        {'label': '01', 'value': '01'},
-        {'label': '02', 'value': '02'},
-        {'label': '03', 'value': '03'},
-        {'label': '04', 'value': '04'},
-        {'label': '05', 'value': '05'},
-        {'label': '06', 'value': '06'},
-        {'label': '07', 'value': '07'},
-        {'label': '08', 'value': '08'},
-        {'label': '09', 'value': '09'},
-        {'label': '10', 'value': '10'},
-        {'label': '11', 'value': '11'},
-        {'label': '12', 'value': '12'},
-      ].map((item) => item['value'].toString()).toList(),
+      items:
+          [
+            {'label': '01', 'value': '01'},
+            {'label': '02', 'value': '02'},
+            {'label': '03', 'value': '03'},
+            {'label': '04', 'value': '04'},
+            {'label': '05', 'value': '05'},
+            {'label': '06', 'value': '06'},
+            {'label': '07', 'value': '07'},
+            {'label': '08', 'value': '08'},
+            {'label': '09', 'value': '09'},
+            {'label': '10', 'value': '10'},
+            {'label': '11', 'value': '11'},
+            {'label': '12', 'value': '12'},
+          ].map((item) => item['value'].toString()).toList(),
       onChanged: (value) => store.setMonth(int.parse(value)),
     );
   }
@@ -177,21 +178,22 @@ class _DREFiltersState extends State<DREFilters> {
         Opacity(
           opacity: isLoading ? 0.5 : 1.0,
           child: CustomButton(
-            text: "Exportar PDF",
+            text: "Baixar PDF",
             backgroundColor: AppColors.blue,
             textColor: Colors.white,
             icon: Icons.picture_as_pdf,
-            onPressed: isLoading
-                ? null
-                : () async {
-                    if (isExpandedFilter) {
-                      setState(() {
-                        isExpandedFilter = false;
-                      });
-                    }
+            onPressed:
+                isLoading
+                    ? null
+                    : () async {
+                      if (isExpandedFilter) {
+                        setState(() {
+                          isExpandedFilter = false;
+                        });
+                      }
 
-                    await store.downloadDREPdf();
-                  },
+                      await store.downloadDREPdf();
+                    },
           ),
         ),
         if (isLoading)
