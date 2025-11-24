@@ -1,8 +1,8 @@
 import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
+import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
-import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -13,6 +13,7 @@ import '../models/role_model.dart';
 import '../state/user_access_state.dart';
 import '../store/user_access_store.dart';
 import '../widgets/role_permission_matrix.dart';
+import 'widgets/form_create_user.dart';
 
 class UserAccessScreen extends StatefulWidget {
   const UserAccessScreen({super.key});
@@ -76,9 +77,7 @@ class _UserAccessScreenState extends State<UserAccessScreen> {
           ),
         ),
         const SizedBox(width: 16),
-        Expanded(
-          child: _UserDetailPanel(store: store),
-        ),
+        Expanded(child: _UserDetailPanel(store: store)),
       ],
     );
   }
@@ -108,10 +107,7 @@ class _UserAccessScreenState extends State<UserAccessScreen> {
           isSearching: isSearching,
         ),
         const SizedBox(height: 16),
-        _UserDetailPanel(
-          store: store,
-          useExpansion: true,
-        ),
+        _UserDetailPanel(store: store, useExpansion: true),
       ],
     );
   }
@@ -153,138 +149,24 @@ class _UserAccessScreenState extends State<UserAccessScreen> {
     BuildContext context,
     UserAccessStore store,
   ) async {
-    final formKey = GlobalKey<FormState>();
-    var name = '';
-    var email = '';
-    var password = 'ChangeMe123!';
-    var confirmPassword = 'ChangeMe123!';
-    var isActive = true;
+    final payload = await ModalPage(
+      title: 'Criar usuário',
+      width: 520,
+      body: const FormCreateUser(),
+    ).show<CreateUserResult>(context);
 
-    final result = await showDialog<({
-      String name,
-      String email,
-      String password,
-      bool isActive,
-    })>(
-      context: context,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              title: const Text('Criar usuário'),
-              content: Form(
-                key: formKey,
-                child: SizedBox(
-                  width: 420,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Input(
-                        label: 'Nome completo',
-                        icon: Icons.person_outline,
-                        onChanged: (value) => name = value,
-                        onValidator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return 'Informe o nome.';
-                          }
-                          return null;
-                        },
-                      ),
-                      Input(
-                        label: 'E-mail',
-                        icon: Icons.mail_outline,
-                        onChanged: (value) => email = value,
-                        keyboardType: TextInputType.emailAddress,
-                        onValidator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return 'Informe o e-mail.';
-                          }
-                          if (!value.contains('@')) {
-                            return 'E-mail inválido.';
-                          }
-                          return null;
-                        },
-                      ),
-                      Input(
-                        label: 'Senha inicial',
-                        icon: Icons.lock_outline,
-                        isPass: true,
-                        initialValue: password,
-                        onChanged: (value) => password = value,
-                        onValidator: (value) {
-                          if (value == null || value.trim().length < 8) {
-                            return 'Mínimo de 8 caracteres.';
-                          }
-                          return null;
-                        },
-                      ),
-                      Input(
-                        label: 'Confirmar senha',
-                        icon: Icons.lock_reset,
-                        isPass: true,
-                        initialValue: confirmPassword,
-                        onChanged: (value) => confirmPassword = value,
-                        onValidator: (value) {
-                          if (value != password) {
-                            return 'As senhas não coincidem.';
-                          }
-                          return null;
-                        },
-                      ),
-                      SwitchListTile(
-                        value: isActive,
-                        onChanged: (value) {
-                          setState(() {
-                            isActive = value;
-                          });
-                        },
-                        title: const Text('Usuário ativo'),
-                        contentPadding: EdgeInsets.zero,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              actions: [
-                CustomButton(
-                  text: 'Cancelar',
-                  backgroundColor: AppColors.purple,
-                  typeButton: CustomButton.outline,
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-                CustomButton(
-                  text: 'Criar usuário',
-                  backgroundColor: AppColors.purple,
-                  textColor: Colors.white,
-                  onPressed: () {
-                    final valid = formKey.currentState?.validate() ?? false;
-                    if (valid) {
-                      Navigator.of(context).pop((
-                        name: name.trim(),
-                        email: email.trim(),
-                        password: password.trim(),
-                        isActive: isActive,
-                      ));
-                    }
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-
-    if (result != null) {
+    if (payload != null) {
       final scaffoldMessenger = ScaffoldMessenger.of(context);
       await store.createUser(
-        name: result.name,
-        email: result.email,
-        password: result.password,
-        isActive: result.isActive,
+        name: payload.name,
+        email: payload.email,
+        password: payload.password,
+        isActive: payload.isActive,
       );
       scaffoldMessenger.showSnackBar(
-        SnackBar(content: Text('Usuário "${result.name}" criado com sucesso.')),
+        SnackBar(
+          content: Text('Usuário "${payload.name}" criado com sucesso.'),
+        ),
       );
     }
   }
@@ -362,17 +244,23 @@ class _UserListPanel extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             if (isBusy)
-              const Center(child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 24),
-                child: CircularProgressIndicator(),
-              ))
+              const Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 24),
+                  child: CircularProgressIndicator(),
+                ),
+              )
             else if (users.isEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 32),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.people_outline, size: 48, color: theme.colorScheme.primary),
+                    Icon(
+                      Icons.people_outline,
+                      size: 48,
+                      color: theme.colorScheme.primary,
+                    ),
                     const SizedBox(height: 12),
                     const Text('Nenhum usuário encontrado.'),
                     const SizedBox(height: 8),
@@ -400,16 +288,17 @@ class _UserListPanel extends StatelessWidget {
               const SizedBox(height: 12),
               Align(
                 alignment: Alignment.center,
-                child: isLoadingMore
-                    ? const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8),
-                        child: CircularProgressIndicator(),
-                      )
-                    : OutlinedButton.icon(
-                        onPressed: onLoadMore,
-                        icon: const Icon(Icons.expand_more),
-                        label: const Text('Carregar mais'),
-                      ),
+                child:
+                    isLoadingMore
+                        ? const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: CircularProgressIndicator(),
+                        )
+                        : OutlinedButton.icon(
+                          onPressed: onLoadMore,
+                          icon: const Icon(Icons.expand_more),
+                          label: const Text('Carregar mais'),
+                        ),
               ),
             ],
           ],
@@ -441,14 +330,16 @@ class _UserListTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: isSelected
-              ? colorScheme.primaryContainer
-              : colorScheme.surfaceVariant.withOpacity(0.35),
+          color:
+              isSelected
+                  ? colorScheme.primaryContainer
+                  : colorScheme.surfaceVariant.withOpacity(0.35),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected
-                ? colorScheme.primary
-                : colorScheme.outlineVariant.withOpacity(0.6),
+            color:
+                isSelected
+                    ? colorScheme.primary
+                    : colorScheme.outlineVariant.withOpacity(0.6),
           ),
         ),
         child: Column(
@@ -468,7 +359,8 @@ class _UserListTile extends StatelessWidget {
                 Icon(
                   user.isActive ? Icons.verified_user : Icons.block,
                   size: 18,
-                  color: user.isActive ? colorScheme.primary : colorScheme.error,
+                  color:
+                      user.isActive ? colorScheme.primary : colorScheme.error,
                 ),
               ],
             ),
@@ -483,15 +375,16 @@ class _UserListTile extends StatelessWidget {
               Wrap(
                 spacing: 6,
                 runSpacing: 6,
-                children: user.assignedRoles
-                    .take(3)
-                    .map(
-                      (role) => Chip(
-                        label: Text(role),
-                        visualDensity: VisualDensity.compact,
-                      ),
-                    )
-                    .toList(),
+                children:
+                    user.assignedRoles
+                        .take(3)
+                        .map(
+                          (role) => Chip(
+                            label: Text(role),
+                            visualDensity: VisualDensity.compact,
+                          ),
+                        )
+                        .toList(),
               ),
               if (user.assignedRoles.length > 3)
                 Padding(
@@ -524,30 +417,32 @@ class _UserDetailPanel extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: state.selectedUser == null
-            ? const _UserPlaceholder()
-            : SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _UserSummaryHeader(state: state),
-                    const SizedBox(height: 12),
-                    _AssignmentStatus(state: state),
-                    const SizedBox(height: 16),
-                    _RoleAssignmentList(
-                      roles: state.roles,
-                      selectedRoleIds: state.selectedRoleIds,
-                      onToggle: (role, granted) => store.toggleRole(role, granted),
-                      isBusy: state.loadingRoles,
-                    ),
-                    const SizedBox(height: 24),
-                    _EffectivePermissionsSection(
-                      state: state,
-                      useExpansion: useExpansion,
-                    ),
-                  ],
+        child:
+            state.selectedUser == null
+                ? const _UserPlaceholder()
+                : SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _UserSummaryHeader(state: state),
+                      const SizedBox(height: 12),
+                      _AssignmentStatus(state: state),
+                      const SizedBox(height: 16),
+                      _RoleAssignmentList(
+                        roles: state.roles,
+                        selectedRoleIds: state.selectedRoleIds,
+                        onToggle:
+                            (role, granted) => store.toggleRole(role, granted),
+                        isBusy: state.loadingRoles,
+                      ),
+                      const SizedBox(height: 24),
+                      _EffectivePermissionsSection(
+                        state: state,
+                        useExpansion: useExpansion,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
       ),
     );
   }
@@ -566,9 +461,14 @@ class _UserSummaryHeader extends StatelessWidget {
       Chip(
         label: Text(user.isActive ? 'Ativo' : 'Inativo'),
         avatar: Icon(
-          user.isActive ? Icons.check_circle_outline : Icons.pause_circle_outline,
+          user.isActive
+              ? Icons.check_circle_outline
+              : Icons.pause_circle_outline,
           size: 16,
-          color: user.isActive ? theme.colorScheme.primary : theme.colorScheme.error,
+          color:
+              user.isActive
+                  ? theme.colorScheme.primary
+                  : theme.colorScheme.error,
         ),
         visualDensity: VisualDensity.compact,
       ),
@@ -584,16 +484,14 @@ class _UserSummaryHeader extends StatelessWidget {
       children: [
         Text(
           user.name,
-          style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
         ),
         const SizedBox(height: 4),
         Text(user.email),
         const SizedBox(height: 12),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: chips,
-        ),
+        Wrap(spacing: 8, runSpacing: 8, children: chips),
       ],
     );
   }
@@ -633,7 +531,9 @@ class _AssignmentStatus extends StatelessWidget {
 
     if (state.lastSyncedAt != null) {
       final formatter = DateFormat('HH:mm');
-      return Text('Última sincronização às ${formatter.format(state.lastSyncedAt!)}');
+      return Text(
+        'Última sincronização às ${formatter.format(state.lastSyncedAt!)}',
+      );
     }
 
     return const SizedBox.shrink();
@@ -662,13 +562,17 @@ class _RoleAssignmentList extends StatelessWidget {
       children: [
         Text(
           'Papéis atribuídos',
-          style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
         ),
         const SizedBox(height: 8),
         if (isBusy)
           const Center(child: CircularProgressIndicator())
         else if (roles.isEmpty)
-          const Text('Nenhum papel disponível. Crie papéis antes de atribuí-los.')
+          const Text(
+            'Nenhum papel disponível. Crie papéis antes de atribuí-los.',
+          )
         else
           ListView.separated(
             shrinkWrap: true,
@@ -683,7 +587,10 @@ class _RoleAssignmentList extends StatelessWidget {
                 onChanged: (checked) async {
                   if (checked == null) return;
                   if (!checked && role.isSystem) {
-                    final confirmed = await _confirmSystemRoleRemoval(context, role);
+                    final confirmed = await _confirmSystemRoleRemoval(
+                      context,
+                      role,
+                    );
                     if (confirmed != true) {
                       return;
                     }
@@ -692,13 +599,15 @@ class _RoleAssignmentList extends StatelessWidget {
                 },
                 controlAffinity: ListTileControlAffinity.leading,
                 title: Text(role.name),
-                subtitle: role.description != null ? Text(role.description!) : null,
-                secondary: role.isSystem
-                    ? const Tooltip(
-                        message: 'Papel do sistema não pode ser removido.',
-                        child: Icon(Icons.lock_outline),
-                      )
-                    : null,
+                subtitle:
+                    role.description != null ? Text(role.description!) : null,
+                secondary:
+                    role.isSystem
+                        ? const Tooltip(
+                          message: 'Papel do sistema não pode ser removido.',
+                          child: Icon(Icons.lock_outline),
+                        )
+                        : null,
               );
             },
           ),
@@ -708,27 +617,11 @@ class _RoleAssignmentList extends StatelessWidget {
 }
 
 Future<bool?> _confirmSystemRoleRemoval(BuildContext context, RoleModel role) {
-  return showDialog<bool>(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: const Text('Remover papel do sistema?'),
-        content: Text(
-          'O papel "${role.name}" faz parte da configuração base. Tem certeza que deseja removê-lo deste usuário?',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancelar'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Remover'),
-          ),
-        ],
-      );
-    },
-  );
+  return ModalPage(
+    title: 'Remover papel do sistema?',
+    width: 520,
+    body: _SystemRoleRemovalDialog(role: role),
+  ).show<bool>(context);
 }
 
 class _EffectivePermissionsSection extends StatelessWidget {
@@ -751,11 +644,14 @@ class _EffectivePermissionsSection extends StatelessWidget {
           children: [
             Text(
               'Permissões efetivas',
-              style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
             ),
             const SizedBox(width: 8),
             Tooltip(
-              message: 'Permissões resultantes da combinação de todos os papéis atribuídos.',
+              message:
+                  'Permissões resultantes da combinação de todos os papéis atribuídos.',
               child: const Icon(Icons.info_outline, size: 18),
             ),
           ],
@@ -790,11 +686,63 @@ class _UserPlaceholder extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.person_search_outlined, size: 56, color: theme.colorScheme.primary),
+          Icon(
+            Icons.person_search_outlined,
+            size: 56,
+            color: theme.colorScheme.primary,
+          ),
           const SizedBox(height: 12),
           const Text(
             'Selecione um usuário para visualizar suas permissões.',
             textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SystemRoleRemovalDialog extends StatelessWidget {
+  const _SystemRoleRemovalDialog({required this.role});
+
+  final RoleModel role;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'O papel "${role.name}" faz parte da configuração base. Tem certeza que deseja removê-lo deste usuário?',
+          ),
+          const SizedBox(height: 20),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Wrap(
+              spacing: 12,
+              runSpacing: 8,
+              children: [
+                ButtonActionTable(
+                  color: AppColors.greyMiddle,
+                  text: 'Cancelar',
+                  icon: Icons.close,
+                  onPressed: () => Navigator.of(context).pop(false),
+                ),
+                ButtonActionTable(
+                  color: Colors.redAccent,
+                  text: 'Remover',
+                  icon: Icons.delete_outline,
+                  onPressed: () => Navigator.of(context).pop(true),
+                ),
+              ],
+            ),
           ),
         ],
       ),

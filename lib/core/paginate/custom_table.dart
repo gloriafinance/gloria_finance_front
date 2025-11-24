@@ -259,8 +259,8 @@ class _CustomTableState extends State<CustomTable> {
               color: Colors.black87,
             ),
             value: perPageState,
-            items: _perPageOptions()
-                .map((int value) {
+            items:
+                _perPageOptions().map((int value) {
                   return DropdownMenuItem<int>(
                     value: value,
                     child: Text("$value por página"),
@@ -293,8 +293,8 @@ class _CustomTableState extends State<CustomTable> {
               color: Colors.black87,
             ),
             value: perPageState,
-            items: _perPageOptions()
-                .map((int value) {
+            items:
+                _perPageOptions().map((int value) {
                   return DropdownMenuItem<int>(
                     value: value,
                     child: Text("$value por página"),
@@ -325,7 +325,7 @@ class _CustomTableState extends State<CustomTable> {
   Widget _nextButton() {
     return widget.paginate != null
         ? CustomButton(
-          padding: EdgeInsets.symmetric(vertical: 8),
+          padding: EdgeInsets.symmetric(vertical: 4),
           text: "",
           icon: Icons.skip_next_outlined,
           backgroundColor:
@@ -339,7 +339,7 @@ class _CustomTableState extends State<CustomTable> {
   Widget _prevButton() {
     return widget.paginate != null
         ? CustomButton(
-          padding: EdgeInsets.symmetric(vertical: 8),
+          padding: EdgeInsets.symmetric(vertical: 4),
           text: "",
           icon: Icons.skip_previous_outlined,
           backgroundColor:

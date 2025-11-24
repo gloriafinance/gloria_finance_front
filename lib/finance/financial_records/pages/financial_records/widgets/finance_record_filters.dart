@@ -266,11 +266,13 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
   }
 
   Widget _clearButton(FinanceRecordPaginateStore store) {
-    return TextButton(
+    return ButtonActionTable(
+      icon: Icons.clear,
+      color: AppColors.mustard,
+      text: 'Limpar filtros',
       onPressed: () {
         store.clearFilters();
       },
-      child: const Text('Limpar filtros'),
     );
   }
 }

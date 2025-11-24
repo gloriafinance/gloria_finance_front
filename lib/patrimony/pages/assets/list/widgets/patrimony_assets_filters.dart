@@ -80,14 +80,16 @@ class _PatrimonyAssetsFiltersState extends State<PatrimonyAssetsFilters> {
                 Row(
                   children: [
                     Expanded(
-                      child: TextButton(
+                      child: ButtonActionTable(
+                        icon: Icons.clear,
+                        color: AppColors.mustard,
+                        text: 'Limpar filtros',
                         onPressed: () {
                           setState(() {
                             _isExpandedFilter = false;
                           });
                           store.clearFilters();
                         },
-                        child: const Text('Limpar filtros'),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -136,9 +138,11 @@ class _PatrimonyAssetsFiltersState extends State<PatrimonyAssetsFilters> {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            TextButton(
+            ButtonActionTable(
+              icon: Icons.clear,
+              color: AppColors.mustard,
+              text: 'Limpar filtros',
               onPressed: store.clearFilters,
-              child: const Text('Limpar filtros'),
             ),
             const SizedBox(width: 12),
             ButtonActionTable(
