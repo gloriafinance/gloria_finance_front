@@ -5,6 +5,7 @@ import 'package:church_finance_bk/settings/banks/store/bank_store.dart';
 import 'package:church_finance_bk/settings/cost_center/store/cost_center_list_store.dart';
 import 'package:church_finance_bk/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:church_finance_bk/settings/members/store/member_all_store.dart';
+import 'package:church_finance_bk/finance/trends/store/trend_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,7 @@ class StoreManager {
   final availabilityAccountsListStore = AvailabilityAccountsListStore();
   final costCenterListStore = CostCenterListStore();
   final memberAllStore = MemberAllStore();
+  final trendStore = TrendStore();
 }
 
 void main() {
@@ -57,6 +59,9 @@ void main() {
         ChangeNotifierProvider(
           create:
               (_) => StoreManager._instance.memberAllStore..searchAllMember(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => StoreManager._instance.trendStore..fetchTrends(),
         ),
       ],
       child: MyApp(),
