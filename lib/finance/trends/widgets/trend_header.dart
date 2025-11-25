@@ -21,11 +21,7 @@ class TrendHeader extends StatelessWidget {
       children: [
         const Text(
           'Composição de Receitas, Despesas e Resultado',
-          style: TextStyle(
-            fontFamily: AppFonts.fontTitle,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 18),
         ),
         if (period != null)
           Padding(

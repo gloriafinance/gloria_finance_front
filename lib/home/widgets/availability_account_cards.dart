@@ -38,7 +38,7 @@ class AvailabilityAccountCards extends StatelessWidget {
             'Resumo de contas de disponibilidade',
             style: TextStyle(
               fontSize: 18,
-              fontFamily: AppFonts.fontSubTitle,
+              fontFamily: AppFonts.fontTitle,
               color: AppColors.black,
             ),
           ),
