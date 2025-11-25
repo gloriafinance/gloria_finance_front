@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -35,79 +36,180 @@ class _UploadFile extends State<UploadFile> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _label(),
+        const SizedBox(height: 12),
         _selectorFile(),
-        _platformFile != null ? _presentationInformationFile() : Container(),
+        if (_platformFile != null) _presentationInformationFile(),
       ],
     );
   }
 
   Widget _presentationInformationFile() {
     return Container(
-        margin: const EdgeInsets.only(top: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-                padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.only(top: 16),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.greyMiddle),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade200,
+            offset: const Offset(0, 1),
+            blurRadius: 4,
+            spreadRadius: 1,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.shade200,
-                        offset: Offset(0, 1),
-                        blurRadius: 3,
-                        spreadRadius: 2,
-                      )
-                    ]),
-                child: Row(
+                  color: AppColors.blue.withOpacity(0.08),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Icon(
+                  Icons.insert_drive_file_outlined,
+                  color: AppColors.blue,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _platformFile!.name,
-                            style: const TextStyle(
-                                fontSize: 13, color: Colors.black),
-                          ),
-                          Text(
-                            '${(_platformFile!.size / 1024).ceil()} KB',
-                            style: TextStyle(
-                                fontSize: 13, color: Colors.grey.shade500),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                        ],
+                    Text(
+                      _platformFile!.name,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontFamily: AppFonts.fontSubTitle,
+                        color: AppColors.black,
                       ),
                     ),
-                    const SizedBox(
-                      width: 10,
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.circle,
+                          color: AppColors.blue,
+                          size: 6,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          _formatFileSize(_platformFile!.size),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey.shade600,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
-                )),
-          ],
-        ));
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: SizedBox(
+              height: 4,
+              child: LinearProgressIndicator(
+                value: 1,
+                backgroundColor: AppColors.greyLight,
+                color: AppColors.blue,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _selectorFile() {
-    return GestureDetector(
-      onTap: _actionSelectFile,
-      child: Center(
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              border: Border.all(color: AppColors.greyMiddle),
-              borderRadius: BorderRadius.circular(10)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'images/uploadFile.png',
-                width: 80,
-              ),
-            ],
+    final borderColor = AppColors.blue.withOpacity(0.7);
+    return DottedBorder(
+      borderType: BorderType.RRect,
+      radius: const Radius.circular(12),
+      dashPattern: const [8, 4],
+      color: borderColor,
+      strokeWidth: 1.5,
+      child: Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: _actionSelectFile,
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: AppColors.blue.withOpacity(0.08),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Image.asset(
+                    'images/upload-cloud.png',
+                    width: 32,
+                    height: 32,
+                    color: AppColors.blue,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        'Selecione um arquivo ou arraste e solte aqui',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: AppFonts.fontSubTitle,
+                          color: AppColors.black,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        'JPG, PNG ou PDF, com no máximo 10MB',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontFamily: AppFonts.fontText,
+                          color: AppColors.blue,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 12),
+                OutlinedButton(
+                  onPressed: _actionSelectFile,
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppColors.blue,
+                    side: const BorderSide(color: AppColors.blue, width: 1.4),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 18, vertical: 12),
+                  ),
+                  child: const Text(
+                    'SELECIONAR ARQUIVO',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontFamily: AppFonts.fontSubTitle,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -160,5 +262,19 @@ class _UploadFile extends State<UploadFile> {
         }
       });
     }
+  }
+
+  String _formatFileSize(int bytes) {
+    if (bytes <= 0) return '0 KB';
+    const kb = 1024;
+    const mb = kb * kb;
+
+    if (bytes >= mb) {
+      final sizeMb = bytes / mb;
+      return '${sizeMb.toStringAsFixed(1)} MB';
+    }
+
+    final sizeKb = bytes / kb;
+    return '${sizeKb.toStringAsFixed(1)} KB';
   }
 }
