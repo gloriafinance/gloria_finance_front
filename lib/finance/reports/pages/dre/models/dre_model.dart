@@ -25,30 +25,30 @@ int? _toInt(dynamic value) {
 
 /// Modelo de respuesta DRE según la especificación OpenAPI
 class DREModel {
-  final double receitaBruta;
-  final double receitaLiquida;
-  final double custosDiretos;
-  final double resultadoBruto;
-  final double despesasOperacionais;
-  final double repassesMinisteriais;
-  final double investimentosCAPEX;
-  final double resultadoOperacional;
-  final double resultadosExtraordinarios;
-  final double resultadoLiquido;
+  final double grossRevenue;
+  final double netRevenue;
+  final double directCosts;
+  final double grossProfit;
+  final double operationalExpenses;
+  final double ministryTransfers;
+  final double capexInvestments;
+  final double operationalResult;
+  final double extraordinaryResults;
+  final double netResult;
   final int? year;
   final int? month;
 
   DREModel({
-    required this.receitaBruta,
-    required this.receitaLiquida,
-    required this.custosDiretos,
-    required this.resultadoBruto,
-    required this.despesasOperacionais,
-    required this.repassesMinisteriais,
-    required this.investimentosCAPEX,
-    required this.resultadoOperacional,
-    required this.resultadosExtraordinarios,
-    required this.resultadoLiquido,
+    required this.grossRevenue,
+    required this.netRevenue,
+    required this.directCosts,
+    required this.grossProfit,
+    required this.operationalExpenses,
+    required this.ministryTransfers,
+    required this.capexInvestments,
+    required this.operationalResult,
+    required this.extraordinaryResults,
+    required this.netResult,
     required this.year,
     required this.month,
   });
@@ -59,16 +59,16 @@ class DREModel {
     }
 
     return DREModel(
-      receitaBruta: _toDouble(json['receitaBruta']),
-      receitaLiquida: _toDouble(json['receitaLiquida']),
-      custosDiretos: _toDouble(json['custosDiretos']),
-      resultadoBruto: _toDouble(json['resultadoBruto']),
-      despesasOperacionais: _toDouble(json['despesasOperacionais']),
-      repassesMinisteriais: _toDouble(json['repassesMinisteriais']),
-      investimentosCAPEX: _toDouble(json['investimentosCAPEX']),
-      resultadoOperacional: _toDouble(json['resultadoOperacional']),
-      resultadosExtraordinarios: _toDouble(json['resultadosExtraordinarios']),
-      resultadoLiquido: _toDouble(json['resultadoLiquido']),
+      grossRevenue: _toDouble(json['grossRevenue']),
+      netRevenue: _toDouble(json['netRevenue']),
+      directCosts: _toDouble(json['directCosts']),
+      grossProfit: _toDouble(json['grossProfit']),
+      operationalExpenses: _toDouble(json['operationalExpenses']),
+      ministryTransfers: _toDouble(json['ministryTransfers']),
+      capexInvestments: _toDouble(json['capexInvestments']),
+      operationalResult: _toDouble(json['operationalResult']),
+      extraordinaryResults: _toDouble(json['extraordinaryResults']),
+      netResult: _toDouble(json['netResult']),
       year: _toInt(json['year']),
       month: _toInt(json['month']),
     );
@@ -76,16 +76,16 @@ class DREModel {
 
   factory DREModel.empty() {
     return DREModel(
-      receitaBruta: 0,
-      receitaLiquida: 0,
-      custosDiretos: 0,
-      resultadoBruto: 0,
-      despesasOperacionais: 0,
-      repassesMinisteriais: 0,
-      investimentosCAPEX: 0,
-      resultadoOperacional: 0,
-      resultadosExtraordinarios: 0,
-      resultadoLiquido: 0,
+      grossRevenue: 0,
+      netRevenue: 0,
+      directCosts: 0,
+      grossProfit: 0,
+      operationalExpenses: 0,
+      ministryTransfers: 0,
+      capexInvestments: 0,
+      operationalResult: 0,
+      extraordinaryResults: 0,
+      netResult: 0,
       year: null,
       month: null,
     );
@@ -93,16 +93,16 @@ class DREModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'receitaBruta': receitaBruta,
-      'receitaLiquida': receitaLiquida,
-      'custosDiretos': custosDiretos,
-      'resultadoBruto': resultadoBruto,
-      'despesasOperacionais': despesasOperacionais,
-      'repassesMinisteriais': repassesMinisteriais,
-      'investimentosCAPEX': investimentosCAPEX,
-      'resultadoOperacional': resultadoOperacional,
-      'resultadosExtraordinarios': resultadosExtraordinarios,
-      'resultadoLiquido': resultadoLiquido,
+      'grossRevenue': grossRevenue,
+      'netRevenue': netRevenue,
+      'directCosts': directCosts,
+      'grossProfit': grossProfit,
+      'operationalExpenses': operationalExpenses,
+      'ministryTransfers': ministryTransfers,
+      'capexInvestments': capexInvestments,
+      'operationalResult': operationalResult,
+      'extraordinaryResults': extraordinaryResults,
+      'netResult': netResult,
       'year': year,
       'month': month,
     };
