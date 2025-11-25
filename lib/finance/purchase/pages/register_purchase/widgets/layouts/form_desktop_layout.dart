@@ -7,11 +7,12 @@ import '../../store/purchase_register_form_store.dart';
 import '../form_inputs.dart';
 
 Widget formDesktopLayout(
-    BuildContext context,
-    CostCenterListStore costCenterStore,
-    AvailabilityAccountsListStore availabilityAccountsListStore,
-    FinancialConceptStore conceptStore,
-    PurchaseRegisterFormStore formStore) {
+  BuildContext context,
+  CostCenterListStore costCenterStore,
+  AvailabilityAccountsListStore availabilityAccountsListStore,
+  FinancialConceptStore conceptStore,
+  PurchaseRegisterFormStore formStore,
+) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -19,14 +20,16 @@ Widget formDesktopLayout(
       Row(
         children: [
           Expanded(
-              child:
-                  dropdownCostCenter(costCenterStore, conceptStore, formStore)),
+            child: dropdownCostCenter(costCenterStore, conceptStore, formStore),
+          ),
           const SizedBox(width: 16),
           Expanded(child: dropdownFinancialConcepts(conceptStore, formStore)),
           const SizedBox(width: 16),
           Expanded(
             child: dropdownAvailabilityAccounts(
-                availabilityAccountsListStore, formStore),
+              availabilityAccountsListStore,
+              formStore,
+            ),
           ),
         ],
       ),
@@ -43,15 +46,10 @@ Widget formDesktopLayout(
         ],
       ),
       const SizedBox(height: 10),
-      Row(
-        children: [const SizedBox(width: 16), SizedBox(width: 260)],
-      ),
+      Row(children: [const SizedBox(width: 16), SizedBox(width: 260)]),
       Align(
         alignment: Alignment.center,
-        child: SizedBox(
-          width: 250,
-          child: uploadFile(formStore),
-        ),
+        child: SizedBox(width: 450, child: uploadFile(formStore)),
       ),
     ],
   );
