@@ -94,7 +94,7 @@ class AvailabilityAccountCards extends StatelessWidget {
     }
 
     return Wrap(
-      spacing: 20,
+      spacing: 40,
       runSpacing: 20,
       alignment: WrapAlignment.start,
       children: cards,
