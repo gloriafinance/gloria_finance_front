@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/finance/trends/widgets/trend_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets/availability_account_cards.dart';
@@ -16,7 +17,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return LayoutDashboard(
       _buildHeader(),
-      screen: AvailabilityAccountCards(),
+      screen: Column(
+        children: [
+          AvailabilityAccountCards(),
+          const SizedBox(height: 40),
+          const TrendWidget(),
+        ],
+      ),
     );
   }
 
