@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/auth/pages/policies/policy_acceptance_screen.dart';
 import 'package:church_finance_bk/auth/pages/recovery_password/recovery_password_screen.dart';
 import 'package:church_finance_bk/core/theme/transition_custom.dart';
 import 'package:go_router/go_router.dart';
@@ -16,6 +17,12 @@ authRouters() {
       path: '/recovery-password',
       pageBuilder: (context, state) {
         return transitionCustom(const RecoveryPasswordScreen());
+      },
+    ),
+    GoRoute(
+      path: '/policy-acceptance',
+      pageBuilder: (context, state) {
+        return transitionCustom(const PolicyAcceptanceScreen());
       },
     ),
   ];

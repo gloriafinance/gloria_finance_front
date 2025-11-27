@@ -83,6 +83,18 @@ class AuthSessionStore extends ChangeNotifier {
     return state.session.token.isNotEmpty;
   }
 
+  /// Check if the user needs to accept policies
+  bool needsPolicyAcceptance() {
+    return isLoggedIn() && state.session.needsPolicyAcceptance();
+  }
+
+  /// Update the session with new data and persist it
+  Future<void> updateSession(AuthSessionModel session) async {
+    state = state.copyWith(session: session);
+    await AuthPersistence().save(session);
+    notifyListeners();
+  }
+
   isAdmin() {
     return state.session.isAdmin();
   }
