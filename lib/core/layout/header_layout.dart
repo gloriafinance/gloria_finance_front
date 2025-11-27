@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/auth/auth_persistence.dart';
 import 'package:church_finance_bk/auth/pages/login/store/auth_session_store.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
@@ -179,7 +178,11 @@ class _HeaderLayoutState extends State<HeaderLayout> {
         if (value == 'trocar_senha') {
           context.push('/change-password');
         } else if (value == 'sair') {
-          AuthPersistence().clear();
+          final authStore = Provider.of<AuthSessionStore>(
+            _contextRef,
+            listen: false,
+          );
+          authStore.logout();
           _contextRef.go('/');
         }
       },

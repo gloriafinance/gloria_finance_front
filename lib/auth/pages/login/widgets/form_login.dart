@@ -126,7 +126,12 @@ class _FormLogin extends State<FormLogin> {
     }
 
     if (await authStore.login()) {
-      context.go('/dashboard');
+      // Check if user needs to accept policies before proceeding
+      if (authStore.needsPolicyAcceptance()) {
+        context.go('/policy-acceptance');
+      } else {
+        context.go('/dashboard');
+      }
     }
   }
 }
