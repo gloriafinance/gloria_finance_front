@@ -26,15 +26,8 @@ final GoRouter router = GoRouter(
     final isLoggedIn = _authStore.isLoggedIn();
     final needsPolicyAcceptance = _authStore.needsPolicyAcceptance();
 
-    // Allow public routes without authentication
+    // Allow public routes without authentication - don't redirect away from them
     if (_publicRoutes.contains(currentLocation)) {
-      // If logged in and on login page, redirect appropriately
-      if (isLoggedIn && currentLocation == '/') {
-        if (needsPolicyAcceptance) {
-          return '/policy-acceptance';
-        }
-        return '/dashboard';
-      }
       return null;
     }
 
