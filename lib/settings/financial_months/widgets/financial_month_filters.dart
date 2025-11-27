@@ -30,7 +30,6 @@ class _FinancialMonthFiltersState extends State<FinancialMonthFilters> {
   Widget build(BuildContext context) {
     return Consumer<FinancialMonthStore>(
       builder: (context, store, _) {
-        _selectedYear = store.state.selectedYear;
         return isMobile(context) ? _mobileLayout(store) : _desktopLayout(store);
       },
     );
