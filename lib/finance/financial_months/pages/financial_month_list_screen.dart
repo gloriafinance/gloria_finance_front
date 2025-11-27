@@ -52,8 +52,8 @@ class _FinancialMonthListScreenState extends State<FinancialMonthListScreen> {
   Widget _header(BuildContext context) {
     return Row(
       children: [
-        Expanded(
-          child: const Text(
+        const Expanded(
+          child: Text(
             'Meses Financeiros',
             textAlign: TextAlign.left,
             style: TextStyle(

@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../financial_month_service.dart';
@@ -18,6 +19,7 @@ class FinancialMonthStore extends ChangeNotifier {
       state = state.copyWith(isLoading: false, months: months);
       notifyListeners();
     } catch (e) {
+      debugPrint('Error loading financial months: $e');
       state = state.copyWith(isLoading: false);
       notifyListeners();
     }
@@ -34,6 +36,7 @@ class FinancialMonthStore extends ChangeNotifier {
       await loadFinancialMonths(year: year);
       return true;
     } catch (e) {
+      debugPrint('Error closing month: $e');
       return false;
     }
   }
@@ -49,6 +52,7 @@ class FinancialMonthStore extends ChangeNotifier {
       await loadFinancialMonths(year: year);
       return true;
     } catch (e) {
+      debugPrint('Error opening month: $e');
       return false;
     }
   }
