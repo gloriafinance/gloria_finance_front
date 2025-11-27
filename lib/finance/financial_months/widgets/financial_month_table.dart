@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
@@ -69,43 +70,41 @@ class FinancialMonthTable extends StatelessWidget {
       return ButtonActionTable(
         color: AppColors.mustard,
         text: 'Reabrir',
-        onPressed: () => _showActionDialog(context, month, false),
+        onPressed: () => _showActionModal(context, month, false),
         icon: Icons.lock_open_outlined,
       );
     } else {
       return ButtonActionTable(
         color: AppColors.green,
         text: 'Fechar',
-        onPressed: () => _showActionDialog(context, month, true),
+        onPressed: () => _showActionModal(context, month, true),
         icon: Icons.lock_outlined,
       );
     }
   }
 
-  void _showActionDialog(
+  void _showActionModal(
     BuildContext context,
     FinancialMonthModel month,
     bool isClosing,
   ) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (dialogContext) => FinancialMonthActionDialog(
+    final store = context.read<FinancialMonthStore>();
+    final title = isClosing ? 'Fechar Mês' : 'Reabrir Mês';
+
+    ModalPage(
+      title: title,
+      width: 450,
+      body: FinancialMonthActionContent(
         month: month,
         isClosing: isClosing,
         onConfirm: () async {
-          final store = context.read<FinancialMonthStore>();
-          bool success;
           if (isClosing) {
-            success = await store.closeMonth(month.month, month.year);
+            return await store.closeMonth(month.month, month.year);
           } else {
-            success = await store.openMonth(month.month, month.year);
-          }
-          if (dialogContext.mounted) {
-            Navigator.of(dialogContext).pop(success);
+            return await store.openMonth(month.month, month.year);
           }
         },
       ),
-    );
+    ).show(context);
   }
 }
