@@ -1,8 +1,9 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
-import 'package:church_finance_bk/finance/financial_months/models/financial_month_model.dart';
 import 'package:flutter/material.dart';
+
+import '../models/financial_month_model.dart';
 
 class FinancialMonthActionContent extends StatefulWidget {
   final FinancialMonthModel month;
@@ -35,11 +36,7 @@ class _FinancialMonthActionContentState
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(
-          iconData,
-          color: iconColor,
-          size: 48,
-        ),
+        Icon(iconData, color: iconColor, size: 48),
         const SizedBox(height: 16),
         Text(
           'Deseja $actionText o mês de ${widget.month.monthName} de ${widget.month.year}?',

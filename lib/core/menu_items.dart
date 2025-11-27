@@ -19,6 +19,11 @@ List<Map<String, dynamic>> items = const [
       },
       {"label": "Membros", "icon": Icons.people, "to": "/members"},
       {
+        "label": "Períodos Financeiros",
+        "icon": Icons.calendar_month_outlined,
+        "to": "/financial-months",
+      },
+      {
         "label": "Contas de disponibilidade",
         "icon": Icons.account_balance_wallet_outlined,
         "to": "/availability-accounts",
@@ -66,11 +71,7 @@ List<Map<String, dynamic>> items = const [
         "icon": Icons.payments_outlined,
         "to": "/accounts-payable/list",
       },
-      {
-        "label": "Meses financeiros",
-        "icon": Icons.calendar_month_outlined,
-        "to": "/finance/financial-months",
-      },
+
       //TODO Registro de compras puede ser un mdulo.
       {"label": "Compras", "icon": Icons.sell_outlined, "to": "/purchase"},
     ],
@@ -100,11 +101,7 @@ List<Map<String, dynamic>> items = const [
         "icon": Icons.account_balance,
         "to": "/report/income-statement",
       },
-      {
-        "label": "DRE",
-        "icon": Icons.assessment,
-        "to": "/report/dre",
-      },
+      {"label": "DRE", "icon": Icons.assessment, "to": "/report/dre"},
     ],
   },
 ];
