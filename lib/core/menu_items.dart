@@ -66,6 +66,11 @@ List<Map<String, dynamic>> items = const [
         "icon": Icons.payments_outlined,
         "to": "/accounts-payable/list",
       },
+      {
+        "label": "Meses financeiros",
+        "icon": Icons.calendar_month_outlined,
+        "to": "/finance/financial-months",
+      },
       //TODO Registro de compras puede ser un mdulo.
       {"label": "Compras", "icon": Icons.sell_outlined, "to": "/purchase"},
     ],
