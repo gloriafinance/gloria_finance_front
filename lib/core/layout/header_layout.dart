@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../auth/auth_persistence.dart';
 import '../theme/app_color.dart';
 import '../theme/app_fonts.dart';
 import '../widgets/app_logo_horizontal.dart';
@@ -179,7 +178,11 @@ class _HeaderLayoutState extends State<HeaderLayout> {
         if (value == 'trocar_senha') {
           context.push('/change-password');
         } else if (value == 'sair') {
-          AuthPersistence().clear();
+          final authStore = Provider.of<AuthSessionStore>(
+            _contextRef,
+            listen: false,
+          );
+          authStore.logout();
           _contextRef.go('/');
         }
       },
