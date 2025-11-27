@@ -5,6 +5,7 @@ import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/finance/financial_months/store/financial_month_store.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class FinancialMonthFilters extends StatefulWidget {
@@ -22,11 +23,6 @@ class _FinancialMonthFiltersState extends State<FinancialMonthFilters> {
   void initState() {
     super.initState();
     _selectedYear = DateTime.now().year;
-  }
-
-  List<String> _getYearOptions() {
-    final currentYear = DateTime.now().year;
-    return List.generate(10, (index) => (currentYear - 5 + index).toString());
   }
 
   @override
@@ -69,7 +65,7 @@ class _FinancialMonthFiltersState extends State<FinancialMonthFilters> {
             },
             body: Column(
               children: [
-                Row(children: [Expanded(child: _yearDropdown(store))]),
+                Row(children: [Expanded(child: _yearInput(store))]),
                 const SizedBox(height: 16),
                 Row(
                   children: [
@@ -95,7 +91,7 @@ class _FinancialMonthFiltersState extends State<FinancialMonthFilters> {
         children: [
           Row(
             children: [
-              SizedBox(width: 300, child: _yearDropdown(store)),
+              SizedBox(width: 300, child: _yearInput(store)),
               const SizedBox(width: 16),
               Container(
                 margin: const EdgeInsets.only(top: 48),
@@ -113,13 +109,17 @@ class _FinancialMonthFiltersState extends State<FinancialMonthFilters> {
     );
   }
 
-  Widget _yearDropdown(FinancialMonthStore store) {
-    return Dropdown(
+  Widget _yearInput(FinancialMonthStore store) {
+    return Input(
       label: 'Ano',
       initialValue: _selectedYear?.toString(),
-      items: _getYearOptions(),
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        LengthLimitingTextInputFormatter(4),
+      ],
       onChanged: (value) {
-        if (value != null) {
+        if (value.isNotEmpty) {
           setState(() {
             _selectedYear = int.tryParse(value);
           });
