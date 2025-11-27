@@ -9,6 +9,7 @@ import 'package:church_finance_bk/finance/purchase/pages/purchases/purchase_list
 import 'package:go_router/go_router.dart';
 
 import 'bank_statements/pages/bank_statements/bank_statements_screen.dart';
+import 'financial_months/pages/financial_month_list_screen.dart';
 import 'accounts_payable/pages/accounts_payable/accounts_payable_list_screen.dart';
 import 'accounts_receivable/pages/accounts_receivable/list_accounts_receivable_screen.dart';
 import 'accounts_receivable/pages/register_accounts_receivable/accounts_receivable.dart';
@@ -136,6 +137,12 @@ financialRouter() {
       path: '/finance/bank-statements',
       pageBuilder: (context, state) {
         return transitionCustom(const BankStatementsScreen());
+      },
+    ),
+    GoRoute(
+      path: '/finance/financial-months',
+      pageBuilder: (context, state) {
+        return transitionCustom(const FinancialMonthListScreen());
       },
     ),
   ];
