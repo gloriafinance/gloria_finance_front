@@ -71,7 +71,7 @@ class FinancialMonthTable extends StatelessWidget {
       );
     } else {
       return ButtonActionTable(
-        color: AppColors.green,
+        color: AppColors.blue,
         text: 'Fechar',
         onPressed: () => _showActionModal(context, month, true),
         icon: Icons.lock_outlined,
