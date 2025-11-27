@@ -8,9 +8,9 @@ class PolicyConfig {
 
   /// URL for the full Privacy Policy document
   static const String privacyPolicyUrl =
-      'https://gloriafinance.com.br/politica-de-privacidade';
+      'https://gloriafinance.com.br/privacy-policy';
 
   /// URL for the full Sensitive Data Policy document
   static const String sensitiveDataPolicyUrl =
-      'https://gloriafinance.com.br/politica-de-dados-sensiveis';
+      'https://gloriafinance.com.br/sensitive-data-policy';
 }
