@@ -2,11 +2,12 @@ import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
-import 'package:church_finance_bk/finance/financial_months/store/financial_month_store.dart';
 import 'package:church_finance_bk/helpers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+
+import '../store/financial_month_store.dart';
 
 class FinancialMonthFilters extends StatefulWidget {
   const FinancialMonthFilters({super.key});
@@ -30,9 +31,7 @@ class _FinancialMonthFiltersState extends State<FinancialMonthFilters> {
     return Consumer<FinancialMonthStore>(
       builder: (context, store, _) {
         _selectedYear = store.state.selectedYear;
-        return isMobile(context)
-            ? _mobileLayout(store)
-            : _desktopLayout(store);
+        return isMobile(context) ? _mobileLayout(store) : _desktopLayout(store);
       },
     );
   }
