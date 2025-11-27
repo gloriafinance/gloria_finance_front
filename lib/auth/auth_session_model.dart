@@ -1,3 +1,6 @@
+import 'models/policy_acceptance_model.dart';
+import 'models/policy_config.dart';
+
 class AuthSessionModel {
   final String token;
   final String name;
@@ -8,6 +11,7 @@ class AuthSessionModel {
   final String churchId;
   final List<String> roles;
   String? memberId;
+  PolicyAcceptanceModel policies;
 
   AuthSessionModel({
     required this.churchId,
@@ -19,7 +23,8 @@ class AuthSessionModel {
     required this.userId,
     required this.roles,
     this.memberId,
-  });
+    PolicyAcceptanceModel? policies,
+  }) : policies = policies ?? PolicyAcceptanceModel.empty();
 
   factory AuthSessionModel.empty() {
     return AuthSessionModel(
@@ -31,6 +36,7 @@ class AuthSessionModel {
       userId: "",
       churchId: '',
       roles: [],
+      policies: PolicyAcceptanceModel.empty(),
     );
   }
 
@@ -44,6 +50,7 @@ class AuthSessionModel {
     String? userId,
     String? memberId,
     List<String>? roles,
+    PolicyAcceptanceModel? policies,
   }) {
     return AuthSessionModel(
       createdAt: createdAt ?? this.createdAt,
@@ -55,6 +62,7 @@ class AuthSessionModel {
       churchId: churchId ?? this.churchId,
       memberId: memberId ?? this.memberId,
       roles: roles ?? this.roles,
+      policies: policies ?? this.policies,
     );
   }
 
@@ -69,6 +77,9 @@ class AuthSessionModel {
       userId: json['userId'],
       churchId: json['churchId'],
       memberId: json['memberId'],
+      policies: PolicyAcceptanceModel.fromJson(
+        json['policies'] as Map<String, dynamic>?,
+      ),
     );
   }
 
@@ -83,6 +94,7 @@ class AuthSessionModel {
       'userId': userId,
       'churchId': churchId,
       'memberId': memberId,
+      'policies': policies.toJson(),
     };
   }
 
@@ -108,5 +120,13 @@ class AuthSessionModel {
 
   isPastor() {
     return roles.contains('PASTOR');
+  }
+
+  /// Check if the user needs to accept policies before using the app
+  bool needsPolicyAcceptance() {
+    return !policies.areAllPoliciesAccepted(
+      requiredPrivacyVersion: PolicyConfig.privacyPolicyVersion,
+      requiredSensitiveDataVersion: PolicyConfig.sensitiveDataPolicyVersion,
+    );
   }
 }

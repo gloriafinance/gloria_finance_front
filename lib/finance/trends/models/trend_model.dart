@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class TrendValue {
   final double current;
   final double previous;
@@ -58,10 +60,18 @@ class TrendResponse {
 
   TrendResponse({required this.period, required this.trend});
 
-  factory TrendResponse.fromJson(Map<String, dynamic> json) {
+  factory TrendResponse.fromJson(dynamic json) {
+    final Map<String, dynamic> map;
+
+    if (json is String) {
+      map = Map<String, dynamic>.from(jsonDecode(json));
+    } else {
+      map = Map<String, dynamic>.from(json as Map);
+    }
+
     return TrendResponse(
-      period: TrendPeriod.fromJson(json['period']),
-      trend: TrendData.fromJson(json['trend']),
+      period: TrendPeriod.fromJson(map['period']),
+      trend: TrendData.fromJson(map['trend']),
     );
   }
 }
