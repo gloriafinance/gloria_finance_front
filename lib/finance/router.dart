@@ -8,12 +8,12 @@ import 'package:church_finance_bk/finance/accounts_receivable/models/accounts_re
 import 'package:church_finance_bk/finance/purchase/pages/purchases/purchase_list_screen.dart';
 import 'package:go_router/go_router.dart';
 
-import 'bank_statements/pages/bank_statements/bank_statements_screen.dart';
 import 'accounts_payable/pages/accounts_payable/accounts_payable_list_screen.dart';
 import 'accounts_receivable/pages/accounts_receivable/list_accounts_receivable_screen.dart';
+import 'accounts_receivable/pages/member_commitments/member_commitments_screen.dart';
 import 'accounts_receivable/pages/register_accounts_receivable/accounts_receivable.dart';
 import 'accounts_receivable/pages/view_account_receivable/view_account_receive_screen.dart';
-import 'accounts_receivable/pages/member_commitments/member_commitments_screen.dart';
+import 'bank_statements/pages/bank_statements/bank_statements_screen.dart';
 import 'contributions/pages/app_contribuitions/add_contribution_screen.dart';
 import 'contributions/pages/contributions_list/contributions_list_screen.dart';
 import 'financial_records/pages/add_financial_records/add_financial_record_screen.dart';
