@@ -20,9 +20,10 @@ class PolicyService extends AppHttp {
         options: Options(headers: bearerToken()),
       );
 
-      return PolicyAcceptanceModel.fromJson(
-        response.data as Map<String, dynamic>?,
-      );
+      final data = response.data as Map<String, dynamic>?;
+      // Extract the policies object from the response
+      final policies = data?['policies'] as Map<String, dynamic>?;
+      return PolicyAcceptanceModel.fromJson(policies);
     } on DioException catch (e) {
       print("ERR ${e.response?.data}");
       transformResponse(e.response?.data);
