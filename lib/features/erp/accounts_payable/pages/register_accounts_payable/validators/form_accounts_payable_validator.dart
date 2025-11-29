@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/features/erp//accounts_payable/models/accounts_payable_types.dart';
+import 'package:church_finance_bk/features/erp/accounts_payable/models/accounts_payable_types.dart';
 import 'package:lucid_validation/lucid_validation.dart';
 
 import '../state/form_accounts_payable_state.dart';

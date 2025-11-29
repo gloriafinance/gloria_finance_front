@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/features/erp//settings/financial_concept/models/financial_concept_model.dart';
+import 'package:church_finance_bk/features/erp/settings/financial_concept/models/financial_concept_model.dart';
 
 import 'finance_record_model.dart';
 

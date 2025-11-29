@@ -1,6 +1,6 @@
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
-import 'package:church_finance_bk/features/erp//settings/banks/store/bank_store.dart';
+import 'package:church_finance_bk/features/erp/settings/banks/store/bank_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/formatters/currency_input_formatter.dart';
 import 'package:flutter_multi_formatter/formatters/money_input_enums.dart';

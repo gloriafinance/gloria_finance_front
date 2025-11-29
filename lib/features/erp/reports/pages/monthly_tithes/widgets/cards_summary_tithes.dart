@@ -1,7 +1,7 @@
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/utils/currency_formatter.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
-import 'package:church_finance_bk/features/erp//settings/availability_accounts/models/availability_account_model.dart';
+import 'package:church_finance_bk/features/erp/settings/availability_accounts/models/availability_account_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

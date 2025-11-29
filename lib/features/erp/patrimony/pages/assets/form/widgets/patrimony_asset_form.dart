@@ -4,7 +4,7 @@ import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
-import 'package:church_finance_bk/features/erp//settings/members/store/member_all_store.dart';
+import 'package:church_finance_bk/features/erp/settings/members/store/member_all_store.dart';
 import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_asset_enums.dart';
 import 'package:church_finance_bk/features/erp/patrimony/pages/assets/form/store/patrimony_asset_form_store.dart';
 import 'package:church_finance_bk/features/erp/patrimony/pages/assets/form/widgets/patrimony_attachments_editor.dart';

@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/features/erp//settings/banks/models/bank_model.dart';
+import 'package:church_finance_bk/features/erp/settings/banks/models/bank_model.dart';
 
 class BankState {
   final List<BankModel> banks;
