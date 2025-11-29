@@ -1,6 +1,6 @@
 import 'package:church_finance_bk/core/app_http.dart';
 import 'package:church_finance_bk/features/auth/auth_persistence.dart';
-import 'package:church_finance_bk/features/erp//providers/models/supplier_model.dart';
+import 'package:church_finance_bk/features/erp/providers/models/supplier_model.dart';
 import 'package:dio/dio.dart';
 
 class SupplierService extends AppHttp {

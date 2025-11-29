@@ -1,5 +1,5 @@
 import 'package:church_finance_bk/core/utils/index.dart';
-import 'package:church_finance_bk/features/erp//settings/financial_concept/models/financial_concept_model.dart';
+import 'package:church_finance_bk/features/erp/settings/financial_concept/models/financial_concept_model.dart';
 import 'package:dio/dio.dart';
 
 class FormFinanceRecordState {

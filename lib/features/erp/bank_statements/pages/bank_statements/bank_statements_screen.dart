@@ -3,7 +3,7 @@ import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
-import 'package:church_finance_bk/features/erp//settings/banks/store/bank_store.dart';
+import 'package:church_finance_bk/features/erp/settings/banks/store/bank_store.dart';
 import 'package:church_finance_bk/features/erp/bank_statements/models/bank_statement_model.dart';
 import 'package:church_finance_bk/features/erp/bank_statements/store/bank_statement_import_store.dart';
 import 'package:church_finance_bk/features/erp/bank_statements/store/bank_statement_list_store.dart';

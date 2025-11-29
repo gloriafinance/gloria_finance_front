@@ -1,7 +1,7 @@
 import 'package:church_finance_bk/core/layout/view_detail_widgets.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
-import 'package:church_finance_bk/features/erp//settings/availability_accounts/models/availability_account_model.dart';
-import 'package:church_finance_bk/features/erp//settings/banks/models/bank_model.dart';
+import 'package:church_finance_bk/features/erp/settings/availability_accounts/models/availability_account_model.dart';
+import 'package:church_finance_bk/features/erp/settings/banks/models/bank_model.dart';
 import 'package:flutter/material.dart';
 
 class ViewAvailabilityAccount extends StatelessWidget {

@@ -6,7 +6,7 @@ import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
-import 'package:church_finance_bk/features/erp//settings/members/store/member_all_store.dart';
+import 'package:church_finance_bk/features/erp/settings/members/store/member_all_store.dart';
 import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_asset_model.dart';
 import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_history_entry.dart';
 import 'package:church_finance_bk/features/erp/patrimony/pages/assets/detail/store/patrimony_asset_detail_store.dart';

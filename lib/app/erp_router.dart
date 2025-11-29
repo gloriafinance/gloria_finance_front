@@ -1,8 +1,8 @@
 // lib/core/erp_router.dart
 
 import 'package:church_finance_bk/app/store_manager.dart';
-import 'package:church_finance_bk/features/erp//home/home_screen.dart';
-import 'package:church_finance_bk/features/erp//router.dart';
+import 'package:church_finance_bk/features/erp/home/home_screen.dart';
+import 'package:church_finance_bk/features/erp/router.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/theme/transition_custom.dart';

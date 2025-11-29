@@ -1,8 +1,8 @@
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
-import 'package:church_finance_bk/features/erp//accounts_payable/models/accounts_payable_tax.dart';
-import 'package:church_finance_bk/features/erp//accounts_payable/models/accounts_payable_types.dart';
+import 'package:church_finance_bk/features/erp/accounts_payable/models/accounts_payable_tax.dart';
+import 'package:church_finance_bk/features/erp/accounts_payable/models/accounts_payable_types.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

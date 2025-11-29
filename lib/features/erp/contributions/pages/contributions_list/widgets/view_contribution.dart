@@ -5,7 +5,7 @@ import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/features/auth/pages/login/store/auth_session_store.dart';
-import 'package:church_finance_bk/features/erp//settings/banks/store/bank_store.dart';
+import 'package:church_finance_bk/features/erp/settings/banks/store/bank_store.dart';
 import 'package:church_finance_bk/features/erp/contributions/models/contribution_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
