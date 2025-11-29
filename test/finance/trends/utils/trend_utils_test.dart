@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/finance/trends/utils/trend_utils.dart';
+import 'package:church_finance_bk/features/erp/trends/utils/trend_utils.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

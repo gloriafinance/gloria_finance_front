@@ -1,11 +1,12 @@
-import 'package:church_finance_bk/finance/accounts_receivable/accounts_receivable_service.dart';
-import 'package:church_finance_bk/finance/accounts_receivable/models/index.dart';
-import 'package:church_finance_bk/finance/accounts_receivable/pages/member_commitments/store/member_commitments_store.dart';
-import 'package:church_finance_bk/finance/accounts_receivable/pages/member_commitments/store/payment_declaration_store.dart';
-import 'package:church_finance_bk/finance/models/installment_model.dart';
+import 'package:church_finance_bk/core/paginate/paginate_response.dart';
+import 'package:church_finance_bk/features/erp/accounts_receivable/accounts_receivable_service.dart';
+import 'package:church_finance_bk/features/erp/accounts_receivable/models/index.dart';
+import 'package:church_finance_bk/features/erp/accounts_receivable/pages/member_commitments/store/member_commitments_store.dart';
+import 'package:church_finance_bk/features/erp/accounts_receivable/pages/member_commitments/store/payment_declaration_store.dart';
+import 'package:church_finance_bk/features/erp/models/installment_model.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:dio/dio.dart';
 
 class _FakeAccountsReceivableService extends AccountsReceivableService {
   PaginateResponse<AccountsReceivableModel>? response;
@@ -88,16 +89,12 @@ void main() {
         results: [_sampleCommitment()],
       );
 
-      final store = MemberCommitmentsStore(
-        debtorDNI: '12345678900',
-        service: fakeService,
-      );
+      final store = MemberCommitmentsStore(service: fakeService);
 
       await store.fetchCommitments();
 
       expect(store.state.paginate.results.length, 1);
       expect(fakeService.calls, 1);
-      expect(fakeService.lastFilter?.debtorDNI, '12345678900');
       expect(fakeService.lastFilter?.status, isNull);
     });
 
@@ -109,10 +106,7 @@ void main() {
         results: [],
       );
 
-      final store = MemberCommitmentsStore(
-        debtorDNI: '999',
-        service: fakeService,
-      );
+      final store = MemberCommitmentsStore(service: fakeService);
 
       store.setStatusFilter(AccountsReceivableStatus.PAID);
 
@@ -123,7 +117,6 @@ void main() {
 
     test('installmentStatusLabel maps IN_REVIEW to friendly text', () {
       final store = MemberCommitmentsStore(
-        debtorDNI: '999',
         service: _FakeAccountsReceivableService(),
       );
 
@@ -154,7 +147,10 @@ void main() {
       expect(service.captured, isNotNull);
       expect(service.captured?.availabilityAccountId, 'acc-1');
       expect(service.captured?.installmentId, installment.installmentId);
-      expect(service.captured?.accountReceivableId, commitment.accountReceivableId);
+      expect(
+        service.captured?.accountReceivableId,
+        commitment.accountReceivableId,
+      );
       expect(service.captured?.amount, 150);
     });
 

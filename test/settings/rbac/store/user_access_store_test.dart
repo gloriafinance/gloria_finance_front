@@ -1,19 +1,16 @@
-import 'package:church_finance_bk/settings/rbac/models/permission_action_model.dart';
-import 'package:church_finance_bk/settings/rbac/models/permission_module_group.dart';
-import 'package:church_finance_bk/settings/rbac/models/rbac_user_model.dart';
-import 'package:church_finance_bk/settings/rbac/models/rbac_user_page.dart';
-import 'package:church_finance_bk/settings/rbac/models/role_model.dart';
-import 'package:church_finance_bk/settings/rbac/models/user_authorization_model.dart';
-import 'package:church_finance_bk/settings/rbac/services/rbac_user_service.dart';
-import 'package:church_finance_bk/settings/rbac/services/role_permission_service.dart';
-import 'package:church_finance_bk/settings/rbac/store/user_access_store.dart';
+import 'package:church_finance_bk/features/erp/settings/rbac/models/permission_action_model.dart';
+import 'package:church_finance_bk/features/erp/settings/rbac/models/permission_module_group.dart';
+import 'package:church_finance_bk/features/erp/settings/rbac/models/rbac_user_model.dart';
+import 'package:church_finance_bk/features/erp/settings/rbac/models/rbac_user_page.dart';
+import 'package:church_finance_bk/features/erp/settings/rbac/models/role_model.dart';
+import 'package:church_finance_bk/features/erp/settings/rbac/models/user_authorization_model.dart';
+import 'package:church_finance_bk/features/erp/settings/rbac/services/rbac_user_service.dart';
+import 'package:church_finance_bk/features/erp/settings/rbac/services/role_permission_service.dart';
+import 'package:church_finance_bk/features/erp/settings/rbac/store/user_access_store.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class _FakeRolePermissionService extends RolePermissionService {
-  _FakeRolePermissionService({
-    required this.roles,
-    required this.catalog,
-  });
+  _FakeRolePermissionService({required this.roles, required this.catalog});
 
   final List<RoleModel> roles;
   final List<PermissionModuleGroup> catalog;
@@ -34,16 +31,21 @@ class _FakeUserService extends RbacUserService {
     required List<RbacUserModel> users,
     required Map<String, Set<String>> assignments,
     required Map<String, List<String>> permissionsByRole,
-  })  : _users = users,
-        _assignments = assignments,
-        _permissionsByRole = permissionsByRole;
+  }) : _users = users,
+       _assignments = assignments,
+       _permissionsByRole = permissionsByRole;
 
   final List<RbacUserModel> _users;
   final Map<String, Set<String>> _assignments;
   final Map<String, List<String>> _permissionsByRole;
 
   @override
-  Future<RbacUserPage> fetchUsers({int page = 1, int perPage = 50, bool? isActive, bool? isSuperuser}) async {
+  Future<RbacUserPage> fetchUsers({
+    int page = 1,
+    int perPage = 50,
+    bool? isActive,
+    bool? isSuperuser,
+  }) async {
     final start = (page - 1) * perPage;
     final slice = _users.skip(start).take(perPage).toList();
     final next = (start + slice.length) >= _users.length ? null : page + 1;
@@ -69,7 +71,10 @@ class _FakeUserService extends RbacUserService {
   }
 
   @override
-  Future<void> assignRoles({required String userId, required List<String> roleIds}) async {
+  Future<void> assignRoles({
+    required String userId,
+    required List<String> roleIds,
+  }) async {
     _assignments[userId] = roleIds.toSet();
   }
 
@@ -133,20 +138,20 @@ void main() {
       ];
 
       final catalog = [
-        _catalogModule(
-          'rbac',
-          'RBAC',
-          [
-            _permission(module: 'rbac', action: 'manage_roles', label: 'Gerenciar papéis'),
-          ],
-        ),
-        _catalogModule(
-          'reports',
-          'Relatórios',
-          [
-            _permission(module: 'reports', action: 'view', label: 'Ver relatórios'),
-          ],
-        ),
+        _catalogModule('rbac', 'RBAC', [
+          _permission(
+            module: 'rbac',
+            action: 'manage_roles',
+            label: 'Gerenciar papéis',
+          ),
+        ]),
+        _catalogModule('reports', 'Relatórios', [
+          _permission(
+            module: 'reports',
+            action: 'view',
+            label: 'Ver relatórios',
+          ),
+        ]),
       ];
 
       userService = _FakeUserService(
@@ -178,10 +183,7 @@ void main() {
         },
       );
 
-      roleService = _FakeRolePermissionService(
-        roles: roles,
-        catalog: catalog,
-      );
+      roleService = _FakeRolePermissionService(roles: roles, catalog: catalog);
 
       store = UserAccessStore(
         userService: userService,
@@ -201,15 +203,18 @@ void main() {
       expect(store.state.effectivePermissions.length, equals(1));
     });
 
-    test('toggleRole triggers assignment sync and refreshes permissions', () async {
-      await store.bootstrap();
+    test(
+      'toggleRole triggers assignment sync and refreshes permissions',
+      () async {
+        await store.bootstrap();
 
-      store.toggleRole('AUDITOR', true);
-      await Future<void>.delayed(Duration.zero);
+        store.toggleRole('AUDITOR', true);
+        await Future<void>.delayed(Duration.zero);
 
-      expect(store.state.selectedRoleIds, containsAll(['ADMIN', 'AUDITOR']));
-      expect(store.state.effectivePermissions.length, equals(2));
-    });
+        expect(store.state.selectedRoleIds, containsAll(['ADMIN', 'AUDITOR']));
+        expect(store.state.effectivePermissions.length, equals(2));
+      },
+    );
 
     test('createUser adds to list and selects new user', () async {
       await store.bootstrap();

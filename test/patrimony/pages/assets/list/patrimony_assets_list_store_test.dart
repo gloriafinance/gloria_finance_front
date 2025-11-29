@@ -1,8 +1,8 @@
 import 'package:church_finance_bk/core/paginate/paginate_response.dart';
-import 'package:church_finance_bk/patrimony/models/patrimony_asset_model.dart';
-import 'package:church_finance_bk/patrimony/models/patrimony_inventory_import_result.dart';
-import 'package:church_finance_bk/patrimony/pages/assets/list/store/patrimony_assets_list_store.dart';
-import 'package:church_finance_bk/patrimony/services/patrimony_service.dart';
+import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_asset_model.dart';
+import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_inventory_import_result.dart';
+import 'package:church_finance_bk/features/erp/patrimony/pages/assets/list/store/patrimony_assets_list_store.dart';
+import 'package:church_finance_bk/features/erp/patrimony/services/patrimony_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -56,7 +56,10 @@ void main() {
       );
 
       final store = PatrimonyAssetsListStore(service: service);
-      final file = MultipartFile.fromString('conteudo', filename: 'checklist.csv');
+      final file = MultipartFile.fromString(
+        'conteudo',
+        filename: 'checklist.csv',
+      );
 
       final result = await store.importInventoryChecklist(file);
 
@@ -79,7 +82,10 @@ void main() {
       );
 
       final store = PatrimonyAssetsListStore(service: service);
-      final file = MultipartFile.fromString('conteudo', filename: 'checklist.csv');
+      final file = MultipartFile.fromString(
+        'conteudo',
+        filename: 'checklist.csv',
+      );
 
       final result = await store.importInventoryChecklist(file);
 
