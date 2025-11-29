@@ -1,6 +1,6 @@
-import 'package:church_finance_bk/finance/trends/models/trend_model.dart';
-import 'package:church_finance_bk/finance/trends/store/trend_store.dart';
-import 'package:church_finance_bk/finance/trends/widgets/trend_widget.dart';
+import 'package:church_finance_bk/features/erp/trends/models/trend_model.dart';
+import 'package:church_finance_bk/features/erp/trends/store/trend_store.dart';
+import 'package:church_finance_bk/features/erp/trends/widgets/trend_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -8,8 +8,10 @@ import 'package:provider/provider.dart';
 class FakeTrendStore extends ChangeNotifier implements TrendStore {
   @override
   bool get isLoading => false;
+
   @override
   String? get error => null;
+
   @override
   TrendResponse? get trendResponse => TrendResponse(
     period: TrendPeriod(year: 2025, month: 11),

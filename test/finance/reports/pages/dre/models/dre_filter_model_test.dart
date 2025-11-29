@@ -1,6 +1,6 @@
 // test/finance/reports/pages/dre/models/dre_filter_model_test.dart
 
-import 'package:church_finance_bk/finance/reports/pages/dre/models/dre_filter_model.dart';
+import 'package:church_finance_bk/features/erp/reports/pages/dre/models/dre_filter_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -21,10 +21,7 @@ void main() {
         month: 5,
       );
 
-      final updated = model.copyWith(
-        year: 2025,
-        month: 6,
-      );
+      final updated = model.copyWith(year: 2025, month: 6);
 
       expect(updated.churchId, equals('church-001'));
       expect(updated.year, equals(2025));

@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/auth/models/policy_acceptance_model.dart';
+import 'package:church_finance_bk/features/auth/models/policy_acceptance_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -168,78 +168,82 @@ void main() {
     });
 
     test(
-        'areAllPoliciesAccepted returns false when privacy policy version differs',
-        () {
-      final model = PolicyAcceptanceModel(
-        privacyPolicy: PolicyAcceptanceItem(
-          accepted: true,
-          version: '1.0.0',
-          acceptedAt: DateTime.now(),
-        ),
-        sensitiveDataPolicy: PolicyAcceptanceItem(
-          accepted: true,
-          version: '1.0.0',
-          acceptedAt: DateTime.now(),
-        ),
-      );
+      'areAllPoliciesAccepted returns false when privacy policy version differs',
+      () {
+        final model = PolicyAcceptanceModel(
+          privacyPolicy: PolicyAcceptanceItem(
+            accepted: true,
+            version: '1.0.0',
+            acceptedAt: DateTime.now(),
+          ),
+          sensitiveDataPolicy: PolicyAcceptanceItem(
+            accepted: true,
+            version: '1.0.0',
+            acceptedAt: DateTime.now(),
+          ),
+        );
 
-      expect(
-        model.areAllPoliciesAccepted(
-          requiredPrivacyVersion: '2.0.0',
-          requiredSensitiveDataVersion: '1.0.0',
-        ),
-        false,
-      );
-    });
+        expect(
+          model.areAllPoliciesAccepted(
+            requiredPrivacyVersion: '2.0.0',
+            requiredSensitiveDataVersion: '1.0.0',
+          ),
+          false,
+        );
+      },
+    );
 
     test(
-        'areAllPoliciesAccepted returns false when sensitive data policy version differs',
-        () {
-      final model = PolicyAcceptanceModel(
-        privacyPolicy: PolicyAcceptanceItem(
-          accepted: true,
-          version: '1.0.0',
-          acceptedAt: DateTime.now(),
-        ),
-        sensitiveDataPolicy: PolicyAcceptanceItem(
-          accepted: true,
-          version: '1.0.0',
-          acceptedAt: DateTime.now(),
-        ),
-      );
+      'areAllPoliciesAccepted returns false when sensitive data policy version differs',
+      () {
+        final model = PolicyAcceptanceModel(
+          privacyPolicy: PolicyAcceptanceItem(
+            accepted: true,
+            version: '1.0.0',
+            acceptedAt: DateTime.now(),
+          ),
+          sensitiveDataPolicy: PolicyAcceptanceItem(
+            accepted: true,
+            version: '1.0.0',
+            acceptedAt: DateTime.now(),
+          ),
+        );
 
-      expect(
-        model.areAllPoliciesAccepted(
-          requiredPrivacyVersion: '1.0.0',
-          requiredSensitiveDataVersion: '2.0.0',
-        ),
-        false,
-      );
-    });
+        expect(
+          model.areAllPoliciesAccepted(
+            requiredPrivacyVersion: '1.0.0',
+            requiredSensitiveDataVersion: '2.0.0',
+          ),
+          false,
+        );
+      },
+    );
 
-    test('areAllPoliciesAccepted returns false when any policy is not accepted',
-        () {
-      final model = PolicyAcceptanceModel(
-        privacyPolicy: PolicyAcceptanceItem(
-          accepted: false,
-          version: '1.0.0',
-          acceptedAt: DateTime.now(),
-        ),
-        sensitiveDataPolicy: PolicyAcceptanceItem(
-          accepted: true,
-          version: '1.0.0',
-          acceptedAt: DateTime.now(),
-        ),
-      );
+    test(
+      'areAllPoliciesAccepted returns false when any policy is not accepted',
+      () {
+        final model = PolicyAcceptanceModel(
+          privacyPolicy: PolicyAcceptanceItem(
+            accepted: false,
+            version: '1.0.0',
+            acceptedAt: DateTime.now(),
+          ),
+          sensitiveDataPolicy: PolicyAcceptanceItem(
+            accepted: true,
+            version: '1.0.0',
+            acceptedAt: DateTime.now(),
+          ),
+        );
 
-      expect(
-        model.areAllPoliciesAccepted(
-          requiredPrivacyVersion: '1.0.0',
-          requiredSensitiveDataVersion: '1.0.0',
-        ),
-        false,
-      );
-    });
+        expect(
+          model.areAllPoliciesAccepted(
+            requiredPrivacyVersion: '1.0.0',
+            requiredSensitiveDataVersion: '1.0.0',
+          ),
+          false,
+        );
+      },
+    );
 
     test('serializes to JSON correctly', () {
       final model = PolicyAcceptanceModel(
