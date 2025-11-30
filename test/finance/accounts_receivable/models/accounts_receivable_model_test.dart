@@ -1,6 +1,6 @@
-import 'package:church_finance_bk/finance/accounts_receivable/models/accounts_receivable_model.dart';
-import 'package:church_finance_bk/finance/accounts_receivable/models/debtor_model.dart';
-import 'package:church_finance_bk/finance/models/installment_model.dart';
+import 'package:church_finance_bk/features/erp/accounts_receivable/models/accounts_receivable_model.dart';
+import 'package:church_finance_bk/features/erp/accounts_receivable/models/debtor_model.dart';
+import 'package:church_finance_bk/features/erp/models/installment_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -26,11 +26,7 @@ void main() {
           'address': 'Rua das Flores, 100',
         },
         'installments': [
-          {
-            'sequence': 1,
-            'amount': 120,
-            'dueDate': '2024-11-20',
-          },
+          {'sequence': 1, 'amount': 120, 'dueDate': '2024-11-20'},
         ],
       });
 
@@ -50,9 +46,7 @@ void main() {
         ),
         churchId: 'church-02',
         description: 'Locacao de auditorio',
-        installments: [
-          InstallmentModel(amount: 300, dueDate: '15/12/2024'),
-        ],
+        installments: [InstallmentModel(amount: 300, dueDate: '15/12/2024')],
         type: AccountsReceivableType.LEGAL,
       );
 

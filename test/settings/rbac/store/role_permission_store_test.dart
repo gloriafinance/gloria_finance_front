@@ -1,8 +1,8 @@
-import 'package:church_finance_bk/settings/rbac/models/permission_action_model.dart';
-import 'package:church_finance_bk/settings/rbac/models/permission_module_group.dart';
-import 'package:church_finance_bk/settings/rbac/models/role_model.dart';
-import 'package:church_finance_bk/settings/rbac/services/role_permission_service.dart';
-import 'package:church_finance_bk/settings/rbac/store/role_permission_store.dart';
+import 'package:church_finance_bk/features/erp/settings/rbac/models/permission_action_model.dart';
+import 'package:church_finance_bk/features/erp/settings/rbac/models/permission_module_group.dart';
+import 'package:church_finance_bk/features/erp/settings/rbac/models/role_model.dart';
+import 'package:church_finance_bk/features/erp/settings/rbac/services/role_permission_service.dart';
+import 'package:church_finance_bk/features/erp/settings/rbac/store/role_permission_store.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class _FakeRolePermissionService extends RolePermissionService {

@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/finance/bank_statements/models/bank_statement_model.dart';
+import 'package:church_finance_bk/features/erp/bank_statements/models/bank_statement_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -7,16 +7,23 @@ void main() {
       final json = {
         'bankStatementId': 'BSTMT-123',
         'churchId': 'CHURCH-1',
-        'bank': 'NUBANK',
-        'accountName': 'Conta principal',
+        'bank': {
+          'bankName': 'Nubank',
+          'bankId': 'bank-nubank',
+          'tag': 'NUBANK',
+        },
+        'availabilityAccount': {
+          'accountName': 'Conta principal',
+          'availabilityAccountId': 'acc-123',
+        },
         'postedAt': '2024-10-05T12:00:00.000Z',
         'amount': 1520.75,
         'description': 'Transferência recebida',
         'direction': 'INCOME',
         'fitId': 'FIT-001',
         'hash': 'HASH-XYZ',
-        'month': 10,
-        'year': 2024,
+        'month': '10',
+        'year': '2024',
         'reconciliationStatus': 'PENDING',
         'financialRecordId': null,
         'reconciledAt': null,
@@ -28,8 +35,9 @@ void main() {
       final model = BankStatementModel.fromJson(json);
 
       expect(model.bankStatementId, equals('BSTMT-123'));
-      expect(model.bank, equals('NUBANK'));
-      expect(model.accountName, equals('Conta principal'));
+      expect(model.bank.bankName, equals('Nubank'));
+      expect(model.bank.tag, equals('NUBANK'));
+      expect(model.availabilityAccount.accountName, equals('Conta principal'));
       expect(model.amount, equals(1520.75));
       expect(model.direction, equals(BankStatementDirection.income));
       expect(
@@ -39,15 +47,21 @@ void main() {
       expect(model.financialRecordId, isNull);
       expect(model.raw, equals({'line': 1, 'amount': 1520.75}));
       expect(model.isReconciled, isFalse);
-      expect(model.isPending, isTrue);
     });
 
     test('toJson serializes values using API format', () {
       final model = BankStatementModel(
         bankStatementId: 'BSTMT-123',
         churchId: 'CHURCH-1',
-        bank: 'NUBANK',
-        accountName: 'Conta principal',
+        bank: const BankInStatementModel(
+          bankName: 'Nubank',
+          bankId: 'bank-nubank',
+          tag: 'NUBANK',
+        ),
+        availabilityAccount: const AvailabilityAccountModel(
+          accountName: 'Conta principal',
+          availabilityAccountId: 'acc-123',
+        ),
         postedAt: DateTime.utc(2024, 10, 5, 12),
         amount: 100,
         description: 'Pagamento',
@@ -69,9 +83,14 @@ void main() {
       expect(json['direction'], equals('OUTGO'));
       expect(json['reconciliationStatus'], equals('RECONCILED'));
       expect(json['financialRecordId'], equals('REC-001'));
-      expect(json['month'], equals(9));
-      expect(json['year'], equals(2024));
+      expect(json['month'], equals('9'));
+      expect(json['year'], equals('2024'));
       expect(json['raw'], equals({'line': 1}));
+      expect(json['bank']['bankName'], equals('Nubank'));
+      expect(
+        json['availabilityAccount']['accountName'],
+        equals('Conta principal'),
+      );
     });
   });
 }

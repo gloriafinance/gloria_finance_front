@@ -1,7 +1,7 @@
-import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_tax.dart';
-import 'package:church_finance_bk/finance/accounts_payable/models/accounts_payable_types.dart';
-import 'package:church_finance_bk/finance/accounts_payable/pages/register_accounts_payable/state/form_accounts_payable_state.dart';
-import 'package:church_finance_bk/finance/models/installment_model.dart';
+import 'package:church_finance_bk/features/erp/accounts_payable/models/accounts_payable_tax.dart';
+import 'package:church_finance_bk/features/erp/accounts_payable/models/accounts_payable_types.dart';
+import 'package:church_finance_bk/features/erp/accounts_payable/pages/register_accounts_payable/state/form_accounts_payable_state.dart';
+import 'package:church_finance_bk/features/erp/models/installment_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -116,9 +116,7 @@ void main() {
         supplierId: 'supplier-5',
         description: 'Serviço tributado',
         paymentMode: AccountsPayablePaymentMode.manual,
-        installments: [
-          InstallmentModel(amount: 1000, dueDate: '01/12/2024'),
-        ],
+        installments: [InstallmentModel(amount: 1000, dueDate: '01/12/2024')],
         documentType: AccountsPayableDocumentType.invoice,
         documentNumber: 'NF-7722',
         documentIssueDate: '01/12/2024',
