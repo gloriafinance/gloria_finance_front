@@ -178,6 +178,7 @@ class _DropdownState extends State<Dropdown> {
   final FocusNode _dropdownFocusNode = FocusNode();
   final FocusNode _searchFocusNode = FocusNode();
   bool _isDropdownOpen = false;
+  final LayerLink _layerLink = LayerLink();
   String? _selectedValue;
   List<String> _filteredItems = [];
   final GlobalKey _dropdownKey = GlobalKey();
@@ -257,14 +258,11 @@ class _DropdownState extends State<Dropdown> {
     _dropdownFocusNode.requestFocus();
     final RenderBox renderBox =
         _dropdownKey.currentContext!.findRenderObject() as RenderBox;
-    final position = renderBox.localToGlobal(Offset.zero);
     final size = renderBox.size;
 
     _overlayEntry = OverlayEntry(
-      builder: (context) => GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () {}, // Evita que los toques fuera cierren el dropdown
-        child: Stack(
+      builder: (context) {
+        return Stack(
           children: [
             Positioned.fill(
               child: GestureDetector(
@@ -273,86 +271,93 @@ class _DropdownState extends State<Dropdown> {
                 child: Container(color: Colors.transparent),
               ),
             ),
-            Positioned(
-              left: position.dx,
-              top: position.dy + size.height + 5,
-              width: size.width,
+            CompositedTransformFollower(
+              link: _layerLink,
+              targetAnchor: Alignment.bottomLeft,
+              followerAnchor: Alignment.topLeft,
+              offset: const Offset(0, 5),
+              showWhenUnlinked: false,
               child: Material(
                 elevation: 4,
                 borderRadius: BorderRadius.circular(18),
-                child: Container(
-                  constraints:
-                      BoxConstraints(maxHeight: 350, minWidth: size.width),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(18),
-                    border: Border.all(color: AppColors.greyMiddle),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Campo de búsqueda
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: _searchController,
-                          focusNode: _searchFocusNode,
-                          autofocus: true,
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 8),
-                            hintText: widget.searchHint,
-                            prefixIcon: const Icon(Icons.search),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(14),
-                            ),
-                          ),
-                          onChanged: _filterItems,
-                        ),
-                      ),
-                      // Lista de resultados
-                      Flexible(
-                        child: _filteredItems.isEmpty
-                            ? const Center(
-                                child: Padding(
-                                  padding: EdgeInsets.all(16.0),
-                                  child: Text('No se encontraron resultados'),
-                                ),
-                              )
-                            : ListView.builder(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4),
-                                shrinkWrap: true,
-                                itemCount: _filteredItems.length,
-                                itemBuilder: (context, index) {
-                                  final item = _filteredItems[index];
-                                  return ListTile(
-                                    dense: true,
-                                    title: Text(
-                                      item,
-                                      style: TextStyle(
-                                        fontFamily: AppFonts.fontSubTitle,
-                                        color: item == _selectedValue
-                                            ? AppColors.purple
-                                            : Colors.black87,
-                                      ),
-                                    ),
-                                    onTap: () => _selectItem(item),
-                                  );
-                                },
+                child: SizedBox(
+                  width: size.width,
+                  child: Container(
+                    constraints:
+                        BoxConstraints(maxHeight: 350, minWidth: size.width),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(color: AppColors.greyMiddle),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Campo de búsqueda
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: _searchController,
+                            focusNode: _searchFocusNode,
+                            autofocus: true,
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 8),
+                              hintText: widget.searchHint,
+                              prefixIcon: const Icon(Icons.search),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(14),
                               ),
-                      ),
-                    ],
+                            ),
+                            onChanged: _filterItems,
+                          ),
+                        ),
+                        // Lista de resultados
+                        Flexible(
+                          child: _filteredItems.isEmpty
+                              ? const Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(16.0),
+                                    child: Text('No se encontraron resultados'),
+                                  ),
+                                )
+                              : ListView.builder(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 4),
+                                  shrinkWrap: true,
+                                  itemCount: _filteredItems.length,
+                                  itemBuilder: (context, index) {
+                                    final item = _filteredItems[index];
+                                    return ListTile(
+                                      dense: true,
+                                      title: Text(
+                                        item,
+                                        style: TextStyle(
+                                          fontFamily: AppFonts.fontSubTitle,
+                                          color: item == _selectedValue
+                                              ? AppColors.purple
+                                              : Colors.black87,
+                                        ),
+                                      ),
+                                      onTap: () => _selectItem(item),
+                                    );
+                                  },
+                                ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
           ],
-        ),
-      ),
+        );
+      },
     );
 
-    Overlay.of(context).insert(_overlayEntry!);
+    final overlayState = Overlay.of(context, rootOverlay: true);
+    if (overlayState == null) return;
+    overlayState.insert(_overlayEntry!);
     setState(() {
       _isDropdownOpen = true;
     });
@@ -432,38 +437,43 @@ class _DropdownState extends State<Dropdown> {
                   GestureDetector(
                     onTap: _toggleDropdown,
                     child: Container(
-                      key: _dropdownKey,
-                      height: 50,
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: state.hasError
-                              ? Colors.red
-                              : AppColors.greyMiddle,
-                        ),
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              _selectedValue ?? '',
-                              style: TextStyle(
-                                fontFamily: AppFonts.fontSubTitle,
-                                color: _selectedValue == null
-                                    ? AppColors.greyMiddle
-                                    : Colors.black87,
-                              ),
-                              overflow: TextOverflow.ellipsis,
+                      child: CompositedTransformTarget(
+                        link: _layerLink,
+                        child: Container(
+                          key: _dropdownKey,
+                          height: 50,
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: state.hasError
+                                  ? Colors.red
+                                  : AppColors.greyMiddle,
                             ),
+                            borderRadius: BorderRadius.circular(18),
                           ),
-                          Icon(
-                            _isDropdownOpen
-                                ? Icons.arrow_drop_up
-                                : Icons.arrow_drop_down,
-                            color: AppColors.greyMiddle,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  _selectedValue ?? '',
+                                  style: TextStyle(
+                                    fontFamily: AppFonts.fontSubTitle,
+                                    color: _selectedValue == null
+                                        ? AppColors.greyMiddle
+                                        : Colors.black87,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              Icon(
+                                _isDropdownOpen
+                                    ? Icons.arrow_drop_up
+                                    : Icons.arrow_drop_down,
+                                color: AppColors.greyMiddle,
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
