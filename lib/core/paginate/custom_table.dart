@@ -1,7 +1,7 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
-import 'package:church_finance_bk/helpers/index.dart';
+import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:flutter/material.dart';
 
 class FactoryDataTable<T> {

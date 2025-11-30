@@ -1,35 +1,29 @@
-import 'package:church_finance_bk/finance/bank_statements/models/index.dart';
-import 'package:church_finance_bk/finance/bank_statements/state/bank_statement_state.dart';
+import 'package:church_finance_bk/features/erp/bank_statements/state/bank_statement_list_state.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('BankStatementState', () {
-    test('tracks action flags and last import correctly', () {
-      final state = BankStatementState.initial();
+  group('BankStatementListState', () {
+    test('tracks action flags correctly', () {
+      final state = BankStatementListState.initial();
 
       final updated = state.copyWith(
         retrying: {'id-1': true},
         linking: {'id-2': true},
-        lastImport: const ImportBankStatementResponse(
-          bank: 'NUBANK',
-          month: 11,
-          year: 2024,
-          churchId: 'CHURCH-1',
-          queuedAt: DateTime.utc(2024, 11, 18),
-        ),
-        lastImportHasValue: true,
       );
 
       expect(updated.isRetrying('id-1'), isTrue);
       expect(updated.isLinking('id-2'), isTrue);
-      expect(updated.lastImport?.bank, equals('NUBANK'));
+      expect(updated.isRetrying('id-3'), isFalse);
+      expect(updated.isLinking('id-3'), isFalse);
+    });
 
-      final cleared = updated.copyWith(
-        lastImport: null,
-        lastImportHasValue: true,
-      );
+    test('initial state has empty collections', () {
+      final state = BankStatementListState.initial();
 
-      expect(cleared.lastImport, isNull);
+      expect(state.statements, isEmpty);
+      expect(state.loading, isFalse);
+      expect(state.retrying, isEmpty);
+      expect(state.linking, isEmpty);
     });
   });
 }

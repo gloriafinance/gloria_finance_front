@@ -1,6 +1,6 @@
-import 'package:church_finance_bk/auth/auth_session_model.dart';
-import 'package:church_finance_bk/auth/models/policy_acceptance_model.dart';
-import 'package:church_finance_bk/auth/models/policy_config.dart';
+import 'package:church_finance_bk/features/auth/auth_session_model.dart';
+import 'package:church_finance_bk/features/auth/models/policy_acceptance_model.dart';
+import 'package:church_finance_bk/features/auth/models/policy_config.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -82,33 +82,34 @@ void main() {
     });
 
     test(
-        'needsPolicyAcceptance returns false when all policies accepted with current version',
-        () {
-      final model = AuthSessionModel(
-        token: 'test-token',
-        name: 'Test User',
-        email: 'test@example.com',
-        createdAt: '2024-01-15',
-        isActive: true,
-        userId: 'user-123',
-        churchId: 'church-123',
-        roles: ['ADMIN'],
-        policies: PolicyAcceptanceModel(
-          privacyPolicy: PolicyAcceptanceItem(
-            accepted: true,
-            version: PolicyConfig.privacyPolicyVersion,
-            acceptedAt: DateTime.now(),
+      'needsPolicyAcceptance returns false when all policies accepted with current version',
+      () {
+        final model = AuthSessionModel(
+          token: 'test-token',
+          name: 'Test User',
+          email: 'test@example.com',
+          createdAt: '2024-01-15',
+          isActive: true,
+          userId: 'user-123',
+          churchId: 'church-123',
+          roles: ['ADMIN'],
+          policies: PolicyAcceptanceModel(
+            privacyPolicy: PolicyAcceptanceItem(
+              accepted: true,
+              version: PolicyConfig.privacyPolicyVersion,
+              acceptedAt: DateTime.now(),
+            ),
+            sensitiveDataPolicy: PolicyAcceptanceItem(
+              accepted: true,
+              version: PolicyConfig.sensitiveDataPolicyVersion,
+              acceptedAt: DateTime.now(),
+            ),
           ),
-          sensitiveDataPolicy: PolicyAcceptanceItem(
-            accepted: true,
-            version: PolicyConfig.sensitiveDataPolicyVersion,
-            acceptedAt: DateTime.now(),
-          ),
-        ),
-      );
+        );
 
-      expect(model.needsPolicyAcceptance(), false);
-    });
+        expect(model.needsPolicyAcceptance(), false);
+      },
+    );
 
     test('needsPolicyAcceptance returns true when version is outdated', () {
       final model = AuthSessionModel(

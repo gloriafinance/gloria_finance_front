@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:church_finance_bk/helpers/currency_formatter.dart';
-import 'package:church_finance_bk/patrimony/models/patrimony_asset_enums.dart';
-import 'package:church_finance_bk/patrimony/models/patrimony_asset_model.dart';
-import 'package:church_finance_bk/patrimony/models/patrimony_attachment_model.dart';
-import 'package:church_finance_bk/patrimony/models/patrimony_history_entry.dart';
-import 'package:church_finance_bk/patrimony/pages/assets/form/state/patrimony_asset_form_state.dart';
+import 'package:church_finance_bk/core/utils/currency_formatter.dart';
+import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_asset_enums.dart';
+import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_asset_model.dart';
+import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_attachment_model.dart';
+import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_history_entry.dart';
+import 'package:church_finance_bk/features/erp/patrimony/pages/form/state/patrimony_asset_form_state.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 

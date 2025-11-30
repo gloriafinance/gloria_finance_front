@@ -36,7 +36,9 @@ jobs:
       # 4. Construir el proyecto para web
       - name: Build Flutter Web
         #run: flutter build web
-        run: flutter build web --dart-define=ENV=prod
+        #run: flutter build web --dart-define=ENV=prod
+        run: flutter build web -t lib/main_erp.dart --release --dart-define=ENV=prod
+
 
       # 5. Instalar Firebase CLI
       - name: Install Firebase CLI

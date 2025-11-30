@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "ERP",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_erp.dart"
+    },
+    {
+      "name": "Member Experience",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_member.dart"
+    }
+  ]
+}

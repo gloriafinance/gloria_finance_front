@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/patrimony/models/patrimony_asset_model.dart';
+import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_asset_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -24,8 +24,8 @@ void main() {
             'url': 'https://storage.example.com/assets/piano/factura.pdf',
             'mimetype': 'application/pdf',
             'size': 524288,
-            'uploadedAt': '2024-04-16T02:31:00.000Z'
-          }
+            'uploadedAt': '2024-04-16T02:31:00.000Z',
+          },
         ],
         'history': [
           {
@@ -35,12 +35,12 @@ void main() {
             'notes': 'Registro inicial',
             'changes': {
               'name': {'current': 'Piano Yamaha C3'},
-              'location': {'current': 'Salão principal'}
-            }
-          }
+              'location': {'current': 'Salão principal'},
+            },
+          },
         ],
         'createdAt': '2024-04-16T02:31:00.000Z',
-        'updatedAt': '2024-04-16T02:31:00.000Z'
+        'updatedAt': '2024-04-16T02:31:00.000Z',
       });
 
       expect(model.assetId, 'asset-123');
@@ -52,8 +52,10 @@ void main() {
       expect(model.attachments.first.formattedSize, '512.0 KB');
       expect(model.history, hasLength(1));
       expect(model.history.first.action, 'CREATED');
-      expect(model.history.first.formattedChanges,
-          contains('location: Salão principal'));
+      expect(
+        model.history.first.formattedChanges,
+        contains('location: Salão principal'),
+      );
       expect(model.documentsPending, isFalse);
       expect(model.statusLabel, 'Ativo');
     });

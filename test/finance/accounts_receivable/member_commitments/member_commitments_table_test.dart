@@ -1,9 +1,10 @@
-import 'package:church_finance_bk/finance/accounts_receivable/accounts_receivable_service.dart';
-import 'package:church_finance_bk/finance/accounts_receivable/models/index.dart';
-import 'package:church_finance_bk/finance/accounts_receivable/pages/member_commitments/state/member_commitments_state.dart';
-import 'package:church_finance_bk/finance/accounts_receivable/pages/member_commitments/store/member_commitments_store.dart';
-import 'package:church_finance_bk/finance/accounts_receivable/pages/member_commitments/widgets/member_commitments_table.dart';
-import 'package:church_finance_bk/finance/models/installment_model.dart';
+import 'package:church_finance_bk/core/paginate/paginate_response.dart';
+import 'package:church_finance_bk/features/erp/accounts_receivable/accounts_receivable_service.dart';
+import 'package:church_finance_bk/features/erp/accounts_receivable/models/index.dart';
+import 'package:church_finance_bk/features/erp/accounts_receivable/pages/member_commitments/state/member_commitments_state.dart';
+import 'package:church_finance_bk/features/erp/accounts_receivable/pages/member_commitments/store/member_commitments_store.dart';
+import 'package:church_finance_bk/features/erp/accounts_receivable/pages/member_commitments/widgets/member_commitments_table.dart';
+import 'package:church_finance_bk/features/erp/models/installment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +46,8 @@ AccountsReceivableModel _commitmentWithInstallments() {
     amountPending: 10,
     amountTotal: 10,
     amountPaid: 0,
-    accountReceivableId: 'urn:accountReceivable:2e504ce8-66bb-4fda-80c2-dee781dbd16e',
+    accountReceivableId:
+        'urn:accountReceivable:2e504ce8-66bb-4fda-80c2-dee781dbd16e',
     status: 'PENDING',
     type: AccountsReceivableType.CONTRIBUTION,
   );
@@ -54,7 +56,6 @@ AccountsReceivableModel _commitmentWithInstallments() {
 void main() {
   testWidgets('renders each installment as a table row', (tester) async {
     final store = MemberCommitmentsStore(
-      debtorDNI: '708.608.222-81',
       service: _NoopAccountsReceivableService(),
     );
 
@@ -64,7 +65,7 @@ void main() {
         count: 1,
         results: [_commitmentWithInstallments()],
       ),
-      filter: MemberCommitmentFilter(debtorDNI: '708.608.222-81'),
+      filter: const MemberCommitmentFilter(),
     );
 
     await tester.pumpWidget(
@@ -73,9 +74,7 @@ void main() {
           ChangeNotifierProvider<MemberCommitmentsStore>.value(value: store),
         ],
         child: const MaterialApp(
-          home: Scaffold(
-            body: MemberCommitmentsTable(),
-          ),
+          home: Scaffold(body: MemberCommitmentsTable()),
         ),
       ),
     );
