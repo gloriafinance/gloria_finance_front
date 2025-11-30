@@ -12,10 +12,10 @@ import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../core/widgets/month_dropdown.dart';
 import '../../store/form_tithes_store.dart';
 import '../../validators/form_tithes_validator.dart';
 import 'widgets/availability_account_dropdown.dart';
-import 'widgets/month_dropdown.dart';
 
 class ContributionTithesScreen extends StatefulWidget {
   const ContributionTithesScreen({super.key});
