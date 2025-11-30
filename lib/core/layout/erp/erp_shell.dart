@@ -6,22 +6,20 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import 'erp/header_layout.dart';
-import 'erp/menu_items.dart';
-import 'widgets/navigator_member.dart';
-import 'widgets/sidebar_layout_dashboard.dart';
+import '../widgets/sidebar_layout_dashboard.dart';
+import 'header_layout.dart';
+import 'menu_items.dart';
 
-class LayoutDashboard extends StatefulWidget {
+class ErpShell extends StatefulWidget {
   final Widget screen;
-  final Widget title;
 
-  const LayoutDashboard(this.title, {super.key, required this.screen});
+  const ErpShell({super.key, required this.screen});
 
   @override
-  State<LayoutDashboard> createState() => _LayoutDashboardState();
+  State<ErpShell> createState() => _ErpShellState();
 }
 
-class _LayoutDashboardState extends State<LayoutDashboard> {
+class _ErpShellState extends State<ErpShell> {
   // bool _isSidebarVisible = false;
   //
   // @override
@@ -113,7 +111,7 @@ class _LayoutDashboardState extends State<LayoutDashboard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      widget.title,
+                      //widget.title,
                       Expanded(
                         child: SingleChildScrollView(child: widget.screen),
                       ),
@@ -125,7 +123,6 @@ class _LayoutDashboardState extends State<LayoutDashboard> {
           );
         },
       ),
-      bottomNavigationBar: store.isMember() ? const NavigatorMember() : null,
     );
   }
 

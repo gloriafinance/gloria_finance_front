@@ -4,11 +4,12 @@ import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/tag_status.dart';
 import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_asset_model.dart';
-import 'package:church_finance_bk/features/erp/patrimony/pages/assets/detail/widgets/patrimony_asset_detail_view.dart';
-import 'package:church_finance_bk/features/erp/patrimony/pages/assets/list/store/patrimony_assets_list_store.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
+import '../../detail/widgets/patrimony_asset_detail_view.dart';
+import '../store/patrimony_assets_list_store.dart';
 
 class PatrimonyAssetsTable extends StatelessWidget {
   const PatrimonyAssetsTable({super.key});

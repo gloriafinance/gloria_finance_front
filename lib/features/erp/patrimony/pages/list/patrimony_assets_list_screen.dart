@@ -1,14 +1,14 @@
-import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
-import 'package:church_finance_bk/features/erp/patrimony/pages/assets/list/store/patrimony_assets_list_store.dart';
-import 'package:church_finance_bk/features/erp/patrimony/pages/assets/list/widgets/patrimony_assets_list_view.dart';
-import 'package:church_finance_bk/features/erp/patrimony/pages/assets/list/widgets/patrimony_inventory_reports_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
+import 'store/patrimony_assets_list_store.dart';
+import 'widgets/patrimony_assets_list_view.dart';
+import 'widgets/patrimony_inventory_reports_menu.dart';
 
 class PatrimonyAssetsListScreen extends StatelessWidget {
   const PatrimonyAssetsListScreen({super.key});
@@ -17,9 +17,9 @@ class PatrimonyAssetsListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => PatrimonyAssetsListStore()..loadAssets(),
-      child: LayoutDashboard(
-        Builder(builder: (context) => _header(context)),
-        screen: const PatrimonyAssetsListView(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [_header(context), const PatrimonyAssetsListView()],
       ),
     );
   }

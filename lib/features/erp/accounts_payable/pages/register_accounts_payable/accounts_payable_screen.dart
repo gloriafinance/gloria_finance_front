@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/features/erp/providers/pages/suppliers/store/suppliers_list_store.dart';
@@ -30,7 +29,10 @@ class _AccountsPayableRegistrationScreenState
           create: (_) => SuppliersListStore()..searchSuppliers(),
         ),
       ],
-      child: LayoutDashboard(_buildTitle(), screen: FormAccountPayable()),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [_buildTitle(), FormAccountPayable()],
+      ),
     );
   }
 

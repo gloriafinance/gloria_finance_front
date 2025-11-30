@@ -1,14 +1,13 @@
-import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/index.dart';
-import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
+import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'store/finance_record_paginate_store.dart';
-import 'widgets/finance_record_filters.dart';
 import 'widgets/finance_record_export_button.dart';
+import 'widgets/finance_record_filters.dart';
 import 'widgets/finance_record_table.dart';
 
 class FinancialRecordScreen extends StatelessWidget {
@@ -22,13 +21,13 @@ class FinancialRecordScreen extends StatelessWidget {
           create: (_) => FinanceRecordPaginateStore()..searchFinanceRecords(),
         ),
       ],
-      child: MaterialApp(
-        home: LayoutDashboard(
-          Builder(builder: (context) => _header(context)),
-          screen: Column(
-            children: [FinanceRecordFilters(), FinanceRecordTable()],
-          ),
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _header(context),
+          FinanceRecordFilters(),
+          FinanceRecordTable(),
+        ],
       ),
     );
   }

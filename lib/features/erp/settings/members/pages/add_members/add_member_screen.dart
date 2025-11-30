@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/features/erp/settings/members/models/member_model.dart';
@@ -22,25 +21,28 @@ class AddMemberScreen extends StatelessWidget {
 
     return ChangeNotifierProvider(
       create: (_) => FormMemberStore(member: member),
-      child: LayoutDashboard(
-        Row(
-          children: [
-            GestureDetector(
-              onTap: () => context.go("/members"),
-              child: Icon(Icons.arrow_back_ios, color: Colors.purple),
-            ),
-            Text(
-              isEditing ? "Editar membro" : "Registrar membro",
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontFamily: AppFonts.fontTitle,
-                fontSize: 24,
-                color: Colors.black,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () => context.go("/members"),
+                child: Icon(Icons.arrow_back_ios, color: Colors.purple),
               ),
-            ),
-          ],
-        ),
-        screen: FormMember(isEditing: isEditing),
+              Text(
+                isEditing ? "Editar membro" : "Registrar membro",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontFamily: AppFonts.fontTitle,
+                  fontSize: 24,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+          FormMember(isEditing: isEditing),
+        ],
       ),
     );
   }

@@ -1,10 +1,9 @@
-// lib/core/erp_router.dart
-
 import 'package:church_finance_bk/app/store_manager.dart';
 import 'package:church_finance_bk/features/erp/home/home_screen.dart';
 import 'package:church_finance_bk/features/erp/router.dart';
 import 'package:go_router/go_router.dart';
 
+import '../core/layout/erp/erp_shell.dart';
 import '../core/theme/transition_custom.dart';
 import '../features/auth/auth_router.dart';
 import '../features/auth/pages/login/store/auth_session_store.dart';
@@ -52,13 +51,21 @@ final GoRouter erpRouter = GoRouter(
     return null;
   },
   routes: [
-    GoRoute(
-      path: '/dashboard',
-      pageBuilder: (context, state) {
-        return transitionCustom(HomeScreen());
-      },
-    ),
     ...authRouters(),
-    ...erpListRouter(),
+
+    ShellRoute(
+      builder: (context, state, child) {
+        return ErpShell(screen: child);
+      },
+      routes: [
+        GoRoute(
+          path: '/dashboard',
+          pageBuilder: (context, state) {
+            return transitionCustom(HomeScreen());
+          },
+        ),
+        ...erpListRouter(),
+      ],
+    ),
   ],
 );

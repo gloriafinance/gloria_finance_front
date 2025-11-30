@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
@@ -15,12 +14,16 @@ class MembersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-              create: (_) => MemberPaginateStore()..searchMemberList()),
-        ],
-        child: MaterialApp(
-            home: LayoutDashboard(_header(context), screen: MemberTable())));
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => MemberPaginateStore()..searchMemberList(),
+        ),
+      ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [_header(context), MemberTable()],
+      ),
+    );
   }
 
   Widget _header(BuildContext context) {
@@ -37,10 +40,7 @@ class MembersScreen extends StatelessWidget {
             ),
           ),
         ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: _buttons(context),
-        ),
+        Align(alignment: Alignment.centerRight, child: _buttons(context)),
       ],
     );
   }
@@ -49,10 +49,11 @@ class MembersScreen extends StatelessWidget {
     return Row(
       children: [
         ButtonActionTable(
-            color: AppColors.purple,
-            text: "Registrar novo membro",
-            onPressed: () => GoRouter.of(context).go('/member/add'),
-            icon: Icons.add_reaction_outlined),
+          color: AppColors.purple,
+          text: "Registrar novo membro",
+          onPressed: () => GoRouter.of(context).go('/member/add'),
+          icon: Icons.add_reaction_outlined,
+        ),
       ],
     );
   }

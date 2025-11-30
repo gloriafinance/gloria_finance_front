@@ -5,9 +5,9 @@ import 'package:church_finance_bk/core/utils/currency_formatter.dart';
 import 'package:church_finance_bk/core/utils/date_formatter.dart';
 import 'package:dio/dio.dart';
 
-import '../../../../models/patrimony_asset_enums.dart';
-import '../../../../models/patrimony_asset_model.dart';
-import '../../../../models/patrimony_attachment_model.dart';
+import '../../../models/patrimony_asset_enums.dart';
+import '../../../models/patrimony_asset_model.dart';
+import '../../../models/patrimony_attachment_model.dart';
 
 class PatrimonyAssetFormState {
   final bool makeRequest;

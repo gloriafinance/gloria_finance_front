@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:flutter/material.dart';
@@ -18,14 +17,15 @@ class ViewAccountPayableScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Toast.init(context);
 
-    return LayoutDashboard(
-      _header(context),
-      screen: ChangeNotifierProvider(
-        create: (_) => PaymentAccountPayableStore(),
-        child: AccountPayable(
-          account: account,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _header(context),
+        ChangeNotifierProvider(
+          create: (_) => PaymentAccountPayableStore(),
+          child: AccountPayable(account: account),
         ),
-      ),
+      ],
     );
   }
 
@@ -34,10 +34,7 @@ class ViewAccountPayableScreen extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () => context.go("/accounts-payable/list"),
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: AppColors.purple,
-          ),
+          child: Icon(Icons.arrow_back_ios, color: AppColors.purple),
         ),
         Text(
           'Detalhe da Contas a pagar',

@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:flutter/material.dart';
@@ -37,92 +36,94 @@ class _AddContributionScreen extends State<AddContributionScreen>
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => FormTitheStore()),
-          ChangeNotifierProvider(create: (_) => FormRecordOfferingStore())
-        ],
-        child: LayoutDashboard(
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () => context.go("/contributions_list"),
-                  child: Icon(
-                    Icons.arrow_back_ios,
-                    color: AppColors.purple,
-                  ),
+      providers: [
+        ChangeNotifierProvider(create: (_) => FormTitheStore()),
+        ChangeNotifierProvider(create: (_) => FormRecordOfferingStore()),
+      ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () => context.go("/contributions_list"),
+                child: Icon(Icons.arrow_back_ios, color: AppColors.purple),
+              ),
+              Text(
+                'Registro de contribuições',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontFamily: AppFonts.fontTitle,
+                  fontSize: 20,
+                  color: Colors.black,
                 ),
-                Text(
-                  'Registro de contribuições',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontFamily: AppFonts.fontTitle,
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-            screen: Container(
-              margin: const EdgeInsets.only(top: 60),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    TabBar(
-                      indicatorSize: TabBarIndicatorSize.label,
-                      labelColor: AppColors.purple,
-                      indicator: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: AppColors.mustard,
-                      ),
-                      controller: _tabController,
-                      tabs: const [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Tab(
-                            child: Text(
-                              "Dízimos",
-                              style: TextStyle(
-                                fontFamily: AppFonts.fontTitle,
-                                fontSize: 17,
-                              ),
+              ),
+            ],
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 60),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  TabBar(
+                    indicatorSize: TabBarIndicatorSize.label,
+                    labelColor: AppColors.purple,
+                    indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: AppColors.mustard,
+                    ),
+                    controller: _tabController,
+                    tabs: const [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Tab(
+                          child: Text(
+                            "Dízimos",
+                            style: TextStyle(
+                              fontFamily: AppFonts.fontTitle,
+                              fontSize: 17,
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Tab(
-                            child: Text(
-                              "Ofertas",
-                              style: TextStyle(
-                                fontFamily: AppFonts.fontTitle,
-                                fontSize: 17,
-                              ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Tab(
+                          child: Text(
+                            "Ofertas",
+                            style: TextStyle(
+                              fontFamily: AppFonts.fontTitle,
+                              fontSize: 17,
                             ),
                           ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height - 100,
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
+                          child: ContributionTithesScreen(),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
+                          child: ContributionOfferingsScreen(),
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height - 100,
-                      child: TabBarView(
-                        controller: _tabController,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.all(10),
-                            padding: const EdgeInsets.all(10),
-                            child: ContributionTithesScreen(),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.all(10),
-                            padding: const EdgeInsets.all(10),
-                            child: ContributionOfferingsScreen(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            )));
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

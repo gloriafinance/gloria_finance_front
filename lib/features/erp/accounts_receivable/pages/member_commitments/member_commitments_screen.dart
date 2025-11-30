@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/utils/general.dart';
@@ -17,35 +16,41 @@ class MemberCommitmentsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => MemberCommitmentsStore()..initialize(),
-      child: LayoutDashboard(
-        _header(context),
-        screen: Consumer<MemberCommitmentsStore>(
-          builder: (context, store, _) {
-            if (store.state.permissionDenied) {
-              return _errorContainer(
-                context,
-                store.state.errorMessage ??
-                    'Você não tem permissão para visualizar esta informação.',
-                primaryLabel: 'Ir para início',
-                primaryAction: () => GoRouter.of(context).go('/dashboard'),
-              );
-            }
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _header(context),
+          Consumer<MemberCommitmentsStore>(
+            builder: (context, store, _) {
+              if (store.state.permissionDenied) {
+                return _errorContainer(
+                  context,
+                  store.state.errorMessage ??
+                      'Você não tem permissão para visualizar esta informação.',
+                  primaryLabel: 'Ir para início',
+                  primaryAction: () => GoRouter.of(context).go('/dashboard'),
+                );
+              }
 
-            if (store.state.errorMessage != null && !store.state.isLoading) {
-              return _errorContainer(
-                context,
-                store.state.errorMessage!,
-                primaryLabel: 'Tentar novamente',
-                primaryAction: () => store.fetchCommitments(),
-              );
-            }
+              if (store.state.errorMessage != null && !store.state.isLoading) {
+                return _errorContainer(
+                  context,
+                  store.state.errorMessage!,
+                  primaryLabel: 'Tentar novamente',
+                  primaryAction: () => store.fetchCommitments(),
+                );
+              }
 
-            return const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [MemberCommitmentsFilters(), MemberCommitmentsTable()],
-            );
-          },
-        ),
+              return const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MemberCommitmentsFilters(),
+                  MemberCommitmentsTable(),
+                ],
+              );
+            },
+          ),
+        ],
       ),
     );
   }

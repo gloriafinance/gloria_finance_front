@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../models/patrimony_asset_model.dart';
-import '../../../../services/patrimony_service.dart';
+import '../../../models/patrimony_asset_model.dart';
+import '../../../services/patrimony_service.dart';
 
 class PatrimonyAssetDetailStore extends ChangeNotifier {
   PatrimonyAssetModel asset;
@@ -10,10 +10,8 @@ class PatrimonyAssetDetailStore extends ChangeNotifier {
   bool _registeringDisposal = false;
   bool _registeringInventory = false;
 
-  PatrimonyAssetDetailStore({
-    required this.asset,
-    PatrimonyService? service,
-  }) : service = service ?? PatrimonyService();
+  PatrimonyAssetDetailStore({required this.asset, PatrimonyService? service})
+    : service = service ?? PatrimonyService();
 
   bool get registeringDisposal => _registeringDisposal;
 

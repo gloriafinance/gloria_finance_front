@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../theme/app_color.dart';
-import '../theme/app_fonts.dart';
-import '../widgets/app_logo_horizontal.dart';
-import 'state/sidebar_state.dart';
+import '../../theme/app_color.dart';
+import '../../theme/app_fonts.dart';
+import '../../widgets/app_logo_horizontal.dart';
+import '../state/sidebar_state.dart';
 
 class HeaderLayout extends StatefulWidget {
   const HeaderLayout({super.key});

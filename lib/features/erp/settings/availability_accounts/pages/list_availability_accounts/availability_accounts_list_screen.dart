@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
@@ -19,9 +18,9 @@ class _AvailabilityAccountsListScreenState
     extends State<AvailabilityAccountsListScreen> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home:
-          LayoutDashboard(_header(context), screen: AvailabilityAccountTable()),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [_header(context), AvailabilityAccountTable()],
     );
   }
 
@@ -39,10 +38,7 @@ class _AvailabilityAccountsListScreenState
             ),
           ),
         ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: _buttons(context),
-        ),
+        Align(alignment: Alignment.centerRight, child: _buttons(context)),
       ],
     );
   }
@@ -51,11 +47,12 @@ class _AvailabilityAccountsListScreenState
     return Row(
       children: [
         ButtonActionTable(
-            color: AppColors.purple,
-            text: "Conta disponiblidade",
-            onPressed: () =>
-                GoRouter.of(context).go('/availability-accounts/add'),
-            icon: Icons.add_box_outlined),
+          color: AppColors.purple,
+          text: "Conta disponiblidade",
+          onPressed:
+              () => GoRouter.of(context).go('/availability-accounts/add'),
+          icon: Icons.add_box_outlined,
+        ),
       ],
     );
   }

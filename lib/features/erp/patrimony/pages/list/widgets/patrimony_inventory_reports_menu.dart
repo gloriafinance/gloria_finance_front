@@ -4,10 +4,11 @@ import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_inventory_import_result.dart';
-import 'package:church_finance_bk/features/erp/patrimony/pages/assets/list/store/patrimony_assets_list_store.dart';
-import 'package:church_finance_bk/features/erp/patrimony/pages/assets/list/widgets/patrimony_inventory_import_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../store/patrimony_assets_list_store.dart';
+import 'patrimony_inventory_import_dialog.dart';
 
 class PatrimonyInventoryReportsMenu extends StatefulWidget {
   final PatrimonyAssetsListStore store;
