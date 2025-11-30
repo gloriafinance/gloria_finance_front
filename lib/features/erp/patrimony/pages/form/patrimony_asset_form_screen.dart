@@ -1,14 +1,14 @@
-import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_asset_model.dart';
-import 'package:church_finance_bk/features/erp/patrimony/pages/assets/form/store/patrimony_asset_form_store.dart';
-import 'package:church_finance_bk/features/erp/patrimony/pages/assets/form/widgets/patrimony_asset_form.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
+import 'store/patrimony_asset_form_store.dart';
+import 'widgets/patrimony_asset_form.dart';
 
 class PatrimonyAssetFormScreen extends StatelessWidget {
   final String? assetId;
@@ -24,9 +24,9 @@ class PatrimonyAssetFormScreen extends StatelessWidget {
 
     return ChangeNotifierProvider(
       create: (_) => PatrimonyAssetFormStore(assetId: assetId, asset: asset),
-      child: LayoutDashboard(
-        Builder(builder: (context) => _header(context)),
-        screen: const PatrimonyAssetForm(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [_header(context), const PatrimonyAssetForm()],
       ),
     );
   }

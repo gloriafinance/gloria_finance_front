@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,10 @@ class IncomeStatementScreen extends StatelessWidget {
 
     return ChangeNotifierProvider(
       create: (_) => IncomeStatementStore()..fetchIncomeStatement(),
-      child: LayoutDashboard(_buildTitle(), screen: _buildContent()),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [_buildTitle(), _buildContent()],
+      ),
     );
   }
 

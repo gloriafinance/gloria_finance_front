@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../models/patrimony_asset_enums.dart';
-import '../../../../models/patrimony_asset_model.dart';
-import '../../../../models/patrimony_inventory_import_result.dart';
-import '../../../../services/patrimony_service.dart';
+import '../../../models/patrimony_asset_enums.dart';
+import '../../../models/patrimony_asset_model.dart';
+import '../../../models/patrimony_inventory_import_result.dart';
+import '../../../services/patrimony_service.dart';
 import '../state/patrimony_assets_list_state.dart';
 
 class PatrimonyAssetsListStore extends ChangeNotifier {
@@ -14,7 +14,7 @@ class PatrimonyAssetsListStore extends ChangeNotifier {
   PatrimonyAssetsListState state = PatrimonyAssetsListState.initial();
 
   PatrimonyAssetsListStore({PatrimonyService? service})
-      : service = service ?? PatrimonyService();
+    : service = service ?? PatrimonyService();
 
   bool get downloadingSummary => state.downloadingSummary;
 
@@ -114,9 +114,10 @@ class PatrimonyAssetsListStore extends ChangeNotifier {
   }
 
   void updateAssetEntry(PatrimonyAssetModel updated) {
-    final updatedResults = state.assets.results
-        .map((asset) => asset.assetId == updated.assetId ? updated : asset)
-        .toList();
+    final updatedResults =
+        state.assets.results
+            .map((asset) => asset.assetId == updated.assetId ? updated : asset)
+            .toList();
 
     state = state.copyWith(
       assets: state.assets.copyWith(results: updatedResults),

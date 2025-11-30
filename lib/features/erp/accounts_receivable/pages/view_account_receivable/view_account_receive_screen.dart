@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:flutter/material.dart';
@@ -18,12 +17,16 @@ class ViewAccountReceiveScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Toast.init(context);
 
-    return LayoutDashboard(_header(context),
-        screen: ChangeNotifierProvider(
-            create: (_) => PaymentAccountReceiveStore(),
-            child: AccountReceive(
-              account: account,
-            )));
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _header(context),
+        ChangeNotifierProvider(
+          create: (_) => PaymentAccountReceiveStore(),
+          child: AccountReceive(account: account),
+        ),
+      ],
+    );
   }
 
   Widget _header(BuildContext context) {
@@ -31,10 +34,7 @@ class ViewAccountReceiveScreen extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () => context.go("/accounts-receivables"),
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: AppColors.purple,
-          ),
+          child: Icon(Icons.arrow_back_ios, color: AppColors.purple),
         ),
         Text(
           'Detalhe da Contas a receber',

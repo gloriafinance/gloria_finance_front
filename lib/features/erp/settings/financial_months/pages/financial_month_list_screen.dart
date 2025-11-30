@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,16 +36,14 @@ class _FinancialMonthListScreenState extends State<FinancialMonthListScreen> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
       value: _store,
-      child: LayoutDashboard(
-        _header(context),
-        screen: const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            FinancialMonthFilters(),
-            SizedBox(height: 24),
-            FinancialMonthTable(),
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _header(context),
+          FinancialMonthFilters(),
+          SizedBox(height: 24),
+          FinancialMonthTable(),
+        ],
       ),
     );
   }

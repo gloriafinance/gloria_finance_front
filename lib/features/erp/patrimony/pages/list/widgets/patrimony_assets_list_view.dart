@@ -1,6 +1,7 @@
-import 'package:church_finance_bk/features/erp/patrimony/pages/assets/list/widgets/patrimony_assets_filters.dart';
-import 'package:church_finance_bk/features/erp/patrimony/pages/assets/list/widgets/patrimony_assets_table.dart';
 import 'package:flutter/material.dart';
+
+import 'patrimony_assets_filters.dart';
+import 'patrimony_assets_table.dart';
 
 class PatrimonyAssetsListView extends StatelessWidget {
   const PatrimonyAssetsListView({super.key});

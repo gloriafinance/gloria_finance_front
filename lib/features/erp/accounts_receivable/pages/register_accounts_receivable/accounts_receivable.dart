@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +18,9 @@ class AccountsReceivableRegistrationScreen extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => FormAccountsReceivableStore()),
       ],
-      child: LayoutDashboard(
-        _header(context),
-        screen: FormAccountsReceivable(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [_header(context), FormAccountsReceivable()],
       ),
     );
   }
@@ -31,10 +30,7 @@ class AccountsReceivableRegistrationScreen extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () => context.go("/accounts-receivables"),
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: AppColors.purple,
-          ),
+          child: Icon(Icons.arrow_back_ios, color: AppColors.purple),
         ),
         Text(
           'Registro de contas a receber',

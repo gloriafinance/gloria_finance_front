@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
@@ -16,9 +15,9 @@ class ListSuppliersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => SuppliersListStore()..searchSuppliers(),
-      child: LayoutDashboard(
-        Builder(builder: (context) => _header(context)),
-        screen: SuppliersTable(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [_header(context), SuppliersTable()],
       ),
     );
   }

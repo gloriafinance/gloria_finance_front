@@ -6,17 +6,18 @@ import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
-import 'package:church_finance_bk/features/erp/settings/members/store/member_all_store.dart';
 import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_asset_model.dart';
 import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_history_entry.dart';
-import 'package:church_finance_bk/features/erp/patrimony/pages/assets/detail/store/patrimony_asset_detail_store.dart';
-import 'package:church_finance_bk/features/erp/patrimony/pages/assets/detail/widgets/patrimony_asset_disposal_dialog.dart';
-import 'package:church_finance_bk/features/erp/patrimony/pages/assets/detail/widgets/patrimony_asset_inventory_dialog.dart';
-import 'package:church_finance_bk/features/erp/patrimony/pages/assets/list/store/patrimony_assets_list_store.dart';
+import 'package:church_finance_bk/features/erp/settings/members/store/member_all_store.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../list/store/patrimony_assets_list_store.dart';
+import '../store/patrimony_asset_detail_store.dart';
+import 'patrimony_asset_disposal_dialog.dart';
+import 'patrimony_asset_inventory_dialog.dart';
 
 class PatrimonyAssetDetailView extends StatelessWidget {
   final PatrimonyAssetModel asset;

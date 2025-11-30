@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
@@ -31,17 +30,20 @@ class _UserAccessScreenState extends State<UserAccessScreen> {
         builder: (context, store, _) {
           final state = store.state;
 
-          return LayoutDashboard(
-            _buildHeader(context, store),
-            screen: LayoutBuilder(
-              builder: (context, constraints) {
-                final isMobile = constraints.maxWidth < 920;
-                if (isMobile) {
-                  return _buildMobileLayout(context, store, state);
-                }
-                return _buildDesktopLayout(context, store, state);
-              },
-            ),
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeader(context, store),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final isMobile = constraints.maxWidth < 920;
+                  if (isMobile) {
+                    return _buildMobileLayout(context, store, state);
+                  }
+                  return _buildDesktopLayout(context, store, state);
+                },
+              ),
+            ],
           );
         },
       ),

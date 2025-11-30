@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/utils/general.dart';
@@ -20,11 +19,13 @@ class ListAccountsReceivableScreen extends StatelessWidget {
 
     return ChangeNotifierProvider(
       create: (_) => AccountsReceivableStore()..searchAccountsReceivable(),
-      child: LayoutDashboard(
-        _header(context),
-        screen: Column(
-          children: [AccountsReceiveFilters(), AccountsReceivableTable()],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _header(context),
+          AccountsReceiveFilters(),
+          AccountsReceivableTable(),
+        ],
       ),
     );
   }

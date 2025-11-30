@@ -4,14 +4,15 @@ import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
-import 'package:church_finance_bk/features/erp/settings/members/store/member_all_store.dart';
 import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_asset_enums.dart';
-import 'package:church_finance_bk/features/erp/patrimony/pages/assets/form/store/patrimony_asset_form_store.dart';
-import 'package:church_finance_bk/features/erp/patrimony/pages/assets/form/widgets/patrimony_attachments_editor.dart';
+import 'package:church_finance_bk/features/erp/settings/members/store/member_all_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
+import '../store/patrimony_asset_form_store.dart';
+import 'patrimony_attachments_editor.dart';
 
 class PatrimonyAssetForm extends StatefulWidget {
   const PatrimonyAssetForm({super.key});

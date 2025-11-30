@@ -17,12 +17,15 @@ import 'contributions/pages/app_contribuitions/add_contribution_screen.dart';
 import 'contributions/pages/contributions_list/contributions_list_screen.dart';
 import 'financial_records/pages/add_financial_records/add_financial_record_screen.dart';
 import 'financial_records/pages/financial_records/financial_record_list_screen.dart';
+import 'patrimony/router.dart';
 import 'payment_commitment/pages/index.dart';
+import 'providers/router.dart';
 import 'purchase/pages/purchases/purchase_list_screen.dart';
 import 'purchase/pages/register_purchase/add_purchase_screen.dart';
 import 'reports/pages/dre/dre_screen.dart';
 import 'reports/pages/income_statement/income_statement_screen.dart';
 import 'reports/pages/monthly_tithes/monthly_tithes_screen.dart';
+import 'settings/router.dart';
 
 erpListRouter() {
   return <RouteBase>[
@@ -138,5 +141,8 @@ erpListRouter() {
         return transitionCustom(const BankStatementsScreen());
       },
     ),
+    ...patrimonyRouter(),
+    ...providerRouter(),
+    ...settingsRouter(),
   ];
 }

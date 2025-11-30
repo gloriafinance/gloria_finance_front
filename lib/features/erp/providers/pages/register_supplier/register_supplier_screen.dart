@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/core/layout/layout_dashboard.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
@@ -18,28 +17,28 @@ class RegisterSupplierScreen extends StatelessWidget {
 
     return ChangeNotifierProvider(
       create: (_) => FormSupplierStore(),
-      child: LayoutDashboard(
-        Row(
-          children: [
-            GestureDetector(
-              onTap: () => context.go("/suppliers"),
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: AppColors.purple,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () => context.go("/suppliers"),
+                child: Icon(Icons.arrow_back_ios, color: AppColors.purple),
               ),
-            ),
-            Text(
-              "Registrar Fornecedor",
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontFamily: AppFonts.fontTitle,
-                fontSize: 20,
-                color: Colors.black,
+              Text(
+                "Registrar Fornecedor",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontFamily: AppFonts.fontTitle,
+                  fontSize: 20,
+                  color: Colors.black,
+                ),
               ),
-            ),
-          ],
-        ),
-        screen: FormSupplier(),
+            ],
+          ),
+          FormSupplier(),
+        ],
       ),
     );
   }
