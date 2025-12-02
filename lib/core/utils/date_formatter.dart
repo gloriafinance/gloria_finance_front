@@ -47,10 +47,13 @@ String convertDateFormatToDDMMYYYY(String? date) {
   return '$day/$month/$year';
 }
 
-Future<DateTime?> selectDate(BuildContext context) async {
+Future<DateTime?> selectDate(
+  BuildContext context, {
+  DateTime? initialDate,
+}) async {
   return await showDatePicker(
     context: context,
-    initialDate: DateTime.now(),
+    initialDate: initialDate ?? DateTime.now(),
     // Fecha inicial
     firstDate: DateTime(1940),
     // Fecha mínima

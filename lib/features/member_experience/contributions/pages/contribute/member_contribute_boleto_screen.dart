@@ -1,0 +1,246 @@
+import 'package:church_finance_bk/core/theme/app_color.dart';
+import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/widgets/custom_button.dart';
+import 'package:church_finance_bk/features/member_experience/contributions/models/member_contribution_models.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class MemberContributeBoletoScreen extends StatelessWidget {
+  final BoletoChargeResponse boletoPayload;
+
+  const MemberContributeBoletoScreen({
+    super.key,
+    required this.boletoPayload,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final currencyFormat = NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
+    final dateFormat = DateFormat('dd/MM/yyyy', 'pt_BR');
+
+    return Scaffold(
+      backgroundColor: Colors.grey.shade50,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppColors.black),
+          onPressed: () => context.pop(),
+        ),
+        title: const Text(
+          'Pague com boleto',
+          style: TextStyle(
+            fontFamily: AppFonts.fontTitle,
+            color: AppColors.black,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        centerTitle: true,
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Value card
+              Container(
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade200,
+                      offset: const Offset(0, 2),
+                      blurRadius: 8,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      currencyFormat.format(boletoPayload.amount),
+                      style: const TextStyle(
+                        fontFamily: AppFonts.fontTitle,
+                        fontSize: 36,
+                        color: AppColors.purple,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Vencimento: ',
+                          style: TextStyle(
+                            fontFamily: AppFonts.fontSubTitle,
+                            fontSize: 14,
+                            color: AppColors.black,
+                          ),
+                        ),
+                        Text(
+                          dateFormat.format(boletoPayload.dueDate),
+                          style: const TextStyle(
+                            fontFamily: AppFonts.fontTitle,
+                            fontSize: 14,
+                            color: AppColors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+              // Info text
+              Text(
+                'Use o código abaixo para pagar no seu internet banking ou aplicativo.',
+                style: TextStyle(
+                  fontFamily: AppFonts.fontText,
+                  fontSize: 14,
+                  color: Colors.grey.shade700,
+                  height: 1.5,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              // Digitable line
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade200,
+                      offset: const Offset(0, 2),
+                      blurRadius: 8,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Linha digitável',
+                      style: TextStyle(
+                        fontFamily: AppFonts.fontTitle,
+                        fontSize: 16,
+                        color: AppColors.black,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Container(
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.grey.shade300),
+                      ),
+                      child: Text(
+                        boletoPayload.digitableLine,
+                        style: TextStyle(
+                          fontFamily: 'monospace',
+                          fontSize: 13,
+                          color: Colors.grey.shade800,
+                          height: 1.6,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        onPressed: () => _copyToClipboard(context, boletoPayload.digitableLine),
+                        icon: const Icon(Icons.copy, size: 18),
+                        label: const Text('Copiar código'),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: AppColors.purple,
+                          side: const BorderSide(color: AppColors.purple, width: 1.5),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+              // Download PDF button
+              CustomButton(
+                text: 'Baixar boleto em PDF',
+                backgroundColor: AppColors.purple,
+                textColor: Colors.white,
+                icon: Icons.download,
+                onPressed: () => _downloadPdf(context, boletoPayload.boletoPdfUrl),
+              ),
+              const SizedBox(height: 24),
+              // Footer text
+              Text(
+                'Após realizar o pagamento, a confirmação aparecerá no seu histórico de contribuições. Guarde o comprovante.',
+                style: TextStyle(
+                  fontFamily: AppFonts.fontText,
+                  fontSize: 13,
+                  color: Colors.grey.shade600,
+                  height: 1.5,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              // Back button
+              TextButton(
+                onPressed: () => context.go('/#/dashboard'),
+                child: const Text(
+                  'Voltar ao início',
+                  style: TextStyle(
+                    fontFamily: AppFonts.fontSubTitle,
+                    fontSize: 14,
+                    color: AppColors.purple,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _copyToClipboard(BuildContext context, String text) {
+    Clipboard.setData(ClipboardData(text: text));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Linha digitável copiada!'),
+        backgroundColor: AppColors.green,
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
+  Future<void> _downloadPdf(BuildContext context, String url) async {
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Não foi possível abrir o PDF'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+}

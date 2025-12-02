@@ -68,7 +68,7 @@ class _UploadFile extends State<UploadFile> {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: AppColors.blue.withOpacity(0.08),
+                  color: AppColors.blue.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
@@ -131,7 +131,7 @@ class _UploadFile extends State<UploadFile> {
   }
 
   Widget _selectorFile() {
-    final borderColor = AppColors.blue.withOpacity(0.7);
+    final borderColor = AppColors.purple.withValues(alpha: 0.7);
     return DottedBorder(
       borderType: BorderType.RRect,
       radius: const Radius.circular(12),
@@ -144,60 +144,48 @@ class _UploadFile extends State<UploadFile> {
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
           onTap: _actionSelectFile,
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
-            child: Row(
+          child: Container(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppColors.blue.withOpacity(0.08),
+                    color: AppColors.purple.withValues(alpha: 0.08),
                     shape: BoxShape.circle,
                   ),
                   child: Image.asset(
                     'images/upload-cloud.png',
-                    width: 32,
-                    height: 32,
-                    color: AppColors.blue,
+                    width: 40,
+                    height: 40,
+                    color: AppColors.purple,
                   ),
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'Selecione um arquivo ou arraste e solte aqui',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontFamily: AppFonts.fontSubTitle,
-                          color: AppColors.black,
-                        ),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        'JPG, PNG ou PDF, com no máximo 10MB',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontFamily: AppFonts.fontText,
-                          color: AppColors.blue,
-                        ),
-                      ),
-                    ],
+                const SizedBox(height: 16),
+                const SizedBox(height: 8),
+                Text(
+                  'JPG, PNG ou PDF, com no máximo 10MB',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontFamily: AppFonts.fontText,
+                    color: AppColors.purple,
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(height: 20),
                 OutlinedButton(
                   onPressed: _actionSelectFile,
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.blue,
-                    side: const BorderSide(color: AppColors.blue, width: 1.4),
+                    foregroundColor: AppColors.purple,
+                    side: const BorderSide(color: AppColors.purple, width: 1.5),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 18, vertical: 12),
+                      horizontal: 24,
+                      vertical: 14,
+                    ),
                   ),
                   child: const Text(
                     'SELECIONAR ARQUIVO',
@@ -223,9 +211,10 @@ class _UploadFile extends State<UploadFile> {
         widget.label,
         textAlign: TextAlign.left,
         style: const TextStyle(
-            color: AppColors.purple,
-            fontFamily: AppFonts.fontTitle,
-            fontSize: 16),
+          color: AppColors.purple,
+          fontFamily: AppFonts.fontTitle,
+          fontSize: 16,
+        ),
       ),
     );
   }
