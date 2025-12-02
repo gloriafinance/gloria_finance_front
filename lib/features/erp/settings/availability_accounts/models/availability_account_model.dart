@@ -2,6 +2,28 @@ import '../../banks/models/bank_model.dart';
 
 enum AccountType { BANK, CASH, WALLET, INVESTMENT }
 
+class AccountConfigurations {
+  final bool enablePix;
+  final bool enableBankSlip;
+
+  AccountConfigurations({this.enablePix = false, this.enableBankSlip = false});
+
+  factory AccountConfigurations.fromMap(Map<String, dynamic>? map) {
+    if (map == null) {
+      return AccountConfigurations();
+    }
+    return AccountConfigurations(
+      enablePix: map['enablePix'] ?? false,
+      enableBankSlip: map['enableBankSlip'] ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'enablePix': enablePix,
+    'enableBankSlip': enableBankSlip,
+  };
+}
+
 extension AccountTypeExtension on AccountType {
   String get friendlyName {
     switch (this) {
@@ -39,37 +61,42 @@ class AvailabilityAccountModel {
   final String accountType;
   final dynamic source;
   final String symbol;
+  final AccountConfigurations? configurations;
 
-  AvailabilityAccountModel(
-      {required this.churchId,
-      required this.availabilityAccountId,
-      required this.accountName,
-      required this.balance,
-      required this.active,
-      required this.accountType,
-      required this.source,
-      required this.symbol});
+  AvailabilityAccountModel({
+    required this.churchId,
+    required this.availabilityAccountId,
+    required this.accountName,
+    required this.balance,
+    required this.active,
+    required this.accountType,
+    required this.source,
+    required this.symbol,
+    this.configurations,
+  });
 
   AvailabilityAccountModel.fromMap(Map<String, dynamic> map)
-      : churchId = map['churchId'],
-        availabilityAccountId = map['availabilityAccountId'],
-        accountName = map['accountName'],
-        balance = double.parse(map['balance'].toString()),
-        active = map['active'],
-        accountType = map['accountType'],
-        source = map['source'],
-        symbol = map['symbol'];
+    : churchId = map['churchId'],
+      availabilityAccountId = map['availabilityAccountId'],
+      accountName = map['accountName'],
+      balance = double.parse(map['balance'].toString()),
+      active = map['active'],
+      accountType = map['accountType'],
+      source = map['source'],
+      symbol = map['symbol'],
+      configurations = AccountConfigurations.fromMap(map['configurations']);
 
   Map<String, dynamic> toJson() => {
-        'churchId': churchId,
-        'availabilityAccountId': availabilityAccountId,
-        'accountName': accountName,
-        'balance': balance,
-        'active': active,
-        'accountType': accountType,
-        'source': source,
-        'symbol': symbol,
-      };
+    'churchId': churchId,
+    'availabilityAccountId': availabilityAccountId,
+    'accountName': accountName,
+    'balance': balance,
+    'active': active,
+    'accountType': accountType,
+    'source': source,
+    'symbol': symbol,
+    'configurations': configurations?.toJson(),
+  };
 
   dynamic getSource() {
     if (AccountType.BANK.apiValue == accountType) {
