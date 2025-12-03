@@ -23,11 +23,16 @@ class MemberContributionFormStore extends ChangeNotifier {
 
   // Initialize and load accounts
   Future<void> initialize() async {
-    await _accountsStore.searchAvailabilityAccounts();
-    // Load financial concepts for offerings
-    await _conceptStore.searchFinancialConcepts(FinancialConceptType.INCOME);
+    if (_accountsStore.state.availabilityAccounts.isEmpty) {
+      await _accountsStore.searchAvailabilityAccounts();
+    }
+    // Load financial concepts for offerings if not loaded
+    if (_conceptStore.state.financialConcepts.isEmpty) {
+      await _conceptStore.searchFinancialConcepts(FinancialConceptType.INCOME);
+    }
     // Auto-select first account if available
-    if (availabilityAccounts.isNotEmpty) {
+    if (availabilityAccounts.isNotEmpty &&
+        _state.selectedDestinationId == null) {
       _state = _state.copyWith(
         selectedDestinationId: availabilityAccounts.first.availabilityAccountId,
       );

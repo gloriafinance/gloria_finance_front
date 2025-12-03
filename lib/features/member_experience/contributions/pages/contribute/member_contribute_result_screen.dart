@@ -30,7 +30,10 @@ class MemberContributeResultScreen extends StatelessWidget {
         child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
-            child: success ? _buildSuccessContent(context) : _buildErrorContent(context),
+            child:
+                success
+                    ? _buildSuccessContent(context)
+                    : _buildErrorContent(context),
           ),
         ),
       ),
@@ -38,7 +41,10 @@ class MemberContributeResultScreen extends StatelessWidget {
   }
 
   Widget _buildSuccessContent(BuildContext context) {
-    final currencyFormat = NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
+    final currencyFormat = NumberFormat.currency(
+      locale: 'pt_BR',
+      symbol: 'R\$',
+    );
     final dateFormat = DateFormat('dd/MM/yyyy - HH:mm', 'pt_BR');
 
     return Column(
@@ -52,11 +58,7 @@ class MemberContributeResultScreen extends StatelessWidget {
             color: AppColors.green,
             shape: BoxShape.circle,
           ),
-          child: const Icon(
-            Icons.check,
-            color: Colors.white,
-            size: 60,
-          ),
+          child: const Icon(Icons.check, color: Colors.white, size: 60),
         ),
         const SizedBox(height: 32),
         // Title
@@ -145,11 +147,11 @@ class MemberContributeResultScreen extends StatelessWidget {
           text: 'Ver histórico',
           backgroundColor: AppColors.purple,
           textColor: Colors.white,
-          onPressed: () => context.go('/member/statements'),
+          onPressed: () => context.go('/member/contribute'),
         ),
         const SizedBox(height: 12),
         TextButton(
-          onPressed: () => context.go('/#/dashboard'),
+          onPressed: () => context.go('/member/dashboard'),
           child: const Text(
             'Voltar ao início',
             style: TextStyle(
@@ -175,11 +177,7 @@ class MemberContributeResultScreen extends StatelessWidget {
             color: Colors.red.shade400,
             shape: BoxShape.circle,
           ),
-          child: const Icon(
-            Icons.error_outline,
-            color: Colors.white,
-            size: 60,
-          ),
+          child: const Icon(Icons.error_outline, color: Colors.white, size: 60),
         ),
         const SizedBox(height: 32),
         // Title
@@ -196,7 +194,8 @@ class MemberContributeResultScreen extends StatelessWidget {
         const SizedBox(height: 16),
         // Error message
         Text(
-          errorMessage ?? 'Verifique os dados do cartão ou tente outro método de pagamento.',
+          errorMessage ??
+              'Verifique os dados do cartão ou tente outro método de pagamento.',
           style: TextStyle(
             fontFamily: AppFonts.fontText,
             fontSize: 15,
@@ -215,7 +214,7 @@ class MemberContributeResultScreen extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         TextButton(
-          onPressed: () => context.go('/#/dashboard'),
+          onPressed: () => context.go('/member/dashboard'),
           child: const Text(
             'Voltar ao início',
             style: TextStyle(
