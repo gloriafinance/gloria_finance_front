@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/features/erp/settings/availability_accounts/pages/availability_accounts/store/form_availability_store.dart';
 import 'package:church_finance_bk/features/erp/settings/banks/store/bank_store.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class AvailabilityAccountsScreen extends StatelessWidget {
                 child: Icon(Icons.arrow_back_ios, color: AppColors.purple),
               ),
               Text(
-                'Cadastro de conta de desponibilidade',
+                context.l10n.settings_availability_form_title,
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontFamily: AppFonts.fontTitle,

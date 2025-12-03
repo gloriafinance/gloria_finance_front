@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/index.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class AccountsPayableListScreen extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              'Contas a pagar',
+              context.l10n.accountsPayable_list_title,
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontFamily: AppFonts.fontTitle,
@@ -49,7 +50,7 @@ class AccountsPayableListScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Contas a pagar',
+          context.l10n.accountsPayable_list_title,
           textAlign: TextAlign.left,
           style: TextStyle(
             fontFamily: AppFonts.fontTitle,
@@ -67,7 +68,7 @@ class AccountsPayableListScreen extends StatelessWidget {
   Widget _newRecord(BuildContext context) {
     return ButtonActionTable(
       color: AppColors.purple,
-      text: "Registrar Contas a pagar",
+      text: context.l10n.accountsPayable_list_new,
       onPressed: () => GoRouter.of(context).go('/accounts-payable/add'),
       icon: Icons.add_chart,
     );

@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/features/erp/trends/models/trend_model.dart';
 import 'package:church_finance_bk/features/erp/trends/utils/trend_utils.dart';
 import 'package:flutter/material.dart';
@@ -10,28 +11,37 @@ class TrendSummaryCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          _buildCard('Receita', trend.revenue.current, trend.revenue.previous),
-          const SizedBox(width: 12),
-          _buildCard('Operacionais', trend.opex.current, trend.opex.previous),
+          _buildCard(
+            l10n.trends_summary_revenue,
+            trend.revenue.current,
+            trend.revenue.previous,
+          ),
           const SizedBox(width: 12),
           _buildCard(
-            'Repasses',
+            l10n.trends_summary_opex,
+            trend.opex.current,
+            trend.opex.previous,
+          ),
+          const SizedBox(width: 12),
+          _buildCard(
+            l10n.trends_summary_transfers,
             trend.transfers.current,
             trend.transfers.previous,
           ),
           const SizedBox(width: 12),
           _buildCard(
-            'Investimentos',
+            l10n.trends_summary_capex,
             trend.capex.current,
             trend.capex.previous,
           ),
           const SizedBox(width: 12),
           _buildCard(
-            'Resultado',
+            l10n.trends_summary_net_income,
             trend.netIncome.current,
             trend.netIncome.previous,
           ),

@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class PatrimonyAssetsListScreen extends StatelessWidget {
 
   Widget _header(BuildContext context) {
     final title = Text(
-      'Patrimônio',
+      context.l10n.patrimony_assets_list_title,
       textAlign: TextAlign.left,
       style: TextStyle(
         fontFamily: AppFonts.fontTitle,
@@ -39,7 +40,7 @@ class PatrimonyAssetsListScreen extends StatelessWidget {
       builder: (context, store, _) {
         final registerButton = ButtonActionTable(
           color: AppColors.purple,
-          text: 'Registrar bem',
+          text: context.l10n.patrimony_assets_list_new,
           icon: Icons.add_circle_outline,
           onPressed: () => context.go('/patrimony/assets/new'),
         );

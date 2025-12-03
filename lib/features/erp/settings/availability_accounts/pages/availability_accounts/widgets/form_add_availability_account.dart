@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
@@ -56,7 +57,7 @@ class _FromAddAvailabilityAccountState
         : Padding(
           padding: EdgeInsets.only(top: 20),
           child: CustomButton(
-            text: "Salvar",
+            text: context.l10n.settings_availability_save,
             backgroundColor: AppColors.green,
             textColor: Colors.black,
             onPressed: () => _saveRecord(formStore),
@@ -70,7 +71,10 @@ class _FromAddAvailabilityAccountState
     }
 
     if (await formStore.send()) {
-      Toast.showMessage("Registro salvo com sucesso", ToastType.info);
+      Toast.showMessage(
+        context.l10n.settings_availability_toast_saved,
+        ToastType.info,
+      );
       context.go("/availability-accounts");
     }
   }

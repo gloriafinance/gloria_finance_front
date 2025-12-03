@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:flutter/material.dart';
 
 import '../models/contribution_model.dart';
@@ -10,6 +11,21 @@ Color getContributionStatusColor(ContributionStatus status) {
       return Colors.orange;
     case ContributionStatus.REJECTED:
       return Colors.red;
+  }
+}
+
+String getContributionStatusLabel(
+  BuildContext context,
+  ContributionStatus status,
+) {
+  final l10n = context.l10n;
+  switch (status) {
+    case ContributionStatus.PROCESSED:
+      return l10n.contributions_status_processed;
+    case ContributionStatus.PENDING_VERIFICATION:
+      return l10n.contributions_status_pending_verification;
+    case ContributionStatus.REJECTED:
+      return l10n.contributions_status_rejected;
   }
 }
 

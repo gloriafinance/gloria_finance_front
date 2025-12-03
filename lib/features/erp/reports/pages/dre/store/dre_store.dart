@@ -1,6 +1,7 @@
 // lib/finance/reports/pages/dre/store/dre_store.dart
 
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:flutter/material.dart';
 
 import '../dre_service.dart';
@@ -40,7 +41,7 @@ class DREStore extends ChangeNotifier {
     }
   }
 
-  Future<void> downloadDREPdf() async {
+  Future<void> downloadDREPdf(BuildContext context) async {
     if (state.downloadingPdf) {
       return;
     }
@@ -53,19 +54,19 @@ class DREStore extends ChangeNotifier {
 
       if (success) {
         Toast.showMessage(
-          'PDF baixado com sucesso',
+          context.l10n.reports_dre_download_success,
           ToastType.info,
         );
       } else {
         Toast.showMessage(
-          'Não foi possível baixar o PDF',
+          context.l10n.reports_dre_download_error,
           ToastType.error,
         );
       }
     } catch (e) {
       print("Error al descargar el PDF del DRE: $e");
       Toast.showMessage(
-        'Erro ao baixar o PDF',
+        context.l10n.reports_dre_download_error_generic,
         ToastType.error,
       );
     } finally {

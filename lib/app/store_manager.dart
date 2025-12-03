@@ -3,6 +3,8 @@ import 'package:church_finance_bk/core/layout/state/navigator_member_state.dart'
 import 'package:church_finance_bk/core/layout/state/sidebar_state.dart';
 import 'package:church_finance_bk/features/auth/pages/login/store/auth_session_store.dart';
 
+import 'locale_store.dart';
+
 import '../features/erp/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
 import '../features/erp/settings/banks/store/bank_store.dart';
 import '../features/erp/settings/cost_center/store/cost_center_list_store.dart';
@@ -26,4 +28,5 @@ class StoreManager {
   final costCenterListStore = CostCenterListStore();
   final memberAllStore = MemberAllStore();
   final trendStore = TrendStore();
+  final localeStore = LocaleStore();
 }

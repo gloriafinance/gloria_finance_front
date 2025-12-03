@@ -1,69 +1,37 @@
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:flutter/material.dart';
 
 List<DropdownMenuItem<dynamic>> monthDropdown(BuildContext context) {
-  List<DropdownMenuItem> menuItems = [
-    DropdownMenuItem(
-      value: '01',
-      child: Text("Janeiro",
-          style: const TextStyle(fontSize: 18, fontFamily: AppFonts.fontText)),
-    ),
-    DropdownMenuItem(
-      value: '02',
-      child: Text("Fevereiro",
-          style: const TextStyle(fontSize: 18, fontFamily: AppFonts.fontText)),
-    ),
-    DropdownMenuItem(
-      value: '03',
-      child: Text("Março",
-          style: const TextStyle(fontSize: 18, fontFamily: AppFonts.fontText)),
-    ),
-    DropdownMenuItem(
-      value: '04',
-      child: Text("Abril",
-          style: const TextStyle(fontSize: 18, fontFamily: AppFonts.fontText)),
-    ),
-    DropdownMenuItem(
-      value: '05',
-      child: Text("Maio",
-          style: const TextStyle(fontSize: 18, fontFamily: AppFonts.fontText)),
-    ),
-    DropdownMenuItem(
-      value: '06',
-      child: Text("Junho",
-          style: const TextStyle(fontSize: 18, fontFamily: AppFonts.fontText)),
-    ),
-    DropdownMenuItem(
-      value: '07',
-      child: Text("Julho",
-          style: const TextStyle(fontSize: 18, fontFamily: AppFonts.fontText)),
-    ),
-    DropdownMenuItem(
-      value: '08',
-      child: Text("Agosto",
-          style: const TextStyle(fontSize: 18, fontFamily: AppFonts.fontText)),
-    ),
-    DropdownMenuItem(
-      value: '09',
-      child: Text("Setembro",
-          style: const TextStyle(fontSize: 18, fontFamily: AppFonts.fontText)),
-    ),
-    DropdownMenuItem(
-      value: '10',
-      child: Text("Outubro",
-          style: const TextStyle(fontSize: 18, fontFamily: AppFonts.fontText)),
-    ),
-    DropdownMenuItem(
-      value: '11',
-      child: Text("Novembro",
-          style: const TextStyle(fontSize: 18, fontFamily: AppFonts.fontText)),
-    ),
-    DropdownMenuItem(
-      value: '12',
-      child: Text("Dezembro",
-          style: const TextStyle(fontSize: 18, fontFamily: AppFonts.fontText)),
-    ),
+  final l10n = context.l10n;
+
+  final items = <MapEntry<String, String>>[
+    MapEntry('01', l10n.month_january),
+    MapEntry('02', l10n.month_february),
+    MapEntry('03', l10n.month_march),
+    MapEntry('04', l10n.month_april),
+    MapEntry('05', l10n.month_may),
+    MapEntry('06', l10n.month_june),
+    MapEntry('07', l10n.month_july),
+    MapEntry('08', l10n.month_august),
+    MapEntry('09', l10n.month_september),
+    MapEntry('10', l10n.month_october),
+    MapEntry('11', l10n.month_november),
+    MapEntry('12', l10n.month_december),
   ];
 
-  return menuItems;
+  return items
+      .map(
+        (entry) => DropdownMenuItem(
+          value: entry.key,
+          child: Text(
+            entry.value,
+            style: const TextStyle(
+              fontSize: 18,
+              fontFamily: AppFonts.fontText,
+            ),
+          ),
+        ),
+      )
+      .toList();
 }

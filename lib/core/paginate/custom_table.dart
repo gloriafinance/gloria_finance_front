@@ -1,7 +1,8 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
-import 'package:church_finance_bk/core/widgets/custom_button.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
+import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 class FactoryDataTable<T> {
@@ -119,11 +120,11 @@ class _CustomTableState extends State<CustomTable> {
           ),
         ),
         if (widget.actionBuilders != null)
-          const DataColumn(
+          DataColumn(
             label: Text(
-              "AÇÕES",
+              context.l10n.common_actions.toUpperCase(),
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: AppFonts.fontTitle,
                 color: Colors.black87,
               ),

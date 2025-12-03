@@ -24,7 +24,7 @@ Widget buildDesktopLayout(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                generalInformationSection(formStore, validator),
+                generalInformationSection(context, formStore, validator),
                 const SizedBox(height: 16),
                 documentSection(context, formStore, validator),
                 if (showTaxSection) ...[

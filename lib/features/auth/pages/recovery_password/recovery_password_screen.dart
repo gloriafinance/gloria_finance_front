@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/app_logo.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:flutter/gestures.dart';
@@ -91,7 +92,7 @@ class _RecoveryPasswordScreenState extends State<RecoveryPasswordScreen> {
           Icon(Icons.arrow_circle_left_outlined, color: AppColors.grey),
           SizedBox(width: 5),
           Text(
-            'Voltar para fazer login',
+            context.l10n.auth_recovery_back_to_login,
             style: TextStyle(
               fontFamily: AppFonts.fontText,
               color: AppColors.grey,

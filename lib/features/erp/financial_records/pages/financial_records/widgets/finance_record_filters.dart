@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/index.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/features/erp/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
@@ -100,7 +101,7 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
             headerBuilder: (context, isOpen) {
               return ListTile(
                 title: Text(
-                  "FILTROS",
+                  context.l10n.common_filters_upper,
                   style: TextStyle(
                     fontSize: 16,
                     fontFamily: AppFonts.fontTitle,
@@ -154,7 +155,7 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
 
   Widget _dateStart(FinanceRecordPaginateStore store) {
     return Input(
-      label: "Data inicial",
+      label: context.l10n.common_start_date,
       keyboardType: TextInputType.number,
       initialValue: store.state.filter.startDate,
       onChanged: (value) {},
@@ -169,7 +170,7 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
 
   Widget _dateEnd(FinanceRecordPaginateStore store) {
     return Input(
-      label: "Data final",
+      label: context.l10n.common_end_date,
       keyboardType: TextInputType.number,
       initialValue: store.state.filter.endDate,
       onChanged: (value) {},
@@ -188,7 +189,7 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
     FinancialConceptStore storeConcept,
   ) {
     return Dropdown(
-      label: "Tipo de Conceito",
+      label: context.l10n.finance_records_filter_concept_type,
       items: FinancialConceptTypeExtension.listFriendlyName,
       onChanged: (value) {
         final v = FinancialConceptType.values.firstWhere(
@@ -217,7 +218,7 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
     }
 
     return Dropdown(
-      label: "Conceito",
+      label: context.l10n.finance_records_filter_concept,
       items: items,
       onChanged: (value) {
         final v = storeConcept.state.financialConcepts.firstWhere(
@@ -233,7 +234,7 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
     FinanceRecordPaginateStore store,
   ) {
     return Dropdown(
-      label: "Conta de disponiblidade",
+      label: context.l10n.finance_records_filter_availability_account,
       items:
           availabilityAccountsListStore.state.availabilityAccounts
               .map((a) => a.accountName)
@@ -251,9 +252,10 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
 
   Widget _applyFilterButton(FinanceRecordPaginateStore store) {
     final isLoading = store.state.makeRequest;
+    final l10n = context.l10n;
     return ButtonActionTable(
       color: AppColors.blue,
-      text: isLoading ? 'Carregando...' : 'Aplicar filtros',
+      text: isLoading ? l10n.common_loading : l10n.common_apply_filters,
       icon: isLoading ? Icons.hourglass_bottom : Icons.search,
       onPressed: () {
         if (!isLoading) {
@@ -269,7 +271,7 @@ class _FinanceRecordFiltersState extends State<FinanceRecordFilters> {
     return ButtonActionTable(
       icon: Icons.clear,
       color: AppColors.mustard,
-      text: 'Limpar filtros',
+      text: context.l10n.common_clear_filters,
       onPressed: () {
         store.clearFilters();
       },

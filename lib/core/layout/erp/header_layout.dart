@@ -1,4 +1,6 @@
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
+import 'package:church_finance_bk/core/widgets/language_selector.dart';
 import 'package:church_finance_bk/features/auth/pages/login/store/auth_session_store.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -78,6 +80,8 @@ class _HeaderLayoutState extends State<HeaderLayout> {
             padding: const EdgeInsets.only(right: 16.0),
             child: Row(
               children: [
+                const LanguageSelector(),
+                const SizedBox(width: 16),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   // Alineado al inicio
@@ -147,7 +151,7 @@ class _HeaderLayoutState extends State<HeaderLayout> {
                   Icon(Icons.lock_outline, color: AppColors.purple),
                   const SizedBox(width: 8),
                   Text(
-                    'Trocar senha',
+                    context.l10n.erp_header_change_password,
                     style: TextStyle(
                       fontFamily: AppFonts.fontText,
                       fontWeight: FontWeight.w500,
@@ -164,7 +168,7 @@ class _HeaderLayoutState extends State<HeaderLayout> {
                   Icon(Icons.logout, color: AppColors.purple),
                   const SizedBox(width: 8),
                   Text(
-                    'Sair',
+                    context.l10n.erp_header_logout,
                     style: TextStyle(
                       fontFamily: AppFonts.fontText,
                       fontWeight: FontWeight.w500,

@@ -5,42 +5,72 @@ import '../state/form_accounts_receivable_state.dart';
 
 class FormAccountsReceivableValidator
     extends LucidValidator<FormAccountsReceivableState> {
-  FormAccountsReceivableValidator() {
+  final String descriptionRequired;
+  final String financialConceptRequired;
+  final String debtorNameRequired;
+  final String debtorDniRequired;
+  final String debtorPhoneRequired;
+  final String debtorEmailRequired;
+  final String totalAmountRequired;
+  final String singleDueDateRequired;
+  final String installmentsRequired;
+  final String installmentsInvalid;
+  final String automaticInstallmentsRequired;
+  final String automaticAmountRequired;
+  final String automaticFirstDueDateRequired;
+  final String installmentsCountMismatch;
+
+  FormAccountsReceivableValidator({
+    required this.descriptionRequired,
+    required this.financialConceptRequired,
+    required this.debtorNameRequired,
+    required this.debtorDniRequired,
+    required this.debtorPhoneRequired,
+    required this.debtorEmailRequired,
+    required this.totalAmountRequired,
+    required this.singleDueDateRequired,
+    required this.installmentsRequired,
+    required this.installmentsInvalid,
+    required this.automaticInstallmentsRequired,
+    required this.automaticAmountRequired,
+    required this.automaticFirstDueDateRequired,
+    required this.installmentsCountMismatch,
+  }) {
     ruleFor(
       (m) => m.description,
       key: 'description',
-    ).notEmpty(message: 'Descrição é obrigatória');
+    ).notEmpty(message: descriptionRequired);
 
     ruleFor(
       (m) => m.financialConceptId,
       key: 'financialConceptId',
-    ).notEmpty(message: 'Selecione um conceito financeiro');
+    ).notEmpty(message: financialConceptRequired);
 
     ruleFor(
       (m) => m.debtorName,
       key: 'debtorName',
-    ).notEmpty(message: 'Nome do devedor é obrigatório');
+    ).notEmpty(message: debtorNameRequired);
 
     ruleFor(
       (m) => m.debtorDNI,
       key: 'debtorDNI',
-    ).notEmpty(message: 'Identificador do devedor é obrigatório');
+    ).notEmpty(message: debtorDniRequired);
 
     ruleFor(
       (m) => m.debtorPhone,
       key: 'debtorPhone',
-    ).notEmpty(message: 'Telefone do devedor é obrigatório');
+    ).notEmpty(message: debtorPhoneRequired);
 
     ruleFor(
       (m) => m.debtorEmail,
       key: 'debtorEmail',
-    ).notEmpty(message: 'Email do devedor é obrigatório');
+    ).notEmpty(message: debtorEmailRequired);
 
     ruleFor((m) => m, key: 'totalAmount').must(
       (state) =>
           state.paymentMode != AccountsReceivablePaymentMode.single ||
           state.totalAmount > 0,
-      'Informe o valor total',
+      totalAmountRequired,
       'totalAmount_required',
     );
 
@@ -48,7 +78,7 @@ class FormAccountsReceivableValidator
       (state) =>
           state.paymentMode != AccountsReceivablePaymentMode.single ||
           state.singleDueDate.isNotEmpty,
-      'Informe a data de vencimento',
+      singleDueDateRequired,
       'singleDueDate_required',
     );
 
@@ -56,7 +86,7 @@ class FormAccountsReceivableValidator
       (state) =>
           state.paymentMode == AccountsReceivablePaymentMode.single ||
           state.installments.isNotEmpty,
-      'Gere as parcelas para continuar',
+      installmentsRequired,
       'installments_required',
     );
 
@@ -67,7 +97,7 @@ class FormAccountsReceivableValidator
             (installment) =>
                 installment.amount > 0 && installment.dueDate.isNotEmpty,
           ),
-      'Preencha valor e vencimento de cada parcela',
+      installmentsInvalid,
       'installments_invalid',
     );
 
@@ -75,7 +105,7 @@ class FormAccountsReceivableValidator
       (state) =>
           state.paymentMode != AccountsReceivablePaymentMode.automatic ||
           state.automaticInstallments > 0,
-      'Informe a quantidade de parcelas',
+      automaticInstallmentsRequired,
       'automaticInstallments_required',
     );
 
@@ -83,7 +113,7 @@ class FormAccountsReceivableValidator
       (state) =>
           state.paymentMode != AccountsReceivablePaymentMode.automatic ||
           state.automaticInstallmentAmount > 0,
-      'Informe o valor por parcela',
+      automaticAmountRequired,
       'automaticInstallmentAmount_required',
     );
 
@@ -91,7 +121,7 @@ class FormAccountsReceivableValidator
       (state) =>
           state.paymentMode != AccountsReceivablePaymentMode.automatic ||
           state.automaticFirstDueDate.isNotEmpty,
-      'Informe a data da primeira parcela',
+      automaticFirstDueDateRequired,
       'automaticFirstDueDate_required',
     );
 
@@ -105,7 +135,7 @@ class FormAccountsReceivableValidator
         }
         return state.installments.length == state.automaticInstallments;
       },
-      'A quantidade de parcelas geradas deve corresponder ao total informado',
+      installmentsCountMismatch,
       'installments_count_mismatch',
     );
   }
@@ -114,51 +144,50 @@ class FormAccountsReceivableValidator
     final Map<String, String> errors = {};
 
     if (state.description.isEmpty) {
-      errors['description'] = 'Descrição é obrigatória';
+      errors['description'] = descriptionRequired;
     }
 
     if (state.financialConceptId.isEmpty) {
-      errors['financialConceptId'] = 'Selecione um conceito financeiro';
+      errors['financialConceptId'] = financialConceptRequired;
     }
 
     if (state.debtorName.isEmpty) {
-      errors['debtorName'] = 'Nome do devedor é obrigatório';
+      errors['debtorName'] = debtorNameRequired;
     }
 
     if (state.debtorDNI.isEmpty) {
-      errors['debtorDNI'] = 'Identificador do devedor é obrigatório';
+      errors['debtorDNI'] = debtorDniRequired;
     }
 
     if (state.debtorPhone.isEmpty) {
-      errors['debtorPhone'] = 'Telefone do devedor é obrigatório';
+      errors['debtorPhone'] = debtorPhoneRequired;
     }
 
     if (state.debtorEmail.isEmpty) {
-      errors['debtorEmail'] = 'Email do devedor é obrigatório';
+      errors['debtorEmail'] = debtorEmailRequired;
     }
 
     switch (state.paymentMode) {
       case AccountsReceivablePaymentMode.single:
         if (state.totalAmount <= 0) {
-          errors['totalAmount'] = 'Informe o valor total';
+          errors['totalAmount'] = totalAmountRequired;
         }
         if (state.singleDueDate.isEmpty) {
-          errors['singleDueDate'] = 'Informe a data de vencimento';
+          errors['singleDueDate'] = singleDueDateRequired;
         }
         break;
       case AccountsReceivablePaymentMode.automatic:
         if (state.automaticInstallments <= 0) {
-          errors['automaticInstallments'] = 'Informe a quantidade de parcelas';
+          errors['automaticInstallments'] = automaticInstallmentsRequired;
         }
         if (state.automaticInstallmentAmount <= 0) {
-          errors['automaticInstallmentAmount'] = 'Informe o valor por parcela';
+          errors['automaticInstallmentAmount'] = automaticAmountRequired;
         }
         if (state.automaticFirstDueDate.isEmpty) {
-          errors['automaticFirstDueDate'] =
-              'Informe a data da primeira parcela';
+          errors['automaticFirstDueDate'] = automaticFirstDueDateRequired;
         }
         if (state.installments.isEmpty) {
-          errors['installments'] = 'Gere as parcelas para continuar';
+          errors['installments'] = installmentsRequired;
         }
         break;
     }

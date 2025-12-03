@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/currency_formatter.dart';
 import 'package:church_finance_bk/features/erp/trends/models/trend_model.dart';
 import 'package:church_finance_bk/features/erp/trends/utils/trend_utils.dart';
@@ -12,38 +13,40 @@ class TrendList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Column(
       children: [
         _buildTrendItem(
-          'Receita',
+          l10n.trends_list_revenue,
           trend.revenue.current,
           trend.revenue.previous,
           maxValue,
           Colors.green,
         ),
         _buildTrendItem(
-          'Despesas Operacionais',
+          l10n.trends_list_opex,
           trend.opex.current,
           trend.opex.previous,
           maxValue,
           Colors.redAccent,
         ),
         _buildTrendItem(
-          'Repasses Ministeriais',
+          l10n.trends_list_transfers,
           trend.transfers.current,
           trend.transfers.previous,
           maxValue,
           Colors.orange,
         ),
         _buildTrendItem(
-          'Investimentos',
+          l10n.trends_list_capex,
           trend.capex.current,
           trend.capex.previous,
           maxValue,
           Colors.amber,
         ),
         _buildTrendItem(
-          'Resultado Líquido',
+          l10n.trends_list_net_income,
           trend.netIncome.current,
           trend.netIncome.previous,
           maxValue,

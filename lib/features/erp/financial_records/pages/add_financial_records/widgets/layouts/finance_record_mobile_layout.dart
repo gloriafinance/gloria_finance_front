@@ -18,18 +18,27 @@ Widget formMobileLayout(
       SizedBox(height: 30),
       date(context, formStore),
       const SizedBox(height: 10),
-      amount(formStore),
+      amount(context, formStore),
       const SizedBox(height: 10),
-      searchFinancialConcepts(conceptStore, formStore),
+      searchFinancialConcepts(context, conceptStore, formStore),
       Container(
         margin: EdgeInsets.only(top: 10),
-        child: dropdownCostCenter(costCenterStore, conceptStore, formStore),
+        child: dropdownCostCenter(
+          context,
+          costCenterStore,
+          conceptStore,
+          formStore,
+        ),
       ),
-      description(formStore),
+      description(context, formStore),
       const SizedBox(height: 10),
-      dropdownAvailabilityAccounts(availabilityAccountsListStore, formStore),
+      dropdownAvailabilityAccounts(
+        context,
+        availabilityAccountsListStore,
+        formStore,
+      ),
       const SizedBox(height: 10),
-      uploadFile(formStore),
+      uploadFile(context, formStore),
     ],
   );
 }

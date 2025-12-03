@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/app_logo.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
@@ -41,9 +42,9 @@ class _PolicyAcceptanceContent extends StatelessWidget {
             children: [
               const Center(child: ApplicationLogo(height: 80)),
               const SizedBox(height: 24),
-              _buildTitle(),
+              _buildTitle(context),
               const SizedBox(height: 16),
-              _buildDescription(),
+              _buildDescription(context),
               const SizedBox(height: 32),
               _buildPolicyCheckboxes(context),
               const SizedBox(height: 32),
@@ -55,9 +56,10 @@ class _PolicyAcceptanceContent extends StatelessWidget {
     );
   }
 
-  Widget _buildTitle() {
+  Widget _buildTitle(BuildContext context) {
+    final l10n = context.l10n;
     return Text(
-      'Antes de continuar, revise e aceite as políticas do Glória Finance',
+      l10n.auth_policies_title,
       textAlign: TextAlign.center,
       style: TextStyle(
         fontFamily: AppFonts.fontTitle,
@@ -67,7 +69,8 @@ class _PolicyAcceptanceContent extends StatelessWidget {
     );
   }
 
-  Widget _buildDescription() {
+  Widget _buildDescription(BuildContext context) {
+    final l10n = context.l10n;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -78,7 +81,7 @@ class _PolicyAcceptanceContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Informações importantes:',
+            l10n.auth_policies_info_title,
             style: TextStyle(
               fontFamily: AppFonts.fontTitle,
               fontSize: 16,
@@ -87,9 +90,7 @@ class _PolicyAcceptanceContent extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            '• A igreja e o Glória Finance tratam dados pessoais e dados sensíveis para o funcionamento do sistema.\n\n'
-            '• Em conformidade com a Lei Geral de Proteção de Dados (LGPD), é necessário que você aceite as políticas abaixo para continuar utilizando a plataforma.\n\n'
-            '• Clique nos links para ler os textos completos antes de aceitar.',
+            l10n.auth_policies_info_body,
             style: TextStyle(
               fontFamily: AppFonts.fontSubTitle,
               fontSize: 14,
@@ -110,7 +111,7 @@ class _PolicyAcceptanceContent extends StatelessWidget {
         _PolicyCheckboxItem(
           value: store.privacyPolicyAccepted,
           onChanged: (value) => store.setPrivacyPolicyAccepted(value ?? false),
-          policyName: 'Política de Privacidade',
+          policyName: context.l10n.auth_policies_privacy,
           policyUrl: PolicyConfig.privacyPolicyUrl,
         ),
         const SizedBox(height: 16),
@@ -118,7 +119,7 @@ class _PolicyAcceptanceContent extends StatelessWidget {
           value: store.sensitiveDataPolicyAccepted,
           onChanged:
               (value) => store.setSensitiveDataPolicyAccepted(value ?? false),
-          policyName: 'Política de Tratamento de Dados Sensíveis',
+          policyName: context.l10n.auth_policies_sensitive,
           policyUrl: PolicyConfig.sensitiveDataPolicyUrl,
         ),
       ],
@@ -128,35 +129,56 @@ class _PolicyAcceptanceContent extends StatelessWidget {
   Widget _buildSubmitButton(BuildContext context) {
     final store = Provider.of<PolicyAcceptanceStore>(context);
     final authStore = Provider.of<AuthSessionStore>(context, listen: false);
+    final l10n = context.l10n;
 
     if (store.isSubmitting) {
       return const Center(child: Loading());
     }
 
-    return CustomButton(
-      text: 'Aceitar e Continuar',
-      backgroundColor: store.canSubmit ? AppColors.green : AppColors.greyMiddle,
-      textColor: store.canSubmit ? Colors.white : AppColors.grey,
-      onPressed:
-          store.canSubmit
-              ? () async {
-                final result = await store.submitAcceptance(
-                  authStore.state.session.token,
-                );
+    String? errorText;
+    if (store.errorMessage == 'auth_policies_submit_error_null') {
+      errorText = l10n.auth_policies_submit_error_null;
+    } else if (store.errorMessage == 'auth_policies_submit_error_generic') {
+      errorText = l10n.auth_policies_submit_error_generic;
+    }
 
-                if (result != null && context.mounted) {
-                  // Update the session with new policy acceptance
-                  final updatedSession = authStore.state.session.copyWith(
-                    policies: result,
-                  );
-                  authStore.updateSession(updatedSession);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (errorText != null) ...[
+          Text(
+            errorText,
+            style: TextStyle(
+              color: Colors.red,
+              fontFamily: AppFonts.fontSubTitle,
+            ),
+          ),
+          const SizedBox(height: 12),
+        ],
+        CustomButton(
+          text: l10n.auth_policies_accept_and_continue,
+          backgroundColor:
+              store.canSubmit ? AppColors.green : AppColors.greyMiddle,
+          textColor: store.canSubmit ? Colors.white : AppColors.grey,
+          onPressed:
+              store.canSubmit
+                  ? () async {
+                    final result = await store.submitAcceptance(
+                      authStore.state.session.token,
+                    );
 
-                  // Navigate to dashboard
-                  context.go('/dashboard');
-                }
-              }
-              : null,
-      typeButton: CustomButton.basic,
+                    if (result != null && context.mounted) {
+                      final updatedSession = authStore.state.session.copyWith(
+                        policies: result,
+                      );
+                      authStore.updateSession(updatedSession);
+                      context.go('/dashboard');
+                    }
+                  }
+                  : null,
+          typeButton: CustomButton.basic,
+        ),
+      ],
     );
   }
 }
@@ -175,6 +197,7 @@ class _PolicyCheckboxItem extends StatelessWidget {
   });
 
   Future<void> _openPolicy(BuildContext context) async {
+    final l10n = context.l10n;
     final uri = Uri.parse(policyUrl);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
@@ -182,7 +205,9 @@ class _PolicyCheckboxItem extends StatelessWidget {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Não foi possível abrir o link: $policyUrl'),
+            content: Text(
+              l10n.auth_policies_link_error(policyUrl),
+            ),
             backgroundColor: Colors.red,
           ),
         );
@@ -209,7 +234,7 @@ class _PolicyCheckboxItem extends StatelessWidget {
             child: Wrap(
               children: [
                 Text(
-                  'Li e concordo com a ',
+                  context.l10n.auth_policies_checkbox_prefix,
                   style: TextStyle(
                     fontFamily: AppFonts.fontSubTitle,
                     fontSize: 14,

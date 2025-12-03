@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/tag_status.dart';
 import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_asset_model.dart';
@@ -19,6 +20,7 @@ class PatrimonyAssetsTable extends StatelessWidget {
     return Consumer<PatrimonyAssetsListStore>(
       builder: (context, store, _) {
         final state = store.state;
+        final l10n = context.l10n;
 
         if (state.loading) {
           return Container(
@@ -38,13 +40,13 @@ class PatrimonyAssetsTable extends StatelessWidget {
                   size: 48,
                 ),
                 const SizedBox(height: 12),
-                const Text(
-                  'Não foi possível carregar os bens. Tente novamente.',
+                Text(
+                  l10n.patrimony_assets_table_error_loading,
                 ),
                 const SizedBox(height: 12),
                 TextButton(
                   onPressed: store.refresh,
-                  child: const Text('Recarregar'),
+                  child: Text(l10n.common_retry),
                 ),
               ],
             ),
@@ -55,22 +57,22 @@ class PatrimonyAssetsTable extends StatelessWidget {
           return Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 24),
-            child: const Text(
-              'Nenhum bem encontrado com os filtros selecionados.',
+            child: Text(
+              l10n.patrimony_assets_table_empty,
               textAlign: TextAlign.center,
             ),
           );
         }
 
         return CustomTable(
-          headers: const [
-            'Código',
-            'Nome',
-            'Categoria',
-            'Valor',
-            'Aquisição',
-            'Localização',
-            'Status',
+          headers: [
+            l10n.patrimony_assets_table_header_code,
+            l10n.patrimony_assets_table_header_name,
+            l10n.patrimony_assets_table_header_category,
+            l10n.patrimony_assets_table_header_value,
+            l10n.patrimony_assets_table_header_acquisition,
+            l10n.patrimony_assets_table_header_location,
+            l10n.common_status,
           ],
           data: FactoryDataTable(
             data: state.assets.results,
@@ -82,7 +84,7 @@ class PatrimonyAssetsTable extends StatelessWidget {
               final patrimony = asset as PatrimonyAssetModel;
               return ButtonActionTable(
                 color: AppColors.blue,
-                text: 'Visualizar',
+                text: l10n.common_view,
                 icon: Icons.visibility_outlined,
                 onPressed: () {
                   ModalPage(
@@ -95,7 +97,7 @@ class PatrimonyAssetsTable extends StatelessWidget {
             },
             (asset) => ButtonActionTable(
               color: AppColors.purple,
-              text: 'Editar',
+              text: l10n.common_edit,
               icon: Icons.edit_outlined,
               onPressed:
                   () => context.go(

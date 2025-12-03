@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
@@ -19,7 +20,7 @@ class FormChangePassword extends StatefulWidget {
 class _FormChangePasswordState extends State<FormChangePassword> {
   final formKey = GlobalKey<FormState>();
   bool isFormValid = false;
-  final validator = ChangePasswordValidator();
+  late final ChangePasswordValidator validator;
 
   void _validateForm() {
     setState(() {
@@ -31,6 +32,16 @@ class _FormChangePasswordState extends State<FormChangePassword> {
 
   @override
   Widget build(BuildContext context) {
+    validator = ChangePasswordValidator(
+      oldPasswordRequiredMessage:
+          context.l10n.auth_recovery_change_error_old_password_required,
+      newPasswordRequiredMessage:
+          context.l10n.auth_recovery_change_error_new_password_required,
+      minLengthMessage: context.l10n.auth_recovery_change_error_min_length,
+      lowercaseMessage: context.l10n.auth_recovery_change_error_lowercase,
+      uppercaseMessage: context.l10n.auth_recovery_change_error_uppercase,
+      numberMessage: context.l10n.auth_recovery_change_error_number,
+    );
     final store = Provider.of<ChangePasswordStore>(context);
 
     return Form(
@@ -43,7 +54,7 @@ class _FormChangePasswordState extends State<FormChangePassword> {
                 padding: const EdgeInsets.fromLTRB(10, 12, 10, 0),
                 child: Input(
                   isPass: true,
-                  label: "Senha anterior",
+                  label: context.l10n.auth_recovery_old_password_label,
                   icon: Icons.lock_outline,
                   keyboardType: TextInputType.text,
                   onValidator: validator.byField(store.state, 'oldPassword'),
@@ -57,7 +68,7 @@ class _FormChangePasswordState extends State<FormChangePassword> {
                 padding: const EdgeInsets.fromLTRB(10, 12, 10, 0),
                 child: Input(
                   isPass: true,
-                  label: "Nova senha",
+                  label: context.l10n.auth_recovery_new_password_label,
                   icon: Icons.lock_outline,
                   keyboardType: TextInputType.text,
                   onValidator: validator.byField(store.state, 'newPassword'),
@@ -78,7 +89,7 @@ class _FormChangePasswordState extends State<FormChangePassword> {
 
   Widget _sendButton(ChangePasswordStore store) {
     return CustomButton(
-      text: "Enviar",
+      text: context.l10n.auth_recovery_request_submit,
       backgroundColor: AppColors.green,
       onPressed: isFormValid ? () => _makeChangePassword(store) : null,
     );

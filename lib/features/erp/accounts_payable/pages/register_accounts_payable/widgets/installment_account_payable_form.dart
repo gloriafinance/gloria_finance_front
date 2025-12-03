@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/features/erp/accounts_payable/models/accounts_payable_types.dart';
@@ -24,6 +25,7 @@ class InstallmentAccountPayableForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = formStore.state;
+    final l10n = context.l10n;
 
     switch (state.paymentMode) {
       case AccountsPayablePaymentMode.single:
@@ -37,7 +39,7 @@ class InstallmentAccountPayableForm extends StatelessWidget {
               validator: validator,
               showValidationMessages: showValidationMessages,
               emptyMessage:
-                  'Informe o valor e a data de vencimento para visualizar o resumo.',
+                  l10n.accountsPayable_form_installments_single_empty_message,
             ),
           ],
         );
@@ -54,8 +56,8 @@ class InstallmentAccountPayableForm extends StatelessWidget {
               formStore: formStore,
               validator: validator,
               showValidationMessages: showValidationMessages,
-              emptyMessage:
-                  'Informe os dados e clique em "Gerar parcelas" para visualizar o cronograma.',
+              emptyMessage: l10n
+                  .accountsPayable_form_installments_automatic_empty_message,
             ),
           ],
         );
@@ -77,12 +79,13 @@ class _SinglePaymentSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = formStore.state;
+    final l10n = context.l10n;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Input(
-          label: 'Valor total',
+          label: l10n.accountsPayable_form_field_total_amount,
           initialValue:
               state.totalAmount > 0
                   ? CurrencyFormatter.formatCurrency(state.totalAmount)
@@ -96,7 +99,7 @@ class _SinglePaymentSection extends StatelessWidget {
           onValidator: (_) => validator.errorByKey(state, 'totalAmount'),
         ),
         Input(
-          label: 'Data de vencimento',
+          label: l10n.accountsPayable_form_field_single_due_date,
           initialValue: state.singleDueDate,
           onChanged: formStore.setSingleDueDate,
           onTap: () async {
@@ -127,6 +130,7 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = formStore.state;
+    final l10n = context.l10n;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,7 +142,7 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
             SizedBox(
               width: 220,
               child: Input(
-                label: 'Quantidade de parcelas',
+                label: l10n.accountsPayable_form_field_automatic_installments,
                 initialValue:
                     state.automaticInstallments > 0
                         ? state.automaticInstallments.toString()
@@ -156,7 +160,7 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
             SizedBox(
               width: 220,
               child: Input(
-                label: 'Valor por parcela',
+                label: l10n.accountsPayable_form_field_automatic_amount,
                 initialValue:
                     state.automaticInstallmentAmount > 0
                         ? CurrencyFormatter.formatCurrency(
@@ -179,7 +183,8 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
             SizedBox(
               width: 220,
               child: Input(
-                label: 'Primeiro vencimento',
+                label:
+                    l10n.accountsPayable_form_field_automatic_first_due_date,
                 initialValue: state.automaticFirstDueDate,
                 onChanged: formStore.setAutomaticFirstDueDate,
                 onTap: () async {
@@ -200,7 +205,7 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
         const SizedBox(height: 16),
         ButtonActionTable(
           color: AppColors.blue,
-          text: 'Gerar parcelas',
+          text: l10n.accountsPayable_form_generate_installments,
           icon: Icons.calculate_outlined,
           onPressed: () => _handleGenerateAutomatic(context),
         ),
@@ -209,6 +214,7 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
   }
 
   void _handleGenerateAutomatic(BuildContext context) {
+    final l10n = context.l10n;
     final success = formStore.generateAutomaticInstallments();
 
     if (!success) {
@@ -229,13 +235,17 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
       }
 
       Toast.showMessage(
-        message ?? 'Preencha os dados para gerar as parcelas.',
+        message ??
+            l10n.accountsPayable_form_error_generate_installments_fill_data,
         ToastType.warning,
       );
       return;
     }
 
-    Toast.showMessage('Parcelas geradas com sucesso.', ToastType.info);
+    Toast.showMessage(
+      l10n.accountsPayable_form_toast_generate_installments_success,
+      ToastType.info,
+    );
   }
 }
 
@@ -269,7 +279,7 @@ class _InstallmentsPreviewSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Resumo das parcelas',
+          context.l10n.accountsPayable_form_installments_summary_title,
           style: const TextStyle(
             fontFamily: AppFonts.fontTitle,
             fontSize: 15,
@@ -317,7 +327,10 @@ class _InstallmentsPreviewSection extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Parcela ${index + 1}',
+                                context.l10n
+                                    .accountsPayable_form_installment_item_title(
+                                  index + 1,
+                                ),
                                 style: const TextStyle(
                                   fontFamily: AppFonts.fontTitle,
                                   fontSize: 15,
@@ -337,7 +350,10 @@ class _InstallmentsPreviewSection extends StatelessWidget {
                               ),
                               const SizedBox(height: 2),
                               Text(
-                                'Vencimento: ${installment.dueDate}',
+                                context.l10n
+                                    .accountsPayable_form_installment_item_due_date(
+                                  installment.dueDate,
+                                ),
                                 style: const TextStyle(
                                   fontFamily: AppFonts.fontSubTitle,
                                   color: AppColors.grey,
@@ -355,7 +371,10 @@ class _InstallmentsPreviewSection extends StatelessWidget {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'Total: ${CurrencyFormatter.formatCurrency(totalAmount)}',
+                  context.l10n
+                      .accountsPayable_form_installments_summary_total(
+                    CurrencyFormatter.formatCurrency(totalAmount),
+                  ),
                   style: const TextStyle(
                     fontFamily: AppFonts.fontTitle,
                     color: AppColors.purple,

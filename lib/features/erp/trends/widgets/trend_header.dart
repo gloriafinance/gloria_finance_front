@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/features/erp/trends/models/trend_model.dart';
 import 'package:flutter/material.dart';
 
@@ -16,18 +17,31 @@ class TrendHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    String _formatMonthYear(int month, int year) {
+      final mm = month.toString().padLeft(2, '0');
+      return '$mm/$year';
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Composição de Receitas, Despesas e Resultado',
-          style: TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 18),
+        Text(
+          l10n.trends_header_title,
+          style: const TextStyle(
+            fontFamily: AppFonts.fontTitle,
+            fontSize: 18,
+          ),
         ),
         if (period != null)
           Padding(
             padding: const EdgeInsets.only(top: 4.0),
             child: Text(
-              'Comparativo: ${period!.month.toString().padLeft(2, '0')}/${period!.year} vs ${previousMonth.toString().padLeft(2, '0')}/$previousYear',
+              l10n.trends_header_comparison(
+                _formatMonthYear(period!.month, period!.year),
+                _formatMonthYear(previousMonth, previousYear),
+              ),
               style: const TextStyle(
                 fontFamily: AppFonts.fontText,
                 fontSize: 12,

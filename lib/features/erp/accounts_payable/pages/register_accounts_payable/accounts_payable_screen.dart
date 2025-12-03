@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/features/erp/providers/pages/suppliers/store/suppliers_list_store.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -44,7 +45,7 @@ class _AccountsPayableRegistrationScreenState
           child: Icon(Icons.arrow_back_ios, color: AppColors.purple),
         ),
         Text(
-          'Registrar Conta a Pagar',
+          context.l10n.accountsPayable_register_title,
           textAlign: TextAlign.left,
           style: TextStyle(
             fontFamily: AppFonts.fontTitle,

@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -29,7 +30,7 @@ class _AvailabilityAccountsListScreenState
       children: [
         Expanded(
           child: Text(
-            "Listagem de contas",
+            context.l10n.settings_availability_list_title,
             textAlign: TextAlign.left,
             style: TextStyle(
               fontFamily: AppFonts.fontTitle,
@@ -48,7 +49,7 @@ class _AvailabilityAccountsListScreenState
       children: [
         ButtonActionTable(
           color: AppColors.purple,
-          text: "Conta disponiblidade",
+          text: context.l10n.settings_availability_new_account,
           onPressed:
               () => GoRouter.of(context).go('/availability-accounts/add'),
           icon: Icons.add_box_outlined,

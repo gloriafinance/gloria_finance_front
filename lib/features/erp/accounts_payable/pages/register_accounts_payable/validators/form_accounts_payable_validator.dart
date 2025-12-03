@@ -5,32 +5,70 @@ import '../state/form_accounts_payable_state.dart';
 
 class FormAccountsPayableValidator
     extends LucidValidator<FormAccountsPayableState> {
-  FormAccountsPayableValidator() {
+  final String supplierRequired;
+  final String descriptionRequired;
+  final String documentTypeRequired;
+  final String documentNumberRequired;
+  final String documentDateRequired;
+  final String totalAmountRequired;
+  final String singleDueDateRequired;
+  final String installmentsRequired;
+  final String installmentsContents;
+  final String automaticInstallmentsRequired;
+  final String automaticAmountRequired;
+  final String automaticFirstDueDateRequired;
+  final String installmentsCountMismatch;
+  final String taxesRequired;
+  final String taxesInvalid;
+  final String taxExemptionReasonRequired;
+  final String taxExemptMustNotHaveTaxes;
+  final String taxStatusMismatch;
+
+  FormAccountsPayableValidator({
+    required this.supplierRequired,
+    required this.descriptionRequired,
+    required this.documentTypeRequired,
+    required this.documentNumberRequired,
+    required this.documentDateRequired,
+    required this.totalAmountRequired,
+    required this.singleDueDateRequired,
+    required this.installmentsRequired,
+    required this.installmentsContents,
+    required this.automaticInstallmentsRequired,
+    required this.automaticAmountRequired,
+    required this.automaticFirstDueDateRequired,
+    required this.installmentsCountMismatch,
+    required this.taxesRequired,
+    required this.taxesInvalid,
+    required this.taxExemptionReasonRequired,
+    required this.taxExemptMustNotHaveTaxes,
+    required this.taxStatusMismatch,
+  }) {
     ruleFor(
       (m) => m.supplierId,
       key: 'supplierId',
-    ).notEmpty(message: 'O fornecedor é obrigatório');
+    ).notEmpty(message: supplierRequired);
 
     ruleFor(
       (m) => m.description,
       key: 'description',
-    ).notEmpty(message: 'A descrição é obrigatória');
+    ).notEmpty(message: descriptionRequired);
 
     ruleFor((m) => m, key: 'documentType').must(
       (state) => state.documentType != null,
-      'Selecione o tipo de documento',
+      documentTypeRequired,
       'documentType_required',
     );
 
     ruleFor((m) => m, key: 'documentNumber').must(
       (state) => state.documentNumber.isNotEmpty,
-      'Informe o número do documento',
+      documentNumberRequired,
       'documentNumber_required',
     );
 
     ruleFor((m) => m, key: 'documentIssueDate').must(
       (state) => state.documentIssueDate.isNotEmpty,
-      'Informe a data do documento',
+      documentDateRequired,
       'documentIssueDate_required',
     );
 
@@ -42,7 +80,7 @@ class FormAccountsPayableValidator
         }
         return true;
       },
-      'Informe um valor maior que zero',
+      totalAmountRequired,
       'totalAmount_required',
     );
 
@@ -50,7 +88,7 @@ class FormAccountsPayableValidator
       (state) =>
           state.paymentMode != AccountsPayablePaymentMode.single ||
           state.singleDueDate.isNotEmpty,
-      'Informe a data de vencimento',
+      singleDueDateRequired,
       'singleDueDate_required',
     );
 
@@ -58,7 +96,7 @@ class FormAccountsPayableValidator
       (state) =>
           state.paymentMode == AccountsPayablePaymentMode.single ||
           state.installments.isNotEmpty,
-      'Gere ou adicione ao menos uma parcela',
+      installmentsRequired,
       'installments_required',
     );
 
@@ -69,7 +107,7 @@ class FormAccountsPayableValidator
             (installment) =>
                 installment.amount > 0 && installment.dueDate.isNotEmpty,
           ),
-      'Preencha valor e vencimento de cada parcela',
+      installmentsContents,
       'installments_contents',
     );
 
@@ -77,7 +115,7 @@ class FormAccountsPayableValidator
       (state) =>
           state.paymentMode != AccountsPayablePaymentMode.automatic ||
           state.automaticInstallments > 0,
-      'Informe a quantidade de parcelas',
+      automaticInstallmentsRequired,
       'automaticInstallments_required',
     );
 
@@ -85,7 +123,7 @@ class FormAccountsPayableValidator
       (state) =>
           state.paymentMode != AccountsPayablePaymentMode.automatic ||
           state.automaticInstallmentAmount > 0,
-      'Informe o valor por parcela',
+      automaticAmountRequired,
       'automaticInstallmentAmount_required',
     );
 
@@ -93,7 +131,7 @@ class FormAccountsPayableValidator
       (state) =>
           state.paymentMode != AccountsPayablePaymentMode.automatic ||
           state.automaticFirstDueDate.isNotEmpty,
-      'Informe a data da primeira parcela',
+      automaticFirstDueDateRequired,
       'automaticFirstDueDate_required',
     );
 
@@ -107,7 +145,7 @@ class FormAccountsPayableValidator
         }
         return state.installments.length == state.automaticInstallments;
       },
-      'A quantidade de parcelas geradas deve corresponder ao total informado',
+      installmentsCountMismatch,
       'installments_count_mismatch',
     );
 
@@ -124,7 +162,7 @@ class FormAccountsPayableValidator
 
         return true;
       },
-      'Adicione os impostos retidos quando a nota não for isenta',
+      taxesRequired,
       'taxes_required',
     );
 
@@ -143,7 +181,7 @@ class FormAccountsPayableValidator
               tax.taxType.isNotEmpty && tax.percentage > 0 && tax.amount > 0,
         );
       },
-      'Informe tipo, percentual e valor para cada imposto',
+      taxesInvalid,
       'taxes_invalid',
     );
 
@@ -154,7 +192,7 @@ class FormAccountsPayableValidator
         }
         return true;
       },
-      'Informe o motivo da isenção da nota fiscal',
+      taxExemptionReasonRequired,
       'taxExemptionReason_required',
     );
   }
@@ -163,80 +201,75 @@ class FormAccountsPayableValidator
     final Map<String, String> errors = {};
 
     if (state.supplierId.isEmpty) {
-      errors['supplierId'] = 'O fornecedor é obrigatório';
+      errors['supplierId'] = supplierRequired;
     }
 
     if (state.description.isEmpty) {
-      errors['description'] = 'A descrição é obrigatória';
+      errors['description'] = descriptionRequired;
     }
 
     if (state.documentType == null) {
-      errors['documentType'] = 'Selecione o tipo de documento';
+      errors['documentType'] = documentTypeRequired;
     }
     if (state.documentNumber.isEmpty) {
-      errors['documentNumber'] = 'Informe o número do documento';
+      errors['documentNumber'] = documentNumberRequired;
     }
     if (state.documentIssueDate.isEmpty) {
-      errors['documentIssueDate'] = 'Informe a data do documento';
+      errors['documentIssueDate'] = documentDateRequired;
     }
 
     switch (state.paymentMode) {
       case AccountsPayablePaymentMode.single:
         if (state.totalAmount <= 0) {
-          errors['totalAmount'] = 'Informe um valor maior que zero';
+          errors['totalAmount'] = totalAmountRequired;
         }
         if (state.singleDueDate.isEmpty) {
-          errors['singleDueDate'] = 'Informe a data de vencimento';
+          errors['singleDueDate'] = singleDueDateRequired;
         }
         break;
       case AccountsPayablePaymentMode.manual:
         if (state.installments.isEmpty) {
-          errors['installments'] = 'Adicione pelo menos uma parcela';
+          errors['installments'] = installmentsRequired;
         }
         final hasInvalidInstallment = state.installments.any(
           (installment) =>
               installment.amount <= 0 || installment.dueDate.isEmpty,
         );
         if (hasInvalidInstallment) {
-          errors['installments'] =
-              'Preencha valor e vencimento de cada parcela';
+          errors['installments'] = installmentsContents;
         }
         break;
       case AccountsPayablePaymentMode.automatic:
         if (state.automaticInstallments <= 0) {
-          errors['automaticInstallments'] = 'Informe a quantidade de parcelas';
+          errors['automaticInstallments'] = automaticInstallmentsRequired;
         }
         if (state.automaticInstallmentAmount <= 0) {
-          errors['automaticInstallmentAmount'] = 'Informe o valor por parcela';
+          errors['automaticInstallmentAmount'] = automaticAmountRequired;
         }
         if (state.automaticFirstDueDate.isEmpty) {
-          errors['automaticFirstDueDate'] =
-              'Informe a data da primeira parcela';
+          errors['automaticFirstDueDate'] = automaticFirstDueDateRequired;
         }
         if (state.installments.isEmpty) {
-          errors['installments'] = 'Gere ou adicione ao menos uma parcela';
+          errors['installments'] = installmentsRequired;
         }
         if (state.installments.any(
           (installment) =>
               installment.amount <= 0 || installment.dueDate.isEmpty,
         )) {
-          errors['installments'] =
-              'Preencha valor e vencimento de cada parcela';
+          errors['installments'] = installmentsContents;
         }
         if (state.installments.length != state.automaticInstallments) {
-          errors['installments'] =
-              'A quantidade de parcelas geradas deve corresponder ao total informado';
+          errors['installments'] = installmentsCountMismatch;
         }
         break;
     }
 
     if (state.taxStatus == AccountsPayableTaxStatus.exempt) {
       if (state.taxExemptionReason.isEmpty) {
-        errors['taxExemptionReason'] =
-            'Informe o motivo da isenção da nota fiscal';
+        errors['taxExemptionReason'] = taxExemptionReasonRequired;
       }
       if (state.taxes.isNotEmpty) {
-        errors['taxes'] = 'Notas isentas não devem possuir impostos retidos';
+        errors['taxes'] = taxExemptMustNotHaveTaxes;
       }
     }
 
@@ -244,20 +277,18 @@ class FormAccountsPayableValidator
         (state.taxStatus == AccountsPayableTaxStatus.taxed ||
             state.taxStatus == AccountsPayableTaxStatus.substitution)) {
       if (state.taxes.isEmpty) {
-        errors['taxes'] =
-            'Adicione os impostos retidos quando a nota não for isenta';
+        errors['taxes'] = taxesRequired;
       } else if (state.taxes.any(
         (tax) => tax.taxType.isEmpty || tax.percentage <= 0 || tax.amount <= 0,
       )) {
-        errors['taxes'] = 'Informe tipo, percentual e valor para cada imposto';
+        errors['taxes'] = taxesInvalid;
       }
     }
 
     if (state.taxExempt &&
         state.taxStatus != AccountsPayableTaxStatus.exempt &&
         state.taxStatus != AccountsPayableTaxStatus.notApplicable) {
-      errors['taxStatus'] =
-          'Atualize a situação tributária conforme os impostos destacados';
+      errors['taxStatus'] = taxStatusMismatch;
     }
 
     return errors;

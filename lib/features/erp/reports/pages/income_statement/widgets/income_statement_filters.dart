@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class _IncomeStatementFiltersState extends State<IncomeStatementFilters> {
 
   Widget _inputYear(IncomeStatementStore store) {
     return Input(
-      label: 'Ano',
+      label: context.l10n.common_year,
       keyboardType: TextInputType.number,
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
@@ -46,7 +47,7 @@ class _IncomeStatementFiltersState extends State<IncomeStatementFilters> {
 
   Widget _dropdownMonth(BuildContext context, IncomeStatementStore store) {
     return Dropdown(
-      label: "Mês",
+      label: context.l10n.common_month,
       initialValue: store.state.filter.month.toString().padLeft(2, '0'),
       items:
           monthDropdown(context).map((item) => item.value.toString()).toList(),
@@ -98,7 +99,7 @@ class _IncomeStatementFiltersState extends State<IncomeStatementFilters> {
           headerBuilder: (context, isOpen) {
             return ListTile(
               title: Text(
-                "FILTROS",
+                context.l10n.common_filters_upper,
                 style: TextStyle(
                   fontSize: 16,
                   fontFamily: AppFonts.fontTitle,
@@ -135,9 +136,10 @@ class _IncomeStatementFiltersState extends State<IncomeStatementFilters> {
   }
 
   Widget _buttonApplyFilter(IncomeStatementStore store) {
+    final l10n = context.l10n;
     return ButtonActionTable(
       color: AppColors.blue,
-      text: 'Aplicar filtros',
+      text: l10n.common_apply_filters,
       icon: Icons.search,
       onPressed: () {
         if (isExpandedFilter) {
@@ -159,7 +161,7 @@ class _IncomeStatementFiltersState extends State<IncomeStatementFilters> {
         Opacity(
           opacity: isLoading ? 0.5 : 1.0,
           child: CustomButton(
-            text: "Baixar PDF",
+            text: context.l10n.reports_income_download_pdf,
             backgroundColor: AppColors.blue,
             textColor: Colors.white,
             icon: Icons.picture_as_pdf,
@@ -173,7 +175,7 @@ class _IncomeStatementFiltersState extends State<IncomeStatementFilters> {
                         });
                       }
 
-                      await store.downloadIncomeStatementPdf();
+                      await store.downloadIncomeStatementPdf(context);
                     },
           ),
         ),

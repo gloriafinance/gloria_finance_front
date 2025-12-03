@@ -2,10 +2,11 @@
 
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
+import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
-import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +34,7 @@ class _DREFiltersState extends State<DREFilters> {
 
   Widget _inputYear(DREStore store) {
     return Input(
-      label: 'Ano',
+      label: context.l10n.common_year,
       keyboardType: TextInputType.number,
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
@@ -50,7 +51,7 @@ class _DREFiltersState extends State<DREFilters> {
 
   Widget _dropdownMonth(BuildContext context, DREStore store) {
     return Dropdown(
-      label: "Mês",
+      label: context.l10n.common_month,
       initialValue: (store.state.filter.month ?? DateTime.now().month)
           .toString()
           .padLeft(2, '0'),
@@ -117,7 +118,7 @@ class _DREFiltersState extends State<DREFilters> {
           headerBuilder: (context, isOpen) {
             return ListTile(
               title: Text(
-                "FILTROS",
+                context.l10n.common_filters_upper,
                 style: TextStyle(
                   fontSize: 16,
                   fontFamily: AppFonts.fontTitle,
@@ -154,9 +155,10 @@ class _DREFiltersState extends State<DREFilters> {
   }
 
   Widget _buttonApplyFilter(DREStore store) {
+    final l10n = context.l10n;
     return ButtonActionTable(
       color: AppColors.blue,
-      text: 'Aplicar filtros',
+      text: l10n.common_apply_filters,
       icon: Icons.search,
       onPressed: () {
         if (isExpandedFilter) {
@@ -178,7 +180,7 @@ class _DREFiltersState extends State<DREFilters> {
         Opacity(
           opacity: isLoading ? 0.5 : 1.0,
           child: CustomButton(
-            text: "Baixar PDF",
+            text: context.l10n.reports_dre_download_pdf,
             backgroundColor: AppColors.blue,
             textColor: Colors.white,
             icon: Icons.picture_as_pdf,
@@ -192,7 +194,7 @@ class _DREFiltersState extends State<DREFilters> {
                         });
                       }
 
-                      await store.downloadDREPdf();
+                      await store.downloadDREPdf(context);
                     },
           ),
         ),

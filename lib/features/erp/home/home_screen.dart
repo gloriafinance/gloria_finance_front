@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/features/erp/trends/widgets/trend_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Expanded(
           child: Text(
-            'Dashboard',
+            context.l10n.erp_home_header_title,
             textAlign: TextAlign.left,
             style: TextStyle(
               fontFamily: AppFonts.fontTitle,

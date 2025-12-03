@@ -2,6 +2,7 @@ import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
@@ -94,7 +95,7 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
 
   Widget _buildNameField(FinancialConceptFormStore formStore) {
     return Input(
-      label: 'Nome',
+      label: context.l10n.settings_financial_concept_field_name,
       initialValue: formStore.state.name,
       onValidator: _requiredValidator,
       onChanged: formStore.setName,
@@ -103,7 +104,7 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
 
   Widget _buildDescriptionField(FinancialConceptFormStore formStore) {
     return Input(
-      label: 'Descrição',
+      label: context.l10n.settings_financial_concept_field_description,
       initialValue: formStore.state.description,
       onValidator: _requiredValidator,
       onChanged: formStore.setDescription,
@@ -112,12 +113,12 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
 
   Widget _buildTypeField(FinancialConceptFormStore formStore) {
     return Dropdown(
-      label: 'Tipo de conceito',
+      label: context.l10n.settings_financial_concept_field_type,
       initialValue: formStore.state.type?.friendlyName,
       items: FinancialConceptTypeExtension.listFriendlyName,
       onValidator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Selecione o tipo';
+          return context.l10n.settings_financial_concept_error_select_type;
         }
         return null;
       },
@@ -135,13 +136,13 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
     FinancialConceptFormStore formStore,
   ) {
     return Dropdown(
-      label: 'Categoria do demonstrativo',
+      label: context.l10n.settings_financial_concept_field_statement_category,
       labelSuffix: _buildStatementCategoryHelpIcon(context),
       initialValue: formStore.state.statementCategory?.friendlyName,
       items: StatementCategoryExtension.listFriendlyName,
       onValidator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Selecione a categoria';
+          return context.l10n.settings_financial_concept_error_select_category;
         }
         return null;
       },
@@ -155,9 +156,12 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
   Widget _buildActiveToggle(FinancialConceptFormStore formStore) {
     return Row(
       children: [
-        const Text(
-          'Ativo',
-          style: TextStyle(fontFamily: AppFonts.fontSubTitle, fontSize: 16),
+        Text(
+          context.l10n.settings_financial_concept_field_active,
+          style: const TextStyle(
+            fontFamily: AppFonts.fontSubTitle,
+            fontSize: 16,
+          ),
         ),
         const SizedBox(width: 12),
         Switch(
@@ -179,13 +183,18 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-              'Indicadores contábeis',
-              style: TextStyle(fontFamily: AppFonts.fontSubTitle, fontSize: 16),
+            Text(
+              context.l10n.settings_financial_concept_indicators_title,
+              style: const TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+                fontSize: 16,
+              ),
             ),
             const SizedBox(width: 8),
             Tooltip(
-              message: 'Entenda os indicadores',
+              message:
+                  context
+                      .l10n.settings_financial_concept_help_indicators,
               child: InkWell(
                 borderRadius: BorderRadius.circular(12),
                 onTap: () => _showIndicatorsHelp(context),
@@ -207,22 +216,26 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
           runSpacing: 12,
           children: [
             _buildIndicatorToggle(
-              label: 'Impacta fluxo de caixa',
+              label: context
+                  .l10n.settings_financial_concept_indicator_cash_flow,
               value: formStore.state.affectsCashFlow,
               onChanged: formStore.setAffectsCashFlow,
             ),
             _buildIndicatorToggle(
-              label: 'Impacta o resultado (DRE)',
+              label: context
+                  .l10n.settings_financial_concept_indicator_result,
               value: formStore.state.affectsResult,
               onChanged: formStore.setAffectsResult,
             ),
             _buildIndicatorToggle(
-              label: 'Impacta o balanço patrimonial',
+              label: context
+                  .l10n.settings_financial_concept_indicator_balance,
               value: formStore.state.affectsBalance,
               onChanged: formStore.setAffectsBalance,
             ),
             _buildIndicatorToggle(
-              label: 'Evento operacional recorrente',
+              label: context
+                  .l10n.settings_financial_concept_indicator_operational,
               value: formStore.state.isOperational,
               onChanged: formStore.setIsOperational,
             ),
@@ -271,7 +284,7 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
             formStore.state.makeRequest
                 ? const Loading()
                 : CustomButton(
-                  text: 'Salvar',
+                  text: context.l10n.settings_financial_concept_save,
                   backgroundColor: AppColors.green,
                   textColor: Colors.black,
                   onPressed: () => _save(formStore),
@@ -282,7 +295,8 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
 
   Widget _buildStatementCategoryHelpIcon(BuildContext context) {
     return Tooltip(
-      message: 'Entenda as categorias',
+      message:
+          context.l10n.settings_financial_concept_help_statement_categories,
       child: InkWell(
         onTap: () => _showStatementCategoryHelp(context),
         borderRadius: BorderRadius.circular(12),
@@ -296,7 +310,7 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
 
   String? _requiredValidator(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'Campo obrigatório';
+      return context.l10n.settings_financial_concept_error_required;
     }
     return null;
   }
@@ -339,9 +353,12 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          title: const Text(
-            'Categorias do demonstrativo',
-            style: TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 18),
+          title: Text(
+            context.l10n.settings_financial_concept_help_statement_title,
+            style: const TextStyle(
+              fontFamily: AppFonts.fontTitle,
+              fontSize: 18,
+            ),
           ),
           content: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 420),
@@ -365,9 +382,9 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(),
-              child: const Text(
-                'Entendi',
-                style: TextStyle(fontFamily: AppFonts.fontSubTitle),
+              child: Text(
+                context.l10n.settings_financial_concept_help_understood,
+                style: const TextStyle(fontFamily: AppFonts.fontSubTitle),
               ),
             ),
           ],
@@ -416,7 +433,10 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
     final success = await formStore.submit();
 
     if (success && mounted) {
-      Toast.showMessage('Registro salvo com sucesso', ToastType.info);
+      Toast.showMessage(
+        context.l10n.settings_financial_concept_toast_saved,
+        ToastType.info,
+      );
       final conceptStore = context.read<FinancialConceptStore>();
       await conceptStore.searchFinancialConcepts();
       context.go('/financial-concepts');
@@ -439,24 +459,36 @@ class _IndicatorsHelpContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final items = [
       {
-        'title': 'Impacta fluxo de caixa',
+        'title':
+            context
+                .l10n.settings_financial_concept_help_indicator_cash_flow_title,
         'description':
-            'Marque quando o lançamento altera o saldo disponível após o pagamento ou recebimento.',
+            context.l10n
+                .settings_financial_concept_help_indicator_cash_flow_desc,
       },
       {
-        'title': 'Impacta o resultado (DRE)',
+        'title':
+            context
+                .l10n.settings_financial_concept_help_indicator_result_title,
         'description':
-            'Use quando o valor deve compor a Demonstração do Resultado, afetando lucro ou prejuízo.',
+            context.l10n
+                .settings_financial_concept_help_indicator_result_desc,
       },
       {
-        'title': 'Impacta o balanço patrimonial',
+        'title':
+            context
+                .l10n.settings_financial_concept_help_indicator_balance_title,
         'description':
-            'Selecione para eventos que criam ou liquidam ativos e passivos diretamente no balanço.',
+            context.l10n
+                .settings_financial_concept_help_indicator_balance_desc,
       },
       {
-        'title': 'Evento operacional recorrente',
+        'title':
+            context
+                .l10n.settings_financial_concept_help_indicator_operational_title,
         'description':
-            'Habilite para compromissos rotineiros do dia a dia da igreja, ligados às operações principais.',
+            context.l10n
+                .settings_financial_concept_help_indicator_operational_desc,
       },
     ];
 
@@ -464,10 +496,12 @@ class _IndicatorsHelpContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Text(
-          'Esses indicadores determinam como o conceito será refletido nos relatórios financeiros. '
-          'Eles podem ser ajustados conforme necessário para casos específicos.',
-          style: TextStyle(fontFamily: AppFonts.fontSubTitle, fontSize: 14),
+        Text(
+          context.l10n.settings_financial_concept_help_indicator_intro,
+          style: const TextStyle(
+            fontFamily: AppFonts.fontSubTitle,
+            fontSize: 14,
+          ),
         ),
         const SizedBox(height: 16),
         ...items.map(

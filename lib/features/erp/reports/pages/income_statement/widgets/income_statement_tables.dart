@@ -1,11 +1,11 @@
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/currency_formatter.dart';
+import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import 'package:church_finance_bk/core/utils/index.dart';
 
 import '../models/income_statement_model.dart';
 
@@ -19,13 +19,13 @@ class IncomeStatementReportSections extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _sectionTitle('Receitas e Despesas por Categoria'),
+        _sectionTitle(context.l10n.reports_income_breakdown_title),
         const SizedBox(height: 16),
         _buildBreakdown(context, data.breakdown),
         const SizedBox(height: 40),
-        _cashFlowSection(),
+        _cashFlowSection(context),
         const SizedBox(height: 40),
-        _costCentersSection(),
+        _costCentersSection(context),
       ],
     );
   }
@@ -46,7 +46,7 @@ class IncomeStatementReportSections extends StatelessWidget {
     List<IncomeStatementBreakdown> breakdown,
   ) {
     if (breakdown.isEmpty) {
-      return _emptyMessage('Não há dados de receita e despesa para o período.');
+      return _emptyMessage(context.l10n.reports_income_breakdown_empty);
     }
 
     if (isMobile(context)) {
@@ -54,7 +54,12 @@ class IncomeStatementReportSections extends StatelessWidget {
     }
 
     return CustomTable(
-      headers: const ['Categoria', 'Entradas', 'Saídas', 'Saldo'],
+      headers: [
+        context.l10n.reports_income_breakdown_header_category,
+        context.l10n.reports_income_breakdown_header_income,
+        context.l10n.reports_income_breakdown_header_expenses,
+        context.l10n.reports_income_breakdown_header_balance,
+      ],
       data: FactoryDataTable<IncomeStatementBreakdown>(
         data: breakdown,
         dataBuilder: (row) {
@@ -197,17 +202,18 @@ class IncomeStatementReportSections extends StatelessWidget {
     );
   }
 
-  Widget _cashFlowSection() {
+  Widget _cashFlowSection(BuildContext context) {
     final availability = data.cashFlowSnapshot.availabilityAccounts;
-    final totalText =
-        'Entradas totais: ${_formatCurrency(availability.income)} | '
-        'Saídas totais: ${_formatCurrency(availability.expenses)} | '
-        'Saldo consolidado: ${_formatCurrency(availability.total)}';
+    final totalText = context.l10n.reports_income_cashflow_summary(
+      _formatCurrency(availability.income),
+      _formatCurrency(availability.expenses),
+      _formatCurrency(availability.total),
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _sectionTitle('Fluxo de Caixa por Conta de Disponibilidade'),
+        _sectionTitle(context.l10n.reports_income_cashflow_title),
         const SizedBox(height: 8),
         Text(
           totalText,
@@ -219,14 +225,14 @@ class IncomeStatementReportSections extends StatelessWidget {
         const SizedBox(height: 16),
         availability.accounts.isEmpty
             ? _emptyMessage(
-              'Nenhuma movimentação de contas de disponibilidade neste período.',
+              context.l10n.reports_income_cashflow_empty,
             )
             : CustomTable(
-              headers: const [
-                'Conta',
-                'Entradas',
-                'Saídas',
-                'Saldo do período',
+              headers: [
+                context.l10n.reports_income_cashflow_header_account,
+                context.l10n.reports_income_cashflow_header_income,
+                context.l10n.reports_income_cashflow_header_expenses,
+                context.l10n.reports_income_cashflow_header_balance,
               ],
               data: FactoryDataTable<AvailabilityAccountEntry>(
                 data: availability.accounts,
@@ -266,16 +272,18 @@ class IncomeStatementReportSections extends StatelessWidget {
     );
   }
 
-  Widget _costCentersSection() {
+  Widget _costCentersSection(BuildContext context) {
     final snapshot = data.cashFlowSnapshot.costCenters;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _sectionTitle('Uso dos Centros de Custo'),
+        _sectionTitle(context.l10n.reports_income_cost_centers_title),
         const SizedBox(height: 8),
         Text(
-          'Total aplicado: ${_formatCurrency(snapshot.total)}',
+          context.l10n.reports_income_cost_centers_total_applied(
+            _formatCurrency(snapshot.total),
+          ),
           style: const TextStyle(
             fontFamily: AppFonts.fontSubTitle,
             color: Colors.black54,
@@ -283,12 +291,14 @@ class IncomeStatementReportSections extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         snapshot.costCenters.isEmpty
-            ? _emptyMessage('Nenhum centro de custo movimentado neste período.')
+            ? _emptyMessage(
+              context.l10n.reports_income_cost_centers_empty,
+            )
             : CustomTable(
-              headers: const [
-                'Centro de Custo',
-                'Total Aplicado',
-                'Último Movimento',
+              headers: [
+                context.l10n.reports_income_cost_centers_header_name,
+                context.l10n.reports_income_cost_centers_header_total,
+                context.l10n.reports_income_cost_centers_header_last_move,
               ],
               data: FactoryDataTable<CostCenterUsage>(
                 data: snapshot.costCenters,

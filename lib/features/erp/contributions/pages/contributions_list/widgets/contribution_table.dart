@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/features/erp/contributions/models/contribution_model.dart';
@@ -27,13 +28,21 @@ class _ContributionTableState extends State<ContributionTable> {
     final state = contributionPaginationStore.state;
 
     if (state.paginate.results.isEmpty) {
-      return Center(child: Text('Nenhuma contribuição encontrada'));
+      return Center(
+        child: Text(context.l10n.contributions_table_empty),
+      );
     }
 
     return Container(
       margin: isMobile(context) ? null : const EdgeInsets.only(top: 40.0),
       child: CustomTable(
-        headers: ["Nome", "Valor", "Tipo de contribuçāo", "Status", "Fecha"],
+        headers: [
+          context.l10n.contributions_table_header_member,
+          context.l10n.contributions_table_header_amount,
+          context.l10n.contributions_table_header_type,
+          context.l10n.contributions_table_header_status,
+          context.l10n.contributions_table_header_date,
+        ],
         data: FactoryDataTable<ContributionModel>(
           data: state.paginate.results,
           dataBuilder: contributionDTO,
@@ -56,7 +65,7 @@ class _ContributionTableState extends State<ContributionTable> {
         actionBuilders: [
           (contribution) => ButtonActionTable(
             color: AppColors.blue,
-            text: "Visualizar",
+            text: context.l10n.common_view,
             onPressed: () {
               _openModal(context, contribution);
             },
@@ -72,7 +81,9 @@ class _ContributionTableState extends State<ContributionTable> {
       title:
           isMobile(context)
               ? ""
-              : 'Contribuição #${contribution.contributionId}',
+              : context.l10n.contributions_table_modal_title(
+                  contribution.contributionId,
+                ),
       body: ViewContribution(
         contribution: contribution,
         contributionPaginationStore:
@@ -91,7 +102,10 @@ class _ContributionTableState extends State<ContributionTable> {
         symbol: contribution.account.symbol,
       ),
       contribution.financeConcept.name,
-      tagStatus(getContributionStatusColor(status), status.friendlyName),
+      tagStatus(
+        getContributionStatusColor(status),
+        getContributionStatusLabel(context, status),
+      ),
       convertDateFormatToDDMMYYYY(contribution.createdAt.toString()),
     ];
   }

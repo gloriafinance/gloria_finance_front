@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/features/erp/settings/financial_concept/models/financial_concept_model.dart';
@@ -11,6 +12,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/index.dart';
+import '../../../helpers/accounts_receivable_helper.dart';
 import '../store/form_accounts_receivable_store.dart';
 import '../validators/form_accounts_receivable_validator.dart';
 import 'external_debtor_form.dart';
@@ -25,8 +27,44 @@ class FormAccountsReceivable extends StatefulWidget {
 
 class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
   final formKey = GlobalKey<FormState>();
-  final validator = FormAccountsReceivableValidator();
+  late FormAccountsReceivableValidator validator;
   bool showValidationMessages = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final l10n = context.l10n;
+    validator = FormAccountsReceivableValidator(
+      descriptionRequired:
+          l10n.accountsReceivable_form_error_description_required,
+      financialConceptRequired:
+          l10n.accountsReceivable_form_error_financial_concept_required,
+      debtorNameRequired:
+          l10n.accountsReceivable_form_error_debtor_name_required,
+      debtorDniRequired:
+          l10n.accountsReceivable_form_error_debtor_dni_required,
+      debtorPhoneRequired:
+          l10n.accountsReceivable_form_error_debtor_phone_required,
+      debtorEmailRequired:
+          l10n.accountsReceivable_form_error_debtor_email_required,
+      totalAmountRequired:
+          l10n.accountsReceivable_form_error_total_amount_required,
+      singleDueDateRequired:
+          l10n.accountsReceivable_form_error_single_due_date_required,
+      installmentsRequired:
+          l10n.accountsReceivable_form_error_installments_required,
+      installmentsInvalid:
+          l10n.accountsReceivable_form_error_installments_invalid,
+      automaticInstallmentsRequired:
+          l10n.accountsReceivable_form_error_automatic_installments_required,
+      automaticAmountRequired:
+          l10n.accountsReceivable_form_error_automatic_amount_required,
+      automaticFirstDueDateRequired: l10n
+          .accountsReceivable_form_error_automatic_first_due_date_required,
+      installmentsCountMismatch:
+          l10n.accountsReceivable_form_error_installments_count_mismatch,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +153,7 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
             : null;
 
     return Dropdown(
-      label: 'Conceito financeiro',
+      label: context.l10n.accountsReceivable_form_field_financial_concept,
       initialValue: initialValue,
       items: incomeConcepts.map((concept) => concept.name).toList(),
       onChanged: (value) {
@@ -146,7 +184,8 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
           showValidationMessages: showValidationMessages,
         );
         emptyMessage =
-            'Informe o valor e a data de vencimento para visualizar o resumo.';
+            context
+                .l10n.accountsReceivable_form_installments_single_empty_message;
         break;
       case AccountsReceivablePaymentMode.automatic:
         paymentDetails = _AutomaticInstallmentsSection(
@@ -155,14 +194,16 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
           showValidationMessages: showValidationMessages,
         );
         emptyMessage =
-            'Informe os dados e clique em "Gerar parcelas" para visualizar o cronograma.';
+            context.l10n
+                .accountsReceivable_form_installments_automatic_empty_message;
         break;
     }
 
     return _SectionCard(
-      title: 'Configuração do recebimento',
+      title: context.l10n.accountsReceivable_form_section_payment_title,
       subtitle:
-          'Defina como essa conta será cobrada e revise o cronograma de parcelas.',
+          context
+              .l10n.accountsReceivable_form_section_payment_subtitle,
       children: [
         _PaymentModeSelector(formStore: formStore),
         const SizedBox(height: 20),
@@ -183,7 +224,7 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
     FormAccountsReceivableValidator validator,
   ) {
     return Input(
-      label: 'Descrição',
+      label: context.l10n.accountsReceivable_view_general_description,
       initialValue: formStore.state.description,
       onChanged: (value) => formStore.setDescription(value),
       onValidator: validator.byField(formStore.state, 'description'),
@@ -194,19 +235,28 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
     BuildContext context,
     FormAccountsReceivableStore formStore,
   ) {
+    final types = AccountsReceivableType.values;
+    final labels =
+        types
+            .map(
+              (type) => getAccountsReceivableTypeLabel(context, type),
+            )
+            .toList(growable: false);
+
+    final currentType = formStore.state.type;
     return Dropdown(
-      label: 'Tipo de Conta',
+      label: context.l10n.accountsReceivable_form_field_type,
       labelSuffix: _buildAccountTypeHelpIcon(context),
-      initialValue: formStore.state.type.friendlyName,
-      items:
-          AccountsReceivableType.values
-              .map((type) => type.friendlyName)
-              .toList(),
+      initialValue:
+          currentType != null
+              ? getAccountsReceivableTypeLabel(context, currentType)
+              : null,
+      items: labels,
       onChanged: (value) {
-        final selectedType = AccountsReceivableType.values.firstWhere(
-          (element) => element.friendlyName == value,
-        );
-        formStore.setType(selectedType);
+        final index = labels.indexOf(value);
+        if (index >= 0) {
+          formStore.setType(types[index]);
+        }
       },
     );
   }
@@ -223,66 +273,56 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
   }
 
   Future<void> _showAccountTypeHelp(BuildContext context) async {
+    final l10n = context.l10n;
     final entries = [
       {
-        'title': 'CONTRIBUIÇÃO',
+        'title': l10n.accountsReceivable_type_contribution_title,
         'description':
-            'Compromissos voluntários assumidos por membros ou grupos.',
-        'example':
-            'Ex.: campanhas de missões, ofertas recorrentes, doações especiais.',
+            l10n.accountsReceivable_type_contribution_description,
+        'example': l10n.accountsReceivable_type_contribution_example,
       },
       {
-        'title': 'SERVIÇO',
-        'description':
-            'Cobranças por atividades ou serviços prestados pela igreja.',
-        'example':
-            'Ex.: cursos de música, conferências, aluguel de buffet do evento.',
+        'title': l10n.accountsReceivable_type_service_title,
+        'description': l10n.accountsReceivable_type_service_description,
+        'example': l10n.accountsReceivable_type_service_example,
       },
       {
-        'title': 'INTERINSTITUCIONAL',
+        'title': l10n.accountsReceivable_type_interinstitutional_title,
         'description':
-            'Valores decorrentes de parcerias com outras instituições.',
-        'example':
-            'Ex.: apoio em eventos conjuntos, convênios com outra igreja.',
+            l10n.accountsReceivable_type_interinstitutional_description,
+        'example': l10n.accountsReceivable_type_interinstitutional_example,
       },
       {
-        'title': 'LOCAÇÃO',
-        'description':
-            'Empréstimo remunerado de espaços, veículos ou equipamentos.',
-        'example':
-            'Ex.: aluguel do auditório, locação de instrumentos ou cadeiras.',
+        'title': l10n.accountsReceivable_type_rental_title,
+        'description': l10n.accountsReceivable_type_rental_description,
+        'example': l10n.accountsReceivable_type_rental_example,
       },
       {
-        'title': 'EMPRÉSTIMO',
-        'description':
-            'Recursos concedidos pela igreja que devem ser devolvidos.',
-        'example':
-            'Ex.: adiantamento a ministérios, apoio financeiro temporário.',
+        'title': l10n.accountsReceivable_type_loan_title,
+        'description': l10n.accountsReceivable_type_loan_description,
+        'example': l10n.accountsReceivable_type_loan_example,
       },
       {
-        'title': 'FINANCEIRO',
-        'description': 'Movimentos bancários que ainda aguardam compensação.',
-        'example':
-            'Ex.: cheques em processamento, adquirência de cartão, devoluções.',
+        'title': l10n.accountsReceivable_type_financial_title,
+        'description': l10n.accountsReceivable_type_financial_description,
+        'example': l10n.accountsReceivable_type_financial_example,
       },
       {
-        'title': 'JURÍDICO',
-        'description':
-            'Cobranças relacionadas a ações judiciais, seguros ou indenizações.',
-        'example':
-            'Ex.: cumprimento de sentença, sinistros cobertos por seguradora.',
+        'title': l10n.accountsReceivable_type_legal_title,
+        'description': l10n.accountsReceivable_type_legal_description,
+        'example': l10n.accountsReceivable_type_legal_example,
       },
     ];
 
     await ModalPage(
-      title: 'Como classificar o tipo da conta',
+      title: l10n.accountsReceivable_type_help_title,
       width: 520,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Escolha o tipo que melhor descreve a origem do valor a receber.',
-            style: TextStyle(
+          Text(
+            l10n.accountsReceivable_type_help_intro,
+            style: const TextStyle(
               fontFamily: AppFonts.fontSubTitle,
               fontSize: 14,
               color: Colors.black87,
@@ -347,7 +387,7 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Tipo de Deudor',
+          context.l10n.accountsReceivable_form_debtor_type_title,
           style: TextStyle(
             color: AppColors.purple,
             fontFamily: AppFonts.fontTitle,
@@ -366,7 +406,7 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
                 }
               },
             ),
-            Text('Membro da Igreja'),
+            Text(context.l10n.accountsReceivable_form_debtor_type_member),
             SizedBox(width: 20),
             Radio<DebtorType>(
               value: DebtorType.EXTERNAL,
@@ -377,7 +417,7 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
                 }
               },
             ),
-            Text('Externo'),
+            Text(context.l10n.accountsReceivable_form_debtor_type_external),
           ],
         ),
       ],
@@ -390,7 +430,7 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
         : Padding(
           padding: const EdgeInsets.only(top: 20),
           child: CustomButton(
-            text: "Salvar",
+            text: context.l10n.accountsReceivable_form_save,
             backgroundColor: AppColors.green,
             textColor: Colors.black,
             onPressed: () => _saveRecord(formStore),
@@ -418,7 +458,7 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
       if (!mounted) return;
 
       Toast.showMessage(
-        'Conta a receber registrada com sucesso!',
+        context.l10n.accountsReceivable_form_toast_saved_success,
         ToastType.info,
       );
       setState(() {
@@ -432,7 +472,10 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
       });
     } catch (e) {
       if (!mounted) return;
-      Toast.showMessage('Erro ao registrar conta a receber', ToastType.error);
+      Toast.showMessage(
+        context.l10n.accountsReceivable_form_toast_saved_error,
+        ToastType.error,
+      );
     }
   }
 }
@@ -497,7 +540,7 @@ class _SinglePaymentSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Input(
-          label: 'Valor total',
+          label: context.l10n.accountsReceivable_view_general_total,
           initialValue:
               state.totalAmount > 0
                   ? CurrencyFormatter.formatCurrency(state.totalAmount)
@@ -517,7 +560,8 @@ class _SinglePaymentSection extends StatelessWidget {
                       : null,
         ),
         Input(
-          label: 'Data de vencimento',
+          label: context
+              .l10n.accountsReceivable_form_field_single_due_date,
           initialValue: state.singleDueDate,
           onChanged: formStore.setSingleDueDate,
           onTap: () async {
@@ -565,7 +609,8 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
             SizedBox(
               width: 220,
               child: Input(
-                label: 'Quantidade de parcelas',
+                label: context
+                    .l10n.accountsReceivable_form_field_automatic_installments,
                 initialValue:
                     state.automaticInstallments > 0
                         ? state.automaticInstallments.toString()
@@ -589,7 +634,8 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
             SizedBox(
               width: 220,
               child: Input(
-                label: 'Valor por parcela',
+                label: context
+                    .l10n.accountsReceivable_form_field_automatic_amount,
                 initialValue:
                     state.automaticInstallmentAmount > 0
                         ? CurrencyFormatter.formatCurrency(
@@ -617,7 +663,9 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
             SizedBox(
               width: 220,
               child: Input(
-                label: 'Primeiro vencimento',
+                label: context
+                    .l10n
+                    .accountsReceivable_form_field_automatic_first_due_date,
                 initialValue: state.automaticFirstDueDate,
                 onChanged: formStore.setAutomaticFirstDueDate,
                 onTap: () async {
@@ -644,7 +692,8 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
         const SizedBox(height: 16),
         ButtonActionTable(
           color: AppColors.blue,
-          text: 'Gerar parcelas',
+          text:
+              context.l10n.accountsReceivable_form_generate_installments,
           icon: Icons.calculate_outlined,
           onPressed: () => _handleGenerateAutomatic(context),
         ),
@@ -653,6 +702,7 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
   }
 
   void _handleGenerateAutomatic(BuildContext context) {
+    final l10n = context.l10n;
     final success = formStore.generateAutomaticInstallments();
 
     if (!success) {
@@ -673,13 +723,18 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
       }
 
       Toast.showMessage(
-        message ?? 'Preencha os dados para gerar as parcelas.',
+        message ??
+            l10n
+                .accountsReceivable_form_error_generate_installments_fill_data,
         ToastType.warning,
       );
       return;
     }
 
-    Toast.showMessage('Parcelas geradas automaticamente.', ToastType.info);
+    Toast.showMessage(
+      l10n.accountsReceivable_form_toast_generate_installments_success,
+      ToastType.info,
+    );
   }
 }
 
@@ -724,7 +779,7 @@ class _InstallmentsPreviewSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Resumo das parcelas',
+          context.l10n.accountsReceivable_form_installments_summary_title,
           style: const TextStyle(
             fontFamily: AppFonts.fontTitle,
             fontSize: 15,
@@ -771,7 +826,10 @@ class _InstallmentsPreviewSection extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Parcela ${index + 1}',
+                                context.l10n
+                                    .accountsReceivable_form_installment_item_title(
+                                  index + 1,
+                                ),
                                 style: const TextStyle(
                                   fontFamily: AppFonts.fontTitle,
                                   fontSize: 15,
@@ -791,7 +849,10 @@ class _InstallmentsPreviewSection extends StatelessWidget {
                               ),
                               const SizedBox(height: 2),
                               Text(
-                                'Vencimento: ${installment.dueDate}',
+                                context.l10n
+                                    .accountsReceivable_form_installment_item_due_date(
+                                  installment.dueDate,
+                                ),
                                 style: const TextStyle(
                                   fontFamily: AppFonts.fontSubTitle,
                                   color: AppColors.grey,
@@ -809,7 +870,10 @@ class _InstallmentsPreviewSection extends StatelessWidget {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'Total: ${CurrencyFormatter.formatCurrency(totalAmount)}',
+                  context.l10n
+                      .accountsReceivable_form_installments_summary_total(
+                    CurrencyFormatter.formatCurrency(totalAmount),
+                  ),
                   style: const TextStyle(
                     fontFamily: AppFonts.fontTitle,
                     color: AppColors.purple,

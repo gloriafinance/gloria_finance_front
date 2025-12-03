@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/general.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:flutter/material.dart';
@@ -31,12 +32,14 @@ class ListAccountsReceivableScreen extends StatelessWidget {
   }
 
   Widget _header(BuildContext context) {
+    final l10n = context.l10n;
+
     if (!isMobile(context)) {
       return Row(
         children: [
           Expanded(
             child: Text(
-              'Lista de contas a receber',
+              l10n.accountsReceivable_list_title,
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontFamily: AppFonts.fontTitle,
@@ -56,7 +59,7 @@ class ListAccountsReceivableScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Contas a receber',
+            l10n.accountsReceivable_list_title_mobile,
             style: TextStyle(
               fontFamily: AppFonts.fontTitle,
               fontSize: 20,
@@ -74,7 +77,7 @@ class ListAccountsReceivableScreen extends StatelessWidget {
   Widget _newAccountReceivable(BuildContext context) {
     return ButtonActionTable(
       color: AppColors.purple,
-      text: "Registrar conta a receber",
+      text: context.l10n.accountsReceivable_list_new,
       onPressed: () => GoRouter.of(context).go('/accounts-receivables/add'),
       icon: Icons.account_balance_wallet,
     );

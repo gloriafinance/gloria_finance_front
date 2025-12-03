@@ -5,6 +5,7 @@ import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_asset_model.dart';
 import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_history_entry.dart';
@@ -104,7 +105,7 @@ class _PatrimonyDetailTabs extends StatelessWidget {
       store,
       responsibleName,
     );
-    final historyContent = _historyTabContent(asset);
+    final historyContent = _historyTabContent(context, asset);
 
     return Container(
       width: double.infinity,
@@ -135,7 +136,10 @@ class _PatrimonyDetailTabs extends StatelessWidget {
               fontFamily: AppFonts.fontSubTitle,
               fontWeight: FontWeight.w600,
             ),
-            tabs: const [Tab(text: 'Detalhes'), Tab(text: 'Histórico')],
+            tabs: [
+              Tab(text: context.l10n.patrimony_asset_detail_tab_details),
+              Tab(text: context.l10n.patrimony_asset_detail_tab_history),
+            ],
           ),
 
           const SizedBox(height: 16),
@@ -190,10 +194,10 @@ Widget _detailTabContent(
   );
 }
 
-Widget _historyTabContent(PatrimonyAssetModel asset) {
+Widget _historyTabContent(BuildContext context, PatrimonyAssetModel asset) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
-    children: [_historySection(asset), const SizedBox(height: 8)],
+    children: [_historySection(context, asset), const SizedBox(height: 8)],
   );
 }
 
@@ -212,29 +216,35 @@ Widget _summaryCard(
               : math.min(340.0, (constraints.maxWidth - 16) / 2).toDouble();
 
       final entries = [
-        _InfoEntry(label: 'Categoria', value: asset.categoryLabel),
         _InfoEntry(
-          label: 'Quantidade',
+          label: context.l10n.patrimony_asset_detail_category,
+          value: asset.categoryLabel,
+        ),
+        _InfoEntry(
+          label: context.l10n.patrimony_asset_detail_quantity,
           value: asset.quantityLabel.isNotEmpty ? asset.quantityLabel : '-',
         ),
         _InfoEntry(
-          label: 'Data de aquisição',
+          label: context.l10n.patrimony_asset_detail_acquisition_date,
           value:
               asset.acquisitionDateLabel.isEmpty
                   ? '-'
                   : asset.acquisitionDateLabel,
         ),
         _InfoEntry(
-          label: 'Localização',
+          label: context.l10n.patrimony_asset_detail_location,
           value: asset.location?.isNotEmpty == true ? asset.location! : '-',
         ),
-        _InfoEntry(label: 'Responsável', value: responsibleName),
         _InfoEntry(
-          label: 'Documentos pendentes',
-          valueWidget: _buildPendingBadge(asset),
+          label: context.l10n.patrimony_asset_detail_responsible,
+          value: responsibleName,
         ),
         _InfoEntry(
-          label: 'Observações',
+          label: context.l10n.patrimony_asset_detail_pending_documents,
+          valueWidget: _buildPendingBadge(context, asset),
+        ),
+        _InfoEntry(
+          label: context.l10n.patrimony_asset_detail_notes,
           value: asset.notes?.isNotEmpty == true ? asset.notes! : '-',
           fullWidth: true,
         ),
@@ -254,7 +264,8 @@ Widget _summaryCard(
         metadataBadges.add(
           _metaBadge(
             icon: Icons.inventory_2_outlined,
-            label: 'Qtd: ${asset.quantity}',
+            label: context
+                .l10n.patrimony_asset_detail_quantity_badge(asset.quantity),
             color: AppColors.mustard,
           ),
         );
@@ -300,8 +311,11 @@ Widget _summaryCard(
                         const SizedBox(width: 6),
                         Text(
                           asset.updatedAt != null
-                              ? 'Atualizado em ${_formatDate(asset.updatedAt!)}'
-                              : 'Atualizado em -',
+                              ? context.l10n.patrimony_asset_detail_updated_at(
+                                  _formatDate(asset.updatedAt!),
+                                )
+                              : context
+                                  .l10n.patrimony_asset_detail_updated_at('-'),
                           style: const TextStyle(color: AppColors.grey),
                         ),
                       ],
@@ -357,14 +371,17 @@ Widget _actionButtons(
       (asset.inventoryStatus == null &&
               asset.inventoryCheckedAt == null &&
               (asset.inventoryNotes?.isEmpty ?? true))
-          ? 'Registrar inventário'
-          : 'Atualizar inventário';
+          ? context.l10n.patrimony_asset_detail_inventory_register
+          : context.l10n.patrimony_asset_detail_inventory_update;
 
   buttons.add(
     SizedBox(
       width: 230,
       child: CustomButton(
-        text: store.registeringInventory ? 'Processando...' : inventoryLabel,
+        text:
+            store.registeringInventory
+                ? context.l10n.common_processing
+                : inventoryLabel,
         icon: Icons.published_with_changes_sharp,
         backgroundColor: AppColors.blue,
         textColor: Colors.white,
@@ -383,7 +400,9 @@ Widget _actionButtons(
         child: CustomButton(
           icon: Icons.delete_forever_outlined,
           text:
-              store.registeringDisposal ? 'Processando...' : 'Registrar baixa',
+              store.registeringDisposal
+                  ? context.l10n.common_processing
+                  : context.l10n.patrimony_asset_detail_disposal_register,
           backgroundColor: Colors.redAccent,
           textColor: Colors.white,
           onPressed:
@@ -403,7 +422,7 @@ Future<void> _openInventoryDialog(
   PatrimonyAssetDetailStore store,
 ) async {
   final success = await ModalPage(
-    title: 'Registrar inventário físico',
+    title: context.l10n.patrimony_asset_detail_inventory_modal_title,
     width: 520,
     body: ChangeNotifierProvider.value(
       value: store,
@@ -414,7 +433,10 @@ Future<void> _openInventoryDialog(
   if (success == true) {
     if (!context.mounted) return;
     context.read<PatrimonyAssetsListStore>().updateAssetEntry(store.asset);
-    Toast.showMessage('Inventário registrado com sucesso.', ToastType.info);
+    Toast.showMessage(
+      context.l10n.patrimony_asset_detail_inventory_success,
+      ToastType.info,
+    );
   }
 }
 
@@ -423,7 +445,7 @@ Future<void> _openDisposalDialog(
   PatrimonyAssetDetailStore store,
 ) async {
   final success = await ModalPage(
-    title: 'Registrar baixa',
+    title: context.l10n.patrimony_asset_detail_disposal_modal_title,
     width: 520,
     body: ChangeNotifierProvider.value(
       value: store,
@@ -434,7 +456,10 @@ Future<void> _openDisposalDialog(
   if (success == true) {
     if (!context.mounted) return;
     context.read<PatrimonyAssetsListStore>().updateAssetEntry(store.asset);
-    Toast.showMessage('Baixa registrada com sucesso.', ToastType.info);
+    Toast.showMessage(
+      context.l10n.patrimony_asset_detail_disposal_success,
+      ToastType.info,
+    );
   }
 }
 
@@ -448,9 +473,12 @@ Widget _disposalSection(PatrimonyAssetModel asset) {
               : math.min(360.0, (constraints.maxWidth - 16) / 2).toDouble();
 
       final entries = [
-        _InfoEntry(label: 'Status', value: asset.disposalStatusLabel),
         _InfoEntry(
-          label: 'Motivo',
+          label: context.l10n.patrimony_asset_detail_disposal_status,
+          value: asset.disposalStatusLabel,
+        ),
+        _InfoEntry(
+          label: context.l10n.patrimony_asset_detail_disposal_reason,
           value:
               asset.disposalReason?.isNotEmpty == true
                   ? asset.disposalReason!
@@ -458,19 +486,19 @@ Widget _disposalSection(PatrimonyAssetModel asset) {
           fullWidth: true,
         ),
         _InfoEntry(
-          label: 'Data da baixa',
+          label: context.l10n.patrimony_asset_detail_disposal_date,
           value:
               asset.disposalDateLabel.isEmpty ? '-' : asset.disposalDateLabel,
         ),
         _InfoEntry(
-          label: 'Registrado por',
+          label: context.l10n.patrimony_asset_detail_disposal_performed_by,
           value:
               asset.disposalPerformedBy?.isNotEmpty == true
                   ? asset.disposalPerformedBy!
                   : '-',
         ),
         _InfoEntry(
-          label: 'Observações',
+          label: context.l10n.patrimony_asset_detail_notes,
           value:
               asset.disposalNotes?.isNotEmpty == true
                   ? asset.disposalNotes!
@@ -496,9 +524,12 @@ Widget _disposalSection(PatrimonyAssetModel asset) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Baixa registrada',
-              style: TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 18),
+            Text(
+              context.l10n.patrimony_asset_detail_disposal_success,
+              style: const TextStyle(
+                fontFamily: AppFonts.fontTitle,
+                fontSize: 18,
+              ),
             ),
             const SizedBox(height: 16),
             Wrap(
@@ -539,26 +570,26 @@ Widget _inventorySection(PatrimonyAssetModel asset) {
 
       final entries = [
         _InfoEntry(
-          label: 'Resultado',
+          label: context.l10n.patrimony_asset_detail_inventory_result,
           value:
               asset.inventoryStatusLabel.isEmpty
                   ? '-'
                   : asset.inventoryStatusLabel,
         ),
         _InfoEntry(
-          label: 'Data da conferência',
+          label: context.l10n.patrimony_asset_detail_inventory_checked_at,
           value:
               asset.inventoryCheckedAtLabel.isEmpty
                   ? '-'
                   : asset.inventoryCheckedAtLabel,
         ),
         _InfoEntry(
-          label: 'Conferido por',
+          label: context.l10n.patrimony_asset_detail_inventory_checked_by,
           value:
               inventoryCheckedByName.isNotEmpty ? inventoryCheckedByName : '-',
         ),
         _InfoEntry(
-          label: 'Notas',
+          label: context.l10n.patrimony_asset_detail_notes,
           value:
               asset.inventoryNotes?.isNotEmpty == true
                   ? asset.inventoryNotes!
@@ -570,9 +601,12 @@ Widget _inventorySection(PatrimonyAssetModel asset) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Inventário físico',
-            style: TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 18),
+          Text(
+            context.l10n.patrimony_asset_detail_inventory_title,
+            style: const TextStyle(
+              fontFamily: AppFonts.fontTitle,
+              fontSize: 18,
+            ),
           ),
           const SizedBox(height: 16),
           Wrap(
@@ -601,9 +635,9 @@ Widget _inventorySection(PatrimonyAssetModel asset) {
 
 Widget _attachmentsSection(BuildContext context, PatrimonyAssetModel asset) {
   if (asset.attachments.isEmpty) {
-    return const Text(
-      'Nenhum anexo disponível.',
-      style: TextStyle(fontFamily: AppFonts.fontSubTitle),
+    return Text(
+      context.l10n.patrimony_asset_detail_attachments_empty,
+      style: const TextStyle(fontFamily: AppFonts.fontSubTitle),
     );
   }
 
@@ -627,9 +661,12 @@ Widget _attachmentsSection(BuildContext context, PatrimonyAssetModel asset) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Anexos',
-            style: TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 18),
+          Text(
+            context.l10n.patrimony_asset_detail_attachments_title,
+            style: const TextStyle(
+              fontFamily: AppFonts.fontTitle,
+              fontSize: 18,
+            ),
           ),
           const SizedBox(height: 12),
           Wrap(
@@ -656,7 +693,12 @@ Widget _attachmentsSection(BuildContext context, PatrimonyAssetModel asset) {
                               color: AppColors.purple,
                               size: 42,
                             ),
-                    actionLabel: isPdf ? 'Ver PDF' : 'Abrir',
+                    actionLabel:
+                        isPdf
+                            ? context
+                                .l10n.patrimony_asset_detail_attachment_view_pdf
+                            : context
+                                .l10n.patrimony_asset_detail_attachment_open,
                     onView: () => _openUrl(attachment.url),
                     onPreviewTap:
                         isImage
@@ -677,11 +719,15 @@ Widget _attachmentsSection(BuildContext context, PatrimonyAssetModel asset) {
   );
 }
 
-Widget _historySection(PatrimonyAssetModel asset, {bool showHeader = true}) {
+Widget _historySection(
+  BuildContext context,
+  PatrimonyAssetModel asset, {
+  bool showHeader = true,
+}) {
   if (asset.history.isEmpty) {
-    return const Text(
-      'Sem histórico de alterações.',
-      style: TextStyle(fontFamily: AppFonts.fontSubTitle),
+    return Text(
+      context.l10n.patrimony_asset_detail_history_empty,
+      style: const TextStyle(fontFamily: AppFonts.fontSubTitle),
     );
   }
 
@@ -693,7 +739,7 @@ Widget _historySection(PatrimonyAssetModel asset, {bool showHeader = true}) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           for (var i = 0; i < entries.length; i++) ...[
-            _buildHistoryCard(entries[i]),
+            _buildHistoryCard(context, entries[i]),
             if (i != entries.length - 1) const SizedBox(height: 12),
           ],
         ],
@@ -710,9 +756,9 @@ Widget _historySection(PatrimonyAssetModel asset, {bool showHeader = true}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      const Text(
-        'Histórico de movimentações',
-        style: TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 18),
+      Text(
+        context.l10n.patrimony_asset_detail_history_title,
+        style: const TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 18),
       ),
       const SizedBox(height: 12),
       buildEntries(),
@@ -765,7 +811,8 @@ class _HistoryScrollableListState extends State<_HistoryScrollableList> {
             controller: _controller,
             physics: const ClampingScrollPhysics(),
             padding: const EdgeInsets.all(16),
-            itemBuilder: (context, index) => _buildHistoryCard(entries[index]),
+            itemBuilder: (context, index) =>
+                _buildHistoryCard(context, entries[index]),
             separatorBuilder: (_, __) => const SizedBox(height: 12),
             itemCount: entries.length,
           ),
@@ -775,7 +822,7 @@ class _HistoryScrollableListState extends State<_HistoryScrollableList> {
   }
 }
 
-Widget _buildHistoryCard(PatrimonyHistoryEntry entry) {
+Widget _buildHistoryCard(BuildContext context, PatrimonyHistoryEntry entry) {
   final changes = entry.formattedChanges;
   final hasNotes = entry.notes?.isNotEmpty == true;
   final hasChanges = changes.isNotEmpty;
@@ -877,9 +924,9 @@ Widget _buildHistoryCard(PatrimonyHistoryEntry entry) {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Notas',
-                style: TextStyle(
+              Text(
+                context.l10n.patrimony_asset_detail_notes,
+                style: const TextStyle(
                   fontFamily: AppFonts.fontSubTitle,
                   fontWeight: FontWeight.w600,
                 ),
@@ -896,9 +943,9 @@ Widget _buildHistoryCard(PatrimonyHistoryEntry entry) {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Alterações registradas',
-                style: TextStyle(
+              Text(
+                context.l10n.patrimony_asset_detail_history_changes_title,
+                style: const TextStyle(
                   fontFamily: AppFonts.fontSubTitle,
                   fontWeight: FontWeight.w600,
                 ),
@@ -930,7 +977,7 @@ Widget _buildHistoryCard(PatrimonyHistoryEntry entry) {
   );
 }
 
-Widget _buildPendingBadge(PatrimonyAssetModel asset) {
+Widget _buildPendingBadge(BuildContext context, PatrimonyAssetModel asset) {
   final pending = asset.documentsPending;
   final color = pending ? AppColors.mustard : AppColors.green;
   final icon =
@@ -948,7 +995,9 @@ Widget _buildPendingBadge(PatrimonyAssetModel asset) {
         Icon(icon, color: color, size: 18),
         const SizedBox(width: 8),
         Text(
-          pending ? 'Sim' : 'Não',
+          pending
+              ? context.l10n.patrimony_asset_detail_yes
+              : context.l10n.patrimony_asset_detail_no,
           style: TextStyle(fontFamily: AppFonts.fontSubTitle, color: color),
         ),
       ],
@@ -962,7 +1011,7 @@ Widget _editButton(
   bool fullWidth = false,
 }) {
   final button = CustomButton(
-    text: 'Editar',
+    text: context.l10n.common_edit,
     icon: Icons.edit_note_rounded,
     typeButton: CustomButton.outline,
     backgroundColor: AppColors.purple,

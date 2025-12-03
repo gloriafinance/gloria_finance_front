@@ -1,10 +1,12 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/features/erp/contributions/models/contribution_model.dart';
 import 'package:flutter/material.dart';
 
+import '../../../helpers/contribution.helper.dart';
 import '../../../store/contribution_pagination_store.dart';
 
 final contributionPaginationStore = ContributionPaginationStore();
@@ -51,17 +53,30 @@ class _ContributionFiltersState extends State<ContributionFilters> {
   Widget _buttonApplyFilter() {
     return ButtonActionTable(
       color: AppColors.blue,
-      text: 'Aplicar filtros',
+      text: context.l10n.common_apply_filters,
       icon: Icons.search,
       onPressed: () => applyFilter(),
     );
   }
 
   Widget _dropdownStatus() {
+    final statuses = ContributionStatus.values;
+    final List<String> labels =
+        statuses
+            .map(
+              (status) => getContributionStatusLabel(context, status),
+            )
+            .toList(growable: false);
+
     return Dropdown(
-      label: "Status",
-      items: ContributionStatus.values.map((e) => e.friendlyName).toList(),
-      onChanged: (value) => contributionPaginationStore.setStatus(value),
+      label: context.l10n.common_status,
+      items: labels,
+      onChanged: (value) {
+        final index = labels.indexOf(value);
+        if (index >= 0) {
+          contributionPaginationStore.setStatus(statuses[index]);
+        }
+      },
     );
   }
 

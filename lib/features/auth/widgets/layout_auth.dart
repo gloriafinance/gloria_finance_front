@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/background_container.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -16,12 +17,20 @@ class LayoutAuth extends StatefulWidget {
 }
 
 class _LayoutAuthState extends State<LayoutAuth> {
-  String _version = 'Carregando...';
+  String _version = '';
 
   @override
   void initState() {
     super.initState();
     _loadVersion();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_version.isEmpty) {
+      _version = context.l10n.auth_layout_version_loading;
+    }
   }
 
   Future<void> _loadVersion() async {
@@ -78,7 +87,7 @@ class _LayoutAuthState extends State<LayoutAuth> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              '© ${DateTime.now().year} Jaspesoft CNPJ 43.716.343/0001-60 ',
+              context.l10n.auth_layout_footer(DateTime.now().year),
               style: TextStyle(
                 color: Colors.white,
                 fontFamily: AppFonts.fontSubTitle,

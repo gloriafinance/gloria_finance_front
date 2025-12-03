@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +30,7 @@ class AddFinancialRecordScreen extends StatelessWidget {
                 child: Icon(Icons.arrow_back_ios, color: AppColors.purple),
               ),
               Text(
-                'Registro financeiro',
+                context.l10n.finance_records_form_title,
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontFamily: AppFonts.fontTitle,

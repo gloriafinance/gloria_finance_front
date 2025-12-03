@@ -1,8 +1,9 @@
 import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/layout/view_detail_widgets.dart';
 import 'package:church_finance_bk/core/theme/index.dart';
-import 'package:church_finance_bk/core/widgets/index.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
+import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -45,21 +46,23 @@ class _AccountReceiveState extends State<AccountReceive> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    buildSectionTitle('Informações do Devedor'),
+                    buildSectionTitle(
+                      context.l10n.accountsReceivable_view_debtor_section,
+                    ),
                     const SizedBox(height: 16),
                     buildDetailRow(
                       isMobile(context),
-                      'Nome',
+                      context.l10n.accountsReceivable_view_debtor_name,
                       widget.account.debtor.name,
                     ),
                     buildDetailRow(
                       isMobile(context),
-                      'CPF/CNPJ',
+                      context.l10n.accountsReceivable_view_debtor_dni,
                       widget.account.debtor.debtorDNI ?? 'N/A',
                     ),
                     buildDetailRow(
                       isMobile(context),
-                      'Tipo de devedor',
+                      context.l10n.accountsReceivable_view_debtor_type,
                       widget.account.debtor.getDebtorType() ?? 'N/A',
                     ),
                   ],
@@ -80,7 +83,9 @@ class _AccountReceiveState extends State<AccountReceive> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        buildSectionTitle('Listagem de Parcelas'),
+        buildSectionTitle(
+          context.l10n.accountsReceivable_view_installments_title,
+        ),
         InstallmentsTable(
           setInstallmentIds: formStore.setInstallmentIds,
           installments: widget.account.installments,
@@ -94,7 +99,8 @@ class _AccountReceiveState extends State<AccountReceive> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               CustomButton(
-                text: 'Registrar Pagamento',
+                text:
+                    context.l10n.accountsReceivable_view_register_payment,
                 backgroundColor: AppColors.green,
                 textColor: Colors.white,
                 onPressed: () => _handlePayment(formStore),
@@ -111,7 +117,9 @@ class _AccountReceiveState extends State<AccountReceive> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildSectionTitle('Informações Gerais'),
+          buildSectionTitle(
+            context.l10n.accountsReceivable_view_general_section,
+          ),
           const SizedBox(height: 16),
           Row(
             children: [
@@ -119,7 +127,7 @@ class _AccountReceiveState extends State<AccountReceive> {
                 flex: 1,
                 child: buildDetailRow(
                   false,
-                  'Criado',
+                  context.l10n.accountsReceivable_view_general_created,
                   widget.account.createdAtFormatted,
                 ),
               ),
@@ -127,7 +135,7 @@ class _AccountReceiveState extends State<AccountReceive> {
                 flex: 1,
                 child: buildDetailRow(
                   false,
-                  'Atualizado',
+                  context.l10n.accountsReceivable_view_general_updated,
                   widget.account.updatedAtFormatted,
                 ),
               ),
@@ -150,26 +158,30 @@ class _AccountReceiveState extends State<AccountReceive> {
               ),
             ],
           ),
-          buildDetailRow(false, 'Descrição', widget.account.description),
           buildDetailRow(
             false,
-            'Tipo',
+            context.l10n.accountsReceivable_view_general_description,
+            widget.account.description,
+          ),
+          buildDetailRow(
+            false,
+            context.l10n.accountsReceivable_view_general_type,
             widget.account.type?.friendlyName ?? '-',
           ),
           buildDetailRow(
             false,
-            'Valor Total',
+            context.l10n.accountsReceivable_view_general_total,
             formatCurrency(widget.account.amountTotal ?? 0),
           ),
           buildDetailRow(
             false,
-            'Valor Pago',
+            context.l10n.accountsReceivable_view_general_paid,
             formatCurrency(widget.account.amountPaid ?? 0),
             statusColor: AppColors.green,
           ),
           buildDetailRow(
             false,
-            'Valor Pendente',
+            context.l10n.accountsReceivable_view_general_pending,
             formatCurrency(widget.account.amountPending ?? 0),
             statusColor:
                 widget.account.amountPending! > 0
@@ -195,7 +207,7 @@ class _AccountReceiveState extends State<AccountReceive> {
     formStore.setAccountReceivableId(widget.account.accountReceivableId!);
 
     ModalPage(
-      title: "Registrar Pagamento",
+      title: context.l10n.accountsReceivable_view_register_payment,
       body: PaymentAccountReceiveModal(
         formStore: formStore,
         totalAmount: totalAmount,

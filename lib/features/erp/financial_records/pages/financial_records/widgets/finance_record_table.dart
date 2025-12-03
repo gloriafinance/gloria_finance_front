@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/confirmation_dialog.dart';
@@ -40,18 +41,22 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
     if (state.paginate.results.isEmpty) {
       return Container(
         margin: const EdgeInsets.only(top: 40.0),
-        child: Center(child: Text('Nāo ha dados financeiros para mostrar')),
+        child: Center(
+          child: Text(
+            context.l10n.finance_records_table_empty,
+          ),
+        ),
       );
     }
 
     return CustomTable(
       headers: [
-        "Data",
-        "Valor",
-        "Tipo de movimento",
-        "Conceito",
-        "Conta de disponiblidade",
-        "Status",
+        context.l10n.finance_records_table_header_date,
+        context.l10n.finance_records_table_header_amount,
+        context.l10n.finance_records_table_header_type,
+        context.l10n.finance_records_table_header_concept,
+        context.l10n.finance_records_table_header_availability_account,
+        context.l10n.finance_records_table_header_status,
       ],
       data: FactoryDataTable<FinanceRecordListModel>(
         data: state.paginate.results,
@@ -75,7 +80,7 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
       actionBuilders: [
         (fianceRecord) => ButtonActionTable(
           color: AppColors.blue,
-          text: "Visualizar",
+          text: context.l10n.common_view,
           onPressed: () {
             _openModal(context, fianceRecord);
           },
@@ -88,11 +93,11 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
               fianceRecord.status != FinancialRecordStatus.RECONCILED) {
             return ButtonActionTable(
               color: Colors.deepOrangeAccent,
-              text: "Anular",
+              text: context.l10n.finance_records_table_action_void,
               onPressed: () async {
                 var res = await confirmationDialog(
                   context,
-                  "Deseja anular este movimento financeiro?",
+                  context.l10n.finance_records_table_confirm_void,
                 );
 
                 if (res != null && res) {
@@ -116,7 +121,7 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
 
   void _openModal(BuildContext context, FinanceRecordListModel financeRecord) {
     ModalPage(
-      title: "Movimento financeiro",
+      title: context.l10n.finance_records_table_modal_title,
       body: ViewFinanceRecord(financeRecord: financeRecord),
     ).show(context);
   }

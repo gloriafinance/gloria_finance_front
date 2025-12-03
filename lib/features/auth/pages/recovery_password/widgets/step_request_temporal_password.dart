@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
@@ -29,7 +30,7 @@ class _StepRequestTemporalPasswordState
       children: [
         //SizedBox(height: 26),
         Text(
-          'Digite o e-mail associado à sua conta e enviaremos um e-mail com uma senha temporária.',
+          context.l10n.auth_recovery_request_title,
           textAlign: TextAlign.center,
           style: TextStyle(fontFamily: AppFonts.fontText, fontSize: 16),
         ),
@@ -43,7 +44,7 @@ class _StepRequestTemporalPasswordState
     return Column(
       children: [
         Input(
-          label: "E-mail",
+          label: context.l10n.auth_login_email_label,
           icon: Icons.email_outlined,
           keyboardType: TextInputType.emailAddress,
           onChanged: (value) {
@@ -54,9 +55,9 @@ class _StepRequestTemporalPasswordState
         ),
         SizedBox(height: 60),
         makeRequest
-            ? const Loading(label: 'Solicitando senha temporária')
+            ? Loading(label: context.l10n.auth_recovery_request_loading)
             : CustomButton(
-              text: "Enviar",
+              text: context.l10n.auth_recovery_request_submit,
               backgroundColor: AppColors.green,
               onPressed: () => _submit(),
             ),
@@ -66,7 +67,10 @@ class _StepRequestTemporalPasswordState
 
   void _submit() async {
     if (email.isEmpty) {
-      Toast.showMessage("E-mail é obrigatório", ToastType.warning);
+      Toast.showMessage(
+        context.l10n.auth_recovery_request_email_required,
+        ToastType.warning,
+      );
       return;
     }
 

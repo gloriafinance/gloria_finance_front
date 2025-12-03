@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/features/erp/settings/cost_center/store/cost_center_list_store.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,7 @@ class _CostCenterListScreenState extends State<CostCenterListScreen> {
       children: [
         Expanded(
           child: Text(
-            'Centros de custo',
+            context.l10n.settings_cost_center_title,
             textAlign: TextAlign.left,
             style: const TextStyle(
               fontFamily: AppFonts.fontTitle,
@@ -53,7 +54,7 @@ class _CostCenterListScreenState extends State<CostCenterListScreen> {
           alignment: Alignment.centerRight,
           child: ButtonActionTable(
             color: AppColors.purple,
-            text: 'Novo centro de custo',
+            text: context.l10n.settings_cost_center_new,
             onPressed: () => GoRouter.of(context).go('/cost-center/add'),
             icon: Icons.add_box_outlined,
           ),

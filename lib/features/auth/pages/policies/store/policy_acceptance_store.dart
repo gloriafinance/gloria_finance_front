@@ -1,4 +1,3 @@
-import 'package:church_finance_bk/core/toast.dart';
 import 'package:flutter/material.dart';
 
 import '../../../models/policy_acceptance_model.dart';
@@ -59,7 +58,7 @@ class PolicyAcceptanceStore extends ChangeNotifier {
       _isSubmitting = false;
 
       if (result == null) {
-        _errorMessage = 'Não foi possível registrar o aceite. Tente novamente.';
+        _errorMessage = 'auth_policies_submit_error_null';
         notifyListeners();
         return null;
       }
@@ -69,8 +68,7 @@ class PolicyAcceptanceStore extends ChangeNotifier {
     } catch (e) {
       print("Error submitting policy acceptance: $e");
       _isSubmitting = false;
-      _errorMessage = 'Ocorreu um erro ao registrar o aceite. Tente novamente.';
-      Toast.showMessage(_errorMessage!, ToastType.warning);
+      _errorMessage = 'auth_policies_submit_error_generic';
       notifyListeners();
       return null;
     }
