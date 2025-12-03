@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/transition_custom.dart';
+import 'package:flutter/material.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/models/member_contribution_models.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/pages/contribute/member_contribute_boleto_screen.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/pages/contribute/member_contribute_pix_screen.dart';
@@ -21,7 +22,9 @@ memberExperienceRouter() {
     GoRoute(
       path: '/member/contribute',
       pageBuilder: (context, state) {
-        return transitionCustom(const MemberContributionHistoryScreen());
+        return transitionCustom(
+          MemberContributionHistoryScreen(key: UniqueKey()),
+        );
       },
       routes: [
         // New Contribution Form
