@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/layout/view_detail_widgets.dart';
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
@@ -33,7 +34,19 @@ class PaymentAccountReceiveModal extends StatefulWidget {
 class _PaymentAccountReceiveModalState
     extends State<PaymentAccountReceiveModal> {
   final formKey = GlobalKey<FormState>();
-  final validator = PaymentFormValidator();
+  late PaymentFormValidator validator;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final l10n = context.l10n;
+    validator = PaymentFormValidator(
+      amountRequired:
+          l10n.accountsReceivable_payment_error_amount_required,
+      availabilityAccountRequired: l10n
+          .accountsReceivable_payment_error_availability_account_required,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +67,7 @@ class _PaymentAccountReceiveModalState
             children: [
               buildDetailRow(
                 isMobile(context),
-                "Valor total que deve ser pago",
+                context.l10n.accountsReceivable_payment_total_label,
                 formatCurrency(widget.totalAmount),
               ),
               SizedBox(height: 20),
@@ -101,7 +114,7 @@ class _PaymentAccountReceiveModalState
 
   Widget _buildTotalAmount(PaymentAccountReceiveStore formStore) {
     return Input(
-      label: "Valor do Pagamento",
+      label: context.l10n.accountsReceivable_payment_amount_label,
       keyboardType: TextInputType.number,
       inputFormatters: [
         CurrencyInputFormatter(
@@ -128,7 +141,7 @@ class _PaymentAccountReceiveModalState
     PaymentAccountReceiveStore formStore,
   ) {
     return Dropdown(
-      label: "Conta de disponibilidade",
+      label: context.l10n.accountsReceivable_payment_availability_account_label,
       items:
           availabilityStore.state.availabilityAccounts
               .where((a) => a.accountType != AccountType.INVESTMENT.apiValue)
@@ -159,7 +172,7 @@ class _PaymentAccountReceiveModalState
 
   Widget _buildUploadFile(PaymentAccountReceiveStore formStore) {
     return UploadFile(
-      label: "Comprovante da transferência",
+      label: context.l10n.accountsReceivable_payment_receipt_label,
       multipartFile: (file) => formStore.setFile(file),
     );
   }
@@ -174,7 +187,10 @@ class _PaymentAccountReceiveModalState
     if (result) {
       Navigator.of(context).pop();
       context.go("/accounts-receivables");
-      Toast.showMessage("Pagamento com registrado com sucesso", ToastType.info);
+      Toast.showMessage(
+        context.l10n.accountsReceivable_payment_toast_success,
+        ToastType.info,
+      );
     }
   }
 }

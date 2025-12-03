@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/layout/state/sidebar_state.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -20,12 +21,20 @@ class Sidebar extends StatefulWidget {
 }
 
 class _SidebarState extends State<Sidebar> {
-  String _version = 'Carregando...';
+  String _version = '';
 
   @override
   void initState() {
     super.initState();
     _loadVersion();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_version.isEmpty) {
+      _version = context.l10n.auth_layout_version_loading;
+    }
   }
 
   Future<void> _loadVersion() async {
@@ -61,13 +70,15 @@ class _SidebarState extends State<Sidebar> {
                               onExpansionChanged: (expanded) {
                                 menuState.setExpanded(index);
                               },
-                              title: Row(
+                          title: Row(
                                 children: [
                                   Icon(section['icon'], color: Colors.white),
                                   const SizedBox(width: 10.0),
                                   Expanded(
                                     child: Text(
-                                      section['label'],
+                                      context.l10n.menuLabel(
+                                        section['key'] as String,
+                                      ),
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 15,
@@ -88,7 +99,9 @@ class _SidebarState extends State<Sidebar> {
                                               color: Colors.white),
                                         ),
                                         title: Text(
-                                          item['label'],
+                                          context.l10n.menuLabel(
+                                            item['key'] as String,
+                                          ),
                                           style: TextStyle(
                                             fontSize: 15,
                                             color: Colors.white,
@@ -115,8 +128,10 @@ class _SidebarState extends State<Sidebar> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text(
-                          '© ${DateTime.now().year} Jaspesoft CNPJ 43.716.343/0001-60 ',
+                       Text(
+                          context.l10n.auth_layout_footer(
+                            DateTime.now().year,
+                          ),
                           style: TextStyle(
                             color: Colors.white,
                             fontFamily: AppFonts.fontSubTitle,

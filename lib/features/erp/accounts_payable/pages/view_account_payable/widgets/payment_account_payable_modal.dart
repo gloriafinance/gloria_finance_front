@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/layout/view_detail_widgets.dart';
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/features/erp/settings/availability_accounts/models/availability_account_model.dart';
@@ -47,7 +48,7 @@ class _PaymentAccountPayableModal extends State<PaymentAccountPayableModal> {
             children: [
               buildDetailRow(
                 isMobile(context),
-                "Valor total que deve ser pago",
+                context.l10n.accountsPayable_payment_total_label,
                 formatCurrency(widget.totalAmount),
               ),
               SizedBox(height: 20),
@@ -83,7 +84,7 @@ class _PaymentAccountPayableModal extends State<PaymentAccountPayableModal> {
                     widget.formStore.state.makeRequest
                         ? const CircularProgressIndicator()
                         : CustomButton(
-                          text: "Enviar Pagamento",
+                          text: context.l10n.accountsPayable_payment_submit,
                           backgroundColor: AppColors.green,
                           textColor: Colors.white,
                           onPressed: () => _handleSubmit(),
@@ -107,13 +108,16 @@ class _PaymentAccountPayableModal extends State<PaymentAccountPayableModal> {
     if (result) {
       Navigator.of(context).pop();
       context.go("/accounts-payable/list");
-      Toast.showMessage("Pagamento com registrado com sucesso", ToastType.info);
+      Toast.showMessage(
+        context.l10n.accountsPayable_payment_toast_success,
+        ToastType.info,
+      );
     }
   }
 
   Widget _buildUploadFile(PaymentAccountPayableStore formStore) {
     return UploadFile(
-      label: "Comprovante da transferência",
+      label: context.l10n.accountsPayable_payment_receipt_label,
       multipartFile: (file) => formStore.setFile(file),
     );
   }
@@ -123,7 +127,7 @@ class _PaymentAccountPayableModal extends State<PaymentAccountPayableModal> {
     PaymentAccountPayableStore formStore,
   ) {
     return Dropdown(
-      label: "Centro de custo",
+      label: context.l10n.accountsPayable_payment_cost_center_label,
       items: costCenterStore.state.costCenters.map((e) => e.name).toList(),
       onChanged: (value) {
         final selectedCostCenter = costCenterStore.state.costCenters.firstWhere(
@@ -139,7 +143,7 @@ class _PaymentAccountPayableModal extends State<PaymentAccountPayableModal> {
     PaymentAccountPayableStore formStore,
   ) {
     return Dropdown(
-      label: "Conta de disponibilidade",
+      label: context.l10n.accountsPayable_payment_availability_account_label,
       items:
           availabilityStore.state.availabilityAccounts
               .where((a) => a.accountType != AccountType.INVESTMENT.apiValue)
@@ -170,7 +174,7 @@ class _PaymentAccountPayableModal extends State<PaymentAccountPayableModal> {
 
   Widget _buildTotalAmount(PaymentAccountPayableStore formStore) {
     return Input(
-      label: "Valor do Pagamento",
+      label: context.l10n.accountsPayable_payment_amount_label,
       keyboardType: TextInputType.number,
       inputFormatters: [
         CurrencyInputFormatter(

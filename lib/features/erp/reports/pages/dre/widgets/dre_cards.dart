@@ -2,6 +2,7 @@
 
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,7 @@ class DRECards extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
               child: Text(
-                'Indicadores Principais',
+                context.l10n.reports_dre_main_indicators_title,
                 style: TextStyle(
                   fontFamily: AppFonts.fontTitle,
                   fontSize: 18,
@@ -41,27 +42,28 @@ class DRECards extends StatelessWidget {
               children: [
                 _buildCard(
                   context,
-                  'Receita Bruta',
+                  context.l10n.reports_dre_card_gross_revenue_title,
                   '💰',
-                  'Total de dízimos, ofertas e doações recebidas',
+                  context.l10n.reports_dre_card_gross_revenue_description,
                   data.grossRevenue,
                   const Color(0xFF1B998B),
                   isMobileView,
                 ),
                 _buildCard(
                   context,
-                  'Resultado Operacional',
+                  context.l10n.reports_dre_card_operational_result_title,
                   '📈',
-                  'Resultado bruto menos despesas operacionais',
+                  context.l10n
+                      .reports_dre_card_operational_result_description,
                   data.operationalResult,
                   const Color(0xFFFFB703),
                   isMobileView,
                 ),
                 _buildCard(
                   context,
-                  'Resultado Líquido',
+                  context.l10n.reports_dre_card_net_result_title,
                   '📊',
-                  'Resultado final do período (superávit ou déficit)',
+                  context.l10n.reports_dre_card_net_result_description,
                   data.netResult,
                   AppColors.purple,
                   isMobileView,
@@ -74,7 +76,7 @@ class DRECards extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
               child: Text(
-                'Detalhamento',
+                context.l10n.reports_dre_detail_section_title,
                 style: TextStyle(
                   fontFamily: AppFonts.fontTitle,
                   fontSize: 18,
@@ -102,42 +104,46 @@ class DRECards extends StatelessWidget {
                 children: [
                   _buildListItem(
                     context,
-                    'Receita Líquida',
+                    context.l10n.reports_dre_item_net_revenue_title,
                     '💵',
-                    'Receita bruta menos devoluções e ajustes',
+                    context
+                        .l10n.reports_dre_item_net_revenue_description,
                     data.netRevenue,
                     const Color(0xFF2EC4B6),
                     isFirst: true,
                   ),
                   _buildListItem(
                     context,
-                    'Custos Diretos',
+                    context.l10n.reports_dre_item_direct_costs_title,
                     '⚙️',
-                    'Gastos de eventos, materiais e atividades específicas',
+                    context.l10n.reports_dre_item_direct_costs_description,
                     data.directCosts,
                     const Color(0xFF8ECAE6),
                   ),
                   _buildListItem(
                     context,
-                    'Resultado Bruto',
+                    context.l10n.reports_dre_item_gross_profit_title,
                     '🧮',
-                    'Receita líquida menos custos diretos',
+                    context
+                        .l10n.reports_dre_item_gross_profit_description,
                     data.grossProfit,
                     const Color(0xFF023047),
                   ),
                   _buildListItem(
                     context,
-                    'Despesas Operacionais',
+                    context.l10n.reports_dre_item_operational_expenses_title,
                     '🏢',
-                    'Gastos do dia a dia: energia, água, salários, limpeza',
+                    context.l10n
+                        .reports_dre_item_operational_expenses_description,
                     data.operationalExpenses,
                     const Color(0xFFD62839),
                   ),
                   _buildListItem(
                     context,
-                    'Repasses Ministeriais',
+                    context.l10n.reports_dre_item_ministry_transfers_title,
                     '🤝',
-                    'Transferências para ministérios, missões ou para a directoria',
+                    context.l10n
+                        .reports_dre_item_ministry_transfers_description,
                     data.ministryTransfers,
                     const Color(0xFF3A86FF),
                   ),

@@ -8,7 +8,6 @@ import 'app/store_manager.dart';
 
 void main() {
   final storeManager = StoreManager();
-
   runApp(
     MultiProvider(
       providers: [
@@ -30,6 +29,7 @@ void main() {
         ChangeNotifierProvider(
           create: (_) => storeManager.navigatorMemberNotifier,
         ),
+        ChangeNotifierProvider(create: (_) => storeManager.localeStore),
       ],
       child: MyApp(router: memberRouter),
     ),

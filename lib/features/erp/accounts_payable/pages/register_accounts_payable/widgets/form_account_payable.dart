@@ -1,7 +1,8 @@
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/toast.dart';
-import 'package:church_finance_bk/core/widgets/index.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
+import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -20,8 +21,48 @@ class FormAccountPayable extends StatefulWidget {
 
 class _FormAccountPayableState extends State<FormAccountPayable> {
   final formKey = GlobalKey<FormState>();
-  final FormAccountsPayableValidator validator = FormAccountsPayableValidator();
+  late FormAccountsPayableValidator validator;
   bool showValidationMessages = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final l10n = context.l10n;
+    validator = FormAccountsPayableValidator(
+      supplierRequired: l10n.accountsPayable_form_error_supplier_required,
+      descriptionRequired: l10n.accountsPayable_form_error_description_required,
+      documentTypeRequired:
+          l10n.accountsPayable_form_error_document_type_required,
+      documentNumberRequired:
+          l10n.accountsPayable_form_error_document_number_required,
+      documentDateRequired:
+          l10n.accountsPayable_form_error_document_date_required,
+      totalAmountRequired:
+          l10n.accountsPayable_form_error_total_amount_required,
+      singleDueDateRequired:
+          l10n.accountsPayable_form_error_single_due_date_required,
+      installmentsRequired:
+          l10n.accountsPayable_form_error_installments_required,
+      installmentsContents:
+          l10n.accountsPayable_form_error_installments_contents,
+      automaticInstallmentsRequired:
+          l10n.accountsPayable_form_error_automatic_installments_required,
+      automaticAmountRequired:
+          l10n.accountsPayable_form_error_automatic_amount_required,
+      automaticFirstDueDateRequired: l10n
+          .accountsPayable_form_error_automatic_first_due_date_required,
+      installmentsCountMismatch:
+          l10n.accountsPayable_form_error_installments_count_mismatch,
+      taxesRequired: l10n.accountsPayable_form_error_taxes_required,
+      taxesInvalid: l10n.accountsPayable_form_error_taxes_invalid,
+      taxExemptionReasonRequired:
+          l10n.accountsPayable_form_error_tax_exemption_reason_required,
+      taxExemptMustNotHaveTaxes:
+          l10n.accountsPayable_form_error_tax_exempt_must_not_have_taxes,
+      taxStatusMismatch:
+          l10n.accountsPayable_form_error_tax_status_mismatch,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +102,7 @@ class _FormAccountPayableState extends State<FormAccountPayable> {
 
   Widget _buildSaveButton(FormAccountsPayableStore formStore) {
     return CustomButton(
-      text: 'Salvar',
+      text: context.l10n.accountsPayable_form_save,
       onPressed: () => _handleSave(formStore),
       backgroundColor: AppColors.green,
     );
@@ -86,7 +127,7 @@ class _FormAccountPayableState extends State<FormAccountPayable> {
 
     if (success && mounted) {
       Toast.showMessage(
-        'Conta a pagar registrada com sucesso!',
+        context.l10n.accountsPayable_form_toast_saved_success,
         ToastType.info,
       );
       setState(() {
@@ -94,7 +135,10 @@ class _FormAccountPayableState extends State<FormAccountPayable> {
       });
       context.pop();
     } else if (mounted) {
-      Toast.showMessage('Erro ao registrar conta a pagar', ToastType.error);
+      Toast.showMessage(
+        context.l10n.accountsPayable_form_toast_saved_error,
+        ToastType.error,
+      );
     }
   }
 }

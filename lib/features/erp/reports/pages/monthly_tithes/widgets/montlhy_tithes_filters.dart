@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/features/erp/reports/pages/monthly_tithes/store/monthly_tithes_list_store.dart';
@@ -28,7 +29,7 @@ class _MonthlyTithesFiltersState extends State<MonthlyTithesFilters> {
 
   Widget _inputYear(MonthlyTithesListStore tithesListStore) {
     return Input(
-      label: 'Ano',
+      label: context.l10n.common_year,
       keyboardType: TextInputType.number,
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly, // Permite solo números
@@ -44,7 +45,7 @@ class _MonthlyTithesFiltersState extends State<MonthlyTithesFilters> {
     MonthlyTithesListStore tithesListStore,
   ) {
     return Dropdown(
-      label: "Mês",
+      label: context.l10n.common_month,
       initialValue: tithesListStore.state.filter.month.toString().padLeft(
         2,
         '0',
@@ -98,7 +99,7 @@ class _MonthlyTithesFiltersState extends State<MonthlyTithesFilters> {
           headerBuilder: (context, isOpen) {
             return ListTile(
               title: Text(
-                "FILTROS",
+                context.l10n.common_filters_upper,
                 style: TextStyle(
                   fontSize: 16,
                   fontFamily: AppFonts.fontTitle,
@@ -137,9 +138,10 @@ class _MonthlyTithesFiltersState extends State<MonthlyTithesFilters> {
   }
 
   Widget _buttonApplyFilter(MonthlyTithesListStore tithesListStore) {
+    final l10n = context.l10n;
     return ButtonActionTable(
       color: AppColors.blue,
-      text: 'Aplicar filtros',
+      text: l10n.common_apply_filters,
       icon: Icons.search,
       onPressed: () {
         if (isExpandedFilter) {

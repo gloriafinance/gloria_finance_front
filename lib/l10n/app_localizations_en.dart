@@ -1,0 +1,1727 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for English (`en`).
+class AppLocalizationsEn extends AppLocalizations {
+  AppLocalizationsEn([String locale = 'en']) : super(locale);
+
+  @override
+  String get month_january => 'January';
+
+  @override
+  String get month_february => 'February';
+
+  @override
+  String get month_march => 'March';
+
+  @override
+  String get month_april => 'April';
+
+  @override
+  String get month_may => 'May';
+
+  @override
+  String get month_june => 'June';
+
+  @override
+  String get month_july => 'July';
+
+  @override
+  String get month_august => 'August';
+
+  @override
+  String get month_september => 'September';
+
+  @override
+  String get month_october => 'October';
+
+  @override
+  String get month_november => 'November';
+
+  @override
+  String get month_december => 'December';
+
+  @override
+  String get common_filters => 'Filters';
+
+  @override
+  String get common_filters_upper => 'FILTERS';
+
+  @override
+  String get common_all_banks => 'All banks';
+
+  @override
+  String get common_all_status => 'All statuses';
+
+  @override
+  String get common_all_months => 'All months';
+
+  @override
+  String get common_all_years => 'All years';
+
+  @override
+  String get common_bank => 'Bank';
+
+  @override
+  String get common_status => 'Status';
+
+  @override
+  String get common_start_date => 'Start date';
+
+  @override
+  String get common_end_date => 'End date';
+
+  @override
+  String get common_month => 'Month';
+
+  @override
+  String get common_year => 'Year';
+
+  @override
+  String get common_clear_filters => 'Clear filters';
+
+  @override
+  String get common_loading => 'Loading...';
+
+  @override
+  String get common_apply_filters => 'Apply filters';
+
+  @override
+  String get common_no_results_found => 'No results found';
+
+  @override
+  String get common_search_hint => 'Search...';
+
+  @override
+  String get common_actions => 'Actions';
+
+  @override
+  String get common_edit => 'Edit';
+
+  @override
+  String get auth_login_email_label => 'Email';
+
+  @override
+  String get auth_login_password_label => 'Password';
+
+  @override
+  String get auth_login_forgot_password => 'Forgot your password?';
+
+  @override
+  String get auth_login_submit => 'Sign in';
+
+  @override
+  String get auth_login_error_invalid_email => 'Enter a valid email address';
+
+  @override
+  String get auth_login_error_required_password => 'Enter your password';
+
+  @override
+  String get auth_error_generic => 'An internal system error occurred, please contact your system administrator';
+
+  @override
+  String get auth_recovery_request_title => 'Enter the email associated with your account and we will send you a temporary password.';
+
+  @override
+  String get auth_recovery_request_loading => 'Requesting temporary password';
+
+  @override
+  String get auth_recovery_request_submit => 'Send';
+
+  @override
+  String get auth_recovery_request_email_required => 'Email is required';
+
+  @override
+  String get auth_recovery_change_title => 'Set a new password';
+
+  @override
+  String get auth_recovery_change_description => 'Create a new password. Make sure it is different from previous ones for security';
+
+  @override
+  String get auth_recovery_old_password_label => 'Current password';
+
+  @override
+  String get auth_recovery_new_password_label => 'New password';
+
+  @override
+  String get auth_recovery_change_error_old_password_required => 'Enter your current password';
+
+  @override
+  String get auth_recovery_change_error_new_password_required => 'Enter a new password';
+
+  @override
+  String get auth_recovery_change_error_min_length => 'The password must be at least 8 characters long';
+
+  @override
+  String get auth_recovery_change_error_lowercase => 'The password must contain at least one lowercase letter';
+
+  @override
+  String get auth_recovery_change_error_uppercase => 'The password must contain at least one uppercase letter';
+
+  @override
+  String get auth_recovery_change_error_number => 'The password must contain at least one number';
+
+  @override
+  String get auth_recovery_success_title => 'Check your email';
+
+  @override
+  String auth_recovery_success_body(String email) {
+    return 'We sent a temporary password to $email. If you do not see it, check your spam folder. If you have already received it, click the button below.';
+  }
+
+  @override
+  String get auth_recovery_success_continue => 'Continue';
+
+  @override
+  String get auth_recovery_success_resend => 'Haven\'t received the email yet? Resend email';
+
+  @override
+  String get auth_recovery_success_resend_ok => 'Email resent successfully';
+
+  @override
+  String get auth_recovery_success_resend_error => 'Error while resending email';
+
+  @override
+  String get auth_recovery_back_to_login => 'Back to login';
+
+  @override
+  String get auth_policies_title => 'Before continuing, please review and accept Glória Finance policies';
+
+  @override
+  String get auth_policies_info_title => 'Important information:';
+
+  @override
+  String get auth_policies_info_body => '• The church and Glória Finance process personal and sensitive data in order for the system to work.\n\n• In accordance with the Brazilian General Data Protection Law (LGPD), you must accept the policies below to continue using the platform.\n\n• Click the links to read the full text before accepting.';
+
+  @override
+  String get auth_policies_privacy => 'Privacy Policy';
+
+  @override
+  String get auth_policies_sensitive => 'Sensitive Data Processing Policy';
+
+  @override
+  String get auth_policies_accept_and_continue => 'Accept and continue';
+
+  @override
+  String auth_policies_link_error(String url) {
+    return 'Could not open link: $url';
+  }
+
+  @override
+  String get auth_policies_checkbox_prefix => 'I have read and agree with the ';
+
+  @override
+  String get auth_layout_version_loading => 'Loading...';
+
+  @override
+  String auth_layout_footer(int year) {
+    return '© $year Jaspesoft CNPJ 43.716.343/0001-60 ';
+  }
+
+  @override
+  String get erp_menu_settings => 'Settings';
+
+  @override
+  String get erp_menu_settings_users_access => 'Users and access';
+
+  @override
+  String get erp_menu_settings_roles_permissions => 'Roles and permissions';
+
+  @override
+  String get erp_menu_settings_members => 'Members';
+
+  @override
+  String get erp_menu_settings_financial_periods => 'Financial periods';
+
+  @override
+  String get erp_menu_settings_availability_accounts => 'Availability accounts';
+
+  @override
+  String get erp_menu_settings_banks => 'Banks';
+
+  @override
+  String get erp_menu_settings_cost_centers => 'Cost centers';
+
+  @override
+  String get erp_menu_settings_suppliers => 'Suppliers';
+
+  @override
+  String get erp_menu_settings_financial_concepts => 'Financial concepts';
+
+  @override
+  String get erp_menu_finance => 'Finance';
+
+  @override
+  String get erp_menu_finance_contributions => 'Contributions';
+
+  @override
+  String get erp_menu_finance_records => 'Financial records';
+
+  @override
+  String get erp_menu_finance_bank_reconciliation => 'Bank reconciliation';
+
+  @override
+  String get erp_menu_finance_accounts_receivable => 'Accounts receivable';
+
+  @override
+  String get erp_menu_finance_accounts_payable => 'Accounts payable';
+
+  @override
+  String get erp_menu_finance_purchases => 'Purchases';
+
+  @override
+  String get erp_menu_assets => 'Assets';
+
+  @override
+  String get erp_menu_assets_items => 'Asset items';
+
+  @override
+  String get erp_menu_reports => 'Reports';
+
+  @override
+  String get erp_menu_reports_monthly_tithes => 'Monthly tithes';
+
+  @override
+  String get erp_menu_reports_income_statement => 'Income statement';
+
+  @override
+  String get erp_menu_reports_dre => 'DRE';
+
+  @override
+  String get common_cancel => 'Cancel';
+
+  @override
+  String get common_retry => 'Reload';
+
+  @override
+  String get common_processing => 'Processing...';
+
+  @override
+  String get patrimony_assets_list_title => 'Assets';
+
+  @override
+  String get patrimony_assets_list_new => 'Register asset';
+
+  @override
+  String get patrimony_assets_filter_category => 'Category';
+
+  @override
+  String get patrimony_assets_table_error_loading => 'Could not load assets. Please try again.';
+
+  @override
+  String get patrimony_assets_table_empty => 'No assets found for the selected filters.';
+
+  @override
+  String get patrimony_assets_table_header_code => 'Code';
+
+  @override
+  String get patrimony_assets_table_header_name => 'Name';
+
+  @override
+  String get patrimony_assets_table_header_category => 'Category';
+
+  @override
+  String get patrimony_assets_table_header_value => 'Value';
+
+  @override
+  String get patrimony_assets_table_header_acquisition => 'Acquisition';
+
+  @override
+  String get patrimony_assets_table_header_location => 'Location';
+
+  @override
+  String get patrimony_inventory_import_file_label => 'Filled CSV file';
+
+  @override
+  String patrimony_inventory_import_file_size(int size) {
+    return 'Size: $size KB';
+  }
+
+  @override
+  String get patrimony_inventory_import_description_title => 'Upload the completed physical checklist to update the assets.';
+
+  @override
+  String get patrimony_inventory_import_description_body => 'Make sure the columns \"Asset ID\", \"Inventory code\" and \"Inventory quantity\" are filled in. Optional fields such as status and notes will also be processed when provided.';
+
+  @override
+  String get patrimony_inventory_import_button_loading => 'Importing...';
+
+  @override
+  String get patrimony_inventory_import_button_submit => 'Import checklist';
+
+  @override
+  String get patrimony_inventory_import_error_no_file => 'Select the exported file before importing.';
+
+  @override
+  String get patrimony_inventory_import_error_read_file => 'Could not read the selected file.';
+
+  @override
+  String get patrimony_inventory_import_error_generic => 'Could not import the checklist. Please try again.';
+
+  @override
+  String get patrimony_asset_detail_tab_details => 'Details';
+
+  @override
+  String get patrimony_asset_detail_tab_history => 'History';
+
+  @override
+  String get patrimony_asset_detail_category => 'Category';
+
+  @override
+  String get patrimony_asset_detail_quantity => 'Quantity';
+
+  @override
+  String get patrimony_asset_detail_acquisition_date => 'Acquisition date';
+
+  @override
+  String get patrimony_asset_detail_location => 'Location';
+
+  @override
+  String get patrimony_asset_detail_responsible => 'Responsible';
+
+  @override
+  String get patrimony_asset_detail_pending_documents => 'Pending documents';
+
+  @override
+  String get patrimony_asset_detail_notes => 'Notes';
+
+  @override
+  String patrimony_asset_detail_quantity_badge(int quantity) {
+    return 'Qty: $quantity';
+  }
+
+  @override
+  String patrimony_asset_detail_updated_at(String date) {
+    return 'Updated at $date';
+  }
+
+  @override
+  String get patrimony_asset_detail_inventory_register => 'Register inventory';
+
+  @override
+  String get patrimony_asset_detail_inventory_update => 'Update inventory';
+
+  @override
+  String get patrimony_asset_detail_inventory_modal_title => 'Register physical inventory';
+
+  @override
+  String get patrimony_asset_detail_inventory_success => 'Inventory registered successfully.';
+
+  @override
+  String get patrimony_asset_detail_disposal_register => 'Register disposal';
+
+  @override
+  String get patrimony_asset_detail_disposal_modal_title => 'Register disposal';
+
+  @override
+  String get patrimony_asset_detail_disposal_success => 'Disposal registered';
+
+  @override
+  String get patrimony_asset_detail_disposal_error => 'Error while registering disposal';
+
+  @override
+  String get patrimony_asset_detail_disposal_status => 'Status';
+
+  @override
+  String get patrimony_asset_detail_disposal_reason => 'Reason';
+
+  @override
+  String get patrimony_asset_detail_disposal_date => 'Disposal date';
+
+  @override
+  String get patrimony_asset_detail_disposal_performed_by => 'Registered by';
+
+  @override
+  String get patrimony_asset_detail_disposal_value => 'Disposal value';
+
+  @override
+  String get patrimony_asset_detail_inventory_result => 'Result';
+
+  @override
+  String get patrimony_asset_detail_inventory_checked_at => 'Check date';
+
+  @override
+  String get patrimony_asset_detail_inventory_checked_by => 'Checked by';
+
+  @override
+  String get patrimony_asset_detail_inventory_title => 'Physical inventory';
+
+  @override
+  String get patrimony_asset_detail_attachments_empty => 'No attachments available.';
+
+  @override
+  String get patrimony_asset_detail_attachments_title => 'Attachments';
+
+  @override
+  String get patrimony_asset_detail_attachment_view_pdf => 'View PDF';
+
+  @override
+  String get patrimony_asset_detail_attachment_open => 'Open';
+
+  @override
+  String get patrimony_asset_detail_history_empty => 'No change history.';
+
+  @override
+  String get patrimony_asset_detail_history_title => 'Movement history';
+
+  @override
+  String get patrimony_asset_detail_history_changes_title => 'Registered changes';
+
+  @override
+  String get patrimony_asset_detail_yes => 'Yes';
+
+  @override
+  String get patrimony_asset_detail_no => 'No';
+
+  @override
+  String get erp_header_change_password => 'Change password';
+
+  @override
+  String get erp_header_logout => 'Logout';
+
+  @override
+  String get auth_policies_submit_error_null => 'Could not register your acceptance. Please try again.';
+
+  @override
+  String get auth_policies_submit_error_generic => 'An error occurred while registering your acceptance. Please try again.';
+
+  @override
+  String get auth_recovery_step_title_request => 'Send temporary password';
+
+  @override
+  String get auth_recovery_step_title_confirm => 'Confirm receipt of temporary password';
+
+  @override
+  String get auth_recovery_step_title_new_password => 'Set new password';
+
+  @override
+  String get erp_home_welcome_member => 'Welcome to Church Finance!\\n\\n';
+
+  @override
+  String get erp_home_no_availability_accounts => 'No availability accounts found';
+
+  @override
+  String get erp_home_availability_summary_title => 'Availability accounts summary';
+
+  @override
+  String get erp_home_availability_swipe_hint => 'Swipe to see all accounts';
+
+  @override
+  String get erp_home_header_title => 'Dashboard';
+
+  @override
+  String get settings_banks_title => 'Banks';
+
+  @override
+  String get settings_banks_new_bank => 'New bank';
+
+  @override
+  String get settings_banks_field_name => 'Name';
+
+  @override
+  String get settings_banks_field_tag => 'Tag';
+
+  @override
+  String get settings_banks_field_account_type => 'Account type';
+
+  @override
+  String get settings_banks_field_pix_key => 'PIX key';
+
+  @override
+  String get settings_banks_field_bank_code => 'Bank code';
+
+  @override
+  String get settings_banks_field_agency => 'Branch';
+
+  @override
+  String get settings_banks_field_account => 'Account';
+
+  @override
+  String get settings_banks_field_active => 'Active';
+
+  @override
+  String get settings_banks_error_required => 'Required field';
+
+  @override
+  String get settings_banks_error_select_account_type => 'Select an account type';
+
+  @override
+  String get settings_banks_save => 'Save';
+
+  @override
+  String get settings_banks_toast_saved => 'Record saved successfully';
+
+  @override
+  String get settings_availability_list_title => 'Accounts list';
+
+  @override
+  String get settings_availability_new_account => 'Availability account';
+
+  @override
+  String get settings_availability_form_title => 'Register availability account';
+
+  @override
+  String get settings_availability_save => 'Save';
+
+  @override
+  String get settings_availability_toast_saved => 'Record saved successfully';
+
+  @override
+  String get settings_cost_center_title => 'Cost centers';
+
+  @override
+  String get settings_cost_center_new => 'New cost center';
+
+  @override
+  String get settings_cost_center_field_code => 'Code';
+
+  @override
+  String get settings_cost_center_field_name => 'Name';
+
+  @override
+  String get settings_cost_center_field_category => 'Category';
+
+  @override
+  String get settings_cost_center_field_responsible => 'Responsible';
+
+  @override
+  String get settings_cost_center_field_description => 'Description';
+
+  @override
+  String get settings_cost_center_field_active => 'Active';
+
+  @override
+  String get settings_cost_center_error_required => 'Required field';
+
+  @override
+  String get settings_cost_center_error_select_category => 'Select a category';
+
+  @override
+  String get settings_cost_center_error_select_responsible => 'Select a responsible member';
+
+  @override
+  String settings_cost_center_help_code(int maxLength) {
+    return 'Use an easy-to-remember code with up to $maxLength characters.';
+  }
+
+  @override
+  String get settings_cost_center_help_description => 'Describe briefly how this cost center will be used.';
+
+  @override
+  String get settings_cost_center_save => 'Save';
+
+  @override
+  String get settings_cost_center_update => 'Update';
+
+  @override
+  String get settings_cost_center_toast_saved => 'Record saved successfully';
+
+  @override
+  String get settings_cost_center_toast_updated => 'Record updated successfully';
+
+  @override
+  String get settings_financial_concept_title => 'Financial concepts';
+
+  @override
+  String get settings_financial_concept_new => 'New concept';
+
+  @override
+  String get settings_financial_concept_filter_all => 'All';
+
+  @override
+  String get settings_financial_concept_filter_by_type => 'Filter by type';
+
+  @override
+  String get settings_financial_concept_field_name => 'Name';
+
+  @override
+  String get settings_financial_concept_field_description => 'Description';
+
+  @override
+  String get settings_financial_concept_field_type => 'Concept type';
+
+  @override
+  String get settings_financial_concept_field_statement_category => 'Statement category';
+
+  @override
+  String get settings_financial_concept_field_active => 'Active';
+
+  @override
+  String get settings_financial_concept_indicators_title => 'Accounting indicators';
+
+  @override
+  String get settings_financial_concept_indicator_cash_flow => 'Impacts cash flow';
+
+  @override
+  String get settings_financial_concept_indicator_result => 'Impacts result (P&L)';
+
+  @override
+  String get settings_financial_concept_indicator_balance => 'Impacts balance sheet';
+
+  @override
+  String get settings_financial_concept_indicator_operational => 'Recurring operational event';
+
+  @override
+  String get settings_financial_concept_error_required => 'Required field';
+
+  @override
+  String get settings_financial_concept_error_select_type => 'Select a type';
+
+  @override
+  String get settings_financial_concept_error_select_category => 'Select a category';
+
+  @override
+  String get settings_financial_concept_help_statement_categories => 'Understand the categories';
+
+  @override
+  String get settings_financial_concept_help_indicators => 'Understand the indicators';
+
+  @override
+  String get settings_financial_concept_save => 'Save';
+
+  @override
+  String get settings_financial_concept_toast_saved => 'Record saved successfully';
+
+  @override
+  String get settings_financial_concept_help_statement_title => 'Statement categories';
+
+  @override
+  String get settings_financial_concept_help_indicator_intro => 'These indicators determine how the concept will be reflected in financial reports. They can be adjusted as needed for specific cases.';
+
+  @override
+  String get settings_financial_concept_help_indicator_cash_flow_title => 'Impacts cash flow';
+
+  @override
+  String get settings_financial_concept_help_indicator_cash_flow_desc => 'Check when the entry changes the available balance after payment or receipt.';
+
+  @override
+  String get settings_financial_concept_help_indicator_result_title => 'Impacts result (P&L)';
+
+  @override
+  String get settings_financial_concept_help_indicator_result_desc => 'Use when the amount should be part of the income statement, affecting profit or loss.';
+
+  @override
+  String get settings_financial_concept_help_indicator_balance_title => 'Impacts balance sheet';
+
+  @override
+  String get settings_financial_concept_help_indicator_balance_desc => 'Select for events that create or settle assets and liabilities directly in the balance sheet.';
+
+  @override
+  String get settings_financial_concept_help_indicator_operational_title => 'Recurring operational event';
+
+  @override
+  String get settings_financial_concept_help_indicator_operational_desc => 'Enable for routine commitments in the church\'s day-to-day operations, related to core activities.';
+
+  @override
+  String get settings_financial_concept_help_understood => 'Got it';
+
+  @override
+  String get bankStatements_empty_title => 'No statements imported yet.';
+
+  @override
+  String get bankStatements_empty_subtitle => 'Import a CSV file to start bank reconciliation.';
+
+  @override
+  String get bankStatements_header_date => 'Date';
+
+  @override
+  String get bankStatements_header_bank => 'Bank';
+
+  @override
+  String get bankStatements_header_description => 'Description';
+
+  @override
+  String get bankStatements_header_amount => 'Amount';
+
+  @override
+  String get bankStatements_header_direction => 'Direction';
+
+  @override
+  String get bankStatements_header_status => 'Status';
+
+  @override
+  String get bankStatements_action_details => 'Details';
+
+  @override
+  String get bankStatements_action_retry => 'Retry';
+
+  @override
+  String get bankStatements_action_link => 'Link';
+
+  @override
+  String get bankStatements_action_linking => 'Linking...';
+
+  @override
+  String get bankStatements_toast_auto_reconciled => 'Statement reconciled automatically.';
+
+  @override
+  String get bankStatements_toast_no_match => 'No matching transaction found.';
+
+  @override
+  String get bankStatements_details_title => 'Bank statement details';
+
+  @override
+  String get bankStatements_toast_link_success => 'Statement linked successfully.';
+
+  @override
+  String get settings_financial_months_empty => 'No financial months found.';
+
+  @override
+  String get settings_financial_months_header_month => 'Month';
+
+  @override
+  String get settings_financial_months_header_year => 'Year';
+
+  @override
+  String get settings_financial_months_header_status => 'Status';
+
+  @override
+  String get settings_financial_months_action_reopen => 'Reopen';
+
+  @override
+  String get settings_financial_months_action_close => 'Close';
+
+  @override
+  String get settings_financial_months_modal_close_title => 'Close month';
+
+  @override
+  String get settings_financial_months_modal_reopen_title => 'Reopen month';
+
+  @override
+  String get accountsReceivable_list_title => 'Accounts receivable list';
+
+  @override
+  String get accountsReceivable_list_title_mobile => 'Accounts receivable';
+
+  @override
+  String get accountsReceivable_list_new => 'Register account receivable';
+
+  @override
+  String get accountsReceivable_table_empty => 'No accounts receivable to show';
+
+  @override
+  String get accountsReceivable_table_header_debtor => 'Debtor';
+
+  @override
+  String get accountsReceivable_table_header_description => 'Description';
+
+  @override
+  String get accountsReceivable_table_header_type => 'Type';
+
+  @override
+  String get accountsReceivable_table_header_installments => 'No. of installments';
+
+  @override
+  String get accountsReceivable_table_header_received => 'Received';
+
+  @override
+  String get accountsReceivable_table_header_pending => 'Pending';
+
+  @override
+  String get accountsReceivable_table_header_total => 'Total receivable';
+
+  @override
+  String get accountsReceivable_table_header_status => 'Status';
+
+  @override
+  String get accountsReceivable_table_action_view => 'View';
+
+  @override
+  String get accountsReceivable_register_title => 'Register account receivable';
+
+  @override
+  String get accountsReceivable_view_title => 'Account receivable detail';
+
+  @override
+  String get accountsReceivable_form_field_financial_concept => 'Financial concept';
+
+  @override
+  String get accountsReceivable_form_field_debtor_dni => 'Debtor tax ID';
+
+  @override
+  String get accountsReceivable_form_field_debtor_phone => 'Debtor phone';
+
+  @override
+  String get accountsReceivable_form_field_debtor_name => 'Debtor name';
+
+  @override
+  String get accountsReceivable_form_field_debtor_email => 'Debtor email';
+
+  @override
+  String get accountsReceivable_form_field_debtor_address => 'Debtor address';
+
+  @override
+  String get accountsReceivable_form_field_member => 'Select member';
+
+  @override
+  String get accountsReceivable_form_field_single_due_date => 'Due date';
+
+  @override
+  String get accountsReceivable_form_field_automatic_installments => 'Number of installments';
+
+  @override
+  String get accountsReceivable_form_field_automatic_amount => 'Amount per installment';
+
+  @override
+  String get accountsReceivable_form_error_member_required => 'Select a member';
+
+  @override
+  String get accountsReceivable_form_error_description_required => 'Description is required';
+
+  @override
+  String get accountsReceivable_form_error_financial_concept_required => 'Select a financial concept';
+
+  @override
+  String get accountsReceivable_form_error_debtor_name_required => 'Debtor name is required';
+
+  @override
+  String get accountsReceivable_form_error_debtor_dni_required => 'Debtor identifier is required';
+
+  @override
+  String get accountsReceivable_form_error_debtor_phone_required => 'Debtor phone is required';
+
+  @override
+  String get accountsReceivable_form_error_debtor_email_required => 'Debtor email is required';
+
+  @override
+  String get accountsReceivable_form_error_total_amount_required => 'Enter the total amount';
+
+  @override
+  String get accountsReceivable_form_error_single_due_date_required => 'Enter the due date';
+
+  @override
+  String get accountsReceivable_form_error_installments_required => 'Generate the installments to continue';
+
+  @override
+  String get accountsReceivable_form_error_installments_invalid => 'Fill in amount and due date for each installment';
+
+  @override
+  String get accountsReceivable_form_error_automatic_installments_required => 'Enter the number of installments';
+
+  @override
+  String get accountsReceivable_form_error_automatic_amount_required => 'Enter the amount per installment';
+
+  @override
+  String get accountsReceivable_form_error_automatic_first_due_date_required => 'Enter the date of the first installment';
+
+  @override
+  String get accountsReceivable_form_error_installments_count_mismatch => 'The number of generated installments must match the total informed';
+
+  @override
+  String get accountsReceivable_form_debtor_type_title => 'Debtor type';
+
+  @override
+  String get accountsReceivable_form_debtor_type_member => 'Church member';
+
+  @override
+  String get accountsReceivable_form_debtor_type_external => 'External';
+
+  @override
+  String get accountsReceivable_form_installments_single_empty_message => 'Enter the amount and due date to see the summary.';
+
+  @override
+  String get accountsReceivable_form_installments_automatic_empty_message => 'Enter the data and click \"Generate installments\" to see the schedule.';
+
+  @override
+  String get accountsReceivable_form_installments_summary_title => 'Installments summary';
+
+  @override
+  String accountsReceivable_form_installment_item_title(int index) {
+    return 'Installment $index';
+  }
+
+  @override
+  String accountsReceivable_form_installment_item_due_date(String date) {
+    return 'Due date: $date';
+  }
+
+  @override
+  String accountsReceivable_form_installments_summary_total(String amount) {
+    return 'Total: $amount';
+  }
+
+  @override
+  String get accountsReceivable_form_save => 'Save';
+
+  @override
+  String get accountsReceivable_form_toast_saved_success => 'Account receivable registered successfully';
+
+  @override
+  String get accountsReceivable_form_toast_saved_error => 'Error while registering account receivable';
+
+  @override
+  String get accountsReceivable_view_debtor_section => 'Debtor information';
+
+  @override
+  String get accountsReceivable_view_debtor_name => 'Name';
+
+  @override
+  String get accountsReceivable_view_debtor_dni => 'Tax ID';
+
+  @override
+  String get accountsReceivable_view_debtor_type => 'Debtor type';
+
+  @override
+  String get accountsReceivable_view_installments_title => 'Installments list';
+
+  @override
+  String get accountsReceivable_view_register_payment => 'Register payment';
+
+  @override
+  String get accountsReceivable_view_general_section => 'General information';
+
+  @override
+  String get accountsReceivable_view_general_created => 'Created';
+
+  @override
+  String get accountsReceivable_view_general_updated => 'Updated';
+
+  @override
+  String get accountsReceivable_view_general_description => 'Description';
+
+  @override
+  String get accountsReceivable_view_general_type => 'Type';
+
+  @override
+  String get accountsReceivable_view_general_total => 'Total amount';
+
+  @override
+  String get accountsReceivable_view_general_paid => 'Amount paid';
+
+  @override
+  String get accountsReceivable_view_general_pending => 'Amount pending';
+
+  @override
+  String get accountsReceivable_payment_total_label => 'Total amount to be paid';
+
+  @override
+  String get accountsReceivable_payment_submit => 'Submit payment';
+
+  @override
+  String get accountsReceivable_payment_receipt_label => 'Transfer receipt';
+
+  @override
+  String get accountsReceivable_payment_availability_account_label => 'Availability account';
+
+  @override
+  String get accountsReceivable_payment_amount_label => 'Payment amount';
+
+  @override
+  String get accountsReceivable_payment_toast_success => 'Payment registered successfully';
+
+  @override
+  String get accountsReceivable_payment_error_amount_required => 'Enter the payment amount';
+
+  @override
+  String get accountsReceivable_payment_error_availability_account_required => 'Select an availability account';
+
+  @override
+  String get accountsReceivable_form_field_automatic_first_due_date => 'First installment date';
+
+  @override
+  String get accountsReceivable_form_generate_installments => 'Generate installments';
+
+  @override
+  String get accountsReceivable_form_error_generate_installments_fill_data => 'Fill in the data to generate the installments.';
+
+  @override
+  String get accountsReceivable_form_toast_generate_installments_success => 'Installments generated automatically.';
+
+  @override
+  String get accountsPayable_list_title => 'Accounts payable';
+
+  @override
+  String get accountsPayable_list_new => 'Register accounts payable';
+
+  @override
+  String get accountsPayable_table_empty => 'No accounts payable to show';
+
+  @override
+  String get accountsPayable_table_header_supplier => 'Supplier';
+
+  @override
+  String get accountsPayable_table_header_description => 'Description';
+
+  @override
+  String get accountsPayable_table_header_installments => 'No. of installments';
+
+  @override
+  String get accountsPayable_table_header_paid => 'Paid';
+
+  @override
+  String get accountsPayable_table_header_pending => 'Pending';
+
+  @override
+  String get accountsPayable_table_header_total => 'Total payable';
+
+  @override
+  String get accountsPayable_table_header_status => 'Status';
+
+  @override
+  String get accountsPayable_table_action_view => 'View';
+
+  @override
+  String get accountsPayable_register_title => 'Register account payable';
+
+  @override
+  String get accountsPayable_view_title => 'Accounts payable detail';
+
+  @override
+  String get accountsPayable_view_installments_title => 'Installments list';
+
+  @override
+  String get accountsPayable_view_register_payment => 'Register payment';
+
+  @override
+  String get accountsPayable_view_provider_section => 'Supplier information';
+
+  @override
+  String get accountsPayable_view_provider_name => 'Name';
+
+  @override
+  String get accountsPayable_view_provider_dni => 'Tax ID';
+
+  @override
+  String get accountsPayable_view_provider_phone => 'Phone';
+
+  @override
+  String get accountsPayable_view_provider_email => 'Email';
+
+  @override
+  String get accountsPayable_view_provider_type => 'Supplier type';
+
+  @override
+  String get accountsPayable_view_general_section => 'General information';
+
+  @override
+  String get accountsPayable_view_general_created => 'Created';
+
+  @override
+  String get accountsPayable_view_general_updated => 'Updated';
+
+  @override
+  String get accountsPayable_view_general_description => 'Description';
+
+  @override
+  String get accountsPayable_view_general_total => 'Total amount';
+
+  @override
+  String get accountsPayable_view_general_paid => 'Amount paid';
+
+  @override
+  String get accountsPayable_view_general_pending => 'Amount pending';
+
+  @override
+  String get accountsPayable_payment_total_label => 'Total amount to be paid';
+
+  @override
+  String get accountsPayable_payment_submit => 'Submit payment';
+
+  @override
+  String get accountsPayable_payment_receipt_label => 'Transfer receipt';
+
+  @override
+  String get accountsPayable_payment_cost_center_label => 'Cost center';
+
+  @override
+  String get accountsPayable_payment_availability_account_label => 'Availability account';
+
+  @override
+  String get accountsPayable_payment_amount_label => 'Payment amount';
+
+  @override
+  String get accountsPayable_payment_toast_success => 'Payment registered successfully';
+
+  @override
+  String get accountsPayable_form_section_basic_title => 'Basic information';
+
+  @override
+  String get accountsPayable_form_section_basic_subtitle => 'Choose the supplier and describe the account payable.';
+
+  @override
+  String get accountsPayable_form_section_document_title => 'Fiscal document';
+
+  @override
+  String get accountsPayable_form_section_document_subtitle => 'Provide the fiscal document associated with the payment.';
+
+  @override
+  String get accountsPayable_form_section_tax_title => 'Invoice taxation';
+
+  @override
+  String get accountsPayable_form_section_tax_subtitle => 'Classify the invoice and enter the highlighted taxes.';
+
+  @override
+  String get accountsPayable_form_section_payment_title => 'Payment configuration';
+
+  @override
+  String get accountsPayable_form_section_payment_subtitle => 'Define how this account will be settled and review the installments schedule.';
+
+  @override
+  String get accountsPayable_form_field_supplier => 'Supplier';
+
+  @override
+  String get accountsPayable_form_field_description => 'Description';
+
+  @override
+  String get accountsPayable_form_field_document_type => 'Document type';
+
+  @override
+  String get accountsPayable_form_field_document_number => 'Document number';
+
+  @override
+  String get accountsPayable_form_field_document_date => 'Document date';
+
+  @override
+  String get accountsPayable_form_field_tax_exempt_switch => 'Invoice exempt from taxes';
+
+  @override
+  String get accountsPayable_form_field_tax_exemption_reason => 'Exemption reason';
+
+  @override
+  String get accountsPayable_form_field_tax_observation => 'Observations';
+
+  @override
+  String get accountsPayable_form_field_tax_cst => 'CST code';
+
+  @override
+  String get accountsPayable_form_field_tax_cfop => 'CFOP';
+
+  @override
+  String get accountsPayable_form_section_payment_mode_help_cst => 'Quick help about CST';
+
+  @override
+  String get accountsPayable_form_section_payment_mode_help_cfop => 'Quick help about CFOP';
+
+  @override
+  String get accountsPayable_form_error_supplier_required => 'Supplier is required';
+
+  @override
+  String get accountsPayable_form_error_description_required => 'Description is required';
+
+  @override
+  String get accountsPayable_form_error_document_type_required => 'Select the document type';
+
+  @override
+  String get accountsPayable_form_error_document_number_required => 'Enter the document number';
+
+  @override
+  String get accountsPayable_form_error_document_date_required => 'Enter the document date';
+
+  @override
+  String get accountsPayable_form_error_total_amount_required => 'Enter an amount greater than zero';
+
+  @override
+  String get accountsPayable_form_error_single_due_date_required => 'Enter the due date';
+
+  @override
+  String get accountsPayable_form_error_installments_required => 'Generate or add at least one installment';
+
+  @override
+  String get accountsPayable_form_error_installments_contents => 'Fill in amount and due date for each installment';
+
+  @override
+  String get accountsPayable_form_error_automatic_installments_required => 'Enter the number of installments';
+
+  @override
+  String get accountsPayable_form_error_automatic_amount_required => 'Enter the amount per installment';
+
+  @override
+  String get accountsPayable_form_error_automatic_first_due_date_required => 'Enter the date of the first installment';
+
+  @override
+  String get accountsPayable_form_error_installments_count_mismatch => 'The number of generated installments must match the total informed';
+
+  @override
+  String get accountsPayable_form_error_taxes_required => 'Add withheld taxes when the invoice is not exempt';
+
+  @override
+  String get accountsPayable_form_error_taxes_invalid => 'Enter type, percentage and amount for each tax';
+
+  @override
+  String get accountsPayable_form_error_tax_exemption_reason_required => 'Enter the invoice exemption reason';
+
+  @override
+  String get accountsPayable_form_error_installments_add_one => 'Add at least one installment';
+
+  @override
+  String get accountsPayable_form_error_tax_exempt_must_not_have_taxes => 'Exempt invoices must not have withheld taxes';
+
+  @override
+  String get accountsPayable_form_error_tax_status_mismatch => 'Update the tax status according to the highlighted taxes';
+
+  @override
+  String get accountsPayable_form_installments_single_empty_message => 'Enter the amount and due date to see the summary.';
+
+  @override
+  String get accountsPayable_form_installments_automatic_empty_message => 'Enter the data and click \"Generate installments\" to see the schedule.';
+
+  @override
+  String get accountsPayable_form_field_total_amount => 'Total amount';
+
+  @override
+  String get accountsPayable_form_field_single_due_date => 'Due date';
+
+  @override
+  String get accountsPayable_form_field_automatic_installments => 'Number of installments';
+
+  @override
+  String get accountsPayable_form_field_automatic_amount => 'Amount per installment';
+
+  @override
+  String get accountsPayable_form_field_automatic_first_due_date => 'First installment date';
+
+  @override
+  String get accountsPayable_form_generate_installments => 'Generate installments';
+
+  @override
+  String get accountsPayable_form_error_generate_installments_fill_data => 'Fill in the data to generate the installments.';
+
+  @override
+  String get accountsPayable_form_toast_generate_installments_success => 'Installments generated successfully.';
+
+  @override
+  String get accountsPayable_form_installments_summary_title => 'Installments summary';
+
+  @override
+  String accountsPayable_form_installment_item_title(int index) {
+    return 'Installment $index';
+  }
+
+  @override
+  String accountsPayable_form_installment_item_due_date(String date) {
+    return 'Due date: $date';
+  }
+
+  @override
+  String accountsPayable_form_installments_summary_total(String amount) {
+    return 'Total: $amount';
+  }
+
+  @override
+  String get accountsPayable_form_toast_saved_success => 'Account payable registered successfully';
+
+  @override
+  String get accountsPayable_form_toast_saved_error => 'Error while registering account payable';
+
+  @override
+  String get accountsPayable_form_save => 'Save';
+
+  @override
+  String get reports_income_download_pdf => 'Download PDF';
+
+  @override
+  String get reports_income_download_success => 'PDF downloaded successfully';
+
+  @override
+  String get reports_income_download_error => 'Could not download the PDF';
+
+  @override
+  String get reports_income_download_error_generic => 'Error while downloading the PDF';
+
+  @override
+  String get reports_dre_download_pdf => 'Download PDF';
+
+  @override
+  String get reports_dre_download_success => 'PDF downloaded successfully';
+
+  @override
+  String get reports_dre_download_error => 'Could not download the PDF';
+
+  @override
+  String get reports_dre_download_error_generic => 'Error while downloading the PDF';
+
+  @override
+  String get reports_income_breakdown_title => 'Income and expenses by category';
+
+  @override
+  String get reports_income_breakdown_empty => 'No income and expense data for the selected period.';
+
+  @override
+  String get reports_income_breakdown_header_category => 'Category';
+
+  @override
+  String get reports_income_breakdown_header_income => 'Income';
+
+  @override
+  String get reports_income_breakdown_header_expenses => 'Expenses';
+
+  @override
+  String get reports_income_breakdown_header_balance => 'Balance';
+
+  @override
+  String get reports_income_cashflow_title => 'Cash flow by availability account';
+
+  @override
+  String reports_income_cashflow_summary(String income, String expenses, String total) {
+    return 'Total income: $income | Total expenses: $expenses | Consolidated balance: $total';
+  }
+
+  @override
+  String get reports_income_cashflow_empty => 'No availability account movements in this period.';
+
+  @override
+  String get reports_income_cashflow_header_account => 'Account';
+
+  @override
+  String get reports_income_cashflow_header_income => 'Income';
+
+  @override
+  String get reports_income_cashflow_header_expenses => 'Expenses';
+
+  @override
+  String get reports_income_cashflow_header_balance => 'Period balance';
+
+  @override
+  String get reports_income_cost_centers_title => 'Cost center usage';
+
+  @override
+  String reports_income_cost_centers_total_applied(String total) {
+    return 'Total applied: $total';
+  }
+
+  @override
+  String get reports_income_cost_centers_empty => 'No cost centers with movements in this period.';
+
+  @override
+  String get reports_income_cost_centers_header_name => 'Cost center';
+
+  @override
+  String get reports_income_cost_centers_header_total => 'Total applied';
+
+  @override
+  String get reports_income_cost_centers_header_last_move => 'Last movement';
+
+  @override
+  String get trends_header_title => 'Composition of income, expenses and result';
+
+  @override
+  String trends_header_comparison(String currentMonthYear, String previousMonthYear) {
+    return 'Comparison: $currentMonthYear vs $previousMonthYear';
+  }
+
+  @override
+  String get trends_list_revenue => 'Revenue';
+
+  @override
+  String get trends_list_opex => 'Operating expenses';
+
+  @override
+  String get trends_list_transfers => 'Ministry transfers';
+
+  @override
+  String get trends_list_capex => 'Investments';
+
+  @override
+  String get trends_list_net_income => 'Net result';
+
+  @override
+  String get trends_summary_revenue => 'Revenue';
+
+  @override
+  String get trends_summary_opex => 'Operating';
+
+  @override
+  String get trends_summary_transfers => 'Transfers';
+
+  @override
+  String get trends_summary_capex => 'Investments';
+
+  @override
+  String get trends_summary_net_income => 'Result';
+
+  @override
+  String get reports_dre_screen_title => 'DRE - Statement of Income for the Year';
+
+  @override
+  String get reports_dre_header_title => 'Statement of Income for the Year';
+
+  @override
+  String get reports_dre_header_subtitle => 'Understand how your church received and used resources in the period';
+
+  @override
+  String get reports_dre_footer_note => 'Note: This report considers only confirmed and reconciled entries that affect the accounting result.';
+
+  @override
+  String get reports_dre_main_indicators_title => 'Key indicators';
+
+  @override
+  String get reports_dre_card_gross_revenue_title => 'Gross revenue';
+
+  @override
+  String get reports_dre_card_gross_revenue_description => 'Total tithes, offerings and donations received';
+
+  @override
+  String get reports_dre_card_operational_result_title => 'Operating result';
+
+  @override
+  String get reports_dre_card_operational_result_description => 'Gross result minus operating expenses';
+
+  @override
+  String get reports_dre_card_net_result_title => 'Net result';
+
+  @override
+  String get reports_dre_card_net_result_description => 'Final result for the period (surplus or deficit)';
+
+  @override
+  String get reports_dre_detail_section_title => 'Detail';
+
+  @override
+  String get reports_dre_item_net_revenue_title => 'Net revenue';
+
+  @override
+  String get reports_dre_item_net_revenue_description => 'Gross revenue minus returns and adjustments';
+
+  @override
+  String get reports_dre_item_direct_costs_title => 'Direct costs';
+
+  @override
+  String get reports_dre_item_direct_costs_description => 'Event costs, materials and specific activities';
+
+  @override
+  String get reports_dre_item_gross_profit_title => 'Gross profit';
+
+  @override
+  String get reports_dre_item_gross_profit_description => 'Net revenue minus direct costs';
+
+  @override
+  String get reports_dre_item_operational_expenses_title => 'Operating expenses';
+
+  @override
+  String get reports_dre_item_operational_expenses_description => 'Day-to-day expenses: electricity, water, salaries, cleaning';
+
+  @override
+  String get reports_dre_item_ministry_transfers_title => 'Ministry transfers';
+
+  @override
+  String get reports_dre_item_ministry_transfers_description => 'Transfers to ministries, missions or to the board';
+
+  @override
+  String get reports_monthly_tithes_title => 'Monthly tithes report';
+
+  @override
+  String get reports_monthly_tithes_empty => 'No monthly tithes to show';
+
+  @override
+  String get reports_monthly_tithes_header_date => 'Date';
+
+  @override
+  String get reports_monthly_tithes_header_amount => 'Amount';
+
+  @override
+  String get reports_monthly_tithes_header_account => 'Availability account';
+
+  @override
+  String get reports_monthly_tithes_header_account_type => 'Account type';
+
+  @override
+  String get finance_records_filter_concept_type => 'Concept type';
+
+  @override
+  String get finance_records_filter_concept => 'Concept';
+
+  @override
+  String get finance_records_filter_availability_account => 'Availability account';
+
+  @override
+  String get finance_records_table_empty => 'No financial records to show';
+
+  @override
+  String get finance_records_table_header_date => 'Date';
+
+  @override
+  String get finance_records_table_header_amount => 'Amount';
+
+  @override
+  String get finance_records_table_header_type => 'Movement type';
+
+  @override
+  String get finance_records_table_header_concept => 'Concept';
+
+  @override
+  String get finance_records_table_header_availability_account => 'Availability account';
+
+  @override
+  String get finance_records_table_header_status => 'Status';
+
+  @override
+  String get finance_records_table_action_void => 'Void';
+
+  @override
+  String get finance_records_table_confirm_void => 'Do you want to void this financial movement?';
+
+  @override
+  String get finance_records_table_modal_title => 'Financial movement';
+
+  @override
+  String get finance_records_form_title => 'Financial record';
+
+  @override
+  String get finance_records_form_field_description => 'Description';
+
+  @override
+  String get finance_records_form_field_date => 'Date';
+
+  @override
+  String get finance_records_form_field_receipt => 'Bank movement receipt';
+
+  @override
+  String get finance_records_form_field_cost_center => 'Cost center';
+
+  @override
+  String get finance_records_form_save => 'Save';
+
+  @override
+  String get finance_records_form_toast_purchase_in_construction => 'Purchase records are under construction';
+
+  @override
+  String get finance_records_form_toast_saved_success => 'Record saved successfully';
+
+  @override
+  String get common_view => 'View';
+
+  @override
+  String get contributions_status_processed => 'Processed';
+
+  @override
+  String get contributions_status_pending_verification => 'Pending verification';
+
+  @override
+  String get contributions_status_rejected => 'Rejected';
+
+  @override
+  String get contributions_list_title => 'Contributions list';
+
+  @override
+  String get contributions_list_new => 'Register contribution';
+
+  @override
+  String get contributions_table_empty => 'No contributions found';
+
+  @override
+  String get contributions_table_header_member => 'Name';
+
+  @override
+  String get contributions_table_header_amount => 'Amount';
+
+  @override
+  String get contributions_table_header_type => 'Contribution type';
+
+  @override
+  String get contributions_table_header_status => 'Status';
+
+  @override
+  String get contributions_table_header_date => 'Date';
+
+  @override
+  String contributions_table_modal_title(String id) {
+    return 'Contribution #$id';
+  }
+
+  @override
+  String get contributions_view_field_amount => 'Amount';
+
+  @override
+  String get contributions_view_field_status => 'Status';
+
+  @override
+  String get contributions_view_field_date => 'Date';
+
+  @override
+  String get contributions_view_field_account => 'Account';
+
+  @override
+  String get contributions_view_section_member => 'Member';
+
+  @override
+  String get contributions_view_section_financial_concept => 'Financial concept';
+
+  @override
+  String get contributions_view_section_receipt => 'Transfer receipt';
+
+  @override
+  String get contributions_view_action_approve => 'Approve';
+
+  @override
+  String get contributions_view_action_reject => 'Reject';
+
+  @override
+  String get accountsReceivable_form_section_payment_title => 'Payment configuration';
+
+  @override
+  String get accountsReceivable_form_section_payment_subtitle => 'Define how this receivable will be charged and review the installments schedule.';
+
+  @override
+  String get accountsReceivable_form_field_type => 'Account type';
+
+  @override
+  String get accountsReceivable_type_help_title => 'How to classify the account type';
+
+  @override
+  String get accountsReceivable_type_help_intro => 'Choose the type that best describes the origin of the receivable amount.';
+
+  @override
+  String get accountsReceivable_type_contribution_title => 'Contribution';
+
+  @override
+  String get accountsReceivable_type_contribution_description => 'Voluntary commitments made by members or groups.';
+
+  @override
+  String get accountsReceivable_type_contribution_example => 'E.g.: missions campaigns, recurring offerings, special donations.';
+
+  @override
+  String get accountsReceivable_type_service_title => 'Service';
+
+  @override
+  String get accountsReceivable_type_service_description => 'Charges for activities or services provided by the church.';
+
+  @override
+  String get accountsReceivable_type_service_example => 'E.g.: music courses, conferences, event catering rental.';
+
+  @override
+  String get accountsReceivable_type_interinstitutional_title => 'Interinstitutional';
+
+  @override
+  String get accountsReceivable_type_interinstitutional_description => 'Amounts arising from partnerships with other institutions.';
+
+  @override
+  String get accountsReceivable_type_interinstitutional_example => 'E.g.: support for joint events, agreements with another church.';
+
+  @override
+  String get accountsReceivable_type_rental_title => 'Rental';
+
+  @override
+  String get accountsReceivable_type_rental_description => 'Paid use of spaces, vehicles or equipment.';
+
+  @override
+  String get accountsReceivable_type_rental_example => 'E.g.: auditorium rental, instruments or chair rental.';
+
+  @override
+  String get accountsReceivable_type_loan_title => 'Loan';
+
+  @override
+  String get accountsReceivable_type_loan_description => 'Resources granted by the church that must be repaid.';
+
+  @override
+  String get accountsReceivable_type_loan_example => 'E.g.: advances to ministries, temporary financial support.';
+
+  @override
+  String get accountsReceivable_type_financial_title => 'Financial';
+
+  @override
+  String get accountsReceivable_type_financial_description => 'Bank movements that are still pending settlement.';
+
+  @override
+  String get accountsReceivable_type_financial_example => 'E.g.: checks in process, card acquiring, refunds.';
+
+  @override
+  String get accountsReceivable_type_legal_title => 'Legal';
+
+  @override
+  String get accountsReceivable_type_legal_description => 'Charges related to legal actions, insurance or indemnities.';
+
+  @override
+  String get accountsReceivable_type_legal_example => 'E.g.: enforcement of judgment, claims covered by insurer.';
+}

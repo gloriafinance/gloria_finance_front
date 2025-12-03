@@ -1,22 +1,8 @@
 name: church_finance_bk
 description: "administrative system for the financial management of churches."
-# The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-# The following defines the version and build number for your application.
-# A version number is three numbers separated by dots, like 1.2.43
-# followed by an optional build number separated by a +.
-# Both the version and the builder number may be overridden in flutter
-# build by specifying --build-name and --build-number, respectively.
-# In Android, build-name is used as versionName while build-number used as versionCode.
-# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
-# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
-# Read more about iOS versioning at
-# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-# In Windows, build-name is used as the major, minor, and patch parts
-# of the product and file versions while build-number is used as the build suffix.
-version: 1.11.1+74
+version: 1.12.0+75
 
 environment:
   sdk: ^3.7.2
@@ -73,6 +59,7 @@ flutter_icons:
 # The following section is specific to Flutter packages.
 flutter:
   uses-material-design: true
+  generate: true
 
   fonts:
     - family: fontTitle
@@ -87,3 +74,8 @@ flutter:
 
   assets:
     - images/
+
+scripts:
+  # Generar traducciones
+  gen_l10n: flutter gen-l10n
+  clean_rebuild: flutter clean && flutter pub get && flutter gen-l10n

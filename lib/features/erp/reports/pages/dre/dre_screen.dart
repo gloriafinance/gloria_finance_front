@@ -2,6 +2,7 @@
 
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,18 +19,22 @@ class DREScreen extends StatelessWidget {
 
     return ChangeNotifierProvider(
       create: (_) => DREStore()..fetchDRE(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [_buildTitle(), _buildContent()],
+      child: Builder(
+        builder: (context) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [_buildTitle(context), _buildContent()],
+          );
+        },
       ),
     );
   }
 
-  Widget _buildTitle() {
+  Widget _buildTitle(BuildContext context) {
     return Text(
-      'DRE - Demonstração do Resultado do Exercício',
+      context.l10n.reports_dre_screen_title,
       textAlign: TextAlign.left,
-      style: TextStyle(
+      style: const TextStyle(
         fontFamily: AppFonts.fontTitle,
         fontSize: 20,
         color: Colors.black,
@@ -58,11 +63,11 @@ class DREScreen extends StatelessWidget {
                     child: const CircularProgressIndicator(),
                   )
                 else ...[
-                  _buildReportHeader(),
+                  _buildReportHeader(context),
                   const SizedBox(height: 28),
                   DRECards(data: data),
                   const SizedBox(height: 40),
-                  _buildReportInfo(),
+                  _buildReportInfo(context),
                 ],
               ],
             ),
@@ -72,13 +77,13 @@ class DREScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildReportHeader() {
+  Widget _buildReportHeader(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 14),
         Text(
-          'Demonstração do Resultado do Exercício',
+          context.l10n.reports_dre_header_title,
           style: const TextStyle(
             fontFamily: AppFonts.fontTitle,
             fontSize: 24,
@@ -87,7 +92,7 @@ class DREScreen extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          'Entenda como sua igreja recebeu e utilizou os recursos no período',
+          context.l10n.reports_dre_header_subtitle,
           style: TextStyle(
             fontFamily: AppFonts.fontTitle,
             fontSize: 14,
@@ -98,7 +103,7 @@ class DREScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildReportInfo() {
+  Widget _buildReportInfo(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -112,7 +117,7 @@ class DREScreen extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              'Nota: Este relatório considera apenas lançamentos confirmados e reconciliados que afetam o resultado contábil.',
+              context.l10n.reports_dre_footer_note,
               style: TextStyle(
                 fontFamily: AppFonts.fontTitle,
                 fontSize: 13,

@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
@@ -59,10 +60,13 @@ class _FormFinanceRecordState extends State<FormFinanceRecord> {
                     ),
                 const SizedBox(height: 32),
                 isMobile(context)
-                    ? _btnSave(formStore)
+                    ? _btnSave(context, formStore)
                     : Align(
                       alignment: Alignment.centerRight,
-                      child: SizedBox(width: 300, child: _btnSave(formStore)),
+                      child: SizedBox(
+                        width: 300,
+                        child: _btnSave(context, formStore),
+                      ),
                     ),
               ],
             );
@@ -72,32 +76,41 @@ class _FormFinanceRecordState extends State<FormFinanceRecord> {
     );
   }
 
-  Widget _btnSave(FormFinanceRecordStore formStore) {
+  Widget _btnSave(BuildContext context, FormFinanceRecordStore formStore) {
     return (formStore.state.makeRequest)
         ? const Loading()
         : Padding(
           padding: EdgeInsets.only(top: 20),
           child: CustomButton(
-            text: "Salvar",
+            text: context.l10n.finance_records_form_save,
             backgroundColor: AppColors.green,
             textColor: Colors.black,
-            onPressed: () => _saveRecord(formStore),
+            onPressed: () => _saveRecord(context, formStore),
           ),
         );
   }
 
-  void _saveRecord(FormFinanceRecordStore formStore) async {
+  void _saveRecord(
+    BuildContext context,
+    FormFinanceRecordStore formStore,
+  ) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
 
     if (formStore.state.isPurchase) {
-      Toast.showMessage("Registro de compras em contruçāo", ToastType.warning);
+      Toast.showMessage(
+        context.l10n.finance_records_form_toast_purchase_in_construction,
+        ToastType.warning,
+      );
       return;
     }
 
     if (await formStore.send()) {
-      Toast.showMessage("Registro salvo com sucesso", ToastType.info);
+      Toast.showMessage(
+        context.l10n.finance_records_form_toast_saved_success,
+        ToastType.info,
+      );
       context.go("/financial-record");
     }
   }

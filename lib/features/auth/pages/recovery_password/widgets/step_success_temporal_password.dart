@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,46 +29,59 @@ class StepSuccessTemporalPassword extends StatelessWidget {
           color: AppColors.grey,
           size: 50,
         ),
-        Text('Verifique seu e-mail',
-            style: TextStyle(fontSize: 20, fontFamily: AppFonts.fontTitle)),
+        Text(
+          context.l10n.auth_recovery_success_title,
+          style: TextStyle(fontSize: 20, fontFamily: AppFonts.fontTitle),
+        ),
         SizedBox(
           height: 36,
         ),
         Text(
-          'Enviamos uma senha temporaria no e-mail ${changePasswordStore.state.email} se não encontrar verifique a caixa de spam.  Se recebeu o e-mail, clique no botāo abaxio.',
+          context.l10n.auth_recovery_success_body(
+            changePasswordStore.state.email,
+          ),
           style: TextStyle(fontFamily: AppFonts.fontText),
         ),
         SizedBox(
           height: 36,
         ),
         CustomButton(
-            text: "Continuar",
+            text: context.l10n.auth_recovery_success_continue,
             backgroundColor: AppColors.green,
             onPressed: () => stepperStore.nextStep()),
         SizedBox(
           height: 36,
         ),
-        _resendEmail(changePasswordStore)
+        _resendEmail(context, changePasswordStore)
       ],
     );
   }
 
-  Widget _resendEmail(ChangePasswordStore changePasswordStore) {
+  Widget _resendEmail(
+    BuildContext context,
+    ChangePasswordStore changePasswordStore,
+  ) {
     return GestureDetector(
       onTap: () {
         AuthService()
             .recoveryPassword(changePasswordStore.state.email)
             .then((value) {
           if (value) {
-            Toast.showMessage('E-mail reenviado com sucesso', ToastType.info);
+            Toast.showMessage(
+              context.l10n.auth_recovery_success_resend_ok,
+              ToastType.info,
+            );
             return;
           }
 
-          Toast.showMessage('Erro ao reenviar e-mail', ToastType.error);
+          Toast.showMessage(
+            context.l10n.auth_recovery_success_resend_error,
+            ToastType.error,
+          );
         });
       },
       child: Text(
-        'Ainda não recebeu o e-mail? Reenviar e-mail',
+        context.l10n.auth_recovery_success_resend,
         style: TextStyle(fontFamily: AppFonts.fontText, color: AppColors.blue),
       ),
     );

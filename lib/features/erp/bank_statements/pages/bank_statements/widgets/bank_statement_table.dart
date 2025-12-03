@@ -3,6 +3,7 @@ import 'package:church_finance_bk/core/paginate/custom_table.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/tag_status.dart';
@@ -43,17 +44,17 @@ class BankStatementTable extends StatelessWidget {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
-              Icon(Icons.account_balance, size: 48, color: AppColors.grey),
-              SizedBox(height: 12),
+            children: [
+              const Icon(Icons.account_balance, size: 48, color: AppColors.grey),
+              const SizedBox(height: 12),
               Text(
-                'Nenhum extrato importado ainda.',
-                style: TextStyle(fontFamily: AppFonts.fontSubTitle),
+                context.l10n.bankStatements_empty_title,
+                style: const TextStyle(fontFamily: AppFonts.fontSubTitle),
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Text(
-                'Importe um arquivo CSV para iniciar a conciliação bancária.',
-                style: TextStyle(color: AppColors.grey),
+                context.l10n.bankStatements_empty_subtitle,
+                style: const TextStyle(color: AppColors.grey),
               ),
             ],
           ),
@@ -62,13 +63,13 @@ class BankStatementTable extends StatelessWidget {
     }
 
     return CustomTable(
-      headers: const [
-        'Data',
-        'Banco',
-        'Descrição',
-        'Valor',
-        'Direção',
-        'Status',
+      headers: [
+        context.l10n.bankStatements_header_date,
+        context.l10n.bankStatements_header_bank,
+        context.l10n.bankStatements_header_description,
+        context.l10n.bankStatements_header_amount,
+        context.l10n.bankStatements_header_direction,
+        context.l10n.bankStatements_header_status,
         // 'Lançamento',
       ],
       data: FactoryDataTable<dynamic>(
@@ -78,7 +79,7 @@ class BankStatementTable extends StatelessWidget {
       actionBuilders: [
         (statement) => ButtonActionTable(
           color: AppColors.blue,
-          text: 'Detalhes',
+          text: context.l10n.bankStatements_action_details,
           icon: Icons.search,
           onPressed: () => _openDetails(context, statement),
         ),
@@ -92,8 +93,8 @@ class BankStatementTable extends StatelessWidget {
             color: AppColors.purple,
             text:
                 state.isRetrying(model.bankStatementId)
-                    ? 'Processando'
-                    : 'Reprocessar',
+                    ? context.l10n.common_loading
+                    : context.l10n.bankStatements_action_retry,
             icon: Icons.restart_alt,
             onPressed: () async {
               if (state.isRetrying(model.bankStatementId)) return;
@@ -103,8 +104,8 @@ class BankStatementTable extends StatelessWidget {
 
               final message =
                   response.matched
-                      ? 'Extrato conciliado automaticamente.'
-                      : 'Nenhum lançamento correspondente encontrado.';
+                      ? context.l10n.bankStatements_toast_auto_reconciled
+                      : context.l10n.bankStatements_toast_no_match;
 
               Toast.showMessage(message, ToastType.info);
             },
@@ -120,8 +121,8 @@ class BankStatementTable extends StatelessWidget {
             color: Colors.deepOrange,
             text:
                 state.isLinking(model.bankStatementId)
-                    ? 'Vinculando...'
-                    : 'Vincular',
+                    ? context.l10n.bankStatements_action_linking
+                    : context.l10n.bankStatements_action_link,
             icon: Icons.link,
             onPressed: () {
               if (state.isLinking(model.bankStatementId)) return;
@@ -193,7 +194,7 @@ class BankStatementTable extends StatelessWidget {
 
   void _openDetails(BuildContext context, BankStatementModel statement) {
     ModalPage(
-      title: 'Detalhes do extrato bancário',
+      title: context.l10n.bankStatements_details_title,
       body: BankStatementDetailView(statement: statement),
     ).show(context);
   }
@@ -220,7 +221,10 @@ class BankStatementTable extends StatelessWidget {
     );
 
     if (result == true) {
-      Toast.showMessage('Extrato vinculado com sucesso.', ToastType.info);
+      Toast.showMessage(
+        context.l10n.bankStatements_toast_link_success,
+        ToastType.info,
+      );
     }
   }
 }

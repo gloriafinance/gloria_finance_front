@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
@@ -19,7 +20,6 @@ class FormLogin extends StatefulWidget {
 
 class _FormLogin extends State<FormLogin> {
   final formKey = GlobalKey<FormState>();
-  final validator = FormLoginValidator();
   bool isPasswordVisible = true;
   bool isFormValid = false;
 
@@ -37,6 +37,12 @@ class _FormLogin extends State<FormLogin> {
 
   @override
   Widget build(BuildContext context) {
+    final validator = FormLoginValidator(
+      invalidEmailMessage: context.l10n.auth_login_error_invalid_email,
+      requiredPasswordMessage:
+          context.l10n.auth_login_error_required_password,
+    );
+
     final authStore = Provider.of<AuthSessionStore>(context);
 
     return Padding(
@@ -50,7 +56,7 @@ class _FormLogin extends State<FormLogin> {
                 padding: const EdgeInsets.fromLTRB(10, 23, 10, 0),
                 child: Input(
                   icon: Icons.email_outlined,
-                  label: "E-mail",
+                  label: context.l10n.auth_login_email_label,
                   keyboardType: TextInputType.emailAddress,
                   onValidator: validator.byField(authStore.formState, 'email'),
                   onChanged: (value) {
@@ -62,7 +68,7 @@ class _FormLogin extends State<FormLogin> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(10, 12, 10, 0),
                 child: Input(
-                  label: "Senha",
+                  label: context.l10n.auth_login_password_label,
                   icon: Icons.lock_outline,
                   keyboardType: TextInputType.text,
                   iconRight: const Icon(
@@ -99,7 +105,7 @@ class _FormLogin extends State<FormLogin> {
       child: Align(
         alignment: Alignment.centerRight,
         child: Text(
-          'Esqueceu a senha?',
+          context.l10n.auth_login_forgot_password,
           style: TextStyle(
               color: AppColors.purple,
               fontSize: 16,
@@ -114,7 +120,7 @@ class _FormLogin extends State<FormLogin> {
       padding: const EdgeInsets.only(top: 60),
       child: CustomButton(
           backgroundColor: AppColors.green,
-          text: "Entrar",
+          text: context.l10n.auth_login_submit,
           onPressed: isFormValid ? () => _makeLogin(authStore) : null,
           typeButton: CustomButton.basic),
     );

@@ -1,5 +1,6 @@
-import 'package:church_finance_bk/core/widgets/form_controls.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/general.dart';
+import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:flutter/material.dart';
 
 import '../store/form_accounts_receivable_store.dart';
@@ -20,11 +21,11 @@ class ExternalDebtorForm extends StatelessWidget {
     return isMobile(context)
         ? Column(
           children: [
-            _inputDNI(),
-            _inputName(),
-            _inputPhone(),
-            _inputEmail(),
-            _inputAddress(),
+            _inputDNI(context),
+            _inputName(context),
+            _inputPhone(context),
+            _inputEmail(context),
+            _inputAddress(context),
           ],
         )
         : Column(
@@ -32,61 +33,61 @@ class ExternalDebtorForm extends StatelessWidget {
           children: [
             Row(
               children: [
-                Expanded(child: _inputDNI()),
+                Expanded(child: _inputDNI(context)),
                 SizedBox(width: 16),
-                Expanded(child: _inputName()),
+                Expanded(child: _inputName(context)),
                 SizedBox(width: 16),
-                Expanded(child: _inputPhone()),
+                Expanded(child: _inputPhone(context)),
                 SizedBox(width: 16),
-                Expanded(child: _inputEmail()),
+                Expanded(child: _inputEmail(context)),
                 SizedBox(width: 16),
               ],
             ),
 
-            SizedBox(width: 820, child: _inputAddress()),
+            SizedBox(width: 820, child: _inputAddress(context)),
           ],
         );
   }
 
-  _inputDNI() {
+  Widget _inputDNI(BuildContext context) {
     return Input(
-      label: 'CNPJ/CPJ do Deudor',
+      label: context.l10n.accountsReceivable_form_field_debtor_dni,
       initialValue: formStore.state.debtorDNI,
       onChanged: (value) => formStore.setDebtorDNI(value),
       onValidator: validator.byField(formStore.state, 'debtorDNI'),
     );
   }
 
-  _inputPhone() {
+  Widget _inputPhone(BuildContext context) {
     return Input(
-      label: 'Telefone do Deudor',
+      label: context.l10n.accountsReceivable_form_field_debtor_phone,
       initialValue: formStore.state.debtorPhone,
       onChanged: (value) => formStore.setDebtorPhone(value),
       onValidator: validator.byField(formStore.state, 'debtorPhone'),
     );
   }
 
-  _inputName() {
+  Widget _inputName(BuildContext context) {
     return Input(
-      label: 'Nome do Deudor',
+      label: context.l10n.accountsReceivable_form_field_debtor_name,
       initialValue: formStore.state.debtorName,
       onChanged: (value) => formStore.setDebtorName(value),
       onValidator: validator.byField(formStore.state, 'debtorName'),
     );
   }
 
-  _inputEmail() {
+  Widget _inputEmail(BuildContext context) {
     return Input(
-      label: 'Email do Deudor',
+      label: context.l10n.accountsReceivable_form_field_debtor_email,
       initialValue: formStore.state.debtorEmail,
       onChanged: (value) => formStore.setDebtorEmail(value),
       onValidator: validator.byField(formStore.state, 'debtorEmail'),
     );
   }
 
-  _inputAddress() {
+  Widget _inputAddress(BuildContext context) {
     return Input(
-      label: 'Endereço do Deudor',
+      label: context.l10n.accountsReceivable_form_field_debtor_address,
       initialValue: formStore.state.debtorAddress,
       onChanged: (value) => formStore.setDebtorAddress(value),
       onValidator: validator.byField(formStore.state, 'debtorAddress'),

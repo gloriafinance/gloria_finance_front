@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -43,9 +44,9 @@ class StepperRecoveryPassword extends StatelessWidget {
             state: store.state.isCompleteTemporalPassword
                 ? StepState.complete
                 : StepState.indexed,
-            title: const Text(
-              'Enviar senha temporaria',
-              style: TextStyle(
+            title: Text(
+              context.l10n.auth_recovery_step_title_request,
+              style: const TextStyle(
                 fontFamily: AppFonts.fontTitle,
               ),
             ),
@@ -56,7 +57,7 @@ class StepperRecoveryPassword extends StatelessWidget {
                 ? StepState.complete
                 : StepState.indexed,
             title: Text(
-              'Confirmaçāo do recevimento da senha temporaria',
+              context.l10n.auth_recovery_step_title_confirm,
               style: TextStyle(
                 fontFamily: AppFonts.fontTitle,
               ),
@@ -68,7 +69,7 @@ class StepperRecoveryPassword extends StatelessWidget {
                 ? StepState.complete
                 : StepState.indexed,
             title: Text(
-              'Definir nova senha',
+              context.l10n.auth_recovery_step_title_new_password,
               style: TextStyle(
                 fontFamily: AppFonts.fontTitle,
               ),

@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -36,7 +37,7 @@ class ContributionsListScreen extends StatelessWidget {
       children: [
         Expanded(
           child: Text(
-            'Lista de contribuições',
+            context.l10n.contributions_list_title,
             textAlign: TextAlign.left,
             style: TextStyle(
               fontFamily: AppFonts.fontTitle,
@@ -55,7 +56,7 @@ class ContributionsListScreen extends StatelessWidget {
       children: [
         ButtonActionTable(
           color: AppColors.purple,
-          text: "Registrar contribuição",
+          text: context.l10n.contributions_list_new,
           onPressed: () => GoRouter.of(context).go('/contributions_list/add'),
           icon: Icons.add_reaction_outlined,
         ),

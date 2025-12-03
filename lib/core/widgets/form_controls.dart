@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../theme/app_color.dart';
 import '../theme/app_fonts.dart';
+import '../utils/app_localizations_ext.dart';
 
 class Input extends StatefulWidget {
   final String label;
@@ -303,7 +304,10 @@ class _DropdownState extends State<Dropdown> {
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 12, vertical: 8),
-                              hintText: widget.searchHint,
+                              hintText:
+                                  widget.searchHint.isNotEmpty
+                                      ? widget.searchHint
+                                      : context.l10n.common_search_hint,
                               prefixIcon: const Icon(Icons.search),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(14),
@@ -315,10 +319,12 @@ class _DropdownState extends State<Dropdown> {
                         // Lista de resultados
                         Flexible(
                           child: _filteredItems.isEmpty
-                              ? const Center(
+                              ? Center(
                                   child: Padding(
-                                    padding: EdgeInsets.all(16.0),
-                                    child: Text('No se encontraron resultados'),
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Text(
+                                      context.l10n.common_no_results_found,
+                                    ),
                                   ),
                                 )
                               : ListView.builder(

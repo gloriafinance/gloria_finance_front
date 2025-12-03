@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
@@ -55,7 +56,7 @@ class _PatrimonyAssetsFiltersState extends State<PatrimonyAssetsFilters> {
             headerBuilder: (context, isOpen) {
               return ListTile(
                 title: Text(
-                  'FILTROS',
+                  context.l10n.common_filters_upper,
                   style: const TextStyle(
                     fontSize: 16,
                     fontFamily: AppFonts.fontTitle,
@@ -80,11 +81,11 @@ class _PatrimonyAssetsFiltersState extends State<PatrimonyAssetsFilters> {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Expanded(
+                   Expanded(
                       child: ButtonActionTable(
                         icon: Icons.clear,
                         color: AppColors.mustard,
-                        text: 'Limpar filtros',
+                        text: context.l10n.common_clear_filters,
                         onPressed: () {
                           setState(() {
                             _isExpandedFilter = false;
@@ -97,7 +98,7 @@ class _PatrimonyAssetsFiltersState extends State<PatrimonyAssetsFilters> {
                     Expanded(
                       child: ButtonActionTable(
                         color: AppColors.blue,
-                        text: 'Aplicar filtros',
+                        text: context.l10n.common_apply_filters,
                         icon: Icons.search,
                         onPressed: () {
                           setState(() {
@@ -142,13 +143,13 @@ class _PatrimonyAssetsFiltersState extends State<PatrimonyAssetsFilters> {
             ButtonActionTable(
               icon: Icons.clear,
               color: AppColors.mustard,
-              text: 'Limpar filtros',
+              text: context.l10n.common_clear_filters,
               onPressed: store.clearFilters,
             ),
             const SizedBox(width: 12),
             ButtonActionTable(
               color: AppColors.blue,
-              text: 'Aplicar filtros',
+              text: context.l10n.common_apply_filters,
               icon: Icons.search,
               onPressed: store.applyFilters,
             ),
@@ -160,7 +161,7 @@ class _PatrimonyAssetsFiltersState extends State<PatrimonyAssetsFilters> {
 
   Widget _searchInput(PatrimonyAssetsListStore store) {
     return Input(
-      label: 'Buscar',
+      label: context.l10n.common_search_hint,
       initialValue: store.state.search,
       iconRight: const Icon(Icons.search, color: AppColors.purple),
       onIconTap: store.applySearch,
@@ -173,7 +174,7 @@ class _PatrimonyAssetsFiltersState extends State<PatrimonyAssetsFilters> {
     List<String> statusItems,
   ) {
     return Dropdown(
-      label: 'Status',
+      label: context.l10n.common_status,
       initialValue: store.statusLabel,
       items: statusItems,
       onChanged:
@@ -191,7 +192,7 @@ class _PatrimonyAssetsFiltersState extends State<PatrimonyAssetsFilters> {
     List<String> categoryItems,
   ) {
     return Dropdown(
-      label: 'Categoria',
+      label: context.l10n.patrimony_assets_filter_category,
       initialValue: store.categoryLabel,
       items: categoryItems,
       onChanged:

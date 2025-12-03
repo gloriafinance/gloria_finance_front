@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_inventory_import_result.dart';
@@ -48,7 +49,7 @@ class _PatrimonyInventoryImportDialogState
           _descriptionSection(),
           const SizedBox(height: 16),
           Input(
-            label: 'Arquivo CSV preenchido',
+            label: context.l10n.patrimony_inventory_import_file_label,
             initialValue: _selectedFile?.name ?? '',
             onChanged: (_) {},
             onTap: isProcessing ? null : () => _pickFile(),
@@ -62,7 +63,9 @@ class _PatrimonyInventoryImportDialogState
           if (_selectedFile != null) ...[
             const SizedBox(height: 8),
             Text(
-              'Tamanho: ${(_selectedFile!.size / 1024).ceil()} KB',
+              context.l10n.patrimony_inventory_import_file_size(
+                (_selectedFile!.size / 1024).ceil(),
+              ),
               style: const TextStyle(
                 fontSize: 12,
                 color: AppColors.greyMiddle,
@@ -87,7 +90,7 @@ class _PatrimonyInventoryImportDialogState
                 absorbing: isProcessing,
                 child: ButtonActionTable(
                   color: AppColors.greyMiddle,
-                  text: 'Cancelar',
+                  text: context.l10n.common_cancel,
                   icon: Icons.close,
                   onPressed: () => Navigator.of(context).pop(),
                 ),
@@ -96,7 +99,11 @@ class _PatrimonyInventoryImportDialogState
                 absorbing: isProcessing,
                 child: ButtonActionTable(
                   color: AppColors.purple,
-                  text: isProcessing ? 'Importando...' : 'Importar checklist',
+                  text:
+                      isProcessing
+                          ? context.l10n.patrimony_inventory_import_button_loading
+                          : context
+                              .l10n.patrimony_inventory_import_button_submit,
                   icon:
                       isProcessing
                           ? Icons.hourglass_top
@@ -112,19 +119,24 @@ class _PatrimonyInventoryImportDialogState
   }
 
   Widget _descriptionSection() {
+    final l10n = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
+      children: [
         Text(
-          'Envie o checklist físico preenchido para atualizar os bens.',
-          style: TextStyle(fontFamily: AppFonts.fontSubTitle, fontSize: 14),
+          l10n.patrimony_inventory_import_description_title,
+          style: const TextStyle(
+            fontFamily: AppFonts.fontSubTitle,
+            fontSize: 14,
+          ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
-          'Certifique-se de manter as colunas "ID do ativo", "Código inventário" e '
-          '"Quantidade inventário" preenchidas. Campos opcionais como status e '
-          'observações também serão processados, quando informados.',
-          style: TextStyle(fontSize: 13, fontFamily: AppFonts.fontSubTitle),
+          l10n.patrimony_inventory_import_description_body,
+          style: const TextStyle(
+            fontSize: 13,
+            fontFamily: AppFonts.fontSubTitle,
+          ),
         ),
       ],
     );
@@ -163,7 +175,8 @@ class _PatrimonyInventoryImportDialogState
   Future<void> _submit(PatrimonyAssetsListStore store) async {
     if (_selectedFile == null) {
       setState(() {
-        _errorMessage = 'Selecione o arquivo exportado antes de importar.';
+        _errorMessage =
+            context.l10n.patrimony_inventory_import_error_no_file;
       });
       return;
     }
@@ -175,7 +188,8 @@ class _PatrimonyInventoryImportDialogState
 
     if (bytes == null) {
       setState(() {
-        _errorMessage = 'Não foi possível ler o arquivo selecionado.';
+        _errorMessage =
+            context.l10n.patrimony_inventory_import_error_read_file;
       });
       return;
     }
@@ -198,7 +212,7 @@ class _PatrimonyInventoryImportDialogState
     } else {
       setState(() {
         _errorMessage =
-            'Não foi possível importar o checklist. Tente novamente.';
+            context.l10n.patrimony_inventory_import_error_generic;
       });
     }
   }

@@ -1,7 +1,8 @@
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
 import 'package:church_finance_bk/core/theme/index.dart';
-import 'package:church_finance_bk/core/widgets/index.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
+import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -26,26 +27,28 @@ class _AccountsPayableTableState extends State<AccountsPayableTable> {
       return Container(
         alignment: Alignment.center,
         margin: const EdgeInsets.only(top: 40.0),
-        child: CircularProgressIndicator(),
+        child: const CircularProgressIndicator(),
       );
     }
 
     if (state.paginate.results.isEmpty) {
       return Container(
         margin: const EdgeInsets.only(top: 40.0),
-        child: Center(child: Text('Nāo ha contas a pagar para mostrar')),
+        child: Center(
+          child: Text(context.l10n.accountsPayable_table_empty),
+        ),
       );
     }
 
     return CustomTable(
       headers: [
-        "Fornecedor",
-        "Descricao",
-        "Nro. parcelas",
-        "Pago",
-        "Pendente",
-        "Total a pagar",
-        "Status",
+        context.l10n.accountsPayable_table_header_supplier,
+        context.l10n.accountsPayable_table_header_description,
+        context.l10n.accountsPayable_table_header_installments,
+        context.l10n.accountsPayable_table_header_paid,
+        context.l10n.accountsPayable_table_header_pending,
+        context.l10n.accountsPayable_table_header_total,
+        context.l10n.accountsPayable_table_header_status,
       ],
       data: FactoryDataTable<AccountsPayableModel>(
         data: state.paginate.results,
@@ -54,7 +57,7 @@ class _AccountsPayableTableState extends State<AccountsPayableTable> {
       actionBuilders: [
         (accountPayable) => ButtonActionTable(
           color: AppColors.blue,
-          text: "Visualizar",
+          text: context.l10n.accountsPayable_table_action_view,
           onPressed: () => _openDetail(context, accountPayable),
           icon: Icons.remove_red_eye_sharp,
         ),

@@ -2,6 +2,7 @@ import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/tag_status.dart';
 import 'package:flutter/material.dart';
@@ -30,17 +31,21 @@ class FinancialMonthTable extends StatelessWidget {
     if (state.months.isEmpty) {
       return Container(
         margin: const EdgeInsets.only(top: 40.0),
-        child: const Center(
+        child: Center(
           child: Text(
-            'Nenhum mês financeiro encontrado.',
-            style: TextStyle(fontFamily: AppFonts.fontText),
+            context.l10n.settings_financial_months_empty,
+            style: const TextStyle(fontFamily: AppFonts.fontText),
           ),
         ),
       );
     }
 
     return CustomTable(
-      headers: const ['Mês', 'Ano', 'Status'],
+      headers: [
+        context.l10n.settings_financial_months_header_month,
+        context.l10n.settings_financial_months_header_year,
+        context.l10n.settings_financial_months_header_status,
+      ],
       data: FactoryDataTable<FinancialMonthModel>(
         data: state.months,
         dataBuilder: (month) => _mapToRow(month),
@@ -65,14 +70,14 @@ class FinancialMonthTable extends StatelessWidget {
     if (month.closed) {
       return ButtonActionTable(
         color: AppColors.mustard,
-        text: 'Reabrir',
+        text: context.l10n.settings_financial_months_action_reopen,
         onPressed: () => _showActionModal(context, month, false),
         icon: Icons.lock_open_outlined,
       );
     } else {
       return ButtonActionTable(
         color: AppColors.blue,
-        text: 'Fechar',
+        text: context.l10n.settings_financial_months_action_close,
         onPressed: () => _showActionModal(context, month, true),
         icon: Icons.lock_outlined,
       );
@@ -85,7 +90,10 @@ class FinancialMonthTable extends StatelessWidget {
     bool isClosing,
   ) {
     final store = context.read<FinancialMonthStore>();
-    final title = isClosing ? 'Fechar Mês' : 'Reabrir Mês';
+    final title =
+        isClosing
+            ? context.l10n.settings_financial_months_modal_close_title
+            : context.l10n.settings_financial_months_modal_reopen_title;
 
     ModalPage(
       title: title,

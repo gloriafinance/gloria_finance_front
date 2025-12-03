@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
@@ -116,7 +117,7 @@ class _CostCenterFormState extends State<CostCenterForm> {
 
   Widget _buildCostCenterIdField(CostCenterFormStore formStore) {
     return Input(
-      label: 'Código',
+      label: context.l10n.settings_cost_center_field_code,
       labelSuffix: _buildCostCenterIdHelpIcon(),
       initialValue: formStore.state.costCenterId,
       onValidator: _requiredValidator,
@@ -129,7 +130,7 @@ class _CostCenterFormState extends State<CostCenterForm> {
 
   Widget _buildNameField(CostCenterFormStore formStore) {
     return Input(
-      label: 'Nome',
+      label: context.l10n.settings_cost_center_field_name,
       initialValue: formStore.state.name,
       onValidator: _requiredValidator,
       onChanged: formStore.setName,
@@ -138,14 +139,14 @@ class _CostCenterFormState extends State<CostCenterForm> {
 
   Widget _buildCategoryField(CostCenterFormStore formStore) {
     return Dropdown(
-      label: 'Categoria',
+      label: context.l10n.settings_cost_center_field_category,
       initialValue: formStore.state.category?.friendlyName,
       items: CostCenterCategory.values
           .map((type) => type.friendlyName)
           .toList(growable: false),
       onValidator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Selecione a categoria';
+          return context.l10n.settings_cost_center_error_select_category;
         }
         return null;
       },
@@ -167,7 +168,7 @@ class _CostCenterFormState extends State<CostCenterForm> {
       return Padding(
         padding: const EdgeInsets.only(top: 20.0),
         child: Text(
-          'Nenhum membro disponível. Cadastre um membro antes de continuar.',
+          context.l10n.settings_cost_center_error_select_responsible,
           style: const TextStyle(
             fontFamily: AppFonts.fontSubTitle,
             fontSize: 14,
@@ -178,7 +179,7 @@ class _CostCenterFormState extends State<CostCenterForm> {
     }
 
     return Dropdown(
-      label: 'Responsável',
+      label: context.l10n.settings_cost_center_field_responsible,
       initialValue: _resolveResponsibleLabel(
         formStore,
         memberLookup,
@@ -187,7 +188,7 @@ class _CostCenterFormState extends State<CostCenterForm> {
       items: memberOptions,
       onValidator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Selecione o responsável';
+          return context.l10n.settings_cost_center_error_select_responsible;
         }
         return null;
       },
@@ -231,7 +232,7 @@ class _CostCenterFormState extends State<CostCenterForm> {
 
   Widget _buildDescriptionField(CostCenterFormStore formStore) {
     return Input(
-      label: 'Descrição',
+      label: context.l10n.settings_cost_center_field_description,
       labelSuffix: _buildDescriptionHelpIcon(),
       initialValue: formStore.state.description,
       onValidator: _requiredValidator,
@@ -241,8 +242,9 @@ class _CostCenterFormState extends State<CostCenterForm> {
 
   Widget _buildCostCenterIdHelpIcon() {
     return Tooltip(
-      message:
-          'Use um código fácil de lembrar com até $_costCenterIdMaxLength caracteres.',
+      message: context.l10n.settings_cost_center_help_code(
+        _costCenterIdMaxLength,
+      ),
       child: const Padding(
         padding: EdgeInsets.all(2.0),
         child: Icon(Icons.help_outline, size: 18, color: AppColors.purple),
@@ -251,10 +253,9 @@ class _CostCenterFormState extends State<CostCenterForm> {
   }
 
   Widget _buildDescriptionHelpIcon() {
-    return const Tooltip(
-      message:
-          'Descreva de forma objetiva como este centro de custo será utilizado.',
-      child: Padding(
+    return Tooltip(
+      message: context.l10n.settings_cost_center_help_description,
+      child: const Padding(
         padding: EdgeInsets.all(2.0),
         child: Icon(Icons.help_outline, size: 18, color: AppColors.purple),
       ),
@@ -264,9 +265,12 @@ class _CostCenterFormState extends State<CostCenterForm> {
   Widget _buildActiveToggle(CostCenterFormStore formStore) {
     return Row(
       children: [
-        const Text(
-          'Ativo',
-          style: TextStyle(fontFamily: AppFonts.fontSubTitle, fontSize: 14),
+        Text(
+          context.l10n.settings_cost_center_field_active,
+          style: const TextStyle(
+            fontFamily: AppFonts.fontSubTitle,
+            fontSize: 14,
+          ),
         ),
         Switch(
           value: formStore.state.active,
@@ -283,7 +287,10 @@ class _CostCenterFormState extends State<CostCenterForm> {
     }
 
     return CustomButton(
-      text: formStore.state.isEdit ? 'Atualizar' : 'Salvar',
+      text:
+          formStore.state.isEdit
+              ? context.l10n.settings_cost_center_update
+              : context.l10n.settings_cost_center_save,
       backgroundColor: AppColors.green,
       textColor: Colors.black,
       onPressed: () => _save(formStore),
@@ -297,7 +304,7 @@ class _CostCenterFormState extends State<CostCenterForm> {
 
     if (formStore.state.responsibleMemberId == null) {
       Toast.showMessage(
-        'Selecione um responsável para o centro de custo',
+        context.l10n.settings_cost_center_error_select_responsible,
         ToastType.error,
       );
       return;
@@ -306,12 +313,17 @@ class _CostCenterFormState extends State<CostCenterForm> {
     final success = await formStore.submit(widget.isEdit);
 
     if (success && mounted) {
-      Toast.showMessage(
-        formStore.state.isEdit
-            ? 'Registro atualizado com sucesso'
-            : 'Registro salvo com sucesso',
-        ToastType.info,
-      );
+      if (formStore.state.isEdit) {
+        Toast.showMessage(
+          context.l10n.settings_cost_center_toast_updated,
+          ToastType.info,
+        );
+      } else {
+        Toast.showMessage(
+          context.l10n.settings_cost_center_toast_saved,
+          ToastType.info,
+        );
+      }
       final listStore = context.read<CostCenterListStore>();
       await listStore.searchCostCenters();
       context.go('/cost-center');
@@ -329,7 +341,7 @@ class _CostCenterFormState extends State<CostCenterForm> {
 
   String? _requiredValidator(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'Campo obrigatório';
+      return context.l10n.settings_cost_center_error_required;
     }
     return null;
   }

@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/index.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/features/erp/accounts_payable/models/accounts_payable_types.dart';
@@ -12,15 +13,16 @@ import 'installment_account_payable_form.dart';
 import 'tax_account_payable_form.dart';
 
 Widget generalInformationSection(
+  BuildContext context,
   FormAccountsPayableStore formStore,
   FormAccountsPayableValidator validator,
 ) {
   return _SectionCard(
-    title: 'Informações básicas',
-    subtitle: 'Escolha o fornecedor e descreva a conta a pagar.',
+    title: context.l10n.accountsPayable_form_section_basic_title,
+    subtitle: context.l10n.accountsPayable_form_section_basic_subtitle,
     children: [
       _supplierDropdown(formStore, validator),
-      _descriptionInput(formStore, validator),
+      _descriptionInput(context, formStore, validator),
     ],
   );
 }
@@ -33,11 +35,11 @@ Widget documentSection(
   final state = formStore.state;
 
   return _SectionCard(
-    title: 'Documento fiscal',
-    subtitle: 'Informe o documento fiscal associado ao pagamento.',
+    title: context.l10n.accountsPayable_form_section_document_title,
+    subtitle: context.l10n.accountsPayable_form_section_document_subtitle,
     children: [
       Dropdown(
-        label: 'Tipo de documento',
+        label: context.l10n.accountsPayable_form_field_document_type,
         items:
             AccountsPayableDocumentType.values
                 .map((type) => type.friendlyName)
@@ -55,7 +57,7 @@ Widget documentSection(
       ),
       const SizedBox(height: 16),
       Input(
-        label: 'Número do documento',
+        label: context.l10n.accountsPayable_form_field_document_number,
         initialValue: state.documentNumber,
         onChanged: formStore.setDocumentNumber,
         onValidator:
@@ -63,7 +65,7 @@ Widget documentSection(
       ),
       const SizedBox(height: 16),
       Input(
-        label: 'Data do documento',
+        label: context.l10n.accountsPayable_form_field_document_date,
         initialValue: state.documentIssueDate,
         onChanged: formStore.setDocumentIssueDate,
         onTap: () async {
@@ -106,8 +108,8 @@ Widget taxSection(
       state.taxStatus == AccountsPayableTaxStatus.substitution;
 
   return _SectionCard(
-    title: 'Tributação da nota fiscal',
-    subtitle: 'Classifique a nota e informe os impostos destacados.',
+    title: context.l10n.accountsPayable_form_section_tax_title,
+    subtitle: context.l10n.accountsPayable_form_section_tax_subtitle,
     children: [
       Wrap(
         spacing: 12,
@@ -159,7 +161,8 @@ Widget taxSection(
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              'Nota fiscal isenta de impostos',
+              context
+                  .l10n.accountsPayable_form_field_tax_exempt_switch,
               style: const TextStyle(
                 fontFamily: AppFonts.fontSubTitle,
                 color: AppColors.grey,
@@ -169,8 +172,9 @@ Widget taxSection(
         ],
       ),
       if (showExemptionReason)
-        Input(
-          label: 'Motivo da isenção',
+       Input(
+          label: context
+              .l10n.accountsPayable_form_field_tax_exemption_reason,
           initialValue: state.taxExemptionReason,
           onChanged: formStore.setTaxExemptionReason,
           onValidator:
@@ -178,19 +182,19 @@ Widget taxSection(
                   validator.errorByKey(formStore.state, 'taxExemptionReason'),
         ),
       Input(
-        label: 'Observações',
+        label: context.l10n.accountsPayable_form_field_tax_observation,
         initialValue: state.taxObservation,
         onChanged: formStore.setTaxObservation,
       ),
       if (showTaxCodes) ...[
-        Input(
-          label: 'Código CST',
+       Input(
+          label: context.l10n.accountsPayable_form_field_tax_cst,
           labelSuffix: _buildCstHelpIcon(context),
           initialValue: state.taxCstCode,
           onChanged: formStore.setTaxCstCode,
         ),
-        Input(
-          label: 'CFOP',
+       Input(
+          label: context.l10n.accountsPayable_form_field_tax_cfop,
           labelSuffix: _buildCfopHelpIcon(context),
           initialValue: state.taxCfop,
           onChanged: formStore.setTaxCfop,
@@ -215,9 +219,10 @@ Widget paymentSection(
   bool showValidationMessages,
 ) {
   return _SectionCard(
-    title: 'Configuração do pagamento',
+    title: context.l10n.accountsPayable_form_section_payment_title,
     subtitle:
-        'Defina como essa conta será quitada e revise o cronograma de parcelas.',
+        context
+            .l10n.accountsPayable_form_section_payment_subtitle,
     children: [
       _PaymentModeSelector(formStore: formStore),
       const SizedBox(height: 20),
@@ -246,7 +251,7 @@ Widget _supplierDropdown(
               : null;
 
       final dropdown = Dropdown(
-        label: 'Fornecedor',
+        label: context.l10n.accountsPayable_form_field_supplier,
         items: items,
         initialValue: initialValue,
         onChanged: (value) {
@@ -269,9 +274,10 @@ Widget _supplierDropdown(
           children: [
             dropdown,
             const SizedBox(height: 8),
-            const Text(
-              'Nenhum fornecedor encontrado. Cadastre um fornecedor para continuar.',
-              style: TextStyle(
+            Text(
+              context
+                  .l10n.accountsPayable_form_error_supplier_required,
+              style: const TextStyle(
                 fontFamily: AppFonts.fontSubTitle,
                 color: AppColors.grey,
               ),
@@ -286,11 +292,12 @@ Widget _supplierDropdown(
 }
 
 Widget _descriptionInput(
+  BuildContext context,
   FormAccountsPayableStore formStore,
   FormAccountsPayableValidator validator,
 ) {
   return Input(
-    label: 'Descrição',
+    label: context.l10n.accountsPayable_form_field_description,
     initialValue: formStore.state.description,
     onChanged: formStore.setDescription,
     onValidator: (_) => validator.errorByKey(formStore.state, 'description'),
@@ -360,7 +367,9 @@ class _PaymentModeSelector extends StatelessWidget {
 
 Widget _buildCstHelpIcon(BuildContext context) {
   return Tooltip(
-    message: 'Ajuda rápida sobre CST',
+    message:
+        context
+            .l10n.accountsPayable_form_section_payment_mode_help_cst,
     child: InkWell(
       onTap: () => _showCstHelp(context),
       borderRadius: BorderRadius.circular(12),

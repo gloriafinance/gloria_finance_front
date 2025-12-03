@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/features/erp/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,7 @@ class _FinancialConceptListScreenState
       children: [
         Expanded(
           child: Text(
-            'Conceitos financeiros',
+            context.l10n.settings_financial_concept_title,
             textAlign: TextAlign.left,
             style: const TextStyle(
               fontFamily: AppFonts.fontTitle,
@@ -62,7 +63,7 @@ class _FinancialConceptListScreenState
           alignment: Alignment.centerRight,
           child: ButtonActionTable(
             color: AppColors.purple,
-            text: 'Novo conceito',
+            text: context.l10n.settings_financial_concept_new,
             onPressed: () => GoRouter.of(context).go('/financial-concepts/add'),
             icon: Icons.add_box_outlined,
           ),
@@ -79,7 +80,10 @@ class _FilterBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final store = context.watch<FinancialConceptStore>();
 
-    final items = ['Todos', ...FinancialConceptTypeExtension.listFriendlyName];
+    final items = [
+      context.l10n.settings_financial_concept_filter_all,
+      ...FinancialConceptTypeExtension.listFriendlyName,
+    ];
 
     final selectedType = store.state.selectedType;
     final initialValue =
@@ -90,10 +94,10 @@ class _FilterBar extends StatelessWidget {
       child: SizedBox(
         width: 320,
         child: DropdownButtonFormField<String>(
-          decoration: const InputDecoration(
-            labelStyle: TextStyle(fontFamily: AppFonts.fontSubTitle),
-            labelText: 'Filtrar por tipo',
-            border: OutlineInputBorder(
+          decoration: InputDecoration(
+            labelStyle: const TextStyle(fontFamily: AppFonts.fontSubTitle),
+            labelText: context.l10n.settings_financial_concept_filter_by_type,
+            border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(18)),
             ),
           ),
@@ -115,7 +119,7 @@ class _FilterBar extends StatelessWidget {
               return;
             }
 
-            if (value == 'Todos') {
+            if (value == context.l10n.settings_financial_concept_filter_all) {
               store.clearFilter();
               return;
             }

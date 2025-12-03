@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/features/erp/settings/banks/store/bank_store.dart';
@@ -18,23 +19,9 @@ class BankStatementFilters extends StatefulWidget {
 class _BankStatementFiltersState extends State<BankStatementFilters> {
   bool isExpandedFilter = false;
 
-  static final List<String> _monthNames = [
-    'Janeiro',
-    'Fevereiro',
-    'Março',
-    'Abril',
-    'Maio',
-    'Junho',
-    'Julho',
-    'Agosto',
-    'Setembro',
-    'Outubro',
-    'Novembro',
-    'Dezembro',
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final bankStore = context.watch<BankStore>();
     final store = context.watch<BankStatementListStore>();
 
@@ -44,6 +31,7 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
   }
 
   Widget _layoutDesktop(BankStore bankStore, BankStatementListStore store) {
+    final l10n = context.l10n;
     final filter = store.state.filter;
     final isLoading = store.state.loading;
     final yearNow = DateTime.now().year;
@@ -55,7 +43,7 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Filtros',
+            l10n.common_filters,
             style: const TextStyle(
               fontFamily: AppFonts.fontTitle,
               fontSize: 16,
@@ -74,7 +62,7 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
                   items: [
                     const DropdownMenuItem<String?>(
                       value: null,
-                      child: Text('Todos os bancos'),
+                      child: Text(''),
                     ),
                     ...bankStore.state.banks.map(
                       (bank) => DropdownMenuItem<String?>(
@@ -84,35 +72,35 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
                     ),
                   ],
                   onChanged: (value) => store.setBank(value),
-                  decoration: _decoration('Banco'),
+                  decoration: _decoration(l10n.common_bank),
                 ),
               ),
               SizedBox(
                 width: 200,
                 child:
                     DropdownButtonFormField<BankStatementReconciliationStatus?>(
-                      value: filter.status,
-                      items: const [
-                        DropdownMenuItem<BankStatementReconciliationStatus?>(
-                          value: null,
-                          child: Text('Todos os status'),
-                        ),
-                        DropdownMenuItem(
-                          value: BankStatementReconciliationStatus.pending,
-                          child: Text('Pendentes'),
-                        ),
-                        DropdownMenuItem(
-                          value: BankStatementReconciliationStatus.unmatched,
-                          child: Text('Não conciliados'),
-                        ),
-                        DropdownMenuItem(
-                          value: BankStatementReconciliationStatus.reconciled,
-                          child: Text('Conciliados'),
-                        ),
-                      ],
-                      onChanged: (value) => store.setStatus(value),
-                      decoration: _decoration('Status'),
+                  value: filter.status,
+                  items: const [
+                    DropdownMenuItem<BankStatementReconciliationStatus?>(
+                      value: null,
+                      child: Text(''),
                     ),
+                    DropdownMenuItem(
+                      value: BankStatementReconciliationStatus.pending,
+                      child: Text(''),
+                    ),
+                    DropdownMenuItem(
+                      value: BankStatementReconciliationStatus.unmatched,
+                      child: Text(''),
+                    ),
+                    DropdownMenuItem(
+                      value: BankStatementReconciliationStatus.reconciled,
+                      child: Text(''),
+                    ),
+                  ],
+                  onChanged: (value) => store.setStatus(value),
+                  decoration: _decoration(l10n.common_status),
+                ),
               ),
               SizedBox(
                 width: 180,
@@ -121,18 +109,12 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
                   items: [
                     const DropdownMenuItem<int?>(
                       value: null,
-                      child: Text('Todos os meses'),
+                      child: Text(''),
                     ),
-                    ...List.generate(
-                      12,
-                      (index) => DropdownMenuItem<int?>(
-                        value: index + 1,
-                        child: Text(_monthNames[index]),
-                      ),
-                    ),
+                    ..._monthItems(),
                   ],
                   onChanged: (value) => store.setMonth(value),
-                  decoration: _decoration('Mês'),
+                  decoration: _decoration(l10n.common_month),
                 ),
               ),
               SizedBox(
@@ -142,7 +124,7 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
                   items: [
                     const DropdownMenuItem<int?>(
                       value: null,
-                      child: Text('Todos os anos'),
+                      child: Text(''),
                     ),
                     ...years.map(
                       (year) => DropdownMenuItem<int?>(
@@ -152,7 +134,7 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
                     ),
                   ],
                   onChanged: (value) => store.setYear(value),
-                  decoration: _decoration('Ano'),
+                  decoration: _decoration(l10n.common_year),
                 ),
               ),
             ],
@@ -164,7 +146,7 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
               if (filter.hasAnyFilter)
                 ButtonActionTable(
                   color: AppColors.greyMiddle,
-                  text: 'Limpar filtros',
+                  text: l10n.common_clear_filters,
                   icon: Icons.clear,
                   onPressed: () {
                     store.clearFilters();
@@ -175,7 +157,10 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
               const SizedBox(width: 12),
               ButtonActionTable(
                 color: AppColors.blue,
-                text: isLoading ? 'Carregando...' : 'Aplicar filtros',
+                text:
+                    isLoading
+                        ? l10n.common_loading
+                        : l10n.common_apply_filters,
                 icon: isLoading ? Icons.hourglass_bottom : Icons.search,
                 onPressed: () {
                   if (!isLoading) {
@@ -191,6 +176,7 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
   }
 
   Widget _layoutMobile(BankStore bankStore, BankStatementListStore store) {
+    final l10n = context.l10n;
     final filter = store.state.filter;
     final isLoading = store.state.loading;
     final yearNow = DateTime.now().year;
@@ -211,7 +197,7 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
             headerBuilder: (context, isOpen) {
               return ListTile(
                 title: Text(
-                  "FILTROS",
+                  l10n.common_filters_upper,
                   style: TextStyle(
                     fontSize: 16,
                     fontFamily: AppFonts.fontTitle,
@@ -230,7 +216,7 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
                         items: [
                           const DropdownMenuItem<String?>(
                             value: null,
-                            child: Text('Todos os bancos'),
+                            child: Text(''),
                           ),
                           ...bankStore.state.banks.map(
                             (bank) => DropdownMenuItem<String?>(
@@ -240,7 +226,7 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
                           ),
                         ],
                         onChanged: (value) => store.setBank(value),
-                        decoration: _decoration('Banco'),
+                        decoration: _decoration(l10n.common_bank),
                       ),
                     ),
                   ],
@@ -256,23 +242,23 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
                         items: const [
                           DropdownMenuItem<BankStatementReconciliationStatus?>(
                             value: null,
-                            child: Text('Todos os status'),
+                            child: Text(''),
                           ),
                           DropdownMenuItem(
                             value: BankStatementReconciliationStatus.pending,
-                            child: Text('Pendentes'),
+                            child: Text(''),
                           ),
                           DropdownMenuItem(
                             value: BankStatementReconciliationStatus.unmatched,
-                            child: Text('Não conciliados'),
+                            child: Text(''),
                           ),
                           DropdownMenuItem(
                             value: BankStatementReconciliationStatus.reconciled,
-                            child: Text('Conciliados'),
+                            child: Text(''),
                           ),
                         ],
                         onChanged: (value) => store.setStatus(value),
-                        decoration: _decoration('Status'),
+                        decoration: _decoration(l10n.common_status),
                       ),
                     ),
                   ],
@@ -286,18 +272,12 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
                         items: [
                           const DropdownMenuItem<int?>(
                             value: null,
-                            child: Text('Todos os meses'),
+                            child: Text(''),
                           ),
-                          ...List.generate(
-                            12,
-                            (index) => DropdownMenuItem<int?>(
-                              value: index + 1,
-                              child: Text(_monthNames[index]),
-                            ),
-                          ),
+                          ..._monthItems(),
                         ],
                         onChanged: (value) => store.setMonth(value),
-                        decoration: _decoration('Mês'),
+                        decoration: _decoration(l10n.common_month),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -307,7 +287,7 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
                         items: [
                           const DropdownMenuItem<int?>(
                             value: null,
-                            child: Text('Todos os anos'),
+                            child: Text(''),
                           ),
                           ...years.map(
                             (year) => DropdownMenuItem<int?>(
@@ -317,7 +297,7 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
                           ),
                         ],
                         onChanged: (value) => store.setYear(value),
-                        decoration: _decoration('Ano'),
+                        decoration: _decoration(l10n.common_year),
                       ),
                     ),
                   ],
@@ -330,7 +310,7 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
                         child: ButtonActionTable(
                           icon: Icons.clear,
                           color: AppColors.mustard,
-                          text: 'Limpar filtros',
+                          text: l10n.common_clear_filters,
                           onPressed: () {
                             isExpandedFilter = false;
                             setState(() {});
@@ -343,7 +323,10 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
                     Expanded(
                       child: ButtonActionTable(
                         color: AppColors.blue,
-                        text: isLoading ? 'Carregando...' : 'Aplicar filtros',
+                        text:
+                            isLoading
+                                ? l10n.common_loading
+                                : l10n.common_apply_filters,
                         icon: isLoading ? Icons.hourglass_bottom : Icons.search,
                         onPressed: () {
                           if (!isLoading) {
@@ -361,6 +344,32 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  List<DropdownMenuItem<int?>> _monthItems() {
+    final l10n = context.l10n;
+    final labels = <String>[
+      l10n.month_january,
+      l10n.month_february,
+      l10n.month_march,
+      l10n.month_april,
+      l10n.month_may,
+      l10n.month_june,
+      l10n.month_july,
+      l10n.month_august,
+      l10n.month_september,
+      l10n.month_october,
+      l10n.month_november,
+      l10n.month_december,
+    ];
+
+    return List.generate(
+      12,
+      (index) => DropdownMenuItem<int?>(
+        value: index + 1,
+        child: Text(labels[index]),
       ),
     );
   }

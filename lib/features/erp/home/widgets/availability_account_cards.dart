@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/index.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/features/auth/pages/login/store/auth_session_store.dart';
@@ -16,15 +17,17 @@ class AvailabilityAccountCards extends StatelessWidget {
 
     if (sessionStore.state.session.roles.length == 1 &&
         sessionStore.state.session.isMember()) {
-      return const Center(child: Text('Seja bem-vindo ao Church Finance!\n\n'));
+      return Center(
+        child: Text(context.l10n.erp_home_welcome_member),
+      );
     }
 
     final accountsStore = Provider.of<AvailabilityAccountsListStore>(context);
     final accounts = accountsStore.state.availabilityAccounts;
 
     if (accounts.isEmpty) {
-      return const Center(
-        child: Text('Nenhuma conta de disponibilidade encontrada'),
+      return Center(
+        child: Text(context.l10n.erp_home_no_availability_accounts),
       );
     }
 
@@ -35,7 +38,7 @@ class AvailabilityAccountCards extends StatelessWidget {
         children: [
           const SizedBox(height: 24),
           Text(
-            'Resumo de contas de disponibilidade',
+            context.l10n.erp_home_availability_summary_title,
             style: TextStyle(
               fontSize: 18,
               fontFamily: AppFonts.fontTitle,
@@ -44,14 +47,14 @@ class AvailabilityAccountCards extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           isMobile(context)
-              ? _buildMobileAccountsView(accounts)
+              ? _buildMobileAccountsView(context, accounts)
               : _buildDesktopAccountsView(accounts),
         ],
       ),
     );
   }
 
-  Widget _buildMobileAccountsView(dynamic accounts) {
+  Widget _buildMobileAccountsView(BuildContext context, dynamic accounts) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -59,7 +62,7 @@ class AvailabilityAccountCards extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
           child: Text(
-            'Deslize para ver todas as contas',
+            context.l10n.erp_home_availability_swipe_hint,
             style: TextStyle(
               fontSize: 14,
               fontFamily: AppFonts.fontText,

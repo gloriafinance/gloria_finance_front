@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,12 +26,19 @@ class MonthlyTithesTable extends StatelessWidget {
     if (state.data.results.isEmpty) {
       return Container(
         margin: const EdgeInsets.only(top: 40.0),
-        child: Center(child: Text('Nāo dízimos mensais para mostrar')),
+        child: Center(
+          child: Text(context.l10n.reports_monthly_tithes_empty),
+        ),
       );
     }
 
     return CustomTable(
-      headers: ["Data", "Valor", "Conta de disponiblidade", "Tipo de conta"],
+      headers: [
+        context.l10n.reports_monthly_tithes_header_date,
+        context.l10n.reports_monthly_tithes_header_amount,
+        context.l10n.reports_monthly_tithes_header_account,
+        context.l10n.reports_monthly_tithes_header_account_type,
+      ],
       data: FactoryDataTable<MonthlyTithesModel>(
         data: state.data.results,
         dataBuilder: monthlyTithesDTO,

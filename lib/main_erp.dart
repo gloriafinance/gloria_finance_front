@@ -8,7 +8,6 @@ import 'app/store_manager.dart';
 
 void main() {
   final storeManager = StoreManager();
-
   runApp(
     MultiProvider(
       providers: [
@@ -37,6 +36,7 @@ void main() {
         ChangeNotifierProvider(
           create: (_) => storeManager.trendStore..fetchTrends(),
         ),
+        ChangeNotifierProvider(create: (_) => storeManager.localeStore),
       ],
       child: MyApp(router: erpRouter),
     ),

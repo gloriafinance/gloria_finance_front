@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
@@ -90,7 +91,7 @@ class _BankFormState extends State<BankForm> {
 
   Widget _buildNameField(BankFormStore formStore) {
     return Input(
-      label: 'Nome',
+      label: context.l10n.settings_banks_field_name,
       initialValue: formStore.state.name,
       onValidator: _requiredValidator,
       onChanged: formStore.setName,
@@ -99,7 +100,7 @@ class _BankFormState extends State<BankForm> {
 
   Widget _buildTagField(BankFormStore formStore) {
     return Input(
-      label: 'Tag',
+      label: context.l10n.settings_banks_field_tag,
       initialValue: formStore.state.tag,
       onChanged: formStore.setTag,
     );
@@ -107,12 +108,12 @@ class _BankFormState extends State<BankForm> {
 
   Widget _buildAccountTypeField(BankFormStore formStore) {
     return Dropdown(
-      label: 'Tipo de conta',
+      label: context.l10n.settings_banks_field_account_type,
       initialValue: formStore.state.accountType?.friendlyName,
       items: AccountBankType.values.map((type) => type.friendlyName).toList(),
       onValidator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Selecione o tipo de conta';
+          return context.l10n.settings_banks_error_select_account_type;
         }
         return null;
       },
@@ -127,7 +128,7 @@ class _BankFormState extends State<BankForm> {
 
   Widget _buildPixField(BankFormStore formStore) {
     return Input(
-      label: 'Chave PIX',
+      label: context.l10n.settings_banks_field_pix_key,
       initialValue: formStore.state.addressInstancePayment,
       onValidator: _requiredValidator,
       onChanged: formStore.setAddressInstancePayment,
@@ -168,7 +169,7 @@ class _BankFormState extends State<BankForm> {
 
   Widget _buildCodeBankField(BankFormStore formStore) {
     return Input(
-      label: 'Código do banco',
+      label: context.l10n.settings_banks_field_bank_code,
       initialValue: formStore.state.codeBank,
       onValidator: _requiredValidator,
       onChanged: formStore.setCodeBank,
@@ -177,7 +178,7 @@ class _BankFormState extends State<BankForm> {
 
   Widget _buildAgencyField(BankFormStore formStore) {
     return Input(
-      label: 'Agência',
+      label: context.l10n.settings_banks_field_agency,
       initialValue: formStore.state.agency,
       onValidator: _requiredValidator,
       onChanged: formStore.setAgency,
@@ -186,7 +187,7 @@ class _BankFormState extends State<BankForm> {
 
   Widget _buildAccountField(BankFormStore formStore) {
     return Input(
-      label: 'Conta',
+      label: context.l10n.settings_banks_field_account,
       initialValue: formStore.state.account,
       onValidator: _requiredValidator,
       onChanged: formStore.setAccount,
@@ -196,7 +197,7 @@ class _BankFormState extends State<BankForm> {
   Widget _buildActiveToggle(BankFormStore formStore) {
     return Row(
       children: [
-        const Text('Ativo'),
+        Text(context.l10n.settings_banks_field_active),
         Switch(
           value: formStore.state.active,
           onChanged: formStore.setActive,
@@ -212,7 +213,7 @@ class _BankFormState extends State<BankForm> {
     }
 
     return CustomButton(
-      text: 'Salvar',
+      text: context.l10n.settings_banks_save,
       backgroundColor: AppColors.green,
       textColor: Colors.black,
       onPressed: () => _save(formStore),
@@ -227,7 +228,10 @@ class _BankFormState extends State<BankForm> {
     final success = await formStore.submit();
 
     if (success && mounted) {
-      Toast.showMessage('Registro salvo com sucesso', ToastType.info);
+      Toast.showMessage(
+        context.l10n.settings_banks_toast_saved,
+        ToastType.info,
+      );
       final bankStore = context.read<BankStore>();
       await bankStore.searchBanks();
       context.go('/banks');
@@ -236,7 +240,7 @@ class _BankFormState extends State<BankForm> {
 
   String? _requiredValidator(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'Campo obrigatório';
+      return context.l10n.settings_banks_error_required;
     }
     return null;
   }

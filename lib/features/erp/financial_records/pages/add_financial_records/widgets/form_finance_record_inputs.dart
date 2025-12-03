@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/core/widgets/upload_file.dart';
@@ -16,9 +17,9 @@ import '../validators/form_financial_record_validator.dart';
 final validator = FormFinancialRecordValidator();
 final List<FinancialConceptModel> financialConcepts = [];
 
-Widget description(FormFinanceRecordStore formStore) {
+Widget description(BuildContext context, FormFinanceRecordStore formStore) {
   return Input(
-    label: 'Descrição',
+    label: context.l10n.finance_records_form_field_description,
     initialValue: formStore.state.description,
     onChanged: (value) => formStore.state.description = value,
     onValidator: validator.byField(formStore.state, 'description'),
@@ -27,7 +28,7 @@ Widget description(FormFinanceRecordStore formStore) {
 
 Widget date(BuildContext context, FormFinanceRecordStore formStore) {
   return Input(
-    label: "Data",
+    label: context.l10n.finance_records_form_field_date,
     initialValue: formStore.state.date,
     keyboardType: TextInputType.number,
     onChanged: (value) {},
@@ -42,11 +43,12 @@ Widget date(BuildContext context, FormFinanceRecordStore formStore) {
 }
 
 Widget dropdownAvailabilityAccounts(
+  BuildContext context,
   AvailabilityAccountsListStore availabilityAccountsListStore,
   FormFinanceRecordStore formStore,
 ) {
   return Dropdown(
-    label: "Conta de disponiblidade",
+    label: context.l10n.finance_records_filter_availability_account,
     items:
         availabilityAccountsListStore.state.availabilityAccounts
             .where((a) => a.accountType != AccountType.INVESTMENT.apiValue)
@@ -68,9 +70,9 @@ Widget dropdownAvailabilityAccounts(
   );
 }
 
-Widget amount(FormFinanceRecordStore formStore) {
+Widget amount(BuildContext context, FormFinanceRecordStore formStore) {
   return Input(
-    label: "Valor",
+    label: context.l10n.finance_records_table_header_amount,
     keyboardType: TextInputType.number,
     inputFormatters: [
       CurrencyInputFormatter(
@@ -92,11 +94,12 @@ Widget amount(FormFinanceRecordStore formStore) {
 }
 
 Widget searchFinancialConcepts(
+  BuildContext context,
   FinancialConceptStore conceptStore,
   FormFinanceRecordStore formStore,
 ) {
   return Dropdown(
-    label: "Conceito",
+    label: context.l10n.finance_records_filter_concept,
     items: conceptStore.state.financialConcepts
         .where((e) => e.type != FinancialConceptType.PURCHASE.apiValue)
         .map((e) => e.name)
@@ -114,10 +117,10 @@ Widget searchFinancialConcepts(
   );
 }
 
-Widget uploadFile(FormFinanceRecordStore formStore) {
+Widget uploadFile(BuildContext context, FormFinanceRecordStore formStore) {
   if (formStore.state.isMovementBank) {
     return UploadFile(
-      label: "Comprovante do movimento bancario",
+      label: context.l10n.finance_records_form_field_receipt,
       multipartFile: (MultipartFile m) => formStore.setFile(m),
     );
   } else {
@@ -142,6 +145,7 @@ Widget uploadFile(FormFinanceRecordStore formStore) {
 // }
 
 Widget dropdownCostCenter(
+  BuildContext context,
   CostCenterListStore costCenterStore,
   FinancialConceptStore conceptStore,
   FormFinanceRecordStore formStore,
@@ -160,7 +164,7 @@ Widget dropdownCostCenter(
   }
 
   return Dropdown(
-    label: "Centro de custo",
+    label: context.l10n.finance_records_form_field_cost_center,
     items: costCenterStore.state.costCenters.map((e) => e.name).toList(),
     onChanged: (value) {
       final selectedCostCenter = costCenterStore.state.costCenters.firstWhere(

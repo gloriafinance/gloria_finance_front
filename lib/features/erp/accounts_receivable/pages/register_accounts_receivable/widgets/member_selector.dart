@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/features/erp/settings/members/models/member_model.dart';
 import 'package:church_finance_bk/features/erp/settings/members/store/member_all_store.dart';
@@ -35,7 +36,7 @@ class _MemberSelectorState extends State<MemberSelector> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Dropdown(
-          label: 'Selecione o Membro',
+          label: context.l10n.accountsReceivable_form_field_member,
           items: memberNames,
           initialValue:
               _selectedMemberId != null
@@ -71,7 +72,8 @@ class _MemberSelectorState extends State<MemberSelector> {
           },
           onValidator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Por favor seleccione un miembro';
+              return context
+                  .l10n.accountsReceivable_form_error_member_required;
             }
             return null;
           },

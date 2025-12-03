@@ -1,8 +1,9 @@
 import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/layout/view_detail_widgets.dart';
 import 'package:church_finance_bk/core/theme/index.dart';
-import 'package:church_finance_bk/core/widgets/index.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
+import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -57,7 +58,7 @@ class _AccountPayableState extends State<AccountPayable> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        buildSectionTitle('Listagem de Parcelas'),
+        buildSectionTitle(context.l10n.accountsPayable_view_installments_title),
         InstallmentsTable(
           setInstallmentIds: formStore.setInstallmentIds,
           installments: widget.account.installments,
@@ -66,9 +67,9 @@ class _AccountPayableState extends State<AccountPayable> {
         if (formStore.state.anyInstallmentSelected())
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: [
+             children: [
               CustomButton(
-                text: 'Registrar Pagamento',
+                text: context.l10n.accountsPayable_view_register_payment,
                 backgroundColor: AppColors.green,
                 textColor: Colors.white,
                 onPressed: () => _handlePayment(formStore),
@@ -84,32 +85,32 @@ class _AccountPayableState extends State<AccountPayable> {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          buildSectionTitle('Informações do Fornecedor'),
+      children: [
+        buildSectionTitle(context.l10n.accountsPayable_view_provider_section),
           const SizedBox(height: 16),
           buildDetailRow(
             isMobile,
-            'Nome',
+            context.l10n.accountsPayable_view_provider_name,
             widget.account.supplier?.name ?? 'N/A',
           ),
           buildDetailRow(
             isMobile,
-            'CNPJ/CPF',
+            context.l10n.accountsPayable_view_provider_dni,
             widget.account.supplier?.dni ?? 'N/A',
           ),
           buildDetailRow(
             isMobile,
-            'Phone',
+            context.l10n.accountsPayable_view_provider_phone,
             widget.account.supplier?.phone ?? 'N/A',
           ),
           buildDetailRow(
             isMobile,
-            'E-mail',
+            context.l10n.accountsPayable_view_provider_email,
             widget.account.supplier?.email ?? 'N/A',
           ),
           buildDetailRow(
             isMobile,
-            'Tipo de fornecedor',
+            context.l10n.accountsPayable_view_provider_type,
             widget.account.supplier?.getType() ?? 'N/A',
           ),
         ],
@@ -123,7 +124,7 @@ class _AccountPayableState extends State<AccountPayable> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildSectionTitle('Informações Gerais'),
+          buildSectionTitle(context.l10n.accountsPayable_view_general_section),
           const SizedBox(height: 16),
           Row(
             children: [
@@ -131,7 +132,7 @@ class _AccountPayableState extends State<AccountPayable> {
                 flex: 1,
                 child: buildDetailRow(
                   false,
-                  'Criado',
+                  context.l10n.accountsPayable_view_general_created,
                   widget.account.createdAtFormatted,
                 ),
               ),
@@ -139,7 +140,7 @@ class _AccountPayableState extends State<AccountPayable> {
                 flex: 1,
                 child: buildDetailRow(
                   false,
-                  'Atualizado',
+                  context.l10n.accountsPayable_view_general_updated,
                   widget.account.updatedAtFormatted,
                 ),
               ),
@@ -156,21 +157,25 @@ class _AccountPayableState extends State<AccountPayable> {
               ),
             ],
           ),
-          buildDetailRow(false, 'Descrição', widget.account.description),
           buildDetailRow(
             false,
-            'Valor Total',
+            context.l10n.accountsPayable_view_general_description,
+            widget.account.description,
+          ),
+          buildDetailRow(
+            false,
+            context.l10n.accountsPayable_view_general_total,
             formatCurrency(widget.account.amountTotal ?? 0),
           ),
           buildDetailRow(
             false,
-            'Valor Pago',
+            context.l10n.accountsPayable_view_general_paid,
             formatCurrency(widget.account.amountPaid ?? 0),
             statusColor: AppColors.green,
           ),
           buildDetailRow(
             false,
-            'Valor Pendente',
+            context.l10n.accountsPayable_view_general_pending,
             formatCurrency(widget.account.amountPending ?? 0),
             statusColor:
                 widget.account.amountPending! > 0

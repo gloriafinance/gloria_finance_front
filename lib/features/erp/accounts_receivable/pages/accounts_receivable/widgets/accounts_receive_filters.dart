@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/theme/index.dart';
-import 'package:church_finance_bk/core/widgets/index.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
+import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -54,6 +55,8 @@ class _AccountsReceiveFilters extends State<AccountsReceiveFilters> {
   }
 
   Widget _layoutMobile(AccountsReceivableStore store) {
+    final l10n = context.l10n;
+
     return Container(
       margin: const EdgeInsets.only(top: 10.0),
       child: ExpansionPanelList(
@@ -69,7 +72,7 @@ class _AccountsReceiveFilters extends State<AccountsReceiveFilters> {
             headerBuilder: (context, isOpen) {
               return ListTile(
                 title: Text(
-                  "FILTROS",
+                  l10n.common_filters_upper,
                   style: TextStyle(
                     fontSize: 16,
                     fontFamily: AppFonts.fontTitle,
@@ -117,7 +120,7 @@ class _AccountsReceiveFilters extends State<AccountsReceiveFilters> {
     }
 
     return Dropdown(
-      label: "Status",
+      label: context.l10n.common_status,
       initialValue: status?.friendlyName,
       items:
           AccountsReceivableStatus.values
@@ -131,7 +134,7 @@ class _AccountsReceiveFilters extends State<AccountsReceiveFilters> {
 
   Widget _dateStart(AccountsReceivableStore store) {
     return Input(
-      label: "Data inicial",
+      label: context.l10n.common_start_date,
       keyboardType: TextInputType.number,
       initialValue: store.state.filter.startDate,
       onChanged: (value) {},
@@ -146,7 +149,7 @@ class _AccountsReceiveFilters extends State<AccountsReceiveFilters> {
 
   Widget _dateEnd(AccountsReceivableStore store) {
     return Input(
-      label: "Data final",
+      label: context.l10n.common_end_date,
       keyboardType: TextInputType.number,
       initialValue: store.state.filter.endDate,
       onChanged: (value) {},
@@ -162,9 +165,10 @@ class _AccountsReceiveFilters extends State<AccountsReceiveFilters> {
 
   Widget _applyFilterButton(AccountsReceivableStore store) {
     final isLoading = store.state.makeRequest;
+    final l10n = context.l10n;
     return ButtonActionTable(
       color: AppColors.blue,
-      text: isLoading ? 'Carregando...' : 'Aplicar filtros',
+      text: isLoading ? l10n.common_loading : l10n.common_apply_filters,
       icon: isLoading ? Icons.hourglass_bottom : Icons.search,
       onPressed: () {
         if (!isLoading) {
@@ -180,7 +184,7 @@ class _AccountsReceiveFilters extends State<AccountsReceiveFilters> {
     return ButtonActionTable(
       icon: Icons.clear,
       color: AppColors.mustard,
-      text: 'Limpar filtros',
+      text: context.l10n.common_clear_filters,
       onPressed: () => store.clearFilters(),
     );
   }

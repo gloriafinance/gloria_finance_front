@@ -1,7 +1,8 @@
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
 import 'package:church_finance_bk/core/theme/index.dart';
-import 'package:church_finance_bk/core/widgets/index.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
+import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,7 @@ class AccountsReceivableTable extends StatelessWidget {
   Widget build(BuildContext context) {
     final store = Provider.of<AccountsReceivableStore>(context);
     final state = store.state;
+    final l10n = context.l10n;
 
     if (state.makeRequest) {
       return Container(
@@ -26,21 +28,23 @@ class AccountsReceivableTable extends StatelessWidget {
     }
 
     if (state.paginate.results.isEmpty) {
-      return Center(child: Text('Nenhuma conta a receber encontrada'));
+      return Center(
+        child: Text(l10n.accountsReceivable_table_empty),
+      );
     }
 
     return Container(
       margin: isMobile(context) ? null : const EdgeInsets.only(top: 40.0),
       child: CustomTable(
         headers: [
-          "Devedor",
-          "Descricao",
-          "Tipo",
-          "Nro. parcelas",
-          "Recebido",
-          "Pendente",
-          "Total a receber",
-          "Status",
+          l10n.accountsReceivable_table_header_debtor,
+          l10n.accountsReceivable_table_header_description,
+          l10n.accountsReceivable_table_header_type,
+          l10n.accountsReceivable_table_header_installments,
+          l10n.accountsReceivable_table_header_received,
+          l10n.accountsReceivable_table_header_pending,
+          l10n.accountsReceivable_table_header_total,
+          l10n.accountsReceivable_table_header_status,
         ],
         data: FactoryDataTable<AccountsReceivableModel>(
           data: state.paginate.results,
@@ -64,7 +68,7 @@ class AccountsReceivableTable extends StatelessWidget {
         actionBuilders: [
           (accountsReceivable) => ButtonActionTable(
             color: AppColors.blue,
-            text: "Visualizar",
+            text: l10n.accountsReceivable_table_action_view,
             onPressed: () => _openDetail(context, accountsReceivable),
             icon: Icons.remove_red_eye_sharp,
           ),

@@ -48,6 +48,7 @@ class AuthSessionStore extends ChangeNotifier {
     } catch (e) {
       print("ERRRRORRRR ${e}");
       Toast.showMessage(
+        // Mensaje genérico; será traducido en la UI cuando se disponga
         "Ocorreu um erro interno no sistema, informe ao administrador do sistema",
         ToastType.warning,
       );
