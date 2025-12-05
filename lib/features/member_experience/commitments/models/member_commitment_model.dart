@@ -62,6 +62,8 @@ class MemberCommitmentInstallment {
   }
 
   bool get isPaid => status == 'PAID';
+  bool get isUnderReview => status == 'IN_REVIEW';
+  bool get canBePaid => !isPaid && !isUnderReview;
 
   double get remainingAmount {
     if (amountPending != null) return amountPending!;
@@ -136,7 +138,7 @@ class MemberCommitmentModel {
 
   MemberCommitmentInstallment? get nextInstallment {
     final unpaid = installments
-        .where((installment) => !installment.isPaid)
+        .where((installment) => installment.canBePaid)
         .toList()
       ..sort((a, b) => a.dueDate.compareTo(b.dueDate));
     if (unpaid.isEmpty) return null;

@@ -3,7 +3,6 @@ import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/date_formatter.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
-import 'package:church_finance_bk/core/widgets/loading.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/pages/history/widgets/contribution_empty_state.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/pages/history/widgets/contribution_list.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/store/member_contribution_history_store.dart';
@@ -21,10 +20,6 @@ class MemberContributionHistoryScreen extends StatelessWidget {
       create: (_) => MemberContributionHistoryStore(),
       child: Consumer<MemberContributionHistoryStore>(
         builder: (context, store, child) {
-          if (store.isLoading && store.contributions.isEmpty) {
-            return const Center(child: Loading());
-          }
-
           return RefreshIndicator(
             onRefresh: () => store.fetchContributions(refresh: true),
             child: Stack(
@@ -52,7 +47,11 @@ class MemberContributionHistoryScreen extends StatelessWidget {
                       ),
                     ),
                     _buildFilters(context, store),
-                    Expanded(child: _buildHistoryList(store)),
+                    Expanded(
+                      child: store.isLoading
+                          ? const Center(child: CircularProgressIndicator())
+                          : _buildHistoryList(store),
+                    ),
                   ],
                 ),
                 Positioned(

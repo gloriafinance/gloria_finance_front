@@ -2,11 +2,12 @@ import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/features/member_experience/commitments/store/member_commitment_store.dart';
-import 'package:church_finance_bk/features/member_experience/commitments/widgets/member_commitment_card.dart';
-import 'package:church_finance_bk/features/member_experience/commitments/widgets/member_commitment_empty_state.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
+import 'widgets/member_commitment_card.dart';
+import 'widgets/member_commitment_empty_state.dart';
 
 class MemberCommitmentsScreen extends StatelessWidget {
   const MemberCommitmentsScreen({super.key});
