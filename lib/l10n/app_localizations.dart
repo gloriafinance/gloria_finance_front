@@ -3888,6 +3888,288 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Version {version}'**
   String member_drawer_version(String version);
+
+  /// No description provided for @member_shell_nav_home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get member_shell_nav_home;
+
+  /// No description provided for @member_shell_nav_contribute.
+  ///
+  /// In en, this message translates to:
+  /// **'Contribute'**
+  String get member_shell_nav_contribute;
+
+  /// No description provided for @member_shell_nav_commitments.
+  ///
+  /// In en, this message translates to:
+  /// **'Commitments'**
+  String get member_shell_nav_commitments;
+
+  /// No description provided for @member_shell_nav_statements.
+  ///
+  /// In en, this message translates to:
+  /// **'Statements'**
+  String get member_shell_nav_statements;
+
+  /// No description provided for @member_shell_header_tagline.
+  ///
+  /// In en, this message translates to:
+  /// **'CHURCH'**
+  String get member_shell_header_tagline;
+
+  /// No description provided for @member_shell_header_default_church.
+  ///
+  /// In en, this message translates to:
+  /// **'Gloria Finance'**
+  String get member_shell_header_default_church;
+
+  /// No description provided for @member_commitments_title.
+  ///
+  /// In en, this message translates to:
+  /// **'My commitments'**
+  String get member_commitments_title;
+
+  /// No description provided for @member_commitments_empty_title.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have contribution commitments yet'**
+  String get member_commitments_empty_title;
+
+  /// No description provided for @member_commitments_empty_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'When the treasury assigns one to you, it will appear here.'**
+  String get member_commitments_empty_subtitle;
+
+  /// No description provided for @member_commitments_total_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Total amount'**
+  String get member_commitments_total_label;
+
+  /// No description provided for @member_commitments_paid_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Already contributed'**
+  String get member_commitments_paid_label;
+
+  /// No description provided for @member_commitments_balance_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance'**
+  String get member_commitments_balance_label;
+
+  /// No description provided for @member_commitments_progress_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get member_commitments_progress_label;
+
+  /// No description provided for @member_commitments_button_view_details.
+  ///
+  /// In en, this message translates to:
+  /// **'View details & pay'**
+  String get member_commitments_button_view_details;
+
+  /// No description provided for @member_commitments_status_pending.
+  ///
+  /// In en, this message translates to:
+  /// **'In progress'**
+  String get member_commitments_status_pending;
+
+  /// No description provided for @member_commitments_status_paid.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get member_commitments_status_paid;
+
+  /// No description provided for @member_commitments_status_pending_acceptance.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending acceptance'**
+  String get member_commitments_status_pending_acceptance;
+
+  /// No description provided for @member_commitments_status_denied.
+  ///
+  /// In en, this message translates to:
+  /// **'Denied'**
+  String get member_commitments_status_denied;
+
+  /// No description provided for @member_commitments_detail_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Commitment details'**
+  String get member_commitments_detail_title;
+
+  /// No description provided for @member_commitments_detail_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Track your progress and choose how to pay your installments.'**
+  String get member_commitments_detail_subtitle;
+
+  /// No description provided for @member_commitments_detail_next_installment.
+  ///
+  /// In en, this message translates to:
+  /// **'Next installment'**
+  String get member_commitments_detail_next_installment;
+
+  /// No description provided for @member_commitments_installments_section_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Installments'**
+  String get member_commitments_installments_section_title;
+
+  /// No description provided for @member_commitments_payment_modal_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Register payment'**
+  String get member_commitments_payment_modal_title;
+
+  /// No description provided for @member_commitments_payment_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Register payment'**
+  String get member_commitments_payment_title;
+
+  /// No description provided for @member_commitments_payment_installment_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Installment'**
+  String get member_commitments_payment_installment_label;
+
+  /// No description provided for @member_commitments_payment_account_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Availability account'**
+  String get member_commitments_payment_account_label;
+
+  /// No description provided for @member_commitments_payment_amount_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount paid'**
+  String get member_commitments_payment_amount_label;
+
+  /// No description provided for @member_commitments_payment_paid_at_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment date'**
+  String get member_commitments_payment_paid_at_label;
+
+  /// No description provided for @member_commitments_payment_voucher_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment receipt'**
+  String get member_commitments_payment_voucher_label;
+
+  /// No description provided for @member_commitments_payment_observation_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Note (optional)'**
+  String get member_commitments_payment_observation_label;
+
+  /// No description provided for @member_commitments_payment_submit.
+  ///
+  /// In en, this message translates to:
+  /// **'Send receipt'**
+  String get member_commitments_payment_submit;
+
+  /// No description provided for @member_commitments_payment_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment registered! The treasury will review the receipt.'**
+  String get member_commitments_payment_success;
+
+  /// No description provided for @member_commitments_payment_required_fields_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the installment, enter amount/date, and attach the receipt.'**
+  String get member_commitments_payment_required_fields_error;
+
+  /// No description provided for @member_commitments_payment_methods_title.
+  ///
+  /// In en, this message translates to:
+  /// **'How do you want to pay?'**
+  String get member_commitments_payment_methods_title;
+
+  /// No description provided for @member_commitments_payment_methods_pix.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay with PIX'**
+  String get member_commitments_payment_methods_pix;
+
+  /// No description provided for @member_commitments_payment_methods_boleto.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate boleto'**
+  String get member_commitments_payment_methods_boleto;
+
+  /// No description provided for @member_commitments_payment_methods_manual.
+  ///
+  /// In en, this message translates to:
+  /// **'I already paid, send receipt'**
+  String get member_commitments_payment_methods_manual;
+
+  /// No description provided for @member_commitments_payment_methods_manual_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this option when you transferred and must send the receipt.'**
+  String get member_commitments_payment_methods_manual_hint;
+
+  /// No description provided for @member_commitments_installment_paid_on.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid on: {date}'**
+  String member_commitments_installment_paid_on(String date);
+
+  /// No description provided for @member_commitments_installment_status_paid.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get member_commitments_installment_status_paid;
+
+  /// No description provided for @member_commitments_installment_status_pending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get member_commitments_installment_status_pending;
+
+  /// No description provided for @member_commitments_installment_status_in_review.
+  ///
+  /// In en, this message translates to:
+  /// **'Under review'**
+  String get member_commitments_installment_status_in_review;
+
+  /// No description provided for @member_commitments_installment_status_partial.
+  ///
+  /// In en, this message translates to:
+  /// **'Partial payment'**
+  String get member_commitments_installment_status_partial;
+
+  /// No description provided for @member_commitments_installment_status_overdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get member_commitments_installment_status_overdue;
+
+  /// No description provided for @member_commitments_action_pay_installment.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay installment'**
+  String get member_commitments_action_pay_installment;
+
+  /// No description provided for @member_commitments_action_pay_this_installment.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay this installment'**
+  String get member_commitments_action_pay_this_installment;
+
+  /// No description provided for @member_commitments_payment_missing_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Availability account not informed. Please contact your church.'**
+  String get member_commitments_payment_missing_account;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

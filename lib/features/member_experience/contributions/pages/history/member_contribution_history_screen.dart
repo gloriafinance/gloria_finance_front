@@ -25,51 +25,54 @@ class MemberContributionHistoryScreen extends StatelessWidget {
             return const Center(child: Loading());
           }
 
-          return Stack(
-            children: [
-              Column(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    decoration: const BoxDecoration(
-                      color: AppColors.purple,
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(12),
+          return RefreshIndicator(
+            onRefresh: () => store.fetchContributions(refresh: true),
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      decoration: const BoxDecoration(
+                        color: AppColors.purple,
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(12),
+                        ),
+                      ),
+                      child: Text(
+                        context.l10n.member_contribution_history_title,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontFamily: AppFonts.fontTitle,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
-                    child: Text(
-                      context.l10n.member_contribution_history_title,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontFamily: AppFonts.fontTitle,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                  _buildFilters(context, store),
-                  Expanded(child: _buildHistoryList(store)),
-                ],
-              ),
-              Positioned(
-                bottom: 16,
-                right: 16,
-                child: FloatingActionButton.extended(
-                  onPressed: () => context.push('/member/contribute/new'),
-                  label: Text(
-                    context.l10n.member_contribution_new_button,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontFamily: AppFonts.fontText,
-                    ),
-                  ),
-                  icon: const Icon(Icons.add, color: Colors.white),
-                  backgroundColor: AppColors.purple,
+                    _buildFilters(context, store),
+                    Expanded(child: _buildHistoryList(store)),
+                  ],
                 ),
-              ),
-            ],
+                Positioned(
+                  bottom: 16,
+                  right: 16,
+                  child: FloatingActionButton.extended(
+                    onPressed: () => context.push('/member/contribute/new'),
+                    label: Text(
+                      context.l10n.member_contribution_new_button,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontFamily: AppFonts.fontText,
+                      ),
+                    ),
+                    icon: const Icon(Icons.add, color: Colors.white),
+                    backgroundColor: AppColors.purple,
+                  ),
+                ),
+              ],
+            ),
           );
         },
       ),

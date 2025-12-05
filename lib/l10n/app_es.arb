@@ -776,5 +776,59 @@
         "type": "String"
       }
     }
-  }
+  },
+  "member_shell_nav_home": "Inicio",
+  "member_shell_nav_contribute": "Contribuir",
+  "member_shell_nav_commitments": "Compromisos",
+  "member_shell_nav_statements": "Estados",
+  "member_shell_header_tagline": "IGLESIA",
+  "member_shell_header_default_church": "Gloria Finance",
+  "member_commitments_title": "Mis compromisos",
+  "member_commitments_empty_title": "Aún no tienes compromisos de contribución",
+  "member_commitments_empty_subtitle": "Cuando tesorería registre un compromiso para ti, aparecerá aquí.",
+  "member_commitments_total_label": "Valor total",
+  "member_commitments_paid_label": "Ya contribuido",
+  "member_commitments_balance_label": "Saldo",
+  "member_commitments_progress_label": "Completado",
+  "member_commitments_button_view_details": "Ver detalles y pagar",
+  "member_commitments_status_pending": "En progreso",
+  "member_commitments_status_paid": "Concluido",
+  "member_commitments_status_pending_acceptance": "Pendiente de aceptación",
+  "member_commitments_status_denied": "Rechazado",
+  "member_commitments_detail_title": "Detalles del compromiso",
+  "member_commitments_detail_subtitle": "Revisa el progreso y elige cómo pagar tus cuotas.",
+  "member_commitments_detail_next_installment": "Próxima cuota",
+  "member_commitments_installments_section_title": "Cuotas",
+  "member_commitments_payment_modal_title": "Registrar pago",
+  "member_commitments_payment_title": "Registrar pago",
+  "member_commitments_payment_installment_label": "Cuota",
+  "member_commitments_payment_account_label": "Cuenta de disponibilidad",
+  "member_commitments_payment_amount_label": "Monto pagado",
+  "member_commitments_payment_paid_at_label": "Fecha del pago",
+  "member_commitments_payment_voucher_label": "Comprobante de pago",
+  "member_commitments_payment_observation_label": "Observación (opcional)",
+  "member_commitments_payment_submit": "Enviar comprobante",
+  "member_commitments_payment_success": "¡Pago registrado! Tesorería verificará el comprobante.",
+  "member_commitments_payment_required_fields_error": "Indica la cuota, monto, fecha y adjunta el comprobante.",
+  "member_commitments_payment_methods_title": "¿Cómo quieres pagar?",
+  "member_commitments_payment_methods_pix": "Pagar con PIX",
+  "member_commitments_payment_methods_boleto": "Generar boleto",
+  "member_commitments_payment_methods_manual": "Ya pagué, enviar comprobante",
+  "member_commitments_payment_methods_manual_hint": "Usa esta opción cuando transferiste y necesitas enviar el comprobante.",
+  "member_commitments_installment_paid_on": "Pagado el: {date}",
+  "@member_commitments_installment_paid_on": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "member_commitments_installment_status_paid": "Pagada",
+  "member_commitments_installment_status_pending": "Pendiente",
+  "member_commitments_installment_status_in_review": "En revisión",
+  "member_commitments_installment_status_partial": "Pago parcial",
+  "member_commitments_installment_status_overdue": "Vencida",
+  "member_commitments_action_pay_installment": "Pagar cuota",
+  "member_commitments_action_pay_this_installment": "Pagar esta cuota",
+  "member_commitments_payment_missing_account": "Cuenta de disponibilidad no informada. Contacta a tu iglesia."
 }

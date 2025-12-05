@@ -156,7 +156,7 @@ class MemberContributeResultScreen extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         TextButton(
-          onPressed: () => context.go('/member/dashboard'),
+          onPressed: () => context.go('/dashboard'),
           child: Text(
             l10n.member_contribution_back_to_home,
             style: const TextStyle(
@@ -220,7 +220,7 @@ class MemberContributeResultScreen extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         TextButton(
-          onPressed: () => context.go('/member/dashboard'),
+          onPressed: () => context.go('/dashboard'),
           child: Text(
             l10n.member_contribution_back_to_home,
             style: const TextStyle(

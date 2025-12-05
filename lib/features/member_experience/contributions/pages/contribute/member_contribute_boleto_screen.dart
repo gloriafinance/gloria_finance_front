@@ -202,7 +202,7 @@ class MemberContributeBoletoScreen extends StatelessWidget {
               const SizedBox(height: 24),
               // Back button
               TextButton(
-                onPressed: () => context.go('/#/dashboard'),
+                onPressed: () => context.go('/dashboard'),
                 child: Text(
                   context.l10n.member_contribution_back_to_home,
                   style: const TextStyle(

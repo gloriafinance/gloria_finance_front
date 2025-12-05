@@ -2,6 +2,7 @@ import 'package:church_finance_bk/core/layout/member/widgets/member_drawer.dart'
 import 'package:church_finance_bk/core/layout/member/widgets/notification_badge.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -18,7 +19,7 @@ class MemberShell extends StatefulWidget {
 class _MemberShellState extends State<MemberShell> {
   int _calculateSelectedIndex(BuildContext context) {
     final String location = GoRouterState.of(context).uri.toString();
-    if (location.startsWith('/member/home')) return 0;
+    if (location == '/dashboard' || location.startsWith('/member/home')) return 0;
     if (location.startsWith('/member/contribute')) return 1;
     if (location.startsWith('/member/commitments')) return 2;
     if (location.startsWith('/member/statements')) return 3;
@@ -29,7 +30,7 @@ class _MemberShellState extends State<MemberShell> {
   void _onItemTapped(int index, BuildContext context) {
     switch (index) {
       case 0:
-        context.go('/member/home');
+        context.go('/dashboard');
         break;
       case 1:
         context.go('/member/contribute');
@@ -46,6 +47,7 @@ class _MemberShellState extends State<MemberShell> {
   @override
   Widget build(BuildContext context) {
     final int selectedIndex = _calculateSelectedIndex(context);
+    final l10n = context.l10n;
 
     return Scaffold(
       //backgroundColor: const Color(0xFFF3E5F5), // Light Purple / Lilac base
@@ -77,7 +79,7 @@ class _MemberShellState extends State<MemberShell> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'IGREJA',
+              l10n.member_shell_header_tagline,
               style: TextStyle(
                 fontFamily: AppFonts.fontText,
                 color: Colors.grey[700],
@@ -87,9 +89,9 @@ class _MemberShellState extends State<MemberShell> {
               ),
             ),
             const SizedBox(height: 2),
-            const Text(
-              'IPUB Santana de Parnaíba',
-              style: TextStyle(
+            Text(
+              l10n.member_shell_header_default_church,
+              style: const TextStyle(
                 fontFamily: AppFonts.fontTitle,
                 color: AppColors.black,
                 fontSize: 15,
@@ -137,11 +139,23 @@ class _MemberShellState extends State<MemberShell> {
             duration: const Duration(milliseconds: 400),
             tabBackgroundColor: AppColors.purple.withValues(alpha: 0.1),
             color: Colors.grey,
-            tabs: const [
-              GButton(icon: Icons.home_outlined, text: 'Início'),
-              GButton(icon: Icons.volunteer_activism, text: 'Contribuir'),
-              GButton(icon: Icons.event_note, text: 'Compromissos'),
-              GButton(icon: Icons.receipt_long, text: 'Extratos'),
+            tabs: [
+              GButton(
+                icon: Icons.home_outlined,
+                text: l10n.member_shell_nav_home,
+              ),
+              GButton(
+                icon: Icons.volunteer_activism,
+                text: l10n.member_shell_nav_contribute,
+              ),
+              GButton(
+                icon: Icons.event_note,
+                text: l10n.member_shell_nav_commitments,
+              ),
+              GButton(
+                icon: Icons.receipt_long,
+                text: l10n.member_shell_nav_statements,
+              ),
             ],
             selectedIndex: selectedIndex,
             onTabChange: (index) => _onItemTapped(index, context),

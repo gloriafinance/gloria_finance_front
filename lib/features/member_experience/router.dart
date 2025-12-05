@@ -1,14 +1,16 @@
 import 'package:church_finance_bk/core/theme/transition_custom.dart';
-import 'package:flutter/material.dart';
+import 'package:church_finance_bk/features/member_experience/commitments/models/member_commitment_model.dart';
+import 'package:church_finance_bk/features/member_experience/commitments/pages/member_commitment_detail_screen.dart';
+import 'package:church_finance_bk/features/member_experience/commitments/pages/member_commitments_screen.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/models/member_contribution_models.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/pages/contribute/member_contribute_boleto_screen.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/pages/contribute/member_contribute_pix_screen.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/pages/contribute/member_contribute_result_screen.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/pages/contribute/member_contribute_screen.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/pages/history/member_contribution_history_screen.dart';
+import 'package:church_finance_bk/features/member_experience/home/home_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import 'home/home_screen.dart';
 
 memberExperienceRouter() {
   return <RouteBase>[
@@ -17,6 +19,23 @@ memberExperienceRouter() {
       pageBuilder: (context, state) {
         return transitionCustom(HomeScreen());
       },
+    ),
+    GoRoute(
+      path: '/member/commitments',
+      pageBuilder: (context, state) {
+        return transitionCustom(const MemberCommitmentsScreen());
+      },
+      routes: [
+        GoRoute(
+          path: 'detail',
+          pageBuilder: (context, state) {
+            final commitment = state.extra as MemberCommitmentModel;
+            return transitionCustom(
+              MemberCommitmentDetailScreen(commitment: commitment),
+            );
+          },
+        ),
+      ],
     ),
     // Contribution History (Main Entry)
     GoRoute(

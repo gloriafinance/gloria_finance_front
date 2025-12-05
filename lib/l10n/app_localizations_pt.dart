@@ -1945,4 +1945,148 @@ class AppLocalizationsPt extends AppLocalizations {
   String member_drawer_version(String version) {
     return 'Versão $version';
   }
+
+  @override
+  String get member_shell_nav_home => 'Início';
+
+  @override
+  String get member_shell_nav_contribute => 'Contribuir';
+
+  @override
+  String get member_shell_nav_commitments => 'Compromissos';
+
+  @override
+  String get member_shell_nav_statements => 'Extratos';
+
+  @override
+  String get member_shell_header_tagline => 'IGREJA';
+
+  @override
+  String get member_shell_header_default_church => 'Glória Finance';
+
+  @override
+  String get member_commitments_title => 'Meus compromissos';
+
+  @override
+  String get member_commitments_empty_title => 'Você ainda não possui compromissos de contribuição';
+
+  @override
+  String get member_commitments_empty_subtitle => 'Quando a tesouraria registrar um compromisso para você, ele aparecerá aqui.';
+
+  @override
+  String get member_commitments_total_label => 'Valor total';
+
+  @override
+  String get member_commitments_paid_label => 'Já contribuído';
+
+  @override
+  String get member_commitments_balance_label => 'Saldo';
+
+  @override
+  String get member_commitments_progress_label => 'Concluído';
+
+  @override
+  String get member_commitments_button_view_details => 'Ver detalhes & pagar';
+
+  @override
+  String get member_commitments_status_pending => 'Em andamento';
+
+  @override
+  String get member_commitments_status_paid => 'Concluído';
+
+  @override
+  String get member_commitments_status_pending_acceptance => 'Pendente de aceite';
+
+  @override
+  String get member_commitments_status_denied => 'Negado';
+
+  @override
+  String get member_commitments_detail_title => 'Detalhes do compromisso';
+
+  @override
+  String get member_commitments_detail_subtitle =>
+      'Acompanhe o progresso e escolha como pagar suas parcelas.';
+
+  @override
+  String get member_commitments_detail_next_installment => 'Próxima parcela';
+
+  @override
+  String get member_commitments_installments_section_title => 'Parcelas';
+
+  @override
+  String get member_commitments_payment_modal_title => 'Registrar pagamento';
+
+  @override
+  String get member_commitments_payment_title => 'Registrar pagamento';
+
+  @override
+  String get member_commitments_payment_installment_label => 'Parcela';
+
+  @override
+  String get member_commitments_payment_account_label => 'Conta de disponibilidade';
+
+  @override
+  String get member_commitments_payment_amount_label => 'Valor pago';
+
+  @override
+  String get member_commitments_payment_paid_at_label => 'Data do pagamento';
+
+  @override
+  String get member_commitments_payment_voucher_label => 'Comprovante de pagamento';
+
+  @override
+  String get member_commitments_payment_observation_label => 'Observação (opcional)';
+
+  @override
+  String get member_commitments_payment_submit => 'Enviar comprovante';
+
+  @override
+  String get member_commitments_payment_success => 'Pagamento registrado com sucesso! A tesouraria irá verificar o comprovante.';
+
+  @override
+  String get member_commitments_payment_required_fields_error => 'Informe a parcela, valor, data e anexe o comprovante.';
+
+  @override
+  String get member_commitments_payment_methods_title => 'Como deseja pagar?';
+
+  @override
+  String get member_commitments_payment_methods_pix => 'Pagar com PIX';
+
+  @override
+  String get member_commitments_payment_methods_boleto => 'Gerar boleto';
+
+  @override
+  String get member_commitments_payment_methods_manual => 'Já paguei, enviar comprovante';
+
+  @override
+  String get member_commitments_payment_methods_manual_hint => 'Use esta opção quando fizer uma transferência e precisar enviar o comprovante.';
+
+  @override
+  String member_commitments_installment_paid_on(String date) {
+    return 'Pago em: $date';
+  }
+
+  @override
+  String get member_commitments_installment_status_paid => 'Paga';
+
+  @override
+  String get member_commitments_installment_status_pending => 'Em aberto';
+
+  @override
+  String get member_commitments_installment_status_in_review => 'Em revisão';
+
+  @override
+  String get member_commitments_installment_status_partial => 'Pagamento parcial';
+
+  @override
+  String get member_commitments_installment_status_overdue => 'Vencida';
+
+  @override
+  String get member_commitments_action_pay_installment => 'Pagar parcela';
+
+  @override
+  String get member_commitments_action_pay_this_installment => 'Pagar esta parcela';
+
+  @override
+  String get member_commitments_payment_missing_account => 'Conta de disponibilidade não informada. Entre em contato com a igreja.';
 }

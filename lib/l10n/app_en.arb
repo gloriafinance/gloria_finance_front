@@ -776,5 +776,59 @@
         "type": "String"
       }
     }
-  }
+  },
+  "member_shell_nav_home": "Home",
+  "member_shell_nav_contribute": "Contribute",
+  "member_shell_nav_commitments": "Commitments",
+  "member_shell_nav_statements": "Statements",
+  "member_shell_header_tagline": "CHURCH",
+  "member_shell_header_default_church": "Gloria Finance",
+  "member_commitments_title": "My commitments",
+  "member_commitments_empty_title": "You don't have contribution commitments yet",
+  "member_commitments_empty_subtitle": "When the treasury assigns one to you, it will appear here.",
+  "member_commitments_total_label": "Total amount",
+  "member_commitments_paid_label": "Already contributed",
+  "member_commitments_balance_label": "Balance",
+  "member_commitments_progress_label": "Completed",
+  "member_commitments_button_view_details": "View details & pay",
+  "member_commitments_status_pending": "In progress",
+  "member_commitments_status_paid": "Completed",
+  "member_commitments_status_pending_acceptance": "Pending acceptance",
+  "member_commitments_status_denied": "Denied",
+  "member_commitments_detail_title": "Commitment details",
+  "member_commitments_detail_subtitle": "Track your progress and choose how to pay your installments.",
+  "member_commitments_detail_next_installment": "Next installment",
+  "member_commitments_installments_section_title": "Installments",
+  "member_commitments_payment_modal_title": "Register payment",
+  "member_commitments_payment_title": "Register payment",
+  "member_commitments_payment_installment_label": "Installment",
+  "member_commitments_payment_account_label": "Availability account",
+  "member_commitments_payment_amount_label": "Amount paid",
+  "member_commitments_payment_paid_at_label": "Payment date",
+  "member_commitments_payment_voucher_label": "Payment receipt",
+  "member_commitments_payment_observation_label": "Note (optional)",
+  "member_commitments_payment_submit": "Send receipt",
+  "member_commitments_payment_success": "Payment registered! The treasury will review the receipt.",
+  "member_commitments_payment_required_fields_error": "Select the installment, enter amount/date, and attach the receipt.",
+  "member_commitments_payment_methods_title": "How do you want to pay?",
+  "member_commitments_payment_methods_pix": "Pay with PIX",
+  "member_commitments_payment_methods_boleto": "Generate boleto",
+  "member_commitments_payment_methods_manual": "I already paid, send receipt",
+  "member_commitments_payment_methods_manual_hint": "Use this option when you transferred and must send the receipt.",
+  "member_commitments_installment_paid_on": "Paid on: {date}",
+  "@member_commitments_installment_paid_on": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "member_commitments_installment_status_paid": "Paid",
+  "member_commitments_installment_status_pending": "Pending",
+  "member_commitments_installment_status_in_review": "Under review",
+  "member_commitments_installment_status_partial": "Partial payment",
+  "member_commitments_installment_status_overdue": "Overdue",
+  "member_commitments_action_pay_installment": "Pay installment",
+  "member_commitments_action_pay_this_installment": "Pay this installment",
+  "member_commitments_payment_missing_account": "Availability account not informed. Please contact your church."
 }
