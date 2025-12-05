@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/models/member_contribution_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,9 +29,9 @@ class MemberContributePixScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => context.pop(),
         ),
-        title: const Text(
-          'Pague com PIX',
-          style: TextStyle(
+        title: Text(
+          context.l10n.member_contribution_pix_title,
+          style: const TextStyle(
             fontFamily: AppFonts.fontTitle,
             color: Colors.white,
             fontSize: 18,
@@ -72,7 +73,9 @@ class MemberContributePixScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'Destinatário: Igreja Batista Glória',
+                      context.l10n.member_contribution_pix_recipient(
+                        'Igreja Batista Glória',
+                      ),
                       style: TextStyle(
                         fontFamily: AppFonts.fontSubTitle,
                         fontSize: 14,
@@ -111,7 +114,7 @@ class MemberContributePixScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Escaneie este QR Code no app do seu banco.',
+                      context.l10n.member_contribution_pix_qr_hint,
                       style: TextStyle(
                         fontFamily: AppFonts.fontText,
                         fontSize: 13,
@@ -134,9 +137,9 @@ class MemberContributePixScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Código PIX copia e cola',
-                      style: TextStyle(
+                    Text(
+                      context.l10n.member_contribution_pix_code_label,
+                      style: const TextStyle(
                         fontFamily: AppFonts.fontTitle,
                         fontSize: 16,
                         color: AppColors.black,
@@ -169,7 +172,9 @@ class MemberContributePixScreen extends StatelessWidget {
                       child: OutlinedButton.icon(
                         onPressed: () => _copyToClipboard(context, pixPayload.pixCopyPasteCode),
                         icon: const Icon(Icons.copy, size: 18),
-                        label: const Text('Copiar código'),
+                        label: Text(
+                          context.l10n.member_contribution_copy_code,
+                        ),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: AppColors.purple,
                           side: const BorderSide(color: AppColors.purple, width: 1.5),
@@ -188,7 +193,7 @@ class MemberContributePixScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  'Após realizar o pagamento, você poderá acompanhar a confirmação no seu histórico de contribuições.',
+                  context.l10n.member_contribution_pix_footer,
                   style: TextStyle(
                     fontFamily: AppFonts.fontText,
                     fontSize: 13,
@@ -204,9 +209,9 @@ class MemberContributePixScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextButton(
                   onPressed: () => context.go('/#/dashboard'),
-                  child: const Text(
-                    'Voltar ao início',
-                    style: TextStyle(
+                  child: Text(
+                    context.l10n.member_contribution_back_to_home,
+                    style: const TextStyle(
                       fontFamily: AppFonts.fontSubTitle,
                       fontSize: 14,
                       color: Colors.white,
@@ -226,8 +231,8 @@ class MemberContributePixScreen extends StatelessWidget {
   void _copyToClipboard(BuildContext context, String text) {
     Clipboard.setData(ClipboardData(text: text));
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Código PIX copiado!'),
+      SnackBar(
+        content: Text(context.l10n.member_contribution_pix_copy_success),
         backgroundColor: AppColors.green,
         duration: Duration(seconds: 2),
       ),

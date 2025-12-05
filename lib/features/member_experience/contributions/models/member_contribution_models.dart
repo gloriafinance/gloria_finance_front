@@ -1,3 +1,5 @@
+import 'package:church_finance_bk/l10n/app_localizations.dart';
+
 enum MemberContributionType { tithe, offering }
 
 enum MemberPaymentChannel { pix, boleto, externalWithReceipt }
@@ -5,12 +7,12 @@ enum MemberPaymentChannel { pix, boleto, externalWithReceipt }
 enum MemberContributionStatus { pending, paid, failed, pendingReview }
 
 extension MemberContributionTypeExtension on MemberContributionType {
-  String get displayName {
+  String label(AppLocalizations l10n) {
     switch (this) {
       case MemberContributionType.tithe:
-        return 'Dízimo';
+        return l10n.member_contribution_type_tithe;
       case MemberContributionType.offering:
-        return 'Oferta';
+        return l10n.member_contribution_type_offering;
     }
   }
 
@@ -25,25 +27,25 @@ extension MemberContributionTypeExtension on MemberContributionType {
 }
 
 extension MemberPaymentChannelExtension on MemberPaymentChannel {
-  String get displayName {
+  String label(AppLocalizations l10n) {
     switch (this) {
       case MemberPaymentChannel.pix:
         return 'PIX';
       case MemberPaymentChannel.boleto:
-        return 'Boleto';
+        return l10n.member_contribution_payment_method_boleto_title;
       case MemberPaymentChannel.externalWithReceipt:
-        return 'Já contribui, quero enviar o comprovante';
+        return l10n.member_contribution_payment_method_manual_title;
     }
   }
 
-  String get description {
+  String description(AppLocalizations l10n) {
     switch (this) {
       case MemberPaymentChannel.pix:
-        return 'Pagar agora via PIX. Gere o QR Code ou o código copia e cola para pagar no app do seu banco.';
+        return l10n.member_contribution_payment_method_pix_description;
       case MemberPaymentChannel.boleto:
-        return 'Gerar boleto para pagar depois. Você receberá um boleto para pagar no seu internet banking ou aplicativo.';
+        return l10n.member_contribution_payment_method_boleto_description;
       case MemberPaymentChannel.externalWithReceipt:
-        return 'Deposite, transfira ou use outro método. Depois, envie o comprovante aqui.';
+        return l10n.member_contribution_payment_method_manual_description;
     }
   }
 }

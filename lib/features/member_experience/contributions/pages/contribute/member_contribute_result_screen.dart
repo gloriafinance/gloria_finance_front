@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/models/member_contribution_models.dart';
 import 'package:flutter/material.dart';
@@ -41,11 +42,13 @@ class MemberContributeResultScreen extends StatelessWidget {
   }
 
   Widget _buildSuccessContent(BuildContext context) {
+    final localeTag = Localizations.localeOf(context).toLanguageTag();
     final currencyFormat = NumberFormat.currency(
-      locale: 'pt_BR',
+      locale: localeTag,
       symbol: 'R\$',
     );
-    final dateFormat = DateFormat('dd/MM/yyyy - HH:mm', 'pt_BR');
+    final dateFormat = DateFormat('dd/MM/yyyy - HH:mm', localeTag);
+    final l10n = context.l10n;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -62,9 +65,9 @@ class MemberContributeResultScreen extends StatelessWidget {
         ),
         const SizedBox(height: 32),
         // Title
-        const Text(
-          'Contribuição realizada\ncom sucesso!',
-          style: TextStyle(
+        Text(
+          l10n.member_contribution_result_success_title,
+          style: const TextStyle(
             fontFamily: AppFonts.fontTitle,
             fontSize: 24,
             color: AppColors.black,
@@ -75,7 +78,7 @@ class MemberContributeResultScreen extends StatelessWidget {
         const SizedBox(height: 16),
         // Subtitle
         Text(
-          'Obrigado pela sua generosidade.',
+          l10n.member_contribution_result_success_subtitle,
           style: TextStyle(
             fontFamily: AppFonts.fontText,
             fontSize: 15,
@@ -108,7 +111,7 @@ class MemberContributeResultScreen extends StatelessWidget {
               ],
               if (type != null) ...[
                 Text(
-                  type!.displayName,
+                  _typeLabel(context),
                   style: TextStyle(
                     fontFamily: AppFonts.fontSubTitle,
                     fontSize: 14,
@@ -119,7 +122,9 @@ class MemberContributeResultScreen extends StatelessWidget {
               ],
               if (paidAt != null) ...[
                 Text(
-                  'Data: ${dateFormat.format(paidAt!)}',
+                  l10n.member_contribution_result_date(
+                    dateFormat.format(paidAt!),
+                  ),
                   style: TextStyle(
                     fontFamily: AppFonts.fontText,
                     fontSize: 13,
@@ -133,7 +138,7 @@ class MemberContributeResultScreen extends StatelessWidget {
         const SizedBox(height: 24),
         // Info text
         Text(
-          'O seu comprovante será conferido pela tesouraria.',
+          l10n.member_contribution_result_info,
           style: TextStyle(
             fontFamily: AppFonts.fontText,
             fontSize: 13,
@@ -144,7 +149,7 @@ class MemberContributeResultScreen extends StatelessWidget {
         const SizedBox(height: 32),
         // Buttons
         CustomButton(
-          text: 'Ver histórico',
+          text: l10n.member_contribution_view_history,
           backgroundColor: AppColors.purple,
           textColor: Colors.white,
           onPressed: () => context.go('/member/contribute'),
@@ -152,9 +157,9 @@ class MemberContributeResultScreen extends StatelessWidget {
         const SizedBox(height: 12),
         TextButton(
           onPressed: () => context.go('/member/dashboard'),
-          child: const Text(
-            'Voltar ao início',
-            style: TextStyle(
+          child: Text(
+            l10n.member_contribution_back_to_home,
+            style: const TextStyle(
               fontFamily: AppFonts.fontSubTitle,
               fontSize: 14,
               color: AppColors.purple,
@@ -166,6 +171,8 @@ class MemberContributeResultScreen extends StatelessWidget {
   }
 
   Widget _buildErrorContent(BuildContext context) {
+    final l10n = context.l10n;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -181,9 +188,9 @@ class MemberContributeResultScreen extends StatelessWidget {
         ),
         const SizedBox(height: 32),
         // Title
-        const Text(
-          'Não foi possível\nprocessar o pagamento',
-          style: TextStyle(
+        Text(
+          l10n.member_contribution_result_error_title,
+          style: const TextStyle(
             fontFamily: AppFonts.fontTitle,
             fontSize: 24,
             color: AppColors.black,
@@ -194,8 +201,7 @@ class MemberContributeResultScreen extends StatelessWidget {
         const SizedBox(height: 16),
         // Error message
         Text(
-          errorMessage ??
-              'Verifique os dados do cartão ou tente outro método de pagamento.',
+          errorMessage ?? l10n.member_contribution_result_error_message,
           style: TextStyle(
             fontFamily: AppFonts.fontText,
             fontSize: 15,
@@ -207,7 +213,7 @@ class MemberContributeResultScreen extends StatelessWidget {
         const SizedBox(height: 32),
         // Buttons
         CustomButton(
-          text: 'Tentar novamente',
+          text: l10n.member_contribution_try_again,
           backgroundColor: AppColors.purple,
           textColor: Colors.white,
           onPressed: () => context.go('/member/contribute'),
@@ -215,9 +221,9 @@ class MemberContributeResultScreen extends StatelessWidget {
         const SizedBox(height: 12),
         TextButton(
           onPressed: () => context.go('/member/dashboard'),
-          child: const Text(
-            'Voltar ao início',
-            style: TextStyle(
+          child: Text(
+            l10n.member_contribution_back_to_home,
+            style: const TextStyle(
               fontFamily: AppFonts.fontSubTitle,
               fontSize: 14,
               color: AppColors.purple,
@@ -226,5 +232,17 @@ class MemberContributeResultScreen extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  String _typeLabel(BuildContext context) {
+    final l10n = context.l10n;
+    switch (type) {
+      case MemberContributionType.tithe:
+        return l10n.member_contribution_type_tithe;
+      case MemberContributionType.offering:
+        return l10n.member_contribution_type_offering;
+      default:
+        return '';
+    }
   }
 }

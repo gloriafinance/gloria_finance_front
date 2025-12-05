@@ -90,6 +90,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get common_apply_filters => 'Apply filters';
 
   @override
+  String get common_load_more => 'Load more';
+
+  @override
   String get common_no_results_found => 'No results found';
 
   @override
@@ -1724,4 +1727,222 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountsReceivable_type_legal_example => 'E.g.: enforcement of judgment, claims covered by insurer.';
+
+  @override
+  String get member_home_placeholder => 'Member experience';
+
+  @override
+  String get member_contribution_history_title => 'Contribution history';
+
+  @override
+  String get member_contribution_new_button => 'New contribution';
+
+  @override
+  String get member_contribution_filter_type_label => 'Type';
+
+  @override
+  String get member_contribution_filter_type_all => 'All';
+
+  @override
+  String get member_contribution_type_tithe => 'Tithe';
+
+  @override
+  String get member_contribution_type_offering => 'Offering';
+
+  @override
+  String get member_contribution_destination_label => 'Contribution destination';
+
+  @override
+  String get member_contribution_search_account_hint => 'Search account...';
+
+  @override
+  String get member_contribution_offering_concept_label => 'Offering';
+
+  @override
+  String get member_contribution_search_concept_hint => 'Search concept...';
+
+  @override
+  String get member_contribution_value_label => 'Contribution amount';
+
+  @override
+  String get member_contribution_amount_other => 'Other amount';
+
+  @override
+  String get member_contribution_receipt_label => 'Upload the payment receipt';
+
+  @override
+  String get member_contribution_receipt_payment_date_label => 'Payment date';
+
+  @override
+  String get member_contribution_receipt_help_text => 'Your church treasury will review this receipt. Attaching it is mandatory.';
+
+  @override
+  String get member_contribution_message_label => 'Message (optional)';
+
+  @override
+  String get member_contribution_continue_button => 'Continue';
+
+  @override
+  String get member_contribution_payment_method_question => 'How do you want to record the payment?';
+
+  @override
+  String get member_contribution_payment_method_boleto_title => 'Generate a boleto to pay later';
+
+  @override
+  String get member_contribution_payment_method_manual_title => 'I already contributed, I want to upload the receipt';
+
+  @override
+  String get member_contribution_payment_method_pix_description => 'Pay now via PIX. Generate the QR code or copy-and-paste code to pay in your banking app.';
+
+  @override
+  String get member_contribution_payment_method_boleto_description => 'Generate a boleto to pay later through online banking or your app.';
+
+  @override
+  String get member_contribution_payment_method_manual_description => 'Deposit, transfer, or use another method, then upload the receipt here.';
+
+  @override
+  String get member_contribution_history_empty_title => 'You do not have any contributions yet';
+
+  @override
+  String get member_contribution_history_empty_subtitle => 'Once you make a contribution, it will appear here.';
+
+  @override
+  String get member_contribution_history_item_default_title => 'Contribution';
+
+  @override
+  String get member_contribution_history_item_receipt_submitted => 'Receipt submitted';
+
+  @override
+  String get member_contribution_pix_title => 'Pay with PIX';
+
+  @override
+  String member_contribution_pix_recipient(String recipient) {
+    return 'Recipient: $recipient';
+  }
+
+  @override
+  String get member_contribution_pix_qr_hint => 'Scan this QR code in your banking app.';
+
+  @override
+  String get member_contribution_pix_code_label => 'PIX copy and paste code';
+
+  @override
+  String get member_contribution_copy_code => 'Copy code';
+
+  @override
+  String get member_contribution_pix_footer => 'After paying, you can track the confirmation in your contribution history.';
+
+  @override
+  String get member_contribution_back_to_home => 'Back to home';
+
+  @override
+  String get member_contribution_pix_copy_success => 'PIX code copied!';
+
+  @override
+  String get member_contribution_boleto_title => 'Pay with boleto';
+
+  @override
+  String get member_contribution_boleto_due_date_label => 'Due date:';
+
+  @override
+  String get member_contribution_boleto_instruction => 'Use the code below to pay in your online banking or app.';
+
+  @override
+  String get member_contribution_boleto_line_label => 'Digitable line';
+
+  @override
+  String get member_contribution_boleto_download_pdf => 'Download boleto PDF';
+
+  @override
+  String get member_contribution_boleto_footer => 'After paying, the confirmation will appear in your contribution history. Keep the receipt.';
+
+  @override
+  String get member_contribution_boleto_copy_success => 'Digitable line copied!';
+
+  @override
+  String get member_contribution_boleto_pdf_error => 'Could not open the PDF';
+
+  @override
+  String get member_contribution_result_success_title => 'Contribution completed\nsuccessfully!';
+
+  @override
+  String get member_contribution_result_success_subtitle => 'Thank you for your generosity.';
+
+  @override
+  String member_contribution_result_date(String date) {
+    return 'Date: $date';
+  }
+
+  @override
+  String get member_contribution_result_info => 'The treasury team will review your receipt.';
+
+  @override
+  String get member_contribution_view_history => 'View history';
+
+  @override
+  String get member_contribution_result_error_title => 'We could not process\nthe payment';
+
+  @override
+  String get member_contribution_result_error_message => 'Check the payment details or try another method.';
+
+  @override
+  String get member_contribution_try_again => 'Try again';
+
+  @override
+  String get member_contribution_form_required_fields_error => 'Please fill in all required fields';
+
+  @override
+  String get member_contribution_form_receipt_required_error => 'The receipt is required.';
+
+  @override
+  String member_contribution_form_submission_error(String error) {
+    return 'Error processing the contribution: $error';
+  }
+
+  @override
+  String get member_contribution_validator_amount_required => 'Enter the amount';
+
+  @override
+  String get member_contribution_validator_financial_concept_required => 'Select a financial concept';
+
+  @override
+  String get member_contribution_validator_account_required => 'Select the availability account';
+
+  @override
+  String get member_contribution_validator_month_required => 'Select a month';
+
+  @override
+  String get member_drawer_greeting => 'Example Member';
+
+  @override
+  String get member_drawer_view_profile => 'View my profile';
+
+  @override
+  String get member_drawer_notifications => 'Notifications';
+
+  @override
+  String get member_drawer_profile => 'My profile';
+
+  @override
+  String get member_drawer_settings => 'Settings';
+
+  @override
+  String get member_drawer_legal_section => 'Legal';
+
+  @override
+  String get member_drawer_privacy_policy => 'Privacy Policy';
+
+  @override
+  String get member_drawer_sensitive_data => 'Sensitive Data Policy';
+
+  @override
+  String get member_drawer_terms => 'Terms of Use';
+
+  @override
+  String get member_drawer_logout => 'Log out';
+
+  @override
+  String member_drawer_version(String version) {
+    return 'Version $version';
+  }
 }

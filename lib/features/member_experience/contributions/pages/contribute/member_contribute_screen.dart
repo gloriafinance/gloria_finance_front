@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/currency_formatter.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
@@ -82,10 +83,10 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
                               ),
                               onPressed: () => context.pop(),
                             ),
-                            const Center(
+                            Center(
                               child: Text(
-                                'Nova Contribuição',
-                                style: TextStyle(
+                                context.l10n.member_contribution_new_button,
+                                style: const TextStyle(
                                   fontFamily: AppFonts.fontTitle,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -189,13 +190,14 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
   }
 
   Widget _buildDestinationDropdown(MemberContributionFormStore store) {
+    final l10n = context.l10n;
     final accounts = store.availabilityAccounts;
     if (accounts.isEmpty) {
       return const SizedBox.shrink();
     }
 
     return Dropdown(
-      label: 'Destino da contribuição',
+      label: l10n.member_contribution_destination_label,
       items: accounts.map((a) => a.accountName).toList(),
       initialValue:
           store.state.selectedDestinationId != null
@@ -213,11 +215,12 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
         );
         store.selectDestination(account.availabilityAccountId);
       },
-      searchHint: 'Buscar conta...',
+      searchHint: l10n.member_contribution_search_account_hint,
     );
   }
 
   Widget _buildFinancialConceptDropdown(MemberContributionFormStore store) {
+    final l10n = context.l10n;
     final conceptStore = Provider.of<FinancialConceptStore>(context);
     final concepts =
         conceptStore.state.financialConcepts
@@ -229,7 +232,7 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
     }
 
     return Dropdown(
-      label: 'Oferta',
+      label: l10n.member_contribution_offering_concept_label,
       items: concepts.map((e) => e.name).toList(),
       initialValue:
           store.state.financialConceptId != null
@@ -245,20 +248,22 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
         final concept = concepts.firstWhere((c) => c.name == conceptName);
         store.setFinancialConceptId(concept.financialConceptId);
       },
-      searchHint: 'Buscar conceito...',
+      searchHint: l10n.member_contribution_search_concept_hint,
     );
   }
 
   Widget _buildAmountSelector(MemberContributionFormStore store) {
+    final l10n = context.l10n;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 20),
         Row(
           children: [
-            const Text(
-              'Valor da contribuição',
-              style: TextStyle(
+            Text(
+              l10n.member_contribution_value_label,
+              style: const TextStyle(
                 color: AppColors.purple,
                 fontFamily: AppFonts.fontTitle,
                 fontSize: 15,
@@ -306,9 +311,9 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
               );
             }),
             ChoiceChip(
-              label: const Text(
-                'Outro monto',
-                style: TextStyle(
+              label: Text(
+                l10n.member_contribution_amount_other,
+                style: const TextStyle(
                   fontFamily: AppFonts.fontSubTitle,
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
@@ -341,7 +346,7 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
         ),
         if (_showCustomAmountInput) ...[
           Input(
-            label: '',
+            label: l10n.member_contribution_value_label,
             initialValue:
                 store.state.amount != null
                     ? CurrencyFormatter.formatCurrency(store.state.amount!)
@@ -418,7 +423,7 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
         setState(() {
           _receiptFile = file;
         });
-        store.setReceiptFile(file, file.filename ?? 'comprovante.pdf');
+        store.setReceiptFile(file, file.filename ?? 'receipt.pdf');
       },
       fileName: store.state.receiptFileName,
     );
@@ -426,7 +431,7 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
 
   Widget _buildMessageField(MemberContributionFormStore store) {
     return Input(
-      label: 'Mensagem (opcional)',
+      label: context.l10n.member_contribution_message_label,
       maxLines: 3,
       initialValue: store.state.message,
       onChanged: store.setMessage,
@@ -435,7 +440,7 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
 
   Widget _buildContinueButton(MemberContributionFormStore store) {
     return CustomButton(
-      text: 'Continuar',
+      text: context.l10n.member_contribution_continue_button,
       backgroundColor: AppColors.purple,
       textColor: Colors.white,
       onPressed:
@@ -446,7 +451,10 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
   }
 
   Future<void> _handleSubmit(MemberContributionFormStore store) async {
-    final result = await store.submitContribution(_receiptFile);
+    final result = await store.submitContribution(
+      context.l10n,
+      _receiptFile,
+    );
 
     if (result == null || !mounted) return;
 
