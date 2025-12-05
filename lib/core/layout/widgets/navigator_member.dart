@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -18,6 +19,7 @@ class _NavigatorMember extends State<NavigatorMember> {
   @override
   Widget build(BuildContext context) {
     final navigatorNotifier = Provider.of<NavigatorMemberNotifier>(context);
+    final l10n = context.l10n;
 
     return SafeArea(
       child: Container(
@@ -35,15 +37,18 @@ class _NavigatorMember extends State<NavigatorMember> {
           tabBackgroundColor: AppColors.purple,
           color: AppColors.purple,
           tabs: [
-            _item("Inicio", Icons.home_outlined, "/dashboard"),
+            _item(l10n.member_shell_nav_home, Icons.home_outlined, "/dashboard"),
             _item(
-              "Compromissos",
+              l10n.member_shell_nav_commitments,
               Icons.assignment_outlined,
               "/member/commitments",
             ),
-            _item("Contribuiçōes", Icons.monetization_on_outlined,
-                "/contributions_list"),
-            _item("Perfil", Icons.settings_rounded, "/settings"),
+            _item(
+              l10n.member_shell_nav_contribute,
+              Icons.monetization_on_outlined,
+              "/contributions_list",
+            ),
+            _item(l10n.member_drawer_profile, Icons.settings_rounded, "/settings"),
           ],
           selectedIndex: navigatorNotifier.selectedIndex,
           onTabChange: (index) {

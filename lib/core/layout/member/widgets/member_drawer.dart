@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/app/locale_store.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
@@ -43,6 +44,24 @@ class _MemberDrawerState extends State<MemberDrawer> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    AuthSessionStore? authStore;
+    LocaleStore? localeStore;
+    try {
+      authStore = context.watch<AuthSessionStore>();
+    } catch (_) {
+      authStore = null;
+    }
+    try {
+      localeStore = context.watch<LocaleStore>();
+    } catch (_) {
+      localeStore = null;
+    }
+
+    final session = authStore?.state.session;
+    final accountName =
+        (session?.name ?? '').isNotEmpty ? session!.name : l10n.member_drawer_greeting;
+    final avatarLetter =
+        accountName.trim().isNotEmpty ? accountName.trim().substring(0, 1).toUpperCase() : 'M';
 
     return Drawer(
       child: Column(
@@ -54,7 +73,7 @@ class _MemberDrawerState extends State<MemberDrawer> {
                 UserAccountsDrawerHeader(
                   decoration: const BoxDecoration(color: AppColors.purple),
                   accountName: Text(
-                    l10n.member_drawer_greeting,
+                    accountName,
                     style: const TextStyle(
                       fontFamily: AppFonts.fontTitle,
                       fontWeight: FontWeight.bold,
@@ -75,9 +94,9 @@ class _MemberDrawerState extends State<MemberDrawer> {
                   ),
                   currentAccountPicture: CircleAvatar(
                     backgroundColor: Colors.white,
-                    child: const Text(
-                      'M',
-                      style: TextStyle(
+                    child: Text(
+                      avatarLetter,
+                      style: const TextStyle(
                         fontSize: 24,
                         color: AppColors.purple,
                         fontWeight: FontWeight.bold,
@@ -85,10 +104,11 @@ class _MemberDrawerState extends State<MemberDrawer> {
                     ),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
-                  child: LanguageSelector(),
-                ),
+                if (localeStore != null)
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
+                    child: LanguageSelector(),
+                  ),
                 ListTile(
                   leading: const Icon(
                     Icons.notifications_outlined,

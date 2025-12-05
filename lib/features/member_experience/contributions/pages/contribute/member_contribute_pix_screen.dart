@@ -208,7 +208,7 @@ class MemberContributePixScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextButton(
-                  onPressed: () => context.go('/#/dashboard'),
+                  onPressed: () => context.go('/dashboard'),
                   child: Text(
                     context.l10n.member_contribution_back_to_home,
                     style: const TextStyle(
