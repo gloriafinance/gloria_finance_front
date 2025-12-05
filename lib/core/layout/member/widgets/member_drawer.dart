@@ -1,5 +1,7 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
+import 'package:church_finance_bk/core/widgets/language_selector.dart';
 import 'package:church_finance_bk/features/auth/pages/login/store/auth_session_store.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -40,6 +42,8 @@ class _MemberDrawerState extends State<MemberDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Drawer(
       child: Column(
         children: [
@@ -49,9 +53,9 @@ class _MemberDrawerState extends State<MemberDrawer> {
               children: [
                 UserAccountsDrawerHeader(
                   decoration: const BoxDecoration(color: AppColors.purple),
-                  accountName: const Text(
-                    'Membro Exemplo', // TODO: Get from store
-                    style: TextStyle(
+                  accountName: Text(
+                    l10n.member_drawer_greeting,
+                    style: const TextStyle(
                       fontFamily: AppFonts.fontTitle,
                       fontWeight: FontWeight.bold,
                     ),
@@ -61,9 +65,9 @@ class _MemberDrawerState extends State<MemberDrawer> {
                       context.pop(); // Close drawer
                       context.go('/member/profile');
                     },
-                    child: const Text(
-                      'Ver meu perfil',
-                      style: TextStyle(
+                    child: Text(
+                      l10n.member_drawer_view_profile,
+                      style: const TextStyle(
                         fontFamily: AppFonts.fontText,
                         decoration: TextDecoration.underline,
                       ),
@@ -81,12 +85,16 @@ class _MemberDrawerState extends State<MemberDrawer> {
                     ),
                   ),
                 ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
+                  child: LanguageSelector(),
+                ),
                 ListTile(
                   leading: const Icon(
                     Icons.notifications_outlined,
                     color: AppColors.purple,
                   ),
-                  title: const Text('Notificações'),
+                  title: Text(l10n.member_drawer_notifications),
                   onTap: () {
                     context.pop();
                     // TODO: Navigate to notifications
@@ -97,7 +105,7 @@ class _MemberDrawerState extends State<MemberDrawer> {
                     Icons.person_outline,
                     color: AppColors.purple,
                   ),
-                  title: const Text('Meu Perfil'),
+                  title: Text(l10n.member_drawer_profile),
                   onTap: () {
                     context.pop();
                     context.go('/member/profile');
@@ -108,18 +116,18 @@ class _MemberDrawerState extends State<MemberDrawer> {
                     Icons.settings_outlined,
                     color: AppColors.purple,
                   ),
-                  title: const Text('Configurações'),
+                  title: Text(l10n.member_drawer_settings),
                   onTap: () {
                     context.pop();
                     // TODO: Navigate to settings
                   },
                 ),
                 const Divider(),
-                const Padding(
-                  padding: EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
                   child: Text(
-                    'Legal',
-                    style: TextStyle(
+                    l10n.member_drawer_legal_section,
+                    style: const TextStyle(
                       color: Colors.grey,
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
@@ -131,7 +139,7 @@ class _MemberDrawerState extends State<MemberDrawer> {
                     Icons.privacy_tip_outlined,
                     color: Colors.grey,
                   ),
-                  title: const Text('Política de Privacidade'),
+                  title: Text(l10n.member_drawer_privacy_policy),
                   onTap:
                       () => _launchUrl(
                         'https://gloriafinance.com.br/privacy-policy',
@@ -139,7 +147,7 @@ class _MemberDrawerState extends State<MemberDrawer> {
                 ),
                 ListTile(
                   leading: const Icon(Icons.lock_outline, color: Colors.grey),
-                  title: const Text('Tratamento de Dados'),
+                  title: Text(l10n.member_drawer_sensitive_data),
                   onTap:
                       () => _launchUrl(
                         'https://gloriafinance.com.br/sensitive-data-policy',
@@ -150,7 +158,7 @@ class _MemberDrawerState extends State<MemberDrawer> {
                     Icons.description_outlined,
                     color: Colors.grey,
                   ),
-                  title: const Text('Termos de Uso'),
+                  title: Text(l10n.member_drawer_terms),
                   onTap:
                       () => _launchUrl(
                         'https://gloriafinance.com.br/terms-of-use',
@@ -159,9 +167,9 @@ class _MemberDrawerState extends State<MemberDrawer> {
                 const Divider(),
                 ListTile(
                   leading: const Icon(Icons.logout, color: Colors.red),
-                  title: const Text(
-                    'Sair',
-                    style: TextStyle(color: Colors.red),
+                  title: Text(
+                    l10n.member_drawer_logout,
+                    style: const TextStyle(color: Colors.red),
                   ),
                   onTap: () {
                     final authStore = Provider.of<AuthSessionStore>(
@@ -179,7 +187,7 @@ class _MemberDrawerState extends State<MemberDrawer> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                'Versão $_version',
+                l10n.member_drawer_version(_version),
                 style: const TextStyle(color: Colors.grey, fontSize: 12),
               ),
             ),

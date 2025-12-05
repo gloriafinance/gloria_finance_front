@@ -14,7 +14,7 @@ class MemberContributionHistoryStore extends ChangeNotifier {
   String? nextPag;
 
   // Filters
-  String type = 'Todos'; // 'Todos', 'TITHE', 'OFFERING'
+  String type = 'ALL'; // ALL, TITHE, OFFERING
   late DateTime startDate;
   late DateTime endDate;
 
@@ -38,8 +38,7 @@ class MemberContributionHistoryStore extends ChangeNotifier {
       final response = await _service.getContributions(
         page: page,
         perPage: perPage,
-        type:
-            type == 'Todos' ? null : (type == 'Dízimo' ? 'TITHE' : 'OFFERING'),
+        type: type == 'ALL' ? null : type,
         startDate: startDate,
         endDate: endDate,
       );
@@ -91,12 +90,15 @@ class MemberContributionHistoryStore extends ChangeNotifier {
   // Helper to group contributions by month/year
   Map<String, List<MemberContributionHistoryModel>> get groupedContributions {
     final Map<String, List<MemberContributionHistoryModel>> grouped = {};
+    final locale = Intl.getCurrentLocale().isNotEmpty
+        ? Intl.getCurrentLocale()
+        : 'pt_BR';
+    final dateFormat = DateFormat('MMMM yyyy', locale);
 
     for (var contribution in contributions) {
       final date = contribution.createdAt;
-      final key = DateFormat('MMMM yyyy', 'pt_BR').format(date);
-      // Capitalize first letter
-      final formattedKey = key[0].toUpperCase() + key.substring(1);
+      final key = dateFormat.format(date);
+      final formattedKey = toBeginningOfSentenceCase(key) ?? key;
 
       if (!grouped.containsKey(formattedKey)) {
         grouped[formattedKey] = [];

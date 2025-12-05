@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/date_formatter.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
@@ -37,10 +38,10 @@ class MemberContributionHistoryScreen extends StatelessWidget {
                         top: Radius.circular(12),
                       ),
                     ),
-                    child: const Text(
-                      'Histórico de contribuições',
+                    child: Text(
+                      context.l10n.member_contribution_history_title,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: AppFonts.fontTitle,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -57,9 +58,9 @@ class MemberContributionHistoryScreen extends StatelessWidget {
                 right: 16,
                 child: FloatingActionButton.extended(
                   onPressed: () => context.push('/member/contribute/new'),
-                  label: const Text(
-                    'Nova Contribuição',
-                    style: TextStyle(
+                  label: Text(
+                    context.l10n.member_contribution_new_button,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontFamily: AppFonts.fontText,
                     ),
@@ -79,12 +80,19 @@ class MemberContributionHistoryScreen extends StatelessWidget {
     BuildContext context,
     MemberContributionHistoryStore store,
   ) {
+    final l10n = context.l10n;
+    final typeOptions = {
+      'ALL': l10n.member_contribution_filter_type_all,
+      'TITHE': l10n.member_contribution_type_tithe,
+      'OFFERING': l10n.member_contribution_type_offering,
+    };
+
     return Container(
       color: Colors.white,
       child: ExpansionTile(
-        title: const Text(
-          'Filtros',
-          style: TextStyle(
+        title: Text(
+          l10n.common_filters,
+          style: const TextStyle(
             fontFamily: AppFonts.fontTitle,
             fontWeight: FontWeight.bold,
             color: AppColors.purple,
@@ -97,7 +105,7 @@ class MemberContributionHistoryScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: Input(
-                  label: 'Data Inicial',
+                  label: l10n.common_start_date,
                   initialValue: DateFormat(
                     'dd/MM/yyyy',
                   ).format(store.startDate),
@@ -119,7 +127,7 @@ class MemberContributionHistoryScreen extends StatelessWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: Input(
-                  label: 'Data Final',
+                  label: l10n.common_end_date,
                   initialValue: DateFormat('dd/MM/yyyy').format(store.endDate),
                   onChanged: (_) {},
                   readOnly: true,
@@ -140,10 +148,16 @@ class MemberContributionHistoryScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Dropdown(
-            label: 'Tipo',
-            items: const ['Todos', 'Dízimo', 'Oferta'],
-            initialValue: store.type,
-            onChanged: store.setType,
+            label: l10n.member_contribution_filter_type_label,
+            items: typeOptions.values.toList(),
+            initialValue: typeOptions[store.type],
+            onChanged: (value) {
+              final match = typeOptions.entries.firstWhere(
+                (entry) => entry.value == value,
+                orElse: () => typeOptions.entries.first,
+              );
+              store.setType(match.key);
+            },
           ),
         ],
       ),

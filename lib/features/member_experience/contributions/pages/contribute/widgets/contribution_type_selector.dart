@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/models/member_contribution_models.dart';
 import 'package:flutter/material.dart';
 
@@ -18,9 +19,9 @@ class ContributionTypeSelector extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Tipo de contribuição',
-          style: TextStyle(
+        Text(
+          context.l10n.member_contribution_filter_type_label,
+          style: const TextStyle(
             fontFamily: AppFonts.fontTitle,
             fontSize: 16,
             color: AppColors.black,
@@ -34,7 +35,7 @@ class ContributionTypeSelector extends StatelessWidget {
               child: _buildTypeButton(
                 context,
                 MemberContributionType.tithe,
-                'Dízimo',
+                context.l10n.member_contribution_type_tithe,
               ),
             ),
             const SizedBox(width: 12),
@@ -42,7 +43,7 @@ class ContributionTypeSelector extends StatelessWidget {
               child: _buildTypeButton(
                 context,
                 MemberContributionType.offering,
-                'Oferta',
+                context.l10n.member_contribution_type_offering,
               ),
             ),
           ],

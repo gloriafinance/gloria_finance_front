@@ -27,6 +27,7 @@
   "common_clear_filters": "Limpiar filtros",
   "common_loading": "Cargando...",
   "common_apply_filters": "Aplicar filtros",
+  "common_load_more": "Cargar más",
   "common_no_results_found": "No se encontraron resultados",
   "common_search_hint": "Buscar...",
   "common_actions": "Acciones",
@@ -677,5 +678,103 @@
   "accountsReceivable_type_financial_example": "Ej.: cheques en procesamiento, adquirencia de tarjeta, devoluciones.",
   "accountsReceivable_type_legal_title": "Jurídico",
   "accountsReceivable_type_legal_description": "Cobros relacionados con acciones judiciales, seguros o indemnizaciones.",
-  "accountsReceivable_type_legal_example": "Ej.: cumplimiento de sentencia, siniestros cubiertos por aseguradora."
+  "accountsReceivable_type_legal_example": "Ej.: cumplimiento de sentencia, siniestros cubiertos por aseguradora.",
+  "member_home_placeholder": "Experiencia del miembro",
+  "member_contribution_history_title": "Historial de contribuciones",
+  "member_contribution_new_button": "Nueva contribución",
+  "member_contribution_filter_type_label": "Tipo",
+  "member_contribution_filter_type_all": "Todas",
+  "member_contribution_type_tithe": "Diezmo",
+  "member_contribution_type_offering": "Ofrenda",
+  "member_contribution_destination_label": "Destino de la contribución",
+  "member_contribution_search_account_hint": "Buscar cuenta...",
+  "member_contribution_offering_concept_label": "Ofrenda",
+  "member_contribution_search_concept_hint": "Buscar concepto...",
+  "member_contribution_value_label": "Valor de la contribución",
+  "member_contribution_amount_other": "Otro monto",
+  "member_contribution_receipt_label": "Envía el comprobante del pago",
+  "member_contribution_receipt_payment_date_label": "Fecha del pago",
+  "member_contribution_receipt_help_text": "Tesorería de tu iglesia analizará este comprobante. Es obligatorio adjuntarlo.",
+  "member_contribution_message_label": "Mensaje (opcional)",
+  "member_contribution_continue_button": "Continuar",
+  "member_contribution_payment_method_question": "¿Cómo quieres registrar el pago?",
+  "member_contribution_payment_method_boleto_title": "Generar boleto para pagar después",
+  "member_contribution_payment_method_manual_title": "Ya contribuí, quiero enviar el comprobante",
+  "member_contribution_payment_method_pix_description": "Paga ahora vía PIX. Genera el código QR o copia y pega el código para pagar en tu banco.",
+  "member_contribution_payment_method_boleto_description": "Genera un boleto para pagar después en tu banca en línea o app.",
+  "member_contribution_payment_method_manual_description": "Deposita, transfiere o usa otro método. Luego, sube el comprobante aquí.",
+  "member_contribution_history_empty_title": "Aún no tienes contribuciones",
+  "member_contribution_history_empty_subtitle": "Cuando realices una contribución, aparecerá aquí.",
+  "member_contribution_history_item_default_title": "Contribución",
+  "member_contribution_history_item_receipt_submitted": "Comprobante enviado",
+  "member_contribution_pix_title": "Paga con PIX",
+  "member_contribution_pix_recipient": "Destinatario: {recipient}",
+  "@member_contribution_pix_recipient": {
+    "placeholders": {
+      "recipient": {
+        "type": "String"
+      }
+    }
+  },
+  "member_contribution_pix_qr_hint": "Escanea este código QR en la app de tu banco.",
+  "member_contribution_pix_code_label": "Código PIX copiar y pegar",
+  "member_contribution_copy_code": "Copiar código",
+  "member_contribution_pix_footer": "Después de realizar el pago, podrás seguir la confirmación en tu historial de contribuciones.",
+  "member_contribution_back_to_home": "Volver al inicio",
+  "member_contribution_pix_copy_success": "¡Código PIX copiado!",
+  "member_contribution_boleto_title": "Paga con boleto",
+  "member_contribution_boleto_due_date_label": "Vencimiento:",
+  "member_contribution_boleto_instruction": "Usa el código de abajo para pagar en tu banca en línea o app.",
+  "member_contribution_boleto_line_label": "Línea digitável",
+  "member_contribution_boleto_download_pdf": "Descargar boleto en PDF",
+  "member_contribution_boleto_footer": "Después de pagar, la confirmación aparecerá en tu historial de contribuciones. Guarda el comprobante.",
+  "member_contribution_boleto_copy_success": "¡Línea digitável copiada!",
+  "member_contribution_boleto_pdf_error": "No fue posible abrir el PDF",
+  "member_contribution_result_success_title": "¡Contribución realizada\ncon éxito!",
+  "member_contribution_result_success_subtitle": "Gracias por tu generosidad.",
+  "member_contribution_result_date": "Fecha: {date}",
+  "@member_contribution_result_date": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "member_contribution_result_info": "Tesorería revisará tu comprobante.",
+  "member_contribution_view_history": "Ver historial",
+  "member_contribution_result_error_title": "No fue posible\nprocesar el pago",
+  "member_contribution_result_error_message": "Verifica los datos del pago o intenta con otro método.",
+  "member_contribution_try_again": "Intentar nuevamente",
+  "member_contribution_form_required_fields_error": "Completa todos los campos obligatorios",
+  "member_contribution_form_receipt_required_error": "El comprobante es obligatorio.",
+  "member_contribution_form_submission_error": "Error al procesar la contribución: {error}",
+  "@member_contribution_form_submission_error": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "member_contribution_validator_amount_required": "Informe el valor",
+  "member_contribution_validator_financial_concept_required": "Selecciona un concepto financiero",
+  "member_contribution_validator_account_required": "Selecciona la cuenta de disponibilidad",
+  "member_contribution_validator_month_required": "Selecciona un mes",
+  "member_drawer_greeting": "Miembro de ejemplo",
+  "member_drawer_view_profile": "Ver mi perfil",
+  "member_drawer_notifications": "Notificaciones",
+  "member_drawer_profile": "Mi perfil",
+  "member_drawer_settings": "Configuraciones",
+  "member_drawer_legal_section": "Legal",
+  "member_drawer_privacy_policy": "Política de privacidad",
+  "member_drawer_sensitive_data": "Tratamiento de datos",
+  "member_drawer_terms": "Términos de uso",
+  "member_drawer_logout": "Salir",
+  "member_drawer_version": "Versión {version}",
+  "@member_drawer_version": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  }
 }

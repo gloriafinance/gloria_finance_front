@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/currency_formatter.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/models/member_contribution_history_model.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,8 @@ class ContributionHistoryItem extends StatelessWidget {
                             ? contribution.conceptName
                             : (contribution.accountName.isNotEmpty
                                 ? contribution.accountName
-                                : 'Contribuição'),
+                                : context
+                                    .l10n.member_contribution_history_item_default_title),
                         style: const TextStyle(
                           fontFamily: AppFonts.fontTitle,
                           fontWeight: FontWeight.bold,
@@ -72,7 +74,7 @@ class ContributionHistoryItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  _getPaymentMethod(),
+                  _getPaymentMethod(context),
                   style: const TextStyle(
                     fontFamily: AppFonts.fontText,
                     fontSize: 14,
@@ -113,15 +115,10 @@ class ContributionHistoryItem extends StatelessWidget {
     return Icon(icon, color: color, size: 28);
   }
 
-  String _getPaymentMethod() {
-    // This info is not explicitly in the history model provided in the prompt JSON,
-    // but usually inferred or added. For now, using a placeholder or logic if available.
-    // The prompt JSON has 'bankTransferReceipt', implying transfer/manual if present.
-    // If we had 'channel' in the response we could use it.
-    // Fallback to generic text or check receipt.
+  String _getPaymentMethod(BuildContext context) {
     if (contribution.bankTransferReceipt != null) {
-      return 'Comprovante enviado';
+      return context.l10n.member_contribution_history_item_receipt_submitted;
     }
-    return 'Contribuição';
+    return context.l10n.member_contribution_history_item_default_title;
   }
 }

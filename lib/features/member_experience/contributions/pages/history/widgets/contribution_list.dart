@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/loading.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/pages/history/widgets/contribution_history_item.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/store/member_contribution_history_store.dart';
@@ -26,7 +27,7 @@ class ContributionList extends StatelessWidget {
                       ? const Loading()
                       : TextButton(
                         onPressed: store.loadMore,
-                        child: const Text('Carregar mais'),
+                        child: Text(context.l10n.common_load_more),
                       ),
             ),
           );

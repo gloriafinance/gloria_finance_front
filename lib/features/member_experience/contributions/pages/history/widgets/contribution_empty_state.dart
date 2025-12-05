@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:flutter/material.dart';
 
 class ContributionEmptyState extends StatelessWidget {
@@ -28,10 +29,10 @@ class ContributionEmptyState extends StatelessWidget {
               color: Colors.grey.shade500,
             ),
             const SizedBox(height: 24),
-            const Text(
-              'Você ainda não possui contribuições',
+            Text(
+              context.l10n.member_contribution_history_empty_title,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: AppFonts.fontTitle,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -40,7 +41,7 @@ class ContributionEmptyState extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              'Quando você realizar uma contribuição, ela aparecerá aqui.',
+              context.l10n.member_contribution_history_empty_subtitle,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: AppFonts.fontText,

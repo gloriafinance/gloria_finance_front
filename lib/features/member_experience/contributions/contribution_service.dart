@@ -169,7 +169,7 @@ class ContributionService extends AppHttp {
     final queryParams = {
       'page': page,
       'perPage': perPage,
-      if (type != null && type != 'Todos') 'type': type,
+      if (type != null && type != 'ALL') 'type': type,
       if (status != null) 'status': status,
       if (startDate != null)
         'startDate': DateFormat('yyyy-MM-dd').format(startDate),

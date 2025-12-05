@@ -259,6 +259,12 @@ abstract class AppLocalizations {
   /// **'Apply filters'**
   String get common_apply_filters;
 
+  /// No description provided for @common_load_more.
+  ///
+  /// In en, this message translates to:
+  /// **'Load more'**
+  String get common_load_more;
+
   /// No description provided for @common_no_results_found.
   ///
   /// In en, this message translates to:
@@ -3462,6 +3468,426 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'E.g.: enforcement of judgment, claims covered by insurer.'**
   String get accountsReceivable_type_legal_example;
+
+  /// No description provided for @member_home_placeholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Member experience'**
+  String get member_home_placeholder;
+
+  /// No description provided for @member_contribution_history_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Contribution history'**
+  String get member_contribution_history_title;
+
+  /// No description provided for @member_contribution_new_button.
+  ///
+  /// In en, this message translates to:
+  /// **'New contribution'**
+  String get member_contribution_new_button;
+
+  /// No description provided for @member_contribution_filter_type_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get member_contribution_filter_type_label;
+
+  /// No description provided for @member_contribution_filter_type_all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get member_contribution_filter_type_all;
+
+  /// No description provided for @member_contribution_type_tithe.
+  ///
+  /// In en, this message translates to:
+  /// **'Tithe'**
+  String get member_contribution_type_tithe;
+
+  /// No description provided for @member_contribution_type_offering.
+  ///
+  /// In en, this message translates to:
+  /// **'Offering'**
+  String get member_contribution_type_offering;
+
+  /// No description provided for @member_contribution_destination_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Contribution destination'**
+  String get member_contribution_destination_label;
+
+  /// No description provided for @member_contribution_search_account_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search account...'**
+  String get member_contribution_search_account_hint;
+
+  /// No description provided for @member_contribution_offering_concept_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Offering'**
+  String get member_contribution_offering_concept_label;
+
+  /// No description provided for @member_contribution_search_concept_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search concept...'**
+  String get member_contribution_search_concept_hint;
+
+  /// No description provided for @member_contribution_value_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Contribution amount'**
+  String get member_contribution_value_label;
+
+  /// No description provided for @member_contribution_amount_other.
+  ///
+  /// In en, this message translates to:
+  /// **'Other amount'**
+  String get member_contribution_amount_other;
+
+  /// No description provided for @member_contribution_receipt_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload the payment receipt'**
+  String get member_contribution_receipt_label;
+
+  /// No description provided for @member_contribution_receipt_payment_date_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment date'**
+  String get member_contribution_receipt_payment_date_label;
+
+  /// No description provided for @member_contribution_receipt_help_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Your church treasury will review this receipt. Attaching it is mandatory.'**
+  String get member_contribution_receipt_help_text;
+
+  /// No description provided for @member_contribution_message_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Message (optional)'**
+  String get member_contribution_message_label;
+
+  /// No description provided for @member_contribution_continue_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get member_contribution_continue_button;
+
+  /// No description provided for @member_contribution_payment_method_question.
+  ///
+  /// In en, this message translates to:
+  /// **'How do you want to record the payment?'**
+  String get member_contribution_payment_method_question;
+
+  /// No description provided for @member_contribution_payment_method_boleto_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate a boleto to pay later'**
+  String get member_contribution_payment_method_boleto_title;
+
+  /// No description provided for @member_contribution_payment_method_manual_title.
+  ///
+  /// In en, this message translates to:
+  /// **'I already contributed, I want to upload the receipt'**
+  String get member_contribution_payment_method_manual_title;
+
+  /// No description provided for @member_contribution_payment_method_pix_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay now via PIX. Generate the QR code or copy-and-paste code to pay in your banking app.'**
+  String get member_contribution_payment_method_pix_description;
+
+  /// No description provided for @member_contribution_payment_method_boleto_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate a boleto to pay later through online banking or your app.'**
+  String get member_contribution_payment_method_boleto_description;
+
+  /// No description provided for @member_contribution_payment_method_manual_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Deposit, transfer, or use another method, then upload the receipt here.'**
+  String get member_contribution_payment_method_manual_description;
+
+  /// No description provided for @member_contribution_history_empty_title.
+  ///
+  /// In en, this message translates to:
+  /// **'You do not have any contributions yet'**
+  String get member_contribution_history_empty_title;
+
+  /// No description provided for @member_contribution_history_empty_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Once you make a contribution, it will appear here.'**
+  String get member_contribution_history_empty_subtitle;
+
+  /// No description provided for @member_contribution_history_item_default_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Contribution'**
+  String get member_contribution_history_item_default_title;
+
+  /// No description provided for @member_contribution_history_item_receipt_submitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt submitted'**
+  String get member_contribution_history_item_receipt_submitted;
+
+  /// No description provided for @member_contribution_pix_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay with PIX'**
+  String get member_contribution_pix_title;
+
+  /// No description provided for @member_contribution_pix_recipient.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipient: {recipient}'**
+  String member_contribution_pix_recipient(String recipient);
+
+  /// No description provided for @member_contribution_pix_qr_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan this QR code in your banking app.'**
+  String get member_contribution_pix_qr_hint;
+
+  /// No description provided for @member_contribution_pix_code_label.
+  ///
+  /// In en, this message translates to:
+  /// **'PIX copy and paste code'**
+  String get member_contribution_pix_code_label;
+
+  /// No description provided for @member_contribution_copy_code.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy code'**
+  String get member_contribution_copy_code;
+
+  /// No description provided for @member_contribution_pix_footer.
+  ///
+  /// In en, this message translates to:
+  /// **'After paying, you can track the confirmation in your contribution history.'**
+  String get member_contribution_pix_footer;
+
+  /// No description provided for @member_contribution_back_to_home.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to home'**
+  String get member_contribution_back_to_home;
+
+  /// No description provided for @member_contribution_pix_copy_success.
+  ///
+  /// In en, this message translates to:
+  /// **'PIX code copied!'**
+  String get member_contribution_pix_copy_success;
+
+  /// No description provided for @member_contribution_boleto_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay with boleto'**
+  String get member_contribution_boleto_title;
+
+  /// No description provided for @member_contribution_boleto_due_date_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Due date:'**
+  String get member_contribution_boleto_due_date_label;
+
+  /// No description provided for @member_contribution_boleto_instruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the code below to pay in your online banking or app.'**
+  String get member_contribution_boleto_instruction;
+
+  /// No description provided for @member_contribution_boleto_line_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Digitable line'**
+  String get member_contribution_boleto_line_label;
+
+  /// No description provided for @member_contribution_boleto_download_pdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Download boleto PDF'**
+  String get member_contribution_boleto_download_pdf;
+
+  /// No description provided for @member_contribution_boleto_footer.
+  ///
+  /// In en, this message translates to:
+  /// **'After paying, the confirmation will appear in your contribution history. Keep the receipt.'**
+  String get member_contribution_boleto_footer;
+
+  /// No description provided for @member_contribution_boleto_copy_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Digitable line copied!'**
+  String get member_contribution_boleto_copy_success;
+
+  /// No description provided for @member_contribution_boleto_pdf_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the PDF'**
+  String get member_contribution_boleto_pdf_error;
+
+  /// No description provided for @member_contribution_result_success_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Contribution completed\nsuccessfully!'**
+  String get member_contribution_result_success_title;
+
+  /// No description provided for @member_contribution_result_success_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for your generosity.'**
+  String get member_contribution_result_success_subtitle;
+
+  /// No description provided for @member_contribution_result_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date: {date}'**
+  String member_contribution_result_date(String date);
+
+  /// No description provided for @member_contribution_result_info.
+  ///
+  /// In en, this message translates to:
+  /// **'The treasury team will review your receipt.'**
+  String get member_contribution_result_info;
+
+  /// No description provided for @member_contribution_view_history.
+  ///
+  /// In en, this message translates to:
+  /// **'View history'**
+  String get member_contribution_view_history;
+
+  /// No description provided for @member_contribution_result_error_title.
+  ///
+  /// In en, this message translates to:
+  /// **'We could not process\nthe payment'**
+  String get member_contribution_result_error_title;
+
+  /// No description provided for @member_contribution_result_error_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the payment details or try another method.'**
+  String get member_contribution_result_error_message;
+
+  /// No description provided for @member_contribution_try_again.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get member_contribution_try_again;
+
+  /// No description provided for @member_contribution_form_required_fields_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill in all required fields'**
+  String get member_contribution_form_required_fields_error;
+
+  /// No description provided for @member_contribution_form_receipt_required_error.
+  ///
+  /// In en, this message translates to:
+  /// **'The receipt is required.'**
+  String get member_contribution_form_receipt_required_error;
+
+  /// No description provided for @member_contribution_form_submission_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error processing the contribution: {error}'**
+  String member_contribution_form_submission_error(String error);
+
+  /// No description provided for @member_contribution_validator_amount_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the amount'**
+  String get member_contribution_validator_amount_required;
+
+  /// No description provided for @member_contribution_validator_financial_concept_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a financial concept'**
+  String get member_contribution_validator_financial_concept_required;
+
+  /// No description provided for @member_contribution_validator_account_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the availability account'**
+  String get member_contribution_validator_account_required;
+
+  /// No description provided for @member_contribution_validator_month_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a month'**
+  String get member_contribution_validator_month_required;
+
+  /// No description provided for @member_drawer_greeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Example Member'**
+  String get member_drawer_greeting;
+
+  /// No description provided for @member_drawer_view_profile.
+  ///
+  /// In en, this message translates to:
+  /// **'View my profile'**
+  String get member_drawer_view_profile;
+
+  /// No description provided for @member_drawer_notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get member_drawer_notifications;
+
+  /// No description provided for @member_drawer_profile.
+  ///
+  /// In en, this message translates to:
+  /// **'My profile'**
+  String get member_drawer_profile;
+
+  /// No description provided for @member_drawer_settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get member_drawer_settings;
+
+  /// No description provided for @member_drawer_legal_section.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal'**
+  String get member_drawer_legal_section;
+
+  /// No description provided for @member_drawer_privacy_policy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get member_drawer_privacy_policy;
+
+  /// No description provided for @member_drawer_sensitive_data.
+  ///
+  /// In en, this message translates to:
+  /// **'Sensitive Data Policy'**
+  String get member_drawer_sensitive_data;
+
+  /// No description provided for @member_drawer_terms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Use'**
+  String get member_drawer_terms;
+
+  /// No description provided for @member_drawer_logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get member_drawer_logout;
+
+  /// No description provided for @member_drawer_version.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version}'**
+  String member_drawer_version(String version);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/models/member_contribution_models.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +31,9 @@ class MemberContributeBoletoScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: AppColors.black),
           onPressed: () => context.pop(),
         ),
-        title: const Text(
-          'Pague com boleto',
-          style: TextStyle(
+        title: Text(
+          context.l10n.member_contribution_boleto_title,
+          style: const TextStyle(
             fontFamily: AppFonts.fontTitle,
             color: AppColors.black,
             fontSize: 18,
@@ -76,9 +77,9 @@ class MemberContributeBoletoScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
-                          'Vencimento: ',
-                          style: TextStyle(
+                        Text(
+                          context.l10n.member_contribution_boleto_due_date_label,
+                          style: const TextStyle(
                             fontFamily: AppFonts.fontSubTitle,
                             fontSize: 14,
                             color: AppColors.black,
@@ -101,7 +102,7 @@ class MemberContributeBoletoScreen extends StatelessWidget {
               const SizedBox(height: 24),
               // Info text
               Text(
-                'Use o código abaixo para pagar no seu internet banking ou aplicativo.',
+                context.l10n.member_contribution_boleto_instruction,
                 style: TextStyle(
                   fontFamily: AppFonts.fontText,
                   fontSize: 14,
@@ -128,9 +129,9 @@ class MemberContributeBoletoScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Linha digitável',
-                      style: TextStyle(
+                    Text(
+                      context.l10n.member_contribution_boleto_line_label,
+                      style: const TextStyle(
                         fontFamily: AppFonts.fontTitle,
                         fontSize: 16,
                         color: AppColors.black,
@@ -161,7 +162,9 @@ class MemberContributeBoletoScreen extends StatelessWidget {
                       child: OutlinedButton.icon(
                         onPressed: () => _copyToClipboard(context, boletoPayload.digitableLine),
                         icon: const Icon(Icons.copy, size: 18),
-                        label: const Text('Copiar código'),
+                        label: Text(
+                          context.l10n.member_contribution_copy_code,
+                        ),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: AppColors.purple,
                           side: const BorderSide(color: AppColors.purple, width: 1.5),
@@ -178,7 +181,7 @@ class MemberContributeBoletoScreen extends StatelessWidget {
               const SizedBox(height: 24),
               // Download PDF button
               CustomButton(
-                text: 'Baixar boleto em PDF',
+                text: context.l10n.member_contribution_boleto_download_pdf,
                 backgroundColor: AppColors.purple,
                 textColor: Colors.white,
                 icon: Icons.download,
@@ -187,7 +190,7 @@ class MemberContributeBoletoScreen extends StatelessWidget {
               const SizedBox(height: 24),
               // Footer text
               Text(
-                'Após realizar o pagamento, a confirmação aparecerá no seu histórico de contribuições. Guarde o comprovante.',
+                context.l10n.member_contribution_boleto_footer,
                 style: TextStyle(
                   fontFamily: AppFonts.fontText,
                   fontSize: 13,
@@ -200,9 +203,9 @@ class MemberContributeBoletoScreen extends StatelessWidget {
               // Back button
               TextButton(
                 onPressed: () => context.go('/#/dashboard'),
-                child: const Text(
-                  'Voltar ao início',
-                  style: TextStyle(
+                child: Text(
+                  context.l10n.member_contribution_back_to_home,
+                  style: const TextStyle(
                     fontFamily: AppFonts.fontSubTitle,
                     fontSize: 14,
                     color: AppColors.purple,
@@ -220,8 +223,8 @@ class MemberContributeBoletoScreen extends StatelessWidget {
   void _copyToClipboard(BuildContext context, String text) {
     Clipboard.setData(ClipboardData(text: text));
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Linha digitável copiada!'),
+      SnackBar(
+        content: Text(context.l10n.member_contribution_boleto_copy_success),
         backgroundColor: AppColors.green,
         duration: Duration(seconds: 2),
       ),
@@ -235,8 +238,8 @@ class MemberContributeBoletoScreen extends StatelessWidget {
     } else {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Não foi possível abrir o PDF'),
+          SnackBar(
+            content: Text(context.l10n.member_contribution_boleto_pdf_error),
             backgroundColor: Colors.red,
           ),
         );

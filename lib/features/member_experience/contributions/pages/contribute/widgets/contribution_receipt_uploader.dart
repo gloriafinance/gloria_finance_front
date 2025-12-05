@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/date_formatter.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/core/widgets/upload_file.dart';
@@ -30,23 +31,26 @@ class ContributionReceiptUploader extends StatefulWidget {
 
 class _ContributionReceiptUploaderState
     extends State<ContributionReceiptUploader> {
-  final DateFormat _dateFormat = DateFormat('dd/MM/yyyy', 'pt_BR');
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final localeTag = Localizations.localeOf(context).toLanguageTag();
+    final dateFormat = DateFormat('dd/MM/yyyy', localeTag);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Upload file widget
         UploadFile(
-          label: 'Envie o comprovante do pagamento',
+          label: l10n.member_contribution_receipt_label,
           multipartFile: widget.onFileSelected,
         ),
         // Date picker using Input
         Input(
-          label: 'Data do pagamento',
+          label: l10n.member_contribution_receipt_payment_date_label,
           initialValue:
-              widget.paidAt != null ? _dateFormat.format(widget.paidAt!) : '',
+              widget.paidAt != null ? dateFormat.format(widget.paidAt!) : '',
           onChanged: (_) {},
           // Required but not used
           onTap: () => _selectDate(context),
@@ -60,7 +64,7 @@ class _ContributionReceiptUploaderState
         ),
         const SizedBox(height: 12),
         Text(
-          'Esse comprovante será analisado pela tesouraria da sua igreja. É obrigatório anexar.',
+          l10n.member_contribution_receipt_help_text,
           style: TextStyle(
             fontFamily: AppFonts.fontText,
             fontSize: 12,

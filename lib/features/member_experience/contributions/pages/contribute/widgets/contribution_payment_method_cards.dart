@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/models/member_contribution_models.dart';
 import 'package:flutter/material.dart';
 
@@ -21,12 +22,14 @@ class ContributionPaymentMethodCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Como você quer registrar o pagamento?',
-          style: TextStyle(
+        Text(
+          l10n.member_contribution_payment_method_question,
+          style: const TextStyle(
             fontFamily: AppFonts.fontTitle,
             fontSize: 16,
             color: AppColors.black,
@@ -40,6 +43,7 @@ class ContributionPaymentMethodCards extends StatelessWidget {
             MemberPaymentChannel.pix,
             Icons.qr_code_2,
             'PIX',
+            l10n.member_contribution_payment_method_pix_description,
           ),
           const SizedBox(height: 10),
         ],
@@ -48,7 +52,8 @@ class ContributionPaymentMethodCards extends StatelessWidget {
             context,
             MemberPaymentChannel.boleto,
             Icons.receipt_long,
-            'Gerar boleto para pagar depois',
+            l10n.member_contribution_payment_method_boleto_title,
+            l10n.member_contribution_payment_method_boleto_description,
           ),
           const SizedBox(height: 10),
         ],
@@ -59,7 +64,8 @@ class ContributionPaymentMethodCards extends StatelessWidget {
             context,
             MemberPaymentChannel.externalWithReceipt,
             Icons.upload_file,
-            'Já contribui, quero enviar o comprovante',
+            l10n.member_contribution_payment_method_manual_title,
+            l10n.member_contribution_payment_method_manual_description,
           ),
         ],
       ],
@@ -71,6 +77,7 @@ class ContributionPaymentMethodCards extends StatelessWidget {
     MemberPaymentChannel channel,
     IconData icon,
     String title,
+    String description,
   ) {
     final isSelected = selectedChannel == channel;
 
@@ -127,7 +134,7 @@ class ContributionPaymentMethodCards extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      channel.description,
+                      description,
                       style: TextStyle(
                         fontFamily: AppFonts.fontText,
                         fontSize: 12,

@@ -6,6 +6,7 @@ import 'package:church_finance_bk/features/erp/settings/financial_concept/store/
 import 'package:church_finance_bk/features/member_experience/contributions/contribution_service.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/models/member_contribution_models.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/state/member_contribution_form_state.dart';
+import 'package:church_finance_bk/l10n/app_localizations.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -100,12 +101,13 @@ class MemberContributionFormStore extends ChangeNotifier {
 
   // Main submission logic
   Future<ContributionResult?> submitContribution(
+    AppLocalizations l10n,
     MultipartFile? receiptFile,
   ) async {
     // Validate
     if (!_state.isValid) {
       Toast.showMessage(
-        'Por favor, preencha todos os campos obrigatórios',
+        l10n.member_contribution_form_required_fields_error,
         ToastType.warning,
       );
       return null;
@@ -149,9 +151,14 @@ class MemberContributionFormStore extends ChangeNotifier {
           break;
 
         case MemberPaymentChannel.externalWithReceipt:
-          // Upload receipt first
           if (receiptFile == null) {
-            throw Exception('Comprovante é obrigatório');
+            _state = _state.copyWith(isSubmitting: false);
+            notifyListeners();
+            Toast.showMessage(
+              l10n.member_contribution_form_receipt_required_error,
+              ToastType.warning,
+            );
+            return null;
           }
 
           _state = _state.copyWith(isUploadingReceipt: true);
@@ -184,7 +191,7 @@ class MemberContributionFormStore extends ChangeNotifier {
       notifyListeners();
 
       Toast.showMessage(
-        'Erro ao processar contribuição: ${e.toString()}',
+        l10n.member_contribution_form_submission_error(e.toString()),
         ToastType.error,
       );
       return null;
