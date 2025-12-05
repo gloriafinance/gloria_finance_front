@@ -5,11 +5,12 @@ import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/features/erp/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:church_finance_bk/features/member_experience/commitments/models/member_commitment_model.dart';
 import 'package:church_finance_bk/features/member_experience/commitments/store/member_commitment_payment_store.dart';
-import 'package:church_finance_bk/features/member_experience/commitments/widgets/member_commitment_installments_timeline.dart';
-import 'package:church_finance_bk/features/member_experience/commitments/widgets/member_commitment_payment_modal.dart';
-import 'package:church_finance_bk/features/member_experience/commitments/widgets/member_commitment_summary_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'widgets/member_commitment_installments_timeline.dart';
+import 'widgets/member_commitment_payment_modal.dart';
+import 'widgets/member_commitment_summary_card.dart';
 
 class MemberCommitmentDetailScreen extends StatefulWidget {
   final MemberCommitmentModel commitment;
@@ -28,8 +29,8 @@ class _MemberCommitmentDetailScreenState
   @override
   void initState() {
     super.initState();
-    _accountsStore = AvailabilityAccountsListStore()
-      ..addListener(_handleAccountsChanged);
+    _accountsStore =
+        AvailabilityAccountsListStore()..addListener(_handleAccountsChanged);
     _accountsStore.searchAvailabilityAccounts();
   }
 
@@ -110,48 +111,47 @@ class _DetailHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
-          ),
-        ],
+        color: AppColors.purple,
+        borderRadius: BorderRadius.circular(12),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
+        alignment: Alignment.centerLeft,
         children: [
           IconButton(
             onPressed: onBack,
             icon: const Icon(Icons.arrow_back),
-            color: AppColors.purple,
+            color: Colors.white,
           ),
-          const SizedBox(width: 4),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontFamily: AppFonts.fontTitle,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+          Padding(
+            padding: const EdgeInsets.only(left: 40),
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontFamily: AppFonts.fontTitle,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    fontFamily: AppFonts.fontText,
-                    color: Colors.grey.shade600,
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontFamily: AppFonts.fontText,
+                      color: Colors.white.withOpacity(0.9),
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

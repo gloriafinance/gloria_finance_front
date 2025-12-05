@@ -81,7 +81,7 @@ class _InstallmentTile extends StatelessWidget {
     final statusColor = _statusColor(installment);
     final statusLabel = _statusLabel(context, installment);
     final icon = _statusIcon(installment);
-    final isPendingAction = !installment.isPaid;
+    final isPendingAction = installment.canBePaid;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -197,7 +197,7 @@ class _InstallmentTile extends StatelessWidget {
   }
 
   bool _isOverdue(MemberCommitmentInstallment installment) {
-    return !installment.isPaid && installment.dueDate.isBefore(DateTime.now());
+    return installment.canBePaid && installment.dueDate.isBefore(DateTime.now());
   }
 
   String _statusLabel(

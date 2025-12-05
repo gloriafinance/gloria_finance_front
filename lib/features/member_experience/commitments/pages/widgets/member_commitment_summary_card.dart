@@ -3,6 +3,7 @@ import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/currency_formatter.dart';
 import 'package:church_finance_bk/core/utils/date_formatter.dart';
+import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/features/member_experience/commitments/models/member_commitment_model.dart';
 import 'package:flutter/material.dart';
 
@@ -159,22 +160,11 @@ class MemberCommitmentNextInstallmentCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.purple,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 14),
-            ),
+          CustomButton(
+            text: l10n.member_commitments_action_pay_this_installment,
+            backgroundColor: AppColors.purple,
+            textColor: Colors.white,
             onPressed: () => onPayInstallment(nextInstallment),
-            child: Text(
-              l10n.member_commitments_action_pay_this_installment,
-              style: const TextStyle(
-                fontFamily: AppFonts.fontTitle,
-                color: Colors.white,
-              ),
-            ),
           ),
         ],
       ),

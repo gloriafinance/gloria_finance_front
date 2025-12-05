@@ -2,6 +2,7 @@ import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/currency_formatter.dart';
+import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/features/member_experience/commitments/models/member_commitment_model.dart';
 import 'package:flutter/material.dart';
 
@@ -9,11 +10,7 @@ class MemberCommitmentCard extends StatelessWidget {
   final MemberCommitmentModel commitment;
   final VoidCallback? onTap;
 
-  const MemberCommitmentCard({
-    super.key,
-    required this.commitment,
-    this.onTap,
-  });
+  const MemberCommitmentCard({super.key, required this.commitment, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -91,17 +88,11 @@ class MemberCommitmentCard extends StatelessWidget {
           const SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
-            child: OutlinedButton(
-              onPressed: onTap,
-              style: OutlinedButton.styleFrom(
-                foregroundColor: AppColors.purple,
-                side: const BorderSide(color: AppColors.purple, width: 1.6),
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-              child: Text(l10n.member_commitments_button_view_details),
+            child: ButtonActionTable(
+              color: AppColors.purple,
+              text: l10n.member_commitments_button_view_details,
+              icon: Icons.visibility_outlined,
+              onPressed: onTap ?? () {},
             ),
           ),
         ],
@@ -115,11 +106,7 @@ class _MetricRow extends StatelessWidget {
   final String value;
   final Color? valueColor;
 
-  const _MetricRow({
-    required this.label,
-    required this.value,
-    this.valueColor,
-  });
+  const _MetricRow({required this.label, required this.value, this.valueColor});
 
   @override
   Widget build(BuildContext context) {

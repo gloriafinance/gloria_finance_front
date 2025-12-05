@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
+import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/models/member_contribution_models.dart';
 import 'package:flutter/material.dart';
@@ -159,20 +160,12 @@ class MemberContributeBoletoScreen extends StatelessWidget {
                     const SizedBox(height: 14),
                     SizedBox(
                       width: double.infinity,
-                      child: OutlinedButton.icon(
-                        onPressed: () => _copyToClipboard(context, boletoPayload.digitableLine),
-                        icon: const Icon(Icons.copy, size: 18),
-                        label: Text(
-                          context.l10n.member_contribution_copy_code,
-                        ),
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: AppColors.purple,
-                          side: const BorderSide(color: AppColors.purple, width: 1.5),
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
+                      child: ButtonActionTable(
+                        color: AppColors.purple,
+                        text: context.l10n.member_contribution_copy_code,
+                        icon: Icons.copy,
+                        onPressed: () =>
+                            _copyToClipboard(context, boletoPayload.digitableLine),
                       ),
                     ),
                   ],

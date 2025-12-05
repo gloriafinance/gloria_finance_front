@@ -55,16 +55,14 @@ class MemberCommitmentService extends AppHttp {
       'paidAt': paidAt.toIso8601String(),
       if (observation != null && observation.isNotEmpty)
         'observation': observation,
-      if (voucher != null) 'voucher': voucher,
+      if (voucher != null) 'file': voucher,
     });
 
     try {
       await http.post(
         '${await getUrlApi()}account-receivable/member/payment-declaration',
         data: formData,
-        options: Options(
-          headers: bearerToken(),
-        ),
+        options: Options(headers: bearerToken()),
       );
     } on DioException catch (e) {
       transformResponse(e.response?.data);
