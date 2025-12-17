@@ -4015,6 +4015,168 @@ abstract class AppLocalizations {
   /// **'Next installment'**
   String get member_commitments_detail_next_installment;
 
+  /// No description provided for @member_profile_personal_data_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal data'**
+  String get member_profile_personal_data_title;
+
+  /// No description provided for @member_profile_security_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get member_profile_security_title;
+
+  /// No description provided for @member_profile_notifications_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get member_profile_notifications_title;
+
+  /// No description provided for @member_profile_full_name_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name'**
+  String get member_profile_full_name_label;
+
+  /// No description provided for @member_profile_email_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get member_profile_email_label;
+
+  /// No description provided for @member_profile_phone_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get member_profile_phone_label;
+
+  /// No description provided for @member_profile_dni_label.
+  ///
+  /// In en, this message translates to:
+  /// **'ID/Tax ID'**
+  String get member_profile_dni_label;
+
+  /// No description provided for @member_profile_member_since.
+  ///
+  /// In en, this message translates to:
+  /// **'Member since {date}'**
+  String member_profile_member_since(String date);
+
+  /// No description provided for @member_profile_change_password_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Change password'**
+  String get member_profile_change_password_title;
+
+  /// No description provided for @member_profile_change_password_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update your access password'**
+  String get member_profile_change_password_subtitle;
+
+  /// No description provided for @member_profile_notifications_settings_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification settings'**
+  String get member_profile_notifications_settings_title;
+
+  /// No description provided for @member_profile_notifications_settings_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how you want to be notified by the church'**
+  String get member_profile_notifications_settings_subtitle;
+
+  /// No description provided for @member_change_password_header_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your account safe'**
+  String get member_change_password_header_title;
+
+  /// No description provided for @member_change_password_header_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a strong password and do not share your access data.'**
+  String get member_change_password_header_subtitle;
+
+  /// No description provided for @member_change_password_current_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Current password'**
+  String get member_change_password_current_label;
+
+  /// No description provided for @member_change_password_new_label.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get member_change_password_new_label;
+
+  /// No description provided for @member_change_password_confirm_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm new password'**
+  String get member_change_password_confirm_label;
+
+  /// No description provided for @member_change_password_rule_length.
+  ///
+  /// In en, this message translates to:
+  /// **'At least 8 characters'**
+  String get member_change_password_rule_length;
+
+  /// No description provided for @member_change_password_rule_uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'1 uppercase letter'**
+  String get member_change_password_rule_uppercase;
+
+  /// No description provided for @member_change_password_rule_number.
+  ///
+  /// In en, this message translates to:
+  /// **'1 number'**
+  String get member_change_password_rule_number;
+
+  /// No description provided for @member_change_password_error_current.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect current password.'**
+  String get member_change_password_error_current;
+
+  /// No description provided for @member_change_password_error_match.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match.'**
+  String get member_change_password_error_match;
+
+  /// No description provided for @member_change_password_success_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Success!'**
+  String get member_change_password_success_title;
+
+  /// No description provided for @member_change_password_success_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Your password has been changed successfully.'**
+  String get member_change_password_success_message;
+
+  /// No description provided for @member_change_password_btn_save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save new password'**
+  String get member_change_password_btn_save;
+
+  /// No description provided for @member_change_password_btn_cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get member_change_password_btn_cancel;
+
+  /// No description provided for @member_change_password_btn_back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to profile'**
+  String get member_change_password_btn_back;
+
   /// No description provided for @member_commitments_installments_section_title.
   ///
   /// In en, this message translates to:
@@ -4170,6 +4332,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Availability account not informed. Please contact your church.'**
   String get member_commitments_payment_missing_account;
+
+  /// No description provided for @member_register_name_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name'**
+  String get member_register_name_label;
+
+  /// No description provided for @member_register_email_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get member_register_email_label;
+
+  /// No description provided for @member_register_phone_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get member_register_phone_label;
+
+  /// No description provided for @member_register_dni_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Identity Document'**
+  String get member_register_dni_label;
+
+  /// No description provided for @member_register_conversion_date_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Conversion date'**
+  String get member_register_conversion_date_label;
+
+  /// No description provided for @member_register_baptism_date_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Baptism date'**
+  String get member_register_baptism_date_label;
+
+  /// No description provided for @member_register_birthdate_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Birthdate'**
+  String get member_register_birthdate_label;
+
+  /// No description provided for @member_register_active_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Active?'**
+  String get member_register_active_label;
+
+  /// No description provided for @member_register_yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get member_register_yes;
+
+  /// No description provided for @member_register_no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get member_register_no;
+
+  /// No description provided for @validation_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Required field'**
+  String get validation_required;
+
+  /// No description provided for @validation_invalid_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email'**
+  String get validation_invalid_email;
+
+  /// No description provided for @validation_invalid_phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid phone format'**
+  String get validation_invalid_phone;
+
+  /// No description provided for @validation_invalid_cpf.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid ID document'**
+  String get validation_invalid_cpf;
+
+  /// No description provided for @member_list_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Member list'**
+  String get member_list_title;
+
+  /// No description provided for @member_list_action_register.
+  ///
+  /// In en, this message translates to:
+  /// **'Register new member'**
+  String get member_list_action_register;
+
+  /// No description provided for @member_list_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No members registered.'**
+  String get member_list_empty;
+
+  /// No description provided for @member_list_header_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get member_list_header_name;
+
+  /// No description provided for @member_list_header_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get member_list_header_email;
+
+  /// No description provided for @member_list_header_phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get member_list_header_phone;
+
+  /// No description provided for @member_list_header_birthdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Birthdate'**
+  String get member_list_header_birthdate;
+
+  /// No description provided for @member_list_header_active.
+  ///
+  /// In en, this message translates to:
+  /// **'Active?'**
+  String get member_list_header_active;
+
+  /// No description provided for @member_list_action_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get member_list_action_edit;
+
+  /// No description provided for @member_list_status_yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get member_list_status_yes;
+
+  /// No description provided for @member_list_status_no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get member_list_status_no;
+
+  /// No description provided for @trends_main_card_revenue_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Gross Revenue'**
+  String get trends_main_card_revenue_title;
+
+  /// No description provided for @trends_main_card_revenue_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'REVENUE'**
+  String get trends_main_card_revenue_subtitle;
+
+  /// No description provided for @trends_main_card_opex_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Operating Expenses'**
+  String get trends_main_card_opex_title;
+
+  /// No description provided for @trends_main_card_opex_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'EXPENSES'**
+  String get trends_main_card_opex_subtitle;
+
+  /// No description provided for @trends_main_card_net_income_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Period Result'**
+  String get trends_main_card_net_income_title;
+
+  /// No description provided for @trends_main_card_net_income_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'RESULT'**
+  String get trends_main_card_net_income_subtitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

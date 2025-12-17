@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import 'package:church_finance_bk/l10n/app_localizations.dart';
+
 import '../../store/member_paginate_store.dart';
 import 'widgets/member_table.dart';
 
@@ -31,7 +33,7 @@ class MembersScreen extends StatelessWidget {
       children: [
         Expanded(
           child: Text(
-            "Listado de membros",
+            AppLocalizations.of(context)!.member_list_title,
             textAlign: TextAlign.left,
             style: TextStyle(
               fontFamily: AppFonts.fontTitle,
@@ -50,7 +52,7 @@ class MembersScreen extends StatelessWidget {
       children: [
         ButtonActionTable(
           color: AppColors.purple,
-          text: "Registrar novo membro",
+          text: AppLocalizations.of(context)!.member_list_action_register,
           onPressed: () => GoRouter.of(context).go('/member/add'),
           icon: Icons.add_reaction_outlined,
         ),

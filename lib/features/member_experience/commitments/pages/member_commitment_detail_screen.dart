@@ -136,7 +136,6 @@ class _DetailHeader extends StatelessWidget {
                     style: const TextStyle(
                       fontFamily: AppFonts.fontTitle,
                       fontSize: 20,
-                      fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                     textAlign: TextAlign.center,

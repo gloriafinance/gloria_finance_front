@@ -19,14 +19,14 @@ class StoreManager {
 
   StoreManager._internal();
 
-  final sidebarNotifier = SidebarNotifier();
-  final authSessionStore = AuthSessionStore();
+  final localeStore = LocaleStore();
+  late final authSessionStore = AuthSessionStore(localeStore: localeStore);
   final financialConceptStore = FinancialConceptStore();
   final bankStore = BankStore();
   final navigatorMemberNotifier = NavigatorMemberNotifier();
   final availabilityAccountsListStore = AvailabilityAccountsListStore();
   final costCenterListStore = CostCenterListStore();
   final memberAllStore = MemberAllStore();
+  final sidebarNotifier = SidebarNotifier();
   final trendStore = TrendStore();
-  final localeStore = LocaleStore();
 }

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import 'package:church_finance_bk/l10n/app_localizations.dart';
 import '../../../models/member_model.dart';
 import '../../../store/member_paginate_store.dart';
 
@@ -34,23 +35,32 @@ class _MemberTableState extends State<MemberTable> {
     if (state.paginate.results.isEmpty) {
       return Container(
         margin: const EdgeInsets.only(top: 40.0),
-        child: Center(child: Text('Nāo ha membros cadastrados.')),
+        child: Center(
+          child: Text(AppLocalizations.of(context)!.member_list_empty),
+        ),
       );
     }
 
     return CustomTable(
-      headers: ["Nome", "Email", "Telefone", "Data de nascimento", "Ativo?"],
+      headers: [
+        AppLocalizations.of(context)!.member_list_header_name,
+        AppLocalizations.of(context)!.member_list_header_email,
+        AppLocalizations.of(context)!.member_list_header_phone,
+        AppLocalizations.of(context)!.member_list_header_birthdate,
+        AppLocalizations.of(context)!.member_list_header_active,
+      ],
       data: FactoryDataTable<MemberModel>(
         data: state.paginate.results,
-        dataBuilder: memberDTO,
+        dataBuilder:
+            (member) => memberDTO(member, AppLocalizations.of(context)!),
       ),
       actionBuilders: [
         (member) => ButtonActionTable(
-              color: AppColors.blue,
-              text: 'Editar',
-              onPressed: () => _goToEdit(context, member as MemberModel),
-              icon: Icons.edit_outlined,
-            )
+          color: AppColors.blue,
+          text: AppLocalizations.of(context)!.member_list_action_edit,
+          onPressed: () => _goToEdit(context, member as MemberModel),
+          icon: Icons.edit_outlined,
+        ),
       ],
       paginate: PaginationData(
         totalRecords: state.paginate.count,
@@ -70,7 +80,7 @@ class _MemberTableState extends State<MemberTable> {
     );
   }
 
-  List<dynamic> memberDTO(dynamic member) {
+  List<dynamic> memberDTO(dynamic member, AppLocalizations l10n) {
     return [
       member.name,
       member.email,
@@ -78,8 +88,8 @@ class _MemberTableState extends State<MemberTable> {
       member.birthdate,
       //member.active ? "Sim" : "Nāo",
       member.active
-          ? tagStatus(Colors.green, "Sim")
-          : tagStatus(Colors.red, "Nāo"),
+          ? tagStatus(Colors.green, l10n.member_list_status_yes)
+          : tagStatus(Colors.red, l10n.member_list_status_no),
     ];
   }
 

@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/currency_formatter.dart';
 import 'package:church_finance_bk/features/erp/trends/models/trend_model.dart';
 import 'package:flutter/material.dart';
@@ -15,14 +16,15 @@ class TrendMainCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     // Calculate total expenses as sum of Opex + Transfers + Capex
     final totalExpenses =
         trend.opex.current + trend.transfers.current + trend.capex.current;
 
     final cards = [
       _buildMainCard(
-        'Receita Bruta',
-        'RECEITA',
+        l10n.trends_main_card_revenue_title,
+        l10n.trends_main_card_revenue_subtitle,
         trend.revenue.current,
         Icons.attach_money,
         const Color(0xFFE8F5E9),
@@ -34,8 +36,8 @@ class TrendMainCards extends StatelessWidget {
         height: direction == Axis.vertical ? 12 : 0,
       ),
       _buildMainCard(
-        'Despesas Operacionais',
-        'DESPESAS',
+        l10n.trends_main_card_opex_title,
+        l10n.trends_main_card_opex_subtitle,
         totalExpenses,
         Icons.work,
         const Color(0xFFFFEBEE),
@@ -47,8 +49,8 @@ class TrendMainCards extends StatelessWidget {
         height: direction == Axis.vertical ? 12 : 0,
       ),
       _buildMainCard(
-        'Resultado do Período',
-        'RESULTADO',
+        l10n.trends_main_card_net_income_title,
+        l10n.trends_main_card_net_income_subtitle,
         trend.netIncome.current,
         Icons.trending_up,
         const Color(0xFFE3F2FD),

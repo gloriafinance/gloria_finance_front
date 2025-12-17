@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/app/locale_store.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:flutter/material.dart';
 
@@ -13,13 +14,24 @@ class AuthSessionStore extends ChangeNotifier {
 
   AuthSessionState state = AuthSessionState(session: AuthSessionModel.empty());
 
-  AuthSessionStore() {
+  final LocaleStore? localeStore;
+
+  AuthSessionStore({this.localeStore}) {
     _initialize();
   }
 
   Future<void> _initialize() async {
     var session = await AuthPersistence().restore();
     state = state.copyWith(session: session);
+
+    if (localeStore != null && session.lang.isNotEmpty) {
+      final parts = session.lang.split('-');
+      if (parts.length == 2) {
+        localeStore!.setLocale(Locale(parts[0], parts[1]));
+      } else if (parts.isNotEmpty) {
+        localeStore!.setLocale(Locale(parts[0]));
+      }
+    }
 
     notifyListeners();
   }
@@ -39,6 +51,22 @@ class AuthSessionStore extends ChangeNotifier {
       }
       print(session);
       state = state.copyWith(session: session, makeRequest: false);
+
+      print("AUTH_DEBUG: Session lang is ${session.lang}");
+      print("AUTH_DEBUG: LocaleStore is null? ${localeStore == null}");
+
+      if (localeStore != null && session.lang.isNotEmpty) {
+        final parts = session.lang.split('-');
+        print("AUTH_DEBUG: Parsing lang parts: $parts");
+
+        if (parts.length == 2) {
+          print("AUTH_DEBUG: Setting locale to ${parts[0]}_${parts[1]}");
+          localeStore!.setLocale(Locale(parts[0], parts[1]));
+        } else if (parts.isNotEmpty) {
+          print("AUTH_DEBUG: Setting locale to ${parts[0]}");
+          localeStore!.setLocale(Locale(parts[0]));
+        }
+      }
 
       await AuthPersistence().save(session);
 
