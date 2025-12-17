@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/core/utils/currency_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,6 +27,7 @@ class LocaleStore extends ChangeNotifier {
     if (!supportedLocales.contains(newLocale)) return;
 
     _locale = newLocale;
+    CurrencyFormatter.updateLocale(_locale);
     notifyListeners();
 
     final prefs = await SharedPreferences.getInstance();
@@ -35,11 +37,30 @@ class LocaleStore extends ChangeNotifier {
   Future<void> _loadSavedLocale() async {
     final prefs = await SharedPreferences.getInstance();
     final saved = prefs.getString(_prefsKey);
-    if (saved == null) return;
+
+    if (saved == null) {
+      try {
+        final systemLocale = WidgetsBinding.instance.platformDispatcher.locale;
+        final matching = supportedLocales.firstWhere(
+          (element) => element.languageCode == systemLocale.languageCode,
+          orElse: () => const Locale('pt', 'BR'),
+        );
+
+        if (matching.languageCode != 'pt') {
+          _locale = matching;
+          CurrencyFormatter.updateLocale(_locale);
+          notifyListeners();
+        }
+      } catch (e) {
+        // Ignore errors and keep default
+      }
+      return;
+    }
 
     final parsed = _decodeLocale(saved);
     if (parsed != null && supportedLocales.contains(parsed)) {
       _locale = parsed;
+      CurrencyFormatter.updateLocale(_locale);
       notifyListeners();
     }
   }
@@ -57,4 +78,3 @@ class LocaleStore extends ChangeNotifier {
     return Locale(parts[0], parts[1]);
   }
 }
-

@@ -90,6 +90,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get common_apply_filters => 'Apply filters';
 
   @override
+  String get common_load_more => 'Load more';
+
+  @override
   String get common_no_results_found => 'No results found';
 
   @override
@@ -1724,4 +1727,541 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountsReceivable_type_legal_example => 'E.g.: enforcement of judgment, claims covered by insurer.';
+
+  @override
+  String get member_home_placeholder => 'Member experience';
+
+  @override
+  String get member_contribution_history_title => 'Contribution history';
+
+  @override
+  String get member_contribution_new_button => 'New contribution';
+
+  @override
+  String get member_contribution_filter_type_label => 'Type';
+
+  @override
+  String get member_contribution_filter_type_all => 'All';
+
+  @override
+  String get member_contribution_type_tithe => 'Tithe';
+
+  @override
+  String get member_contribution_type_offering => 'Offering';
+
+  @override
+  String get member_contribution_destination_label => 'Contribution destination';
+
+  @override
+  String get member_contribution_search_account_hint => 'Search account...';
+
+  @override
+  String get member_contribution_offering_concept_label => 'Offering';
+
+  @override
+  String get member_contribution_search_concept_hint => 'Search concept...';
+
+  @override
+  String get member_contribution_value_label => 'Contribution amount';
+
+  @override
+  String get member_contribution_amount_other => 'Other amount';
+
+  @override
+  String get member_contribution_receipt_label => 'Upload the payment receipt';
+
+  @override
+  String get member_contribution_receipt_payment_date_label => 'Payment date';
+
+  @override
+  String get member_contribution_receipt_help_text => 'Your church treasury will review this receipt. Attaching it is mandatory.';
+
+  @override
+  String get member_contribution_message_label => 'Message (optional)';
+
+  @override
+  String get member_contribution_continue_button => 'Continue';
+
+  @override
+  String get member_contribution_payment_method_question => 'How do you want to record the payment?';
+
+  @override
+  String get member_contribution_payment_method_boleto_title => 'Generate a boleto to pay later';
+
+  @override
+  String get member_contribution_payment_method_manual_title => 'I already contributed, I want to upload the receipt';
+
+  @override
+  String get member_contribution_payment_method_pix_description => 'Pay now via PIX. Generate the QR code or copy-and-paste code to pay in your banking app.';
+
+  @override
+  String get member_contribution_payment_method_boleto_description => 'Generate a boleto to pay later through online banking or your app.';
+
+  @override
+  String get member_contribution_payment_method_manual_description => 'Deposit, transfer, or use another method, then upload the receipt here.';
+
+  @override
+  String get member_contribution_history_empty_title => 'You do not have any contributions yet';
+
+  @override
+  String get member_contribution_history_empty_subtitle => 'Once you make a contribution, it will appear here.';
+
+  @override
+  String get member_contribution_history_item_default_title => 'Contribution';
+
+  @override
+  String get member_contribution_history_item_receipt_submitted => 'Receipt submitted';
+
+  @override
+  String get member_contribution_pix_title => 'Pay with PIX';
+
+  @override
+  String member_contribution_pix_recipient(String recipient) {
+    return 'Recipient: $recipient';
+  }
+
+  @override
+  String get member_contribution_pix_qr_hint => 'Scan this QR code in your banking app.';
+
+  @override
+  String get member_contribution_pix_code_label => 'PIX copy and paste code';
+
+  @override
+  String get member_contribution_copy_code => 'Copy code';
+
+  @override
+  String get member_contribution_pix_footer => 'After paying, you can track the confirmation in your contribution history.';
+
+  @override
+  String get member_contribution_back_to_home => 'Back to home';
+
+  @override
+  String get member_contribution_pix_copy_success => 'PIX code copied!';
+
+  @override
+  String get member_contribution_boleto_title => 'Pay with boleto';
+
+  @override
+  String get member_contribution_boleto_due_date_label => 'Due date:';
+
+  @override
+  String get member_contribution_boleto_instruction => 'Use the code below to pay in your online banking or app.';
+
+  @override
+  String get member_contribution_boleto_line_label => 'Digitable line';
+
+  @override
+  String get member_contribution_boleto_download_pdf => 'Download boleto PDF';
+
+  @override
+  String get member_contribution_boleto_footer => 'After paying, the confirmation will appear in your contribution history. Keep the receipt.';
+
+  @override
+  String get member_contribution_boleto_copy_success => 'Digitable line copied!';
+
+  @override
+  String get member_contribution_boleto_pdf_error => 'Could not open the PDF';
+
+  @override
+  String get member_contribution_result_success_title => 'Contribution completed\nsuccessfully!';
+
+  @override
+  String get member_contribution_result_success_subtitle => 'Thank you for your generosity.';
+
+  @override
+  String member_contribution_result_date(String date) {
+    return 'Date: $date';
+  }
+
+  @override
+  String get member_contribution_result_info => 'The treasury team will review your receipt.';
+
+  @override
+  String get member_contribution_view_history => 'View history';
+
+  @override
+  String get member_contribution_result_error_title => 'We could not process\nthe payment';
+
+  @override
+  String get member_contribution_result_error_message => 'Check the payment details or try another method.';
+
+  @override
+  String get member_contribution_try_again => 'Try again';
+
+  @override
+  String get member_contribution_form_required_fields_error => 'Please fill in all required fields';
+
+  @override
+  String get member_contribution_form_receipt_required_error => 'The receipt is required.';
+
+  @override
+  String member_contribution_form_submission_error(String error) {
+    return 'Error processing the contribution: $error';
+  }
+
+  @override
+  String get member_contribution_validator_amount_required => 'Enter the amount';
+
+  @override
+  String get member_contribution_validator_financial_concept_required => 'Select a financial concept';
+
+  @override
+  String get member_contribution_validator_account_required => 'Select the availability account';
+
+  @override
+  String get member_contribution_validator_month_required => 'Select a month';
+
+  @override
+  String get member_drawer_greeting => 'Example Member';
+
+  @override
+  String get member_drawer_view_profile => 'View my profile';
+
+  @override
+  String get member_drawer_notifications => 'Notifications';
+
+  @override
+  String get member_drawer_profile => 'My profile';
+
+  @override
+  String get member_drawer_settings => 'Settings';
+
+  @override
+  String get member_drawer_legal_section => 'Legal';
+
+  @override
+  String get member_drawer_privacy_policy => 'Privacy Policy';
+
+  @override
+  String get member_drawer_sensitive_data => 'Sensitive Data Policy';
+
+  @override
+  String get member_drawer_terms => 'Terms of Use';
+
+  @override
+  String get member_drawer_logout => 'Log out';
+
+  @override
+  String member_drawer_version(String version) {
+    return 'Version $version';
+  }
+
+  @override
+  String get member_shell_nav_home => 'Home';
+
+  @override
+  String get member_shell_nav_contribute => 'Contribute';
+
+  @override
+  String get member_shell_nav_commitments => 'Commitments';
+
+  @override
+  String get member_shell_nav_statements => 'Statements';
+
+  @override
+  String get member_shell_header_tagline => 'CHURCH';
+
+  @override
+  String get member_shell_header_default_church => 'Gloria Finance';
+
+  @override
+  String get member_commitments_title => 'My commitments';
+
+  @override
+  String get member_commitments_empty_title => 'You don\'t have contribution commitments yet';
+
+  @override
+  String get member_commitments_empty_subtitle => 'When the treasury assigns one to you, it will appear here.';
+
+  @override
+  String get member_commitments_total_label => 'Total amount';
+
+  @override
+  String get member_commitments_paid_label => 'Already contributed';
+
+  @override
+  String get member_commitments_balance_label => 'Balance';
+
+  @override
+  String get member_commitments_progress_label => 'Completed';
+
+  @override
+  String get member_commitments_button_view_details => 'View details & pay';
+
+  @override
+  String get member_commitments_status_pending => 'In progress';
+
+  @override
+  String get member_commitments_status_paid => 'Completed';
+
+  @override
+  String get member_commitments_status_pending_acceptance => 'Pending acceptance';
+
+  @override
+  String get member_commitments_status_denied => 'Denied';
+
+  @override
+  String get member_commitments_detail_title => 'Commitment details';
+
+  @override
+  String get member_commitments_detail_subtitle => 'Track your progress and choose how to pay your installments.';
+
+  @override
+  String get member_commitments_detail_next_installment => 'Next installment';
+
+  @override
+  String get member_profile_personal_data_title => 'Personal data';
+
+  @override
+  String get member_profile_security_title => 'Security';
+
+  @override
+  String get member_profile_notifications_title => 'Notifications';
+
+  @override
+  String get member_profile_full_name_label => 'Full name';
+
+  @override
+  String get member_profile_email_label => 'Email';
+
+  @override
+  String get member_profile_phone_label => 'Phone';
+
+  @override
+  String get member_profile_dni_label => 'ID/Tax ID';
+
+  @override
+  String member_profile_member_since(String date) {
+    return 'Member since $date';
+  }
+
+  @override
+  String get member_profile_change_password_title => 'Change password';
+
+  @override
+  String get member_profile_change_password_subtitle => 'Update your access password';
+
+  @override
+  String get member_profile_notifications_settings_title => 'Notification settings';
+
+  @override
+  String get member_profile_notifications_settings_subtitle => 'Choose how you want to be notified by the church';
+
+  @override
+  String get member_change_password_header_title => 'Keep your account safe';
+
+  @override
+  String get member_change_password_header_subtitle => 'Use a strong password and do not share your access data.';
+
+  @override
+  String get member_change_password_current_label => 'Current password';
+
+  @override
+  String get member_change_password_new_label => 'New password';
+
+  @override
+  String get member_change_password_confirm_label => 'Confirm new password';
+
+  @override
+  String get member_change_password_rule_length => 'At least 8 characters';
+
+  @override
+  String get member_change_password_rule_uppercase => '1 uppercase letter';
+
+  @override
+  String get member_change_password_rule_number => '1 number';
+
+  @override
+  String get member_change_password_error_current => 'Incorrect current password.';
+
+  @override
+  String get member_change_password_error_match => 'Passwords do not match.';
+
+  @override
+  String get member_change_password_success_title => 'Success!';
+
+  @override
+  String get member_change_password_success_message => 'Your password has been changed successfully.';
+
+  @override
+  String get member_change_password_btn_save => 'Save new password';
+
+  @override
+  String get member_change_password_btn_cancel => 'Cancel';
+
+  @override
+  String get member_change_password_btn_back => 'Back to profile';
+
+  @override
+  String get member_commitments_installments_section_title => 'Installments';
+
+  @override
+  String get member_commitments_payment_modal_title => 'Register payment';
+
+  @override
+  String get member_commitments_payment_title => 'Register payment';
+
+  @override
+  String get member_commitments_payment_installment_label => 'Installment';
+
+  @override
+  String get member_commitments_payment_account_label => 'Availability account';
+
+  @override
+  String get member_commitments_payment_amount_label => 'Amount paid';
+
+  @override
+  String get member_commitments_payment_paid_at_label => 'Payment date';
+
+  @override
+  String get member_commitments_payment_voucher_label => 'Payment receipt';
+
+  @override
+  String get member_commitments_payment_observation_label => 'Note (optional)';
+
+  @override
+  String get member_commitments_payment_submit => 'Send receipt';
+
+  @override
+  String get member_commitments_payment_success => 'Payment registered! The treasury will review the receipt.';
+
+  @override
+  String get member_commitments_payment_required_fields_error => 'Select the installment, enter amount/date, and attach the receipt.';
+
+  @override
+  String get member_commitments_payment_methods_title => 'How do you want to pay?';
+
+  @override
+  String get member_commitments_payment_methods_pix => 'Pay with PIX';
+
+  @override
+  String get member_commitments_payment_methods_boleto => 'Generate boleto';
+
+  @override
+  String get member_commitments_payment_methods_manual => 'I already paid, send receipt';
+
+  @override
+  String get member_commitments_payment_methods_manual_hint => 'Use this option when you transferred and must send the receipt.';
+
+  @override
+  String member_commitments_installment_paid_on(String date) {
+    return 'Paid on: $date';
+  }
+
+  @override
+  String get member_commitments_installment_status_paid => 'Paid';
+
+  @override
+  String get member_commitments_installment_status_pending => 'Pending';
+
+  @override
+  String get member_commitments_installment_status_in_review => 'Under review';
+
+  @override
+  String get member_commitments_installment_status_partial => 'Partial payment';
+
+  @override
+  String get member_commitments_installment_status_overdue => 'Overdue';
+
+  @override
+  String get member_commitments_action_pay_installment => 'Pay installment';
+
+  @override
+  String get member_commitments_action_pay_this_installment => 'Pay this installment';
+
+  @override
+  String get member_commitments_payment_missing_account => 'Availability account not informed. Please contact your church.';
+
+  @override
+  String get member_register_name_label => 'Full name';
+
+  @override
+  String get member_register_email_label => 'Email';
+
+  @override
+  String get member_register_phone_label => 'Phone';
+
+  @override
+  String get member_register_dni_label => 'Identity Document';
+
+  @override
+  String get member_register_conversion_date_label => 'Conversion date';
+
+  @override
+  String get member_register_baptism_date_label => 'Baptism date';
+
+  @override
+  String get member_register_birthdate_label => 'Birthdate';
+
+  @override
+  String get member_register_active_label => 'Active?';
+
+  @override
+  String get member_register_yes => 'Yes';
+
+  @override
+  String get member_register_no => 'No';
+
+  @override
+  String get validation_required => 'Required field';
+
+  @override
+  String get validation_invalid_email => 'Invalid email';
+
+  @override
+  String get validation_invalid_phone => 'Invalid phone format';
+
+  @override
+  String get validation_invalid_cpf => 'Invalid ID document';
+
+  @override
+  String get member_list_title => 'Member list';
+
+  @override
+  String get member_list_action_register => 'Register new member';
+
+  @override
+  String get member_list_empty => 'No members registered.';
+
+  @override
+  String get member_list_header_name => 'Name';
+
+  @override
+  String get member_list_header_email => 'Email';
+
+  @override
+  String get member_list_header_phone => 'Phone';
+
+  @override
+  String get member_list_header_birthdate => 'Birthdate';
+
+  @override
+  String get member_list_header_active => 'Active?';
+
+  @override
+  String get member_list_action_edit => 'Edit';
+
+  @override
+  String get member_list_status_yes => 'Yes';
+
+  @override
+  String get member_list_status_no => 'No';
+
+  @override
+  String get trends_main_card_revenue_title => 'Gross Revenue';
+
+  @override
+  String get trends_main_card_revenue_subtitle => 'REVENUE';
+
+  @override
+  String get trends_main_card_opex_title => 'Operating Expenses';
+
+  @override
+  String get trends_main_card_opex_subtitle => 'EXPENSES';
+
+  @override
+  String get trends_main_card_net_income_title => 'Period Result';
+
+  @override
+  String get trends_main_card_net_income_subtitle => 'RESULT';
 }

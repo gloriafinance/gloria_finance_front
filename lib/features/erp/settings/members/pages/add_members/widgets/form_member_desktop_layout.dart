@@ -14,9 +14,9 @@ Widget formMemberDesktopLayout(
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(child: name(formStore)),
+          Expanded(child: name(context, formStore)),
           const SizedBox(width: 16),
-          Expanded(child: dni(formStore)),
+          Expanded(child: dni(context, formStore)),
         ],
       ),
       Row(
@@ -24,9 +24,9 @@ Widget formMemberDesktopLayout(
         children: [
           Expanded(child: birthdate(context, formStore)),
           const SizedBox(width: 16),
-          Expanded(child: phone(formStore)),
+          Expanded(child: phone(context, formStore)),
           const SizedBox(width: 16),
-          Expanded(child: email(formStore)),
+          Expanded(child: email(context, formStore)),
         ],
       ),
       Row(
@@ -40,7 +40,7 @@ Widget formMemberDesktopLayout(
             width: 216,
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 25),
-              child: active(formStore),
+              child: active(context, formStore),
             ),
           ),
         ],

@@ -5,9 +5,15 @@ import 'package:provider/provider.dart';
 import 'app/member_router.dart';
 import 'app/my_app.dart';
 import 'app/store_manager.dart';
+import 'core/app_http.dart';
 
 void main() {
   final storeManager = StoreManager();
+
+  AppHttp.onUnauthorized = () {
+    storeManager.authSessionStore.logout();
+  };
+
   runApp(
     MultiProvider(
       providers: [
