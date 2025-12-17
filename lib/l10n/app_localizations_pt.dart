@@ -2004,11 +2004,93 @@ class AppLocalizationsPt extends AppLocalizations {
   String get member_commitments_detail_title => 'Detalhes do compromisso';
 
   @override
-  String get member_commitments_detail_subtitle =>
-      'Acompanhe o progresso e escolha como pagar suas parcelas.';
+  String get member_commitments_detail_subtitle => 'Acompanhe o progresso e escolha como pagar suas parcelas.';
 
   @override
   String get member_commitments_detail_next_installment => 'Próxima parcela';
+
+  @override
+  String get member_profile_personal_data_title => 'Dados pessoais';
+
+  @override
+  String get member_profile_security_title => 'Segurança';
+
+  @override
+  String get member_profile_notifications_title => 'Notificações';
+
+  @override
+  String get member_profile_full_name_label => 'Nome completo';
+
+  @override
+  String get member_profile_email_label => 'Email';
+
+  @override
+  String get member_profile_phone_label => 'Telefone';
+
+  @override
+  String get member_profile_dni_label => 'CPF';
+
+  @override
+  String member_profile_member_since(String date) {
+    return 'Membro desde $date';
+  }
+
+  @override
+  String get member_profile_change_password_title => 'Alterar senha';
+
+  @override
+  String get member_profile_change_password_subtitle => 'Atualize sua senha de acesso';
+
+  @override
+  String get member_profile_notifications_settings_title => 'Configurações de notificações';
+
+  @override
+  String get member_profile_notifications_settings_subtitle => 'Escolha como deseja ser avisado pela igreja';
+
+  @override
+  String get member_change_password_header_title => 'Mantenha sua conta segura';
+
+  @override
+  String get member_change_password_header_subtitle => 'Use uma senha forte e não compartilhe seus dados de acesso.';
+
+  @override
+  String get member_change_password_current_label => 'Senha atual';
+
+  @override
+  String get member_change_password_new_label => 'Nova senha';
+
+  @override
+  String get member_change_password_confirm_label => 'Confirmar nova senha';
+
+  @override
+  String get member_change_password_rule_length => 'Pelo menos 8 caracteres';
+
+  @override
+  String get member_change_password_rule_uppercase => '1 letra maiúscula';
+
+  @override
+  String get member_change_password_rule_number => '1 número';
+
+  @override
+  String get member_change_password_error_current => 'Senha atual incorreta.';
+
+  @override
+  String get member_change_password_error_match => 'As senhas não coincidem.';
+
+  @override
+  String get member_change_password_success_title => 'Sucesso!';
+
+  @override
+  String get member_change_password_success_message => 'Sua senha foi alterada com sucesso.';
+
+  @override
+  String get member_change_password_btn_save => 'Salvar nova senha';
+
+  @override
+  String get member_change_password_btn_cancel => 'Cancelar';
+
+  @override
+  String get member_change_password_btn_back => 'Voltar ao perfil';
 
   @override
   String get member_commitments_installments_section_title => 'Parcelas';
@@ -2089,4 +2171,97 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get member_commitments_payment_missing_account => 'Conta de disponibilidade não informada. Entre em contato com a igreja.';
+
+  @override
+  String get member_register_name_label => 'Nome completo';
+
+  @override
+  String get member_register_email_label => 'Email';
+
+  @override
+  String get member_register_phone_label => 'Telefone';
+
+  @override
+  String get member_register_dni_label => 'CPF';
+
+  @override
+  String get member_register_conversion_date_label => 'Data de conversão';
+
+  @override
+  String get member_register_baptism_date_label => 'Data de batismo';
+
+  @override
+  String get member_register_birthdate_label => 'Data de nascimento';
+
+  @override
+  String get member_register_active_label => 'Ativo?';
+
+  @override
+  String get member_register_yes => 'Sim';
+
+  @override
+  String get member_register_no => 'Não';
+
+  @override
+  String get validation_required => 'O campo é obrigatório';
+
+  @override
+  String get validation_invalid_email => 'Email inválido';
+
+  @override
+  String get validation_invalid_phone => 'Formato de telefone inválido';
+
+  @override
+  String get validation_invalid_cpf => 'CPF inválido';
+
+  @override
+  String get member_list_title => 'Listagem de membros';
+
+  @override
+  String get member_list_action_register => 'Registrar novo membro';
+
+  @override
+  String get member_list_empty => 'Não há membros cadastrados.';
+
+  @override
+  String get member_list_header_name => 'Nome';
+
+  @override
+  String get member_list_header_email => 'Email';
+
+  @override
+  String get member_list_header_phone => 'Telefone';
+
+  @override
+  String get member_list_header_birthdate => 'Data de nascimento';
+
+  @override
+  String get member_list_header_active => 'Ativo?';
+
+  @override
+  String get member_list_action_edit => 'Editar';
+
+  @override
+  String get member_list_status_yes => 'Sim';
+
+  @override
+  String get member_list_status_no => 'Não';
+
+  @override
+  String get trends_main_card_revenue_title => 'Receita Bruta';
+
+  @override
+  String get trends_main_card_revenue_subtitle => 'RECEITA';
+
+  @override
+  String get trends_main_card_opex_title => 'Despesas Operacionais';
+
+  @override
+  String get trends_main_card_opex_subtitle => 'DESPESAS';
+
+  @override
+  String get trends_main_card_net_income_title => 'Resultado do Período';
+
+  @override
+  String get trends_main_card_net_income_subtitle => 'RESULTADO';
 }

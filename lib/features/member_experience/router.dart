@@ -9,6 +9,8 @@ import 'package:church_finance_bk/features/member_experience/contributions/pages
 import 'package:church_finance_bk/features/member_experience/contributions/pages/contribute/member_contribute_screen.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/pages/history/member_contribution_history_screen.dart';
 import 'package:church_finance_bk/features/member_experience/home/home_screen.dart';
+import 'package:church_finance_bk/features/member_experience/profile/pages/member_profile_screen.dart';
+import 'package:church_finance_bk/features/member_experience/profile/pages/change_password/member_change_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -19,6 +21,20 @@ memberExperienceRouter() {
       pageBuilder: (context, state) {
         return transitionCustom(HomeScreen());
       },
+    ),
+    GoRoute(
+      path: '/member/profile',
+      pageBuilder: (context, state) {
+        return transitionCustom(const MemberProfileScreen());
+      },
+      routes: [
+        GoRoute(
+          path: 'change-password',
+          pageBuilder: (context, state) {
+            return transitionCustom(const MemberChangePasswordScreen());
+          },
+        ),
+      ],
     ),
     GoRoute(
       path: '/member/commitments',
