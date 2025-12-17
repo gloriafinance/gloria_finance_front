@@ -10,7 +10,22 @@ class AppHttp {
   late String api;
   String? tokenAPI;
 
-  AppHttp({this.tokenAPI});
+  AppHttp({this.tokenAPI}) {
+    http.interceptors.add(
+      InterceptorsWrapper(
+        onError: (DioException e, handler) {
+          if (e.response?.statusCode == 401 ||
+              (e.response?.data is Map &&
+                  e.response?.data['message'] == 'Unauthorized.')) {
+            onUnauthorized?.call();
+          }
+          return handler.next(e);
+        },
+      ),
+    );
+  }
+
+  static VoidCallback? onUnauthorized;
 
   Map<String, String> bearerToken() {
     var token = "Bearer $tokenAPI";

@@ -1,7 +1,11 @@
 import 'package:church_finance_bk/features/auth/pages/login/store/auth_session_store.dart';
 import 'package:go_router/go_router.dart';
 
+import '../core/layout/member/member_shell.dart';
+import '../core/theme/transition_custom.dart';
 import '../features/auth/auth_router.dart';
+import '../features/member_experience/home/home_screen.dart';
+import '../features/member_experience/router.dart';
 import 'store_manager.dart';
 
 /// Puedes tener listas de rutas distintas si quieres
@@ -12,6 +16,7 @@ AuthSessionStore get _memberAuthStore => StoreManager().authSessionStore;
 
 final GoRouter memberRouter = GoRouter(
   initialLocation: '/',
+  refreshListenable: _memberAuthStore,
   redirect: (context, state) {
     final currentLocation = state.uri.toString();
     final isLoggedIn = _memberAuthStore.isLoggedIn();
@@ -38,5 +43,21 @@ final GoRouter memberRouter = GoRouter(
 
     return null;
   },
-  routes: [...authRouters()],
+  routes: [
+    ...authRouters(),
+    ShellRoute(
+      builder: (context, state, child) {
+        return MemberShell(child: child);
+      },
+      routes: [
+        GoRoute(
+          path: '/dashboard',
+          pageBuilder: (context, state) {
+            return transitionCustom(HomeScreen());
+          },
+        ),
+        ...memberExperienceRouter(),
+      ],
+    ),
+  ],
 );
