@@ -2264,4 +2264,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get trends_main_card_net_income_subtitle => 'RESULT';
+
+  @override
+  String get member_settings_title => 'Settings';
+
+  @override
+  String get member_settings_subtitle => 'Personalize your experience at Glória Finance - Members.';
+
+  @override
+  String get member_settings_language_title => 'Interface Language';
+
+  @override
+  String get member_settings_language_description => 'Choose the language you prefer to use in the app.';
+
+  @override
+  String get member_settings_language_default_tag => 'Default';
+
+  @override
+  String get member_settings_notifications_title => 'Notifications';
+
+  @override
+  String get member_settings_notifications_description => 'Choose what you want to receive as alerts.';
+
+  @override
+  String get member_settings_notification_church_events_title => 'New Church Events';
+
+  @override
+  String get member_settings_notification_church_events_desc => 'Receive reminders for services, conferences, and special activities.';
+
+  @override
+  String get member_settings_notification_payments_title => 'Payment Commitments';
+
+  @override
+  String get member_settings_notification_payments_desc => 'Alerts about installments and due dates of your commitments.';
+
+  @override
+  String get member_settings_notification_contributions_status_title => 'Contribution Status';
+
+  @override
+  String get member_settings_notification_contributions_status_desc => 'Notifications when a tithe or offering changes status (registered, confirmed, etc.).';
+
+  @override
+  String get member_settings_footer_coming_soon => 'Coming soon: more options to personalize your experience.';
 }

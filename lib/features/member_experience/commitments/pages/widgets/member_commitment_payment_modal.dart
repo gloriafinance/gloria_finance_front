@@ -64,18 +64,53 @@ class MemberCommitmentPaymentModal extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Dropdown(
-            label: l10n.member_commitments_payment_account_label,
-            items: accounts.map((e) => e.accountName).toList(),
-            initialValue: selectedAccount.accountName,
+          DropdownButtonFormField<String>(
+            isExpanded: true,
+            decoration: InputDecoration(
+              labelText: l10n.member_commitments_payment_account_label,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: Colors.grey.shade400),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: Colors.grey.shade400),
+              ),
+              focusedBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                borderSide: BorderSide(color: AppColors.purple, width: 2),
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 16,
+              ),
+            ),
+            value: selectedAccount.accountName,
+            items:
+                accounts.map((account) {
+                  return DropdownMenuItem<String>(
+                    value: account.accountName,
+                    child: Text(
+                      account.accountName,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: AppColors.black,
+                        fontFamily: AppFonts.fontText,
+                      ),
+                    ),
+                  );
+                }).toList(),
             onChanged: (value) {
-              final account = accounts.firstWhere(
-                (acc) => acc.accountName == value,
-                orElse: () => selectedAccount,
-              );
-              store.setAvailabilityAccount(account.availabilityAccountId);
+              if (value != null) {
+                final account = accounts.firstWhere(
+                  (acc) => acc.accountName == value,
+                  orElse: () => selectedAccount,
+                );
+                store.setAvailabilityAccount(account.availabilityAccountId);
+              }
             },
-            searchHint: l10n.member_contribution_search_account_hint,
+            icon: const Icon(Icons.arrow_drop_down, color: AppColors.purple),
+            dropdownColor: Colors.white,
           ),
           const SizedBox(height: 16),
           _ChannelGrid(account: selectedAccount),

@@ -11,6 +11,7 @@ import 'package:church_finance_bk/features/member_experience/contributions/pages
 import 'package:church_finance_bk/features/member_experience/home/home_screen.dart';
 import 'package:church_finance_bk/features/member_experience/profile/pages/member_profile_screen.dart';
 import 'package:church_finance_bk/features/member_experience/profile/pages/change_password/member_change_password_screen.dart';
+import 'package:church_finance_bk/features/member_experience/settings/pages/member_settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -20,6 +21,12 @@ memberExperienceRouter() {
       path: '/financial-record',
       pageBuilder: (context, state) {
         return transitionCustom(HomeScreen());
+      },
+    ),
+    GoRoute(
+      path: '/member/settings',
+      pageBuilder: (context, state) {
+        return transitionCustom(const MemberSettingsScreen());
       },
     ),
     GoRoute(

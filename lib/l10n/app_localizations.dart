@@ -4518,6 +4518,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'RESULT'**
   String get trends_main_card_net_income_subtitle;
+
+  /// No description provided for @member_settings_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get member_settings_title;
+
+  /// No description provided for @member_settings_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Personalize your experience at Glória Finance - Members.'**
+  String get member_settings_subtitle;
+
+  /// No description provided for @member_settings_language_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Interface Language'**
+  String get member_settings_language_title;
+
+  /// No description provided for @member_settings_language_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the language you prefer to use in the app.'**
+  String get member_settings_language_description;
+
+  /// No description provided for @member_settings_language_default_tag.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get member_settings_language_default_tag;
+
+  /// No description provided for @member_settings_notifications_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get member_settings_notifications_title;
+
+  /// No description provided for @member_settings_notifications_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose what you want to receive as alerts.'**
+  String get member_settings_notifications_description;
+
+  /// No description provided for @member_settings_notification_church_events_title.
+  ///
+  /// In en, this message translates to:
+  /// **'New Church Events'**
+  String get member_settings_notification_church_events_title;
+
+  /// No description provided for @member_settings_notification_church_events_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive reminders for services, conferences, and special activities.'**
+  String get member_settings_notification_church_events_desc;
+
+  /// No description provided for @member_settings_notification_payments_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Commitments'**
+  String get member_settings_notification_payments_title;
+
+  /// No description provided for @member_settings_notification_payments_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts about installments and due dates of your commitments.'**
+  String get member_settings_notification_payments_desc;
+
+  /// No description provided for @member_settings_notification_contributions_status_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Contribution Status'**
+  String get member_settings_notification_contributions_status_title;
+
+  /// No description provided for @member_settings_notification_contributions_status_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications when a tithe or offering changes status (registered, confirmed, etc.).'**
+  String get member_settings_notification_contributions_status_desc;
+
+  /// No description provided for @member_settings_footer_coming_soon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon: more options to personalize your experience.'**
+  String get member_settings_footer_coming_soon;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

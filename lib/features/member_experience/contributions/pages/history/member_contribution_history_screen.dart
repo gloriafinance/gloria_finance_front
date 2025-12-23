@@ -48,9 +48,10 @@ class MemberContributionHistoryScreen extends StatelessWidget {
                     ),
                     _buildFilters(context, store),
                     Expanded(
-                      child: store.isLoading
-                          ? const Center(child: CircularProgressIndicator())
-                          : _buildHistoryList(store),
+                      child:
+                          store.isLoading
+                              ? const Center(child: CircularProgressIndicator())
+                              : _buildHistoryList(store),
                     ),
                   ],
                 ),
@@ -149,17 +150,53 @@ class MemberContributionHistoryScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          Dropdown(
-            label: l10n.member_contribution_filter_type_label,
-            items: typeOptions.values.toList(),
-            initialValue: typeOptions[store.type],
+          DropdownButtonFormField<String>(
+            isExpanded: true,
+            decoration: InputDecoration(
+              labelText: l10n.member_contribution_filter_type_label,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: Colors.grey.shade400),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: Colors.grey.shade400),
+              ),
+              focusedBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                borderSide: BorderSide(color: AppColors.purple, width: 2),
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 16,
+              ),
+            ),
+            value: typeOptions[store.type],
+            items:
+                typeOptions.values.map((value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: AppColors.black,
+                        fontFamily: AppFonts.fontText,
+                      ),
+                    ),
+                  );
+                }).toList(),
             onChanged: (value) {
-              final match = typeOptions.entries.firstWhere(
-                (entry) => entry.value == value,
-                orElse: () => typeOptions.entries.first,
-              );
-              store.setType(match.key);
+              if (value != null) {
+                final match = typeOptions.entries.firstWhere(
+                  (entry) => entry.value == value,
+                  orElse: () => typeOptions.entries.first,
+                );
+                store.setType(match.key);
+              }
             },
+            icon: const Icon(Icons.arrow_drop_down, color: AppColors.purple),
+            dropdownColor: Colors.white,
           ),
         ],
       ),

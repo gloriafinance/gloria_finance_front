@@ -19,10 +19,15 @@ AuthSessionStore get _authStore => StoreManager().authSessionStore;
 
 final GoRouter erpRouter = GoRouter(
   initialLocation: '/',
+  refreshListenable: _authStore,
   redirect: (context, state) {
     final currentLocation = state.uri.toString();
     final isLoggedIn = _authStore.isLoggedIn();
+    final isInitialized = _authStore.isInitialized;
     final needsPolicyAcceptance = _authStore.needsPolicyAcceptance();
+
+    // If not initialized yet, don't redirect (wait)
+    if (!isInitialized) return null;
 
     // Allow public routes without authentication - don't redirect away from them
     if (_publicRoutes.contains(currentLocation)) {

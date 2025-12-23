@@ -59,9 +59,13 @@ class _MemberDrawerState extends State<MemberDrawer> {
 
     final session = authStore?.state.session;
     final accountName =
-        (session?.name ?? '').isNotEmpty ? session!.name : l10n.member_drawer_greeting;
+        (session?.name ?? '').isNotEmpty
+            ? session!.name
+            : l10n.member_drawer_greeting;
     final avatarLetter =
-        accountName.trim().isNotEmpty ? accountName.trim().substring(0, 1).toUpperCase() : 'M';
+        accountName.trim().isNotEmpty
+            ? accountName.trim().substring(0, 1).toUpperCase()
+            : 'M';
 
     return Drawer(
       child: Column(
@@ -82,7 +86,7 @@ class _MemberDrawerState extends State<MemberDrawer> {
                   accountEmail: GestureDetector(
                     onTap: () {
                       context.pop(); // Close drawer
-                      context.go('/member/profile');
+                      context.push('/member/profile');
                     },
                     child: Text(
                       l10n.member_drawer_view_profile,
@@ -106,7 +110,10 @@ class _MemberDrawerState extends State<MemberDrawer> {
                 ),
                 if (localeStore != null)
                   const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 12,
+                    ),
                     child: LanguageSelector(),
                   ),
                 ListTile(
@@ -128,7 +135,7 @@ class _MemberDrawerState extends State<MemberDrawer> {
                   title: Text(l10n.member_drawer_profile),
                   onTap: () {
                     context.pop();
-                    context.go('/member/profile');
+                    context.push('/member/profile');
                   },
                 ),
                 ListTile(
@@ -139,12 +146,16 @@ class _MemberDrawerState extends State<MemberDrawer> {
                   title: Text(l10n.member_drawer_settings),
                   onTap: () {
                     context.pop();
-                    // TODO: Navigate to settings
+                    context.push('/member/settings');
                   },
                 ),
                 const Divider(),
                 Padding(
-                  padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
+                  padding: const EdgeInsets.only(
+                    left: 16.0,
+                    top: 8.0,
+                    bottom: 8.0,
+                  ),
                   child: Text(
                     l10n.member_drawer_legal_section,
                     style: const TextStyle(

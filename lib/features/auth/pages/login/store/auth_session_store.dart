@@ -2,6 +2,9 @@ import 'package:church_finance_bk/app/locale_store.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../app/member_router.dart'; // To access memberRouter
+import '../../../../member_experience/notifications/notification_api.dart';
+import '../../../../member_experience/notifications/push_notification_manager.dart';
 import '../../../auth_persistence.dart';
 import '../../../auth_service.dart';
 import '../../../auth_session_model.dart';
@@ -15,24 +18,36 @@ class AuthSessionStore extends ChangeNotifier {
   AuthSessionState state = AuthSessionState(session: AuthSessionModel.empty());
 
   final LocaleStore? localeStore;
+  final PushNotificationManager? pushNotificationManager;
 
-  AuthSessionStore({this.localeStore}) {
+  AuthSessionStore({this.localeStore, this.pushNotificationManager}) {
     _initialize();
   }
+
+  bool isInitialized = false;
 
   Future<void> _initialize() async {
     var session = await AuthPersistence().restore();
     state = state.copyWith(session: session);
 
     if (localeStore != null && session.lang.isNotEmpty) {
-      final parts = session.lang.split('-');
-      if (parts.length == 2) {
-        localeStore!.setLocale(Locale(parts[0], parts[1]));
-      } else if (parts.isNotEmpty) {
-        localeStore!.setLocale(Locale(parts[0]));
+      final hasSaved = await localeStore!.hasSavedLocale();
+      if (!hasSaved) {
+        final parts = session.lang.split('-');
+        if (parts.length == 2) {
+          localeStore!.setLocale(Locale(parts[0], parts[1]));
+        } else if (parts.isNotEmpty) {
+          localeStore!.setLocale(Locale(parts[0]));
+        }
       }
     }
 
+    // Attempt to init push notifications if session is valid
+    if (isLoggedIn() && pushNotificationManager != null) {
+      _initPushNotifications();
+    }
+
+    isInitialized = true;
     notifyListeners();
   }
 
@@ -49,26 +64,24 @@ class AuthSessionStore extends ChangeNotifier {
       if (session == null) {
         return false;
       }
-      print(session);
-      state = state.copyWith(session: session, makeRequest: false);
 
-      print("AUTH_DEBUG: Session lang is ${session.lang}");
-      print("AUTH_DEBUG: LocaleStore is null? ${localeStore == null}");
+      state = state.copyWith(session: session, makeRequest: false);
 
       if (localeStore != null && session.lang.isNotEmpty) {
         final parts = session.lang.split('-');
-        print("AUTH_DEBUG: Parsing lang parts: $parts");
 
         if (parts.length == 2) {
-          print("AUTH_DEBUG: Setting locale to ${parts[0]}_${parts[1]}");
           localeStore!.setLocale(Locale(parts[0], parts[1]));
         } else if (parts.isNotEmpty) {
-          print("AUTH_DEBUG: Setting locale to ${parts[0]}");
           localeStore!.setLocale(Locale(parts[0]));
         }
       }
 
       await AuthPersistence().save(session);
+
+      if (pushNotificationManager != null) {
+        _initPushNotifications();
+      }
 
       notifyListeners();
 
@@ -138,5 +151,25 @@ class AuthSessionStore extends ChangeNotifier {
 
   isPastor() {
     return state.session.isPastor();
+  }
+
+  void _initPushNotifications() {
+    pushNotificationManager?.init(
+      onDeepLink: (deepLink) {
+        print("PUSH: Navigating to $deepLink");
+        try {
+          // Use the global memberRouter
+          memberRouter.go(deepLink);
+        } catch (e) {
+          print("PUSH: Navigation error: $e");
+        }
+      },
+      onToken: (token, deviceId, platform) async {
+        print("PUSH: Registering token: $token ($platform - $deviceId)");
+        await NotificationApi(
+          tokenAPI: state.session.token,
+        ).registerToken(token: token, deviceId: deviceId, platform: platform);
+      },
+    );
   }
 }

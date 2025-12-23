@@ -2264,4 +2264,46 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get trends_main_card_net_income_subtitle => 'RESULTADO';
+
+  @override
+  String get member_settings_title => 'Configurações';
+
+  @override
+  String get member_settings_subtitle => 'Personalize sua experiência na Glória Finance - Membros.';
+
+  @override
+  String get member_settings_language_title => 'Idioma da interface';
+
+  @override
+  String get member_settings_language_description => 'Escolha o idioma que prefere usar no app.';
+
+  @override
+  String get member_settings_language_default_tag => 'Padrão';
+
+  @override
+  String get member_settings_notifications_title => 'Notificações';
+
+  @override
+  String get member_settings_notifications_description => 'Escolha o que você deseja receber como aviso.';
+
+  @override
+  String get member_settings_notification_church_events_title => 'Novos eventos da igreja';
+
+  @override
+  String get member_settings_notification_church_events_desc => 'Receber lembretes de cultos, conferências e atividades especiais.';
+
+  @override
+  String get member_settings_notification_payments_title => 'Compromissos de pagamento';
+
+  @override
+  String get member_settings_notification_payments_desc => 'Avisos sobre parcelas e vencimentos dos seus compromissos.';
+
+  @override
+  String get member_settings_notification_contributions_status_title => 'Status das contribuições';
+
+  @override
+  String get member_settings_notification_contributions_status_desc => 'Notificações quando um dízimo ou oferta muda de status (registrado, confirmado, etc.).';
+
+  @override
+  String get member_settings_footer_coming_soon => 'Em breve: mais opções para personalizar sua experiência.';
 }

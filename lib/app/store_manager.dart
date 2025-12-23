@@ -10,6 +10,7 @@ import '../features/erp/settings/banks/store/bank_store.dart';
 import '../features/erp/settings/cost_center/store/cost_center_list_store.dart';
 import '../features/erp/settings/financial_concept/store/financial_concept_store.dart';
 import '../features/erp/settings/members/store/member_all_store.dart';
+import '../features/member_experience/notifications/push_notification_manager.dart';
 import '../features/erp/trends/store/trend_store.dart';
 
 class StoreManager {
@@ -20,7 +21,11 @@ class StoreManager {
   StoreManager._internal();
 
   final localeStore = LocaleStore();
-  late final authSessionStore = AuthSessionStore(localeStore: localeStore);
+  final pushNotificationManager = PushNotificationManager();
+  late final authSessionStore = AuthSessionStore(
+    localeStore: localeStore,
+    pushNotificationManager: pushNotificationManager,
+  );
   final financialConceptStore = FinancialConceptStore();
   final bankStore = BankStore();
   final navigatorMemberNotifier = NavigatorMemberNotifier();

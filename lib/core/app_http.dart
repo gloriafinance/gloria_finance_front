@@ -46,7 +46,7 @@ class AppHttp {
       return apiProd;
     }
 
-    return apiDev;
+    return apiProd;
   }
 
   transformResponse(data) {
