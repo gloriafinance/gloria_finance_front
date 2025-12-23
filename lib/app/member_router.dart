@@ -20,7 +20,11 @@ final GoRouter memberRouter = GoRouter(
   redirect: (context, state) {
     final currentLocation = state.uri.toString();
     final isLoggedIn = _memberAuthStore.isLoggedIn();
+    final isInitialized = _memberAuthStore.isInitialized;
     final needsPolicyAcceptance = _memberAuthStore.needsPolicyAcceptance();
+
+    // If not initialized yet, don't redirect (wait)
+    if (!isInitialized) return null;
 
     if (_memberPublicRoutes.contains(currentLocation)) {
       return null;

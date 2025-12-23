@@ -65,6 +65,12 @@ class LocaleStore extends ChangeNotifier {
     }
   }
 
+  /// Verifica se existe um locale salvo nas preferências do usuário.
+  Future<bool> hasSavedLocale() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.containsKey(_prefsKey);
+  }
+
   String _encodeLocale(Locale locale) {
     return locale.countryCode == null || locale.countryCode!.isEmpty
         ? locale.languageCode

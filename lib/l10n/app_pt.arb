@@ -903,5 +903,19 @@
   "member_list_header_active": "Ativo?",
   "member_list_action_edit": "Editar",
   "member_list_status_yes": "Sim",
-  "member_list_status_no": "Não"
+  "member_list_status_no": "Não",
+  "member_settings_title": "Configurações",
+  "member_settings_subtitle": "Personalize sua experiência na Glória Finance - Membros.",
+  "member_settings_language_title": "Idioma da interface",
+  "member_settings_language_description": "Escolha o idioma que prefere usar no app.",
+  "member_settings_language_default_tag": "Padrão",
+  "member_settings_notifications_title": "Notificações",
+  "member_settings_notifications_description": "Escolha o que você deseja receber como aviso.",
+  "member_settings_notification_church_events_title": "Novos eventos da igreja",
+  "member_settings_notification_church_events_desc": "Receber lembretes de cultos, conferências e atividades especiais.",
+  "member_settings_notification_payments_title": "Compromissos de pagamento",
+  "member_settings_notification_payments_desc": "Avisos sobre parcelas e vencimentos dos seus compromissos.",
+  "member_settings_notification_contributions_status_title": "Status das contribuições",
+  "member_settings_notification_contributions_status_desc": "Notificações quando um dízimo ou oferta muda de status (registrado, confirmado, etc.).",
+  "member_settings_footer_coming_soon": "Em breve: mais opções para personalizar sua experiência."
 }

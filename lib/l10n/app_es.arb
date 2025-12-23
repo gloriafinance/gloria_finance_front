@@ -895,5 +895,19 @@
   "trends_main_card_opex_title": "Gastos Operativos",
   "trends_main_card_opex_subtitle": "GASTOS",
   "trends_main_card_net_income_title": "Resultado del Período",
-  "trends_main_card_net_income_subtitle": "RESULTADO"
+  "trends_main_card_net_income_subtitle": "RESULTADO",
+  "member_settings_title": "Configuraciones",
+  "member_settings_subtitle": "Personaliza tu experiencia en Glória Finance - Miembros.",
+  "member_settings_language_title": "Idioma de la interfaz",
+  "member_settings_language_description": "Elige el idioma que prefieres usar en la app.",
+  "member_settings_language_default_tag": "Predeterminado",
+  "member_settings_notifications_title": "Notificaciones",
+  "member_settings_notifications_description": "Elige lo que deseas recibir como aviso.",
+  "member_settings_notification_church_events_title": "Nuevos eventos de la iglesia",
+  "member_settings_notification_church_events_desc": "Recibir recordatorios de cultos, conferencias y actividades especiales.",
+  "member_settings_notification_payments_title": "Compromisos de pago",
+  "member_settings_notification_payments_desc": "Avisos sobre cuotas y vencimientos de tus compromisos.",
+  "member_settings_notification_contributions_status_title": "Estado de las contribuciones",
+  "member_settings_notification_contributions_status_desc": "Notificaciones cuando un diezmo u ofrenda cambia de estado (registrado, confirmado, etc.).",
+  "member_settings_footer_coming_soon": "Próximamente: más opciones para personalizar tu experiencia."
 }

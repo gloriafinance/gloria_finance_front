@@ -3,11 +3,12 @@ plugins {
     id "kotlin-android"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
+    id 'com.google.gms.google-services'
 }
 
 
 android {
-    namespace = "com.example.church_finance_bk"
+    namespace = "com.gloria_finance.app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -34,7 +35,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.church_finance_bk"
+        applicationId = "com.gloria_finance.app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
@@ -58,6 +59,11 @@ flutter {
 }
 
 dependencies {
+    id 'com.android.application'
     // Necesario para flutter_local_notifications
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
+    id 'com.google.gms.google-services'
 }
+
+apply plugin: 'com.google.gms.google-services'
+

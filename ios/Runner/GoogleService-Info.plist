@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>247774651903-2q9ruehmb6hah36c0o7d4hod2vtn3sre.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.247774651903-2q9ruehmb6hah36c0o7d4hod2vtn3sre</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCLrlyg6k-Uhu9RfzCWwC9SXl6beJ3WESk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>247774651903</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.churchFinanceBk</string>
+	<key>PROJECT_ID</key>
+	<string>devpto-dev</string>
+	<key>STORAGE_BUCKET</key>
+	<string>devpto-dev.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:247774651903:ios:769e9a6f2190fbec9bb3ca</string>
+</dict>
+</plist>

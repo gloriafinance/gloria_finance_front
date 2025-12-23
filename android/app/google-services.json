@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "247774651903",
+    "project_id": "devpto-dev",
+    "storage_bucket": "devpto-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:247774651903:android:647f7a1d9ffd490b9bb3ca",
+        "android_client_info": {
+          "package_name": "com.gloria_finance.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "247774651903-luc5s66ie9j1433dir0d5jlo2dpns0l0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbRykEMHjpA-Qt73YaNM25gYv_HbfK8Gw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "247774651903-luc5s66ie9j1433dir0d5jlo2dpns0l0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "247774651903-5v4vgcfg3c1tdanpnvsm7p5g5ea3p5aa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.churchFinanz"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -4,6 +4,11 @@
 <dict>
     <key>UISupportsDocumentBrowser</key>
     <true/>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>fetch</string>
+        <string>remote-notification</string>
+    </array>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>to select screenshot of contribution receipts or financial records.</string>
     <key>LSApplicationQueriesSchemes</key>

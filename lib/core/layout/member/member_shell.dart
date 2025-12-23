@@ -5,6 +5,9 @@ import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../features/auth/pages/login/store/auth_session_store.dart';
 
 class MemberShell extends StatefulWidget {
   final Widget child;
@@ -19,6 +22,7 @@ class _MemberShellState extends State<MemberShell> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    AuthSessionStore authStore = context.watch<AuthSessionStore>();
 
     return Scaffold(
       backgroundColor: Color.fromRGBO(245, 242, 242, 0.85),
@@ -60,7 +64,8 @@ class _MemberShellState extends State<MemberShell> {
             ),
             const SizedBox(height: 2),
             Text(
-              l10n.member_shell_header_default_church,
+              // l10n.member_shell_header_default_church,
+              authStore.state.session.churchName,
               style: const TextStyle(
                 fontFamily: AppFonts.fontTitle,
                 color: AppColors.black,

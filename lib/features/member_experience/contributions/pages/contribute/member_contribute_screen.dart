@@ -196,26 +196,69 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
       return const SizedBox.shrink();
     }
 
-    return Dropdown(
-      label: l10n.member_contribution_destination_label,
-      items: accounts.map((a) => a.accountName).toList(),
-      initialValue:
-          store.state.selectedDestinationId != null
-              ? accounts
-                  .firstWhere(
-                    (a) =>
-                        a.availabilityAccountId ==
-                        store.state.selectedDestinationId,
-                  )
-                  .accountName
-              : null,
-      onChanged: (accountName) {
-        final account = accounts.firstWhere(
-          (a) => a.accountName == accountName,
-        );
-        store.selectDestination(account.availabilityAccountId);
-      },
-      searchHint: l10n.member_contribution_search_account_hint,
+    return Padding(
+      padding: const EdgeInsets.only(top: 24),
+      child: DropdownButtonFormField<String>(
+        isExpanded: true,
+        decoration: InputDecoration(
+          labelText: l10n.member_contribution_destination_label,
+          labelStyle: const TextStyle(
+            color: Colors.grey,
+            fontFamily: AppFonts.fontText,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Colors.grey.shade400),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Colors.grey.shade400),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderSide: BorderSide(color: AppColors.purple, width: 2),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 16,
+          ),
+        ),
+        value:
+            store.state.selectedDestinationId != null
+                ? accounts
+                    .firstWhere(
+                      (a) =>
+                          a.availabilityAccountId ==
+                          store.state.selectedDestinationId,
+                      orElse: () => accounts.first,
+                    )
+                    .accountName
+                : null,
+        items:
+            accounts.map((account) {
+              return DropdownMenuItem<String>(
+                value: account.accountName,
+                child: Text(
+                  account.accountName,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: AppColors.black,
+                    fontFamily: AppFonts.fontText,
+                  ),
+                ),
+              );
+            }).toList(),
+        onChanged: (accountName) {
+          if (accountName != null) {
+            final account = accounts.firstWhere(
+              (a) => a.accountName == accountName,
+            );
+            store.selectDestination(account.availabilityAccountId);
+          }
+        },
+        icon: const Icon(Icons.arrow_drop_down, color: AppColors.purple),
+        dropdownColor: Colors.white,
+      ),
     );
   }
 
@@ -231,24 +274,56 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
       return const SizedBox.shrink();
     }
 
-    return Dropdown(
-      label: l10n.member_contribution_offering_concept_label,
-      items: concepts.map((e) => e.name).toList(),
-      initialValue:
-          store.state.financialConceptId != null
-              ? concepts
-                  .firstWhere(
-                    (c) =>
-                        c.financialConceptId == store.state.financialConceptId,
-                    orElse: () => concepts.first,
-                  )
-                  .name
-              : null,
-      onChanged: (conceptName) {
-        final concept = concepts.firstWhere((c) => c.name == conceptName);
-        store.setFinancialConceptId(concept.financialConceptId);
-      },
-      searchHint: l10n.member_contribution_search_concept_hint,
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: DropdownButtonFormField<String>(
+        isExpanded: true,
+        decoration: InputDecoration(
+          labelText: l10n.member_contribution_offering_concept_label,
+          labelStyle: const TextStyle(
+            color: Colors.grey,
+            fontFamily: AppFonts.fontText,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Colors.grey.shade400),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Colors.grey.shade400),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderSide: BorderSide(color: AppColors.purple, width: 2),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 16,
+          ),
+        ),
+        value: store.state.financialConceptId,
+        items:
+            concepts.map((concept) {
+              return DropdownMenuItem<String>(
+                value: concept.financialConceptId,
+                child: Text(
+                  concept.name,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: AppColors.black,
+                    fontFamily: AppFonts.fontText,
+                  ),
+                ),
+              );
+            }).toList(),
+        onChanged: (value) {
+          if (value != null) {
+            store.setFinancialConceptId(value);
+          }
+        },
+        icon: const Icon(Icons.arrow_drop_down, color: AppColors.purple),
+        dropdownColor: Colors.white,
+      ),
     );
   }
 
@@ -451,10 +526,7 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
   }
 
   Future<void> _handleSubmit(MemberContributionFormStore store) async {
-    final result = await store.submitContribution(
-      context.l10n,
-      _receiptFile,
-    );
+    final result = await store.submitContribution(context.l10n, _receiptFile);
 
     if (result == null || !mounted) return;
 
