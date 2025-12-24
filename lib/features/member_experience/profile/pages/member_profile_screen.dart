@@ -1,12 +1,13 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
-import 'package:church_finance_bk/features/auth/pages/login/store/auth_session_store.dart';
 import 'package:church_finance_bk/features/auth/auth_session_model.dart';
+import 'package:church_finance_bk/features/auth/pages/login/store/auth_session_store.dart';
+import 'package:church_finance_bk/features/member_experience/widgets/member_header.dart';
+import 'package:church_finance_bk/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:church_finance_bk/l10n/app_localizations.dart';
 
 class MemberProfileScreen extends StatelessWidget {
   const MemberProfileScreen({super.key});
@@ -17,69 +18,38 @@ class MemberProfileScreen extends StatelessWidget {
     final sessionStore = context.watch<AuthSessionStore>();
     final session = sessionStore.state.session;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFFF5F5F5),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        children: [
-          // Custom Purple Header matching MemberContributeScreen
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 7.5, horizontal: 8),
-            decoration: const BoxDecoration(
-              color: AppColors.purple,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-            ),
-            child: Stack(
-              alignment: Alignment.centerLeft,
+    return Column(
+      children: [
+        // Custom Purple Header matching MemberContributeScreen
+        MemberHeaderWidget(
+          title: l10n.member_drawer_profile,
+          onBack: () => context.pop(),
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
               children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () => context.pop(),
+                _buildUserInfoCard(session, context, l10n),
+                const SizedBox(height: 24),
+                _buildSection(
+                  title: l10n.member_profile_personal_data_title,
+                  child: _buildPersonalDataCard(session, context, l10n),
                 ),
-                Center(
-                  child: Text(
-                    l10n.member_drawer_profile,
-                    style: const TextStyle(
-                      fontFamily: AppFonts.fontTitle,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
+                const SizedBox(height: 24),
+                _buildSection(
+                  title: l10n.member_profile_security_title,
+                  child: _buildSecurityCard(context, l10n),
+                ),
+                const SizedBox(height: 24),
+                _buildSection(
+                  title: l10n.member_profile_notifications_title,
+                  child: _buildSettings(context, l10n),
                 ),
               ],
             ),
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  _buildUserInfoCard(session, context, l10n),
-                  const SizedBox(height: 24),
-                  _buildSection(
-                    title: l10n.member_profile_personal_data_title,
-                    child: _buildPersonalDataCard(session, context, l10n),
-                  ),
-                  const SizedBox(height: 24),
-                  _buildSection(
-                    title: l10n.member_profile_security_title,
-                    child: _buildSecurityCard(context, l10n),
-                  ),
-                  const SizedBox(height: 24),
-                  _buildSection(
-                    title: l10n.member_profile_notifications_title,
-                    child: _buildNotificationCard(context, l10n),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -321,7 +291,7 @@ class MemberProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildNotificationCard(BuildContext context, AppLocalizations l10n) {
+  Widget _buildSettings(BuildContext context, AppLocalizations l10n) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -333,6 +303,7 @@ class MemberProfileScreen extends StatelessWidget {
         child: InkWell(
           onTap: () {
             // TODO: Navigate to notification settings
+            context.go("/member/settings");
           },
           borderRadius: BorderRadius.circular(12),
           child: Padding(
@@ -346,7 +317,7 @@ class MemberProfileScreen extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
-                    Icons.notifications,
+                    Icons.settings_outlined,
                     color: AppColors.purple,
                   ),
                 ),

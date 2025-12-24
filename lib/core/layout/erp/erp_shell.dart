@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/sidebar_layout_dashboard.dart';
+import './widgets/sidebar_layout_dashboard.dart';
 import 'header_layout.dart';
 import 'menu_items.dart';
 

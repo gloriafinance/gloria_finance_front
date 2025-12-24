@@ -423,9 +423,15 @@
   "reports_income_cashflow_summary": "Entradas totales: {income} | Salidas totales: {expenses} | Saldo consolidado: {total}",
   "@reports_income_cashflow_summary": {
     "placeholders": {
-      "income": {"type": "String"},
-      "expenses": {"type": "String"},
-      "total": {"type": "String"}
+      "income": {
+        "type": "String"
+      },
+      "expenses": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
     }
   },
   "reports_income_cashflow_empty": "No hay movimientos en cuentas de disponibilidad en este período.",
@@ -437,7 +443,9 @@
   "reports_income_cost_centers_total_applied": "Total aplicado: {total}",
   "@reports_income_cost_centers_total_applied": {
     "placeholders": {
-      "total": {"type": "String"}
+      "total": {
+        "type": "String"
+      }
     }
   },
   "reports_income_cost_centers_empty": "Ningún centro de costo con movimientos en este período.",
@@ -470,8 +478,12 @@
   "trends_header_comparison": "Comparativo: {currentMonthYear} vs {previousMonthYear}",
   "@trends_header_comparison": {
     "placeholders": {
-      "currentMonthYear": {"type": "String"},
-      "previousMonthYear": {"type": "String"}
+      "currentMonthYear": {
+        "type": "String"
+      },
+      "previousMonthYear": {
+        "type": "String"
+      }
     }
   },
   "trends_list_revenue": "Ingresos",
@@ -512,9 +524,9 @@
   "finance_records_form_toast_purchase_in_construction": "Registro de compras en construcción",
   "finance_records_form_toast_saved_success": "Registro guardado con éxito",
   "common_view": "Ver",
-   "contributions_status_processed": "Procesada",
-   "contributions_status_pending_verification": "Pendiente de verificación",
-   "contributions_status_rejected": "Rechazada",
+  "contributions_status_processed": "Procesada",
+  "contributions_status_pending_verification": "Pendiente de verificación",
+  "contributions_status_rejected": "Rechazada",
   "accountsPayable_list_title": "Cuentas por pagar",
   "accountsPayable_list_new": "Registrar cuentas por pagar",
   "accountsPayable_table_empty": "No hay cuentas por pagar para mostrar",
@@ -909,5 +921,113 @@
   "member_settings_notification_payments_desc": "Avisos sobre cuotas y vencimientos de tus compromisos.",
   "member_settings_notification_contributions_status_title": "Estado de las contribuciones",
   "member_settings_notification_contributions_status_desc": "Notificaciones cuando un diezmo u ofrenda cambia de estado (registrado, confirmado, etc.).",
-  "member_settings_footer_coming_soon": "Próximamente: más opciones para personalizar tu experiencia."
+  "member_settings_footer_coming_soon": "Próximamente: más opciones para personalizar tu experiencia.",
+  "schedule_type_service": "Culto",
+  "schedule_type_cell": "Célula",
+  "schedule_type_ministry_meeting": "Reunión de ministerio",
+  "schedule_type_regular_event": "Evento regular",
+  "schedule_type_other": "Otro",
+  "schedule_visibility_public": "Público",
+  "schedule_visibility_internal_leaders": "Solo líderes",
+  "schedule_day_sunday": "Domingo",
+  "schedule_day_monday": "Lunes",
+  "schedule_day_tuesday": "Martes",
+  "schedule_day_wednesday": "Miércoles",
+  "schedule_day_thursday": "Jueves",
+  "schedule_day_friday": "Viernes",
+  "schedule_day_saturday": "Sábado",
+  "schedule_list_title": "Agenda de eventos",
+  "schedule_list_new_button": "Nuevo evento",
+  "schedule_filters_title": "Filtros",
+  "schedule_filters_search": "Buscar por título",
+  "schedule_filters_type": "Tipo de evento",
+  "schedule_filters_visibility": "Visibilidad",
+  "schedule_filters_status": "Estado",
+  "schedule_filters_clear": "Limpiar filtros",
+  "schedule_status_active": "Activo",
+  "schedule_status_inactive": "Inactivo",
+  "schedule_status_all": "Todos",
+  "schedule_table_empty": "No se encontró ningún evento",
+  "schedule_table_header_title": "Título",
+  "schedule_table_header_type": "Tipo",
+  "schedule_table_header_day": "Día",
+  "schedule_table_header_time": "Horario",
+  "schedule_table_header_location": "Ubicación",
+  "schedule_table_header_director": "Dirigente",
+  "schedule_action_reactivate": "Reactivar",
+  "schedule_action_deactivate": "Desactivar",
+  "schedule_delete_confirm_title": "Confirmar desactivación",
+  "schedule_delete_confirm_message": "¿Estás seguro de que deseas desactivar este evento?",
+  "common_confirm": "Confirmar",
+  "schedule_detail_basic_info": "Información básica",
+  "schedule_detail_title": "Título",
+  "schedule_detail_type": "Tipo de evento",
+  "schedule_detail_description": "Descripción",
+  "schedule_detail_visibility": "Visibilidad",
+  "schedule_detail_schedule_info": "Información de horario",
+  "schedule_detail_day": "Día de la semana",
+  "schedule_detail_time": "Horario",
+  "schedule_detail_duration": "Duración",
+  "schedule_detail_minutes": "minutos",
+  "schedule_detail_start_date": "Fecha de inicio",
+  "schedule_detail_end_date": "Fecha de término",
+  "schedule_detail_location_info": "Ubicación",
+  "schedule_detail_location": "Nombre de la ubicación",
+  "schedule_detail_address": "Dirección",
+  "schedule_detail_responsibility": "Responsabilidades",
+  "schedule_detail_director": "Dirigente",
+  "schedule_detail_preacher": "Predicador",
+  "schedule_detail_observations": "Observaciones",
+  "schedule_form_title_new": "Nuevo evento",
+  "schedule_form_title_edit": "Editar evento",
+  "schedule_form_section_basic": "Información básica",
+  "schedule_form_section_location": "Ubicación",
+  "schedule_form_section_recurrence": "Recurrencia",
+  "schedule_form_section_visibility": "Visibilidad",
+  "schedule_form_section_responsibility": "Responsables",
+  "schedule_form_field_type": "Tipo de evento",
+  "schedule_form_field_title": "Título",
+  "schedule_form_field_description": "Descripción (opcional)",
+  "schedule_form_field_location_name": "Nombre de la ubicación",
+  "schedule_form_field_location_address": "Dirección (opcional)",
+  "schedule_form_field_day_of_week": "Día de la semana",
+  "schedule_form_field_time": "Horario",
+  "schedule_form_field_duration": "Duración (minutos)",
+  "schedule_form_field_start_date": "Fecha de inicio",
+  "schedule_form_field_has_end_date": "Definir fecha de término",
+  "schedule_form_field_end_date": "Fecha de término",
+  "schedule_form_field_visibility": "Quién puede ver",
+  "schedule_form_field_director": "Dirigente",
+  "schedule_form_field_preacher": "Predicador (opcional)",
+  "schedule_form_field_observations": "Observaciones (opcional)",
+  "schedule_form_save": "Guardar",
+  "schedule_form_cancel": "Cancelar",
+  "schedule_form_title": "Título",
+  "schedule_form_description": "Descripción",
+  "schedule_form_type": "Tipo",
+  "schedule_form_visibility": "Visibilidad",
+  "schedule_form_day_of_week": "Día de la semana",
+  "schedule_form_start_time": "Hora de inicio",
+  "schedule_form_duration": "Duración (minutos)",
+  "schedule_form_duration_hint": "Ej: 60, 90, 120",
+  "schedule_form_recurrence": "Recurrencia",
+  "schedule_form_weekly_recurrence": "Recurrencia semanal",
+  "schedule_form_is_active": "Activo",
+  "schedule_form_error_required": "Este campo es obligatorio",
+  "schedule_form_error_type_required": "Seleccione un tipo",
+  "schedule_form_error_visibility_required": "Seleccione la visibilidad",
+  "schedule_form_error_day_required": "Seleccione el día de la semana",
+  "schedule_form_error_invalid_time": "Formato inválido. Use HH:MM",
+  "schedule_form_error_invalid_number": "Ingrese un número válido",
+  "schedule_form_toast_saved": "¡Evento guardado con éxito!",
+  "schedule_form_error_title_required": "El título es obligatorio",
+  "schedule_form_error_location_name_required": "El nombre de la ubicación es obligatorio",
+  "schedule_form_error_director_required": "El dirigente es obligatorio",
+  "schedule_form_error_duration_invalid": "La duración debe ser mayor que cero",
+  "schedule_form_error_end_date_before_start": "La fecha de término debe ser posterior a la fecha de inicio",
+  "schedule_form_toast_saved_success": "¡Evento guardado con éxito!",
+  "schedule_form_toast_saved_error": "Error al guardar evento",
+  "schedule_recurrence_none": "Sin recurrencia",
+  "erp_menu_schedule": "Agenda",
+  "erp_menu_schedule_events": "Eventos y Horarios"
 }

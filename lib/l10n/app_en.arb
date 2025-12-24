@@ -535,9 +535,15 @@
   "reports_income_cashflow_summary": "Total income: {income} | Total expenses: {expenses} | Consolidated balance: {total}",
   "@reports_income_cashflow_summary": {
     "placeholders": {
-      "income": {"type": "String"},
-      "expenses": {"type": "String"},
-      "total": {"type": "String"}
+      "income": {
+        "type": "String"
+      },
+      "expenses": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
     }
   },
   "reports_income_cashflow_empty": "No availability account movements in this period.",
@@ -549,7 +555,9 @@
   "reports_income_cost_centers_total_applied": "Total applied: {total}",
   "@reports_income_cost_centers_total_applied": {
     "placeholders": {
-      "total": {"type": "String"}
+      "total": {
+        "type": "String"
+      }
     }
   },
   "reports_income_cost_centers_empty": "No cost centers with movements in this period.",
@@ -560,8 +568,12 @@
   "trends_header_comparison": "Comparison: {currentMonthYear} vs {previousMonthYear}",
   "@trends_header_comparison": {
     "placeholders": {
-      "currentMonthYear": {"type": "String"},
-      "previousMonthYear": {"type": "String"}
+      "currentMonthYear": {
+        "type": "String"
+      },
+      "previousMonthYear": {
+        "type": "String"
+      }
     }
   },
   "trends_list_revenue": "Revenue",
@@ -627,7 +639,6 @@
   "contributions_status_processed": "Processed",
   "contributions_status_pending_verification": "Pending verification",
   "contributions_status_rejected": "Rejected",
-  "trends_header_title": "Composition of income, expenses and result",
   "contributions_list_title": "Contributions list",
   "contributions_list_new": "Register contribution",
   "contributions_table_empty": "No contributions found",
@@ -909,5 +920,113 @@
   "member_settings_notification_payments_desc": "Alerts about installments and due dates of your commitments.",
   "member_settings_notification_contributions_status_title": "Contribution Status",
   "member_settings_notification_contributions_status_desc": "Notifications when a tithe or offering changes status (registered, confirmed, etc.).",
-  "member_settings_footer_coming_soon": "Coming soon: more options to personalize your experience."
+  "member_settings_footer_coming_soon": "Coming soon: more options to personalize your experience.",
+  "schedule_type_service": "Service",
+  "schedule_type_cell": "Cell",
+  "schedule_type_ministry_meeting": "Ministry meeting",
+  "schedule_type_regular_event": "Regular event",
+  "schedule_type_other": "Other",
+  "schedule_visibility_public": "Public",
+  "schedule_visibility_internal_leaders": "Leaders only",
+  "schedule_day_sunday": "Sunday",
+  "schedule_day_monday": "Monday",
+  "schedule_day_tuesday": "Tuesday",
+  "schedule_day_wednesday": "Wednesday",
+  "schedule_day_thursday": "Thursday",
+  "schedule_day_friday": "Friday",
+  "schedule_day_saturday": "Saturday",
+  "schedule_list_title": "Event schedule",
+  "schedule_list_new_button": "New event",
+  "schedule_filters_title": "Filters",
+  "schedule_filters_search": "Search by title",
+  "schedule_filters_type": "Event type",
+  "schedule_filters_visibility": "Visibility",
+  "schedule_filters_status": "Status",
+  "schedule_filters_clear": "Clear filters",
+  "schedule_status_active": "Active",
+  "schedule_status_inactive": "Inactive",
+  "schedule_status_all": "All",
+  "schedule_table_empty": "No events found",
+  "schedule_table_header_title": "Title",
+  "schedule_table_header_type": "Type",
+  "schedule_table_header_day": "Day",
+  "schedule_table_header_time": "Time",
+  "schedule_table_header_location": "Location",
+  "schedule_table_header_director": "Leader",
+  "schedule_action_reactivate": "Reactivate",
+  "schedule_action_deactivate": "Deactivate",
+  "schedule_delete_confirm_title": "Confirm deactivation",
+  "schedule_delete_confirm_message": "Are you sure you want to deactivate this event?",
+  "common_confirm": "Confirm",
+  "schedule_detail_basic_info": "Basic information",
+  "schedule_detail_title": "Title",
+  "schedule_detail_type": "Event type",
+  "schedule_detail_description": "Description",
+  "schedule_detail_visibility": "Visibility",
+  "schedule_detail_schedule_info": "Schedule information",
+  "schedule_detail_day": "Day of week",
+  "schedule_detail_time": "Time",
+  "schedule_detail_duration": "Duration",
+  "schedule_detail_minutes": "minutes",
+  "schedule_detail_start_date": "Start date",
+  "schedule_detail_end_date": "End date",
+  "schedule_detail_location_info": "Location",
+  "schedule_detail_location": "Location name",
+  "schedule_detail_address": "Address",
+  "schedule_detail_responsibility": "Responsibilities",
+  "schedule_detail_director": "Leader",
+  "schedule_detail_preacher": "Preacher",
+  "schedule_detail_observations": "Observations",
+  "schedule_form_title_new": "New event",
+  "schedule_form_title_edit": "Edit event",
+  "schedule_form_section_basic": "Basic information",
+  "schedule_form_section_location": "Location",
+  "schedule_form_section_recurrence": "Recurrence",
+  "schedule_form_section_visibility": "Visibility",
+  "schedule_form_section_responsibility": "Responsible",
+  "schedule_form_field_type": "Event type",
+  "schedule_form_field_title": "Title",
+  "schedule_form_field_description": "Description (optional)",
+  "schedule_form_field_location_name": "Location name",
+  "schedule_form_field_location_address": "Address (optional)",
+  "schedule_form_field_day_of_week": "Day of week",
+  "schedule_form_field_time": "Time",
+  "schedule_form_field_duration": "Duration (minutes)",
+  "schedule_form_field_start_date": "Start date",
+  "schedule_form_field_has_end_date": "Set end date",
+  "schedule_form_field_end_date": "End date",
+  "schedule_form_field_visibility": "Who can see",
+  "schedule_form_field_director": "Leader",
+  "schedule_form_field_preacher": "Preacher (optional)",
+  "schedule_form_field_observations": "Observations (optional)",
+  "schedule_form_save": "Save",
+  "schedule_form_cancel": "Cancel",
+  "schedule_form_title": "Title",
+  "schedule_form_description": "Description",
+  "schedule_form_type": "Type",
+  "schedule_form_visibility": "Visibility",
+  "schedule_form_day_of_week": "Day of week",
+  "schedule_form_start_time": "Start time",
+  "schedule_form_duration": "Duration (minutes)",
+  "schedule_form_duration_hint": "Ex: 60, 90, 120",
+  "schedule_form_recurrence": "Recurrence",
+  "schedule_form_weekly_recurrence": "Weekly recurrence",
+  "schedule_form_is_active": "Active",
+  "schedule_form_error_required": "This field is required",
+  "schedule_form_error_type_required": "Select a type",
+  "schedule_form_error_visibility_required": "Select visibility",
+  "schedule_form_error_day_required": "Select day of week",
+  "schedule_form_error_invalid_time": "Invalid format. Use HH:MM",
+  "schedule_form_error_invalid_number": "Enter a valid number",
+  "schedule_form_toast_saved": "Event saved successfully!",
+  "schedule_form_error_title_required": "Title is required",
+  "schedule_form_error_location_name_required": "Location name is required",
+  "schedule_form_error_director_required": "Leader is required",
+  "schedule_form_error_duration_invalid": "Duration must be greater than zero",
+  "schedule_form_error_end_date_before_start": "End date must be after start date",
+  "schedule_form_toast_saved_success": "Event saved successfully!",
+  "schedule_form_toast_saved_error": "Error saving event",
+  "schedule_recurrence_none": "No recurrence",
+  "erp_menu_schedule": "Schedule",
+  "erp_menu_schedule_events": "Events and Schedule"
 }

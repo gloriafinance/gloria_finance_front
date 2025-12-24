@@ -105,6 +105,17 @@ final List<Map<String, dynamic>> items = [
     ],
   },
   {
+    "key": "erp_menu_schedule",
+    "icon": Icons.calendar_today,
+    "items": [
+      {
+        "key": "erp_menu_schedule_events",
+        "icon": Icons.event,
+        "to": "/schedule",
+      },
+    ],
+  },
+  {
     "key": "erp_menu_reports",
     "icon": Icons.insert_chart,
     "items": [
@@ -133,7 +144,9 @@ List<Map<String, dynamic>> menuItems(List<String> roles) {
   }
 
   if (roles.contains('PASTOR') || roles.contains('TREASURER')) {
-    return items.where((element) => element['key'] != 'erp_menu_settings').toList();
+    return items
+        .where((element) => element['key'] != 'erp_menu_settings')
+        .toList();
   }
 
   return [];

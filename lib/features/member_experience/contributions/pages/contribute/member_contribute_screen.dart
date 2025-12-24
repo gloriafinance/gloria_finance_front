@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../../widgets/member_header.dart';
 import '../../models/member_contribution_models.dart';
 import '../../store/member_contribution_form_store.dart';
 import 'widgets/contribution_payment_method_cards.dart';
@@ -42,7 +43,9 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
       listen: false,
     );
     _store = MemberContributionFormStore(accountsStore, conceptStore);
-    _store.initialize();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _store.initialize();
+    });
   }
 
   @override
@@ -51,89 +54,59 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
       value: _store,
       child: Consumer<MemberContributionFormStore>(
         builder: (context, store, child) {
-          return Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: Colors.white,
-            ),
-            child: Stack(
-              children: [
-                SafeArea(
-                  child: Column(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 7.5,
-                          horizontal: 8,
+          return Column(
+            children: [
+              MemberHeaderWidget(
+                title: context.l10n.member_contribution_new_button,
+                onBack: () => context.pop(),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
                         ),
-                        decoration: const BoxDecoration(
-                          color: AppColors.purple,
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(12),
-                          ),
-                        ),
-                        child: Stack(
-                          alignment: Alignment.centerLeft,
-                          children: [
-                            IconButton(
-                              icon: const Icon(
-                                Icons.arrow_back,
-                                color: Colors.white,
-                              ),
-                              onPressed: () => context.pop(),
-                            ),
-                            Center(
-                              child: Text(
-                                context.l10n.member_contribution_new_button,
-                                style: const TextStyle(
-                                  fontFamily: AppFonts.fontTitle,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: SingleChildScrollView(
-                          padding: const EdgeInsets.all(20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              // _buildHeader(),
-                              // Header moved up
-                              _buildTypeSelector(store),
-                              _buildDestinationDropdown(store),
-                              if (store.state.selectedType ==
-                                  MemberContributionType.offering)
-                                _buildFinancialConceptDropdown(store),
-                              _buildAmountSelector(store),
-                              const SizedBox(height: 24),
-                              _buildPaymentMethodCards(store),
-                              const SizedBox(height: 24),
-                              if (store.state.selectedChannel ==
-                                  MemberPaymentChannel.externalWithReceipt) ...[
-                                _buildReceiptUploader(store),
-                                const SizedBox(height: 24),
-                              ],
-                              _buildMessageField(store),
-                              const SizedBox(height: 32),
-                              _buildContinueButton(store),
-                              const SizedBox(height: 20),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
+                    padding: const EdgeInsets.all(18),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // _buildHeader(),
+                        // Header moved up
+                        _buildTypeSelector(store),
+                        _buildDestinationDropdown(store),
+                        if (store.state.selectedType ==
+                            MemberContributionType.offering)
+                          _buildFinancialConceptDropdown(store),
+                        _buildAmountSelector(store),
+                        const SizedBox(height: 24),
+                        _buildPaymentMethodCards(store),
+                        const SizedBox(height: 24),
+                        if (store.state.selectedChannel ==
+                            MemberPaymentChannel.externalWithReceipt) ...[
+                          _buildReceiptUploader(store),
+                          const SizedBox(height: 24),
+                        ],
+                        _buildMessageField(store),
+                        const SizedBox(height: 32),
+                        _buildContinueButton(store),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
                   ),
                 ),
-                if (store.state.isSubmitting || store.state.isUploadingReceipt)
-                  const Loading(),
-              ],
-            ),
+              ),
+
+              if (store.state.isSubmitting || store.state.isUploadingReceipt)
+                const Loading(),
+            ],
           );
         },
       ),
