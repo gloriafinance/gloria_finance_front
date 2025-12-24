@@ -2306,4 +2306,328 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get member_settings_footer_coming_soon => 'Coming soon: more options to personalize your experience.';
+
+  @override
+  String get schedule_type_service => 'Service';
+
+  @override
+  String get schedule_type_cell => 'Cell';
+
+  @override
+  String get schedule_type_ministry_meeting => 'Ministry meeting';
+
+  @override
+  String get schedule_type_regular_event => 'Regular event';
+
+  @override
+  String get schedule_type_other => 'Other';
+
+  @override
+  String get schedule_visibility_public => 'Public';
+
+  @override
+  String get schedule_visibility_internal_leaders => 'Leaders only';
+
+  @override
+  String get schedule_day_sunday => 'Sunday';
+
+  @override
+  String get schedule_day_monday => 'Monday';
+
+  @override
+  String get schedule_day_tuesday => 'Tuesday';
+
+  @override
+  String get schedule_day_wednesday => 'Wednesday';
+
+  @override
+  String get schedule_day_thursday => 'Thursday';
+
+  @override
+  String get schedule_day_friday => 'Friday';
+
+  @override
+  String get schedule_day_saturday => 'Saturday';
+
+  @override
+  String get schedule_list_title => 'Event schedule';
+
+  @override
+  String get schedule_list_new_button => 'New event';
+
+  @override
+  String get schedule_filters_title => 'Filters';
+
+  @override
+  String get schedule_filters_search => 'Search by title';
+
+  @override
+  String get schedule_filters_type => 'Event type';
+
+  @override
+  String get schedule_filters_visibility => 'Visibility';
+
+  @override
+  String get schedule_filters_status => 'Status';
+
+  @override
+  String get schedule_filters_clear => 'Clear filters';
+
+  @override
+  String get schedule_status_active => 'Active';
+
+  @override
+  String get schedule_status_inactive => 'Inactive';
+
+  @override
+  String get schedule_status_all => 'All';
+
+  @override
+  String get schedule_table_empty => 'No events found';
+
+  @override
+  String get schedule_table_header_title => 'Title';
+
+  @override
+  String get schedule_table_header_type => 'Type';
+
+  @override
+  String get schedule_table_header_day => 'Day';
+
+  @override
+  String get schedule_table_header_time => 'Time';
+
+  @override
+  String get schedule_table_header_location => 'Location';
+
+  @override
+  String get schedule_table_header_director => 'Leader';
+
+  @override
+  String get schedule_action_reactivate => 'Reactivate';
+
+  @override
+  String get schedule_action_deactivate => 'Deactivate';
+
+  @override
+  String get schedule_delete_confirm_title => 'Confirm deactivation';
+
+  @override
+  String get schedule_delete_confirm_message => 'Are you sure you want to deactivate this event?';
+
+  @override
+  String get common_confirm => 'Confirm';
+
+  @override
+  String get schedule_detail_basic_info => 'Basic information';
+
+  @override
+  String get schedule_detail_title => 'Title';
+
+  @override
+  String get schedule_detail_type => 'Event type';
+
+  @override
+  String get schedule_detail_description => 'Description';
+
+  @override
+  String get schedule_detail_visibility => 'Visibility';
+
+  @override
+  String get schedule_detail_schedule_info => 'Schedule information';
+
+  @override
+  String get schedule_detail_day => 'Day of week';
+
+  @override
+  String get schedule_detail_time => 'Time';
+
+  @override
+  String get schedule_detail_duration => 'Duration';
+
+  @override
+  String get schedule_detail_minutes => 'minutes';
+
+  @override
+  String get schedule_detail_start_date => 'Start date';
+
+  @override
+  String get schedule_detail_end_date => 'End date';
+
+  @override
+  String get schedule_detail_location_info => 'Location';
+
+  @override
+  String get schedule_detail_location => 'Location name';
+
+  @override
+  String get schedule_detail_address => 'Address';
+
+  @override
+  String get schedule_detail_responsibility => 'Responsibilities';
+
+  @override
+  String get schedule_detail_director => 'Leader';
+
+  @override
+  String get schedule_detail_preacher => 'Preacher';
+
+  @override
+  String get schedule_detail_observations => 'Observations';
+
+  @override
+  String get schedule_form_title_new => 'New event';
+
+  @override
+  String get schedule_form_title_edit => 'Edit event';
+
+  @override
+  String get schedule_form_section_basic => 'Basic information';
+
+  @override
+  String get schedule_form_section_location => 'Location';
+
+  @override
+  String get schedule_form_section_recurrence => 'Recurrence';
+
+  @override
+  String get schedule_form_section_visibility => 'Visibility';
+
+  @override
+  String get schedule_form_section_responsibility => 'Responsible';
+
+  @override
+  String get schedule_form_field_type => 'Event type';
+
+  @override
+  String get schedule_form_field_title => 'Title';
+
+  @override
+  String get schedule_form_field_description => 'Description (optional)';
+
+  @override
+  String get schedule_form_field_location_name => 'Location name';
+
+  @override
+  String get schedule_form_field_location_address => 'Address (optional)';
+
+  @override
+  String get schedule_form_field_day_of_week => 'Day of week';
+
+  @override
+  String get schedule_form_field_time => 'Time';
+
+  @override
+  String get schedule_form_field_duration => 'Duration (minutes)';
+
+  @override
+  String get schedule_form_field_start_date => 'Start date';
+
+  @override
+  String get schedule_form_field_has_end_date => 'Set end date';
+
+  @override
+  String get schedule_form_field_end_date => 'End date';
+
+  @override
+  String get schedule_form_field_visibility => 'Who can see';
+
+  @override
+  String get schedule_form_field_director => 'Leader';
+
+  @override
+  String get schedule_form_field_preacher => 'Preacher (optional)';
+
+  @override
+  String get schedule_form_field_observations => 'Observations (optional)';
+
+  @override
+  String get schedule_form_save => 'Save';
+
+  @override
+  String get schedule_form_cancel => 'Cancel';
+
+  @override
+  String get schedule_form_title => 'Title';
+
+  @override
+  String get schedule_form_description => 'Description';
+
+  @override
+  String get schedule_form_type => 'Type';
+
+  @override
+  String get schedule_form_visibility => 'Visibility';
+
+  @override
+  String get schedule_form_day_of_week => 'Day of week';
+
+  @override
+  String get schedule_form_start_time => 'Start time';
+
+  @override
+  String get schedule_form_duration => 'Duration (minutes)';
+
+  @override
+  String get schedule_form_duration_hint => 'Ex: 60, 90, 120';
+
+  @override
+  String get schedule_form_recurrence => 'Recurrence';
+
+  @override
+  String get schedule_form_weekly_recurrence => 'Weekly recurrence';
+
+  @override
+  String get schedule_form_is_active => 'Active';
+
+  @override
+  String get schedule_form_error_required => 'This field is required';
+
+  @override
+  String get schedule_form_error_type_required => 'Select a type';
+
+  @override
+  String get schedule_form_error_visibility_required => 'Select visibility';
+
+  @override
+  String get schedule_form_error_day_required => 'Select day of week';
+
+  @override
+  String get schedule_form_error_invalid_time => 'Invalid format. Use HH:MM';
+
+  @override
+  String get schedule_form_error_invalid_number => 'Enter a valid number';
+
+  @override
+  String get schedule_form_toast_saved => 'Event saved successfully!';
+
+  @override
+  String get schedule_form_error_title_required => 'Title is required';
+
+  @override
+  String get schedule_form_error_location_name_required => 'Location name is required';
+
+  @override
+  String get schedule_form_error_director_required => 'Leader is required';
+
+  @override
+  String get schedule_form_error_duration_invalid => 'Duration must be greater than zero';
+
+  @override
+  String get schedule_form_error_end_date_before_start => 'End date must be after start date';
+
+  @override
+  String get schedule_form_toast_saved_success => 'Event saved successfully!';
+
+  @override
+  String get schedule_form_toast_saved_error => 'Error saving event';
+
+  @override
+  String get schedule_recurrence_none => 'No recurrence';
+
+  @override
+  String get erp_menu_schedule => 'Schedule';
+
+  @override
+  String get erp_menu_schedule_events => 'Events and Schedule';
 }

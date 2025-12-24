@@ -4602,6 +4602,654 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Coming soon: more options to personalize your experience.'**
   String get member_settings_footer_coming_soon;
+
+  /// No description provided for @schedule_type_service.
+  ///
+  /// In en, this message translates to:
+  /// **'Service'**
+  String get schedule_type_service;
+
+  /// No description provided for @schedule_type_cell.
+  ///
+  /// In en, this message translates to:
+  /// **'Cell'**
+  String get schedule_type_cell;
+
+  /// No description provided for @schedule_type_ministry_meeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Ministry meeting'**
+  String get schedule_type_ministry_meeting;
+
+  /// No description provided for @schedule_type_regular_event.
+  ///
+  /// In en, this message translates to:
+  /// **'Regular event'**
+  String get schedule_type_regular_event;
+
+  /// No description provided for @schedule_type_other.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get schedule_type_other;
+
+  /// No description provided for @schedule_visibility_public.
+  ///
+  /// In en, this message translates to:
+  /// **'Public'**
+  String get schedule_visibility_public;
+
+  /// No description provided for @schedule_visibility_internal_leaders.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaders only'**
+  String get schedule_visibility_internal_leaders;
+
+  /// No description provided for @schedule_day_sunday.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday'**
+  String get schedule_day_sunday;
+
+  /// No description provided for @schedule_day_monday.
+  ///
+  /// In en, this message translates to:
+  /// **'Monday'**
+  String get schedule_day_monday;
+
+  /// No description provided for @schedule_day_tuesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Tuesday'**
+  String get schedule_day_tuesday;
+
+  /// No description provided for @schedule_day_wednesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Wednesday'**
+  String get schedule_day_wednesday;
+
+  /// No description provided for @schedule_day_thursday.
+  ///
+  /// In en, this message translates to:
+  /// **'Thursday'**
+  String get schedule_day_thursday;
+
+  /// No description provided for @schedule_day_friday.
+  ///
+  /// In en, this message translates to:
+  /// **'Friday'**
+  String get schedule_day_friday;
+
+  /// No description provided for @schedule_day_saturday.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday'**
+  String get schedule_day_saturday;
+
+  /// No description provided for @schedule_list_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Event schedule'**
+  String get schedule_list_title;
+
+  /// No description provided for @schedule_list_new_button.
+  ///
+  /// In en, this message translates to:
+  /// **'New event'**
+  String get schedule_list_new_button;
+
+  /// No description provided for @schedule_filters_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get schedule_filters_title;
+
+  /// No description provided for @schedule_filters_search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by title'**
+  String get schedule_filters_search;
+
+  /// No description provided for @schedule_filters_type.
+  ///
+  /// In en, this message translates to:
+  /// **'Event type'**
+  String get schedule_filters_type;
+
+  /// No description provided for @schedule_filters_visibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Visibility'**
+  String get schedule_filters_visibility;
+
+  /// No description provided for @schedule_filters_status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get schedule_filters_status;
+
+  /// No description provided for @schedule_filters_clear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filters'**
+  String get schedule_filters_clear;
+
+  /// No description provided for @schedule_status_active.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get schedule_status_active;
+
+  /// No description provided for @schedule_status_inactive.
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive'**
+  String get schedule_status_inactive;
+
+  /// No description provided for @schedule_status_all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get schedule_status_all;
+
+  /// No description provided for @schedule_table_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No events found'**
+  String get schedule_table_empty;
+
+  /// No description provided for @schedule_table_header_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get schedule_table_header_title;
+
+  /// No description provided for @schedule_table_header_type.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get schedule_table_header_type;
+
+  /// No description provided for @schedule_table_header_day.
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get schedule_table_header_day;
+
+  /// No description provided for @schedule_table_header_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get schedule_table_header_time;
+
+  /// No description provided for @schedule_table_header_location.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get schedule_table_header_location;
+
+  /// No description provided for @schedule_table_header_director.
+  ///
+  /// In en, this message translates to:
+  /// **'Leader'**
+  String get schedule_table_header_director;
+
+  /// No description provided for @schedule_action_reactivate.
+  ///
+  /// In en, this message translates to:
+  /// **'Reactivate'**
+  String get schedule_action_reactivate;
+
+  /// No description provided for @schedule_action_deactivate.
+  ///
+  /// In en, this message translates to:
+  /// **'Deactivate'**
+  String get schedule_action_deactivate;
+
+  /// No description provided for @schedule_delete_confirm_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm deactivation'**
+  String get schedule_delete_confirm_title;
+
+  /// No description provided for @schedule_delete_confirm_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to deactivate this event?'**
+  String get schedule_delete_confirm_message;
+
+  /// No description provided for @common_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get common_confirm;
+
+  /// No description provided for @schedule_detail_basic_info.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic information'**
+  String get schedule_detail_basic_info;
+
+  /// No description provided for @schedule_detail_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get schedule_detail_title;
+
+  /// No description provided for @schedule_detail_type.
+  ///
+  /// In en, this message translates to:
+  /// **'Event type'**
+  String get schedule_detail_type;
+
+  /// No description provided for @schedule_detail_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get schedule_detail_description;
+
+  /// No description provided for @schedule_detail_visibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Visibility'**
+  String get schedule_detail_visibility;
+
+  /// No description provided for @schedule_detail_schedule_info.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule information'**
+  String get schedule_detail_schedule_info;
+
+  /// No description provided for @schedule_detail_day.
+  ///
+  /// In en, this message translates to:
+  /// **'Day of week'**
+  String get schedule_detail_day;
+
+  /// No description provided for @schedule_detail_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get schedule_detail_time;
+
+  /// No description provided for @schedule_detail_duration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get schedule_detail_duration;
+
+  /// No description provided for @schedule_detail_minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'minutes'**
+  String get schedule_detail_minutes;
+
+  /// No description provided for @schedule_detail_start_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Start date'**
+  String get schedule_detail_start_date;
+
+  /// No description provided for @schedule_detail_end_date.
+  ///
+  /// In en, this message translates to:
+  /// **'End date'**
+  String get schedule_detail_end_date;
+
+  /// No description provided for @schedule_detail_location_info.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get schedule_detail_location_info;
+
+  /// No description provided for @schedule_detail_location.
+  ///
+  /// In en, this message translates to:
+  /// **'Location name'**
+  String get schedule_detail_location;
+
+  /// No description provided for @schedule_detail_address.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get schedule_detail_address;
+
+  /// No description provided for @schedule_detail_responsibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Responsibilities'**
+  String get schedule_detail_responsibility;
+
+  /// No description provided for @schedule_detail_director.
+  ///
+  /// In en, this message translates to:
+  /// **'Leader'**
+  String get schedule_detail_director;
+
+  /// No description provided for @schedule_detail_preacher.
+  ///
+  /// In en, this message translates to:
+  /// **'Preacher'**
+  String get schedule_detail_preacher;
+
+  /// No description provided for @schedule_detail_observations.
+  ///
+  /// In en, this message translates to:
+  /// **'Observations'**
+  String get schedule_detail_observations;
+
+  /// No description provided for @schedule_form_title_new.
+  ///
+  /// In en, this message translates to:
+  /// **'New event'**
+  String get schedule_form_title_new;
+
+  /// No description provided for @schedule_form_title_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit event'**
+  String get schedule_form_title_edit;
+
+  /// No description provided for @schedule_form_section_basic.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic information'**
+  String get schedule_form_section_basic;
+
+  /// No description provided for @schedule_form_section_location.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get schedule_form_section_location;
+
+  /// No description provided for @schedule_form_section_recurrence.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurrence'**
+  String get schedule_form_section_recurrence;
+
+  /// No description provided for @schedule_form_section_visibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Visibility'**
+  String get schedule_form_section_visibility;
+
+  /// No description provided for @schedule_form_section_responsibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Responsible'**
+  String get schedule_form_section_responsibility;
+
+  /// No description provided for @schedule_form_field_type.
+  ///
+  /// In en, this message translates to:
+  /// **'Event type'**
+  String get schedule_form_field_type;
+
+  /// No description provided for @schedule_form_field_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get schedule_form_field_title;
+
+  /// No description provided for @schedule_form_field_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description (optional)'**
+  String get schedule_form_field_description;
+
+  /// No description provided for @schedule_form_field_location_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Location name'**
+  String get schedule_form_field_location_name;
+
+  /// No description provided for @schedule_form_field_location_address.
+  ///
+  /// In en, this message translates to:
+  /// **'Address (optional)'**
+  String get schedule_form_field_location_address;
+
+  /// No description provided for @schedule_form_field_day_of_week.
+  ///
+  /// In en, this message translates to:
+  /// **'Day of week'**
+  String get schedule_form_field_day_of_week;
+
+  /// No description provided for @schedule_form_field_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get schedule_form_field_time;
+
+  /// No description provided for @schedule_form_field_duration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration (minutes)'**
+  String get schedule_form_field_duration;
+
+  /// No description provided for @schedule_form_field_start_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Start date'**
+  String get schedule_form_field_start_date;
+
+  /// No description provided for @schedule_form_field_has_end_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Set end date'**
+  String get schedule_form_field_has_end_date;
+
+  /// No description provided for @schedule_form_field_end_date.
+  ///
+  /// In en, this message translates to:
+  /// **'End date'**
+  String get schedule_form_field_end_date;
+
+  /// No description provided for @schedule_form_field_visibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Who can see'**
+  String get schedule_form_field_visibility;
+
+  /// No description provided for @schedule_form_field_director.
+  ///
+  /// In en, this message translates to:
+  /// **'Leader'**
+  String get schedule_form_field_director;
+
+  /// No description provided for @schedule_form_field_preacher.
+  ///
+  /// In en, this message translates to:
+  /// **'Preacher (optional)'**
+  String get schedule_form_field_preacher;
+
+  /// No description provided for @schedule_form_field_observations.
+  ///
+  /// In en, this message translates to:
+  /// **'Observations (optional)'**
+  String get schedule_form_field_observations;
+
+  /// No description provided for @schedule_form_save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get schedule_form_save;
+
+  /// No description provided for @schedule_form_cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get schedule_form_cancel;
+
+  /// No description provided for @schedule_form_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get schedule_form_title;
+
+  /// No description provided for @schedule_form_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get schedule_form_description;
+
+  /// No description provided for @schedule_form_type.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get schedule_form_type;
+
+  /// No description provided for @schedule_form_visibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Visibility'**
+  String get schedule_form_visibility;
+
+  /// No description provided for @schedule_form_day_of_week.
+  ///
+  /// In en, this message translates to:
+  /// **'Day of week'**
+  String get schedule_form_day_of_week;
+
+  /// No description provided for @schedule_form_start_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Start time'**
+  String get schedule_form_start_time;
+
+  /// No description provided for @schedule_form_duration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration (minutes)'**
+  String get schedule_form_duration;
+
+  /// No description provided for @schedule_form_duration_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ex: 60, 90, 120'**
+  String get schedule_form_duration_hint;
+
+  /// No description provided for @schedule_form_recurrence.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurrence'**
+  String get schedule_form_recurrence;
+
+  /// No description provided for @schedule_form_weekly_recurrence.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly recurrence'**
+  String get schedule_form_weekly_recurrence;
+
+  /// No description provided for @schedule_form_is_active.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get schedule_form_is_active;
+
+  /// No description provided for @schedule_form_error_required.
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get schedule_form_error_required;
+
+  /// No description provided for @schedule_form_error_type_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a type'**
+  String get schedule_form_error_type_required;
+
+  /// No description provided for @schedule_form_error_visibility_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Select visibility'**
+  String get schedule_form_error_visibility_required;
+
+  /// No description provided for @schedule_form_error_day_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Select day of week'**
+  String get schedule_form_error_day_required;
+
+  /// No description provided for @schedule_form_error_invalid_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid format. Use HH:MM'**
+  String get schedule_form_error_invalid_time;
+
+  /// No description provided for @schedule_form_error_invalid_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid number'**
+  String get schedule_form_error_invalid_number;
+
+  /// No description provided for @schedule_form_toast_saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Event saved successfully!'**
+  String get schedule_form_toast_saved;
+
+  /// No description provided for @schedule_form_error_title_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Title is required'**
+  String get schedule_form_error_title_required;
+
+  /// No description provided for @schedule_form_error_location_name_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Location name is required'**
+  String get schedule_form_error_location_name_required;
+
+  /// No description provided for @schedule_form_error_director_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Leader is required'**
+  String get schedule_form_error_director_required;
+
+  /// No description provided for @schedule_form_error_duration_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration must be greater than zero'**
+  String get schedule_form_error_duration_invalid;
+
+  /// No description provided for @schedule_form_error_end_date_before_start.
+  ///
+  /// In en, this message translates to:
+  /// **'End date must be after start date'**
+  String get schedule_form_error_end_date_before_start;
+
+  /// No description provided for @schedule_form_toast_saved_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Event saved successfully!'**
+  String get schedule_form_toast_saved_success;
+
+  /// No description provided for @schedule_form_toast_saved_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error saving event'**
+  String get schedule_form_toast_saved_error;
+
+  /// No description provided for @schedule_recurrence_none.
+  ///
+  /// In en, this message translates to:
+  /// **'No recurrence'**
+  String get schedule_recurrence_none;
+
+  /// No description provided for @erp_menu_schedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule'**
+  String get erp_menu_schedule;
+
+  /// No description provided for @erp_menu_schedule_events.
+  ///
+  /// In en, this message translates to:
+  /// **'Events and Schedule'**
+  String get erp_menu_schedule_events;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

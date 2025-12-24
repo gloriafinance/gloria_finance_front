@@ -4,9 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
 
-import '../../theme/app_color.dart';
-import '../../theme/app_fonts.dart';
-import '../state/navigator_member_state.dart';
+import '../../../theme/app_color.dart';
+import '../../../theme/app_fonts.dart';
+import '../../state/navigator_member_state.dart';
 
 class NavigatorMember extends StatefulWidget {
   const NavigatorMember({super.key});
@@ -37,7 +37,11 @@ class _NavigatorMember extends State<NavigatorMember> {
           tabBackgroundColor: AppColors.purple,
           color: AppColors.purple,
           tabs: [
-            _item(l10n.member_shell_nav_home, Icons.home_outlined, "/dashboard"),
+            _item(
+              l10n.member_shell_nav_home,
+              Icons.home_outlined,
+              "/dashboard",
+            ),
             _item(
               l10n.member_shell_nav_commitments,
               Icons.assignment_outlined,
@@ -48,7 +52,7 @@ class _NavigatorMember extends State<NavigatorMember> {
               Icons.monetization_on_outlined,
               "/contributions_list",
             ),
-            _item(l10n.member_drawer_profile, Icons.settings_rounded, "/settings"),
+            //_item(l10n.member_drawer_profile, Icons.settings_rounded, "/settings"),
           ],
           selectedIndex: navigatorNotifier.selectedIndex,
           onTabChange: (index) {
@@ -65,7 +69,9 @@ class _NavigatorMember extends State<NavigatorMember> {
       text: text,
       onPressed: () => context.go(urlScreen),
       textStyle: const TextStyle(
-          fontFamily: AppFonts.fontSubTitle, color: AppColors.mustard),
+        fontFamily: AppFonts.fontSubTitle,
+        color: AppColors.mustard,
+      ),
     );
   }
 }

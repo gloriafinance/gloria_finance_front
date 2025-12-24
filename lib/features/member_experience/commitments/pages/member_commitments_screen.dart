@@ -1,11 +1,10 @@
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/features/member_experience/commitments/store/member_commitment_store.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/member_header.dart';
 import 'widgets/member_commitment_card.dart';
 import 'widgets/member_commitment_empty_state.dart';
 
@@ -18,11 +17,16 @@ class MemberCommitmentsScreen extends StatelessWidget {
       create: (_) => MemberCommitmentStore()..loadCommitments(),
       child: Consumer<MemberCommitmentStore>(
         builder: (context, store, _) {
+          final l10n = context.l10n;
+
           return RefreshIndicator(
             onRefresh: () => store.loadCommitments(refresh: true),
             child: ListView(
               children: [
-                const _HeaderSection(),
+                MemberHeaderWidget(
+                  title: l10n.member_commitments_title,
+                  subtitle: l10n.member_commitments_empty_subtitle,
+                ),
                 const SizedBox(height: 20),
                 if (store.isLoading)
                   const Center(child: CircularProgressIndicator())
@@ -47,48 +51,6 @@ class MemberCommitmentsScreen extends StatelessWidget {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class _HeaderSection extends StatelessWidget {
-  const _HeaderSection();
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.purple,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(16),
-          topRight: Radius.circular(16),
-        ),
-      ),
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            l10n.member_commitments_title,
-            style: const TextStyle(
-              fontFamily: AppFonts.fontTitle,
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            l10n.member_commitments_empty_subtitle,
-            style: const TextStyle(
-              fontFamily: AppFonts.fontText,
-              fontSize: 14,
-              color: Colors.white70,
-            ),
-          ),
-        ],
       ),
     );
   }

@@ -6,6 +6,7 @@ import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/pages/history/widgets/contribution_empty_state.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/pages/history/widgets/contribution_list.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/store/member_contribution_history_store.dart';
+import 'package:church_finance_bk/features/member_experience/widgets/member_header.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -26,37 +27,18 @@ class MemberContributionHistoryScreen extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      decoration: const BoxDecoration(
-                        color: AppColors.purple,
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(12),
-                        ),
-                      ),
-                      child: Text(
-                        context.l10n.member_contribution_history_title,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontFamily: AppFonts.fontTitle,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
+                    MemberHeaderWidget(
+                      title: context.l10n.member_contribution_history_title,
+                      showBackButton: false,
                     ),
                     _buildFilters(context, store),
-                    Expanded(
-                      child:
-                          store.isLoading
-                              ? const Center(child: CircularProgressIndicator())
-                              : _buildHistoryList(store),
-                    ),
+                    store.isLoading
+                        ? const Center(child: CircularProgressIndicator())
+                        : _buildHistoryList(store),
                   ],
                 ),
                 Positioned(
-                  bottom: 16,
+                  bottom: 26,
                   right: 16,
                   child: FloatingActionButton.extended(
                     onPressed: () => context.push('/member/contribute/new'),

@@ -24,6 +24,7 @@ import 'purchase/pages/register_purchase/add_purchase_screen.dart';
 import 'reports/pages/dre/dre_screen.dart';
 import 'reports/pages/income_statement/income_statement_screen.dart';
 import 'reports/pages/monthly_tithes/monthly_tithes_screen.dart';
+import 'schedule/router.dart';
 import 'settings/router.dart';
 
 erpListRouter() {
@@ -46,7 +47,7 @@ erpListRouter() {
         return transitionCustom(ContributionsListScreen());
       },
     ),
-    
+
     GoRoute(
       path: '/purchase/register',
       pageBuilder: (context, state) {
@@ -138,5 +139,6 @@ erpListRouter() {
     ...patrimonyRouter(),
     ...providerRouter(),
     ...settingsRouter(),
+    ...scheduleRouter(),
   ];
 }
