@@ -1,6 +1,8 @@
+import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
+import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/features/erp/accounts_payable/models/accounts_payable_types.dart';
 import 'package:church_finance_bk/features/erp/providers/pages/suppliers/store/suppliers_list_store.dart';
@@ -161,8 +163,7 @@ Widget taxSection(
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              context
-                  .l10n.accountsPayable_form_field_tax_exempt_switch,
+              context.l10n.accountsPayable_form_field_tax_exempt_switch,
               style: const TextStyle(
                 fontFamily: AppFonts.fontSubTitle,
                 color: AppColors.grey,
@@ -172,9 +173,8 @@ Widget taxSection(
         ],
       ),
       if (showExemptionReason)
-       Input(
-          label: context
-              .l10n.accountsPayable_form_field_tax_exemption_reason,
+        Input(
+          label: context.l10n.accountsPayable_form_field_tax_exemption_reason,
           initialValue: state.taxExemptionReason,
           onChanged: formStore.setTaxExemptionReason,
           onValidator:
@@ -187,13 +187,13 @@ Widget taxSection(
         onChanged: formStore.setTaxObservation,
       ),
       if (showTaxCodes) ...[
-       Input(
+        Input(
           label: context.l10n.accountsPayable_form_field_tax_cst,
           labelSuffix: _buildCstHelpIcon(context),
           initialValue: state.taxCstCode,
           onChanged: formStore.setTaxCstCode,
         ),
-       Input(
+        Input(
           label: context.l10n.accountsPayable_form_field_tax_cfop,
           labelSuffix: _buildCfopHelpIcon(context),
           initialValue: state.taxCfop,
@@ -220,9 +220,7 @@ Widget paymentSection(
 ) {
   return _SectionCard(
     title: context.l10n.accountsPayable_form_section_payment_title,
-    subtitle:
-        context
-            .l10n.accountsPayable_form_section_payment_subtitle,
+    subtitle: context.l10n.accountsPayable_form_section_payment_subtitle,
     children: [
       _PaymentModeSelector(formStore: formStore),
       const SizedBox(height: 20),
@@ -275,8 +273,7 @@ Widget _supplierDropdown(
             dropdown,
             const SizedBox(height: 8),
             Text(
-              context
-                  .l10n.accountsPayable_form_error_supplier_required,
+              context.l10n.accountsPayable_form_error_supplier_required,
               style: const TextStyle(
                 fontFamily: AppFonts.fontSubTitle,
                 color: AppColors.grey,
@@ -367,9 +364,7 @@ class _PaymentModeSelector extends StatelessWidget {
 
 Widget _buildCstHelpIcon(BuildContext context) {
   return Tooltip(
-    message:
-        context
-            .l10n.accountsPayable_form_section_payment_mode_help_cst,
+    message: context.l10n.accountsPayable_form_section_payment_mode_help_cst,
     child: InkWell(
       onTap: () => _showCstHelp(context),
       borderRadius: BorderRadius.circular(12),
@@ -382,65 +377,53 @@ Widget _buildCstHelpIcon(BuildContext context) {
 }
 
 Future<void> _showCstHelp(BuildContext context) async {
+  final l10n = context.l10n;
   final entries = <Map<String, String>>[
-    {'code': '00', 'description': 'Tributação integral (ICMS normal)'},
-    {'code': '10', 'description': 'Tributada com ICMS por substituição'},
-    {'code': '20', 'description': 'Com redução de base de cálculo'},
-    {'code': '40', 'description': 'Isenta ou não tributada'},
-    {'code': '60', 'description': 'ICMS cobrado anteriormente por ST'},
-    {'code': '90', 'description': 'Outras situações específicas'},
+    {'code': '00', 'description': l10n.accountsPayable_help_cst_00},
+    {'code': '10', 'description': l10n.accountsPayable_help_cst_10},
+    {'code': '20', 'description': l10n.accountsPayable_help_cst_20},
+    {'code': '40', 'description': l10n.accountsPayable_help_cst_40},
+    {'code': '60', 'description': l10n.accountsPayable_help_cst_60},
+    {'code': '90', 'description': l10n.accountsPayable_help_cst_90},
   ];
 
-  await showDialog<void>(
-    context: context,
-    builder: (dialogContext) {
-      return AlertDialog(
-        title: const Text(
-          'Código de Situação Tributária (CST)',
-          style: TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 18),
-        ),
-        content: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 420),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'O CST mostra como o imposto se aplica à operação.',
-                  style: TextStyle(
-                    fontFamily: AppFonts.fontSubTitle,
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                ...entries.map(
-                  (entry) => _buildHelpDialogEntry(
-                    entry['code']!,
-                    entry['description']!,
-                  ),
-                ),
-              ],
-            ),
+  ModalPage(
+    title: l10n.accountsPayable_help_cst_title,
+    width: 500,
+    body: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.accountsPayable_help_cst_description,
+          style: const TextStyle(
+            fontFamily: AppFonts.fontSubTitle,
+            fontSize: 14,
           ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text(
-              'Entendi',
-              style: TextStyle(fontFamily: AppFonts.fontSubTitle),
-            ),
+        const SizedBox(height: 12),
+        ...entries.map(
+          (entry) =>
+              _buildHelpDialogEntry(entry['code']!, entry['description']!),
+        ),
+        const SizedBox(height: 16),
+        Align(
+          alignment: Alignment.centerRight,
+          child: CustomButton(
+            text: l10n.common_understood,
+            onPressed: () => Navigator.of(context).pop(),
+            backgroundColor: AppColors.purple,
+            textColor: Colors.white,
           ),
-        ],
-      );
-    },
-  );
+        ),
+      ],
+    ),
+  ).show(context);
 }
 
 Widget _buildCfopHelpIcon(BuildContext context) {
   return Tooltip(
-    message: 'Ajuda rápida sobre CFOP',
+    message: context.l10n.accountsPayable_form_section_payment_mode_help_cfop,
     child: InkWell(
       onTap: () => _showCfopHelp(context),
       borderRadius: BorderRadius.circular(12),
@@ -453,94 +436,77 @@ Widget _buildCfopHelpIcon(BuildContext context) {
 }
 
 Future<void> _showCfopHelp(BuildContext context) async {
+  final l10n = context.l10n;
   final groups = <Map<String, String>>[
-    {'code': '1xxx', 'description': 'Entradas dentro do estado'},
-    {'code': '2xxx', 'description': 'Entradas de outro estado'},
-    {'code': '5xxx', 'description': 'Saídas dentro do estado'},
-    {'code': '6xxx', 'description': 'Saídas para outro estado'},
-    {'code': '7xxx', 'description': 'Operações com o exterior'},
+    {'code': '1xxx', 'description': l10n.accountsPayable_help_cfop_1xxx},
+    {'code': '2xxx', 'description': l10n.accountsPayable_help_cfop_2xxx},
+    {'code': '5xxx', 'description': l10n.accountsPayable_help_cfop_5xxx},
+    {'code': '6xxx', 'description': l10n.accountsPayable_help_cfop_6xxx},
+    {'code': '7xxx', 'description': l10n.accountsPayable_help_cfop_7xxx},
   ];
 
   final examples = <Map<String, String>>[
-    {'code': '1.101', 'description': 'Compra para industrialização'},
-    {'code': '1.556', 'description': 'Compra para uso ou consumo interno'},
-    {'code': '5.405', 'description': 'Venda sujeita à substituição tributária'},
-    {
-      'code': '6.102',
-      'description': 'Venda para comercialização fora do estado',
-    },
+    {'code': '1.101', 'description': l10n.accountsPayable_help_cfop_1101},
+    {'code': '1.556', 'description': l10n.accountsPayable_help_cfop_1556},
+    {'code': '5.405', 'description': l10n.accountsPayable_help_cfop_5405},
+    {'code': '6.102', 'description': l10n.accountsPayable_help_cfop_6102},
   ];
 
-  await showDialog<void>(
-    context: context,
-    builder: (dialogContext) {
-      return AlertDialog(
-        title: const Text(
-          'Código Fiscal de Operações (CFOP)',
-          style: TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 18),
-        ),
-        content: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 420),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'O CFOP descreve o tipo de operação (compra, venda, serviço).',
-                  style: TextStyle(
-                    fontFamily: AppFonts.fontSubTitle,
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                const Text(
-                  'Primeiro dígito indica a origem/destino:',
-                  style: TextStyle(
-                    fontFamily: AppFonts.fontSubTitle,
-                    fontSize: 14,
-                    color: AppColors.purple,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                ...groups.map(
-                  (group) => _buildHelpDialogEntry(
-                    group['code']!,
-                    group['description']!,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Exemplos úteis:',
-                  style: TextStyle(
-                    fontFamily: AppFonts.fontSubTitle,
-                    fontSize: 14,
-                    color: AppColors.purple,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                ...examples.map(
-                  (example) => _buildHelpDialogEntry(
-                    example['code']!,
-                    example['description']!,
-                  ),
-                ),
-              ],
-            ),
+  ModalPage(
+    title: l10n.accountsPayable_help_cfop_title,
+    width: 600,
+    body: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.accountsPayable_help_cfop_description,
+          style: const TextStyle(
+            fontFamily: AppFonts.fontSubTitle,
+            fontSize: 14,
           ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text(
-              'Entendi',
-              style: TextStyle(fontFamily: AppFonts.fontSubTitle),
-            ),
+        const SizedBox(height: 12),
+        Text(
+          l10n.accountsPayable_help_cfop_digit_info,
+          style: const TextStyle(
+            fontFamily: AppFonts.fontSubTitle,
+            fontSize: 14,
+            color: AppColors.purple,
           ),
-        ],
-      );
-    },
-  );
+        ),
+        const SizedBox(height: 8),
+        ...groups.map(
+          (group) =>
+              _buildHelpDialogEntry(group['code']!, group['description']!),
+        ),
+        const SizedBox(height: 16),
+        Text(
+          l10n.accountsPayable_help_cfop_examples_title,
+          style: const TextStyle(
+            fontFamily: AppFonts.fontSubTitle,
+            fontSize: 14,
+            color: AppColors.purple,
+          ),
+        ),
+        const SizedBox(height: 8),
+        ...examples.map(
+          (example) =>
+              _buildHelpDialogEntry(example['code']!, example['description']!),
+        ),
+        const SizedBox(height: 16),
+        Align(
+          alignment: Alignment.centerRight,
+          child: CustomButton(
+            text: l10n.common_understood,
+            onPressed: () => Navigator.of(context).pop(),
+            backgroundColor: AppColors.purple,
+            textColor: Colors.white,
+          ),
+        ),
+      ],
+    ),
+  ).show(context);
 }
 
 Widget _buildHelpDialogEntry(String code, String description) {

@@ -38,7 +38,7 @@ class _PaymentAccountPayableModal extends State<PaymentAccountPayableModal> {
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-      elevation: 4,
+      elevation: 0,
       child: Form(
         key: formKey,
         child: Padding(

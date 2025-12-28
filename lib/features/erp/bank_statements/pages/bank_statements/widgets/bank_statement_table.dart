@@ -45,7 +45,11 @@ class BankStatementTable extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Icon(Icons.account_balance, size: 48, color: AppColors.grey),
+              const Icon(
+                Icons.account_balance,
+                size: 48,
+                color: AppColors.grey,
+              ),
               const SizedBox(height: 12),
               Text(
                 context.l10n.bankStatements_empty_title,
@@ -204,21 +208,21 @@ class BankStatementTable extends StatelessWidget {
     BankStatementModel statement,
   ) async {
     final store = context.read<BankStatementListStore>();
+    final l10n = context.l10n;
 
-    final result = await showDialog<bool>(
-      context: context,
-      builder: (dialogContext) {
-        return BankStatementManualLinkDialog(
-          statement: statement,
-          onSubmit: (financialRecordId) async {
-            await store.linkStatement(
-              bankStatementId: statement.bankStatementId,
-              financialRecordId: financialRecordId,
-            );
-          },
-        );
-      },
-    );
+    final result = await ModalPage(
+      title: l10n.bankStatements_link_dialog_title,
+      width: 520,
+      body: BankStatementManualLinkDialog(
+        statement: statement,
+        onSubmit: (financialRecordId) async {
+          await store.linkStatement(
+            bankStatementId: statement.bankStatementId,
+            financialRecordId: financialRecordId,
+          );
+        },
+      ),
+    ).show<bool>(context);
 
     if (result == true) {
       Toast.showMessage(

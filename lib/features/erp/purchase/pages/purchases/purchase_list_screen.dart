@@ -20,16 +20,14 @@ class PurchaseListScreen extends StatelessWidget {
           create: (_) => PurchasePaginateStore()..searchPurchases(),
         ),
       ],
-      child: MaterialApp(
-        home: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _header(context),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _header(context),
 
-            //children: [PurchaseFilters(), PurchaseTable()],
-            PurchaseTable(),
-          ],
-        ),
+          //children: [PurchaseFilters(), PurchaseTable()],
+          PurchaseTable(),
+        ],
       ),
     );
   }

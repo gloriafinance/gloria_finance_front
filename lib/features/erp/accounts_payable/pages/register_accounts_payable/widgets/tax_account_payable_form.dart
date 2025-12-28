@@ -1,5 +1,8 @@
+import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/theme/index.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
+import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/features/erp/accounts_payable/models/accounts_payable_tax.dart';
 import 'package:church_finance_bk/features/erp/accounts_payable/models/accounts_payable_types.dart';
@@ -42,7 +45,7 @@ class _TaxAccountPayableFormState extends State<TaxAccountPayableForm> {
       children: [
         ButtonActionTable(
           color: AppColors.blue,
-          text: 'Adicionar imposto',
+          text: context.l10n.tax_form_title_add,
           icon: Icons.add_box_outlined,
           onPressed: _openCreateTax,
         ),
@@ -55,9 +58,9 @@ class _TaxAccountPayableFormState extends State<TaxAccountPayableForm> {
               border: Border.all(color: AppColors.greyMiddle),
               borderRadius: BorderRadius.circular(18),
             ),
-            child: const Text(
-              'Nenhum imposto adicionado até o momento.',
-              style: TextStyle(
+            child: Text(
+              context.l10n.tax_form_empty_list,
+              style: const TextStyle(
                 fontFamily: AppFonts.fontSubTitle,
                 color: AppColors.grey,
               ),
@@ -198,127 +201,136 @@ class _TaxAccountPayableFormState extends State<TaxAccountPayableForm> {
 
     AccountsPayableTaxLine? result;
 
-    await showDialog<void>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          title: Text(initial == null ? 'Adicionar imposto' : 'Editar imposto'),
-          content: Form(
+    return await ModalPage(
+      title:
+          initial == null
+              ? context.l10n.tax_form_title_add
+              : context.l10n.tax_form_title_edit,
+      width: 400,
+      body: StatefulBuilder(
+        builder: (context, setState) {
+          return Form(
             key: formKey,
-            child: SizedBox(
-              width: 360,
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Input(
+                  label: context.l10n.tax_form_type_label,
+                  initialValue: taxType,
+                  onChanged: (value) => taxType = value,
+                  onValidator: (value) {
+                    if ((value ?? '').isEmpty) {
+                      return context.l10n.tax_form_type_error;
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 12),
+                Input(
+                  label: context.l10n.tax_form_percentage_label,
+                  initialValue: percentageText,
+                  onChanged: (value) => percentageText = value,
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
+                  ],
+                  onValidator: (value) {
+                    final parsed = double.tryParse(
+                      (value ?? '').replaceAll(',', '.').trim(),
+                    );
+                    if (parsed == null || parsed <= 0) {
+                      return context.l10n.tax_form_percentage_error;
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 12),
+                Input(
+                  label: context.l10n.tax_form_amount_label,
+                  initialValue: amountText,
+                  onChanged: (value) => amountText = value,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    CurrencyFormatter.getInputFormatters('R\$'),
+                  ],
+                  onValidator: (value) {
+                    final amount = CurrencyFormatter.cleanCurrency(
+                      value ?? '0',
+                    );
+                    if (amount <= 0) {
+                      return context.l10n.tax_form_amount_error;
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 12),
+                Dropdown(
+                  label: context.l10n.tax_form_status_label,
+                  items: [
+                    context.l10n.tax_form_status_taxed, // 'Tributada'
+                    context
+                        .l10n
+                        .tax_form_status_substitution, // 'Substituição tributária'
+                  ],
+                  initialValue:
+                      status == AccountsPayableTaxStatus.substitution
+                          ? context.l10n.tax_form_status_substitution
+                          : context.l10n.tax_form_status_taxed,
+                  onChanged: (value) {
+                    if (value == context.l10n.tax_form_status_substitution) {
+                      status = AccountsPayableTaxStatus.substitution;
+                    } else {
+                      status = AccountsPayableTaxStatus.taxed;
+                    }
+                  },
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Input(
-                      label: 'Tipo do imposto',
-                      initialValue: taxType,
-                      onChanged: (value) => taxType = value,
-                      onValidator: (value) {
-                        if ((value ?? '').isEmpty) {
-                          return 'Informe o tipo do imposto';
-                        }
-                        return null;
-                      },
+                    CustomButton(
+                      text: context.l10n.common_cancel,
+                      onPressed: () => Navigator.of(context).pop(),
+                      typeButton: CustomButton.outline,
+                      backgroundColor: AppColors.purple,
                     ),
-                    const SizedBox(height: 12),
-                    Input(
-                      label: 'Percentual (%)',
-                      initialValue: percentageText,
-                      onChanged: (value) => percentageText = value,
-                      keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true,
-                      ),
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
-                      ],
-                      onValidator: (value) {
-                        final parsed = double.tryParse(
-                          (value ?? '').replaceAll(',', '.').trim(),
+                    const SizedBox(width: 12),
+                    CustomButton(
+                      text: context.l10n.common_save,
+                      onPressed: () {
+                        if (!(formKey.currentState?.validate() ?? false)) {
+                          return;
+                        }
+
+                        final percentage = double.parse(
+                          percentageText.replaceAll(',', '.').trim(),
                         );
-                        if (parsed == null || parsed <= 0) {
-                          return 'Informe um percentual válido';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 12),
-                    Input(
-                      label: 'Valor retido',
-                      initialValue: amountText,
-                      onChanged: (value) => amountText = value,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        CurrencyFormatter.getInputFormatters('R\$'),
-                      ],
-                      onValidator: (value) {
                         final amount = CurrencyFormatter.cleanCurrency(
-                          value ?? '0',
+                          amountText,
                         );
-                        if (amount <= 0) {
-                          return 'Informe um valor maior que zero';
-                        }
-                        return null;
+
+                        result = AccountsPayableTaxLine(
+                          taxType: taxType,
+                          percentage: percentage,
+                          amount: amount,
+                          status: status,
+                        );
+
+                        Navigator.of(context).pop(result);
                       },
-                    ),
-                    const SizedBox(height: 12),
-                    Dropdown(
-                      label: 'Situação',
-                      items: const ['Tributada', 'Substituição tributária'],
-                      initialValue:
-                          status == AccountsPayableTaxStatus.substitution
-                              ? 'Substituição tributária'
-                              : 'Tributada',
-                      onChanged: (value) {
-                        if (value == 'Substituição tributária') {
-                          status = AccountsPayableTaxStatus.substitution;
-                        } else {
-                          status = AccountsPayableTaxStatus.taxed;
-                        }
-                      },
+                      backgroundColor: AppColors.purple,
+                      textColor: Colors.white,
                     ),
                   ],
                 ),
-              ),
+              ],
             ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancelar'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (!(formKey.currentState?.validate() ?? false)) {
-                  return;
-                }
-
-                final percentage = double.parse(
-                  percentageText.replaceAll(',', '.').trim(),
-                );
-                final amount = CurrencyFormatter.cleanCurrency(amountText);
-
-                result = AccountsPayableTaxLine(
-                  taxType: taxType,
-                  percentage: percentage,
-                  amount: amount,
-                  status: status,
-                );
-
-                Navigator.of(context).pop();
-              },
-              child: const Text('Salvar'),
-            ),
-          ],
-        );
-      },
-    );
-
-    return result;
+          );
+        },
+      ),
+    ).show<AccountsPayableTaxLine>(context);
   }
 }

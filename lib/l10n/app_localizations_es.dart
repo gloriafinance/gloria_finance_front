@@ -2416,6 +2416,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get schedule_delete_confirm_message => '¿Estás seguro de que deseas desactivar este evento?';
 
   @override
+  String get schedule_reactivate_confirm_title => 'Confirmar reactivación';
+
+  @override
+  String get schedule_reactivate_confirm_message => '¿Estás seguro de que deseas reactivar este evento?';
+
+  @override
   String get common_confirm => 'Confirmar';
 
   @override
@@ -2458,7 +2464,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get schedule_detail_location_info => 'Ubicación';
 
   @override
-  String get schedule_detail_location => 'Nombre de la ubicación';
+  String get schedule_detail_location => 'Nombre del local';
 
   @override
   String get schedule_detail_address => 'Dirección';
@@ -2474,6 +2480,27 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get schedule_detail_observations => 'Observaciones';
+
+  @override
+  String get schedule_detail_summary => 'Resumen';
+
+  @override
+  String get schedule_detail_when => 'Cuándo';
+
+  @override
+  String get schedule_detail_timezone => 'Zona horaria';
+
+  @override
+  String get schedule_detail_start => 'Inicio';
+
+  @override
+  String get schedule_detail_end => 'Término';
+
+  @override
+  String get schedule_detail_no_end_date => 'Sin fecha de término';
+
+  @override
+  String get schedule_detail_created_at => 'Creado en';
 
   @override
   String get schedule_form_title_new => 'Nuevo evento';
@@ -2506,7 +2533,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get schedule_form_field_description => 'Descripción (opcional)';
 
   @override
-  String get schedule_form_field_location_name => 'Nombre de la ubicación';
+  String get schedule_form_field_location_name => 'Local';
 
   @override
   String get schedule_form_field_location_address => 'Dirección (opcional)';
@@ -2560,22 +2587,37 @@ class AppLocalizationsEs extends AppLocalizations {
   String get schedule_form_visibility => 'Visibilidad';
 
   @override
-  String get schedule_form_day_of_week => 'Día de la semana';
+  String get schedule_form_start_time => 'Horario de inicio';
 
   @override
-  String get schedule_form_start_time => 'Hora de inicio';
-
-  @override
-  String get schedule_form_duration => 'Duración (minutos)';
-
-  @override
-  String get schedule_form_duration_hint => 'Ej: 60, 90, 120';
+  String get schedule_form_end_time => 'Horario de finalización';
 
   @override
   String get schedule_form_recurrence => 'Recurrencia';
 
   @override
   String get schedule_form_weekly_recurrence => 'Recurrencia semanal';
+
+  @override
+  String get schedule_day_abbr_sunday => 'Dom';
+
+  @override
+  String get schedule_day_abbr_monday => 'Lun';
+
+  @override
+  String get schedule_day_abbr_tuesday => 'Mar';
+
+  @override
+  String get schedule_day_abbr_wednesday => 'Mié';
+
+  @override
+  String get schedule_day_abbr_thursday => 'Jue';
+
+  @override
+  String get schedule_day_abbr_friday => 'Vie';
+
+  @override
+  String get schedule_day_abbr_saturday => 'Sáb';
 
   @override
   String get schedule_form_is_active => 'Activo';
@@ -2630,4 +2672,168 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get erp_menu_schedule_events => 'Eventos y Horarios';
+
+  @override
+  String get schedule_duplicate_title => 'Duplicar evento';
+
+  @override
+  String schedule_duplicate_subtitle(String originalTitle) {
+    return 'Crear un nuevo evento basado en: $originalTitle';
+  }
+
+  @override
+  String get schedule_duplicate_summary_title => 'Resumen del evento original';
+
+  @override
+  String get schedule_duplicate_adjustments_title => 'Ajustes antes de crear';
+
+  @override
+  String get schedule_duplicate_open_edit => 'Abrir edición completa después de crear';
+
+  @override
+  String get schedule_duplicate_action_create => 'Crear copia';
+
+  @override
+  String get schedule_duplicate_toast_success => '¡Evento duplicado con éxito!';
+
+  @override
+  String get schedule_duplicate_toast_error => 'Error al duplicar evento';
+
+  @override
+  String get accountsPayable_help_cst_title => 'Código de Situación Tributaria (CST)';
+
+  @override
+  String get accountsPayable_help_cst_description => 'El CST muestra cómo se aplica el impuesto a la operación.';
+
+  @override
+  String get accountsPayable_help_cst_00 => 'Tributación integral (ICMS normal)';
+
+  @override
+  String get accountsPayable_help_cst_10 => 'Tributada con ICMS por sustitución';
+
+  @override
+  String get accountsPayable_help_cst_20 => 'Con reducción de base de cálculo';
+
+  @override
+  String get accountsPayable_help_cst_40 => 'Exenta o no tributada';
+
+  @override
+  String get accountsPayable_help_cst_60 => 'ICMS cobrado anteriormente por ST';
+
+  @override
+  String get accountsPayable_help_cst_90 => 'Otras situaciones específicas';
+
+  @override
+  String get accountsPayable_help_cfop_title => 'Código Fiscal de Operaciones (CFOP)';
+
+  @override
+  String get accountsPayable_help_cfop_description => 'El CFOP describe el tipo de operación (compra, venta, servicio).';
+
+  @override
+  String get accountsPayable_help_cfop_digit_info => 'El primer dígito indica el orígen/destino:';
+
+  @override
+  String get accountsPayable_help_cfop_1xxx => 'Entradas dentro del estado';
+
+  @override
+  String get accountsPayable_help_cfop_2xxx => 'Entradas de otro estado';
+
+  @override
+  String get accountsPayable_help_cfop_5xxx => 'Salidas dentro del estado';
+
+  @override
+  String get accountsPayable_help_cfop_6xxx => 'Salidas para otro estado';
+
+  @override
+  String get accountsPayable_help_cfop_7xxx => 'Operaciones con el exterior';
+
+  @override
+  String get accountsPayable_help_cfop_examples_title => 'Ejemplos útiles:';
+
+  @override
+  String get accountsPayable_help_cfop_1101 => 'Compra para industrialización';
+
+  @override
+  String get accountsPayable_help_cfop_1556 => 'Compra para uso o consumo interno';
+
+  @override
+  String get accountsPayable_help_cfop_5405 => 'Venta sujeta a sustitución tributaria';
+
+  @override
+  String get accountsPayable_help_cfop_6102 => 'Venta para comercialización fuera del estado';
+
+  @override
+  String get common_understood => 'Entendido';
+
+  @override
+  String get bankStatements_link_dialog_title => 'Vincular registro financiero';
+
+  @override
+  String get bankStatements_link_dialog_id_label => 'ID del registro financiero';
+
+  @override
+  String get bankStatements_link_dialog_id_error => 'Informe el identificador del registro.';
+
+  @override
+  String get bankStatements_link_dialog_suggestions_title => 'Sugerencias automáticas';
+
+  @override
+  String get bankStatements_link_dialog_suggestions_error => 'No fue posible cargar sugerencias. Intente nuevamente más tarde.';
+
+  @override
+  String get bankStatements_link_dialog_suggestions_empty => 'Ningún registro corresponde al valor y fecha informados.';
+
+  @override
+  String get bankStatements_link_dialog_use_id => 'Usar ID';
+
+  @override
+  String get bankStatements_link_dialog_no_concept => 'Sin concepto';
+
+  @override
+  String get bankStatements_link_dialog_saving => 'Guardando...';
+
+  @override
+  String get bankStatements_link_dialog_link_button => 'Vincular';
+
+  @override
+  String get bankStatements_link_dialog_link_error => 'No fue posible vincular. Verifique el identificador informado.';
+
+  @override
+  String get tax_form_title_add => 'Agregar impuesto';
+
+  @override
+  String get tax_form_title_edit => 'Editar impuesto';
+
+  @override
+  String get tax_form_type_label => 'Tipo de impuesto';
+
+  @override
+  String get tax_form_type_error => 'Informe el tipo de impuesto';
+
+  @override
+  String get tax_form_percentage_label => 'Porcentaje (%)';
+
+  @override
+  String get tax_form_percentage_error => 'Informe un porcentaje válido';
+
+  @override
+  String get tax_form_amount_label => 'Valor retenido';
+
+  @override
+  String get tax_form_amount_error => 'Informe un valor mayor que cero';
+
+  @override
+  String get tax_form_status_label => 'Situación';
+
+  @override
+  String get tax_form_status_taxed => 'Tributada';
+
+  @override
+  String get tax_form_status_substitution => 'Sustitución tributaria';
+
+  @override
+  String get tax_form_empty_list => 'Ningún impuesto agregado hasta el momento.';
+
+  @override
+  String get common_save => 'Guardar';
 }
