@@ -2,7 +2,7 @@ import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
-import 'package:church_finance_bk/core/widgets/custom_button.dart';
+import 'package:church_finance_bk/core/widgets/confirmation_dialog.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -257,29 +257,7 @@ class _RolePermissionScreenState extends State<RolePermissionScreen> {
     BuildContext context, {
     required String message,
   }) {
-    return showDialog<bool>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Remover permissão crítica?'),
-          content: Text(message),
-          actions: [
-            CustomButton(
-              text: 'Cancelar',
-              backgroundColor: AppColors.purple,
-              typeButton: CustomButton.outline,
-              onPressed: () => Navigator.of(context).pop(false),
-            ),
-            CustomButton(
-              text: 'Remover',
-              backgroundColor: AppColors.purple,
-              textColor: Colors.white,
-              onPressed: () => Navigator.of(context).pop(true),
-            ),
-          ],
-        );
-      },
-    );
+    return confirmationDialog(context, message);
   }
 }
 

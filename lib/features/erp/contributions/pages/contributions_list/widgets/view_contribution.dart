@@ -6,8 +6,8 @@ import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/features/auth/pages/login/store/auth_session_store.dart';
-import 'package:church_finance_bk/features/erp/settings/banks/store/bank_store.dart';
 import 'package:church_finance_bk/features/erp/contributions/models/contribution_model.dart';
+import 'package:church_finance_bk/features/erp/settings/banks/store/bank_store.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +35,7 @@ class ViewContribution extends StatelessWidget {
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-      elevation: 4,
+      elevation: 0,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -99,9 +99,7 @@ class ViewContribution extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 26),
-            buildSectionTitle(
-              context.l10n.contributions_view_section_receipt,
-            ),
+            buildSectionTitle(context.l10n.contributions_view_section_receipt),
             const SizedBox(height: 26),
             ContentViewer(url: contribution.bankTransferReceipt),
             const SizedBox(height: 46),

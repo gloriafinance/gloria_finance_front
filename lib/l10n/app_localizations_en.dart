@@ -2416,6 +2416,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get schedule_delete_confirm_message => 'Are you sure you want to deactivate this event?';
 
   @override
+  String get schedule_reactivate_confirm_title => 'Confirm reactivation';
+
+  @override
+  String get schedule_reactivate_confirm_message => 'Are you sure you want to reactivate this event?';
+
+  @override
   String get common_confirm => 'Confirm';
 
   @override
@@ -2476,6 +2482,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get schedule_detail_observations => 'Observations';
 
   @override
+  String get schedule_detail_summary => 'Summary';
+
+  @override
+  String get schedule_detail_when => 'When';
+
+  @override
+  String get schedule_detail_timezone => 'Timezone';
+
+  @override
+  String get schedule_detail_start => 'Start';
+
+  @override
+  String get schedule_detail_end => 'End';
+
+  @override
+  String get schedule_detail_no_end_date => 'No end date';
+
+  @override
+  String get schedule_detail_created_at => 'Created on';
+
+  @override
   String get schedule_form_title_new => 'New event';
 
   @override
@@ -2506,7 +2533,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get schedule_form_field_description => 'Description (optional)';
 
   @override
-  String get schedule_form_field_location_name => 'Location name';
+  String get schedule_form_field_location_name => 'Location';
 
   @override
   String get schedule_form_field_location_address => 'Address (optional)';
@@ -2560,22 +2587,37 @@ class AppLocalizationsEn extends AppLocalizations {
   String get schedule_form_visibility => 'Visibility';
 
   @override
-  String get schedule_form_day_of_week => 'Day of week';
-
-  @override
   String get schedule_form_start_time => 'Start time';
 
   @override
-  String get schedule_form_duration => 'Duration (minutes)';
-
-  @override
-  String get schedule_form_duration_hint => 'Ex: 60, 90, 120';
+  String get schedule_form_end_time => 'End time';
 
   @override
   String get schedule_form_recurrence => 'Recurrence';
 
   @override
   String get schedule_form_weekly_recurrence => 'Weekly recurrence';
+
+  @override
+  String get schedule_day_abbr_sunday => 'Sun';
+
+  @override
+  String get schedule_day_abbr_monday => 'Mon';
+
+  @override
+  String get schedule_day_abbr_tuesday => 'Tue';
+
+  @override
+  String get schedule_day_abbr_wednesday => 'Wed';
+
+  @override
+  String get schedule_day_abbr_thursday => 'Thu';
+
+  @override
+  String get schedule_day_abbr_friday => 'Fri';
+
+  @override
+  String get schedule_day_abbr_saturday => 'Sat';
 
   @override
   String get schedule_form_is_active => 'Active';
@@ -2630,4 +2672,168 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get erp_menu_schedule_events => 'Events and Schedule';
+
+  @override
+  String get schedule_duplicate_title => 'Duplicate event';
+
+  @override
+  String schedule_duplicate_subtitle(String originalTitle) {
+    return 'Create a new event based on: $originalTitle';
+  }
+
+  @override
+  String get schedule_duplicate_summary_title => 'Original event summary';
+
+  @override
+  String get schedule_duplicate_adjustments_title => 'Adjustments before creating';
+
+  @override
+  String get schedule_duplicate_open_edit => 'Open full edit after creating';
+
+  @override
+  String get schedule_duplicate_action_create => 'Create copy';
+
+  @override
+  String get schedule_duplicate_toast_success => 'Event duplicated successfully!';
+
+  @override
+  String get schedule_duplicate_toast_error => 'Error duplicating event';
+
+  @override
+  String get accountsPayable_help_cst_title => 'Tax Situation Code (CST)';
+
+  @override
+  String get accountsPayable_help_cst_description => 'CST shows how the tax applies to the operation.';
+
+  @override
+  String get accountsPayable_help_cst_00 => 'Full taxation (Normal ICMS)';
+
+  @override
+  String get accountsPayable_help_cst_10 => 'Taxed with ICMS by substitution';
+
+  @override
+  String get accountsPayable_help_cst_20 => 'With tax base reduction';
+
+  @override
+  String get accountsPayable_help_cst_40 => 'Exempt or non-taxed';
+
+  @override
+  String get accountsPayable_help_cst_60 => 'ICMS previously charged via ST';
+
+  @override
+  String get accountsPayable_help_cst_90 => 'Other specific situations';
+
+  @override
+  String get accountsPayable_help_cfop_title => 'Fiscal Operations Code (CFOP)';
+
+  @override
+  String get accountsPayable_help_cfop_description => 'CFOP describes the operation type (purchase, sale, service).';
+
+  @override
+  String get accountsPayable_help_cfop_digit_info => 'First digit indicates origin/destination:';
+
+  @override
+  String get accountsPayable_help_cfop_1xxx => 'In-state entries';
+
+  @override
+  String get accountsPayable_help_cfop_2xxx => 'Out-of-state entries';
+
+  @override
+  String get accountsPayable_help_cfop_5xxx => 'In-state exits';
+
+  @override
+  String get accountsPayable_help_cfop_6xxx => 'Out-of-state exits';
+
+  @override
+  String get accountsPayable_help_cfop_7xxx => 'International operations';
+
+  @override
+  String get accountsPayable_help_cfop_examples_title => 'Useful examples:';
+
+  @override
+  String get accountsPayable_help_cfop_1101 => 'Purchase for industrialization';
+
+  @override
+  String get accountsPayable_help_cfop_1556 => 'Purchase for internal use/consumption';
+
+  @override
+  String get accountsPayable_help_cfop_5405 => 'Sale subject to tax substitution';
+
+  @override
+  String get accountsPayable_help_cfop_6102 => 'Sale for commercialization out-of-state';
+
+  @override
+  String get common_understood => 'Understood';
+
+  @override
+  String get bankStatements_link_dialog_title => 'Link Financial Record';
+
+  @override
+  String get bankStatements_link_dialog_id_label => 'Financial Record ID';
+
+  @override
+  String get bankStatements_link_dialog_id_error => 'Please enter the record identifier.';
+
+  @override
+  String get bankStatements_link_dialog_suggestions_title => 'Automatic Suggestions';
+
+  @override
+  String get bankStatements_link_dialog_suggestions_error => 'Could not load suggestions. Please try again later.';
+
+  @override
+  String get bankStatements_link_dialog_suggestions_empty => 'No record matches the amount and date.';
+
+  @override
+  String get bankStatements_link_dialog_use_id => 'Use ID';
+
+  @override
+  String get bankStatements_link_dialog_no_concept => 'No concept';
+
+  @override
+  String get bankStatements_link_dialog_saving => 'Saving...';
+
+  @override
+  String get bankStatements_link_dialog_link_button => 'Link';
+
+  @override
+  String get bankStatements_link_dialog_link_error => 'Could not link. Check the provided identifier.';
+
+  @override
+  String get tax_form_title_add => 'Add Tax';
+
+  @override
+  String get tax_form_title_edit => 'Edit Tax';
+
+  @override
+  String get tax_form_type_label => 'Tax Type';
+
+  @override
+  String get tax_form_type_error => 'Enter tax type';
+
+  @override
+  String get tax_form_percentage_label => 'Percentage (%)';
+
+  @override
+  String get tax_form_percentage_error => 'Enter a valid percentage';
+
+  @override
+  String get tax_form_amount_label => 'Retained Value';
+
+  @override
+  String get tax_form_amount_error => 'Enter a value greater than zero';
+
+  @override
+  String get tax_form_status_label => 'Status';
+
+  @override
+  String get tax_form_status_taxed => 'Taxed';
+
+  @override
+  String get tax_form_status_substitution => 'Tax Substitution';
+
+  @override
+  String get tax_form_empty_list => 'No taxes added yet.';
+
+  @override
+  String get common_save => 'Save';
 }

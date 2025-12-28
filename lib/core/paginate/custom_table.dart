@@ -72,13 +72,10 @@ class _CustomTableState extends State<CustomTable> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12),
 
-            child:
-                isMobile(context)
-                    ? SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: _buildDataTable(context),
-                    )
-                    : _buildDataTable(context),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: _buildDataTable(context),
+            ),
           ),
         ),
         if (widget.paginate != null) _buildPaginate(context),
@@ -170,6 +167,7 @@ class _CustomTableState extends State<CustomTable> {
             if (widget.actionBuilders != null)
               DataCell(
                 Row(
+                  mainAxisSize: MainAxisSize.min,
                   children:
                       widget.actionBuilders!
                           .map((actionBuilder) => actionBuilder(item))

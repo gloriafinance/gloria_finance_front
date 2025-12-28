@@ -5,15 +5,14 @@
       "name": "ERP",
       "request": "launch",
       "type": "dart",
-      "program": "lib/main_erp.dart"
+      "program": "lib/main_erp.dart",
+      "deviceId": "chrome"
     },
     {
       "name": "Member Experience",
       "request": "launch",
       "type": "dart",
-      "program": "lib/main_member.dart",
-      "deviceId": "419A0681-811E-4346-ADC8-81129DF9889C",
-      "preLaunchTask": "Launch iOS Simulator"
+      "program": "lib/main_member.dart"
     }
   ]
 }

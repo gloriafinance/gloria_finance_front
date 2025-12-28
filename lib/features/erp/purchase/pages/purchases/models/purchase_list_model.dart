@@ -26,8 +26,8 @@ class PurchaseListModel {
           .map((item) => PurchaseItemModel.fromJson(item))
           .toList(),
       purchaseDate: json['purchaseDate'],
-      total: double.parse(json['total']),
-      tax: double.parse(json['tax']),
+      total: _toDouble(json['total']),
+      tax: _toDouble(json['tax']),
     );
   }
 }
@@ -47,10 +47,20 @@ class PurchaseItemModel {
 
   factory PurchaseItemModel.fromJson(Map<String, dynamic> json) {
     return PurchaseItemModel(
-      price: double.parse(json['price']),
-      quantity: int.parse(json['quantity']),
-      total: double.parse(json['total']),
+      price: _toDouble(json['price']),
+      quantity: _toInt(json['quantity']),
+      total: _toDouble(json['total']),
       name: json['name'],
     );
   }
+}
+
+double _toDouble(dynamic value) {
+  if (value is num) return value.toDouble();
+  return double.parse(value.toString());
+}
+
+int _toInt(dynamic value) {
+  if (value is num) return value.toInt();
+  return int.parse(value.toString());
 }

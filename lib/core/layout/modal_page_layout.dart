@@ -7,11 +7,13 @@ class ModalPage {
   final String title;
   final Widget body;
   final double width;
+  final List<Widget>? actions;
 
   const ModalPage({
     required this.title,
     required this.body,
     this.width = 750.0,
+    this.actions,
   });
 
   Future<T?> show<T>(BuildContext context) {
@@ -35,17 +37,23 @@ class ModalPage {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Título con botón "X" para cerrar
+              // Título con botones de acción y botón "X" para cerrar
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontFamily: AppFonts.fontTitle,
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontFamily: AppFonts.fontTitle,
+                      ),
                     ),
                   ),
+                  if (actions != null) ...[
+                    ...actions!,
+                    const SizedBox(width: 8),
+                  ],
                   IconButton(
                     onPressed: () {
                       Navigator.of(context).pop(); // Cierra el modal

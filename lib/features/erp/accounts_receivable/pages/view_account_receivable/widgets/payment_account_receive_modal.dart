@@ -41,10 +41,9 @@ class _PaymentAccountReceiveModalState
     super.didChangeDependencies();
     final l10n = context.l10n;
     validator = PaymentFormValidator(
-      amountRequired:
-          l10n.accountsReceivable_payment_error_amount_required,
-      availabilityAccountRequired: l10n
-          .accountsReceivable_payment_error_availability_account_required,
+      amountRequired: l10n.accountsReceivable_payment_error_amount_required,
+      availabilityAccountRequired:
+          l10n.accountsReceivable_payment_error_availability_account_required,
     );
   }
 
@@ -57,7 +56,7 @@ class _PaymentAccountReceiveModalState
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-      elevation: 4,
+      elevation: 0,
       child: Form(
         key: formKey,
         child: Padding(

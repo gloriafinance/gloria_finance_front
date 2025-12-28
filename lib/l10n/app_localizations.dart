@@ -4819,6 +4819,18 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to deactivate this event?'**
   String get schedule_delete_confirm_message;
 
+  /// No description provided for @schedule_reactivate_confirm_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm reactivation'**
+  String get schedule_reactivate_confirm_title;
+
+  /// No description provided for @schedule_reactivate_confirm_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to reactivate this event?'**
+  String get schedule_reactivate_confirm_message;
+
   /// No description provided for @common_confirm.
   ///
   /// In en, this message translates to:
@@ -4939,6 +4951,48 @@ abstract class AppLocalizations {
   /// **'Observations'**
   String get schedule_detail_observations;
 
+  /// No description provided for @schedule_detail_summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get schedule_detail_summary;
+
+  /// No description provided for @schedule_detail_when.
+  ///
+  /// In en, this message translates to:
+  /// **'When'**
+  String get schedule_detail_when;
+
+  /// No description provided for @schedule_detail_timezone.
+  ///
+  /// In en, this message translates to:
+  /// **'Timezone'**
+  String get schedule_detail_timezone;
+
+  /// No description provided for @schedule_detail_start.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get schedule_detail_start;
+
+  /// No description provided for @schedule_detail_end.
+  ///
+  /// In en, this message translates to:
+  /// **'End'**
+  String get schedule_detail_end;
+
+  /// No description provided for @schedule_detail_no_end_date.
+  ///
+  /// In en, this message translates to:
+  /// **'No end date'**
+  String get schedule_detail_no_end_date;
+
+  /// No description provided for @schedule_detail_created_at.
+  ///
+  /// In en, this message translates to:
+  /// **'Created on'**
+  String get schedule_detail_created_at;
+
   /// No description provided for @schedule_form_title_new.
   ///
   /// In en, this message translates to:
@@ -5002,7 +5056,7 @@ abstract class AppLocalizations {
   /// No description provided for @schedule_form_field_location_name.
   ///
   /// In en, this message translates to:
-  /// **'Location name'**
+  /// **'Location'**
   String get schedule_form_field_location_name;
 
   /// No description provided for @schedule_form_field_location_address.
@@ -5107,29 +5161,17 @@ abstract class AppLocalizations {
   /// **'Visibility'**
   String get schedule_form_visibility;
 
-  /// No description provided for @schedule_form_day_of_week.
-  ///
-  /// In en, this message translates to:
-  /// **'Day of week'**
-  String get schedule_form_day_of_week;
-
   /// No description provided for @schedule_form_start_time.
   ///
   /// In en, this message translates to:
   /// **'Start time'**
   String get schedule_form_start_time;
 
-  /// No description provided for @schedule_form_duration.
+  /// No description provided for @schedule_form_end_time.
   ///
   /// In en, this message translates to:
-  /// **'Duration (minutes)'**
-  String get schedule_form_duration;
-
-  /// No description provided for @schedule_form_duration_hint.
-  ///
-  /// In en, this message translates to:
-  /// **'Ex: 60, 90, 120'**
-  String get schedule_form_duration_hint;
+  /// **'End time'**
+  String get schedule_form_end_time;
 
   /// No description provided for @schedule_form_recurrence.
   ///
@@ -5142,6 +5184,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Weekly recurrence'**
   String get schedule_form_weekly_recurrence;
+
+  /// No description provided for @schedule_day_abbr_sunday.
+  ///
+  /// In en, this message translates to:
+  /// **'Sun'**
+  String get schedule_day_abbr_sunday;
+
+  /// No description provided for @schedule_day_abbr_monday.
+  ///
+  /// In en, this message translates to:
+  /// **'Mon'**
+  String get schedule_day_abbr_monday;
+
+  /// No description provided for @schedule_day_abbr_tuesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Tue'**
+  String get schedule_day_abbr_tuesday;
+
+  /// No description provided for @schedule_day_abbr_wednesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Wed'**
+  String get schedule_day_abbr_wednesday;
+
+  /// No description provided for @schedule_day_abbr_thursday.
+  ///
+  /// In en, this message translates to:
+  /// **'Thu'**
+  String get schedule_day_abbr_thursday;
+
+  /// No description provided for @schedule_day_abbr_friday.
+  ///
+  /// In en, this message translates to:
+  /// **'Fri'**
+  String get schedule_day_abbr_friday;
+
+  /// No description provided for @schedule_day_abbr_saturday.
+  ///
+  /// In en, this message translates to:
+  /// **'Sat'**
+  String get schedule_day_abbr_saturday;
 
   /// No description provided for @schedule_form_is_active.
   ///
@@ -5250,6 +5334,330 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Events and Schedule'**
   String get erp_menu_schedule_events;
+
+  /// No description provided for @schedule_duplicate_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate event'**
+  String get schedule_duplicate_title;
+
+  /// No description provided for @schedule_duplicate_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new event based on: {originalTitle}'**
+  String schedule_duplicate_subtitle(String originalTitle);
+
+  /// No description provided for @schedule_duplicate_summary_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Original event summary'**
+  String get schedule_duplicate_summary_title;
+
+  /// No description provided for @schedule_duplicate_adjustments_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjustments before creating'**
+  String get schedule_duplicate_adjustments_title;
+
+  /// No description provided for @schedule_duplicate_open_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Open full edit after creating'**
+  String get schedule_duplicate_open_edit;
+
+  /// No description provided for @schedule_duplicate_action_create.
+  ///
+  /// In en, this message translates to:
+  /// **'Create copy'**
+  String get schedule_duplicate_action_create;
+
+  /// No description provided for @schedule_duplicate_toast_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Event duplicated successfully!'**
+  String get schedule_duplicate_toast_success;
+
+  /// No description provided for @schedule_duplicate_toast_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error duplicating event'**
+  String get schedule_duplicate_toast_error;
+
+  /// No description provided for @accountsPayable_help_cst_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax Situation Code (CST)'**
+  String get accountsPayable_help_cst_title;
+
+  /// No description provided for @accountsPayable_help_cst_description.
+  ///
+  /// In en, this message translates to:
+  /// **'CST shows how the tax applies to the operation.'**
+  String get accountsPayable_help_cst_description;
+
+  /// No description provided for @accountsPayable_help_cst_00.
+  ///
+  /// In en, this message translates to:
+  /// **'Full taxation (Normal ICMS)'**
+  String get accountsPayable_help_cst_00;
+
+  /// No description provided for @accountsPayable_help_cst_10.
+  ///
+  /// In en, this message translates to:
+  /// **'Taxed with ICMS by substitution'**
+  String get accountsPayable_help_cst_10;
+
+  /// No description provided for @accountsPayable_help_cst_20.
+  ///
+  /// In en, this message translates to:
+  /// **'With tax base reduction'**
+  String get accountsPayable_help_cst_20;
+
+  /// No description provided for @accountsPayable_help_cst_40.
+  ///
+  /// In en, this message translates to:
+  /// **'Exempt or non-taxed'**
+  String get accountsPayable_help_cst_40;
+
+  /// No description provided for @accountsPayable_help_cst_60.
+  ///
+  /// In en, this message translates to:
+  /// **'ICMS previously charged via ST'**
+  String get accountsPayable_help_cst_60;
+
+  /// No description provided for @accountsPayable_help_cst_90.
+  ///
+  /// In en, this message translates to:
+  /// **'Other specific situations'**
+  String get accountsPayable_help_cst_90;
+
+  /// No description provided for @accountsPayable_help_cfop_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Fiscal Operations Code (CFOP)'**
+  String get accountsPayable_help_cfop_title;
+
+  /// No description provided for @accountsPayable_help_cfop_description.
+  ///
+  /// In en, this message translates to:
+  /// **'CFOP describes the operation type (purchase, sale, service).'**
+  String get accountsPayable_help_cfop_description;
+
+  /// No description provided for @accountsPayable_help_cfop_digit_info.
+  ///
+  /// In en, this message translates to:
+  /// **'First digit indicates origin/destination:'**
+  String get accountsPayable_help_cfop_digit_info;
+
+  /// No description provided for @accountsPayable_help_cfop_1xxx.
+  ///
+  /// In en, this message translates to:
+  /// **'In-state entries'**
+  String get accountsPayable_help_cfop_1xxx;
+
+  /// No description provided for @accountsPayable_help_cfop_2xxx.
+  ///
+  /// In en, this message translates to:
+  /// **'Out-of-state entries'**
+  String get accountsPayable_help_cfop_2xxx;
+
+  /// No description provided for @accountsPayable_help_cfop_5xxx.
+  ///
+  /// In en, this message translates to:
+  /// **'In-state exits'**
+  String get accountsPayable_help_cfop_5xxx;
+
+  /// No description provided for @accountsPayable_help_cfop_6xxx.
+  ///
+  /// In en, this message translates to:
+  /// **'Out-of-state exits'**
+  String get accountsPayable_help_cfop_6xxx;
+
+  /// No description provided for @accountsPayable_help_cfop_7xxx.
+  ///
+  /// In en, this message translates to:
+  /// **'International operations'**
+  String get accountsPayable_help_cfop_7xxx;
+
+  /// No description provided for @accountsPayable_help_cfop_examples_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Useful examples:'**
+  String get accountsPayable_help_cfop_examples_title;
+
+  /// No description provided for @accountsPayable_help_cfop_1101.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase for industrialization'**
+  String get accountsPayable_help_cfop_1101;
+
+  /// No description provided for @accountsPayable_help_cfop_1556.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase for internal use/consumption'**
+  String get accountsPayable_help_cfop_1556;
+
+  /// No description provided for @accountsPayable_help_cfop_5405.
+  ///
+  /// In en, this message translates to:
+  /// **'Sale subject to tax substitution'**
+  String get accountsPayable_help_cfop_5405;
+
+  /// No description provided for @accountsPayable_help_cfop_6102.
+  ///
+  /// In en, this message translates to:
+  /// **'Sale for commercialization out-of-state'**
+  String get accountsPayable_help_cfop_6102;
+
+  /// No description provided for @common_understood.
+  ///
+  /// In en, this message translates to:
+  /// **'Understood'**
+  String get common_understood;
+
+  /// No description provided for @bankStatements_link_dialog_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Link Financial Record'**
+  String get bankStatements_link_dialog_title;
+
+  /// No description provided for @bankStatements_link_dialog_id_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial Record ID'**
+  String get bankStatements_link_dialog_id_label;
+
+  /// No description provided for @bankStatements_link_dialog_id_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the record identifier.'**
+  String get bankStatements_link_dialog_id_error;
+
+  /// No description provided for @bankStatements_link_dialog_suggestions_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic Suggestions'**
+  String get bankStatements_link_dialog_suggestions_title;
+
+  /// No description provided for @bankStatements_link_dialog_suggestions_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load suggestions. Please try again later.'**
+  String get bankStatements_link_dialog_suggestions_error;
+
+  /// No description provided for @bankStatements_link_dialog_suggestions_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No record matches the amount and date.'**
+  String get bankStatements_link_dialog_suggestions_empty;
+
+  /// No description provided for @bankStatements_link_dialog_use_id.
+  ///
+  /// In en, this message translates to:
+  /// **'Use ID'**
+  String get bankStatements_link_dialog_use_id;
+
+  /// No description provided for @bankStatements_link_dialog_no_concept.
+  ///
+  /// In en, this message translates to:
+  /// **'No concept'**
+  String get bankStatements_link_dialog_no_concept;
+
+  /// No description provided for @bankStatements_link_dialog_saving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get bankStatements_link_dialog_saving;
+
+  /// No description provided for @bankStatements_link_dialog_link_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Link'**
+  String get bankStatements_link_dialog_link_button;
+
+  /// No description provided for @bankStatements_link_dialog_link_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not link. Check the provided identifier.'**
+  String get bankStatements_link_dialog_link_error;
+
+  /// No description provided for @tax_form_title_add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Tax'**
+  String get tax_form_title_add;
+
+  /// No description provided for @tax_form_title_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Tax'**
+  String get tax_form_title_edit;
+
+  /// No description provided for @tax_form_type_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax Type'**
+  String get tax_form_type_label;
+
+  /// No description provided for @tax_form_type_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter tax type'**
+  String get tax_form_type_error;
+
+  /// No description provided for @tax_form_percentage_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Percentage (%)'**
+  String get tax_form_percentage_label;
+
+  /// No description provided for @tax_form_percentage_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid percentage'**
+  String get tax_form_percentage_error;
+
+  /// No description provided for @tax_form_amount_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Retained Value'**
+  String get tax_form_amount_label;
+
+  /// No description provided for @tax_form_amount_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a value greater than zero'**
+  String get tax_form_amount_error;
+
+  /// No description provided for @tax_form_status_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get tax_form_status_label;
+
+  /// No description provided for @tax_form_status_taxed.
+  ///
+  /// In en, this message translates to:
+  /// **'Taxed'**
+  String get tax_form_status_taxed;
+
+  /// No description provided for @tax_form_status_substitution.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax Substitution'**
+  String get tax_form_status_substitution;
+
+  /// No description provided for @tax_form_empty_list.
+  ///
+  /// In en, this message translates to:
+  /// **'No taxes added yet.'**
+  String get tax_form_empty_list;
+
+  /// No description provided for @common_save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get common_save;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

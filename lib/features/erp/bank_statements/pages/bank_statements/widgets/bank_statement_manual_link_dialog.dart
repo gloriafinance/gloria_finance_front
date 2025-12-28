@@ -1,6 +1,8 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
+import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/features/erp/bank_statements/models/bank_statement_model.dart';
 import 'package:church_finance_bk/features/erp/financial_records/finance_record_service.dart';
 import 'package:church_finance_bk/features/erp/financial_records/models/finance_record_filter_model.dart';
@@ -103,111 +105,112 @@ class _BankStatementManualLinkDialogState
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      title: const Text(
-        'Vincular lançamento financeiro',
-        style: TextStyle(fontFamily: AppFonts.fontTitle),
-      ),
-      content: SizedBox(
-        width: isMobile(context) ? double.infinity : 520,
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _StatementSummary(statement: widget.statement),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _controller,
-                  decoration: const InputDecoration(
-                    labelText: 'ID do lançamento financeiro',
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Informe o identificador do lançamento.';
-                    }
-                    return null;
+    return SizedBox(
+      width: double.infinity,
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _StatementSummary(statement: widget.statement),
+            const SizedBox(height: 20),
+            TextFormField(
+              controller: _controller,
+              decoration: InputDecoration(
+                labelText: context.l10n.bankStatements_link_dialog_id_label,
+                border: const OutlineInputBorder(),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return context.l10n.bankStatements_link_dialog_id_error;
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 20),
+            Text(
+              context.l10n.bankStatements_link_dialog_suggestions_title,
+              style: const TextStyle(
+                fontFamily: AppFonts.fontTitle,
+                color: AppColors.purple,
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(height: 12),
+            if (_loadingSuggestions)
+              const Center(child: CircularProgressIndicator()),
+            if (!_loadingSuggestions && _error != null)
+              Text(
+                context.l10n.bankStatements_link_dialog_suggestions_error,
+                style: const TextStyle(color: Colors.redAccent),
+              ),
+            if (!_loadingSuggestions && _error == null && _suggestions.isEmpty)
+              Text(
+                context.l10n.bankStatements_link_dialog_suggestions_empty,
+                style: const TextStyle(fontFamily: AppFonts.fontSubTitle),
+              ),
+            if (_suggestions.isNotEmpty)
+              ..._suggestions.map(
+                (record) => _SuggestionTile(
+                  record: record,
+                  onSelect: () {
+                    _controller.text = record.financialRecordId;
                   },
                 ),
-                const SizedBox(height: 20),
-                Text(
-                  'Sugestões automáticas',
-                  style: const TextStyle(
-                    fontFamily: AppFonts.fontTitle,
-                    color: AppColors.purple,
-                    fontSize: 16,
-                  ),
+              ),
+            const SizedBox(height: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                CustomButton(
+                  text:
+                      context
+                          .l10n
+                          .common_cancel, // Assuming common_cancel exists
+                  onPressed:
+                      _submitting ? null : () => Navigator.of(context).pop(),
+                  typeButton: CustomButton.outline,
+                  backgroundColor: AppColors.purple,
                 ),
-                const SizedBox(height: 12),
-                if (_loadingSuggestions)
-                  const Center(child: CircularProgressIndicator()),
-                if (!_loadingSuggestions && _error != null)
-                  Text(
-                    _error!,
-                    style: const TextStyle(color: Colors.redAccent),
-                  ),
-                if (!_loadingSuggestions &&
-                    _error == null &&
-                    _suggestions.isEmpty)
-                  const Text(
-                    'Nenhum lançamento corresponde ao valor e data informados.',
-                    style: TextStyle(fontFamily: AppFonts.fontSubTitle),
-                  ),
-                if (_suggestions.isNotEmpty)
-                  ..._suggestions.map(
-                    (record) => _SuggestionTile(
-                      record: record,
-                      onSelect: () {
-                        _controller.text = record.financialRecordId;
-                      },
-                    ),
-                  ),
+                const SizedBox(width: 12),
+                CustomButton(
+                  text:
+                      _submitting
+                          ? context.l10n.bankStatements_link_dialog_saving
+                          : context.l10n.bankStatements_link_dialog_link_button,
+                  onPressed:
+                      _submitting
+                          ? null
+                          : () async {
+                            if (!_formKey.currentState!.validate()) return;
+
+                            setState(() {
+                              _submitting = true;
+                            });
+
+                            try {
+                              await widget.onSubmit(_controller.text.trim());
+                              if (mounted) Navigator.of(context).pop(true);
+                            } catch (e) {
+                              setState(() {
+                                _submitting = false;
+                                _error =
+                                    context
+                                        .l10n
+                                        .bankStatements_link_dialog_link_error;
+                              });
+                            }
+                          },
+                  backgroundColor: AppColors.purple,
+                  textColor: Colors.white,
+                  icon: _submitting ? null : Icons.link,
+                ),
               ],
             ),
-          ),
+          ],
         ),
       ),
-      actions: [
-        TextButton(
-          onPressed: _submitting ? null : () => Navigator.of(context).pop(),
-          child: const Text('Cancelar'),
-        ),
-        FilledButton.icon(
-          icon:
-              _submitting
-                  ? const SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                  : const Icon(Icons.check),
-          label: Text(_submitting ? 'Salvando...' : 'Vincular'),
-          onPressed:
-              _submitting
-                  ? null
-                  : () async {
-                    if (!_formKey.currentState!.validate()) return;
-
-                    setState(() {
-                      _submitting = true;
-                    });
-
-                    try {
-                      await widget.onSubmit(_controller.text.trim());
-                      if (mounted) Navigator.of(context).pop(true);
-                    } catch (e) {
-                      setState(() {
-                        _submitting = false;
-                        _error =
-                            'Não foi possível vincular. Verifique o identificador informado.';
-                      });
-                    }
-                  },
-        ),
-      ],
     );
   }
 }
