@@ -51,6 +51,16 @@ class BankModel {
 
   factory BankModel.fromJson(Map<String, dynamic> json) {
     final rawInstruction = json['bankInstruction'];
+    final hasBrazilInstruction =
+        rawInstruction is Map<String, dynamic> &&
+        (rawInstruction['codeBank'] != null ||
+            rawInstruction['agency'] != null ||
+            rawInstruction['account'] != null);
+    final hasVenezuelaInstruction =
+        rawInstruction is Map<String, dynamic> &&
+        (rawInstruction['name'] != null ||
+            rawInstruction['dni'] != null ||
+            rawInstruction['accountNumber'] != null);
 
     return BankModel(
       id: json['id'],
@@ -61,9 +71,16 @@ class BankModel {
       name: json['name'] ?? '',
       tag: json['tag'] ?? '',
       addressInstancePayment: json['addressInstancePayment'] ?? '',
-      bankInstruction: rawInstruction is Map<String, dynamic>
-          ? BankInstruction.fromJson(rawInstruction)
-          : const BankInstruction(codeBank: '', agency: '', account: ''),
+      bankInstruction:
+          hasBrazilInstruction
+              ? BankInstruction.fromJson(rawInstruction)
+              : hasVenezuelaInstruction
+              ? BankInstruction(
+                codeBank: rawInstruction['name'] ?? '',
+                agency: rawInstruction['dni'] ?? '',
+                account: rawInstruction['accountNumber'] ?? '',
+              )
+              : const BankInstruction(codeBank: '', agency: '', account: ''),
       churchId: json['churchId'] ?? '',
     );
   }
@@ -103,5 +120,31 @@ class BankInstruction {
         'codeBank': codeBank,
         'agency': agency,
         'account': account,
+      };
+}
+
+class BankInstructionVenezuela {
+  final String holderName;
+  final String dni;
+  final String accountNumber;
+
+  const BankInstructionVenezuela({
+    required this.holderName,
+    required this.dni,
+    required this.accountNumber,
+  });
+
+  factory BankInstructionVenezuela.fromJson(Map<String, dynamic> json) {
+    return BankInstructionVenezuela(
+      holderName: json['holderName'] ?? json['name'] ?? '',
+      dni: json['dni'] ?? json['documentId'] ?? '',
+      accountNumber: json['accountNumber'] ?? json['account'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'name': holderName,
+        'dni': dni,
+        'accountNumber': accountNumber,
       };
 }

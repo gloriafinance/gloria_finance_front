@@ -18,6 +18,14 @@ class SidebarNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setExpandedIndex(int index) {
+    if (_expandedIndex == index) {
+      return;
+    }
+    _expandedIndex = index;
+    notifyListeners();
+  }
+
   void toggle() {
     _isSidebarVisible = !_isSidebarVisible;
     notifyListeners();

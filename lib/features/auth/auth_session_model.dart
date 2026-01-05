@@ -10,6 +10,7 @@ class AuthSessionModel {
   final String userId;
   final String churchId;
   final String churchName;
+  final String country;
   final List<String> roles;
   final String? memberId;
   final String lang;
@@ -27,6 +28,7 @@ class AuthSessionModel {
     required this.userId,
     required this.roles,
     this.churchName = '',
+    this.country = '',
     this.lang = 'pt-BR',
     this.memberId,
     this.lastLogin,
@@ -44,6 +46,7 @@ class AuthSessionModel {
       userId: "",
       churchId: '',
       churchName: '',
+      country: '',
       lang: 'pt-BR',
       roles: [],
       policies: PolicyAcceptanceModel.empty(),
@@ -54,6 +57,7 @@ class AuthSessionModel {
     String? token,
     String? churchId,
     String? churchName,
+    String? country,
     String? name,
     String? email,
     String? createdAt,
@@ -75,6 +79,7 @@ class AuthSessionModel {
       email: email ?? this.email,
       churchId: churchId ?? this.churchId,
       churchName: churchName ?? this.churchName,
+      country: country ?? this.country,
       memberId: memberId ?? this.memberId,
       lang: lang ?? this.lang,
       lastLogin: lastLogin ?? this.lastLogin,
@@ -87,11 +92,13 @@ class AuthSessionModel {
   static AuthSessionModel fromJson(Map<String, dynamic> json) {
     String churchId = '';
     String churchName = '';
+    String country = '';
     String lang = 'pt-BR';
 
     if (json['church'] != null && json['church'] is Map) {
       churchId = json['church']['churchId'] ?? '';
       churchName = json['church']['name'] ?? '';
+      country = json['church']['country'] ?? '';
       lang = json['church']['lang'] ?? 'pt-BR';
     } else if (json['churchId'] != null) {
       // Fallback for flat structure if needed, or legacy
@@ -108,6 +115,7 @@ class AuthSessionModel {
       userId: json['userId'],
       churchId: churchId,
       churchName: churchName,
+      country: country,
       memberId: json['memberId'],
       lang: lang,
       lastLogin: json['lastLogin'],
@@ -127,7 +135,12 @@ class AuthSessionModel {
       'createdAt': createdAt,
       'isActive': isActive,
       'userId': userId,
-      'church': {'churchId': churchId, 'name': churchName, 'lang': lang},
+      'church': {
+        'churchId': churchId,
+        'name': churchName,
+        'lang': lang,
+        'country': country,
+      },
       'memberId': memberId,
       'lastLogin': lastLogin,
       'isSuperUser': isSuperUser,

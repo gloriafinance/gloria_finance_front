@@ -13,14 +13,14 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-class BankForm extends StatefulWidget {
-  const BankForm({super.key});
+class BankFormVenezuela extends StatefulWidget {
+  const BankFormVenezuela({super.key});
 
   @override
-  State<BankForm> createState() => _BankFormState();
+  State<BankFormVenezuela> createState() => _BankFormVenezuelaState();
 }
 
-class _BankFormState extends State<BankForm> {
+class _BankFormVenezuelaState extends State<BankFormVenezuela> {
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -42,11 +42,11 @@ class _BankFormState extends State<BankForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildNameField(formStore),
-        _buildTagField(formStore),
+        _buildBankNameField(formStore),
+        _buildHolderNameField(formStore),
+        _buildDocumentIdField(formStore),
         _buildAccountTypeField(formStore),
-        _buildPixField(formStore),
-        _buildInstructionSection(formStore, isMobileLayout: true),
+        _buildAccountNumberField(formStore),
         const SizedBox(height: 16),
         _buildActiveToggle(formStore),
         const SizedBox(height: 24),
@@ -62,25 +62,25 @@ class _BankFormState extends State<BankForm> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(child: _buildAccountTypeField(formStore)),
+            Expanded(child: _buildBankNameField(formStore)),
             const SizedBox(width: 24),
-            Expanded(child: _buildNameField(formStore)),
+            Expanded(child: _buildHolderNameField(formStore)),
           ],
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(child: _buildTagField(formStore)),
+            Expanded(child: _buildDocumentIdField(formStore)),
             const SizedBox(width: 24),
-            Expanded(child: _buildPixField(formStore)),
+            Expanded(child: _buildAccountTypeField(formStore)),
           ],
         ),
+        _buildAccountNumberField(formStore),
+        const SizedBox(height: 16),
         Align(
           alignment: Alignment.centerLeft,
           child: _buildActiveToggle(formStore),
         ),
-        const SizedBox(height: 24),
-        _buildInstructionSection(formStore, isMobileLayout: false),
         const SizedBox(height: 24),
         Align(
           alignment: Alignment.centerRight,
@@ -90,20 +90,43 @@ class _BankFormState extends State<BankForm> {
     );
   }
 
-  Widget _buildNameField(BankFormStore formStore) {
+  Widget _buildBankNameField(BankFormStore formStore) {
     return Input(
       label: context.l10n.settings_banks_field_name,
       initialValue: formStore.state.name,
       onValidator: _requiredValidator,
-      onChanged: formStore.setName,
+      onChanged: formStore.setBankName,
     );
   }
 
-  Widget _buildTagField(BankFormStore formStore) {
+  Widget _buildHolderNameField(BankFormStore formStore) {
     return Input(
-      label: context.l10n.settings_banks_field_tag,
-      initialValue: formStore.state.tag,
-      onChanged: formStore.setTag,
+      label: context.l10n.settings_banks_field_holder_name,
+      initialValue: formStore.state.holderName,
+      onValidator: _requiredValidator,
+      onChanged: formStore.setHolderName,
+    );
+  }
+
+  Widget _buildDocumentIdField(BankFormStore formStore) {
+    return Input(
+      label: context.l10n.settings_banks_field_document_id,
+      initialValue: formStore.state.documentId,
+      keyboardType: TextInputType.number,
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+      onValidator: _requiredNumberValidator,
+      onChanged: formStore.setDocumentId,
+    );
+  }
+
+  Widget _buildAccountNumberField(BankFormStore formStore) {
+    return Input(
+      label: context.l10n.settings_banks_field_account,
+      initialValue: formStore.state.accountNumber,
+      keyboardType: TextInputType.number,
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+      onValidator: _requiredNumberValidator,
+      onChanged: formStore.setAccountNumber,
     );
   }
 
@@ -124,80 +147,6 @@ class _BankFormState extends State<BankForm> {
         );
         formStore.setAccountType(selected);
       },
-    );
-  }
-
-  Widget _buildPixField(BankFormStore formStore) {
-    return Input(
-      label: context.l10n.settings_banks_field_pix_key,
-      initialValue: formStore.state.addressInstancePayment,
-      onValidator: _requiredValidator,
-      onChanged: formStore.setAddressInstancePayment,
-    );
-  }
-
-  Widget _buildInstructionSection(
-    BankFormStore formStore, {
-    required bool isMobileLayout,
-  }) {
-    if (isMobileLayout) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildCodeBankField(formStore),
-          _buildAgencyField(formStore),
-          _buildAccountField(formStore),
-        ],
-      );
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(child: _buildCodeBankField(formStore)),
-            const SizedBox(width: 24),
-            Expanded(child: _buildAgencyField(formStore)),
-            const SizedBox(width: 24),
-            Expanded(child: _buildAccountField(formStore)),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCodeBankField(BankFormStore formStore) {
-    return Input(
-      label: context.l10n.settings_banks_field_bank_code,
-      initialValue: formStore.state.codeBank,
-      keyboardType: TextInputType.number,
-      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-      onValidator: _requiredNumberValidator,
-      onChanged: formStore.setCodeBank,
-    );
-  }
-
-  Widget _buildAgencyField(BankFormStore formStore) {
-    return Input(
-      label: context.l10n.settings_banks_field_agency,
-      initialValue: formStore.state.agency,
-      keyboardType: TextInputType.number,
-      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-      onValidator: _requiredNumberValidator,
-      onChanged: formStore.setAgency,
-    );
-  }
-
-  Widget _buildAccountField(BankFormStore formStore) {
-    return Input(
-      label: context.l10n.settings_banks_field_account,
-      initialValue: formStore.state.account,
-      keyboardType: TextInputType.number,
-      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-      onValidator: _requiredNumberValidator,
-      onChanged: formStore.setAccount,
     );
   }
 
