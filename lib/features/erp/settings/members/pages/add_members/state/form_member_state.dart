@@ -1,3 +1,5 @@
+import 'package:church_finance_bk/core/utils/date_formatter.dart';
+
 import '../../../models/member_model.dart';
 
 class FormMemberState {
@@ -12,17 +14,18 @@ class FormMemberState {
   bool active;
   bool makeRequest;
 
-  FormMemberState(
-      {required this.makeRequest,
-      this.memberId,
-      required this.name,
-      required this.email,
-      required this.phone,
-      required this.dni,
-      required this.conversionDate,
-      this.baptismDate,
-      required this.birthdate,
-      required this.active});
+  FormMemberState({
+    required this.makeRequest,
+    this.memberId,
+    required this.name,
+    required this.email,
+    required this.phone,
+    required this.dni,
+    required this.conversionDate,
+    this.baptismDate,
+    required this.birthdate,
+    required this.active,
+  });
 
   factory FormMemberState.init() {
     return FormMemberState(
@@ -85,14 +88,14 @@ class FormMemberState {
       'email': email,
       'phone': phone,
       'dni': dni,
-      'conversionDate': conversionDate,
-      'baptismDate': baptismDate,
-      'birthdate': birthdate,
+      'conversionDate': convertDateFormat(conversionDate),
+      'baptismDate': convertDateFormat(baptismDate),
+      'birthdate': convertDateFormat(birthdate),
       'active': active,
     };
 
     if (memberId != null) {
-      payload['memberId'] = memberId;
+      payload['memberId'] = memberId!;
     }
 
     return payload;
