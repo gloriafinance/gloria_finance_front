@@ -9,10 +9,17 @@ class BankFormStore extends ChangeNotifier {
   final BankService service;
   BankFormState state;
 
-  BankFormStore({BankModel? bank})
-    : service = BankService(),
-      state =
-          bank != null ? BankFormState.fromModel(bank) : BankFormState.init();
+  BankFormStore({
+    BankModel? bank,
+    required BankInstructionType instructionType,
+  }) : service = BankService(),
+       state =
+           bank != null
+               ? BankFormState.fromModel(
+                 bank,
+                 instructionType: instructionType,
+               )
+               : BankFormState.init(instructionType: instructionType);
 
   void setName(String value) {
     state = state.copyWith(name: value.trim());
@@ -21,6 +28,12 @@ class BankFormStore extends ChangeNotifier {
 
   void setTag(String value) {
     state = state.copyWith(tag: value.trim());
+    notifyListeners();
+  }
+
+  void setBankName(String value) {
+    final trimmed = value.trim();
+    state = state.copyWith(name: trimmed, tag: trimmed);
     notifyListeners();
   }
 
@@ -35,7 +48,11 @@ class BankFormStore extends ChangeNotifier {
   }
 
   void setAddressInstancePayment(String value) {
-    state = state.copyWith(addressInstancePayment: value.trim());
+    if (state.instructionType == BankInstructionType.venezuela) {
+      state = state.copyWith(addressInstancePayment: 'PAGO_MOVIL');
+    } else {
+      state = state.copyWith(addressInstancePayment: value.trim());
+    }
     notifyListeners();
   }
 
@@ -51,6 +68,21 @@ class BankFormStore extends ChangeNotifier {
 
   void setAccount(String value) {
     state = state.copyWith(account: value.trim());
+    notifyListeners();
+  }
+
+  void setHolderName(String value) {
+    state = state.copyWith(holderName: value.trim());
+    notifyListeners();
+  }
+
+  void setDocumentId(String value) {
+    state = state.copyWith(documentId: value.trim());
+    notifyListeners();
+  }
+
+  void setAccountNumber(String value) {
+    state = state.copyWith(accountNumber: value.trim());
     notifyListeners();
   }
 

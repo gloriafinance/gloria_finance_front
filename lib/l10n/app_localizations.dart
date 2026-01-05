@@ -520,8 +520,14 @@ abstract class AppLocalizations {
   /// No description provided for @erp_menu_settings.
   ///
   /// In en, this message translates to:
-  /// **'Settings'**
+  /// **'Financial Settings'**
   String get erp_menu_settings;
+
+  /// No description provided for @erp_menu_settings_security.
+  ///
+  /// In en, this message translates to:
+  /// **'Security Settings'**
+  String get erp_menu_settings_security;
 
   /// No description provided for @erp_menu_settings_users_access.
   ///
@@ -1099,11 +1105,35 @@ abstract class AppLocalizations {
   /// **'New bank'**
   String get settings_banks_new_bank;
 
+  /// No description provided for @settings_banks_form_title_create.
+  ///
+  /// In en, this message translates to:
+  /// **'New bank'**
+  String get settings_banks_form_title_create;
+
+  /// No description provided for @settings_banks_form_title_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit bank'**
+  String get settings_banks_form_title_edit;
+
   /// No description provided for @settings_banks_field_name.
   ///
   /// In en, this message translates to:
   /// **'Name'**
   String get settings_banks_field_name;
+
+  /// No description provided for @settings_banks_field_holder_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Account holder name'**
+  String get settings_banks_field_holder_name;
+
+  /// No description provided for @settings_banks_field_document_id.
+  ///
+  /// In en, this message translates to:
+  /// **'Document ID'**
+  String get settings_banks_field_document_id;
 
   /// No description provided for @settings_banks_field_tag.
   ///
@@ -1152,6 +1182,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Required field'**
   String get settings_banks_error_required;
+
+  /// No description provided for @settings_banks_error_invalid_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid number'**
+  String get settings_banks_error_invalid_number;
 
   /// No description provided for @settings_banks_error_select_account_type.
   ///

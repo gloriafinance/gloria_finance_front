@@ -1,6 +1,5 @@
-import 'package:flutter/widgets.dart';
-
 import 'package:church_finance_bk/l10n/app_localizations.dart';
+import 'package:flutter/widgets.dart';
 
 extension L10nX on BuildContext {
   AppLocalizations get l10n => AppLocalizations.of(this)!;
@@ -9,6 +8,8 @@ extension L10nX on BuildContext {
 extension L10nMenuX on AppLocalizations {
   String menuLabel(String key) {
     switch (key) {
+      case 'erp_menu_settings_security':
+        return erp_menu_settings_security;
       case 'erp_menu_settings':
         return erp_menu_settings;
       case 'erp_menu_settings_users_access':

@@ -40,6 +40,7 @@ void main() {
         "church": {
           "churchId": "d6a20217-36a7-4520-99b3-f9a212191687",
           "name": "IPUB Santana de parnaiba",
+          "country": "BR",
         },
         "roles": ["MEMBER"],
         "token": "test-token",
@@ -52,6 +53,7 @@ void main() {
       expect(model.email, 'programador.angel@gmail.com');
       expect(model.churchId, 'd6a20217-36a7-4520-99b3-f9a212191687');
       expect(model.churchName, 'IPUB Santana de parnaiba');
+      expect(model.country, 'BR');
       expect(model.lastLogin, '2025-12-15T10:23:16.992Z');
       expect(model.isSuperUser, false);
       expect(model.memberId, '5b79c546-68c1-4454-8b4f-4fb013daf582');
@@ -81,6 +83,7 @@ void main() {
       final model = AuthSessionModel(
         churchId: "123",
         churchName: "Test Church",
+        country: "VE",
         token: "token",
         name: "Test User",
         email: "test@test.com",
@@ -97,6 +100,7 @@ void main() {
 
       expect(json['church']['churchId'], "123");
       expect(json['church']['name'], "Test Church");
+      expect(json['church']['country'], "VE");
       expect(json['lastLogin'], "today");
       expect(json['isSuperUser'], true);
       expect(json['memberId'], "member-1");
@@ -158,6 +162,7 @@ void main() {
         userId: 'user-123',
         churchId: 'church-123',
         churchName: 'Original Church',
+        country: 'BR',
         roles: ['ADMIN'],
         lastLogin: 'yesterday',
         isSuperUser: true,
@@ -168,6 +173,7 @@ void main() {
 
       expect(copied.name, 'New Name');
       expect(copied.churchName, 'Original Church');
+      expect(copied.country, 'BR');
       expect(copied.lastLogin, 'yesterday');
       expect(copied.isSuperUser, true);
       expect(copied.memberId, 'm1');
@@ -189,11 +195,13 @@ void main() {
         churchName: 'New Church',
         lastLogin: 'now',
         isSuperUser: true,
+        country: 'VE',
       );
 
       expect(copied.churchName, 'New Church');
       expect(copied.lastLogin, 'now');
       expect(copied.isSuperUser, true);
+      expect(copied.country, 'VE');
     });
   });
 }

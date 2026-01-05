@@ -225,7 +225,10 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get erp_menu_settings => 'Configuración';
+  String get erp_menu_settings => 'Configuración Financiera';
+
+  @override
+  String get erp_menu_settings_security => 'Configuración de seguridad';
 
   @override
   String get erp_menu_settings_users_access => 'Usuarios y acceso';
@@ -522,7 +525,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settings_banks_new_bank => 'Nuevo banco';
 
   @override
+  String get settings_banks_form_title_create => 'Nuevo banco';
+
+  @override
+  String get settings_banks_form_title_edit => 'Editar banco';
+
+  @override
   String get settings_banks_field_name => 'Nombre';
+
+  @override
+  String get settings_banks_field_holder_name => 'Nombre del titular';
+
+  @override
+  String get settings_banks_field_document_id => 'Documento de identificación';
 
   @override
   String get settings_banks_field_tag => 'Tag';
@@ -547,6 +562,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settings_banks_error_required => 'Campo obligatorio';
+
+  @override
+  String get settings_banks_error_invalid_number => 'Ingrese un número válido';
 
   @override
   String get settings_banks_error_select_account_type => 'Selecciona el tipo de cuenta';

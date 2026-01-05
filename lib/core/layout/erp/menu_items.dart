@@ -8,38 +8,24 @@ import 'package:flutter/material.dart';
 final List<Map<String, dynamic>> items = [
   {
     "key": "erp_menu_settings",
-    "icon": Icons.settings,
+    //"icon": Icons.settings,
     "items": [
-      {
-        "key": "erp_menu_settings_users_access",
-        "icon": Icons.admin_panel_settings,
-        "to": "/rbac/users",
-      },
-      {
-        "key": "erp_menu_settings_roles_permissions",
-        "icon": Icons.badge_outlined,
-        "to": "/rbac/roles",
-      },
-      {
-        "key": "erp_menu_settings_members",
-        "icon": Icons.people,
-        "to": "/members",
-      },
       {
         "key": "erp_menu_settings_financial_periods",
         "icon": Icons.calendar_month_outlined,
         "to": "/financial-months",
       },
       {
-        "key": "erp_menu_settings_availability_accounts",
-        "icon": Icons.account_balance_wallet_outlined,
-        "to": "/availability-accounts",
-      },
-      {
         "key": "erp_menu_settings_banks",
         "icon": Icons.account_balance,
         "to": "/banks",
       },
+      {
+        "key": "erp_menu_settings_availability_accounts",
+        "icon": Icons.account_balance_wallet_outlined,
+        "to": "/availability-accounts",
+      },
+
       {
         "key": "erp_menu_settings_cost_centers",
         "icon": Icons.account_tree,
@@ -58,8 +44,29 @@ final List<Map<String, dynamic>> items = [
     ],
   },
   {
+    "key": "erp_menu_settings_security",
+    //"icon": Icons.settings,
+    "items": [
+      {
+        "key": "erp_menu_settings_users_access",
+        "icon": Icons.admin_panel_settings,
+        "to": "/rbac/users",
+      },
+      {
+        "key": "erp_menu_settings_roles_permissions",
+        "icon": Icons.badge_outlined,
+        "to": "/rbac/roles",
+      },
+      {
+        "key": "erp_menu_settings_members",
+        "icon": Icons.people,
+        "to": "/members",
+      },
+    ],
+  },
+  {
     "key": "erp_menu_finance",
-    "icon": Icons.monetization_on,
+    //"icon": Icons.monetization_on,
     "items": [
       {
         "key": "erp_menu_finance_contributions",
@@ -95,7 +102,7 @@ final List<Map<String, dynamic>> items = [
   },
   {
     "key": "erp_menu_assets",
-    "icon": Icons.inventory_2_outlined,
+    //"icon": Icons.inventory_2_outlined,
     "items": [
       {
         "key": "erp_menu_assets_items",
@@ -106,7 +113,7 @@ final List<Map<String, dynamic>> items = [
   },
   {
     "key": "erp_menu_schedule",
-    "icon": Icons.calendar_today,
+    // "icon": Icons.calendar_today,
     "items": [
       {
         "key": "erp_menu_schedule_events",
@@ -117,7 +124,7 @@ final List<Map<String, dynamic>> items = [
   },
   {
     "key": "erp_menu_reports",
-    "icon": Icons.insert_chart,
+    //   "icon": Icons.insert_chart,
     "items": [
       {
         "key": "erp_menu_reports_monthly_tithes",

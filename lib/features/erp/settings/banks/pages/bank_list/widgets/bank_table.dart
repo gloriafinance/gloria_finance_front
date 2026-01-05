@@ -1,8 +1,10 @@
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/tag_status.dart';
+import 'package:church_finance_bk/features/auth/pages/login/store/auth_session_store.dart';
 import 'package:church_finance_bk/features/erp/settings/banks/models/bank_model.dart';
 import 'package:church_finance_bk/features/erp/settings/banks/store/bank_store.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,8 @@ class BankTable extends StatelessWidget {
   Widget build(BuildContext context) {
     final store = context.watch<BankStore>();
     final state = store.state;
+    final sessionStore = context.watch<AuthSessionStore>();
+    final isVenezuela = sessionStore.state.session.country.toUpperCase() == 'VE';
 
     if (state.isLoading) {
       return Container(
@@ -28,33 +32,25 @@ class BankTable extends StatelessWidget {
     if (state.banks.isEmpty) {
       return Container(
         margin: const EdgeInsets.only(top: 40.0),
-        child: const Center(
+        child: Center(
           child: Text(
-            'Nenhum banco cadastrado.',
-            style: TextStyle(fontFamily: AppFonts.fontText),
+            context.l10n.common_no_results_found,
+            style: const TextStyle(fontFamily: AppFonts.fontText),
           ),
         ),
       );
     }
 
     return CustomTable(
-      headers: const [
-        'Nome',
-        'Tag',
-        'Tipo de conta',
-        'Código do banco',
-        'Agência',
-        'Conta',
-        'Status',
-      ],
+      headers: _buildHeaders(context, isVenezuela),
       data: FactoryDataTable<BankModel>(
         data: state.banks,
-        dataBuilder: (bank) => _mapToRow(bank),
+        dataBuilder: (bank) => _mapToRow(context, bank, isVenezuela),
       ),
       actionBuilders: [
         (bank) => ButtonActionTable(
           color: AppColors.blue,
-          text: 'Editar',
+          text: context.l10n.common_edit,
           onPressed: () => _navigateToEdit(context, bank as BankModel),
           icon: Icons.edit_outlined,
         ),
@@ -62,7 +58,50 @@ class BankTable extends StatelessWidget {
     );
   }
 
-  List<dynamic> _mapToRow(BankModel bank) {
+  List<String> _buildHeaders(BuildContext context, bool isVenezuela) {
+    if (isVenezuela) {
+      return [
+        context.l10n.settings_banks_field_name,
+        context.l10n.settings_banks_field_holder_name,
+        context.l10n.settings_banks_field_document_id,
+        context.l10n.settings_banks_field_account_type,
+        context.l10n.settings_banks_field_account,
+        context.l10n.common_status,
+      ];
+    }
+
+    return [
+      context.l10n.settings_banks_field_name,
+      context.l10n.settings_banks_field_tag,
+      context.l10n.settings_banks_field_account_type,
+      context.l10n.settings_banks_field_bank_code,
+      context.l10n.settings_banks_field_agency,
+      context.l10n.settings_banks_field_account,
+      context.l10n.common_status,
+    ];
+  }
+
+  List<dynamic> _mapToRow(
+    BuildContext context,
+    BankModel bank,
+    bool isVenezuela,
+  ) {
+    final statusLabel =
+        bank.active
+            ? context.l10n.schedule_status_active
+            : context.l10n.schedule_status_inactive;
+
+    if (isVenezuela) {
+      return [
+        bank.name,
+        bank.bankInstruction.codeBank,
+        bank.bankInstruction.agency,
+        bank.accountType.friendlyName,
+        bank.bankInstruction.account,
+        tagStatus(bank.active ? AppColors.green : Colors.red, statusLabel),
+      ];
+    }
+
     return [
       bank.name,
       bank.tag,
@@ -70,9 +109,7 @@ class BankTable extends StatelessWidget {
       bank.bankInstruction.codeBank,
       bank.bankInstruction.agency,
       bank.bankInstruction.account,
-      bank.active
-          ? tagStatus(AppColors.green, 'Ativo')
-          : tagStatus(Colors.red, 'Inativo'),
+      tagStatus(bank.active ? AppColors.green : Colors.red, statusLabel),
     ];
   }
 
