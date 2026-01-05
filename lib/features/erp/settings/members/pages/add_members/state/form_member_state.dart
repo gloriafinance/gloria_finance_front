@@ -92,6 +92,7 @@ class FormMemberState {
       'baptismDate': convertDateFormat(baptismDate),
       'birthdate': convertDateFormat(birthdate),
       'active': active,
+      'isTreasurer': false,
     };
 
     if (memberId != null) {

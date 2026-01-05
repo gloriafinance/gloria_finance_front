@@ -7,7 +7,9 @@ class SaveMemberService extends AppHttp {
 
   Future<void> saveMember(Map<String, dynamic> jsonForm) async {
     final session = await AuthPersistence().restore();
+
     tokenAPI = session.token;
+    jsonForm['churchId'] = session.churchId;
 
     try {
       await http.post(
