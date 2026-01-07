@@ -3505,11 +3505,29 @@ abstract class AppLocalizations {
   /// **'E.g.: enforcement of judgment, claims covered by insurer.'**
   String get accountsReceivable_type_legal_example;
 
+  /// No description provided for @common_see_all.
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get common_see_all;
+
   /// No description provided for @member_home_placeholder.
   ///
   /// In en, this message translates to:
   /// **'Member experience'**
   String get member_home_placeholder;
+
+  /// No description provided for @member_home_upcoming_events_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming events'**
+  String get member_home_upcoming_events_title;
+
+  /// No description provided for @member_home_upcoming_events_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No upcoming events in the next few days.'**
+  String get member_home_upcoming_events_empty;
 
   /// No description provided for @member_contribution_history_title.
   ///

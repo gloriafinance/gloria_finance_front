@@ -388,8 +388,9 @@ class WeeklyOccurrence {
   });
 
   factory WeeklyOccurrence.fromJson(Map<String, dynamic> json) {
+    final dynamic rawScheduleItemId = json['scheduleItemId'];
     return WeeklyOccurrence(
-      scheduleItemId: json['scheduleItemId'] as String,
+      scheduleItemId: rawScheduleItemId is String ? rawScheduleItemId : '',
       title: json['title'] as String,
       type: ScheduleItemTypeExtension.fromApiValue(json['type'] as String),
       date: json['date'] as String,

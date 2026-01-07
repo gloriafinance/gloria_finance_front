@@ -79,6 +79,28 @@ void main() {
       expect(model.churchName, '');
     });
 
+    test('parses memberId from nested member payload', () {
+      final json = {
+        'token': 'test-token',
+        'name': 'Test User',
+        'email': 'test@example.com',
+        'createdAt': '2024-01-15',
+        'isActive': true,
+        'userId': 'user-123',
+        'roles': ['MEMBER'],
+        'church': {
+          'churchId': 'church-123',
+          'name': 'Test Church',
+          'country': 'BR',
+        },
+        'member': {'memberId': 'member-123'},
+      };
+
+      final model = AuthSessionModel.fromJson(json);
+
+      expect(model.memberId, 'member-123');
+    });
+
     test('toJson serializes correctly with nested church object', () {
       final model = AuthSessionModel(
         churchId: "123",

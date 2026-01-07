@@ -106,6 +106,7 @@ class ContributionService extends AppHttp {
     try {
       // Build FormData according to backend spec
       final formData = FormData.fromMap({
+        'memberId': session.memberId,
         'amount': request.amount,
         'availabilityAccountId': request.destinationId,
         'contributionType': request.type.apiValue,
@@ -167,6 +168,7 @@ class ContributionService extends AppHttp {
     tokenAPI = session.token;
 
     final queryParams = {
+      'memberId': session.memberId,
       'page': page,
       'perPage': perPage,
       if (type != null && type != 'ALL') 'type': type,

@@ -1747,7 +1747,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountsReceivable_type_legal_example => 'E.g.: enforcement of judgment, claims covered by insurer.';
 
   @override
+  String get common_see_all => 'See all';
+
+  @override
   String get member_home_placeholder => 'Member experience';
+
+  @override
+  String get member_home_upcoming_events_title => 'Upcoming events';
+
+  @override
+  String get member_home_upcoming_events_empty => 'No upcoming events in the next few days.';
 
   @override
   String get member_contribution_history_title => 'Contribution history';
