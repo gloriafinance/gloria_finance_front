@@ -1759,6 +1759,18 @@ class AppLocalizationsPt extends AppLocalizations {
   String get member_home_upcoming_events_empty => 'Nenhum evento nos próximos dias.';
 
   @override
+  String get member_schedule_detail_information_title => 'Informações';
+
+  @override
+  String get member_schedule_detail_details_title => 'Detalhes';
+
+  @override
+  String get member_schedule_detail_optional_label => '(opcional)';
+
+  @override
+  String get member_schedule_detail_no_extra_info => 'Nenhum detalhe adicional disponível.';
+
+  @override
   String get member_contribution_history_title => 'Histórico de contribuições';
 
   @override

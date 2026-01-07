@@ -3529,6 +3529,30 @@ abstract class AppLocalizations {
   /// **'No upcoming events in the next few days.'**
   String get member_home_upcoming_events_empty;
 
+  /// No description provided for @member_schedule_detail_information_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Information'**
+  String get member_schedule_detail_information_title;
+
+  /// No description provided for @member_schedule_detail_details_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get member_schedule_detail_details_title;
+
+  /// No description provided for @member_schedule_detail_optional_label.
+  ///
+  /// In en, this message translates to:
+  /// **'(optional)'**
+  String get member_schedule_detail_optional_label;
+
+  /// No description provided for @member_schedule_detail_no_extra_info.
+  ///
+  /// In en, this message translates to:
+  /// **'No additional details available.'**
+  String get member_schedule_detail_no_extra_info;
+
   /// No description provided for @member_contribution_history_title.
   ///
   /// In en, this message translates to:

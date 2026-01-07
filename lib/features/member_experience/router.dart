@@ -8,9 +8,11 @@ import 'package:church_finance_bk/features/member_experience/contributions/pages
 import 'package:church_finance_bk/features/member_experience/contributions/pages/contribute/member_contribute_result_screen.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/pages/contribute/member_contribute_screen.dart';
 import 'package:church_finance_bk/features/member_experience/contributions/pages/history/member_contribution_history_screen.dart';
+import 'package:church_finance_bk/features/erp/schedule/models/schedule_models.dart';
 import 'package:church_finance_bk/features/member_experience/home/home_screen.dart';
 import 'package:church_finance_bk/features/member_experience/profile/pages/member_profile_screen.dart';
 import 'package:church_finance_bk/features/member_experience/profile/pages/change_password/member_change_password_screen.dart';
+import 'package:church_finance_bk/features/member_experience/schedule/pages/member_schedule_detail_screen.dart';
 import 'package:church_finance_bk/features/member_experience/schedule/pages/member_schedule_list_screen.dart';
 import 'package:church_finance_bk/features/member_experience/settings/pages/member_settings_screen.dart';
 import 'package:flutter/material.dart';
@@ -65,6 +67,15 @@ memberExperienceRouter() {
       path: '/member/schedule',
       pageBuilder: (context, state) {
         return transitionCustom(const MemberScheduleListScreen());
+      },
+    ),
+    GoRoute(
+      path: '/member/schedule/detail',
+      pageBuilder: (context, state) {
+        final occurrence = state.extra as WeeklyOccurrence;
+        return transitionCustom(
+          MemberScheduleDetailScreen(occurrence: occurrence),
+        );
       },
     ),
     // Contribution History (Main Entry)
