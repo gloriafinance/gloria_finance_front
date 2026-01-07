@@ -1747,7 +1747,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String get accountsReceivable_type_legal_example => 'Ex.: cumprimento de sentença, sinistros cobertos por seguradora.';
 
   @override
+  String get common_see_all => 'Ver todos';
+
+  @override
   String get member_home_placeholder => 'Experiência do membro';
+
+  @override
+  String get member_home_upcoming_events_title => 'Próximos eventos';
+
+  @override
+  String get member_home_upcoming_events_empty => 'Nenhum evento nos próximos dias.';
 
   @override
   String get member_contribution_history_title => 'Histórico de contribuições';

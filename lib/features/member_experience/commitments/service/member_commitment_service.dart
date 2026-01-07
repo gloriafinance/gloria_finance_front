@@ -15,6 +15,7 @@ class MemberCommitmentService extends AppHttp {
     tokenAPI = session.token;
 
     final queryParams = {
+      'memberId': session.memberId,
       'page': page,
       'perPage': perPage,
       if (status != null && status.isNotEmpty) 'status': status,

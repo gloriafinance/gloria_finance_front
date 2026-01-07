@@ -94,6 +94,7 @@ class AuthSessionModel {
     String churchName = '';
     String country = '';
     String lang = 'pt-BR';
+    String? memberId;
 
     if (json['church'] != null && json['church'] is Map) {
       churchId = json['church']['churchId'] ?? '';
@@ -103,6 +104,21 @@ class AuthSessionModel {
     } else if (json['churchId'] != null) {
       // Fallback for flat structure if needed, or legacy
       churchId = json['churchId'];
+    }
+
+    final dynamic memberRoot = json['member'];
+    memberId =
+        (json['memberId'] ??
+                json['member_id'] ??
+                (memberRoot is Map
+                    ? (memberRoot['memberId'] ??
+                        memberRoot['member_id'] ??
+                        memberRoot['id'] ??
+                        memberRoot['_id'])
+                    : null))
+            ?.toString();
+    if (memberId != null && memberId.trim().isEmpty) {
+      memberId = null;
     }
 
     return AuthSessionModel(
@@ -116,7 +132,7 @@ class AuthSessionModel {
       churchId: churchId,
       churchName: churchName,
       country: country,
-      memberId: json['memberId'],
+      memberId: memberId,
       lang: lang,
       lastLogin: json['lastLogin'],
       isSuperUser: json['isSuperUser'] ?? false,
