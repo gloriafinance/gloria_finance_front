@@ -90,6 +90,11 @@ class MemberUpcomingEventsSection extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return MemberUpcomingEventCard(
                       occurrence: store.events[index],
+                      onTap:
+                          () => context.push(
+                            '/member/schedule/detail',
+                            extra: store.events[index],
+                          ),
                     );
                   },
                 ),

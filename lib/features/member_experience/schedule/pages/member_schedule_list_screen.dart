@@ -55,7 +55,11 @@ class MemberScheduleListScreen extends StatelessWidget {
                             child: MemberUpcomingEventCard(
                               occurrence: occurrence,
                               width: double.infinity,
-                              onTap: () {},
+                              onTap:
+                                  () => context.push(
+                                    '/member/schedule/detail',
+                                    extra: occurrence,
+                                  ),
                             ),
                           ),
                         ),
