@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 import '../theme/app_color.dart';
 import '../theme/app_fonts.dart';
@@ -21,22 +22,23 @@ class Input extends StatefulWidget {
   final int maxLines;
   final bool readOnly;
 
-  const Input(
-      {super.key,
-      this.onIconTap,
-      this.icon,
-      this.iconRight,
-      this.isPass = false,
-      required this.label,
-      this.labelSuffix,
-      required this.onChanged,
-      this.onValidator,
-      this.initialValue,
-      this.keyboardType,
-      this.inputFormatters,
-      this.onTap,
-      this.maxLines = 1,
-      this.readOnly = false});
+  const Input({
+    super.key,
+    this.onIconTap,
+    this.icon,
+    this.iconRight,
+    this.isPass = false,
+    required this.label,
+    this.labelSuffix,
+    required this.onChanged,
+    this.onValidator,
+    this.initialValue,
+    this.keyboardType,
+    this.inputFormatters,
+    this.onTap,
+    this.maxLines = 1,
+    this.readOnly = false,
+  });
 
   @override
   State<Input> createState() => _InputState();
@@ -85,7 +87,10 @@ class _InputState extends State<Input> {
             keyboardType: widget.keyboardType,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: _inputDecoration(
-                widget.icon, widget.iconRight, widget.onIconTap),
+              widget.icon,
+              widget.iconRight,
+              widget.onIconTap,
+            ),
             validator: widget.onValidator,
             onChanged: widget.onChanged,
             onTap: widget.onTap,
@@ -105,48 +110,55 @@ List<Widget> _generateLabel(String label, {Widget? suffix}) {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(label,
-            style: const TextStyle(
-                color: AppColors.purple,
-                fontFamily: AppFonts.fontTitle,
-                fontSize: 15)),
-        if (suffix != null) ...[
-          const SizedBox(width: 6),
-          suffix,
-        ],
+        Text(
+          label,
+          style: const TextStyle(
+            color: AppColors.purple,
+            fontFamily: AppFonts.fontTitle,
+            fontSize: 15,
+          ),
+        ),
+        if (suffix != null) ...[const SizedBox(width: 6), suffix],
       ],
     ),
-    const SizedBox(height: 8)
+    const SizedBox(height: 8),
   ];
 }
 
 InputDecoration _inputDecoration(
-    IconData? icon, Icon? iconRight, GestureTapCallback? onIconTap) {
+  IconData? icon,
+  Icon? iconRight,
+  GestureTapCallback? onIconTap,
+) {
   return InputDecoration(
     contentPadding: const EdgeInsets.all(16),
     errorBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.red),
-        borderRadius:
-            BorderRadius.all(Radius.circular(18)) // Modify error border color
-        ),
-    focusedErrorBorder:
-        const OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+      borderSide: BorderSide(color: Colors.red),
+      borderRadius: BorderRadius.all(
+        Radius.circular(18),
+      ), // Modify error border color
+    ),
+    focusedErrorBorder: const OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.red),
+    ),
     prefixIcon: icon != null ? Icon(icon, color: AppColors.greyMiddle) : null,
     // Modify prefix icon color
-    suffixIcon: iconRight != null
-        ? GestureDetector(
-            onTap: onIconTap ?? () {},
-            child: iconRight,
-          )
-        : null,
+    suffixIcon:
+        iconRight != null
+            ? GestureDetector(onTap: onIconTap ?? () {}, child: iconRight)
+            : null,
     hintStyle: const TextStyle(
-        color: AppColors.greyMiddle, fontFamily: AppFonts.fontSubTitle),
+      color: AppColors.greyMiddle,
+      fontFamily: AppFonts.fontSubTitle,
+    ),
     enabledBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: AppColors.greyMiddle),
-        borderRadius: BorderRadius.all(Radius.circular(18))),
+      borderSide: BorderSide(color: AppColors.greyMiddle),
+      borderRadius: BorderRadius.all(Radius.circular(18)),
+    ),
     focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: AppColors.greyMiddle),
-        borderRadius: BorderRadius.all(Radius.circular(18))),
+      borderSide: BorderSide(color: AppColors.greyMiddle),
+      borderRadius: BorderRadius.all(Radius.circular(18)),
+    ),
   );
 }
 
@@ -230,16 +242,16 @@ class _DropdownState extends State<Dropdown> {
   void dispose() {
     // Marcar que estamos en proceso de disposición
     _isDisposing = true;
-    
+
     // Primero eliminar el overlay de manera segura
     if (_overlayEntry != null) {
       _overlayEntry!.remove();
       _overlayEntry = null;
     }
-    
+
     // Establecer variable directamente sin setState
     _isDropdownOpen = false;
-    
+
     // Luego disponer de los controladores
     _searchController.dispose();
     _dropdownFocusNode.dispose();
@@ -284,8 +296,10 @@ class _DropdownState extends State<Dropdown> {
                 child: SizedBox(
                   width: size.width,
                   child: Container(
-                    constraints:
-                        BoxConstraints(maxHeight: 350, minWidth: size.width),
+                    constraints: BoxConstraints(
+                      maxHeight: 350,
+                      minWidth: size.width,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(18),
@@ -303,7 +317,9 @@ class _DropdownState extends State<Dropdown> {
                             autofocus: true,
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 8),
+                                horizontal: 12,
+                                vertical: 8,
+                              ),
                               hintText:
                                   widget.searchHint.isNotEmpty
                                       ? widget.searchHint
@@ -318,37 +334,40 @@ class _DropdownState extends State<Dropdown> {
                         ),
                         // Lista de resultados
                         Flexible(
-                          child: _filteredItems.isEmpty
-                              ? Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Text(
-                                      context.l10n.common_no_results_found,
-                                    ),
-                                  ),
-                                )
-                              : ListView.builder(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 4),
-                                  shrinkWrap: true,
-                                  itemCount: _filteredItems.length,
-                                  itemBuilder: (context, index) {
-                                    final item = _filteredItems[index];
-                                    return ListTile(
-                                      dense: true,
-                                      title: Text(
-                                        item,
-                                        style: TextStyle(
-                                          fontFamily: AppFonts.fontSubTitle,
-                                          color: item == _selectedValue
-                                              ? AppColors.purple
-                                              : Colors.black87,
-                                        ),
+                          child:
+                              _filteredItems.isEmpty
+                                  ? Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Text(
+                                        context.l10n.common_no_results_found,
                                       ),
-                                      onTap: () => _selectItem(item),
-                                    );
-                                  },
-                                ),
+                                    ),
+                                  )
+                                  : ListView.builder(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 4,
+                                    ),
+                                    shrinkWrap: true,
+                                    itemCount: _filteredItems.length,
+                                    itemBuilder: (context, index) {
+                                      final item = _filteredItems[index];
+                                      return ListTile(
+                                        dense: true,
+                                        title: Text(
+                                          item,
+                                          style: TextStyle(
+                                            fontFamily: AppFonts.fontSubTitle,
+                                            color:
+                                                item == _selectedValue
+                                                    ? AppColors.purple
+                                                    : Colors.black87,
+                                          ),
+                                        ),
+                                        onTap: () => _selectItem(item),
+                                      );
+                                    },
+                                  ),
                         ),
                       ],
                     ),
@@ -377,18 +396,18 @@ class _DropdownState extends State<Dropdown> {
   void _closeDropdown() {
     // Verificar si estamos en proceso de disposición o si el widget no está montado
     if (_isDisposing || !mounted) return;
-    
+
     if (_overlayEntry != null) {
       _overlayEntry!.remove();
       _overlayEntry = null;
     }
-    
+
     if (_searchController.hasListeners) {
       _searchController.clear();
     }
-    
+
     _filteredItems = List.from(widget.items);
-    
+
     setState(() {
       _isDropdownOpen = false;
     });
@@ -397,14 +416,17 @@ class _DropdownState extends State<Dropdown> {
   void _filterItems(String query) {
     // No actualizar si estamos en proceso de disposición
     if (_isDisposing) return;
-    
+
     setState(() {
       if (query.isEmpty) {
         _filteredItems = List.from(widget.items);
       } else {
-        _filteredItems = widget.items
-            .where((item) => item.toLowerCase().contains(query.toLowerCase()))
-            .toList();
+        _filteredItems =
+            widget.items
+                .where(
+                  (item) => item.toLowerCase().contains(query.toLowerCase()),
+                )
+                .toList();
       }
     });
 
@@ -415,7 +437,7 @@ class _DropdownState extends State<Dropdown> {
   void _selectItem(String value) {
     // No actualizar si estamos en proceso de disposición
     if (_isDisposing) return;
-    
+
     setState(() {
       _selectedValue = value;
     });
@@ -451,9 +473,10 @@ class _DropdownState extends State<Dropdown> {
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: state.hasError
-                                  ? Colors.red
-                                  : AppColors.greyMiddle,
+                              color:
+                                  state.hasError
+                                      ? Colors.red
+                                      : AppColors.greyMiddle,
                             ),
                             borderRadius: BorderRadius.circular(18),
                           ),
@@ -464,9 +487,10 @@ class _DropdownState extends State<Dropdown> {
                                   _selectedValue ?? '',
                                   style: TextStyle(
                                     fontFamily: AppFonts.fontSubTitle,
-                                    color: _selectedValue == null
-                                        ? AppColors.greyMiddle
-                                        : Colors.black87,
+                                    color:
+                                        _selectedValue == null
+                                            ? AppColors.greyMiddle
+                                            : Colors.black87,
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -489,16 +513,15 @@ class _DropdownState extends State<Dropdown> {
                       padding: const EdgeInsets.only(top: 4, left: 12),
                       child: Text(
                         state.errorText!,
-                        style: const TextStyle(
-                          color: Colors.red,
-                          fontSize: 12,
-                        ),
+                        style: const TextStyle(color: Colors.red, fontSize: 12),
                       ),
                     ),
                   // Campo invisible para manejar el foco principal
                   Offstage(
                     child: Focus(
-                        focusNode: _dropdownFocusNode, child: Container()),
+                      focusNode: _dropdownFocusNode,
+                      child: Container(),
+                    ),
                   ),
                 ],
               );
@@ -506,6 +529,29 @@ class _DropdownState extends State<Dropdown> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class MoneyInput extends TextInputFormatter {
+  final NumberFormat format;
+
+  MoneyInput(this.format);
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final digitsOnly = newValue.text.replaceAll(RegExp(r"\D"), "");
+    if (digitsOnly.isEmpty) {
+      return const TextEditingValue(text: "");
+    }
+    final value = double.parse(digitsOnly) / 100;
+    final newText = format.format(value);
+    return TextEditingValue(
+      text: newText,
+      selection: TextSelection.collapsed(offset: newText.length),
     );
   }
 }
