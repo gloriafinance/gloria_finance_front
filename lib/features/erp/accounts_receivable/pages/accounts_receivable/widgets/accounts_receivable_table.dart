@@ -3,6 +3,7 @@ import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
+import 'package:church_finance_bk/features/auth/pages/login/store/auth_session_store.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -28,9 +29,7 @@ class AccountsReceivableTable extends StatelessWidget {
     }
 
     if (state.paginate.results.isEmpty) {
-      return Center(
-        child: Text(l10n.accountsReceivable_table_empty),
-      );
+      return Center(child: Text(l10n.accountsReceivable_table_empty));
     }
 
     return Container(
@@ -104,9 +103,18 @@ class AccountsReceivableTable extends StatelessWidget {
       model.description,
       model.type?.friendlyName ?? '-',
       model.installments.length.toString(),
-      CurrencyFormatter.formatCurrency(model.amountPaid ?? 0),
-      CurrencyFormatter.formatCurrency(model.amountPending ?? 0),
-      CurrencyFormatter.formatCurrency(model.amountTotal ?? 0),
+      CurrencyFormatter.formatCurrency(
+        model.amountPaid ?? 0,
+        symbol: model.symbol,
+      ),
+      CurrencyFormatter.formatCurrency(
+        model.amountPending ?? 00,
+        symbol: model.symbol,
+      ),
+      CurrencyFormatter.formatCurrency(
+        model.amountTotal ?? 00,
+        symbol: model.symbol,
+      ),
       tagStatus(getStatusColor(model.status ?? ''), statusLabel),
     ];
   }

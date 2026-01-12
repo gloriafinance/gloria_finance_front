@@ -9,6 +9,11 @@ class PurchaseRegisterFormStore extends ChangeNotifier {
   PurchaseRegisterFormState state = PurchaseRegisterFormState.init();
   final _service = PurchaseService();
 
+  // void setSymbolFormatMoney(String symbol) {
+  //   state = state.copyWith(symbolFormatMoney: symbol);
+  //   notifyListeners();
+  // }
+
   void setMakeRequest(bool makeRequest) {
     state = state.copyWith(makeRequest: makeRequest);
     notifyListeners();

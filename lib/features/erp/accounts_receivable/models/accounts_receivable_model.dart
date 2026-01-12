@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/utils/date_formatter.dart';
+import 'package:church_finance_bk/core/utils/index.dart';
 
 import '../../models/installment_model.dart';
 import 'debtor_model.dart';
@@ -115,6 +116,7 @@ class AccountsReceivableModel {
   final DebtorModel debtor;
   final String churchId;
   final String description;
+  final String symbol;
   final List<InstallmentModel> installments;
   final AccountsReceivableType? type;
 
@@ -132,6 +134,7 @@ class AccountsReceivableModel {
     required this.churchId,
     required this.description,
     required this.installments,
+    required this.symbol,
     this.amountPaid,
     this.amountPending,
     this.amountTotal,
@@ -160,7 +163,8 @@ class AccountsReceivableModel {
       amountTotal = double.parse(map['amountTotal'].toString()),
       createdAt = DateTime.parse(map['createdAt']),
       updatedAt = DateTime.parse(map['updatedAt']),
-      accountReceivableId = map['accountReceivableId'];
+      accountReceivableId = map['accountReceivableId'],
+      symbol = map['symbol'] ?? CurrencyType.REAL.apiValue;
 
   String get createdAtFormatted {
     return convertDateFormatToDDMMYYYY(createdAt.toString());

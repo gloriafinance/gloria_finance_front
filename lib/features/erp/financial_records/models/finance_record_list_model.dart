@@ -1,4 +1,6 @@
+import 'package:church_finance_bk/core/utils/currency_formatter.dart';
 import 'package:church_finance_bk/features/erp/settings/financial_concept/models/financial_concept_model.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
 import 'finance_record_model.dart';
 
@@ -6,11 +8,13 @@ class AvailabilityAccount {
   final String availabilityAccountId;
   final String accountName;
   final String accountType;
+  final String symbol;
 
   AvailabilityAccount({
     required this.availabilityAccountId,
     required this.accountName,
     required this.accountType,
+    required this.symbol,
   });
 
   factory AvailabilityAccount.fromJson(Map<String, dynamic> json) {
@@ -18,6 +22,7 @@ class AvailabilityAccount {
       availabilityAccountId: json['availabilityAccountId'],
       accountName: json['accountName'],
       accountType: json['accountType'],
+      symbol: json['symbol'] ?? CurrencyType.REAL.apiValue,
     );
   }
 }

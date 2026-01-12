@@ -89,6 +89,7 @@ class _AccountReceiveState extends State<AccountReceive> {
         InstallmentsTable(
           setInstallmentIds: formStore.setInstallmentIds,
           installments: widget.account.installments,
+          symbol: widget.account.symbol,
         ),
 
         const SizedBox(height: 16),
@@ -99,8 +100,7 @@ class _AccountReceiveState extends State<AccountReceive> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               CustomButton(
-                text:
-                    context.l10n.accountsReceivable_view_register_payment,
+                text: context.l10n.accountsReceivable_view_register_payment,
                 backgroundColor: AppColors.green,
                 textColor: Colors.white,
                 onPressed: () => _handlePayment(formStore),
@@ -171,18 +171,27 @@ class _AccountReceiveState extends State<AccountReceive> {
           buildDetailRow(
             false,
             context.l10n.accountsReceivable_view_general_total,
-            formatCurrency(widget.account.amountTotal ?? 0),
+            formatCurrency(
+              widget.account.amountTotal ?? 0,
+              symbol: widget.account.symbol,
+            ),
           ),
           buildDetailRow(
             false,
             context.l10n.accountsReceivable_view_general_paid,
-            formatCurrency(widget.account.amountPaid ?? 0),
+            formatCurrency(
+              widget.account.amountPaid ?? 0,
+              symbol: widget.account.symbol,
+            ),
             statusColor: AppColors.green,
           ),
           buildDetailRow(
             false,
             context.l10n.accountsReceivable_view_general_pending,
-            formatCurrency(widget.account.amountPending ?? 0),
+            formatCurrency(
+              widget.account.amountPending ?? 0,
+              symbol: widget.account.symbol,
+            ),
             statusColor:
                 widget.account.amountPending! > 0
                     ? AppColors.mustard

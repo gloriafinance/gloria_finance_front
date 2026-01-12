@@ -102,12 +102,14 @@ class AccountsPayableModel {
   final AccountsPayableDocument? document;
   final AccountsPayableTaxMetadata? taxMetadata;
   final List<AccountsPayableTaxLine> taxes;
+  final String symbol;
 
   AccountsPayableModel({
     this.accountPayableId,
     required this.supplierId,
     required this.description,
     required this.installments,
+    required this.symbol,
     this.createdAt,
     this.isPaid,
     this.supplierName,
@@ -132,6 +134,7 @@ class AccountsPayableModel {
     final statusEnum = AccountsPayableStatusExtension.fromApi(status);
 
     return AccountsPayableModel(
+      symbol: json['symbol'] ?? CurrencyType.REAL.apiValue,
       accountPayableId: stringOrNull(json['accountPayableId']),
       supplierId: stringOrEmpty(
         json['supplierId'] ??
