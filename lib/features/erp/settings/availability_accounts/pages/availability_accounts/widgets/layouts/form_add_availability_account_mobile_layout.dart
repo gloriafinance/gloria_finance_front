@@ -16,6 +16,10 @@ Widget formAddAvailabilityAccountMobileLayout(
       SizedBox(height: 30),
       accountName(context, formStore),
       SizedBox(height: 30),
+      symbol(context, formStore),
+      SizedBox(height: 30),
+      balance(context, formStore),
+      SizedBox(height: 30),
       accountType(context, formStore),
       SizedBox(height: 30),
       if (formStore.state.accountType == AccountType.BANK.apiValue)
