@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/features/erp/accounts_receivable/models/accounts_receivable_model.dart';
 import 'package:church_finance_bk/features/erp/accounts_receivable/models/accounts_receivable_payment_mode.dart';
 import 'package:lucid_validation/lucid_validation.dart';
 
@@ -69,6 +70,7 @@ class FormAccountsReceivableValidator
     ruleFor((m) => m, key: 'totalAmount').must(
       (state) =>
           state.paymentMode != AccountsReceivablePaymentMode.single ||
+          state.type == AccountsReceivableType.CONTRIBUTION ||
           state.totalAmount > 0,
       totalAmountRequired,
       'totalAmount_required',
@@ -95,7 +97,9 @@ class FormAccountsReceivableValidator
           state.paymentMode == AccountsReceivablePaymentMode.single ||
           state.installments.every(
             (installment) =>
-                installment.amount > 0 && installment.dueDate.isNotEmpty,
+                installment.dueDate.isNotEmpty &&
+                (state.type == AccountsReceivableType.CONTRIBUTION ||
+                    installment.amount > 0),
           ),
       installmentsInvalid,
       'installments_invalid',
@@ -112,6 +116,7 @@ class FormAccountsReceivableValidator
     ruleFor((m) => m, key: 'automaticInstallmentAmount').must(
       (state) =>
           state.paymentMode != AccountsReceivablePaymentMode.automatic ||
+          state.type == AccountsReceivableType.CONTRIBUTION ||
           state.automaticInstallmentAmount > 0,
       automaticAmountRequired,
       'automaticInstallmentAmount_required',
@@ -167,9 +172,11 @@ class FormAccountsReceivableValidator
       errors['debtorEmail'] = debtorEmailRequired;
     }
 
+    final isContribution = state.type == AccountsReceivableType.CONTRIBUTION;
+
     switch (state.paymentMode) {
       case AccountsReceivablePaymentMode.single:
-        if (state.totalAmount <= 0) {
+        if (!isContribution && state.totalAmount <= 0) {
           errors['totalAmount'] = totalAmountRequired;
         }
         if (state.singleDueDate.isEmpty) {
@@ -180,7 +187,7 @@ class FormAccountsReceivableValidator
         if (state.automaticInstallments <= 0) {
           errors['automaticInstallments'] = automaticInstallmentsRequired;
         }
-        if (state.automaticInstallmentAmount <= 0) {
+        if (!isContribution && state.automaticInstallmentAmount <= 0) {
           errors['automaticInstallmentAmount'] = automaticAmountRequired;
         }
         if (state.automaticFirstDueDate.isEmpty) {

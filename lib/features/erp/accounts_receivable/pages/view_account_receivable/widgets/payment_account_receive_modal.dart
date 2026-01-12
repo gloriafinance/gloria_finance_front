@@ -129,7 +129,7 @@ class _PaymentAccountReceiveModalState
       label: context.l10n.accountsReceivable_payment_amount_label,
       keyboardType: TextInputType.number,
       inputFormatters: [
-        CurrencyFormatter.getInputFormatters(CurrencyType.REAL.apiValue),
+        CurrencyFormatter.getInputFormatters(formStore.state.symbolFormatMoney),
       ],
       onChanged: (value) {
         final cleanedValue = value

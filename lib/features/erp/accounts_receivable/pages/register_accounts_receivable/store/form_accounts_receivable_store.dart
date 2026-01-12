@@ -139,8 +139,15 @@ class FormAccountsReceivableStore extends ChangeNotifier {
   List<InstallmentModel> _buildAutomaticInstallments(
     FormAccountsReceivableState currentState,
   ) {
+    final isContribution =
+        currentState.type == AccountsReceivableType.CONTRIBUTION;
+    final hasValidAmount =
+        isContribution
+            ? currentState.automaticInstallmentAmount >= 0
+            : currentState.automaticInstallmentAmount > 0;
+
     if (currentState.automaticInstallments <= 0 ||
-        currentState.automaticInstallmentAmount <= 0 ||
+        !hasValidAmount ||
         currentState.automaticFirstDueDate.isEmpty) {
       return [];
     }
