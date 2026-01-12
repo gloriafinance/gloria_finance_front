@@ -54,7 +54,10 @@ class ViewFinanceRecord extends StatelessWidget {
             buildDetailRow(
               mobile,
               'Valor',
-              'R\$ ${financeRecord.amount.toStringAsFixed(2)}',
+              CurrencyFormatter.formatCurrency(
+                financeRecord.amount,
+                symbol: financeRecord.availabilityAccount.symbol,
+              ),
             ),
             const SizedBox(height: 8),
             buildDetailRow(
