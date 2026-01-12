@@ -6,6 +6,7 @@ import '../../store/form_availability_store.dart';
 import '../form_add_availability_account_inputs.dart';
 
 Widget formAddAvailabilityAccountDesktopLayout(
+  BuildContext context,
   FormAvailabilityStore formStore,
   BankStore bankStore,
 ) {
@@ -21,7 +22,7 @@ Widget formAddAvailabilityAccountDesktopLayout(
           SizedBox(width: 36),
           Expanded(child: balance(formStore)),
           SizedBox(width: 36),
-          Expanded(child: accountType(formStore)),
+          Expanded(child: accountType(context, formStore)),
         ],
       ),
       SizedBox(height: 30),

@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/core/layout/view_detail_widgets.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/features/erp/settings/availability_accounts/models/availability_account_model.dart';
 import 'package:church_finance_bk/features/erp/settings/banks/models/bank_model.dart';
@@ -12,6 +13,11 @@ class ViewAvailabilityAccount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool mobile = isMobile(context);
+    final l10n = context.l10n;
+    final accountType = AccountTypeExtension.fromApiValue(account.accountType);
+    final activeLabel =
+        account.active ? l10n.member_list_status_yes : l10n.member_list_status_no;
+
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
@@ -21,38 +27,70 @@ class ViewAvailabilityAccount extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            buildTitle('Conta #${account.availabilityAccountId}'),
+            buildTitle(
+              l10n.settings_availability_view_title(
+                account.availabilityAccountId,
+              ),
+            ),
             const Divider(),
             SizedBox(height: 16),
-            buildDetailRow(mobile, 'Nome', account.accountName),
             buildDetailRow(
               mobile,
-              'Saldo',
-              'R\$ ${account.balance.toStringAsFixed(2)}',
+              l10n.settings_availability_field_name,
+              account.accountName,
             ),
-            buildDetailRow(mobile, 'Tipo', account.accountType),
-            buildDetailRow(mobile, 'Ativa', account.active ? 'Sim' : 'Não'),
+            buildDetailRow(
+              mobile,
+              l10n.settings_availability_field_balance,
+              CurrencyFormatter.formatCurrency(
+                account.balance,
+                symbol: account.symbol,
+              ),
+            ),
+            buildDetailRow(
+              mobile,
+              l10n.settings_availability_field_type,
+              accountType.friendlyName(l10n),
+            ),
+            buildDetailRow(
+              mobile,
+              l10n.settings_availability_field_active,
+              activeLabel,
+            ),
             const Divider(),
             if (account.source != null &&
                 account.accountType == AccountType.BANK.apiValue)
-              _sourceBank(account.getSource()),
+              _sourceBank(context, account.getSource()),
           ],
         ),
       ),
     );
   }
 
-  Widget _sourceBank(BankModel bank) {
+  Widget _sourceBank(BuildContext context, BankModel bank) {
+    final l10n = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        buildTitle('Dados do Banco'),
+        buildTitle(l10n.settings_availability_bank_details_title),
         const Divider(),
         SizedBox(height: 16),
-        buildDetailRow(false, 'Nome', bank.name),
-        buildDetailRow(false, 'Codigo de banco', bank.bankInstruction.codeBank),
-        buildDetailRow(false, 'Agência', bank.bankInstruction.agency),
-        buildDetailRow(false, 'Conta', bank.bankInstruction.account),
+        buildDetailRow(false, l10n.settings_banks_field_name, bank.name),
+        buildDetailRow(
+          false,
+          l10n.settings_banks_field_bank_code,
+          bank.bankInstruction.codeBank,
+        ),
+        buildDetailRow(
+          false,
+          l10n.settings_banks_field_agency,
+          bank.bankInstruction.agency,
+        ),
+        buildDetailRow(
+          false,
+          l10n.settings_banks_field_account,
+          bank.bankInstruction.account,
+        ),
       ],
     );
   }

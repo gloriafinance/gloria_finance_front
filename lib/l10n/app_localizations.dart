@@ -1237,6 +1237,90 @@ abstract class AppLocalizations {
   /// **'Record saved successfully'**
   String get settings_availability_toast_saved;
 
+  /// No description provided for @settings_availability_table_header_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Account name'**
+  String get settings_availability_table_header_name;
+
+  /// No description provided for @settings_availability_table_header_type.
+  ///
+  /// In en, this message translates to:
+  /// **'Account type'**
+  String get settings_availability_table_header_type;
+
+  /// No description provided for @settings_availability_table_header_balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance'**
+  String get settings_availability_table_header_balance;
+
+  /// No description provided for @settings_availability_table_header_status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get settings_availability_table_header_status;
+
+  /// No description provided for @settings_availability_view_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Availability account #{id}'**
+  String settings_availability_view_title(String id);
+
+  /// No description provided for @settings_availability_field_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get settings_availability_field_name;
+
+  /// No description provided for @settings_availability_field_balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance'**
+  String get settings_availability_field_balance;
+
+  /// No description provided for @settings_availability_field_type.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get settings_availability_field_type;
+
+  /// No description provided for @settings_availability_field_active.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get settings_availability_field_active;
+
+  /// No description provided for @settings_availability_bank_details_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank details'**
+  String get settings_availability_bank_details_title;
+
+  /// No description provided for @settings_availability_account_type_bank.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank'**
+  String get settings_availability_account_type_bank;
+
+  /// No description provided for @settings_availability_account_type_cash.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash'**
+  String get settings_availability_account_type_cash;
+
+  /// No description provided for @settings_availability_account_type_wallet.
+  ///
+  /// In en, this message translates to:
+  /// **'Digital wallet'**
+  String get settings_availability_account_type_wallet;
+
+  /// No description provided for @settings_availability_account_type_investment.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment'**
+  String get settings_availability_account_type_investment;
+
   /// No description provided for @settings_cost_center_title.
   ///
   /// In en, this message translates to:

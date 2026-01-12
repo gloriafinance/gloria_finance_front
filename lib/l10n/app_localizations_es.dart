@@ -591,6 +591,50 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settings_availability_toast_saved => 'Registro guardado con éxito';
 
   @override
+  String get settings_availability_table_header_name => 'Nombre de la cuenta';
+
+  @override
+  String get settings_availability_table_header_type => 'Tipo de cuenta';
+
+  @override
+  String get settings_availability_table_header_balance => 'Saldo';
+
+  @override
+  String get settings_availability_table_header_status => 'Estado';
+
+  @override
+  String settings_availability_view_title(String id) {
+    return 'Cuenta de disponibilidad #$id';
+  }
+
+  @override
+  String get settings_availability_field_name => 'Nombre';
+
+  @override
+  String get settings_availability_field_balance => 'Saldo';
+
+  @override
+  String get settings_availability_field_type => 'Tipo';
+
+  @override
+  String get settings_availability_field_active => 'Activa';
+
+  @override
+  String get settings_availability_bank_details_title => 'Datos del banco';
+
+  @override
+  String get settings_availability_account_type_bank => 'Banco';
+
+  @override
+  String get settings_availability_account_type_cash => 'Efectivo';
+
+  @override
+  String get settings_availability_account_type_wallet => 'Billetera digital';
+
+  @override
+  String get settings_availability_account_type_investment => 'Inversión';
+
+  @override
   String get settings_cost_center_title => 'Centros de costo';
 
   @override

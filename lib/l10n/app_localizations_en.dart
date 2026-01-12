@@ -591,6 +591,50 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_availability_toast_saved => 'Record saved successfully';
 
   @override
+  String get settings_availability_table_header_name => 'Account name';
+
+  @override
+  String get settings_availability_table_header_type => 'Account type';
+
+  @override
+  String get settings_availability_table_header_balance => 'Balance';
+
+  @override
+  String get settings_availability_table_header_status => 'Status';
+
+  @override
+  String settings_availability_view_title(String id) {
+    return 'Availability account #$id';
+  }
+
+  @override
+  String get settings_availability_field_name => 'Name';
+
+  @override
+  String get settings_availability_field_balance => 'Balance';
+
+  @override
+  String get settings_availability_field_type => 'Type';
+
+  @override
+  String get settings_availability_field_active => 'Active';
+
+  @override
+  String get settings_availability_bank_details_title => 'Bank details';
+
+  @override
+  String get settings_availability_account_type_bank => 'Bank';
+
+  @override
+  String get settings_availability_account_type_cash => 'Cash';
+
+  @override
+  String get settings_availability_account_type_wallet => 'Digital wallet';
+
+  @override
+  String get settings_availability_account_type_investment => 'Investment';
+
+  @override
   String get settings_cost_center_title => 'Cost centers';
 
   @override

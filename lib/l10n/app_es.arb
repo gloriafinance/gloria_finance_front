@@ -232,6 +232,27 @@
   "settings_availability_form_title": "Registro de cuenta de disponibilidad",
   "settings_availability_save": "Guardar",
   "settings_availability_toast_saved": "Registro guardado con éxito",
+  "settings_availability_table_header_name": "Nombre de la cuenta",
+  "settings_availability_table_header_type": "Tipo de cuenta",
+  "settings_availability_table_header_balance": "Saldo",
+  "settings_availability_table_header_status": "Estado",
+  "settings_availability_view_title": "Cuenta de disponibilidad #{id}",
+  "@settings_availability_view_title": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "settings_availability_field_name": "Nombre",
+  "settings_availability_field_balance": "Saldo",
+  "settings_availability_field_type": "Tipo",
+  "settings_availability_field_active": "Activa",
+  "settings_availability_bank_details_title": "Datos del banco",
+  "settings_availability_account_type_bank": "Banco",
+  "settings_availability_account_type_cash": "Efectivo",
+  "settings_availability_account_type_wallet": "Billetera digital",
+  "settings_availability_account_type_investment": "Inversión",
   "settings_cost_center_title": "Centros de costo",
   "settings_cost_center_new": "Nuevo centro de costo",
   "settings_cost_center_field_code": "Código",
