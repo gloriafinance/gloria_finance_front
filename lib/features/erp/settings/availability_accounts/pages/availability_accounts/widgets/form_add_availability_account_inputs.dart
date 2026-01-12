@@ -10,9 +10,9 @@ import '../validators/form_availability_validator.dart';
 
 final validator = FormAvailabilityValidator();
 
-Widget accountName(FormAvailabilityStore formStore) {
+Widget accountName(BuildContext context, FormAvailabilityStore formStore) {
   return Input(
-    label: 'Nome da conta',
+    label: context.l10n.settings_availability_field_name,
     initialValue: formStore.state.accountName,
     onChanged: (value) => formStore.setAccountName(value),
     onValidator: validator.byField(formStore.state, 'accountName'),
@@ -39,7 +39,7 @@ Widget accountType(BuildContext context, FormAvailabilityStore formStore) {
           : null;
 
   return Dropdown(
-    label: "Tipo de conta",
+    label: context.l10n.settings_availability_field_type,
     initialValue: initValue,
     items: _accountTypeFriendlyName(context).map((item) => item).toList(),
     onValidator: validator.byField(formStore.state, 'accountType'),
@@ -53,11 +53,15 @@ Widget accountType(BuildContext context, FormAvailabilityStore formStore) {
   );
 }
 
-Widget source(FormAvailabilityStore formStore, BankStore bankStore) {
+Widget source(
+  BuildContext context,
+  FormAvailabilityStore formStore,
+  BankStore bankStore,
+) {
   final data = bankStore.state.banks;
 
   return Dropdown(
-    label: "Selecione o banco",
+    label: context.l10n.settings_availability_field_bank,
     items: data.map((e) => "${e.name} - ${e.tag}").toList(),
     onChanged: (value) {
       final selectedBank = data.firstWhere(
@@ -68,9 +72,9 @@ Widget source(FormAvailabilityStore formStore, BankStore bankStore) {
   );
 }
 
-Widget symbol(FormAvailabilityStore formStore) {
+Widget symbol(BuildContext context, FormAvailabilityStore formStore) {
   return Dropdown(
-    label: "Moeda",
+    label: context.l10n.settings_availability_field_currency,
     initialValue:
         formStore.state.symbol != ''
             ? CurrencyType.values
@@ -88,9 +92,9 @@ Widget symbol(FormAvailabilityStore formStore) {
   );
 }
 
-Widget balance(FormAvailabilityStore formStore) {
+Widget balance(BuildContext context, FormAvailabilityStore formStore) {
   return Input(
-    label: 'Saldo',
+    label: context.l10n.settings_availability_field_balance,
     initialValue: formStore.state.balance,
     keyboardType: TextInputType.number,
     inputFormatters: [
@@ -106,10 +110,10 @@ Widget balance(FormAvailabilityStore formStore) {
   );
 }
 
-Widget status(FormAvailabilityStore formStore) {
+Widget status(BuildContext context, FormAvailabilityStore formStore) {
   return Row(
     children: [
-      Text('Ativo'),
+      Text(context.l10n.settings_availability_field_active),
       Switch(
         value: formStore.state.active,
         onChanged: (value) => formStore.setActive(value),

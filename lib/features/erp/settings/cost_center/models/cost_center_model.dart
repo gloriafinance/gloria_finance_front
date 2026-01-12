@@ -1,3 +1,5 @@
+import 'package:church_finance_bk/l10n/app_localizations.dart';
+
 enum CostCenterCategory { ESPECIAL_PROJECT, MINISTRIES, OPERATIONS }
 
 extension CostCenterCategoryExtension on CostCenterCategory {
@@ -12,14 +14,14 @@ extension CostCenterCategoryExtension on CostCenterCategory {
     return toString().split('.').last;
   }
 
-  String get friendlyName {
+  String friendlyName(AppLocalizations l10n) {
     switch (this) {
       case CostCenterCategory.ESPECIAL_PROJECT:
-        return 'Projetos especiais';
+        return l10n.settings_cost_center_category_special_project;
       case CostCenterCategory.MINISTRIES:
-        return 'Ministérios';
+        return l10n.settings_cost_center_category_ministries;
       case CostCenterCategory.OPERATIONS:
-        return 'Operações';
+        return l10n.settings_cost_center_category_operations;
     }
   }
 }

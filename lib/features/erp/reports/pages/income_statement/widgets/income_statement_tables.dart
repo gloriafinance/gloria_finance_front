@@ -50,7 +50,7 @@ class IncomeStatementReportSections extends StatelessWidget {
     }
 
     if (isMobile(context)) {
-      return _buildBreakdownCards(breakdown);
+      return _buildBreakdownCards(context, breakdown);
     }
 
     return CustomTable(
@@ -69,7 +69,7 @@ class IncomeStatementReportSections extends StatelessWidget {
           );
 
           return [
-            _buildCategoryCell(row),
+            _buildCategoryCell(context, row),
             _StyledText(text: _formatCurrency(row.income)),
             _StyledText(text: _formatCurrency(row.expenses)),
             netText,
@@ -81,7 +81,10 @@ class IncomeStatementReportSections extends StatelessWidget {
     );
   }
 
-  Widget _buildBreakdownCards(List<IncomeStatementBreakdown> breakdown) {
+  Widget _buildBreakdownCards(
+    BuildContext context,
+    List<IncomeStatementBreakdown> breakdown,
+  ) {
     return Column(
       children:
           breakdown.map((row) {
@@ -104,7 +107,7 @@ class IncomeStatementReportSections extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    row.category.friendlyName,
+                    row.category.friendlyName(context.l10n),
                     style: const TextStyle(
                       fontFamily: AppFonts.fontTitle,
                       fontSize: 15,
@@ -113,7 +116,7 @@ class IncomeStatementReportSections extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    row.category.description,
+                    row.category.description(context.l10n),
                     style: const TextStyle(
                       fontFamily: AppFonts.fontSubTitle,
                       fontSize: 12,
@@ -123,17 +126,17 @@ class IncomeStatementReportSections extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   _buildBreakdownMetric(
-                    label: 'Entradas',
+                    label: context.l10n.reports_income_breakdown_header_income,
                     value: _formatCurrency(row.income),
                   ),
                   const SizedBox(height: 6),
                   _buildBreakdownMetric(
-                    label: 'Saídas',
+                    label: context.l10n.reports_income_breakdown_header_expenses,
                     value: _formatCurrency(row.expenses),
                   ),
                   const SizedBox(height: 6),
                   _buildBreakdownMetric(
-                    label: 'Saldo',
+                    label: context.l10n.reports_income_breakdown_header_balance,
                     value: _formatCurrency(row.net),
                     isNegative: row.net < 0,
                   ),
@@ -173,14 +176,17 @@ class IncomeStatementReportSections extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryCell(IncomeStatementBreakdown row) {
+  Widget _buildCategoryCell(
+    BuildContext context,
+    IncomeStatementBreakdown row,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            row.category.friendlyName,
+            row.category.friendlyName(context.l10n),
             style: const TextStyle(
               fontFamily: AppFonts.fontTitle,
               fontSize: 14,
@@ -189,7 +195,7 @@ class IncomeStatementReportSections extends StatelessWidget {
           ),
           const SizedBox(height: 2),
           Text(
-            row.category.description,
+            row.category.description(context.l10n),
             style: const TextStyle(
               fontFamily: AppFonts.fontSubTitle,
               fontSize: 12,

@@ -620,6 +620,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_availability_field_active => 'Active';
 
   @override
+  String get settings_availability_field_bank => 'Bank';
+
+  @override
+  String get settings_availability_field_currency => 'Currency';
+
+  @override
   String get settings_availability_bank_details_title => 'Bank details';
 
   @override
@@ -657,6 +663,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_cost_center_field_active => 'Active';
+
+  @override
+  String get settings_cost_center_category_special_project => 'Special projects';
+
+  @override
+  String get settings_cost_center_category_ministries => 'Ministries';
+
+  @override
+  String get settings_cost_center_category_operations => 'Operations';
 
   @override
   String get settings_cost_center_error_required => 'Required field';
@@ -1385,6 +1400,72 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reports_income_download_error_generic => 'Error while downloading the PDF';
+
+  @override
+  String get reports_income_statement_monthly_title => 'Monthly financial report';
+
+  @override
+  String get reports_income_summary_net_revenue_title => 'Net revenue';
+
+  @override
+  String get reports_income_summary_net_revenue_desc => 'Income from regular activities.';
+
+  @override
+  String get reports_income_summary_operating_expenses_title => 'Operating expenses';
+
+  @override
+  String get reports_income_summary_operating_expenses_desc => 'Costs required to keep the church running.';
+
+  @override
+  String get reports_income_summary_operating_income_title => 'Operating income';
+
+  @override
+  String get reports_income_summary_operating_income_desc => 'Revenue minus operating expenses.';
+
+  @override
+  String get reports_income_summary_net_income_title => 'Net result';
+
+  @override
+  String get reports_income_summary_net_income_desc => 'Final balance after extraordinary items.';
+
+  @override
+  String get reports_income_category_revenue_title => 'Revenue';
+
+  @override
+  String get reports_income_category_revenue_desc => 'Operating income and recurring donations.';
+
+  @override
+  String get reports_income_category_cogs_title => 'Direct costs';
+
+  @override
+  String get reports_income_category_cogs_desc => 'Direct costs to deliver services or projects.';
+
+  @override
+  String get reports_income_category_opex_title => 'Operating expenses';
+
+  @override
+  String get reports_income_category_opex_desc => 'Expenses needed to keep the church active.';
+
+  @override
+  String get reports_income_category_capex_title => 'Capital investments';
+
+  @override
+  String get reports_income_category_capex_desc => 'Long-term capital investments and spending.';
+
+  @override
+  String get reports_income_category_other_title => 'Other income/expenses';
+
+  @override
+  String get reports_income_category_other_desc => 'Extraordinary income or expenses.';
+
+  @override
+  String get reports_income_category_ministry_transfers_title => 'Ministry transfers and contributions';
+
+  @override
+  String get reports_income_category_ministry_transfers_desc => 'Transfers to ministries or leadership departments.';
+
+  @override
+  String get reports_income_category_unknown_title => 'Category';
 
   @override
   String get reports_dre_download_pdf => 'Download PDF';

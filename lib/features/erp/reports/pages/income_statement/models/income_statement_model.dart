@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 double _toDouble(dynamic value) {
@@ -72,39 +73,39 @@ IncomeStatementCategory incomeStatementCategoryFromApi(String? value) {
 }
 
 extension IncomeStatementCategoryExtension on IncomeStatementCategory {
-  String get friendlyName {
+  String friendlyName(AppLocalizations l10n) {
     switch (this) {
       case IncomeStatementCategory.revenue:
-        return 'Receitas';
+        return l10n.reports_income_category_revenue_title;
       case IncomeStatementCategory.cogs:
-        return 'Custos Diretos';
+        return l10n.reports_income_category_cogs_title;
       case IncomeStatementCategory.opex:
-        return 'Despesas Operacionais';
+        return l10n.reports_income_category_opex_title;
       case IncomeStatementCategory.capex:
-        return 'Investimentos de Capital';
+        return l10n.reports_income_category_capex_title;
       case IncomeStatementCategory.other:
-        return 'Outras Receitas/Despesas';
+        return l10n.reports_income_category_other_title;
       case IncomeStatementCategory.ministry_transfers:
-        return 'Repasses e contribuições ministeriais';
+        return l10n.reports_income_category_ministry_transfers_title;
       case IncomeStatementCategory.unknown:
-        return 'Categoria';
+        return l10n.reports_income_category_unknown_title;
     }
   }
 
-  String get description {
+  String description(AppLocalizations l10n) {
     switch (this) {
       case IncomeStatementCategory.revenue:
-        return 'Entradas operacionais e doações recorrentes.';
+        return l10n.reports_income_category_revenue_desc;
       case IncomeStatementCategory.cogs:
-        return 'Custos diretos para entregar serviços ou projetos.';
+        return l10n.reports_income_category_cogs_desc;
       case IncomeStatementCategory.opex:
-        return 'Despesas necessárias para manter a igreja ativa.';
+        return l10n.reports_income_category_opex_desc;
       case IncomeStatementCategory.capex:
-        return 'Investimentos e gastos de capital de longo prazo.';
+        return l10n.reports_income_category_capex_desc;
       case IncomeStatementCategory.other:
-        return 'Receitas ou despesas extraordinárias.';
+        return l10n.reports_income_category_other_desc;
       case IncomeStatementCategory.ministry_transfers:
-        return 'Repasses de valores para ministérios ou departamentos da diretoria.';
+        return l10n.reports_income_category_ministry_transfers_desc;
       case IncomeStatementCategory.unknown:
         return '';
     }

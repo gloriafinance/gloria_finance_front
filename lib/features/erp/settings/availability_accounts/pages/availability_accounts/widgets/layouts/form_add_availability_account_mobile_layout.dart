@@ -14,12 +14,12 @@ Widget formAddAvailabilityAccountMobileLayout(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       SizedBox(height: 30),
-      accountName(formStore),
+      accountName(context, formStore),
       SizedBox(height: 30),
       accountType(context, formStore),
       SizedBox(height: 30),
       if (formStore.state.accountType == AccountType.BANK.apiValue)
-        source(formStore, bankStore),
+        source(context, formStore, bankStore),
     ],
   );
 }

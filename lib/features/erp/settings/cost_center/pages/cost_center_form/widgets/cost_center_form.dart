@@ -140,9 +140,9 @@ class _CostCenterFormState extends State<CostCenterForm> {
   Widget _buildCategoryField(CostCenterFormStore formStore) {
     return Dropdown(
       label: context.l10n.settings_cost_center_field_category,
-      initialValue: formStore.state.category?.friendlyName,
+      initialValue: formStore.state.category?.friendlyName(context.l10n),
       items: CostCenterCategory.values
-          .map((type) => type.friendlyName)
+          .map((type) => type.friendlyName(context.l10n))
           .toList(growable: false),
       onValidator: (value) {
         if (value == null || value.isEmpty) {
@@ -152,7 +152,7 @@ class _CostCenterFormState extends State<CostCenterForm> {
       },
       onChanged: (value) {
         final selected = CostCenterCategory.values.firstWhere(
-          (element) => element.friendlyName == value,
+          (element) => element.friendlyName(context.l10n) == value,
         );
         formStore.setCategory(selected);
       },

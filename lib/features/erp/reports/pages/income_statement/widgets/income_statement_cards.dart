@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/currency_formatter.dart';
 import 'package:flutter/material.dart';
 
@@ -12,28 +13,29 @@ class IncomeStatementSummaryPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final items = [
       _SummaryCardData(
-        title: 'Receita Líquida',
-        description: 'Entradas provenientes das atividades regulares.',
+        title: l10n.reports_income_summary_net_revenue_title,
+        description: l10n.reports_income_summary_net_revenue_desc,
         amount: data.summary.revenue,
         accent: AppColors.blue,
       ),
       _SummaryCardData(
-        title: 'Despesas Operacionais',
-        description: 'Custos necessários para manter a igreja ativa.',
+        title: l10n.reports_income_summary_operating_expenses_title,
+        description: l10n.reports_income_summary_operating_expenses_desc,
         amount: data.summary.operatingExpenses,
         accent: const Color(0xFF495057),
       ),
       _SummaryCardData(
-        title: 'Resultado Operacional',
-        description: 'Receitas menos despesas operacionais.',
+        title: l10n.reports_income_summary_operating_income_title,
+        description: l10n.reports_income_summary_operating_income_desc,
         amount: data.summary.operatingIncome,
         accent: const Color(0xFF5C6BC0),
       ),
       _SummaryCardData(
-        title: 'Resultado Líquido',
-        description: 'Saldo final após itens extraordinários.',
+        title: l10n.reports_income_summary_net_income_title,
+        description: l10n.reports_income_summary_net_income_desc,
         amount: data.summary.netIncome,
         accent:
             data.summary.netIncome >= 0

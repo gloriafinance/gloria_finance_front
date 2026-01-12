@@ -1291,6 +1291,18 @@ abstract class AppLocalizations {
   /// **'Active'**
   String get settings_availability_field_active;
 
+  /// No description provided for @settings_availability_field_bank.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank'**
+  String get settings_availability_field_bank;
+
+  /// No description provided for @settings_availability_field_currency.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get settings_availability_field_currency;
+
   /// No description provided for @settings_availability_bank_details_title.
   ///
   /// In en, this message translates to:
@@ -1368,6 +1380,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Active'**
   String get settings_cost_center_field_active;
+
+  /// No description provided for @settings_cost_center_category_special_project.
+  ///
+  /// In en, this message translates to:
+  /// **'Special projects'**
+  String get settings_cost_center_category_special_project;
+
+  /// No description provided for @settings_cost_center_category_ministries.
+  ///
+  /// In en, this message translates to:
+  /// **'Ministries'**
+  String get settings_cost_center_category_ministries;
+
+  /// No description provided for @settings_cost_center_category_operations.
+  ///
+  /// In en, this message translates to:
+  /// **'Operations'**
+  String get settings_cost_center_category_operations;
 
   /// No description provided for @settings_cost_center_error_required.
   ///
@@ -2796,6 +2826,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error while downloading the PDF'**
   String get reports_income_download_error_generic;
+
+  /// No description provided for @reports_income_statement_monthly_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly financial report'**
+  String get reports_income_statement_monthly_title;
+
+  /// No description provided for @reports_income_summary_net_revenue_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Net revenue'**
+  String get reports_income_summary_net_revenue_title;
+
+  /// No description provided for @reports_income_summary_net_revenue_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Income from regular activities.'**
+  String get reports_income_summary_net_revenue_desc;
+
+  /// No description provided for @reports_income_summary_operating_expenses_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Operating expenses'**
+  String get reports_income_summary_operating_expenses_title;
+
+  /// No description provided for @reports_income_summary_operating_expenses_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Costs required to keep the church running.'**
+  String get reports_income_summary_operating_expenses_desc;
+
+  /// No description provided for @reports_income_summary_operating_income_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Operating income'**
+  String get reports_income_summary_operating_income_title;
+
+  /// No description provided for @reports_income_summary_operating_income_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue minus operating expenses.'**
+  String get reports_income_summary_operating_income_desc;
+
+  /// No description provided for @reports_income_summary_net_income_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Net result'**
+  String get reports_income_summary_net_income_title;
+
+  /// No description provided for @reports_income_summary_net_income_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Final balance after extraordinary items.'**
+  String get reports_income_summary_net_income_desc;
+
+  /// No description provided for @reports_income_category_revenue_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue'**
+  String get reports_income_category_revenue_title;
+
+  /// No description provided for @reports_income_category_revenue_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Operating income and recurring donations.'**
+  String get reports_income_category_revenue_desc;
+
+  /// No description provided for @reports_income_category_cogs_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct costs'**
+  String get reports_income_category_cogs_title;
+
+  /// No description provided for @reports_income_category_cogs_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct costs to deliver services or projects.'**
+  String get reports_income_category_cogs_desc;
+
+  /// No description provided for @reports_income_category_opex_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Operating expenses'**
+  String get reports_income_category_opex_title;
+
+  /// No description provided for @reports_income_category_opex_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses needed to keep the church active.'**
+  String get reports_income_category_opex_desc;
+
+  /// No description provided for @reports_income_category_capex_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Capital investments'**
+  String get reports_income_category_capex_title;
+
+  /// No description provided for @reports_income_category_capex_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Long-term capital investments and spending.'**
+  String get reports_income_category_capex_desc;
+
+  /// No description provided for @reports_income_category_other_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Other income/expenses'**
+  String get reports_income_category_other_title;
+
+  /// No description provided for @reports_income_category_other_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Extraordinary income or expenses.'**
+  String get reports_income_category_other_desc;
+
+  /// No description provided for @reports_income_category_ministry_transfers_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Ministry transfers and contributions'**
+  String get reports_income_category_ministry_transfers_title;
+
+  /// No description provided for @reports_income_category_ministry_transfers_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfers to ministries or leadership departments.'**
+  String get reports_income_category_ministry_transfers_desc;
+
+  /// No description provided for @reports_income_category_unknown_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get reports_income_category_unknown_title;
 
   /// No description provided for @reports_dre_download_pdf.
   ///
