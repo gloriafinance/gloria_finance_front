@@ -1,4 +1,7 @@
+import 'package:church_finance_bk/core/widgets/form_controls.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
+import 'package:intl/intl.dart';
 
 enum CurrencyType { REAL, BOLIVAR, DOLLAR, SONIC, BITCOIN, USDT }
 
@@ -75,7 +78,7 @@ class CurrencyFormatter {
     return _fiatCurrencySymbols.contains(symbol);
   }
 
-  static CurrencyInputFormatter getInputFormatters(String symbol) {
+  static TextInputFormatter getInputFormatters(String symbol) {
     if (_isFiatCurrency(symbol)) {
       return _getFiatInputFormatters(symbol);
     }
@@ -83,12 +86,9 @@ class CurrencyFormatter {
     return _getCryptoInputFormatters(symbol);
   }
 
-  static CurrencyInputFormatter _getFiatInputFormatters(String symbol) {
-    return CurrencyInputFormatter(
-      leadingSymbol: symbol,
-      useSymbolPadding: true,
-      mantissaLength: 2,
-      thousandSeparator: ThousandSeparator.Period,
+  static TextInputFormatter _getFiatInputFormatters(String symbol) {
+    return MoneyInput(
+      NumberFormat.simpleCurrency(locale: "pt_BR", name: symbol),
     );
   }
 

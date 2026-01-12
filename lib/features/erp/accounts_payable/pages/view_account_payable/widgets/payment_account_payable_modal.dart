@@ -8,7 +8,6 @@ import 'package:church_finance_bk/features/erp/settings/availability_accounts/mo
 import 'package:church_finance_bk/features/erp/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:church_finance_bk/features/erp/settings/cost_center/store/cost_center_list_store.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -177,12 +176,7 @@ class _PaymentAccountPayableModal extends State<PaymentAccountPayableModal> {
       label: context.l10n.accountsPayable_payment_amount_label,
       keyboardType: TextInputType.number,
       inputFormatters: [
-        CurrencyInputFormatter(
-          leadingSymbol: 'R\$ ',
-          useSymbolPadding: true,
-          mantissaLength: 2,
-          thousandSeparator: ThousandSeparator.Period,
-        ),
+        CurrencyFormatter.getInputFormatters(CurrencyType.REAL.apiValue),
       ],
       onChanged: (value) {
         final cleanedValue = value

@@ -9,7 +9,6 @@ import 'package:church_finance_bk/features/erp/settings/financial_concept/models
 import 'package:church_finance_bk/features/erp/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
 import '../store/form_finance_record_store.dart';
 import '../validators/form_financial_record_validator.dart';
@@ -75,12 +74,7 @@ Widget amount(BuildContext context, FormFinanceRecordStore formStore) {
     label: context.l10n.finance_records_table_header_amount,
     keyboardType: TextInputType.number,
     inputFormatters: [
-      CurrencyInputFormatter(
-        leadingSymbol: 'R\$ ',
-        useSymbolPadding: true,
-        mantissaLength: 2,
-        thousandSeparator: ThousandSeparator.Period,
-      ),
+      CurrencyFormatter.getInputFormatters(CurrencyType.REAL.apiValue),
     ],
     onChanged: (value) {
       final cleanedValue = value

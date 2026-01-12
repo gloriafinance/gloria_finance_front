@@ -2,8 +2,6 @@ import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/features/erp/settings/banks/store/bank_store.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_multi_formatter/formatters/currency_input_formatter.dart';
-import 'package:flutter_multi_formatter/formatters/money_input_enums.dart';
 
 import '../../../models/availability_account_model.dart';
 import '../store/form_availability_store.dart';
@@ -93,12 +91,7 @@ Widget balance(FormAvailabilityStore formStore) {
     initialValue: formStore.state.balance,
     keyboardType: TextInputType.number,
     inputFormatters: [
-      CurrencyInputFormatter(
-        leadingSymbol: 'R\$ ',
-        useSymbolPadding: true,
-        mantissaLength: 2,
-        thousandSeparator: ThousandSeparator.Period,
-      ),
+      CurrencyFormatter.getInputFormatters(CurrencyType.REAL.apiValue),
     ],
     onChanged: (value) {
       final cleanedValue = value
