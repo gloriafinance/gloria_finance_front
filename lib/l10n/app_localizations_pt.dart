@@ -620,6 +620,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settings_availability_field_active => 'Ativa';
 
   @override
+  String get settings_availability_field_bank => 'Banco';
+
+  @override
+  String get settings_availability_field_currency => 'Moeda';
+
+  @override
   String get settings_availability_bank_details_title => 'Dados do banco';
 
   @override
@@ -657,6 +663,15 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get settings_cost_center_field_active => 'Ativo';
+
+  @override
+  String get settings_cost_center_category_special_project => 'Projetos especiais';
+
+  @override
+  String get settings_cost_center_category_ministries => 'Ministérios';
+
+  @override
+  String get settings_cost_center_category_operations => 'Operações';
 
   @override
   String get settings_cost_center_error_required => 'Campo obrigatório';
@@ -1385,6 +1400,72 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get reports_income_download_error_generic => 'Erro ao baixar o PDF';
+
+  @override
+  String get reports_income_statement_monthly_title => 'Relatório financeiro mensal';
+
+  @override
+  String get reports_income_summary_net_revenue_title => 'Receita líquida';
+
+  @override
+  String get reports_income_summary_net_revenue_desc => 'Entradas provenientes das atividades regulares.';
+
+  @override
+  String get reports_income_summary_operating_expenses_title => 'Despesas operacionais';
+
+  @override
+  String get reports_income_summary_operating_expenses_desc => 'Custos necessários para manter a igreja ativa.';
+
+  @override
+  String get reports_income_summary_operating_income_title => 'Resultado operacional';
+
+  @override
+  String get reports_income_summary_operating_income_desc => 'Receitas menos despesas operacionais.';
+
+  @override
+  String get reports_income_summary_net_income_title => 'Resultado líquido';
+
+  @override
+  String get reports_income_summary_net_income_desc => 'Saldo final após itens extraordinários.';
+
+  @override
+  String get reports_income_category_revenue_title => 'Receitas';
+
+  @override
+  String get reports_income_category_revenue_desc => 'Entradas operacionais e doações recorrentes.';
+
+  @override
+  String get reports_income_category_cogs_title => 'Custos diretos';
+
+  @override
+  String get reports_income_category_cogs_desc => 'Custos diretos para entregar serviços ou projetos.';
+
+  @override
+  String get reports_income_category_opex_title => 'Despesas operacionais';
+
+  @override
+  String get reports_income_category_opex_desc => 'Despesas necessárias para manter a igreja ativa.';
+
+  @override
+  String get reports_income_category_capex_title => 'Investimentos de capital';
+
+  @override
+  String get reports_income_category_capex_desc => 'Investimentos e gastos de capital de longo prazo.';
+
+  @override
+  String get reports_income_category_other_title => 'Outras receitas/despesas';
+
+  @override
+  String get reports_income_category_other_desc => 'Receitas ou despesas extraordinárias.';
+
+  @override
+  String get reports_income_category_ministry_transfers_title => 'Repasses e contribuições ministeriais';
+
+  @override
+  String get reports_income_category_ministry_transfers_desc => 'Repasses de valores para ministérios ou departamentos da diretoria.';
+
+  @override
+  String get reports_income_category_unknown_title => 'Categoria';
 
   @override
   String get reports_dre_download_pdf => 'Baixar PDF';

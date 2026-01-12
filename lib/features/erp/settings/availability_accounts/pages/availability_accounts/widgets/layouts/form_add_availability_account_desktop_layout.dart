@@ -16,11 +16,11 @@ Widget formAddAvailabilityAccountDesktopLayout(
       SizedBox(height: 30),
       Row(
         children: [
-          Expanded(child: accountName(formStore)),
+          Expanded(child: accountName(context, formStore)),
           SizedBox(width: 36),
-          Expanded(child: symbol(formStore)),
+          Expanded(child: symbol(context, formStore)),
           SizedBox(width: 36),
-          Expanded(child: balance(formStore)),
+          Expanded(child: balance(context, formStore)),
           SizedBox(width: 36),
           Expanded(child: accountType(context, formStore)),
         ],
@@ -29,13 +29,13 @@ Widget formAddAvailabilityAccountDesktopLayout(
       Row(
         children: [
           if (formStore.state.accountType == AccountType.BANK.apiValue)
-            SizedBox(width: 400, child: source(formStore, bankStore)),
+            SizedBox(width: 400, child: source(context, formStore, bankStore)),
           SizedBox(width: 36),
           SizedBox(
             width: 140,
             child: Padding(
               padding: EdgeInsets.only(top: 40),
-              child: status(formStore),
+              child: status(context, formStore),
             ),
           ),
         ],

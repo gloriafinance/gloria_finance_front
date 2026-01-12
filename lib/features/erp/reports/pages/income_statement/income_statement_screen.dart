@@ -1,5 +1,6 @@
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,14 +21,14 @@ class IncomeStatementScreen extends StatelessWidget {
       create: (_) => IncomeStatementStore()..fetchIncomeStatement(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [_buildTitle(), _buildContent()],
+        children: [_buildTitle(context), _buildContent()],
       ),
     );
   }
 
-  Widget _buildTitle() {
+  Widget _buildTitle(BuildContext context) {
     return Text(
-      'Estado de Ingresos',
+      context.l10n.erp_menu_reports_income_statement,
       textAlign: TextAlign.left,
       style: TextStyle(
         fontFamily: AppFonts.fontTitle,
@@ -58,7 +59,7 @@ class IncomeStatementScreen extends StatelessWidget {
                     child: const CircularProgressIndicator(),
                   )
                 else ...[
-                  _buildReportHeader(data),
+                  _buildReportHeader(context, data),
                   const SizedBox(height: 28),
                   IncomeStatementSummaryPanel(data: data),
                   const SizedBox(height: 40),
@@ -73,7 +74,7 @@ class IncomeStatementScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildReportHeader(IncomeStatementModel data) {
+  Widget _buildReportHeader(BuildContext context, IncomeStatementModel data) {
     final periodText = _formatPeriod(data.period);
 
     return Column(
@@ -81,7 +82,7 @@ class IncomeStatementScreen extends StatelessWidget {
       children: [
         const SizedBox(height: 14),
         Text(
-          'Relatório Financeiro Mensal',
+          context.l10n.reports_income_statement_monthly_title,
           style: const TextStyle(
             fontFamily: AppFonts.fontTitle,
             fontSize: 24,

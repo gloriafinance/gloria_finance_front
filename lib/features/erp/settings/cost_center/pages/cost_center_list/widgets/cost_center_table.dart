@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/core/widgets/tag_status.dart';
 import 'package:church_finance_bk/features/erp/settings/cost_center/models/cost_center_model.dart';
@@ -28,25 +29,32 @@ class CostCenterTable extends StatelessWidget {
     if (state.costCenters.isEmpty) {
       return Container(
         margin: const EdgeInsets.only(top: 40.0),
-        child: const Center(
+        child: Center(
           child: Text(
-            'Nenhum centro de custo cadastrado.',
-            style: TextStyle(fontFamily: AppFonts.fontText),
+            context.l10n.common_no_results_found,
+            style: const TextStyle(fontFamily: AppFonts.fontText),
           ),
         ),
       );
     }
 
     return CustomTable(
-      headers: const ['Código', 'Nome', 'Categoria', 'Responsável', 'Status'],
+      headers: [
+        context.l10n.settings_cost_center_field_code,
+        context.l10n.settings_cost_center_field_name,
+        context.l10n.settings_cost_center_field_category,
+        context.l10n.settings_cost_center_field_responsible,
+        context.l10n.common_status,
+      ],
       data: FactoryDataTable<CostCenterModel>(
         data: state.costCenters,
-        dataBuilder: (costCenter) => _mapToRow(costCenter as CostCenterModel),
+        dataBuilder: (costCenter) =>
+            _mapToRow(context, costCenter as CostCenterModel),
       ),
       actionBuilders: [
         (costCenter) => ButtonActionTable(
           color: AppColors.blue,
-          text: 'Editar',
+          text: context.l10n.common_edit,
           onPressed:
               () => _navigateToEdit(context, costCenter as CostCenterModel),
           icon: Icons.edit_outlined,
@@ -55,19 +63,24 @@ class CostCenterTable extends StatelessWidget {
     );
   }
 
-  List<dynamic> _mapToRow(CostCenterModel costCenter) {
+  List<dynamic> _mapToRow(BuildContext context, CostCenterModel costCenter) {
     final responsible = costCenter.responsible;
+    final statusLabel =
+        costCenter.active
+            ? context.l10n.schedule_status_active
+            : context.l10n.schedule_status_inactive;
 
     return [
       costCenter.costCenterId,
       costCenter.name,
-      costCenter.category.friendlyName,
+      costCenter.category.friendlyName(context.l10n),
       responsible != null && responsible.name.isNotEmpty
           ? responsible.name
           : '—',
-      costCenter.active
-          ? tagStatus(AppColors.green, 'Ativo')
-          : tagStatus(Colors.red, 'Inativo'),
+      tagStatus(
+        costCenter.active ? AppColors.green : Colors.red,
+        statusLabel,
+      ),
     ];
   }
 
