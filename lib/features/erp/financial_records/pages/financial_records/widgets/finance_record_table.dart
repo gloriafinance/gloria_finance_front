@@ -41,11 +41,7 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
     if (state.paginate.results.isEmpty) {
       return Container(
         margin: const EdgeInsets.only(top: 40.0),
-        child: Center(
-          child: Text(
-            context.l10n.finance_records_table_empty,
-          ),
-        ),
+        child: Center(child: Text(context.l10n.finance_records_table_empty)),
       );
     }
 
@@ -130,7 +126,10 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
     var model = financeRecord as FinanceRecordListModel;
     return [
       convertDateFormatToDDMMYYYY(financeRecord.date.toString()),
-      CurrencyFormatter.formatCurrency(financeRecord.amount),
+      CurrencyFormatter.formatCurrency(
+        financeRecord.amount,
+        symbol: financeRecord.availabilityAccount.symbol,
+      ),
       getFriendlyNameFinancialConceptType(financeRecord.type),
       financeRecord?.financialConcept?.name ?? 'N/A',
       financeRecord.availabilityAccount.accountName,

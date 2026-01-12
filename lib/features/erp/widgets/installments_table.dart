@@ -8,11 +8,13 @@ import '../models/installment_model.dart';
 class InstallmentsTable extends StatefulWidget {
   final List<dynamic> installments;
   final Function(List<String> ids) setInstallmentIds;
+  final String symbol;
 
   const InstallmentsTable({
     super.key,
     required this.installments,
     required this.setInstallmentIds,
+    required this.symbol,
   });
 
   @override
@@ -69,8 +71,8 @@ class _InstallmentsTableState extends State<InstallmentsTable> {
             formatCurrency(item.amount),
             convertDateFormatToDDMMYYYY(item.dueDate),
             _getStatusWidget(item.status),
-            formatCurrency(item.amountPaid ?? 0),
-            formatCurrency(item.amountPending ?? 0),
+            formatCurrency(item.amountPaid ?? 0, symbol: widget.symbol),
+            formatCurrency(item.amountPending ?? 0, symbol: widget.symbol),
             item.paymentDate != null
                 ? convertDateFormatToDDMMYYYY(item.paymentDate as String?)
                 : 'N/A',

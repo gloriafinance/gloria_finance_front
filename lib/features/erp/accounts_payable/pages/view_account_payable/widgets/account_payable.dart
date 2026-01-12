@@ -62,12 +62,13 @@ class _AccountPayableState extends State<AccountPayable> {
         InstallmentsTable(
           setInstallmentIds: formStore.setInstallmentIds,
           installments: widget.account.installments,
+          symbol: widget.account.symbol,
         ),
         const SizedBox(height: 16),
         if (formStore.state.anyInstallmentSelected())
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
-             children: [
+            children: [
               CustomButton(
                 text: context.l10n.accountsPayable_view_register_payment,
                 backgroundColor: AppColors.green,
@@ -85,8 +86,8 @@ class _AccountPayableState extends State<AccountPayable> {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        buildSectionTitle(context.l10n.accountsPayable_view_provider_section),
+        children: [
+          buildSectionTitle(context.l10n.accountsPayable_view_provider_section),
           const SizedBox(height: 16),
           buildDetailRow(
             isMobile,
