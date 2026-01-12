@@ -101,6 +101,16 @@ extension L10nMenuX on AppLocalizations {
       case 'schedule_day_saturday':
         return schedule_day_saturday;
 
+      // Availability account type keys
+      case 'settings_availability_account_type_bank':
+        return settings_availability_account_type_bank;
+      case 'settings_availability_account_type_cash':
+        return settings_availability_account_type_cash;
+      case 'settings_availability_account_type_wallet':
+        return settings_availability_account_type_wallet;
+      case 'settings_availability_account_type_investment':
+        return settings_availability_account_type_investment;
+
       default:
         return key; // Return the key itself if not found
     }

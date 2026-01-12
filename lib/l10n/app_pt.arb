@@ -231,6 +231,27 @@
   "settings_availability_form_title": "Cadastro de conta de desponibilidade",
   "settings_availability_save": "Salvar",
   "settings_availability_toast_saved": "Registro salvo com sucesso",
+  "settings_availability_table_header_name": "Nome da conta",
+  "settings_availability_table_header_type": "Tipo de conta",
+  "settings_availability_table_header_balance": "Saldo",
+  "settings_availability_table_header_status": "Status",
+  "settings_availability_view_title": "Conta de disponibilidade #{id}",
+  "@settings_availability_view_title": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "settings_availability_field_name": "Nome",
+  "settings_availability_field_balance": "Saldo",
+  "settings_availability_field_type": "Tipo",
+  "settings_availability_field_active": "Ativa",
+  "settings_availability_bank_details_title": "Dados do banco",
+  "settings_availability_account_type_bank": "Banco",
+  "settings_availability_account_type_cash": "Dinheiro",
+  "settings_availability_account_type_wallet": "Carteira digital",
+  "settings_availability_account_type_investment": "Investimento",
   "settings_cost_center_title": "Centros de custo",
   "settings_cost_center_new": "Novo centro de custo",
   "settings_cost_center_field_code": "Código",

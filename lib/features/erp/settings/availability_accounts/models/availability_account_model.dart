@@ -1,3 +1,5 @@
+import 'package:church_finance_bk/l10n/app_localizations.dart';
+
 import '../../banks/models/bank_model.dart';
 
 enum AccountType { BANK, CASH, WALLET, INVESTMENT }
@@ -25,16 +27,23 @@ class AccountConfigurations {
 }
 
 extension AccountTypeExtension on AccountType {
-  String get friendlyName {
+  static AccountType fromApiValue(String value) {
+    return AccountType.values.firstWhere(
+      (element) => element.apiValue == value,
+      orElse: () => AccountType.BANK,
+    );
+  }
+
+  String friendlyName(AppLocalizations l10n) {
     switch (this) {
       case AccountType.BANK:
-        return 'Banco';
+        return l10n.settings_availability_account_type_bank;
       case AccountType.CASH:
-        return 'Dinheiro';
+        return l10n.settings_availability_account_type_cash;
       case AccountType.WALLET:
-        return 'Carteira Digital';
+        return l10n.settings_availability_account_type_wallet;
       case AccountType.INVESTMENT:
-        return 'Investimento';
+        return l10n.settings_availability_account_type_investment;
     }
   }
 

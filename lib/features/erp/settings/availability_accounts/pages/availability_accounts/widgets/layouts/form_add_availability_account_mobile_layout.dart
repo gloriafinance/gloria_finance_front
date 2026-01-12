@@ -6,6 +6,7 @@ import '../../store/form_availability_store.dart';
 import '../form_add_availability_account_inputs.dart';
 
 Widget formAddAvailabilityAccountMobileLayout(
+  BuildContext context,
   FormAvailabilityStore formStore,
   BankStore bankStore,
 ) {
@@ -15,7 +16,7 @@ Widget formAddAvailabilityAccountMobileLayout(
       SizedBox(height: 30),
       accountName(formStore),
       SizedBox(height: 30),
-      accountType(formStore),
+      accountType(context, formStore),
       SizedBox(height: 30),
       if (formStore.state.accountType == AccountType.BANK.apiValue)
         source(formStore, bankStore),

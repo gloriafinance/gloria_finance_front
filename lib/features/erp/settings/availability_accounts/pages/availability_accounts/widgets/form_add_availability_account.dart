@@ -36,8 +36,16 @@ class _FromAddAvailabilityAccountState
         child: Column(
           children: [
             isMobile(context)
-                ? formAddAvailabilityAccountMobileLayout(formStore, bankStore)
-                : formAddAvailabilityAccountDesktopLayout(formStore, bankStore),
+                ? formAddAvailabilityAccountMobileLayout(
+                  context,
+                  formStore,
+                  bankStore,
+                )
+                : formAddAvailabilityAccountDesktopLayout(
+                  context,
+                  formStore,
+                  bankStore,
+                ),
             const SizedBox(height: 32),
             isMobile(context)
                 ? _btnSave(formStore)

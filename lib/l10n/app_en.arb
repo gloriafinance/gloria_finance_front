@@ -232,6 +232,27 @@
   "settings_availability_form_title": "Register availability account",
   "settings_availability_save": "Save",
   "settings_availability_toast_saved": "Record saved successfully",
+  "settings_availability_table_header_name": "Account name",
+  "settings_availability_table_header_type": "Account type",
+  "settings_availability_table_header_balance": "Balance",
+  "settings_availability_table_header_status": "Status",
+  "settings_availability_view_title": "Availability account #{id}",
+  "@settings_availability_view_title": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "settings_availability_field_name": "Name",
+  "settings_availability_field_balance": "Balance",
+  "settings_availability_field_type": "Type",
+  "settings_availability_field_active": "Active",
+  "settings_availability_bank_details_title": "Bank details",
+  "settings_availability_account_type_bank": "Bank",
+  "settings_availability_account_type_cash": "Cash",
+  "settings_availability_account_type_wallet": "Digital wallet",
+  "settings_availability_account_type_investment": "Investment",
   "settings_cost_center_title": "Cost centers",
   "settings_cost_center_new": "New cost center",
   "settings_cost_center_field_code": "Code",

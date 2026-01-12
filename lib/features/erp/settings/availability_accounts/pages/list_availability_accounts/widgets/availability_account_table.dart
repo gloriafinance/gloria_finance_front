@@ -1,6 +1,7 @@
 import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/paginate/custom_table.dart';
 import 'package:church_finance_bk/core/theme/app_color.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
 import 'package:church_finance_bk/features/erp/settings/availability_accounts/models/availability_account_model.dart';
@@ -35,20 +36,25 @@ class _AvailabilityAccountTable extends State<AvailabilityAccountTable> {
     if (state.availabilityAccounts.isEmpty) {
       return Container(
         margin: const EdgeInsets.only(top: 40.0),
-        child: Center(child: Text('Nāo ha contas cadastradas.')),
+        child: Center(child: Text(context.l10n.common_no_results_found)),
       );
     }
 
     return CustomTable(
-      headers: ["Nome da conta", "Tipo de conta", "balane", "status"],
+      headers: [
+        context.l10n.settings_availability_table_header_name,
+        context.l10n.settings_availability_table_header_type,
+        context.l10n.settings_availability_table_header_balance,
+        context.l10n.settings_availability_table_header_status,
+      ],
       data: FactoryDataTable<dynamic>(
         data: state.availabilityAccounts,
-        dataBuilder: accountDTO,
+        dataBuilder: (account) => accountDTO(context, account),
       ),
       actionBuilders: [
         (account) => ButtonActionTable(
           color: AppColors.blue,
-          text: "Visualizar",
+          text: context.l10n.common_view,
           onPressed: () {
             _openModal(context, account);
           },
@@ -63,17 +69,26 @@ class _AvailabilityAccountTable extends State<AvailabilityAccountTable> {
       title:
           isMobile(context)
               ? ""
-              : 'Conta de disponibilidade #${account.availabilityAccountId}',
+              : context.l10n.settings_availability_view_title(
+                account.availabilityAccountId,
+              ),
       body: ViewAvailabilityAccount(account: account),
     ).show(context);
   }
 
-  List<dynamic> accountDTO(dynamic account) {
+  List<dynamic> accountDTO(BuildContext context, dynamic account) {
+    final l10n = context.l10n;
+    final accountType = AccountTypeExtension.fromApiValue(account.accountType);
+    final statusLabel =
+        account.active
+            ? l10n.schedule_status_active
+            : l10n.schedule_status_inactive;
+
     return [
       account.accountName,
-      account.accountType,
+      accountType.friendlyName(l10n),
       CurrencyFormatter.formatCurrency(account.balance, symbol: account.symbol),
-      account.active ? "Ativo" : "Inativo",
+      statusLabel,
     ];
   }
 }

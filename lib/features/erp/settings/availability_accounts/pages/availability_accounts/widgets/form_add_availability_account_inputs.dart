@@ -1,3 +1,4 @@
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/form_controls.dart';
 import 'package:church_finance_bk/features/erp/settings/banks/store/bank_store.dart';
@@ -18,31 +19,33 @@ Widget accountName(FormAvailabilityStore formStore) {
   );
 }
 
-List<String> _accountTypeFriendlyName() {
+List<String> _accountTypeFriendlyName(BuildContext context) {
+  final l10n = context.l10n;
   return [
-    AccountType.BANK.friendlyName,
-    AccountType.CASH.friendlyName,
-    AccountType.WALLET.friendlyName,
-    AccountType.INVESTMENT.friendlyName,
+    AccountType.BANK.friendlyName(l10n),
+    AccountType.CASH.friendlyName(l10n),
+    AccountType.WALLET.friendlyName(l10n),
+    AccountType.INVESTMENT.friendlyName(l10n),
   ];
 }
 
-Widget accountType(FormAvailabilityStore formStore) {
+Widget accountType(BuildContext context, FormAvailabilityStore formStore) {
+  final l10n = context.l10n;
   var initValue =
       formStore.state.accountType != ''
           ? (AccountType.values.firstWhere(
             (e) => e.apiValue == formStore.state.accountType,
-          )).friendlyName
+          )).friendlyName(l10n)
           : null;
 
   return Dropdown(
     label: "Tipo de conta",
     initialValue: initValue,
-    items: _accountTypeFriendlyName().map((item) => item).toList(),
+    items: _accountTypeFriendlyName(context).map((item) => item).toList(),
     onValidator: validator.byField(formStore.state, 'accountType'),
     onChanged: (value) {
       final accountType = AccountType.values.firstWhere(
-        (e) => e.friendlyName == value,
+        (e) => e.friendlyName(l10n) == value,
       );
 
       formStore.setAccountType(accountType.apiValue);
