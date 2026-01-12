@@ -28,6 +28,11 @@ class FormFinanceRecordStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setSymbolFormatMoney(String symbol) {
+    state = state.copyWith(symbolFormatMoney: symbol);
+    notifyListeners();
+  }
+
   void setIsMovementBank(bool isMovementBank) {
     state = state.copyWith(isMovementBank: isMovementBank);
     notifyListeners();

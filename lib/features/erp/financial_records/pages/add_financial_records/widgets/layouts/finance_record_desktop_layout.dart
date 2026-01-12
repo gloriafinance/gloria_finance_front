@@ -46,8 +46,6 @@ Widget formDesktopLayout(
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(flex: 2, child: amount(context, formStore)),
-          const SizedBox(width: 16),
           Expanded(
             flex: 3,
             child: dropdownAvailabilityAccounts(
@@ -56,6 +54,8 @@ Widget formDesktopLayout(
               formStore,
             ),
           ),
+          const SizedBox(width: 16),
+          Expanded(flex: 2, child: amount(context, formStore)),
         ],
       ),
       const SizedBox(height: 16),

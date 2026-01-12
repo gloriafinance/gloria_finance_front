@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../auth/pages/login/store/auth_session_store.dart';
 import '../store/form_accounts_payable_store.dart';
 import '../validators/form_accounts_payable_validator.dart';
 import 'layouts/desktop.dart';
@@ -49,8 +50,8 @@ class _FormAccountPayableState extends State<FormAccountPayable> {
           l10n.accountsPayable_form_error_automatic_installments_required,
       automaticAmountRequired:
           l10n.accountsPayable_form_error_automatic_amount_required,
-      automaticFirstDueDateRequired: l10n
-          .accountsPayable_form_error_automatic_first_due_date_required,
+      automaticFirstDueDateRequired:
+          l10n.accountsPayable_form_error_automatic_first_due_date_required,
       installmentsCountMismatch:
           l10n.accountsPayable_form_error_installments_count_mismatch,
       taxesRequired: l10n.accountsPayable_form_error_taxes_required,
@@ -59,9 +60,18 @@ class _FormAccountPayableState extends State<FormAccountPayable> {
           l10n.accountsPayable_form_error_tax_exemption_reason_required,
       taxExemptMustNotHaveTaxes:
           l10n.accountsPayable_form_error_tax_exempt_must_not_have_taxes,
-      taxStatusMismatch:
-          l10n.accountsPayable_form_error_tax_status_mismatch,
+      taxStatusMismatch: l10n.accountsPayable_form_error_tax_status_mismatch,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final storeAuth = Provider.of<AuthSessionStore>(context, listen: false);
+      final formStore = Provider.of<FormAccountsPayableStore>(
+        context,
+        listen: false,
+      );
+
+      formStore.setSymbolFormatMoney(storeAuth.state.session.symbolFormatMoney);
+    });
   }
 
   @override

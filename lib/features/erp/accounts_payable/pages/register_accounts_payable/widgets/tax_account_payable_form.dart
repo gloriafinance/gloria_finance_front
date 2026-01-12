@@ -2,7 +2,6 @@ import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
 import 'package:church_finance_bk/core/theme/index.dart';
 import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:church_finance_bk/core/utils/index.dart';
-import 'package:church_finance_bk/core/widgets/custom_button.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/features/erp/accounts_payable/models/accounts_payable_tax.dart';
 import 'package:church_finance_bk/features/erp/accounts_payable/models/accounts_payable_types.dart';
@@ -47,7 +46,7 @@ class _TaxAccountPayableFormState extends State<TaxAccountPayableForm> {
           color: AppColors.blue,
           text: context.l10n.tax_form_title_add,
           icon: Icons.add_box_outlined,
-          onPressed: _openCreateTax,
+          onPressed: () => _openCreateTax(widget.formStore),
         ),
         const SizedBox(height: 12),
         if (taxes.isEmpty)
@@ -115,7 +114,7 @@ class _TaxAccountPayableFormState extends State<TaxAccountPayableForm> {
                               ),
                               const SizedBox(height: 2),
                               Text(
-                                'Valor: ${CurrencyFormatter.formatCurrency(tax.amount)}',
+                                'Valor: ${CurrencyFormatter.formatCurrency(tax.amount, symbol: state.symbolFormatMoney)}',
                                 style: const TextStyle(
                                   fontFamily: AppFonts.fontSubTitle,
                                   color: AppColors.black,
@@ -133,7 +132,8 @@ class _TaxAccountPayableFormState extends State<TaxAccountPayableForm> {
                                 Icons.edit_outlined,
                                 color: AppColors.blue,
                               ),
-                              onPressed: () => _openEditTax(index),
+                              onPressed:
+                                  () => _openEditTax(widget.formStore, index),
                             ),
                             IconButton(
                               tooltip: 'Remover imposto',
@@ -168,24 +168,32 @@ class _TaxAccountPayableFormState extends State<TaxAccountPayableForm> {
     );
   }
 
-  Future<void> _openCreateTax() async {
-    final result = await _showTaxDialog(context);
+  Future<void> _openCreateTax(FormAccountsPayableStore formStore) async {
+    final result = await _showTaxDialog(context, formStore);
     if (result == null) return;
     widget.formStore.addTaxLine(result);
   }
 
-  Future<void> _openEditTax(int index) async {
+  Future<void> _openEditTax(
+    FormAccountsPayableStore formStore,
+    int index,
+  ) async {
     final taxes = widget.formStore.state.taxes;
     if (index < 0 || index >= taxes.length) return;
 
-    final result = await _showTaxDialog(context, initial: taxes[index]);
+    final result = await _showTaxDialog(
+      context,
+      formStore,
+      initial: taxes[index],
+    );
 
     if (result == null) return;
     widget.formStore.updateTaxLine(index, result);
   }
 
   Future<AccountsPayableTaxLine?> _showTaxDialog(
-    BuildContext context, {
+    BuildContext context,
+    FormAccountsPayableStore formStore, {
     AccountsPayableTaxLine? initial,
   }) async {
     final formKey = GlobalKey<FormState>();
@@ -254,7 +262,9 @@ class _TaxAccountPayableFormState extends State<TaxAccountPayableForm> {
                   onChanged: (value) => amountText = value,
                   keyboardType: TextInputType.number,
                   inputFormatters: [
-                    CurrencyFormatter.getInputFormatters('R\$'),
+                    CurrencyFormatter.getInputFormatters(
+                      formStore.state.symbolFormatMoney,
+                    ),
                   ],
                   onValidator: (value) {
                     final amount = CurrencyFormatter.cleanCurrency(
@@ -270,10 +280,10 @@ class _TaxAccountPayableFormState extends State<TaxAccountPayableForm> {
                 Dropdown(
                   label: context.l10n.tax_form_status_label,
                   items: [
-                    context.l10n.tax_form_status_taxed, // 'Tributada'
-                    context
-                        .l10n
-                        .tax_form_status_substitution, // 'Substituição tributária'
+                    context.l10n.tax_form_status_taxed,
+                    // 'Tributada'
+                    context.l10n.tax_form_status_substitution,
+                    // 'Substituição tributária'
                   ],
                   initialValue:
                       status == AccountsPayableTaxStatus.substitution

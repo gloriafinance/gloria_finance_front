@@ -14,6 +14,7 @@ class FormFinanceRecordState {
   bool isPurchase = false;
   bool isMovementBank = false;
   String costCenterId;
+  String symbolFormatMoney = '';
 
   FormFinanceRecordState({
     required this.makeRequest,
@@ -27,6 +28,7 @@ class FormFinanceRecordState {
     required this.isPurchase,
     required this.isMovementBank,
     required this.costCenterId,
+    required this.symbolFormatMoney,
   });
 
   factory FormFinanceRecordState.init() {
@@ -41,6 +43,7 @@ class FormFinanceRecordState {
       financialConceptId: '',
       isPurchase: false,
       isMovementBank: false,
+      symbolFormatMoney: '',
     );
   }
 
@@ -55,6 +58,7 @@ class FormFinanceRecordState {
     bool? makeRequest,
     bool? isMovementBank,
     String? costCenterId,
+    String? symbolFormatMoney,
   }) {
     return FormFinanceRecordState(
       amount: amount ?? this.amount,
@@ -69,6 +73,7 @@ class FormFinanceRecordState {
       isPurchase: type == FinancialConceptType.PURCHASE.apiValue,
       isMovementBank: isMovementBank ?? this.isMovementBank,
       costCenterId: costCenterId ?? this.costCenterId,
+      symbolFormatMoney: symbolFormatMoney ?? this.symbolFormatMoney,
     );
   }
 

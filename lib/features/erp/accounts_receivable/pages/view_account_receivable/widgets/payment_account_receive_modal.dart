@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../auth/pages/login/store/auth_session_store.dart';
 import '../store/payment_account_receive_store.dart';
 import '../validators/payment_form_validator.dart';
 
@@ -47,6 +48,18 @@ class _PaymentAccountReceiveModalState
   }
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final storeAuth = Provider.of<AuthSessionStore>(context, listen: false);
+
+      widget.formStore.setSymbolFormatMoney(
+        storeAuth.state.session.symbolFormatMoney,
+      );
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final availabilityStore = Provider.of<AvailabilityAccountsListStore>(
       context,
@@ -69,14 +82,15 @@ class _PaymentAccountReceiveModalState
                 formatCurrency(widget.totalAmount),
               ),
               SizedBox(height: 20),
-              // Monto total a pagar
-              _buildTotalAmount(widget.formStore),
 
               // Cuenta de disponibilidad
               _buildDropdownAvailabilityAccounts(
                 availabilityStore,
                 widget.formStore,
               ),
+
+              // Monto total a pagar
+              _buildTotalAmount(widget.formStore),
 
               // Comprobante de transferencia (solo si es movimiento bancario)
               Builder(
@@ -145,6 +159,10 @@ class _PaymentAccountReceiveModalState
 
         final selectedAccount = availabilityStore.state.availabilityAccounts
             .firstWhere((e) => e.accountName == value);
+
+        if (selectedAccount.symbol != formStore.state.symbolFormatMoney) {
+          formStore.setSymbolFormatMoney(selectedAccount.symbol);
+        }
 
         // Actualizar primero la cuenta de disponibilidad
         formStore.setAvailabilityAccountId(

@@ -7,6 +7,7 @@ class PaymentFormState {
   String availabilityAccountId;
   double amount;
   bool isMovementBank;
+  final String symbolFormatMoney;
   MultipartFile? file;
 
   PaymentFormState({
@@ -16,6 +17,7 @@ class PaymentFormState {
     required this.availabilityAccountId,
     required this.amount,
     required this.isMovementBank,
+    required this.symbolFormatMoney,
     this.file,
   });
 
@@ -27,6 +29,7 @@ class PaymentFormState {
       availabilityAccountId: '',
       amount: 0,
       isMovementBank: false,
+      symbolFormatMoney: '',
     );
   }
 
@@ -38,6 +41,7 @@ class PaymentFormState {
     double? amount,
     bool? isMovementBank,
     MultipartFile? file,
+    String? symbolFormatMoney,
   }) {
     return PaymentFormState(
       makeRequest: makeRequest ?? this.makeRequest,
@@ -48,6 +52,7 @@ class PaymentFormState {
       amount: amount ?? this.amount,
       isMovementBank: isMovementBank ?? this.isMovementBank,
       file: file ?? this.file,
+      symbolFormatMoney: symbolFormatMoney ?? this.symbolFormatMoney,
     );
   }
 

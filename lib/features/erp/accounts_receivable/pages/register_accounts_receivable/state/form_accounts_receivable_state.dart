@@ -1,5 +1,4 @@
 import '../../../../models/installment_model.dart';
-import '../../../models/accounts_receivable_payment_mode.dart';
 import '../../../models/index.dart';
 
 class FormAccountsReceivableState {
@@ -20,6 +19,7 @@ class FormAccountsReceivableState {
   double automaticInstallmentAmount;
   String automaticFirstDueDate;
   List<InstallmentModel> installments;
+  String symbolFormatMoney = '';
 
   FormAccountsReceivableState({
     required this.makeRequest,
@@ -39,6 +39,7 @@ class FormAccountsReceivableState {
     required this.automaticInstallments,
     required this.automaticInstallmentAmount,
     required this.automaticFirstDueDate,
+    required this.symbolFormatMoney,
   });
 
   factory FormAccountsReceivableState.init() {
@@ -60,6 +61,7 @@ class FormAccountsReceivableState {
       automaticInstallments: 0,
       automaticInstallmentAmount: 0,
       automaticFirstDueDate: '',
+      symbolFormatMoney: '',
     );
   }
 
@@ -81,6 +83,7 @@ class FormAccountsReceivableState {
     int? automaticInstallments,
     double? automaticInstallmentAmount,
     String? automaticFirstDueDate,
+    String? symbolFormatMoney,
   }) {
     return FormAccountsReceivableState(
       makeRequest: makeRequest ?? this.makeRequest,
@@ -103,6 +106,7 @@ class FormAccountsReceivableState {
           automaticInstallmentAmount ?? this.automaticInstallmentAmount,
       automaticFirstDueDate:
           automaticFirstDueDate ?? this.automaticFirstDueDate,
+      symbolFormatMoney: symbolFormatMoney ?? this.symbolFormatMoney,
     );
   }
 
@@ -119,8 +123,7 @@ class FormAccountsReceivableState {
       },
       'description': description,
       'financialConceptId': financialConceptId,
-      'installments':
-          effectiveInstallments.map((e) => e.toJson()).toList(),
+      'installments': effectiveInstallments.map((e) => e.toJson()).toList(),
       'type': type.apiValue,
     };
   }
@@ -132,12 +135,7 @@ class FormAccountsReceivableState {
       }
 
       if (totalAmount > 0 && singleDueDate.isNotEmpty) {
-        return [
-          InstallmentModel(
-            amount: totalAmount,
-            dueDate: singleDueDate,
-          ),
-        ];
+        return [InstallmentModel(amount: totalAmount, dueDate: singleDueDate)];
       }
 
       return const [];

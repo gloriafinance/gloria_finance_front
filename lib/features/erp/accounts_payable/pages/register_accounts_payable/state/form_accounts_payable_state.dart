@@ -26,6 +26,7 @@ class FormAccountsPayableState {
   String taxCstCode;
   String taxCfop;
   List<AccountsPayableTaxLine> taxes;
+  String symbolFormatMoney = '';
 
   FormAccountsPayableState({
     required this.makeRequest,
@@ -49,6 +50,7 @@ class FormAccountsPayableState {
     required this.taxCstCode,
     required this.taxCfop,
     required this.taxes,
+    required this.symbolFormatMoney,
   });
 
   factory FormAccountsPayableState.init() {
@@ -74,6 +76,7 @@ class FormAccountsPayableState {
       taxCstCode: '',
       taxCfop: '',
       taxes: const [],
+      symbolFormatMoney: '',
     );
   }
 
@@ -100,6 +103,7 @@ class FormAccountsPayableState {
     String? taxCstCode,
     String? taxCfop,
     List<AccountsPayableTaxLine>? taxes,
+    String? symbolFormatMoney,
   }) {
     return FormAccountsPayableState(
       makeRequest: makeRequest ?? this.makeRequest,
@@ -127,6 +131,7 @@ class FormAccountsPayableState {
       taxCstCode: taxCstCode ?? this.taxCstCode,
       taxCfop: taxCfop ?? this.taxCfop,
       taxes: taxes ?? this.taxes,
+      symbolFormatMoney: symbolFormatMoney ?? this.symbolFormatMoney,
     );
   }
 
