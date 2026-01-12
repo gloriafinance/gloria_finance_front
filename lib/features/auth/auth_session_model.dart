@@ -11,6 +11,7 @@ class AuthSessionModel {
   final String churchId;
   final String churchName;
   final String country;
+  final String symbolFormatMoney;
   final List<String> roles;
   final String? memberId;
   final String lang;
@@ -30,6 +31,7 @@ class AuthSessionModel {
     this.churchName = '',
     this.country = '',
     this.lang = 'pt-BR',
+    this.symbolFormatMoney = 'R\$',
     this.memberId,
     this.lastLogin,
     this.isSuperUser = false,
@@ -48,6 +50,7 @@ class AuthSessionModel {
       churchName: '',
       country: '',
       lang: 'pt-BR',
+      symbolFormatMoney: 'R\$',
       roles: [],
       policies: PolicyAcceptanceModel.empty(),
     );
@@ -58,6 +61,7 @@ class AuthSessionModel {
     String? churchId,
     String? churchName,
     String? country,
+    String? symbolFormatMoney,
     String? name,
     String? email,
     String? createdAt,
@@ -82,6 +86,7 @@ class AuthSessionModel {
       country: country ?? this.country,
       memberId: memberId ?? this.memberId,
       lang: lang ?? this.lang,
+      symbolFormatMoney: symbolFormatMoney ?? this.symbolFormatMoney,
       lastLogin: lastLogin ?? this.lastLogin,
       isSuperUser: isSuperUser ?? this.isSuperUser,
       roles: roles ?? this.roles,
@@ -94,6 +99,7 @@ class AuthSessionModel {
     String churchName = '';
     String country = '';
     String lang = 'pt-BR';
+    String symbolFormatMoney = 'R\$';
     String? memberId;
 
     if (json['church'] != null && json['church'] is Map) {
@@ -101,6 +107,7 @@ class AuthSessionModel {
       churchName = json['church']['name'] ?? '';
       country = json['church']['country'] ?? '';
       lang = json['church']['lang'] ?? 'pt-BR';
+      symbolFormatMoney = json['church']['symbolFormatMoney'] ?? 'R\$';
     } else if (json['churchId'] != null) {
       // Fallback for flat structure if needed, or legacy
       churchId = json['churchId'];
@@ -134,6 +141,7 @@ class AuthSessionModel {
       country: country,
       memberId: memberId,
       lang: lang,
+      symbolFormatMoney: symbolFormatMoney,
       lastLogin: json['lastLogin'],
       isSuperUser: json['isSuperUser'] ?? false,
       policies: PolicyAcceptanceModel.fromJson(

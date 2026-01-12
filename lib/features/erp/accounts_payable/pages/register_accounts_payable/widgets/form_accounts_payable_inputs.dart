@@ -200,6 +200,7 @@ Widget taxSection(
           onChanged: formStore.setTaxCfop,
         ),
       ],
+      //TODO se necesita un adapter por pais
       if (!state.taxExempt) ...[
         const SizedBox(height: 16),
         TaxAccountPayableForm(

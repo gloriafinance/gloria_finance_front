@@ -56,8 +56,8 @@ class InstallmentAccountPayableForm extends StatelessWidget {
               formStore: formStore,
               validator: validator,
               showValidationMessages: showValidationMessages,
-              emptyMessage: l10n
-                  .accountsPayable_form_installments_automatic_empty_message,
+              emptyMessage:
+                  l10n.accountsPayable_form_installments_automatic_empty_message,
             ),
           ],
         );
@@ -88,10 +88,15 @@ class _SinglePaymentSection extends StatelessWidget {
           label: l10n.accountsPayable_form_field_total_amount,
           initialValue:
               state.totalAmount > 0
-                  ? CurrencyFormatter.formatCurrency(state.totalAmount)
+                  ? CurrencyFormatter.formatCurrency(
+                    state.totalAmount,
+                    symbol: state.symbolFormatMoney,
+                  )
                   : '',
           keyboardType: TextInputType.number,
-          inputFormatters: [CurrencyFormatter.getInputFormatters('R\$')],
+          inputFormatters: [
+            CurrencyFormatter.getInputFormatters(state.symbolFormatMoney),
+          ],
           onChanged:
               (value) => formStore.setTotalAmount(
                 CurrencyFormatter.cleanCurrency(value),
@@ -168,7 +173,9 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
                         )
                         : '',
                 keyboardType: TextInputType.number,
-                inputFormatters: [CurrencyFormatter.getInputFormatters('R\$')],
+                inputFormatters: [
+                  CurrencyFormatter.getInputFormatters(state.symbolFormatMoney),
+                ],
                 onChanged:
                     (value) => formStore.setAutomaticInstallmentAmount(
                       CurrencyFormatter.cleanCurrency(value),
@@ -183,8 +190,7 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
             SizedBox(
               width: 220,
               child: Input(
-                label:
-                    l10n.accountsPayable_form_field_automatic_first_due_date,
+                label: l10n.accountsPayable_form_field_automatic_first_due_date,
                 initialValue: state.automaticFirstDueDate,
                 onChanged: formStore.setAutomaticFirstDueDate,
                 onTap: () async {
@@ -329,8 +335,8 @@ class _InstallmentsPreviewSection extends StatelessWidget {
                               Text(
                                 context.l10n
                                     .accountsPayable_form_installment_item_title(
-                                  index + 1,
-                                ),
+                                      index + 1,
+                                    ),
                                 style: const TextStyle(
                                   fontFamily: AppFonts.fontTitle,
                                   fontSize: 15,
@@ -352,8 +358,8 @@ class _InstallmentsPreviewSection extends StatelessWidget {
                               Text(
                                 context.l10n
                                     .accountsPayable_form_installment_item_due_date(
-                                  installment.dueDate,
-                                ),
+                                      installment.dueDate,
+                                    ),
                                 style: const TextStyle(
                                   fontFamily: AppFonts.fontSubTitle,
                                   color: AppColors.grey,
@@ -371,8 +377,7 @@ class _InstallmentsPreviewSection extends StatelessWidget {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  context.l10n
-                      .accountsPayable_form_installments_summary_total(
+                  context.l10n.accountsPayable_form_installments_summary_total(
                     CurrencyFormatter.formatCurrency(totalAmount),
                   ),
                   style: const TextStyle(

@@ -11,8 +11,9 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../../models/index.dart';
+import '../../../../../auth/pages/login/store/auth_session_store.dart';
 import '../../../helpers/accounts_receivable_helper.dart';
+import '../../../models/index.dart';
 import '../store/form_accounts_receivable_store.dart';
 import '../validators/form_accounts_receivable_validator.dart';
 import 'external_debtor_form.dart';
@@ -41,8 +42,7 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
           l10n.accountsReceivable_form_error_financial_concept_required,
       debtorNameRequired:
           l10n.accountsReceivable_form_error_debtor_name_required,
-      debtorDniRequired:
-          l10n.accountsReceivable_form_error_debtor_dni_required,
+      debtorDniRequired: l10n.accountsReceivable_form_error_debtor_dni_required,
       debtorPhoneRequired:
           l10n.accountsReceivable_form_error_debtor_phone_required,
       debtorEmailRequired:
@@ -59,11 +59,21 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
           l10n.accountsReceivable_form_error_automatic_installments_required,
       automaticAmountRequired:
           l10n.accountsReceivable_form_error_automatic_amount_required,
-      automaticFirstDueDateRequired: l10n
-          .accountsReceivable_form_error_automatic_first_due_date_required,
+      automaticFirstDueDateRequired:
+          l10n.accountsReceivable_form_error_automatic_first_due_date_required,
       installmentsCountMismatch:
           l10n.accountsReceivable_form_error_installments_count_mismatch,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final storeAuth = Provider.of<AuthSessionStore>(context, listen: false);
+      final formStore = Provider.of<FormAccountsReceivableStore>(
+        context,
+        listen: false,
+      );
+
+      formStore.setSymbolFormatMoney(storeAuth.state.session.symbolFormatMoney);
+    });
   }
 
   @override
@@ -185,7 +195,8 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
         );
         emptyMessage =
             context
-                .l10n.accountsReceivable_form_installments_single_empty_message;
+                .l10n
+                .accountsReceivable_form_installments_single_empty_message;
         break;
       case AccountsReceivablePaymentMode.automatic:
         paymentDetails = _AutomaticInstallmentsSection(
@@ -194,16 +205,15 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
           showValidationMessages: showValidationMessages,
         );
         emptyMessage =
-            context.l10n
+            context
+                .l10n
                 .accountsReceivable_form_installments_automatic_empty_message;
         break;
     }
 
     return _SectionCard(
       title: context.l10n.accountsReceivable_form_section_payment_title,
-      subtitle:
-          context
-              .l10n.accountsReceivable_form_section_payment_subtitle,
+      subtitle: context.l10n.accountsReceivable_form_section_payment_subtitle,
       children: [
         _PaymentModeSelector(formStore: formStore),
         const SizedBox(height: 20),
@@ -236,12 +246,9 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
     FormAccountsReceivableStore formStore,
   ) {
     final types = AccountsReceivableType.values;
-    final labels =
-        types
-            .map(
-              (type) => getAccountsReceivableTypeLabel(context, type),
-            )
-            .toList(growable: false);
+    final labels = types
+        .map((type) => getAccountsReceivableTypeLabel(context, type))
+        .toList(growable: false);
 
     final currentType = formStore.state.type;
     return Dropdown(
@@ -277,8 +284,7 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
     final entries = [
       {
         'title': l10n.accountsReceivable_type_contribution_title,
-        'description':
-            l10n.accountsReceivable_type_contribution_description,
+        'description': l10n.accountsReceivable_type_contribution_description,
         'example': l10n.accountsReceivable_type_contribution_example,
       },
       {
@@ -543,10 +549,15 @@ class _SinglePaymentSection extends StatelessWidget {
           label: context.l10n.accountsReceivable_view_general_total,
           initialValue:
               state.totalAmount > 0
-                  ? CurrencyFormatter.formatCurrency(state.totalAmount)
+                  ? CurrencyFormatter.formatCurrency(
+                    state.totalAmount,
+                    symbol: state.symbolFormatMoney,
+                  )
                   : '',
           keyboardType: TextInputType.number,
-          inputFormatters: [CurrencyFormatter.getInputFormatters('R\$')],
+          inputFormatters: [
+            CurrencyFormatter.getInputFormatters(state.symbolFormatMoney),
+          ],
           onChanged:
               (value) => formStore.setTotalAmount(
                 value.trim().isEmpty
@@ -560,8 +571,7 @@ class _SinglePaymentSection extends StatelessWidget {
                       : null,
         ),
         Input(
-          label: context
-              .l10n.accountsReceivable_form_field_single_due_date,
+          label: context.l10n.accountsReceivable_form_field_single_due_date,
           initialValue: state.singleDueDate,
           onChanged: formStore.setSingleDueDate,
           onTap: () async {
@@ -609,8 +619,10 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
             SizedBox(
               width: 220,
               child: Input(
-                label: context
-                    .l10n.accountsReceivable_form_field_automatic_installments,
+                label:
+                    context
+                        .l10n
+                        .accountsReceivable_form_field_automatic_installments,
                 initialValue:
                     state.automaticInstallments > 0
                         ? state.automaticInstallments.toString()
@@ -634,16 +646,19 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
             SizedBox(
               width: 220,
               child: Input(
-                label: context
-                    .l10n.accountsReceivable_form_field_automatic_amount,
+                label:
+                    context.l10n.accountsReceivable_form_field_automatic_amount,
                 initialValue:
                     state.automaticInstallmentAmount > 0
                         ? CurrencyFormatter.formatCurrency(
                           state.automaticInstallmentAmount,
+                          symbol: state.symbolFormatMoney,
                         )
                         : '',
                 keyboardType: TextInputType.number,
-                inputFormatters: [CurrencyFormatter.getInputFormatters('R\$')],
+                inputFormatters: [
+                  CurrencyFormatter.getInputFormatters(state.symbolFormatMoney),
+                ],
                 onChanged:
                     (value) => formStore.setAutomaticInstallmentAmount(
                       value.trim().isEmpty
@@ -663,9 +678,10 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
             SizedBox(
               width: 220,
               child: Input(
-                label: context
-                    .l10n
-                    .accountsReceivable_form_field_automatic_first_due_date,
+                label:
+                    context
+                        .l10n
+                        .accountsReceivable_form_field_automatic_first_due_date,
                 initialValue: state.automaticFirstDueDate,
                 onChanged: formStore.setAutomaticFirstDueDate,
                 onTap: () async {
@@ -692,8 +708,7 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
         const SizedBox(height: 16),
         ButtonActionTable(
           color: AppColors.blue,
-          text:
-              context.l10n.accountsReceivable_form_generate_installments,
+          text: context.l10n.accountsReceivable_form_generate_installments,
           icon: Icons.calculate_outlined,
           onPressed: () => _handleGenerateAutomatic(context),
         ),
@@ -724,8 +739,7 @@ class _AutomaticInstallmentsSection extends StatelessWidget {
 
       Toast.showMessage(
         message ??
-            l10n
-                .accountsReceivable_form_error_generate_installments_fill_data,
+            l10n.accountsReceivable_form_error_generate_installments_fill_data,
         ToastType.warning,
       );
       return;
@@ -754,6 +768,8 @@ class _InstallmentsPreviewSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final installments = formStore.state.installments;
+    final symbol = formStore.state.symbolFormatMoney;
+
     final totalAmount = installments.fold<double>(
       0,
       (sum, installment) => sum + installment.amount,
@@ -828,8 +844,8 @@ class _InstallmentsPreviewSection extends StatelessWidget {
                               Text(
                                 context.l10n
                                     .accountsReceivable_form_installment_item_title(
-                                  index + 1,
-                                ),
+                                      index + 1,
+                                    ),
                                 style: const TextStyle(
                                   fontFamily: AppFonts.fontTitle,
                                   fontSize: 15,
@@ -840,6 +856,7 @@ class _InstallmentsPreviewSection extends StatelessWidget {
                               Text(
                                 CurrencyFormatter.formatCurrency(
                                   installment.amount,
+                                  symbol: symbol,
                                 ),
                                 style: const TextStyle(
                                   fontFamily: AppFonts.fontSubTitle,
@@ -851,8 +868,8 @@ class _InstallmentsPreviewSection extends StatelessWidget {
                               Text(
                                 context.l10n
                                     .accountsReceivable_form_installment_item_due_date(
-                                  installment.dueDate,
-                                ),
+                                      installment.dueDate,
+                                    ),
                                 style: const TextStyle(
                                   fontFamily: AppFonts.fontSubTitle,
                                   color: AppColors.grey,
@@ -872,8 +889,11 @@ class _InstallmentsPreviewSection extends StatelessWidget {
                 child: Text(
                   context.l10n
                       .accountsReceivable_form_installments_summary_total(
-                    CurrencyFormatter.formatCurrency(totalAmount),
-                  ),
+                        CurrencyFormatter.formatCurrency(
+                          totalAmount,
+                          symbol: symbol,
+                        ),
+                      ),
                   style: const TextStyle(
                     fontFamily: AppFonts.fontTitle,
                     color: AppColors.purple,

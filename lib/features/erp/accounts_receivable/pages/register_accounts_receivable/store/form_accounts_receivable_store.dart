@@ -229,6 +229,11 @@ class FormAccountsReceivableStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setSymbolFormatMoney(String symbol) {
+    state = state.copyWith(symbolFormatMoney: symbol);
+    notifyListeners();
+  }
+
   Future<void> save() async {
     try {
       final preparedState = _prepareStateForSubmission();

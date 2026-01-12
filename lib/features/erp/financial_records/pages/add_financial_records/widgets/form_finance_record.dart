@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../auth/pages/login/store/auth_session_store.dart';
 import '../store/form_finance_record_store.dart';
 import 'layouts/finance_record_desktop_layout.dart';
 import 'layouts/finance_record_mobile_layout.dart';
@@ -28,10 +29,24 @@ class _FormFinanceRecordState extends State<FormFinanceRecord> {
   final formKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final storeAuth = Provider.of<AuthSessionStore>(context, listen: false);
+      final formStore = Provider.of<FormFinanceRecordStore>(
+        context,
+        listen: false,
+      );
+
+      formStore.setSymbolFormatMoney(storeAuth.state.session.symbolFormatMoney);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final conceptStore = Provider.of<FinancialConceptStore>(context);
-
     final formStore = Provider.of<FormFinanceRecordStore>(context);
+
     final availabilityAccountsListStore =
         Provider.of<AvailabilityAccountsListStore>(context);
     final costCenterStore = Provider.of<CostCenterListStore>(context);

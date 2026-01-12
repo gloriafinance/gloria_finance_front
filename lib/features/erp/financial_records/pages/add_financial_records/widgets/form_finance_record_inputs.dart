@@ -63,6 +63,10 @@ Widget dropdownAvailabilityAccounts(
           ? formStore.setIsMovementBank(true)
           : formStore.setIsMovementBank(false);
 
+      if (selectedAccount.symbol != formStore.state.symbolFormatMoney) {
+        formStore.setSymbolFormatMoney(selectedAccount.symbol);
+      }
+
       formStore.setAvailabilityAccountId(selectedAccount.availabilityAccountId);
     },
     onValidator: validator.byField(formStore.state, 'moneyLocation'),
@@ -74,7 +78,7 @@ Widget amount(BuildContext context, FormFinanceRecordStore formStore) {
     label: context.l10n.finance_records_table_header_amount,
     keyboardType: TextInputType.number,
     inputFormatters: [
-      CurrencyFormatter.getInputFormatters(CurrencyType.REAL.apiValue),
+      CurrencyFormatter.getInputFormatters(formStore.state.symbolFormatMoney),
     ],
     onChanged: (value) {
       final cleanedValue = value

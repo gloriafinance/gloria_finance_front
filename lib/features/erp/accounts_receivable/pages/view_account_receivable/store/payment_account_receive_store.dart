@@ -8,6 +8,11 @@ class PaymentAccountReceiveStore extends ChangeNotifier {
   PaymentFormState state = PaymentFormState.init();
   final _service = AccountsReceivableService();
 
+  void setSymbolFormatMoney(String symbol) {
+    state = state.copyWith(symbolFormatMoney: symbol);
+    notifyListeners();
+  }
+
   void setAccountReceivableId(String id) {
     state = state.copyWith(accountReceivableId: id);
     notifyListeners();

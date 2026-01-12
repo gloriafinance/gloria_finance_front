@@ -11,6 +11,11 @@ class FormAccountsPayableStore extends ChangeNotifier {
   final AccountsPayableService service = AccountsPayableService();
   FormAccountsPayableState state = FormAccountsPayableState.init();
 
+  void setSymbolFormatMoney(String symbol) {
+    state = state.copyWith(symbolFormatMoney: symbol);
+    notifyListeners();
+  }
+
   void setSupplier(String supplierId, String supplierName) {
     if (supplierId == state.supplierId && supplierName == state.supplierName) {
       return;
