@@ -10,20 +10,28 @@ import '../theme/app_fonts.dart';
 
 class UploadFile extends StatefulWidget {
   final String label;
-  final void Function(MultipartFile) multipartFile;
+  final void Function(MultipartFile)? multipartFile;
+  final void Function(List<MultipartFile>)? multipartFiles;
+  final List<String> allowedExtensions;
+  final bool allowMultiple;
+  final String helperText;
 
   const UploadFile({
     super.key,
     required this.label,
-    required this.multipartFile,
-  });
+    this.multipartFile,
+    this.multipartFiles,
+    this.allowedExtensions = const ['jpg', 'jpeg', 'png', 'pdf'],
+    this.allowMultiple = false,
+    this.helperText = 'JPG, PNG ou PDF, com no máximo 10MB',
+  }) : assert(multipartFile != null || multipartFiles != null);
 
   @override
   State<StatefulWidget> createState() => _UploadFile();
 }
 
 class _UploadFile extends State<UploadFile> {
-  PlatformFile? _platformFile;
+  List<PlatformFile> _platformFiles = [];
 
   @override
   void initState() {
@@ -38,12 +46,17 @@ class _UploadFile extends State<UploadFile> {
         _label(),
         const SizedBox(height: 12),
         _selectorFile(),
-        if (_platformFile != null) _presentationInformationFile(),
+        if (_platformFiles.isNotEmpty)
+          Column(
+            children: _platformFiles
+                .map(_presentationInformationFile)
+                .toList(growable: false),
+          ),
       ],
     );
   }
 
-  Widget _presentationInformationFile() {
+  Widget _presentationInformationFile(PlatformFile file) {
     return Container(
       margin: const EdgeInsets.only(top: 16),
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
@@ -82,7 +95,7 @@ class _UploadFile extends State<UploadFile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      _platformFile!.name,
+                      file.name,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 14,
@@ -100,7 +113,7 @@ class _UploadFile extends State<UploadFile> {
                         ),
                         const SizedBox(width: 6),
                         Text(
-                          _formatFileSize(_platformFile!.size),
+                          _formatFileSize(file.size),
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.grey.shade600,
@@ -165,7 +178,7 @@ class _UploadFile extends State<UploadFile> {
                 const SizedBox(height: 16),
                 const SizedBox(height: 8),
                 Text(
-                  'JPG, PNG ou PDF, com no máximo 10MB',
+                  widget.helperText,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 13,
@@ -222,34 +235,58 @@ class _UploadFile extends State<UploadFile> {
   _actionSelectFile() async {
     FilePickerResult? file = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf'],
+      allowedExtensions: widget.allowedExtensions,
+      allowMultiple: widget.allowMultiple,
     );
 
     if (file != null) {
-      setState(() {
-        _platformFile = file.files.first;
+      final selectedFiles =
+          widget.allowMultiple ? file.files : [file.files.first];
+      final List<PlatformFile> preparedFiles = [];
 
-        if (_platformFile!.bytes == null && _platformFile!.path != null) {
-          final fileBytes = File(_platformFile!.path!).readAsBytesSync();
-          _platformFile = PlatformFile(
-            name: _platformFile!.name,
-            size: _platformFile!.size,
+      for (final selectedFile in selectedFiles) {
+        var platformFile = selectedFile;
+
+        if (platformFile.bytes == null && platformFile.path != null) {
+          final fileBytes = File(platformFile.path!).readAsBytesSync();
+          platformFile = PlatformFile(
+            name: platformFile.name,
+            size: platformFile.size,
             bytes: fileBytes,
-            path: _platformFile!.path,
-            identifier: _platformFile!.identifier,
+            path: platformFile.path,
+            identifier: platformFile.identifier,
           );
         }
 
-        // Crear MultipartFile desde los bytes del archivo (sin usar path)
-        if (_platformFile!.bytes != null) {
-          widget.multipartFile(
-            MultipartFile.fromBytes(
-              _platformFile!.bytes!,
-              filename: _platformFile!.name,
-            ),
-          );
+        if (platformFile.bytes != null) {
+          preparedFiles.add(platformFile);
         }
+      }
+
+      if (preparedFiles.isEmpty) {
+        return;
+      }
+
+      final multipartFiles = preparedFiles
+          .map(
+            (platformFile) => MultipartFile.fromBytes(
+              platformFile.bytes!,
+              filename: platformFile.name,
+            ),
+          )
+          .toList(growable: false);
+
+      setState(() {
+        _platformFiles = preparedFiles;
       });
+
+      if (widget.multipartFiles != null) {
+        widget.multipartFiles!(multipartFiles);
+      }
+
+      if (widget.multipartFile != null) {
+        widget.multipartFile!(multipartFiles.first);
+      }
     }
   }
 

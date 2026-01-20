@@ -44,8 +44,8 @@ class PurchaseRegisterFormStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setInvoice(MultipartFile invoice) {
-    state = state.copyWith(invoice: invoice);
+  void setFiles(List<MultipartFile> files) {
+    state = state.copyWith(files: files);
     notifyListeners();
   }
 
@@ -53,7 +53,7 @@ class PurchaseRegisterFormStore extends ChangeNotifier {
     state = state.copyWith(bankId: bankId);
     notifyListeners();
   }
-
+  
   void addItem(PurchaseItem item) {
     state = state.copyWith(items: [...state.items, item]);
     notifyListeners();
