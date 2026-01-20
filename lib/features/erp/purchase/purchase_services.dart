@@ -11,10 +11,17 @@ class PurchaseService extends AppHttp {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
-    FormData formData = FormData.fromMap({
-      ...form,
-      if (form['file'] != null) 'file': form['file']!,
-    });
+    final payload = Map<String, dynamic>.from(form);
+    final files = payload.remove('file');
+    final formData = FormData.fromMap(payload);
+
+    if (files is MultipartFile) {
+      formData.files.add(MapEntry('file', files));
+    } else if (files is List<MultipartFile>) {
+      for (final file in files) {
+        formData.files.add(MapEntry('file', file));
+      }
+    }
 
     try {
       await http.post(

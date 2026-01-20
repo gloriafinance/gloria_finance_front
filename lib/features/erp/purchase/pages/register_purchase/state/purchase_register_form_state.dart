@@ -9,7 +9,7 @@ class PurchaseRegisterFormState {
   double tax;
   String description;
   String availabilityAccountId;
-  MultipartFile invoice;
+  List<MultipartFile> files;
   List<PurchaseItem> items;
   bool isMovementBank = false;
   String costCenterId;
@@ -22,7 +22,7 @@ class PurchaseRegisterFormState {
     required this.purchaseDate,
     required this.financialConceptId,
     required this.description,
-    required this.invoice,
+    required this.files,
     required this.items,
     required this.availabilityAccountId,
     required this.isMovementBank,
@@ -41,7 +41,7 @@ class PurchaseRegisterFormState {
       purchaseDate: '',
       financialConceptId: '',
       description: '',
-      invoice: MultipartFile.fromString(''),
+      files: [],
       items: [],
       symbol: '',
     );
@@ -58,7 +58,7 @@ class PurchaseRegisterFormState {
     String? financialConceptId,
     String? description,
     String? financingSource,
-    MultipartFile? invoice,
+    List<MultipartFile>? files,
     String? purchaseDate,
     String? invoiceNumber,
     List<PurchaseItem>? items,
@@ -76,7 +76,7 @@ class PurchaseRegisterFormState {
       purchaseDate: purchaseDate ?? this.purchaseDate,
       financialConceptId: financialConceptId ?? this.financialConceptId,
       description: description ?? this.description,
-      invoice: invoice ?? this.invoice,
+      files: files ?? this.files,
       items: items ?? this.items,
       symbol: symbol ?? this.symbol,
     );
@@ -94,7 +94,7 @@ class PurchaseRegisterFormState {
       'purchaseDate': convertDateFormat(purchaseDate),
       'financialConceptId': financialConceptId,
       'description': description,
-      'invoice': invoice,
+      if (files.isNotEmpty) 'file': files,
       'availabilityAccountId': availabilityAccountId,
       'items': items.map((e) => e.toJson()).toList(),
     };

@@ -6,7 +6,6 @@ import 'package:church_finance_bk/features/erp/settings/availability_accounts/pa
 import 'package:church_finance_bk/features/erp/settings/banks/store/bank_store.dart';
 import 'package:church_finance_bk/features/erp/settings/cost_center/store/cost_center_list_store.dart';
 import 'package:church_finance_bk/features/erp/settings/financial_concept/store/financial_concept_store.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../store/purchase_register_form_store.dart';
@@ -123,7 +122,10 @@ Widget uploadFile(PurchaseRegisterFormStore formStore) {
 
   return UploadFile(
     label: "Faça o upload da nota fiscal",
-    multipartFile: (MultipartFile m) => formStore.setInvoice(m),
+    multipartFiles: (files) => formStore.setFiles(files),
+    allowedExtensions: const ['pdf'],
+    allowMultiple: true,
+    helperText: 'PDF, com no máximo 10MB',
   );
 }
 
