@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:church_finance_bk/core/toast.dart';
+import 'package:church_finance_bk/features/auth/auth_persistence.dart';
+import 'package:church_finance_bk/features/auth/auth_session_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
@@ -13,10 +15,51 @@ class AppHttp {
   AppHttp({this.tokenAPI}) {
     http.interceptors.add(
       InterceptorsWrapper(
-        onError: (DioException e, handler) {
+        onError: (DioException e, handler) async {
           if (e.response?.statusCode == 401 ||
               (e.response?.data is Map &&
                   e.response?.data['message'] == 'Unauthorized.')) {
+            final isRefreshRequest =
+                e.requestOptions.extra['isRefreshRequest'] == true;
+            final isRetryRequest =
+                e.requestOptions.extra['isRetryRequest'] == true;
+            if (!isRefreshRequest && !isRetryRequest) {
+              final refreshed = await _refreshSession();
+              if (refreshed != null) {
+                final updatedHeaders = Map<String, dynamic>.from(
+                  e.requestOptions.headers,
+                );
+                updatedHeaders[HttpHeaders.authorizationHeader] =
+                    'Bearer ${refreshed.token}';
+
+                final retryResponse = await http.request(
+                  e.requestOptions.path,
+                  data: e.requestOptions.data,
+                  queryParameters: e.requestOptions.queryParameters,
+                  options: Options(
+                    method: e.requestOptions.method,
+                    headers: updatedHeaders,
+                    responseType: e.requestOptions.responseType,
+                    contentType: e.requestOptions.contentType,
+                    followRedirects: e.requestOptions.followRedirects,
+                    validateStatus: e.requestOptions.validateStatus,
+                    receiveDataWhenStatusError:
+                        e.requestOptions.receiveDataWhenStatusError,
+                    sendTimeout: e.requestOptions.sendTimeout,
+                    receiveTimeout: e.requestOptions.receiveTimeout,
+                    extra: {
+                      ...e.requestOptions.extra,
+                      'isRetryRequest': true,
+                    },
+                  ),
+                  cancelToken: e.requestOptions.cancelToken,
+                  onSendProgress: e.requestOptions.onSendProgress,
+                  onReceiveProgress: e.requestOptions.onReceiveProgress,
+                );
+                return handler.resolve(retryResponse);
+              }
+            }
+
             onUnauthorized?.call();
           }
           return handler.next(e);
@@ -26,6 +69,9 @@ class AppHttp {
   }
 
   static VoidCallback? onUnauthorized;
+  static Future<void> Function(AuthSessionModel session)? onSessionRefreshed;
+  static Future<AuthSessionModel?>? _refreshingSession;
+  static final Dio _refreshDio = Dio();
 
   Map<String, String> bearerToken() {
     var token = "Bearer $tokenAPI";
@@ -90,6 +136,72 @@ class AppHttp {
         'Ocorreu um erro inesperado. Tente novamente.',
         ToastType.warning,
       );
+    }
+  }
+
+  static Future<AuthSessionModel?> _refreshSession() async {
+    _refreshingSession ??= _performRefresh().whenComplete(
+      () => _refreshingSession = null,
+    );
+    return _refreshingSession;
+  }
+
+  static Future<AuthSessionModel?> _performRefresh() async {
+    final session = await AuthPersistence().restore();
+    if (session.refreshToken.isEmpty) {
+      return null;
+    }
+
+    try {
+      final url = await AppHttp().getUrlApi();
+      final response = await _refreshDio.post(
+        '${url}user/refresh-token',
+        data: {'refreshToken': session.refreshToken},
+        options: Options(extra: {'isRefreshRequest': true}),
+      );
+
+      final data = response.data;
+      if (data is! Map) {
+        return null;
+      }
+
+      final token = data['token']?.toString() ?? '';
+      if (token.isEmpty) {
+        return null;
+      }
+
+      final refreshToken =
+          (data['refreshToken'] ?? data['refresh_token'] ?? session.refreshToken)
+              .toString();
+
+      AuthSessionModel updated;
+      if (data.containsKey('email') ||
+          data.containsKey('userId') ||
+          data.containsKey('name')) {
+        try {
+          updated = AuthSessionModel.fromJson(
+            Map<String, dynamic>.from(data),
+          );
+        } catch (_) {
+          updated = session.copyWith(
+            token: token,
+            refreshToken: refreshToken,
+          );
+        }
+      } else {
+        updated = session.copyWith(
+          token: token,
+          refreshToken: refreshToken,
+        );
+      }
+
+      await AuthPersistence().save(updated);
+      if (onSessionRefreshed != null) {
+        await onSessionRefreshed!(updated);
+      }
+      return updated;
+    } catch (e) {
+      return null;
     }
   }
 }

@@ -3,6 +3,7 @@ import 'models/policy_config.dart';
 
 class AuthSessionModel {
   final String token;
+  final String refreshToken;
   final String name;
   final String email;
   final String createdAt;
@@ -22,6 +23,7 @@ class AuthSessionModel {
   AuthSessionModel({
     required this.churchId,
     required this.token,
+    required this.refreshToken,
     required this.name,
     required this.email,
     required this.createdAt,
@@ -41,6 +43,7 @@ class AuthSessionModel {
   factory AuthSessionModel.empty() {
     return AuthSessionModel(
       token: "",
+      refreshToken: "",
       name: "",
       email: "",
       createdAt: "",
@@ -58,6 +61,7 @@ class AuthSessionModel {
 
   AuthSessionModel copyWith({
     String? token,
+    String? refreshToken,
     String? churchId,
     String? churchName,
     String? country,
@@ -79,6 +83,7 @@ class AuthSessionModel {
       isActive: isActive ?? this.isActive,
       userId: userId ?? this.userId,
       token: token ?? this.token,
+      refreshToken: refreshToken ?? this.refreshToken,
       name: name ?? this.name,
       email: email ?? this.email,
       churchId: churchId ?? this.churchId,
@@ -131,6 +136,7 @@ class AuthSessionModel {
     return AuthSessionModel(
       roles: json['roles'] != null ? List<String>.from(json['roles']) : [],
       token: json['token'],
+      refreshToken: json['refreshToken'] ?? json['refresh_token'] ?? '',
       name: json['name'],
       email: json['email'],
       createdAt: json['createdAt'],
@@ -154,6 +160,7 @@ class AuthSessionModel {
     return {
       'roles': roles,
       'token': token,
+      'refreshToken': refreshToken,
       'name': name,
       'email': email,
       'createdAt': createdAt,

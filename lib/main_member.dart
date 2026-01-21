@@ -30,6 +30,9 @@ Future<void> main() async {
   AppHttp.onUnauthorized = () {
     storeManager.authSessionStore.logout();
   };
+  AppHttp.onSessionRefreshed = (session) async {
+    await storeManager.authSessionStore.updateSession(session);
+  };
 
   runApp(
     MultiProvider(

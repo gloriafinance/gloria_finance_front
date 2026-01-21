@@ -5,9 +5,16 @@ import 'package:provider/provider.dart';
 import 'app/erp_router.dart';
 import 'app/my_app.dart';
 import 'app/store_manager.dart';
+import 'core/app_http.dart';
 
 void main() {
   final storeManager = StoreManager();
+  AppHttp.onUnauthorized = () {
+    storeManager.authSessionStore.logout();
+  };
+  AppHttp.onSessionRefreshed = (session) async {
+    await storeManager.authSessionStore.updateSession(session);
+  };
   runApp(
     MultiProvider(
       providers: [
