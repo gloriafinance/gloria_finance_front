@@ -80,22 +80,28 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
                 child:
                     DropdownButtonFormField<BankStatementReconciliationStatus?>(
                   value: filter.status,
-                  items: const [
-                    DropdownMenuItem<BankStatementReconciliationStatus?>(
+                  items: [
+                    const DropdownMenuItem<BankStatementReconciliationStatus?>(
                       value: null,
                       child: Text(''),
                     ),
                     DropdownMenuItem(
                       value: BankStatementReconciliationStatus.pending,
-                      child: Text(''),
+                      child: Text(
+                        BankStatementReconciliationStatus.pending.friendlyName,
+                      ),
                     ),
                     DropdownMenuItem(
                       value: BankStatementReconciliationStatus.unmatched,
-                      child: Text(''),
+                      child: Text(
+                        BankStatementReconciliationStatus.unmatched.friendlyName,
+                      ),
                     ),
                     DropdownMenuItem(
                       value: BankStatementReconciliationStatus.reconciled,
-                      child: Text(''),
+                      child: Text(
+                        BankStatementReconciliationStatus.reconciled.friendlyName,
+                      ),
                     ),
                   ],
                   onChanged: (value) => store.setStatus(value),
@@ -239,22 +245,34 @@ class _BankStatementFiltersState extends State<BankStatementFilters> {
                         BankStatementReconciliationStatus?
                       >(
                         value: filter.status,
-                        items: const [
-                          DropdownMenuItem<BankStatementReconciliationStatus?>(
+                        items: [
+                          const DropdownMenuItem<BankStatementReconciliationStatus?>(
                             value: null,
                             child: Text(''),
                           ),
                           DropdownMenuItem(
                             value: BankStatementReconciliationStatus.pending,
-                            child: Text(''),
+                            child: Text(
+                              BankStatementReconciliationStatus
+                                  .pending
+                                  .friendlyName,
+                            ),
                           ),
                           DropdownMenuItem(
                             value: BankStatementReconciliationStatus.unmatched,
-                            child: Text(''),
+                            child: Text(
+                              BankStatementReconciliationStatus
+                                  .unmatched
+                                  .friendlyName,
+                            ),
                           ),
                           DropdownMenuItem(
                             value: BankStatementReconciliationStatus.reconciled,
-                            child: Text(''),
+                            child: Text(
+                              BankStatementReconciliationStatus
+                                  .reconciled
+                                  .friendlyName,
+                            ),
                           ),
                         ],
                         onChanged: (value) => store.setStatus(value),
