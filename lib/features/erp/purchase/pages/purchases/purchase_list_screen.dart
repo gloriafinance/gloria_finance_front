@@ -53,16 +53,23 @@ class PurchaseListScreen extends StatelessWidget {
           ),
         ],
       );
-    } else {
-      return Text(
-        'Compras',
-        style: TextStyle(
-          fontFamily: AppFonts.fontTitle,
-          fontSize: 20,
-          color: Colors.black,
-        ),
-      );
     }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Lista de compras',
+          style: TextStyle(
+            fontFamily: AppFonts.fontTitle,
+            fontSize: 20,
+            color: Colors.black,
+          ),
+        ),
+        const SizedBox(height: 16),
+        Row(children: [Expanded(child: _newPurchase(context))]),
+        const SizedBox(height: 16),
+      ],
+    );
   }
 
   Widget _newPurchase(BuildContext context) {
