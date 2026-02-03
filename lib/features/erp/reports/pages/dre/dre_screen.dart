@@ -1,11 +1,13 @@
 // lib/finance/reports/pages/dre/dre_screen.dart
 
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/toast.dart';
 import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'models/dre_model.dart';
 import 'store/dre_store.dart';
 import 'widgets/dre_cards.dart';
 import 'widgets/dre_filters.dart';
@@ -63,11 +65,12 @@ class DREScreen extends StatelessWidget {
                     child: const CircularProgressIndicator(),
                   )
                 else ...[
-                  _buildReportHeader(context),
+                  _buildReportHeader(context, data),
                   const SizedBox(height: 28),
-                  DRECards(data: data),
-                  const SizedBox(height: 40),
-                  _buildReportInfo(context),
+                  if (!data.hasData)
+                    _buildEmptyState(context)
+                  else
+                    DRECards(data: data),
                 ],
               ],
             ),
@@ -77,7 +80,10 @@ class DREScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildReportHeader(BuildContext context) {
+  Widget _buildReportHeader(BuildContext context, DREReportModel data) {
+    final symbols = data.orderedSymbols;
+    final hasManyCurrencies = symbols.length > 1;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -90,42 +96,66 @@ class DREScreen extends StatelessWidget {
             color: Colors.black87,
           ),
         ),
-        const SizedBox(height: 8),
-        Text(
-          context.l10n.reports_dre_header_subtitle,
-          style: TextStyle(
-            fontFamily: AppFonts.fontTitle,
-            fontSize: 14,
-            color: Colors.grey.shade600,
+        if (hasManyCurrencies) ...[
+          const SizedBox(height: 12),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            decoration: BoxDecoration(
+              color: const Color(0xFFE9ECEF),
+              borderRadius: BorderRadius.circular(999),
+            ),
+            child: Text(
+              context.l10n.reports_dre_currency_badge(
+                symbols.join(', '),
+                symbols.length.toString(),
+              ),
+              style: const TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+                fontSize: 12,
+                color: Colors.black87,
+              ),
+            ),
           ),
-        ),
+          const SizedBox(height: 8),
+          Text(
+            context.l10n.reports_dre_multi_currency_disclaimer,
+            style: const TextStyle(
+              fontFamily: AppFonts.fontSubTitle,
+              fontSize: 12,
+              color: Colors.black54,
+            ),
+          ),
+        ] else ...[
+          const SizedBox(height: 8),
+          Text(
+            context.l10n.reports_dre_header_subtitle,
+            style: TextStyle(
+              fontFamily: AppFonts.fontTitle,
+              fontSize: 14,
+              color: Colors.grey.shade600,
+            ),
+          ),
+        ],
       ],
     );
   }
 
-  Widget _buildReportInfo(BuildContext context) {
+  Widget _buildEmptyState(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 32),
+      alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: Colors.blue.shade50,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.blue.shade200),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.greyLight),
       ),
-      child: Row(
-        children: [
-          Icon(Icons.info_outline, color: Colors.blue.shade700, size: 20),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              context.l10n.reports_dre_footer_note,
-              style: TextStyle(
-                fontFamily: AppFonts.fontTitle,
-                fontSize: 13,
-                color: Colors.blue.shade900,
-              ),
-            ),
-          ),
-        ],
+      child: Text(
+        context.l10n.reports_dre_empty_selected_period,
+        style: const TextStyle(
+          fontFamily: AppFonts.fontSubTitle,
+          color: Colors.black45,
+        ),
       ),
     );
   }

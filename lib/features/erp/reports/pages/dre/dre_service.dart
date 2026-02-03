@@ -9,7 +9,7 @@ import 'models/dre_filter_model.dart';
 import 'models/dre_model.dart';
 
 class DREService extends AppHttp {
-  Future<DREModel> fetchDRE(DREFilterModel params) async {
+  Future<DREReportModel> fetchDRE(DREFilterModel params) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
@@ -22,7 +22,12 @@ class DREService extends AppHttp {
         options: Options(headers: bearerToken()),
       );
 
-      return DREModel.fromJson(response.data);
+      final payload = response.data;
+      if (payload is! List) {
+        return DREReportModel.empty();
+      }
+
+      return DREReportModel.fromJson(payload);
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;

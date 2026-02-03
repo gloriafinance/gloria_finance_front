@@ -10,6 +10,7 @@ import 'package:church_finance_bk/core/widgets/loading.dart';
 import 'package:church_finance_bk/features/erp/settings/financial_concept/models/financial_concept_model.dart';
 import 'package:church_finance_bk/features/erp/settings/financial_concept/pages/form_financial_concept/store/financial_concept_form_store.dart';
 import 'package:church_finance_bk/features/erp/settings/financial_concept/store/financial_concept_store.dart';
+import 'package:church_finance_bk/features/erp/widgets/statement_category_help.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -192,9 +193,7 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
             ),
             const SizedBox(width: 8),
             Tooltip(
-              message:
-                  context
-                      .l10n.settings_financial_concept_help_indicators,
+              message: context.l10n.settings_financial_concept_help_indicators,
               child: InkWell(
                 borderRadius: BorderRadius.circular(12),
                 onTap: () => _showIndicatorsHelp(context),
@@ -216,26 +215,24 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
           runSpacing: 12,
           children: [
             _buildIndicatorToggle(
-              label: context
-                  .l10n.settings_financial_concept_indicator_cash_flow,
+              label:
+                  context.l10n.settings_financial_concept_indicator_cash_flow,
               value: formStore.state.affectsCashFlow,
               onChanged: formStore.setAffectsCashFlow,
             ),
             _buildIndicatorToggle(
-              label: context
-                  .l10n.settings_financial_concept_indicator_result,
+              label: context.l10n.settings_financial_concept_indicator_result,
               value: formStore.state.affectsResult,
               onChanged: formStore.setAffectsResult,
             ),
             _buildIndicatorToggle(
-              label: context
-                  .l10n.settings_financial_concept_indicator_balance,
+              label: context.l10n.settings_financial_concept_indicator_balance,
               value: formStore.state.affectsBalance,
               onChanged: formStore.setAffectsBalance,
             ),
             _buildIndicatorToggle(
-              label: context
-                  .l10n.settings_financial_concept_indicator_operational,
+              label:
+                  context.l10n.settings_financial_concept_indicator_operational,
               value: formStore.state.isOperational,
               onChanged: formStore.setIsOperational,
             ),
@@ -294,17 +291,42 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
   }
 
   Widget _buildStatementCategoryHelpIcon(BuildContext context) {
-    return Tooltip(
-      message:
-          context.l10n.settings_financial_concept_help_statement_categories,
-      child: InkWell(
-        onTap: () => _showStatementCategoryHelp(context),
-        borderRadius: BorderRadius.circular(12),
-        child: const Padding(
-          padding: EdgeInsets.all(2.0),
-          child: Icon(Icons.help_outline, size: 18, color: AppColors.purple),
+    return StatementCategoryHelpButton(
+      dialogTitle: context.l10n.settings_financial_concept_help_statement_title,
+      entries: [
+        StatementCategoryHelpEntry(
+          code: StatementCategory.COGS.apiValue,
+          title: StatementCategory.COGS.friendlyName,
+          body: context.l10n.reports_income_category_help_cogs_body,
         ),
-      ),
+        StatementCategoryHelpEntry(
+          code: StatementCategory.REVENUE.apiValue,
+          title: StatementCategory.REVENUE.friendlyName,
+          body: context.l10n.reports_income_category_help_revenue_body,
+        ),
+        StatementCategoryHelpEntry(
+          code: StatementCategory.OPEX.apiValue,
+          title: StatementCategory.OPEX.friendlyName,
+          body: context.l10n.reports_income_category_help_opex_body,
+        ),
+        StatementCategoryHelpEntry(
+          code: StatementCategory.CAPEX.apiValue,
+          title: StatementCategory.CAPEX.friendlyName,
+          body: context.l10n.reports_income_category_help_capex_body,
+        ),
+        StatementCategoryHelpEntry(
+          code: StatementCategory.OTHER.apiValue,
+          title: StatementCategory.OTHER.friendlyName,
+          body: context.l10n.reports_income_category_help_other_body,
+        ),
+      ],
+      closeText: context.l10n.settings_financial_concept_help_understood,
+      tooltipMessage:
+          context.l10n.settings_financial_concept_help_statement_categories,
+      backgroundColor: const Color.fromRGBO(243, 205, 51, 0.51),
+      iconColor: Colors.black87,
+      iconSize: 14,
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
     );
   }
 
@@ -313,116 +335,6 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
       return context.l10n.settings_financial_concept_error_required;
     }
     return null;
-  }
-
-  void _showStatementCategoryHelp(BuildContext context) {
-    final entries = [
-      {
-        'code': StatementCategory.COGS.apiValue,
-        'description': StatementCategory.COGS.friendlyName,
-        'example':
-            'Ex.: compra de materiais para ações sociais ou contratação pontual de músicos para um retiro.',
-      },
-      {
-        'code': StatementCategory.REVENUE.apiValue,
-        'description': StatementCategory.REVENUE.friendlyName,
-        'example':
-            'Ex.: dízimos, ofertas recorrentes e contribuições mensais de parceiros.',
-      },
-      {
-        'code': StatementCategory.OPEX.apiValue,
-        'description': StatementCategory.OPEX.friendlyName,
-        'example':
-            'Ex.: contas de água e energia do templo, salários da equipe administrativa.',
-      },
-      {
-        'code': StatementCategory.CAPEX.apiValue,
-        'description': StatementCategory.CAPEX.friendlyName,
-        'example':
-            'Ex.: compra de um projetor multimídia ou reforma estrutural do prédio.',
-      },
-      {
-        'code': StatementCategory.OTHER.apiValue,
-        'description': StatementCategory.OTHER.friendlyName,
-        'example':
-            'Ex.: venda de equipamento antigo ou ressarcimento de um seguro.',
-      },
-    ];
-
-    showDialog<void>(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          title: Text(
-            context.l10n.settings_financial_concept_help_statement_title,
-            style: const TextStyle(
-              fontFamily: AppFonts.fontTitle,
-              fontSize: 18,
-            ),
-          ),
-          content: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 420),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children:
-                    entries
-                        .map(
-                          (entry) => _buildCategoryHelpEntry(
-                            entry['code']!,
-                            entry['description']!,
-                            entry['example']!,
-                          ),
-                        )
-                        .toList(),
-              ),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(),
-              child: Text(
-                context.l10n.settings_financial_concept_help_understood,
-                style: const TextStyle(fontFamily: AppFonts.fontSubTitle),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget _buildCategoryHelpEntry(
-    String code,
-    String description,
-    String example,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '$code · $description',
-            style: const TextStyle(
-              fontFamily: AppFonts.fontSubTitle,
-              fontSize: 14,
-              color: AppColors.purple,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            example,
-            style: const TextStyle(
-              fontFamily: AppFonts.fontSubTitle,
-              fontSize: 13,
-              color: Colors.black87,
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   Future<void> _save(FinancialConceptFormStore formStore) async {
@@ -445,7 +357,7 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
 
   void _showIndicatorsHelp(BuildContext context) {
     ModalPage(
-      title: 'Como usar os indicadores',
+      title: context.l10n.settings_financial_concept_help_indicators,
       body: const _IndicatorsHelpContent(),
       width: 540,
     ).show(context);
@@ -461,33 +373,35 @@ class _IndicatorsHelpContent extends StatelessWidget {
       {
         'title':
             context
-                .l10n.settings_financial_concept_help_indicator_cash_flow_title,
+                .l10n
+                .settings_financial_concept_help_indicator_cash_flow_title,
         'description':
-            context.l10n
+            context
+                .l10n
                 .settings_financial_concept_help_indicator_cash_flow_desc,
       },
       {
         'title':
-            context
-                .l10n.settings_financial_concept_help_indicator_result_title,
+            context.l10n.settings_financial_concept_help_indicator_result_title,
         'description':
-            context.l10n
-                .settings_financial_concept_help_indicator_result_desc,
+            context.l10n.settings_financial_concept_help_indicator_result_desc,
       },
       {
         'title':
             context
-                .l10n.settings_financial_concept_help_indicator_balance_title,
+                .l10n
+                .settings_financial_concept_help_indicator_balance_title,
         'description':
-            context.l10n
-                .settings_financial_concept_help_indicator_balance_desc,
+            context.l10n.settings_financial_concept_help_indicator_balance_desc,
       },
       {
         'title':
             context
-                .l10n.settings_financial_concept_help_indicator_operational_title,
+                .l10n
+                .settings_financial_concept_help_indicator_operational_title,
         'description':
-            context.l10n
+            context
+                .l10n
                 .settings_financial_concept_help_indicator_operational_desc,
       },
     ];

@@ -8,13 +8,13 @@ class AccountsReceivablePaginateState {
   final AccountsReceivableFilterModel filter;
 
   AccountsReceivablePaginateState.empty()
-      : paginate = PaginateResponse<AccountsReceivableModel>(
-          perPage: 10,
-          results: [],
-          count: 0,
-        ),
-        makeRequest = false,
-        filter = AccountsReceivableFilterModel.init();
+    : paginate = PaginateResponse<AccountsReceivableModel>(
+        perPage: 10,
+        results: [],
+        count: 0,
+      ),
+      makeRequest = false,
+      filter = AccountsReceivableFilterModel.init();
 
   AccountsReceivablePaginateState({
     required this.paginate,
@@ -30,6 +30,7 @@ class AccountsReceivablePaginateState {
     String? startDate,
     String? endDate,
     String? status,
+    String? debtor,
     //String? memberId,
   }) {
     return AccountsReceivablePaginateState(
@@ -41,6 +42,7 @@ class AccountsReceivablePaginateState {
         startDate: startDate,
         endDate: endDate,
         status: status,
+        debtor: debtor,
         //  memberId: memberId,
       ),
     );

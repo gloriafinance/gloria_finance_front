@@ -17,11 +17,7 @@ class MonthlyTithesListState {
     return MonthlyTithesListState(
       filter: MonthlyTithesFilterModel.init(),
       makeRequest: false,
-      data: MonthlyTithesListModel(
-        tithesOfTithes: 0.0,
-        total: 0.0,
-        results: [],
-      ),
+      data: MonthlyTithesListModel(results: [], totals: []),
     );
   }
 

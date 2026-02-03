@@ -462,6 +462,13 @@
   "reports_income_category_ministry_transfers_title": "Repasses e contribuições ministeriais",
   "reports_income_category_ministry_transfers_desc": "Repasses de valores para ministérios ou departamentos da diretoria.",
   "reports_income_category_unknown_title": "Categoria",
+  "reports_income_category_help_revenue_body": "Aqui entram os valores que a igreja recebe no período, como dízimos, ofertas e doações.\n\nEm termos simples: é o dinheiro que entrou.\n\nExemplo: contribuição mensal dos membros.",
+  "reports_income_category_help_cogs_body": "São gastos diretamente ligados a uma ação, projeto ou evento específico.\n\nEm termos simples: sem esse gasto, aquela atividade não acontece.\n\nExemplo: compra de materiais para um evento social.",
+  "reports_income_category_help_opex_body": "São os gastos do funcionamento normal da igreja no dia a dia.\n\nEm termos simples: custos para manter tudo em operação.\n\nExemplo: água, luz, internet, limpeza e equipe administrativa.",
+  "reports_income_category_help_ministry_transfers_body": "Valores direcionados para ministérios, departamentos ou frentes específicas.\n\nEm termos simples: dinheiro que sai para sustentar áreas internas da igreja.\n\nExemplo: repasse mensal para ministério infantil ou música.",
+  "reports_income_category_help_capex_body": "Gastos para melhorar ou adquirir bens de uso duradouro.\n\nEm termos simples: investimento de longo prazo, não gasto do dia a dia.\n\nExemplo: reforma, compra de equipamento de som ou projetor.",
+  "reports_income_category_help_other_body": "Movimentos fora da rotina principal, que não se encaixam nas categorias anteriores.\n\nEm termos simples: casos pontuais.\n\nExemplo: venda de um bem antigo ou recebimento de reembolso.",
+  "reports_income_category_help_unknown_body": "Esta linha representa um lançamento sem classificação detalhada.\n\nEm termos simples: existe movimento financeiro, mas a categoria não foi identificada.",
   "reports_dre_download_pdf": "Baixar PDF",
   "reports_dre_download_success": "PDF baixado com sucesso",
   "reports_dre_download_error": "Não foi possível baixar o PDF",
@@ -472,6 +479,21 @@
   "reports_income_breakdown_header_income": "Entradas",
   "reports_income_breakdown_header_expenses": "Saídas",
   "reports_income_breakdown_header_balance": "Saldo",
+  "reports_income_view_mode_cards": "Cartões",
+  "reports_income_view_mode_table": "Tabela",
+  "reports_income_currency_badge": "Moedas: {symbols} ({count})",
+  "@reports_income_currency_badge": {
+    "placeholders": {
+      "symbols": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_income_multi_currency_disclaimer": "Valores exibidos por moeda. Totais não são somados entre moedas.",
+  "reports_income_empty_selected_period": "Nenhum dado para o período selecionado.",
   "reports_income_cashflow_title": "Fluxo de caixa por conta de disponibilidade",
   "reports_income_cashflow_summary": "Entradas totais: {income} | Saídas totais: {expenses} | Saldo consolidado: {total}",
   "@reports_income_cashflow_summary": {
@@ -509,6 +531,33 @@
   "reports_dre_header_title": "Demonstração do Resultado do Exercício",
   "reports_dre_header_subtitle": "Entenda como sua igreja recebeu e utilizou os recursos no período",
   "reports_dre_footer_note": "Nota: Este relatório considera apenas lançamentos confirmados e reconciliados que afetam o resultado contábil.",
+  "reports_dre_summary_by_currency_title": "Resumo por moeda",
+  "reports_dre_primary_currency_badge": "Moeda principal",
+  "reports_dre_summary_chip_gross_revenue": "Receita bruta: {value}",
+  "@reports_dre_summary_chip_gross_revenue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_dre_summary_chip_net_result": "Resultado líquido: {value}",
+  "@reports_dre_summary_chip_net_result": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_dre_section_title_by_symbol": "{symbol} - Indicadores do período",
+  "@reports_dre_section_title_by_symbol": {
+    "placeholders": {
+      "symbol": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_dre_section_subtitle": "Resumo do resultado nesta moeda.",
   "reports_dre_main_indicators_title": "Indicadores principais",
   "reports_dre_card_gross_revenue_title": "Receita bruta",
   "reports_dre_card_gross_revenue_description": "Total de dízimos, ofertas e doações recebidas",
@@ -517,6 +566,11 @@
   "reports_dre_card_net_result_title": "Resultado líquido",
   "reports_dre_card_net_result_description": "Resultado final do período (superávit ou déficit)",
   "reports_dre_detail_section_title": "Detalhamento",
+  "reports_dre_detail_by_category": "Detalhe por categoria",
+  "reports_dre_toggle_hide_zero": "Ocultar linhas com valor zerado",
+  "reports_dre_group_revenue": "Receitas",
+  "reports_dre_group_costs": "Custos",
+  "reports_dre_group_results": "Resultado",
   "reports_dre_item_net_revenue_title": "Receita líquida",
   "reports_dre_item_net_revenue_description": "Receita bruta menos devoluções e ajustes",
   "reports_dre_item_direct_costs_title": "Custos diretos",
@@ -527,12 +581,76 @@
   "reports_dre_item_operational_expenses_description": "Gastos do dia a dia: energia, água, salários, limpeza",
   "reports_dre_item_ministry_transfers_title": "Repasses ministeriais",
   "reports_dre_item_ministry_transfers_description": "Transferências para ministérios, missões ou para a diretoria",
+  "reports_dre_item_capex_title": "Investimentos CAPEX",
+  "reports_dre_item_capex_description": "Aquisição ou melhoria de ativos e infraestrutura",
+  "reports_dre_item_extraordinary_title": "Resultados extraordinários",
+  "reports_dre_item_extraordinary_description": "Ingressos ou gastos eventuais fora da rotina",
+  "reports_dre_help_dialog_title": "Ajuda: {title}",
+  "@reports_dre_help_dialog_title": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_dre_help_what_means": "O que significa?",
+  "reports_dre_help_example": "Exemplo",
+  "reports_dre_help_understood": "Entendi",
+  "reports_dre_help_gross_revenue_meaning": "Total de entradas recebidas no período, como dízimos, ofertas e doações.",
+  "reports_dre_help_gross_revenue_example": "Se entraram R\\$ 5.000 no mês, esta linha mostra R\\$ 5.000.",
+  "reports_dre_help_net_revenue_meaning": "Receita bruta após devoluções e ajustes. Em muitos casos será igual à receita bruta.",
+  "reports_dre_help_net_revenue_example": "Sem devoluções, receita líquida = receita bruta.",
+  "reports_dre_help_direct_costs_meaning": "Gastos diretamente ligados a ações ou projetos específicos.",
+  "reports_dre_help_direct_costs_example": "Compra de materiais para um evento social.",
+  "reports_dre_help_gross_profit_meaning": "Valor que sobra após descontar os custos diretos da receita líquida.",
+  "reports_dre_help_gross_profit_example": "Receita líquida R\\$ 10.000 e custos diretos R\\$ 2.000 resultam em R\\$ 8.000.",
+  "reports_dre_help_operational_expenses_meaning": "Despesas do funcionamento diário da igreja.",
+  "reports_dre_help_operational_expenses_example": "Água, energia, limpeza e equipe administrativa.",
+  "reports_dre_help_ministry_transfers_meaning": "Valores repassados para ministérios, missões ou frentes específicas.",
+  "reports_dre_help_ministry_transfers_example": "Repasse mensal para ministério infantil ou música.",
+  "reports_dre_help_capex_meaning": "Investimentos em bens duráveis e infraestrutura.",
+  "reports_dre_help_capex_example": "Compra de equipamento de som ou reforma estrutural.",
+  "reports_dre_help_extraordinary_meaning": "Ingressos ou gastos fora da rotina normal.",
+  "reports_dre_help_extraordinary_example": "Venda de um equipamento antigo ou recebimento de reembolso.",
+  "reports_dre_help_operational_result_meaning": "Resultado da operação normal após custos diretos, despesas operacionais e repasses.",
+  "reports_dre_help_operational_result_example": "Mostra se a operação do período fechou com sobra ou déficit.",
+  "reports_dre_help_net_result_meaning": "Resultado final do período após considerar todos os componentes do DRE.",
+  "reports_dre_help_net_result_example": "Se positivo, há superávit; se negativo, há déficit.",
+  "reports_dre_currency_badge": "Moedas: {symbols} ({count})",
+  "@reports_dre_currency_badge": {
+    "placeholders": {
+      "symbols": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_dre_multi_currency_disclaimer": "Valores exibidos por moeda. Totais não são somados entre moedas.",
+  "reports_dre_empty_selected_period": "Nenhum dado para o período selecionado.",
   "reports_monthly_tithes_title": "Relatório de dízimos mensais",
   "reports_monthly_tithes_empty": "Não há dízimos mensais para mostrar",
   "reports_monthly_tithes_header_date": "Data",
   "reports_monthly_tithes_header_amount": "Valor",
   "reports_monthly_tithes_header_account": "Conta de disponibilidade",
   "reports_monthly_tithes_header_account_type": "Tipo de conta",
+  "reports_monthly_tithes_total_title": "Total de dízimos",
+  "reports_monthly_tithes_section_title": "Relatório mensal de dízimos",
+  "reports_monthly_tithes_currency_badge": "Moedas: {symbols} ({count})",
+  "@reports_monthly_tithes_currency_badge": {
+    "placeholders": {
+      "symbols": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_monthly_tithes_multi_currency_disclaimer": "Valores exibidos por moeda. Totais não são somados entre moedas.",
+  "reports_monthly_tithes_empty_selected_period": "Nenhum dado para o período selecionado.",
+  "reports_monthly_tithes_tithes_of_tithes": "Dízimos de dízimos",
   "finance_records_filter_concept_type": "Tipo de conceito",
   "finance_records_filter_concept": "Conceito",
   "finance_records_filter_availability_account": "Conta de disponibilidade",
@@ -745,6 +863,11 @@
   "accountsReceivable_type_legal_example": "Ex.: cumprimento de sentença, sinistros cobertos por seguradora.",
   "common_see_all": "Ver todos",
   "member_home_placeholder": "Experiência do membro",
+  "member_home_generosity_title": "Minha jornada de generosidade",
+  "member_home_generosity_year_label": "Contribuído este ano",
+  "member_home_generosity_month_label": "Contribuído este mês",
+  "member_home_generosity_commitments_label": "Compromissos em andamento",
+  "member_home_generosity_commitments_hint": "Toque para ver detalhes",
   "member_home_upcoming_events_title": "Próximos eventos",
   "member_home_upcoming_events_empty": "Nenhum evento nos próximos dias.",
   "member_schedule_detail_information_title": "Informações",

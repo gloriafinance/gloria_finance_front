@@ -57,7 +57,7 @@ class _IncomeStatementFiltersState extends State<IncomeStatementFilters> {
 
   Widget _layoutDesktop(BuildContext context, IncomeStatementStore store) {
     return SizedBox(
-      width: 760,
+      width: 820,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -158,26 +158,24 @@ class _IncomeStatementFiltersState extends State<IncomeStatementFilters> {
     return Stack(
       alignment: Alignment.center,
       children: [
-        Opacity(
-          opacity: isLoading ? 0.5 : 1.0,
-          child: CustomButton(
-            text: context.l10n.reports_income_download_pdf,
-            backgroundColor: AppColors.blue,
-            textColor: Colors.white,
-            icon: Icons.picture_as_pdf,
-            onPressed:
-                isLoading
-                    ? null
-                    : () async {
-                      if (isExpandedFilter) {
-                        setState(() {
-                          isExpandedFilter = false;
-                        });
-                      }
+        CustomButton(
+          text: context.l10n.reports_income_download_pdf,
+          backgroundColor: AppColors.blue,
+          textColor: Colors.white,
+          icon: Icons.picture_as_pdf,
+          padding: EdgeInsets.only(bottom: 6, top: 6),
+          onPressed:
+              isLoading
+                  ? null
+                  : () async {
+                    if (isExpandedFilter) {
+                      setState(() {
+                        isExpandedFilter = false;
+                      });
+                    }
 
-                      await store.downloadIncomeStatementPdf(context);
-                    },
-          ),
+                    await store.downloadIncomeStatementPdf(context);
+                  },
         ),
         if (isLoading)
           const Positioned(

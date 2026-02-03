@@ -36,7 +36,11 @@ class _MonthlyTithesFiltersState extends State<MonthlyTithesFilters> {
         LengthLimitingTextInputFormatter(4), // Limita a 4 caracteres
       ],
       initialValue: tithesListStore.state.filter.year,
-      onChanged: (value) => tithesListStore.setYear(int.parse(value)),
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          tithesListStore.setYear(int.parse(value));
+        }
+      },
     );
   }
 
@@ -61,19 +65,18 @@ class _MonthlyTithesFiltersState extends State<MonthlyTithesFilters> {
     MonthlyTithesListStore tithesListStore,
   ) {
     return SizedBox(
-      //width: isMobile(context) ? MediaQuery.of(context).size.width : 300,
-      width: 700,
+      width: 820,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(flex: 1, child: _dropdownMonth(context, tithesListStore)),
-          SizedBox(width: 20),
+          const SizedBox(width: 20),
           Expanded(flex: 1, child: _inputYear(tithesListStore)),
-          SizedBox(width: 80),
+          const SizedBox(width: 80),
           Expanded(
             flex: 1,
             child: Padding(
-              padding: EdgeInsets.only(top: 45),
+              padding: const EdgeInsets.only(top: 45),
               child: _buttonApplyFilter(tithesListStore),
             ),
           ),
@@ -111,7 +114,6 @@ class _MonthlyTithesFiltersState extends State<MonthlyTithesFilters> {
           body: Padding(
             padding: const EdgeInsets.all(12.0),
             child: SizedBox(
-              //width: isMobile(context) ? MediaQuery.of(context).size.width : 300,
               width: MediaQuery.of(context).size.width,
               child: Column(
                 children: [
@@ -122,11 +124,11 @@ class _MonthlyTithesFiltersState extends State<MonthlyTithesFilters> {
                         flex: 1,
                         child: _dropdownMonth(context, tithesListStore),
                       ),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                       Expanded(flex: 1, child: _inputYear(tithesListStore)),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buttonApplyFilter(tithesListStore),
                 ],
               ),
