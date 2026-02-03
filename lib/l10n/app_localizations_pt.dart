@@ -1701,6 +1701,26 @@ class AppLocalizationsPt extends AppLocalizations {
   String get reports_monthly_tithes_header_account_type => 'Tipo de conta';
 
   @override
+  String get reports_monthly_tithes_total_title => 'Total de dízimos';
+
+  @override
+  String get reports_monthly_tithes_section_title => 'Relatório mensal de dízimos';
+
+  @override
+  String reports_monthly_tithes_currency_badge(String symbols, String count) {
+    return 'Moedas: $symbols ($count)';
+  }
+
+  @override
+  String get reports_monthly_tithes_multi_currency_disclaimer => 'Valores exibidos por moeda. Totais não são somados entre moedas.';
+
+  @override
+  String get reports_monthly_tithes_empty_selected_period => 'Nenhum dado para o período selecionado.';
+
+  @override
+  String get reports_monthly_tithes_tithes_of_tithes => 'Dízimos de dízimos';
+
+  @override
   String get finance_records_filter_concept_type => 'Tipo de conceito';
 
   @override

@@ -1,11 +1,10 @@
-import 'package:church_finance_bk/core/theme/index.dart';
-import 'package:church_finance_bk/core/utils/currency_formatter.dart';
-import 'package:church_finance_bk/core/widgets/index.dart';
-import 'package:church_finance_bk/features/erp/settings/availability_accounts/models/availability_account_model.dart';
+import 'package:church_finance_bk/core/theme/app_color.dart';
+import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
+import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../widgets/account_style.dart';
 import '../store/monthly_tithes_list_store.dart';
 
 class CardsSummaryTithes extends StatelessWidget {
@@ -14,65 +13,124 @@ class CardsSummaryTithes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store = context.watch<MonthlyTithesListStore>();
+    final data = store.state.data;
+    final totalsBySymbol = {
+      for (final item in data.totalsBySymbol) item.symbol: item.total,
+    };
 
-    var cardStyle = getCardAccountStyle(AccountType.BANK.apiValue);
+    final symbols = data.orderedSymbols.where(
+      (item) => totalsBySymbol.containsKey(item),
+    );
 
-    return SingleChildScrollView(
-      child: SizedBox(
-        height: 190,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          //mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            CardAmount(
-              title: 'Total de dízimos',
-              amount: store.state.data.total,
-              symbol: CurrencyType.REAL.apiValue,
-              bgColor: cardStyle.color,
-              icon: cardStyle.icon,
+    if (symbols.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Wrap(
+      spacing: 16,
+      runSpacing: 16,
+      children:
+          symbols
+              .map(
+                (symbol) => _SummaryCard(
+                  title: context.l10n.reports_monthly_tithes_total_title,
+                  symbol: symbol,
+                  total: totalsBySymbol[symbol]!,
+                ),
+              )
+              .toList(),
+    );
+  }
+}
+
+class _SummaryCard extends StatelessWidget {
+  final String title;
+  final String symbol;
+  final double total;
+
+  const _SummaryCard({
+    required this.title,
+    required this.symbol,
+    required this.total,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isPositive = total >= 0;
+    final amountColor = isPositive ? AppColors.black : const Color(0xFFD62839);
+
+    return Container(
+      width: isMobile(context) ? double.infinity : 260,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.greyLight),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            offset: const Offset(0, 8),
+            blurRadius: 24,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 38,
+            height: 4,
+            decoration: BoxDecoration(
+              color: AppColors.blue,
+              borderRadius: BorderRadius.circular(2),
             ),
-            SizedBox(width: 20),
-            CardAmount(
-              title: 'Dízimos de dízimos',
-              amount: store.state.data.tithesOfTithes,
-              symbol: CurrencyType.REAL.apiValue,
-              bgColor: cardStyle.color,
-              icon: cardStyle.icon,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            title + " " + symbol,
+            style: const TextStyle(
+              fontFamily: AppFonts.fontTitle,
+              fontSize: 16,
+              color: AppColors.blue,
             ),
-          ],
-        ),
+          ),
+
+          const SizedBox(height: 14),
+          Text(
+            _formatCurrency(total, symbol),
+            style: TextStyle(
+              fontFamily: AppFonts.fontTitle,
+              fontSize: 30,
+              color: amountColor,
+            ),
+          ),
+          const SizedBox(height: 14),
+          Text(
+            context.l10n.reports_monthly_tithes_tithes_of_tithes,
+            style: TextStyle(
+              fontFamily: AppFonts.fontTitle,
+              fontSize: 17,
+              color: AppColors.grey,
+            ),
+          ),
+          Text(
+            _formatCurrency(total * 0.10, symbol),
+            style: TextStyle(
+              fontFamily: AppFonts.fontTitle,
+              fontSize: 17,
+              color: AppColors.grey,
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _totalIncome(String title, double amount) {
-    return Card(
-      color: AppColors.green,
-      //surfaceTintColor: AppColors.purple,
-      shadowColor: AppColors.green,
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-        child: Column(
-          children: [
-            Text(
-              title,
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontFamily: AppFonts.fontSubTitle,
-                color: Colors.white,
-                fontSize: 18,
-              ),
-            ),
-            Center(
-              child: Text(
-                CurrencyFormatter.formatCurrency(amount),
-                textAlign: TextAlign.left,
-                style: TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 44),
-              ),
-            ),
-          ],
-        ),
-      ),
+  String _formatCurrency(double value, String symbol) {
+    final formatted = CurrencyFormatter.formatCurrency(
+      value.abs(),
+      symbol: symbol,
     );
+    return value < 0 ? '($formatted)' : formatted;
   }
 }

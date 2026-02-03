@@ -3409,6 +3409,42 @@ abstract class AppLocalizations {
   /// **'Account type'**
   String get reports_monthly_tithes_header_account_type;
 
+  /// No description provided for @reports_monthly_tithes_total_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Tithes total'**
+  String get reports_monthly_tithes_total_title;
+
+  /// No description provided for @reports_monthly_tithes_section_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly tithes report'**
+  String get reports_monthly_tithes_section_title;
+
+  /// No description provided for @reports_monthly_tithes_currency_badge.
+  ///
+  /// In en, this message translates to:
+  /// **'Currencies: {symbols} ({count})'**
+  String reports_monthly_tithes_currency_badge(String symbols, String count);
+
+  /// No description provided for @reports_monthly_tithes_multi_currency_disclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Values are shown per currency. Totals are not summed across currencies.'**
+  String get reports_monthly_tithes_multi_currency_disclaimer;
+
+  /// No description provided for @reports_monthly_tithes_empty_selected_period.
+  ///
+  /// In en, this message translates to:
+  /// **'No data for the selected period.'**
+  String get reports_monthly_tithes_empty_selected_period;
+
+  /// No description provided for @reports_monthly_tithes_tithes_of_tithes.
+  ///
+  /// In en, this message translates to:
+  /// **'Tithes of tithes'**
+  String get reports_monthly_tithes_tithes_of_tithes;
+
   /// No description provided for @finance_records_filter_concept_type.
   ///
   /// In en, this message translates to:
