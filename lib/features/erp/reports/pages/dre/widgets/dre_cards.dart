@@ -1,439 +1,820 @@
-// lib/finance/reports/pages/dre/widgets/dre_cards.dart
-
 import 'package:church_finance_bk/core/theme/app_color.dart';
 import 'package:church_finance_bk/core/theme/app_fonts.dart';
 import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
-import 'package:church_finance_bk/core/utils/index.dart';
+import 'package:church_finance_bk/core/utils/currency_formatter.dart';
 import 'package:flutter/material.dart';
 
 import '../models/dre_model.dart';
 
-class DRECards extends StatelessWidget {
-  final DREModel data;
+class DRECards extends StatefulWidget {
+  final DREReportModel data;
 
   const DRECards({super.key, required this.data});
 
   @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final isMobileView = constraints.maxWidth < 768;
+  State<DRECards> createState() => _DRECardsState();
+}
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Section title for key metrics
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: Text(
-                context.l10n.reports_dre_main_indicators_title,
-                style: TextStyle(
-                  fontFamily: AppFonts.fontTitle,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.grey.shade800,
-                ),
-              ),
-            ),
-            // Three main cards
-            Wrap(
-              spacing: 16,
-              runSpacing: 16,
-              children: [
-                _buildCard(
-                  context,
-                  context.l10n.reports_dre_card_gross_revenue_title,
-                  '💰',
-                  context.l10n.reports_dre_card_gross_revenue_description,
-                  data.grossRevenue,
-                  const Color(0xFF1B998B),
-                  isMobileView,
-                ),
-                _buildCard(
-                  context,
-                  context.l10n.reports_dre_card_operational_result_title,
-                  '📈',
-                  context.l10n
-                      .reports_dre_card_operational_result_description,
-                  data.operationalResult,
-                  const Color(0xFFFFB703),
-                  isMobileView,
-                ),
-                _buildCard(
-                  context,
-                  context.l10n.reports_dre_card_net_result_title,
-                  '📊',
-                  context.l10n.reports_dre_card_net_result_description,
-                  data.netResult,
-                  AppColors.purple,
-                  isMobileView,
-                  isHighlight: true,
-                ),
-              ],
-            ),
-            const SizedBox(height: 32),
-            // Section title for detailed breakdown
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: Text(
-                context.l10n.reports_dre_detail_section_title,
-                style: TextStyle(
-                  fontFamily: AppFonts.fontTitle,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.grey.shade800,
-                ),
-              ),
-            ),
-            // List of remaining indicators
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade300),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  _buildListItem(
-                    context,
-                    context.l10n.reports_dre_item_net_revenue_title,
-                    '💵',
-                    context
-                        .l10n.reports_dre_item_net_revenue_description,
-                    data.netRevenue,
-                    const Color(0xFF2EC4B6),
-                    isFirst: true,
-                  ),
-                  _buildListItem(
-                    context,
-                    context.l10n.reports_dre_item_direct_costs_title,
-                    '⚙️',
-                    context.l10n.reports_dre_item_direct_costs_description,
-                    data.directCosts,
-                    const Color(0xFF8ECAE6),
-                  ),
-                  _buildListItem(
-                    context,
-                    context.l10n.reports_dre_item_gross_profit_title,
-                    '🧮',
-                    context
-                        .l10n.reports_dre_item_gross_profit_description,
-                    data.grossProfit,
-                    const Color(0xFF023047),
-                  ),
-                  _buildListItem(
-                    context,
-                    context.l10n.reports_dre_item_operational_expenses_title,
-                    '🏢',
-                    context.l10n
-                        .reports_dre_item_operational_expenses_description,
-                    data.operationalExpenses,
-                    const Color(0xFFD62839),
-                  ),
-                  _buildListItem(
-                    context,
-                    context.l10n.reports_dre_item_ministry_transfers_title,
-                    '🤝',
-                    context.l10n
-                        .reports_dre_item_ministry_transfers_description,
-                    data.ministryTransfers,
-                    const Color(0xFF3A86FF),
-                  ),
-                  _buildListItem(
-                    context,
-                    'Investimentos CAPEX',
-                    '🏗️',
-                    'Aquisição ou melhoria de ativos (obras, equipamentos, infraestrutura)',
-                    data.capexInvestments,
-                    const Color(0xFFEE964B),
-                  ),
-                  _buildListItem(
-                    context,
-                    'Resultados Extraordinários',
-                    '💫',
-                    'Ingressos ou gastos eventuais fora da rotina',
-                    data.extraordinaryResults,
-                    const Color(0xFF6A4C93),
-                    isLast: true,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        );
-      },
+class _DRECardsState extends State<DRECards> {
+  final Map<String, GlobalKey> _sectionKeys = {};
+
+  @override
+  Widget build(BuildContext context) {
+    final itemBySymbol = widget.data.itemBySymbol;
+    final sections =
+        widget.data.orderedSymbols
+            .where(itemBySymbol.containsKey)
+            .map((symbol) => itemBySymbol[symbol]!)
+            .toList();
+    final useAccordion = widget.data.currencyCount >= 5 && sections.length > 1;
+
+    for (final section in sections) {
+      _sectionKeys.putIfAbsent(section.symbol, GlobalKey.new);
+    }
+
+    if (sections.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _MultiCurrencySummaryPanel(
+          sections: sections,
+          onSymbolTap: _scrollToSymbol,
+        ),
+        const SizedBox(height: 20),
+        if (useAccordion)
+          _SymbolAccordionList(sections: sections, sectionKeys: _sectionKeys)
+        else
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children:
+                sections
+                    .map(
+                      (item) => Padding(
+                        key: _sectionKeys[item.symbol],
+                        padding: const EdgeInsets.only(bottom: 28),
+                        child: _DRESymbolSection(data: item),
+                      ),
+                    )
+                    .toList(),
+          ),
+      ],
     );
   }
 
-  Widget _buildCard(
-    BuildContext context,
-    String title,
-    String emoji,
-    String description,
-    double value,
-    Color color,
-    bool isMobile, {
-    bool isHighlight = false,
-  }) {
-    final cardWidth = isMobile ? double.infinity : 230.0;
+  void _scrollToSymbol(String symbol) {
+    final context = _sectionKeys[symbol]?.currentContext;
+    if (context == null) {
+      return;
+    }
+    Scrollable.ensureVisible(
+      context,
+      duration: const Duration(milliseconds: 350),
+      curve: Curves.easeInOut,
+      alignment: 0.05,
+    );
+  }
+}
 
+class _MultiCurrencySummaryPanel extends StatelessWidget {
+  final List<DREBySymbolModel> sections;
+  final ValueChanged<String> onSymbolTap;
+
+  const _MultiCurrencySummaryPanel({
+    required this.sections,
+    required this.onSymbolTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      width: cardWidth,
-      padding: const EdgeInsets.all(20),
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: isHighlight ? color : Colors.grey.shade300,
-          width: isHighlight ? 2 : 1,
+        border: Border.all(color: AppColors.greyLight),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            context.l10n.reports_dre_summary_by_currency_title,
+            style: const TextStyle(
+              fontFamily: AppFonts.fontTitle,
+              fontSize: 16,
+              color: Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 12,
+            runSpacing: 12,
+            children:
+                sections
+                    .map(
+                      (item) => _CurrencyChip(
+                        data: item,
+                        onTap: () => onSymbolTap(item.symbol),
+                      ),
+                    )
+                    .toList(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CurrencyChip extends StatelessWidget {
+  final DREBySymbolModel data;
+  final VoidCallback onTap;
+
+  const _CurrencyChip({required this.data, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        width: 250,
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColors.greyLight),
         ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(
+                  data.symbol,
+                  style: const TextStyle(
+                    fontFamily: AppFonts.fontTitle,
+                    fontSize: 16,
+                    color: Colors.black87,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              context.l10n.reports_dre_summary_chip_gross_revenue(
+                _formatCurrency(data.grossRevenue, data.symbol),
+              ),
+              style: const TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+                fontSize: 12,
+                color: Colors.black87,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              context.l10n.reports_dre_summary_chip_net_result(
+                _formatCurrency(data.netResult, data.symbol),
+              ),
+              style: TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+                fontSize: 12,
+                color:
+                    data.netResult < 0
+                        ? const Color(0xFFD62839)
+                        : Colors.black87,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  String _formatCurrency(double value, String symbol) {
+    final formatted = CurrencyFormatter.formatCurrency(
+      value.abs(),
+      symbol: symbol,
+    );
+    return value < 0 ? '($formatted)' : formatted;
+  }
+}
+
+class _SymbolAccordionList extends StatelessWidget {
+  final List<DREBySymbolModel> sections;
+  final Map<String, GlobalKey> sectionKeys;
+
+  const _SymbolAccordionList({
+    required this.sections,
+    required this.sectionKeys,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionPanelList.radio(
+      initialOpenPanelValue: sections.first.symbol,
+      children:
+          sections.map((section) {
+            return ExpansionPanelRadio(
+              value: section.symbol,
+              headerBuilder: (context, isExpanded) {
+                return ListTile(
+                  title: Container(
+                    key: sectionKeys[section.symbol],
+                    child: Text(
+                      section.symbol,
+                      style: const TextStyle(
+                        fontFamily: AppFonts.fontTitle,
+                        fontSize: 16,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ),
+                );
+              },
+              body: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                child: _DRESymbolSection(data: section, showSymbolTitle: false),
+              ),
+            );
+          }).toList(),
+    );
+  }
+}
+
+class _DRESymbolSection extends StatefulWidget {
+  final DREBySymbolModel data;
+  final bool showSymbolTitle;
+
+  const _DRESymbolSection({required this.data, this.showSymbolTitle = true});
+
+  @override
+  State<_DRESymbolSection> createState() => _DRESymbolSectionState();
+}
+
+class _DRESymbolSectionState extends State<_DRESymbolSection> {
+  bool _hideZeroLines = false;
+  late final Map<String, bool> _expandedByGroup = {
+    'revenue': true,
+    'costs': true,
+    'results': true,
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    final data = widget.data;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (widget.showSymbolTitle) ...[
+          Text(
+            context.l10n.reports_dre_section_title_by_symbol(data.symbol),
+            style: const TextStyle(
+              fontFamily: AppFonts.fontTitle,
+              fontSize: 20,
+              color: Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            context.l10n.reports_dre_section_subtitle,
+            style: const TextStyle(
+              fontFamily: AppFonts.fontSubTitle,
+              fontSize: 13,
+              color: Colors.black54,
+            ),
+          ),
+          const SizedBox(height: 14),
+        ],
+        Text(
+          context.l10n.reports_dre_main_indicators_title,
+          style: const TextStyle(
+            fontFamily: AppFonts.fontTitle,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: Colors.black87,
+          ),
+        ),
+        const SizedBox(height: 16),
+        _mainIndicators(context, data),
+        const SizedBox(height: 28),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              context.l10n.reports_dre_detail_by_category,
+              style: const TextStyle(
+                fontFamily: AppFonts.fontTitle,
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+              ),
+            ),
+            Row(
+              children: [
+                Text(
+                  context.l10n.reports_dre_toggle_hide_zero,
+                  style: const TextStyle(
+                    fontFamily: AppFonts.fontSubTitle,
+                    fontSize: 12,
+                    color: Colors.black54,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Switch(
+                  value: _hideZeroLines,
+                  thumbColor: WidgetStateProperty.resolveWith((states) {
+                    if (states.contains(WidgetState.selected)) {
+                      return AppColors.purple;
+                    }
+                    return null;
+                  }),
+                  onChanged: (value) => setState(() => _hideZeroLines = value),
+                ),
+              ],
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        _detailAccordion(context, data),
+      ],
+    );
+  }
+
+  Widget _mainIndicators(BuildContext context, DREBySymbolModel data) {
+    final cards = [
+      _MainCardData(
+        title: context.l10n.reports_dre_card_gross_revenue_title,
+        description: context.l10n.reports_dre_card_gross_revenue_description,
+        value: data.grossRevenue,
+        accent: AppColors.green,
+        helpMeaning: context.l10n.reports_dre_help_gross_revenue_meaning,
+        helpExample: context.l10n.reports_dre_help_gross_revenue_example,
+      ),
+      _MainCardData(
+        title: context.l10n.reports_dre_card_operational_result_title,
+        description:
+            context.l10n.reports_dre_card_operational_result_description,
+        value: data.operationalResult,
+        accent: AppColors.blue,
+        helpMeaning: context.l10n.reports_dre_help_operational_result_meaning,
+        helpExample: context.l10n.reports_dre_help_operational_result_example,
+      ),
+      _MainCardData(
+        title: context.l10n.reports_dre_card_net_result_title,
+        description: context.l10n.reports_dre_card_net_result_description,
+        value: data.netResult,
+        accent: data.netResult >= 0 ? AppColors.green : const Color(0xFFD62839),
+        helpMeaning: context.l10n.reports_dre_help_net_result_meaning,
+        helpExample: context.l10n.reports_dre_help_net_result_example,
+      ),
+    ];
+
+    return Wrap(
+      spacing: 16,
+      runSpacing: 16,
+      children:
+          cards
+              .map(
+                (item) => _MainIndicatorCard(data: item, symbol: data.symbol),
+              )
+              .toList(),
+    );
+  }
+
+  Widget _detailAccordion(BuildContext context, DREBySymbolModel data) {
+    final groups = _buildGroups(context, data);
+    final filteredGroups =
+        groups
+            .map((group) {
+              final rows =
+                  _hideZeroLines
+                      ? group.rows.where((row) => row.value != 0).toList()
+                      : group.rows;
+              return _DetailGroupData(
+                id: group.id,
+                title: group.title,
+                rows: rows,
+              );
+            })
+            .where((group) => group.rows.isNotEmpty)
+            .toList();
+
+    return ExpansionPanelList(
+      expansionCallback: (index, expanded) {
+        final groupId = filteredGroups[index].id;
+        setState(() {
+          _expandedByGroup[groupId] = !expanded;
+        });
+      },
+      children:
+          filteredGroups.map((group) {
+            final subtotal = group.rows.fold<double>(
+              0,
+              (sum, row) => sum + row.value,
+            );
+
+            return ExpansionPanel(
+              canTapOnHeader: true,
+              isExpanded: _expandedByGroup[group.id] ?? true,
+              headerBuilder: (context, isExpanded) {
+                return ListTile(
+                  title: Text(
+                    group.title,
+                    style: const TextStyle(
+                      fontFamily: AppFonts.fontTitle,
+                      fontSize: 15,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  trailing: Text(
+                    _formatCurrency(subtotal, data.symbol),
+                    style: TextStyle(
+                      fontFamily: AppFonts.fontTitle,
+                      fontSize: 14,
+                      color:
+                          subtotal < 0
+                              ? const Color(0xFFD62839)
+                              : Colors.black87,
+                    ),
+                  ),
+                );
+              },
+              body: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                child: Column(
+                  children:
+                      group.rows
+                          .map(
+                            (row) => Container(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: AppColors.greyLight.withValues(
+                                      alpha: 0.8,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                            row.title,
+                                            style: const TextStyle(
+                                              fontFamily: AppFonts.fontSubTitle,
+                                              fontSize: 13,
+                                              color: Colors.black87,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 6),
+                                        _HelpChip(
+                                          title: row.title,
+                                          meaning: row.helpMeaning,
+                                          example: row.helpExample,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Text(
+                                    _formatCurrency(row.value, data.symbol),
+                                    style: TextStyle(
+                                      fontFamily: AppFonts.fontTitle,
+                                      fontSize: 14,
+                                      color:
+                                          row.value < 0
+                                              ? const Color(0xFFD62839)
+                                              : Colors.black87,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                          .toList(),
+                ),
+              ),
+            );
+          }).toList(),
+    );
+  }
+
+  List<_DetailGroupData> _buildGroups(
+    BuildContext context,
+    DREBySymbolModel data,
+  ) {
+    return [
+      _DetailGroupData(
+        id: 'revenue',
+        title: context.l10n.reports_dre_group_revenue,
+        rows: [
+          _DetailRowData(
+            title: context.l10n.reports_dre_card_gross_revenue_title,
+            value: data.grossRevenue,
+            helpMeaning: context.l10n.reports_dre_help_gross_revenue_meaning,
+            helpExample: context.l10n.reports_dre_help_gross_revenue_example,
+          ),
+          _DetailRowData(
+            title: context.l10n.reports_dre_item_net_revenue_title,
+            value: data.netRevenue,
+            helpMeaning: context.l10n.reports_dre_help_net_revenue_meaning,
+            helpExample: context.l10n.reports_dre_help_net_revenue_example,
+          ),
+        ],
+      ),
+      _DetailGroupData(
+        id: 'costs',
+        title: context.l10n.reports_dre_group_costs,
+        rows: [
+          _DetailRowData(
+            title: context.l10n.reports_dre_item_direct_costs_title,
+            value: data.directCosts,
+            helpMeaning: context.l10n.reports_dre_help_direct_costs_meaning,
+            helpExample: context.l10n.reports_dre_help_direct_costs_example,
+          ),
+          _DetailRowData(
+            title: context.l10n.reports_dre_item_operational_expenses_title,
+            value: data.operationalExpenses,
+            helpMeaning:
+                context.l10n.reports_dre_help_operational_expenses_meaning,
+            helpExample:
+                context.l10n.reports_dre_help_operational_expenses_example,
+          ),
+          _DetailRowData(
+            title: context.l10n.reports_dre_item_ministry_transfers_title,
+            value: data.ministryTransfers,
+            helpMeaning:
+                context.l10n.reports_dre_help_ministry_transfers_meaning,
+            helpExample:
+                context.l10n.reports_dre_help_ministry_transfers_example,
+          ),
+          _DetailRowData(
+            title: context.l10n.reports_dre_item_capex_title,
+            value: data.capexInvestments,
+            helpMeaning: context.l10n.reports_dre_help_capex_meaning,
+            helpExample: context.l10n.reports_dre_help_capex_example,
+          ),
+        ],
+      ),
+      _DetailGroupData(
+        id: 'results',
+        title: context.l10n.reports_dre_group_results,
+        rows: [
+          _DetailRowData(
+            title: context.l10n.reports_dre_item_gross_profit_title,
+            value: data.grossProfit,
+            helpMeaning: context.l10n.reports_dre_help_gross_profit_meaning,
+            helpExample: context.l10n.reports_dre_help_gross_profit_example,
+          ),
+          _DetailRowData(
+            title: context.l10n.reports_dre_card_operational_result_title,
+            value: data.operationalResult,
+            helpMeaning:
+                context.l10n.reports_dre_help_operational_result_meaning,
+            helpExample:
+                context.l10n.reports_dre_help_operational_result_example,
+          ),
+          _DetailRowData(
+            title: context.l10n.reports_dre_item_extraordinary_title,
+            value: data.extraordinaryResults,
+            helpMeaning: context.l10n.reports_dre_help_extraordinary_meaning,
+            helpExample: context.l10n.reports_dre_help_extraordinary_example,
+          ),
+          _DetailRowData(
+            title: context.l10n.reports_dre_card_net_result_title,
+            value: data.netResult,
+            helpMeaning: context.l10n.reports_dre_help_net_result_meaning,
+            helpExample: context.l10n.reports_dre_help_net_result_example,
+          ),
+        ],
+      ),
+    ];
+  }
+
+  String _formatCurrency(double value, String symbol) {
+    final formatted = CurrencyFormatter.formatCurrency(
+      value.abs(),
+      symbol: symbol,
+    );
+    return value < 0 ? '($formatted)' : formatted;
+  }
+}
+
+class _MainCardData {
+  final String title;
+  final String description;
+  final double value;
+  final Color accent;
+  final String helpMeaning;
+  final String helpExample;
+
+  _MainCardData({
+    required this.title,
+    required this.description,
+    required this.value,
+    required this.accent,
+    required this.helpMeaning,
+    required this.helpExample,
+  });
+}
+
+class _MainIndicatorCard extends StatelessWidget {
+  final _MainCardData data;
+  final String symbol;
+
+  const _MainIndicatorCard({required this.data, required this.symbol});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 260,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.greyLight),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
+            color: Colors.black.withValues(alpha: 0.05),
+            offset: const Offset(0, 8),
+            blurRadius: 24,
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Container(
-                width: 4,
-                height: 24,
-                decoration: BoxDecoration(
-                  color: color,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Text(emoji, style: const TextStyle(fontSize: 18)),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    fontFamily: AppFonts.fontTitle,
-                    fontSize: isHighlight ? 16 : 14,
-                    color: Colors.grey.shade700,
-                    fontWeight: isHighlight ? FontWeight.w600 : FontWeight.w500,
-                  ),
-                ),
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.help_outline,
-                  size: 18,
-                  color: Colors.grey.shade600,
-                ),
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-                onPressed:
-                    () => _showHelp(context, title, emoji, description, value),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Text(
-            description,
-            style: TextStyle(
-              fontFamily: AppFonts.fontTitle,
-              fontSize: 11,
-              color: Colors.grey.shade600,
-              height: 1.3,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 12),
-          Text(
-            formatCurrency(value),
-            style: TextStyle(
-              fontFamily: AppFonts.fontTitle,
-              fontSize: isHighlight ? 28 : 24,
-              fontWeight: FontWeight.bold,
-              color: value < 0 ? Colors.red.shade700 : color,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildListItem(
-    BuildContext context,
-    String title,
-    String emoji,
-    String description,
-    double value,
-    Color color, {
-    bool isFirst = false,
-    bool isLast = false,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          top:
-              isFirst
-                  ? BorderSide.none
-                  : BorderSide(color: Colors.grey.shade200, width: 1),
-        ),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-      child: Row(
-        children: [
-          // Color indicator
           Container(
-            width: 4,
-            height: 40,
+            width: 38,
+            height: 4,
             decoration: BoxDecoration(
-              color: color,
+              color: data.accent,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
-          const SizedBox(width: 12),
-          // Emoji
-          Text(emoji, style: const TextStyle(fontSize: 20)),
-          const SizedBox(width: 12),
-          // Title and description
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  data.title,
+                  style: const TextStyle(
                     fontFamily: AppFonts.fontTitle,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.grey.shade800,
+                    fontSize: 16,
+                    color: Colors.black87,
                   ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  description,
-                  style: TextStyle(
-                    fontFamily: AppFonts.fontTitle,
-                    fontSize: 11,
-                    color: Colors.grey.shade600,
-                    height: 1.2,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
+              ),
+              _HelpChip(
+                title: data.title,
+                meaning: data.helpMeaning,
+                example: data.helpExample,
+              ),
+            ],
           ),
-          const SizedBox(width: 12),
-          // Value
+          const SizedBox(height: 12),
           Text(
-            formatCurrency(value),
+            _formatCurrency(data.value, symbol),
             style: TextStyle(
               fontFamily: AppFonts.fontTitle,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: value < 0 ? Colors.red.shade700 : color,
+              fontSize: 22,
+              color: data.value < 0 ? const Color(0xFFD62839) : Colors.black,
             ),
           ),
-          const SizedBox(width: 8),
-          // Help button
-          IconButton(
-            icon: Icon(
-              Icons.help_outline,
-              size: 18,
-              color: Colors.grey.shade600,
+          const SizedBox(height: 12),
+          Text(
+            data.description,
+            style: const TextStyle(
+              fontFamily: AppFonts.fontSubTitle,
+              fontSize: 13,
+              height: 1.4,
+              color: Colors.black54,
             ),
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-            onPressed:
-                () => _showHelp(context, title, emoji, description, value),
           ),
         ],
       ),
     );
   }
 
-  void _showHelp(
-    BuildContext context,
-    String title,
-    String emoji,
-    String description,
-    double value,
-  ) {
-    final helpTexts = _getDetailedHelp(title);
+  String _formatCurrency(double value, String symbol) {
+    final formatted = CurrencyFormatter.formatCurrency(
+      value.abs(),
+      symbol: symbol,
+    );
+    return value < 0 ? '($formatted)' : formatted;
+  }
+}
 
-    showDialog(
+class _DetailGroupData {
+  final String id;
+  final String title;
+  final List<_DetailRowData> rows;
+
+  _DetailGroupData({required this.id, required this.title, required this.rows});
+}
+
+class _DetailRowData {
+  final String title;
+  final double value;
+  final String helpMeaning;
+  final String helpExample;
+
+  _DetailRowData({
+    required this.title,
+    required this.value,
+    required this.helpMeaning,
+    required this.helpExample,
+  });
+}
+
+class _HelpChip extends StatelessWidget {
+  final String title;
+  final String meaning;
+  final String example;
+
+  const _HelpChip({
+    required this.title,
+    required this.meaning,
+    required this.example,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => _showHelpDialog(context),
+      borderRadius: BorderRadius.circular(999),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+        decoration: BoxDecoration(
+          color: AppColors.mustard.withValues(alpha: 0.5),
+          borderRadius: BorderRadius.circular(999),
+        ),
+        child: const Icon(Icons.help_outline, size: 14, color: Colors.black87),
+      ),
+    );
+  }
+
+  void _showHelpDialog(BuildContext context) {
+    showDialog<void>(
       context: context,
-      builder: (BuildContext context) {
+      builder: (dialogContext) {
         return AlertDialog(
-          title: Row(
-            children: [
-              Text(emoji, style: const TextStyle(fontSize: 24)),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    fontFamily: AppFonts.fontTitle,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            ],
+          title: Text(
+            context.l10n.reports_dre_help_dialog_title(title),
+            style: const TextStyle(
+              fontFamily: AppFonts.fontTitle,
+              fontSize: 18,
+            ),
           ),
           content: SingleChildScrollView(
             child: Column(
-              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'O que significa?',
-                  style: TextStyle(
+                  context.l10n.reports_dre_help_what_means,
+                  style: const TextStyle(
                     fontFamily: AppFonts.fontTitle,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.grey.shade800,
+                    fontSize: 15,
+                    color: Colors.black87,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  helpTexts['meaning']!,
-                  style: TextStyle(
-                    fontFamily: AppFonts.fontTitle,
-                    fontSize: 14,
-                    color: Colors.grey.shade700,
-                    height: 1.5,
+                  meaning,
+                  style: const TextStyle(
+                    fontFamily: AppFonts.fontSubTitle,
+                    fontSize: 13,
+                    height: 1.4,
+                    color: Colors.black87,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 Text(
-                  'Exemplo:',
-                  style: TextStyle(
+                  context.l10n.reports_dre_help_example,
+                  style: const TextStyle(
                     fontFamily: AppFonts.fontTitle,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.grey.shade800,
+                    fontSize: 15,
+                    color: Colors.black87,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  helpTexts['example']!,
-                  style: TextStyle(
-                    fontFamily: AppFonts.fontTitle,
-                    fontSize: 14,
-                    color: Colors.grey.shade700,
-                    height: 1.5,
+                  example,
+                  style: const TextStyle(
+                    fontFamily: AppFonts.fontSubTitle,
+                    fontSize: 13,
+                    height: 1.4,
+                    color: Colors.black87,
                   ),
                 ),
               ],
@@ -441,92 +822,12 @@ class DRECards extends StatelessWidget {
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text(
-                'Entendi',
-                style: TextStyle(fontFamily: AppFonts.fontTitle, fontSize: 14),
-              ),
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: Text(context.l10n.reports_dre_help_understood),
             ),
           ],
         );
       },
     );
-  }
-
-  Map<String, String> _getDetailedHelp(String title) {
-    switch (title) {
-      case 'Receita Bruta':
-        return {
-          'meaning':
-              'É o total de todos os ingressos recebidos, sem nenhum tipo de desconto ou dedução. Inclui dízimos, ofertas, doações e qualquer outra entrada de dinheiro.',
-          'example':
-              'Se a igreja recebeu R\$ 3.117,05 no mês, essa é sua receita bruta.',
-        };
-      case 'Receita Líquida':
-        return {
-          'meaning':
-              'É a receita bruta menos qualquer devolução ou ajuste (por exemplo, devoluções, descontos, ou correções). Na maioria das igrejas, normalmente será igual à receita bruta.',
-          'example':
-              'Se não houve devoluções nem ajustes, Receita líquida = Receita bruta = R\$ 3.117,05',
-        };
-      case 'Custos Diretos':
-        return {
-          'meaning':
-              'São os gastos diretamente relacionados com a entrega de atividades ou projetos. Por exemplo: compra de alimentos para eventos, materiais para um retiro ou pagamento pontual a músicos.',
-          'example':
-              'Se gastou R\$ 0 neste tipo de custos durante o mês, então custos diretos = 0.',
-        };
-      case 'Resultado Bruto':
-        return {
-          'meaning':
-              'É a receita líquida menos os custos diretos. Mostra quanto sobra depois de cobrir os custos diretamente associados à operação ministerial.',
-          'example': 'R\$ 3.117,05 – R\$ 0 = R\$ 3.117,05',
-        };
-      case 'Despesas Operacionais':
-        return {
-          'meaning':
-              'São os gastos necessários para manter as atividades diárias da igreja. Inclui: energia, água, limpeza, salários, manutenção, transporte, etc.',
-          'example':
-              'Se a igreja pagou R\$ 101,50 de energia elétrica, despesas operacionais = R\$ 101,50',
-        };
-      case 'Repasses Ministeriais':
-        return {
-          'meaning':
-              'São transferências destinadas a ministérios internos, missões ou parceiros externos. Representam valores que saem diretamente para apoiar esses trabalhos.',
-          'example':
-              'Se foram enviados R\$ 500,00 para missões e ministérios parceiros, repasses ministeriais = R\$ 500,00.',
-        };
-      case 'Investimentos CAPEX':
-        return {
-          'meaning':
-              'Investimentos em bens de capital ou infraestrutura, como obras, reformas, equipamentos ou melhorias que aumentam a capacidade da igreja.',
-          'example':
-              'Se foi comprado um novo sistema de som por R\$ 2.000,00, investimentos CAPEX = R\$ 2.000,00.',
-        };
-      case 'Resultado Operacional':
-        return {
-          'meaning':
-              'É o resultado bruto menos as despesas operacionais. Indica se as atividades regulares da igreja estão deixando superávit ou déficit.',
-          'example': 'R\$ 3.117,05 – R\$ 101,50 = R\$ 3.015,55',
-        };
-      case 'Resultados Extraordinários':
-        return {
-          'meaning':
-              'São ingressos ou gastos que não fazem parte da rotina diária da igreja, como: venda de equipamentos antigos, reembolsos de seguros, indenizações ou ingressos eventuais. Normalmente será 0, a menos que haja um evento não habitual.',
-          'example':
-              'Se não houve ingressos ou gastos extraordinários no período, o valor é R\$ 0.',
-        };
-      case 'Resultado Líquido':
-        return {
-          'meaning':
-              'É o resultado final do mês ou ano, depois de somar ou subtrair os resultados extraordinários. Mostra se a igreja teve superávit (saldo positivo) ou déficit (saldo negativo) no período.',
-          'example': 'R\$ 3.015,55 + R\$ 0 = R\$ 3.015,55 (Superávit)',
-        };
-      default:
-        return {
-          'meaning': 'Informação não disponível.',
-          'example': 'Consulte o manual.',
-        };
-    }
   }
 }

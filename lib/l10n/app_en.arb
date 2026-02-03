@@ -666,6 +666,33 @@
   "reports_dre_header_title": "Statement of Income for the Year",
   "reports_dre_header_subtitle": "Understand how your church received and used resources in the period",
   "reports_dre_footer_note": "Note: This report considers only confirmed and reconciled entries that affect the accounting result.",
+  "reports_dre_summary_by_currency_title": "Summary by currency",
+  "reports_dre_primary_currency_badge": "Primary currency",
+  "reports_dre_summary_chip_gross_revenue": "Gross revenue: {value}",
+  "@reports_dre_summary_chip_gross_revenue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_dre_summary_chip_net_result": "Net result: {value}",
+  "@reports_dre_summary_chip_net_result": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_dre_section_title_by_symbol": "{symbol} - Period indicators",
+  "@reports_dre_section_title_by_symbol": {
+    "placeholders": {
+      "symbol": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_dre_section_subtitle": "Summary of the result in this currency.",
   "reports_dre_main_indicators_title": "Key indicators",
   "reports_dre_card_gross_revenue_title": "Gross revenue",
   "reports_dre_card_gross_revenue_description": "Total tithes, offerings and donations received",
@@ -674,6 +701,11 @@
   "reports_dre_card_net_result_title": "Net result",
   "reports_dre_card_net_result_description": "Final result for the period (surplus or deficit)",
   "reports_dre_detail_section_title": "Detail",
+  "reports_dre_detail_by_category": "Detail by category",
+  "reports_dre_toggle_hide_zero": "Hide zero-value rows",
+  "reports_dre_group_revenue": "Revenue",
+  "reports_dre_group_costs": "Costs",
+  "reports_dre_group_results": "Result",
   "reports_dre_item_net_revenue_title": "Net revenue",
   "reports_dre_item_net_revenue_description": "Gross revenue minus returns and adjustments",
   "reports_dre_item_direct_costs_title": "Direct costs",
@@ -684,6 +716,54 @@
   "reports_dre_item_operational_expenses_description": "Day-to-day expenses: electricity, water, salaries, cleaning",
   "reports_dre_item_ministry_transfers_title": "Ministry transfers",
   "reports_dre_item_ministry_transfers_description": "Transfers to ministries, missions or to the board",
+  "reports_dre_item_capex_title": "CAPEX investments",
+  "reports_dre_item_capex_description": "Acquisition or improvement of assets and infrastructure",
+  "reports_dre_item_extraordinary_title": "Extraordinary results",
+  "reports_dre_item_extraordinary_description": "Occasional income or expenses outside the routine",
+  "reports_dre_help_dialog_title": "Help: {title}",
+  "@reports_dre_help_dialog_title": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_dre_help_what_means": "What does it mean?",
+  "reports_dre_help_example": "Example",
+  "reports_dre_help_understood": "Understood",
+  "reports_dre_help_gross_revenue_meaning": "Total incoming resources in the period, such as tithes, offerings, and donations.",
+  "reports_dre_help_gross_revenue_example": "If the church received 5,000 this month, this line shows 5,000.",
+  "reports_dre_help_net_revenue_meaning": "Gross revenue after returns and adjustments. In many cases it matches gross revenue.",
+  "reports_dre_help_net_revenue_example": "Without returns, net revenue = gross revenue.",
+  "reports_dre_help_direct_costs_meaning": "Costs directly tied to specific activities or projects.",
+  "reports_dre_help_direct_costs_example": "Buying materials for a social outreach event.",
+  "reports_dre_help_gross_profit_meaning": "Amount left after subtracting direct costs from net revenue.",
+  "reports_dre_help_gross_profit_example": "Net revenue 10,000 and direct costs 2,000 result in 8,000.",
+  "reports_dre_help_operational_expenses_meaning": "Day-to-day costs needed to keep church operations running.",
+  "reports_dre_help_operational_expenses_example": "Utilities, cleaning, and administrative team costs.",
+  "reports_dre_help_ministry_transfers_meaning": "Amounts transferred to ministries, missions, or specific fronts.",
+  "reports_dre_help_ministry_transfers_example": "Monthly allocation to children or music ministry.",
+  "reports_dre_help_capex_meaning": "Investments in long-term assets and infrastructure.",
+  "reports_dre_help_capex_example": "Buying audio equipment or structural renovation.",
+  "reports_dre_help_extraordinary_meaning": "Income or expenses outside normal routine.",
+  "reports_dre_help_extraordinary_example": "Sale of old equipment or a reimbursement.",
+  "reports_dre_help_operational_result_meaning": "Result from normal operations after direct costs, operating expenses, and transfers.",
+  "reports_dre_help_operational_result_example": "Shows whether operations closed with surplus or deficit.",
+  "reports_dre_help_net_result_meaning": "Final result for the period after all DRE components.",
+  "reports_dre_help_net_result_example": "Positive means surplus; negative means deficit.",
+  "reports_dre_currency_badge": "Currencies: {symbols} ({count})",
+  "@reports_dre_currency_badge": {
+    "placeholders": {
+      "symbols": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_dre_multi_currency_disclaimer": "Values are shown per currency. Totals are not summed across currencies.",
+  "reports_dre_empty_selected_period": "No data for the selected period.",
   "reports_monthly_tithes_title": "Monthly tithes report",
   "reports_monthly_tithes_empty": "No monthly tithes to show",
   "reports_monthly_tithes_header_date": "Date",

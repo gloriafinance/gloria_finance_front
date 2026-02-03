@@ -7,7 +7,7 @@ class DREState {
   final bool makeRequest;
   final bool downloadingPdf;
   final DREFilterModel filter;
-  final DREModel data;
+  final DREReportModel data;
 
   DREState({
     required this.makeRequest,
@@ -21,14 +21,14 @@ class DREState {
       makeRequest: false,
       downloadingPdf: false,
       filter: DREFilterModel.init(),
-      data: DREModel.empty(),
+      data: DREReportModel.empty(),
     );
   }
 
   DREState copyWith({
     bool? makeRequest,
     bool? downloadingPdf,
-    DREModel? data,
+    DREReportModel? data,
     String? churchId,
     int? month,
     int? year,
@@ -37,11 +37,7 @@ class DREState {
       makeRequest: makeRequest ?? this.makeRequest,
       downloadingPdf: downloadingPdf ?? this.downloadingPdf,
       data: data ?? this.data,
-      filter: filter.copyWith(
-        churchId: churchId,
-        month: month,
-        year: year,
-      ),
+      filter: filter.copyWith(churchId: churchId, month: month, year: year),
     );
   }
 }

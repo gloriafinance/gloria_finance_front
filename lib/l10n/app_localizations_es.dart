@@ -1629,6 +1629,30 @@ class AppLocalizationsEs extends AppLocalizations {
   String get reports_dre_footer_note => 'Nota: Este informe considera solo los registros confirmados y conciliados que afectan el resultado contable.';
 
   @override
+  String get reports_dre_summary_by_currency_title => 'Resumen por moneda';
+
+  @override
+  String get reports_dre_primary_currency_badge => 'Moneda principal';
+
+  @override
+  String reports_dre_summary_chip_gross_revenue(String value) {
+    return 'Ingresos brutos: $value';
+  }
+
+  @override
+  String reports_dre_summary_chip_net_result(String value) {
+    return 'Resultado neto: $value';
+  }
+
+  @override
+  String reports_dre_section_title_by_symbol(String symbol) {
+    return '$symbol - Indicadores del período';
+  }
+
+  @override
+  String get reports_dre_section_subtitle => 'Resumen del resultado en esta moneda.';
+
+  @override
   String get reports_dre_main_indicators_title => 'Indicadores principales';
 
   @override
@@ -1651,6 +1675,21 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get reports_dre_detail_section_title => 'Detalle';
+
+  @override
+  String get reports_dre_detail_by_category => 'Detalle por categoría';
+
+  @override
+  String get reports_dre_toggle_hide_zero => 'Ocultar líneas con valor cero';
+
+  @override
+  String get reports_dre_group_revenue => 'Ingresos';
+
+  @override
+  String get reports_dre_group_costs => 'Costos';
+
+  @override
+  String get reports_dre_group_results => 'Resultado';
 
   @override
   String get reports_dre_item_net_revenue_title => 'Ingresos netos';
@@ -1681,6 +1720,103 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get reports_dre_item_ministry_transfers_description => 'Transferencias a ministerios, misiones o a la directiva';
+
+  @override
+  String get reports_dre_item_capex_title => 'Inversiones CAPEX';
+
+  @override
+  String get reports_dre_item_capex_description => 'Adquisición o mejora de activos e infraestructura';
+
+  @override
+  String get reports_dre_item_extraordinary_title => 'Resultados extraordinarios';
+
+  @override
+  String get reports_dre_item_extraordinary_description => 'Ingresos o gastos eventuales fuera de la rutina';
+
+  @override
+  String reports_dre_help_dialog_title(String title) {
+    return 'Ayuda: $title';
+  }
+
+  @override
+  String get reports_dre_help_what_means => '¿Qué significa?';
+
+  @override
+  String get reports_dre_help_example => 'Ejemplo';
+
+  @override
+  String get reports_dre_help_understood => 'Entendido';
+
+  @override
+  String get reports_dre_help_gross_revenue_meaning => 'Total de entradas recibidas en el período, como diezmos, ofrendas y donaciones.';
+
+  @override
+  String get reports_dre_help_gross_revenue_example => 'Si entraron USDT 1.000 en el mes, aquí se muestra USDT 1.000.';
+
+  @override
+  String get reports_dre_help_net_revenue_meaning => 'Ingresos brutos después de devoluciones y ajustes. En muchos casos coincide con ingresos brutos.';
+
+  @override
+  String get reports_dre_help_net_revenue_example => 'Sin devoluciones, ingresos netos = ingresos brutos.';
+
+  @override
+  String get reports_dre_help_direct_costs_meaning => 'Gastos directamente ligados a acciones o proyectos específicos.';
+
+  @override
+  String get reports_dre_help_direct_costs_example => 'Compra de materiales para una actividad social.';
+
+  @override
+  String get reports_dre_help_gross_profit_meaning => 'Monto que queda después de restar costos directos a los ingresos netos.';
+
+  @override
+  String get reports_dre_help_gross_profit_example => 'Ingresos netos 10.000 y costos directos 2.000 resultan en 8.000.';
+
+  @override
+  String get reports_dre_help_operational_expenses_meaning => 'Gastos del funcionamiento diario de la iglesia.';
+
+  @override
+  String get reports_dre_help_operational_expenses_example => 'Agua, energía, limpieza y equipo administrativo.';
+
+  @override
+  String get reports_dre_help_ministry_transfers_meaning => 'Valores enviados a ministerios, misiones o frentes específicas.';
+
+  @override
+  String get reports_dre_help_ministry_transfers_example => 'Aporte mensual para ministerio infantil o música.';
+
+  @override
+  String get reports_dre_help_capex_meaning => 'Inversiones en bienes duraderos e infraestructura.';
+
+  @override
+  String get reports_dre_help_capex_example => 'Compra de sonido o reforma estructural.';
+
+  @override
+  String get reports_dre_help_extraordinary_meaning => 'Ingresos o gastos fuera de la rutina normal.';
+
+  @override
+  String get reports_dre_help_extraordinary_example => 'Venta de un equipo antiguo o un reembolso.';
+
+  @override
+  String get reports_dre_help_operational_result_meaning => 'Resultado de la operación normal tras costos directos, gastos operativos y transferencias.';
+
+  @override
+  String get reports_dre_help_operational_result_example => 'Indica si la operación cerró con superávit o déficit.';
+
+  @override
+  String get reports_dre_help_net_result_meaning => 'Resultado final del período considerando todos los componentes del DRE.';
+
+  @override
+  String get reports_dre_help_net_result_example => 'Si es positivo hay superávit; si es negativo hay déficit.';
+
+  @override
+  String reports_dre_currency_badge(String symbols, String count) {
+    return 'Monedas: $symbols ($count)';
+  }
+
+  @override
+  String get reports_dre_multi_currency_disclaimer => 'Valores mostrados por moneda. Los totales no se suman entre monedas.';
+
+  @override
+  String get reports_dre_empty_selected_period => 'No hay datos para el período seleccionado.';
 
   @override
   String get reports_monthly_tithes_title => 'Informe de diezmos mensuales';
