@@ -25,8 +25,8 @@ class _MemberShellState extends State<MemberShell> {
     AuthSessionStore authStore = context.watch<AuthSessionStore>();
 
     return Scaffold(
-      backgroundColor: Color.fromRGBO(245, 242, 242, 0.85),
-      // Light Purple / Lilac base
+      backgroundColor: Colors.grey.shade200,
+      // Light grey base (aligned with other member screens)
       extendBodyBehindAppBar: true,
       drawer: const MemberDrawer(),
       appBar: AppBar(

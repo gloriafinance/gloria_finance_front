@@ -61,9 +61,13 @@ class IncomeStatementScreen extends StatelessWidget {
                 else ...[
                   _buildReportHeader(context, data),
                   const SizedBox(height: 28),
-                  IncomeStatementSummaryPanel(data: data),
-                  const SizedBox(height: 40),
-                  IncomeStatementReportSections(data: data),
+                  if (!data.hasSummary)
+                    _buildEmptyState(context)
+                  else ...[
+                    IncomeStatementSummaryPanel(data: data),
+                    const SizedBox(height: 40),
+                    IncomeStatementReportSections(data: data),
+                  ],
                   const SizedBox(height: 40),
                 ],
               ],
@@ -75,7 +79,12 @@ class IncomeStatementScreen extends StatelessWidget {
   }
 
   Widget _buildReportHeader(BuildContext context, IncomeStatementModel data) {
-    final periodText = _formatPeriod(data.period);
+    final symbols = data.orderedSymbols;
+    final hasManyCurrencies = symbols.length > 1;
+    final currencyLabel = context.l10n.reports_income_currency_badge(
+      symbols.join(', '),
+      symbols.length.toString(),
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,18 +98,55 @@ class IncomeStatementScreen extends StatelessWidget {
             color: Colors.black87,
           ),
         ),
+        if (hasManyCurrencies) ...[
+          const SizedBox(height: 12),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            decoration: BoxDecoration(
+              color: const Color(0xFFE9ECEF),
+              borderRadius: BorderRadius.circular(999),
+            ),
+            child: Text(
+              currencyLabel,
+              style: const TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+                fontSize: 12,
+                color: Colors.black87,
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            context.l10n.reports_income_multi_currency_disclaimer,
+            style: TextStyle(
+              fontFamily: AppFonts.fontSubTitle,
+              fontSize: 12,
+              color: Colors.black54,
+            ),
+          ),
+        ],
         const SizedBox(height: 8),
       ],
     );
   }
 
-  String _formatPeriod(IncomeStatementPeriod period) {
-    if (period.month == 0 && period.year == 0) {
-      return '-';
-    }
-
-    final month = period.month.clamp(1, 12);
-    final monthText = month.toString().padLeft(2, '0');
-    return '$monthText/${period.year}';
+  Widget _buildEmptyState(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 32),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFDEE2E6)),
+      ),
+      child: Text(
+        context.l10n.reports_income_empty_selected_period,
+        style: const TextStyle(
+          fontFamily: AppFonts.fontSubTitle,
+          color: Colors.black45,
+        ),
+      ),
+    );
   }
 }

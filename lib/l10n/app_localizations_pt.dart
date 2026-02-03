@@ -1468,6 +1468,27 @@ class AppLocalizationsPt extends AppLocalizations {
   String get reports_income_category_unknown_title => 'Categoria';
 
   @override
+  String get reports_income_category_help_revenue_body => 'Aqui entram os valores que a igreja recebe no período, como dízimos, ofertas e doações.\n\nEm termos simples: é o dinheiro que entrou.\n\nExemplo: contribuição mensal dos membros.';
+
+  @override
+  String get reports_income_category_help_cogs_body => 'São gastos diretamente ligados a uma ação, projeto ou evento específico.\n\nEm termos simples: sem esse gasto, aquela atividade não acontece.\n\nExemplo: compra de materiais para um evento social.';
+
+  @override
+  String get reports_income_category_help_opex_body => 'São os gastos do funcionamento normal da igreja no dia a dia.\n\nEm termos simples: custos para manter tudo em operação.\n\nExemplo: água, luz, internet, limpeza e equipe administrativa.';
+
+  @override
+  String get reports_income_category_help_ministry_transfers_body => 'Valores direcionados para ministérios, departamentos ou frentes específicas.\n\nEm termos simples: dinheiro que sai para sustentar áreas internas da igreja.\n\nExemplo: repasse mensal para ministério infantil ou música.';
+
+  @override
+  String get reports_income_category_help_capex_body => 'Gastos para melhorar ou adquirir bens de uso duradouro.\n\nEm termos simples: investimento de longo prazo, não gasto do dia a dia.\n\nExemplo: reforma, compra de equipamento de som ou projetor.';
+
+  @override
+  String get reports_income_category_help_other_body => 'Movimentos fora da rotina principal, que não se encaixam nas categorias anteriores.\n\nEm termos simples: casos pontuais.\n\nExemplo: venda de um bem antigo ou recebimento de reembolso.';
+
+  @override
+  String get reports_income_category_help_unknown_body => 'Esta linha representa um lançamento sem classificação detalhada.\n\nEm termos simples: existe movimento financeiro, mas a categoria não foi identificada.';
+
+  @override
   String get reports_dre_download_pdf => 'Baixar PDF';
 
   @override
@@ -1496,6 +1517,23 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get reports_income_breakdown_header_balance => 'Saldo';
+
+  @override
+  String get reports_income_view_mode_cards => 'Cartões';
+
+  @override
+  String get reports_income_view_mode_table => 'Tabela';
+
+  @override
+  String reports_income_currency_badge(String symbols, String count) {
+    return 'Moedas: $symbols ($count)';
+  }
+
+  @override
+  String get reports_income_multi_currency_disclaimer => 'Valores exibidos por moeda. Totais não são somados entre moedas.';
+
+  @override
+  String get reports_income_empty_selected_period => 'Nenhum dado para o período selecionado.';
 
   @override
   String get reports_income_cashflow_title => 'Fluxo de caixa por conta de disponibilidade';
@@ -1591,6 +1629,30 @@ class AppLocalizationsPt extends AppLocalizations {
   String get reports_dre_footer_note => 'Nota: Este relatório considera apenas lançamentos confirmados e reconciliados que afetam o resultado contábil.';
 
   @override
+  String get reports_dre_summary_by_currency_title => 'Resumo por moeda';
+
+  @override
+  String get reports_dre_primary_currency_badge => 'Moeda principal';
+
+  @override
+  String reports_dre_summary_chip_gross_revenue(String value) {
+    return 'Receita bruta: $value';
+  }
+
+  @override
+  String reports_dre_summary_chip_net_result(String value) {
+    return 'Resultado líquido: $value';
+  }
+
+  @override
+  String reports_dre_section_title_by_symbol(String symbol) {
+    return '$symbol - Indicadores do período';
+  }
+
+  @override
+  String get reports_dre_section_subtitle => 'Resumo do resultado nesta moeda.';
+
+  @override
   String get reports_dre_main_indicators_title => 'Indicadores principais';
 
   @override
@@ -1613,6 +1675,21 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get reports_dre_detail_section_title => 'Detalhamento';
+
+  @override
+  String get reports_dre_detail_by_category => 'Detalhe por categoria';
+
+  @override
+  String get reports_dre_toggle_hide_zero => 'Ocultar linhas com valor zerado';
+
+  @override
+  String get reports_dre_group_revenue => 'Receitas';
+
+  @override
+  String get reports_dre_group_costs => 'Custos';
+
+  @override
+  String get reports_dre_group_results => 'Resultado';
 
   @override
   String get reports_dre_item_net_revenue_title => 'Receita líquida';
@@ -1645,6 +1722,103 @@ class AppLocalizationsPt extends AppLocalizations {
   String get reports_dre_item_ministry_transfers_description => 'Transferências para ministérios, missões ou para a diretoria';
 
   @override
+  String get reports_dre_item_capex_title => 'Investimentos CAPEX';
+
+  @override
+  String get reports_dre_item_capex_description => 'Aquisição ou melhoria de ativos e infraestrutura';
+
+  @override
+  String get reports_dre_item_extraordinary_title => 'Resultados extraordinários';
+
+  @override
+  String get reports_dre_item_extraordinary_description => 'Ingressos ou gastos eventuais fora da rotina';
+
+  @override
+  String reports_dre_help_dialog_title(String title) {
+    return 'Ajuda: $title';
+  }
+
+  @override
+  String get reports_dre_help_what_means => 'O que significa?';
+
+  @override
+  String get reports_dre_help_example => 'Exemplo';
+
+  @override
+  String get reports_dre_help_understood => 'Entendi';
+
+  @override
+  String get reports_dre_help_gross_revenue_meaning => 'Total de entradas recebidas no período, como dízimos, ofertas e doações.';
+
+  @override
+  String get reports_dre_help_gross_revenue_example => 'Se entraram R\\\$ 5.000 no mês, esta linha mostra R\\\$ 5.000.';
+
+  @override
+  String get reports_dre_help_net_revenue_meaning => 'Receita bruta após devoluções e ajustes. Em muitos casos será igual à receita bruta.';
+
+  @override
+  String get reports_dre_help_net_revenue_example => 'Sem devoluções, receita líquida = receita bruta.';
+
+  @override
+  String get reports_dre_help_direct_costs_meaning => 'Gastos diretamente ligados a ações ou projetos específicos.';
+
+  @override
+  String get reports_dre_help_direct_costs_example => 'Compra de materiais para um evento social.';
+
+  @override
+  String get reports_dre_help_gross_profit_meaning => 'Valor que sobra após descontar os custos diretos da receita líquida.';
+
+  @override
+  String get reports_dre_help_gross_profit_example => 'Receita líquida R\\\$ 10.000 e custos diretos R\\\$ 2.000 resultam em R\\\$ 8.000.';
+
+  @override
+  String get reports_dre_help_operational_expenses_meaning => 'Despesas do funcionamento diário da igreja.';
+
+  @override
+  String get reports_dre_help_operational_expenses_example => 'Água, energia, limpeza e equipe administrativa.';
+
+  @override
+  String get reports_dre_help_ministry_transfers_meaning => 'Valores repassados para ministérios, missões ou frentes específicas.';
+
+  @override
+  String get reports_dre_help_ministry_transfers_example => 'Repasse mensal para ministério infantil ou música.';
+
+  @override
+  String get reports_dre_help_capex_meaning => 'Investimentos em bens duráveis e infraestrutura.';
+
+  @override
+  String get reports_dre_help_capex_example => 'Compra de equipamento de som ou reforma estrutural.';
+
+  @override
+  String get reports_dre_help_extraordinary_meaning => 'Ingressos ou gastos fora da rotina normal.';
+
+  @override
+  String get reports_dre_help_extraordinary_example => 'Venda de um equipamento antigo ou recebimento de reembolso.';
+
+  @override
+  String get reports_dre_help_operational_result_meaning => 'Resultado da operação normal após custos diretos, despesas operacionais e repasses.';
+
+  @override
+  String get reports_dre_help_operational_result_example => 'Mostra se a operação do período fechou com sobra ou déficit.';
+
+  @override
+  String get reports_dre_help_net_result_meaning => 'Resultado final do período após considerar todos os componentes do DRE.';
+
+  @override
+  String get reports_dre_help_net_result_example => 'Se positivo, há superávit; se negativo, há déficit.';
+
+  @override
+  String reports_dre_currency_badge(String symbols, String count) {
+    return 'Moedas: $symbols ($count)';
+  }
+
+  @override
+  String get reports_dre_multi_currency_disclaimer => 'Valores exibidos por moeda. Totais não são somados entre moedas.';
+
+  @override
+  String get reports_dre_empty_selected_period => 'Nenhum dado para o período selecionado.';
+
+  @override
   String get reports_monthly_tithes_title => 'Relatório de dízimos mensais';
 
   @override
@@ -1661,6 +1835,26 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get reports_monthly_tithes_header_account_type => 'Tipo de conta';
+
+  @override
+  String get reports_monthly_tithes_total_title => 'Total de dízimos';
+
+  @override
+  String get reports_monthly_tithes_section_title => 'Relatório mensal de dízimos';
+
+  @override
+  String reports_monthly_tithes_currency_badge(String symbols, String count) {
+    return 'Moedas: $symbols ($count)';
+  }
+
+  @override
+  String get reports_monthly_tithes_multi_currency_disclaimer => 'Valores exibidos por moeda. Totais não são somados entre moedas.';
+
+  @override
+  String get reports_monthly_tithes_empty_selected_period => 'Nenhum dado para o período selecionado.';
+
+  @override
+  String get reports_monthly_tithes_tithes_of_tithes => 'Dízimos de dízimos';
 
   @override
   String get finance_records_filter_concept_type => 'Tipo de conceito';
@@ -1876,6 +2070,21 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get member_home_placeholder => 'Experiência do membro';
+
+  @override
+  String get member_home_generosity_title => 'Minha jornada de generosidade';
+
+  @override
+  String get member_home_generosity_year_label => 'Contribuído este ano';
+
+  @override
+  String get member_home_generosity_month_label => 'Contribuído este mês';
+
+  @override
+  String get member_home_generosity_commitments_label => 'Compromissos em andamento';
+
+  @override
+  String get member_home_generosity_commitments_hint => 'Toque para ver detalhes';
 
   @override
   String get member_home_upcoming_events_title => 'Próximos eventos';

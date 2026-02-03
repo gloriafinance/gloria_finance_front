@@ -76,26 +76,26 @@ class _DREFiltersState extends State<DREFilters> {
 
   Widget _layoutDesktop(BuildContext context, DREStore store) {
     return SizedBox(
-      width: 760,
+      width: 820,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(flex: 1, child: _dropdownMonth(context, store)),
-          SizedBox(width: 20),
+          const SizedBox(width: 20),
           Expanded(flex: 1, child: _inputYear(store)),
-          SizedBox(width: 80),
+          const SizedBox(width: 80),
           Expanded(
             flex: 1,
             child: Padding(
-              padding: EdgeInsets.only(top: 45),
+              padding: const EdgeInsets.only(top: 45),
               child: _buttonApplyFilter(store),
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             flex: 1,
             child: Padding(
-              padding: EdgeInsets.only(top: 45),
+              padding: const EdgeInsets.only(top: 45),
               child: _buttonDownloadPdf(store),
             ),
           ),
@@ -137,13 +137,13 @@ class _DREFiltersState extends State<DREFilters> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Expanded(flex: 1, child: _dropdownMonth(context, store)),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                       Expanded(flex: 1, child: _inputYear(store)),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buttonApplyFilter(store),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   _buttonDownloadPdf(store),
                 ],
               ),
@@ -177,27 +177,26 @@ class _DREFiltersState extends State<DREFilters> {
     return Stack(
       alignment: Alignment.center,
       children: [
-        Opacity(
-          opacity: isLoading ? 0.5 : 1.0,
-          child: CustomButton(
-            text: context.l10n.reports_dre_download_pdf,
-            backgroundColor: AppColors.blue,
-            textColor: Colors.white,
-            icon: Icons.picture_as_pdf,
-            onPressed:
-                isLoading
-                    ? null
-                    : () async {
-                      if (isExpandedFilter) {
-                        setState(() {
-                          isExpandedFilter = false;
-                        });
-                      }
+        CustomButton(
+          text: context.l10n.reports_dre_download_pdf,
+          backgroundColor: AppColors.blue,
+          textColor: Colors.white,
+          icon: Icons.picture_as_pdf,
+          padding: EdgeInsets.only(top: 8, bottom: 8),
+          onPressed:
+              isLoading
+                  ? null
+                  : () async {
+                    if (isExpandedFilter) {
+                      setState(() {
+                        isExpandedFilter = false;
+                      });
+                    }
 
-                      await store.downloadDREPdf(context);
-                    },
-          ),
+                    await store.downloadDREPdf(context);
+                  },
         ),
+
         if (isLoading)
           const Positioned(
             child: SizedBox(

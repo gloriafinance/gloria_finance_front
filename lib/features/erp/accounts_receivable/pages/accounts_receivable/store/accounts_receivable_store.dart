@@ -16,6 +16,11 @@ class AccountsReceivableStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setDebtor(String debtor) {
+    state = state.copyWith(debtor: debtor);
+    notifyListeners();
+  }
+
   void setStartDate(String startDate) {
     state = state.copyWith(startDate: startDate);
     notifyListeners();

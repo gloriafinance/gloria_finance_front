@@ -5,6 +5,7 @@ import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
 import 'package:flutter/material.dart';
 
 import '../dre_service.dart';
+import '../models/dre_model.dart';
 import '../state/dre_state.dart';
 
 class DREStore extends ChangeNotifier {
@@ -28,15 +29,12 @@ class DREStore extends ChangeNotifier {
 
       final data = await service.fetchDRE(state.filter);
 
-      state = state.copyWith(
-        data: data,
-        makeRequest: false,
-      );
+      state = state.copyWith(data: data, makeRequest: false);
 
       notifyListeners();
     } catch (e) {
       print("Error al obtener el DRE: $e");
-      state = state.copyWith(makeRequest: false);
+      state = state.copyWith(makeRequest: false, data: DREReportModel.empty());
       notifyListeners();
     }
   }
