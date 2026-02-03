@@ -11,6 +11,8 @@
     </array>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>to select screenshot of contribution receipts or financial records.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>to attach and manage media files for contributions or records.</string>
     <key>LSApplicationQueriesSchemes</key>
     <array>
       <string>sms</string>

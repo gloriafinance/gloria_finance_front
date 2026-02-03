@@ -462,6 +462,13 @@
   "reports_income_category_ministry_transfers_title": "Repasses e contribuições ministeriais",
   "reports_income_category_ministry_transfers_desc": "Repasses de valores para ministérios ou departamentos da diretoria.",
   "reports_income_category_unknown_title": "Categoria",
+  "reports_income_category_help_revenue_body": "Aqui entram os valores que a igreja recebe no período, como dízimos, ofertas e doações.\n\nEm termos simples: é o dinheiro que entrou.\n\nExemplo: contribuição mensal dos membros.",
+  "reports_income_category_help_cogs_body": "São gastos diretamente ligados a uma ação, projeto ou evento específico.\n\nEm termos simples: sem esse gasto, aquela atividade não acontece.\n\nExemplo: compra de materiais para um evento social.",
+  "reports_income_category_help_opex_body": "São os gastos do funcionamento normal da igreja no dia a dia.\n\nEm termos simples: custos para manter tudo em operação.\n\nExemplo: água, luz, internet, limpeza e equipe administrativa.",
+  "reports_income_category_help_ministry_transfers_body": "Valores direcionados para ministérios, departamentos ou frentes específicas.\n\nEm termos simples: dinheiro que sai para sustentar áreas internas da igreja.\n\nExemplo: repasse mensal para ministério infantil ou música.",
+  "reports_income_category_help_capex_body": "Gastos para melhorar ou adquirir bens de uso duradouro.\n\nEm termos simples: investimento de longo prazo, não gasto do dia a dia.\n\nExemplo: reforma, compra de equipamento de som ou projetor.",
+  "reports_income_category_help_other_body": "Movimentos fora da rotina principal, que não se encaixam nas categorias anteriores.\n\nEm termos simples: casos pontuais.\n\nExemplo: venda de um bem antigo ou recebimento de reembolso.",
+  "reports_income_category_help_unknown_body": "Esta linha representa um lançamento sem classificação detalhada.\n\nEm termos simples: existe movimento financeiro, mas a categoria não foi identificada.",
   "reports_dre_download_pdf": "Baixar PDF",
   "reports_dre_download_success": "PDF baixado com sucesso",
   "reports_dre_download_error": "Não foi possível baixar o PDF",
@@ -472,6 +479,21 @@
   "reports_income_breakdown_header_income": "Entradas",
   "reports_income_breakdown_header_expenses": "Saídas",
   "reports_income_breakdown_header_balance": "Saldo",
+  "reports_income_view_mode_cards": "Cartões",
+  "reports_income_view_mode_table": "Tabela",
+  "reports_income_currency_badge": "Moedas: {symbols} ({count})",
+  "@reports_income_currency_badge": {
+    "placeholders": {
+      "symbols": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_income_multi_currency_disclaimer": "Valores exibidos por moeda. Totais não são somados entre moedas.",
+  "reports_income_empty_selected_period": "Nenhum dado para o período selecionado.",
   "reports_income_cashflow_title": "Fluxo de caixa por conta de disponibilidade",
   "reports_income_cashflow_summary": "Entradas totais: {income} | Saídas totais: {expenses} | Saldo consolidado: {total}",
   "@reports_income_cashflow_summary": {
@@ -745,6 +767,11 @@
   "accountsReceivable_type_legal_example": "Ex.: cumprimento de sentença, sinistros cobertos por seguradora.",
   "common_see_all": "Ver todos",
   "member_home_placeholder": "Experiência do membro",
+  "member_home_generosity_title": "Minha jornada de generosidade",
+  "member_home_generosity_year_label": "Contribuído este ano",
+  "member_home_generosity_month_label": "Contribuído este mês",
+  "member_home_generosity_commitments_label": "Compromissos em andamento",
+  "member_home_generosity_commitments_hint": "Toque para ver detalhes",
   "member_home_upcoming_events_title": "Próximos eventos",
   "member_home_upcoming_events_empty": "Nenhum evento nos próximos dias.",
   "member_schedule_detail_information_title": "Informações",

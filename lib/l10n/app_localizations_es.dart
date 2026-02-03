@@ -1468,6 +1468,27 @@ class AppLocalizationsEs extends AppLocalizations {
   String get reports_income_category_unknown_title => 'Categoría';
 
   @override
+  String get reports_income_category_help_revenue_body => 'Aquí se registran los valores que la iglesia recibió en el período, como diezmos, ofrendas y donaciones.\n\nEn simple: es el dinero que entró.\n\nEjemplo: contribución mensual de los miembros.';
+
+  @override
+  String get reports_income_category_help_cogs_body => 'Son gastos directamente relacionados con una actividad, proyecto o evento específico.\n\nEn simple: sin este gasto, esa actividad no se puede ejecutar.\n\nEjemplo: compra de materiales para una acción social.';
+
+  @override
+  String get reports_income_category_help_opex_body => 'Son los gastos del funcionamiento diario normal de la iglesia.\n\nEn simple: costos para mantener la operación activa.\n\nEjemplo: agua, luz, internet, limpieza y equipo administrativo.';
+
+  @override
+  String get reports_income_category_help_ministry_transfers_body => 'Valores enviados a ministerios, departamentos o frentes internas.\n\nEn simple: dinero que sale para sostener áreas de trabajo de la iglesia.\n\nEjemplo: aporte mensual para ministerio infantil o música.';
+
+  @override
+  String get reports_income_category_help_capex_body => 'Gastos para comprar o mejorar bienes de uso duradero.\n\nEn simple: inversión de largo plazo, no gasto cotidiano.\n\nEjemplo: reforma, compra de sonido o proyector.';
+
+  @override
+  String get reports_income_category_help_other_body => 'Movimientos fuera de la rutina principal que no encajan en otras categorías.\n\nEn simple: casos puntuales.\n\nEjemplo: venta de un equipo antiguo o cobro de un reembolso.';
+
+  @override
+  String get reports_income_category_help_unknown_body => 'Esta línea representa un movimiento sin clasificación detallada.\n\nEn simple: hay movimiento financiero, pero no se identificó la categoría.';
+
+  @override
   String get reports_dre_download_pdf => 'Descargar PDF';
 
   @override
@@ -1496,6 +1517,23 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get reports_income_breakdown_header_balance => 'Saldo';
+
+  @override
+  String get reports_income_view_mode_cards => 'Tarjetas';
+
+  @override
+  String get reports_income_view_mode_table => 'Tabla';
+
+  @override
+  String reports_income_currency_badge(String symbols, String count) {
+    return 'Monedas: $symbols ($count)';
+  }
+
+  @override
+  String get reports_income_multi_currency_disclaimer => 'Los valores se muestran por moneda. Los totales no se suman entre monedas.';
+
+  @override
+  String get reports_income_empty_selected_period => 'No hay datos para el período seleccionado.';
 
   @override
   String get reports_income_cashflow_title => 'Flujo de caja por cuenta de disponibilidad';
@@ -1876,6 +1914,21 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get member_home_placeholder => 'Experiencia del miembro';
+
+  @override
+  String get member_home_generosity_title => 'Mi jornada de generosidad';
+
+  @override
+  String get member_home_generosity_year_label => 'Contribuido este año';
+
+  @override
+  String get member_home_generosity_month_label => 'Contribuido este mes';
+
+  @override
+  String get member_home_generosity_commitments_label => 'Compromisos en curso';
+
+  @override
+  String get member_home_generosity_commitments_hint => 'Toca para ver detalles';
 
   @override
   String get member_home_upcoming_events_title => 'Próximos eventos';

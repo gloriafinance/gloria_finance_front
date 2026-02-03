@@ -237,6 +237,9 @@ class _UploadFile extends State<UploadFile> {
       type: FileType.custom,
       allowedExtensions: widget.allowedExtensions,
       allowMultiple: widget.allowMultiple,
+      // iOS frequently returns null paths for security-scoped files.
+      // Request bytes up front so we can always build MultipartFile.
+      withData: true,
     );
 
     if (file != null) {
