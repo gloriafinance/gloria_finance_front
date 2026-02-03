@@ -532,6 +532,33 @@
   "reports_dre_header_title": "Estado de Resultados del Ejercicio",
   "reports_dre_header_subtitle": "Entiende cómo tu iglesia recibió y utilizó los recursos en el período",
   "reports_dre_footer_note": "Nota: Este informe considera solo los registros confirmados y conciliados que afectan el resultado contable.",
+  "reports_dre_summary_by_currency_title": "Resumen por moneda",
+  "reports_dre_primary_currency_badge": "Moneda principal",
+  "reports_dre_summary_chip_gross_revenue": "Ingresos brutos: {value}",
+  "@reports_dre_summary_chip_gross_revenue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_dre_summary_chip_net_result": "Resultado neto: {value}",
+  "@reports_dre_summary_chip_net_result": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_dre_section_title_by_symbol": "{symbol} - Indicadores del período",
+  "@reports_dre_section_title_by_symbol": {
+    "placeholders": {
+      "symbol": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_dre_section_subtitle": "Resumen del resultado en esta moneda.",
   "reports_dre_main_indicators_title": "Indicadores principales",
   "reports_dre_card_gross_revenue_title": "Ingresos brutos",
   "reports_dre_card_gross_revenue_description": "Total de diezmos, ofrendas y donaciones recibidas",
@@ -540,6 +567,11 @@
   "reports_dre_card_net_result_title": "Resultado neto",
   "reports_dre_card_net_result_description": "Resultado final del período (superávit o déficit)",
   "reports_dre_detail_section_title": "Detalle",
+  "reports_dre_detail_by_category": "Detalle por categoría",
+  "reports_dre_toggle_hide_zero": "Ocultar líneas con valor cero",
+  "reports_dre_group_revenue": "Ingresos",
+  "reports_dre_group_costs": "Costos",
+  "reports_dre_group_results": "Resultado",
   "reports_dre_item_net_revenue_title": "Ingresos netos",
   "reports_dre_item_net_revenue_description": "Ingresos brutos menos devoluciones y ajustes",
   "reports_dre_item_direct_costs_title": "Costos directos",
@@ -550,6 +582,54 @@
   "reports_dre_item_operational_expenses_description": "Gastos del día a día: energía, agua, salarios, limpieza",
   "reports_dre_item_ministry_transfers_title": "Transferencias ministeriales",
   "reports_dre_item_ministry_transfers_description": "Transferencias a ministerios, misiones o a la directiva",
+  "reports_dre_item_capex_title": "Inversiones CAPEX",
+  "reports_dre_item_capex_description": "Adquisición o mejora de activos e infraestructura",
+  "reports_dre_item_extraordinary_title": "Resultados extraordinarios",
+  "reports_dre_item_extraordinary_description": "Ingresos o gastos eventuales fuera de la rutina",
+  "reports_dre_help_dialog_title": "Ayuda: {title}",
+  "@reports_dre_help_dialog_title": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_dre_help_what_means": "¿Qué significa?",
+  "reports_dre_help_example": "Ejemplo",
+  "reports_dre_help_understood": "Entendido",
+  "reports_dre_help_gross_revenue_meaning": "Total de entradas recibidas en el período, como diezmos, ofrendas y donaciones.",
+  "reports_dre_help_gross_revenue_example": "Si entraron USDT 1.000 en el mes, aquí se muestra USDT 1.000.",
+  "reports_dre_help_net_revenue_meaning": "Ingresos brutos después de devoluciones y ajustes. En muchos casos coincide con ingresos brutos.",
+  "reports_dre_help_net_revenue_example": "Sin devoluciones, ingresos netos = ingresos brutos.",
+  "reports_dre_help_direct_costs_meaning": "Gastos directamente ligados a acciones o proyectos específicos.",
+  "reports_dre_help_direct_costs_example": "Compra de materiales para una actividad social.",
+  "reports_dre_help_gross_profit_meaning": "Monto que queda después de restar costos directos a los ingresos netos.",
+  "reports_dre_help_gross_profit_example": "Ingresos netos 10.000 y costos directos 2.000 resultan en 8.000.",
+  "reports_dre_help_operational_expenses_meaning": "Gastos del funcionamiento diario de la iglesia.",
+  "reports_dre_help_operational_expenses_example": "Agua, energía, limpieza y equipo administrativo.",
+  "reports_dre_help_ministry_transfers_meaning": "Valores enviados a ministerios, misiones o frentes específicas.",
+  "reports_dre_help_ministry_transfers_example": "Aporte mensual para ministerio infantil o música.",
+  "reports_dre_help_capex_meaning": "Inversiones en bienes duraderos e infraestructura.",
+  "reports_dre_help_capex_example": "Compra de sonido o reforma estructural.",
+  "reports_dre_help_extraordinary_meaning": "Ingresos o gastos fuera de la rutina normal.",
+  "reports_dre_help_extraordinary_example": "Venta de un equipo antiguo o un reembolso.",
+  "reports_dre_help_operational_result_meaning": "Resultado de la operación normal tras costos directos, gastos operativos y transferencias.",
+  "reports_dre_help_operational_result_example": "Indica si la operación cerró con superávit o déficit.",
+  "reports_dre_help_net_result_meaning": "Resultado final del período considerando todos los componentes del DRE.",
+  "reports_dre_help_net_result_example": "Si es positivo hay superávit; si es negativo hay déficit.",
+  "reports_dre_currency_badge": "Monedas: {symbols} ({count})",
+  "@reports_dre_currency_badge": {
+    "placeholders": {
+      "symbols": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_dre_multi_currency_disclaimer": "Valores mostrados por moneda. Los totales no se suman entre monedas.",
+  "reports_dre_empty_selected_period": "No hay datos para el período seleccionado.",
   "trends_header_title": "Composición de ingresos, gastos y resultado",
   "trends_header_comparison": "Comparativo: {currentMonthYear} vs {previousMonthYear}",
   "@trends_header_comparison": {

@@ -1629,6 +1629,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reports_dre_footer_note => 'Note: This report considers only confirmed and reconciled entries that affect the accounting result.';
 
   @override
+  String get reports_dre_summary_by_currency_title => 'Summary by currency';
+
+  @override
+  String get reports_dre_primary_currency_badge => 'Primary currency';
+
+  @override
+  String reports_dre_summary_chip_gross_revenue(String value) {
+    return 'Gross revenue: $value';
+  }
+
+  @override
+  String reports_dre_summary_chip_net_result(String value) {
+    return 'Net result: $value';
+  }
+
+  @override
+  String reports_dre_section_title_by_symbol(String symbol) {
+    return '$symbol - Period indicators';
+  }
+
+  @override
+  String get reports_dre_section_subtitle => 'Summary of the result in this currency.';
+
+  @override
   String get reports_dre_main_indicators_title => 'Key indicators';
 
   @override
@@ -1651,6 +1675,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reports_dre_detail_section_title => 'Detail';
+
+  @override
+  String get reports_dre_detail_by_category => 'Detail by category';
+
+  @override
+  String get reports_dre_toggle_hide_zero => 'Hide zero-value rows';
+
+  @override
+  String get reports_dre_group_revenue => 'Revenue';
+
+  @override
+  String get reports_dre_group_costs => 'Costs';
+
+  @override
+  String get reports_dre_group_results => 'Result';
 
   @override
   String get reports_dre_item_net_revenue_title => 'Net revenue';
@@ -1681,6 +1720,103 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reports_dre_item_ministry_transfers_description => 'Transfers to ministries, missions or to the board';
+
+  @override
+  String get reports_dre_item_capex_title => 'CAPEX investments';
+
+  @override
+  String get reports_dre_item_capex_description => 'Acquisition or improvement of assets and infrastructure';
+
+  @override
+  String get reports_dre_item_extraordinary_title => 'Extraordinary results';
+
+  @override
+  String get reports_dre_item_extraordinary_description => 'Occasional income or expenses outside the routine';
+
+  @override
+  String reports_dre_help_dialog_title(String title) {
+    return 'Help: $title';
+  }
+
+  @override
+  String get reports_dre_help_what_means => 'What does it mean?';
+
+  @override
+  String get reports_dre_help_example => 'Example';
+
+  @override
+  String get reports_dre_help_understood => 'Understood';
+
+  @override
+  String get reports_dre_help_gross_revenue_meaning => 'Total incoming resources in the period, such as tithes, offerings, and donations.';
+
+  @override
+  String get reports_dre_help_gross_revenue_example => 'If the church received 5,000 this month, this line shows 5,000.';
+
+  @override
+  String get reports_dre_help_net_revenue_meaning => 'Gross revenue after returns and adjustments. In many cases it matches gross revenue.';
+
+  @override
+  String get reports_dre_help_net_revenue_example => 'Without returns, net revenue = gross revenue.';
+
+  @override
+  String get reports_dre_help_direct_costs_meaning => 'Costs directly tied to specific activities or projects.';
+
+  @override
+  String get reports_dre_help_direct_costs_example => 'Buying materials for a social outreach event.';
+
+  @override
+  String get reports_dre_help_gross_profit_meaning => 'Amount left after subtracting direct costs from net revenue.';
+
+  @override
+  String get reports_dre_help_gross_profit_example => 'Net revenue 10,000 and direct costs 2,000 result in 8,000.';
+
+  @override
+  String get reports_dre_help_operational_expenses_meaning => 'Day-to-day costs needed to keep church operations running.';
+
+  @override
+  String get reports_dre_help_operational_expenses_example => 'Utilities, cleaning, and administrative team costs.';
+
+  @override
+  String get reports_dre_help_ministry_transfers_meaning => 'Amounts transferred to ministries, missions, or specific fronts.';
+
+  @override
+  String get reports_dre_help_ministry_transfers_example => 'Monthly allocation to children or music ministry.';
+
+  @override
+  String get reports_dre_help_capex_meaning => 'Investments in long-term assets and infrastructure.';
+
+  @override
+  String get reports_dre_help_capex_example => 'Buying audio equipment or structural renovation.';
+
+  @override
+  String get reports_dre_help_extraordinary_meaning => 'Income or expenses outside normal routine.';
+
+  @override
+  String get reports_dre_help_extraordinary_example => 'Sale of old equipment or a reimbursement.';
+
+  @override
+  String get reports_dre_help_operational_result_meaning => 'Result from normal operations after direct costs, operating expenses, and transfers.';
+
+  @override
+  String get reports_dre_help_operational_result_example => 'Shows whether operations closed with surplus or deficit.';
+
+  @override
+  String get reports_dre_help_net_result_meaning => 'Final result for the period after all DRE components.';
+
+  @override
+  String get reports_dre_help_net_result_example => 'Positive means surplus; negative means deficit.';
+
+  @override
+  String reports_dre_currency_badge(String symbols, String count) {
+    return 'Currencies: $symbols ($count)';
+  }
+
+  @override
+  String get reports_dre_multi_currency_disclaimer => 'Values are shown per currency. Totals are not summed across currencies.';
+
+  @override
+  String get reports_dre_empty_selected_period => 'No data for the selected period.';
 
   @override
   String get reports_monthly_tithes_title => 'Monthly tithes report';

@@ -1,5 +1,3 @@
-// lib/finance/reports/pages/dre/models/dre_model.dart
-
 double _toDouble(dynamic value) {
   if (value == null) {
     return 0;
@@ -10,21 +8,13 @@ double _toDouble(dynamic value) {
   return double.tryParse(value.toString()) ?? 0;
 }
 
-int? _toInt(dynamic value) {
-  if (value == null) {
-    return null;
-  }
-  if (value is int) {
-    return value;
-  }
-  if (value is num) {
-    return value.toInt();
-  }
-  return int.tryParse(value.toString());
+String _toSymbol(dynamic value) {
+  final symbol = value?.toString().trim() ?? '';
+  return symbol;
 }
 
-/// Modelo de respuesta DRE según la especificación OpenAPI
-class DREModel {
+class DREBySymbolModel {
+  final String symbol;
   final double grossRevenue;
   final double netRevenue;
   final double directCosts;
@@ -35,10 +25,9 @@ class DREModel {
   final double operationalResult;
   final double extraordinaryResults;
   final double netResult;
-  final int? year;
-  final int? month;
 
-  DREModel({
+  DREBySymbolModel({
+    required this.symbol,
     required this.grossRevenue,
     required this.netRevenue,
     required this.directCosts,
@@ -49,16 +38,11 @@ class DREModel {
     required this.operationalResult,
     required this.extraordinaryResults,
     required this.netResult,
-    required this.year,
-    required this.month,
   });
 
-  factory DREModel.fromJson(Map<String, dynamic>? json) {
-    if (json == null) {
-      return DREModel.empty();
-    }
-
-    return DREModel(
+  factory DREBySymbolModel.fromJson(Map<String, dynamic> json) {
+    return DREBySymbolModel(
+      symbol: _toSymbol(json['symbol']),
       grossRevenue: _toDouble(json['grossRevenue']),
       netRevenue: _toDouble(json['netRevenue']),
       directCosts: _toDouble(json['directCosts']),
@@ -69,13 +53,12 @@ class DREModel {
       operationalResult: _toDouble(json['operationalResult']),
       extraordinaryResults: _toDouble(json['extraordinaryResults']),
       netResult: _toDouble(json['netResult']),
-      year: _toInt(json['year']),
-      month: _toInt(json['month']),
     );
   }
 
-  factory DREModel.empty() {
-    return DREModel(
+  factory DREBySymbolModel.empty() {
+    return DREBySymbolModel(
+      symbol: '',
       grossRevenue: 0,
       netRevenue: 0,
       directCosts: 0,
@@ -86,25 +69,56 @@ class DREModel {
       operationalResult: 0,
       extraordinaryResults: 0,
       netResult: 0,
-      year: null,
-      month: null,
+    );
+  }
+}
+
+class DREReportModel {
+  final List<DREBySymbolModel> items;
+
+  DREReportModel({required this.items});
+
+  factory DREReportModel.fromJson(List<dynamic>? json) {
+    if (json == null) {
+      return DREReportModel.empty();
+    }
+
+    return DREReportModel(
+      items:
+          json
+              .whereType<Map>()
+              .map(
+                (item) =>
+                    DREBySymbolModel.fromJson(Map<String, dynamic>.from(item)),
+              )
+              .toList(),
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'grossRevenue': grossRevenue,
-      'netRevenue': netRevenue,
-      'directCosts': directCosts,
-      'grossProfit': grossProfit,
-      'operationalExpenses': operationalExpenses,
-      'ministryTransfers': ministryTransfers,
-      'capexInvestments': capexInvestments,
-      'operationalResult': operationalResult,
-      'extraordinaryResults': extraordinaryResults,
-      'netResult': netResult,
-      'year': year,
-      'month': month,
-    };
+  factory DREReportModel.empty() {
+    return DREReportModel(items: []);
+  }
+
+  bool get hasData => items.isNotEmpty;
+
+  List<String> get orderedSymbols {
+    final sorted = [...items]..sort((a, b) {
+      final revenueCompare = b.grossRevenue.compareTo(a.grossRevenue);
+      if (revenueCompare != 0) {
+        return revenueCompare;
+      }
+      return a.symbol.compareTo(b.symbol);
+    });
+    return sorted.map((item) => item.symbol).toList();
+  }
+
+  int get currencyCount => orderedSymbols.length;
+
+  Map<String, DREBySymbolModel> get itemBySymbol {
+    final mapped = <String, DREBySymbolModel>{};
+    for (final item in items) {
+      mapped[item.symbol] = item;
+    }
+    return mapped;
   }
 }
