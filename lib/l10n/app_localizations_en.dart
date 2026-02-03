@@ -1701,6 +1701,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reports_monthly_tithes_header_account_type => 'Account type';
 
   @override
+  String get reports_monthly_tithes_total_title => 'Tithes total';
+
+  @override
+  String get reports_monthly_tithes_section_title => 'Monthly tithes report';
+
+  @override
+  String reports_monthly_tithes_currency_badge(String symbols, String count) {
+    return 'Currencies: $symbols ($count)';
+  }
+
+  @override
+  String get reports_monthly_tithes_multi_currency_disclaimer => 'Values are shown per currency. Totals are not summed across currencies.';
+
+  @override
+  String get reports_monthly_tithes_empty_selected_period => 'No data for the selected period.';
+
+  @override
+  String get reports_monthly_tithes_tithes_of_tithes => 'Tithes of tithes';
+
+  @override
   String get finance_records_filter_concept_type => 'Concept type';
 
   @override

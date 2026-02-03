@@ -555,6 +555,22 @@
   "reports_monthly_tithes_header_amount": "Valor",
   "reports_monthly_tithes_header_account": "Conta de disponibilidade",
   "reports_monthly_tithes_header_account_type": "Tipo de conta",
+  "reports_monthly_tithes_total_title": "Total de dízimos",
+  "reports_monthly_tithes_section_title": "Relatório mensal de dízimos",
+  "reports_monthly_tithes_currency_badge": "Moedas: {symbols} ({count})",
+  "@reports_monthly_tithes_currency_badge": {
+    "placeholders": {
+      "symbols": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_monthly_tithes_multi_currency_disclaimer": "Valores exibidos por moeda. Totais não são somados entre moedas.",
+  "reports_monthly_tithes_empty_selected_period": "Nenhum dado para o período selecionado.",
+  "reports_monthly_tithes_tithes_of_tithes": "Dízimos de dízimos",
   "finance_records_filter_concept_type": "Tipo de conceito",
   "finance_records_filter_concept": "Conceito",
   "finance_records_filter_availability_account": "Conta de disponibilidade",

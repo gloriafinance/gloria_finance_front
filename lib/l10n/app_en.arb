@@ -690,6 +690,22 @@
   "reports_monthly_tithes_header_amount": "Amount",
   "reports_monthly_tithes_header_account": "Availability account",
   "reports_monthly_tithes_header_account_type": "Account type",
+  "reports_monthly_tithes_total_title": "Tithes total",
+  "reports_monthly_tithes_section_title": "Monthly tithes report",
+  "reports_monthly_tithes_currency_badge": "Currencies: {symbols} ({count})",
+  "@reports_monthly_tithes_currency_badge": {
+    "placeholders": {
+      "symbols": {
+        "type": "String"
+      },
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_monthly_tithes_multi_currency_disclaimer": "Values are shown per currency. Totals are not summed across currencies.",
+  "reports_monthly_tithes_empty_selected_period": "No data for the selected period.",
+  "reports_monthly_tithes_tithes_of_tithes": "Tithes of tithes",
   "finance_records_filter_concept_type": "Concept type",
   "finance_records_filter_concept": "Concept",
   "finance_records_filter_availability_account": "Availability account",
