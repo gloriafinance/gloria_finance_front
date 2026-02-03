@@ -241,23 +241,41 @@ class _CostCenterFormState extends State<CostCenterForm> {
   }
 
   Widget _buildCostCenterIdHelpIcon() {
-    return Tooltip(
-      message: context.l10n.settings_cost_center_help_code(
-        _costCenterIdMaxLength,
-      ),
-      child: const Padding(
-        padding: EdgeInsets.all(2.0),
-        child: Icon(Icons.help_outline, size: 18, color: AppColors.purple),
-      ),
+    // return Tooltip(
+    //   message: context.l10n.settings_cost_center_help_code(
+    //     _costCenterIdMaxLength,
+    //   ),
+    //   child: const Padding(
+    //     padding: EdgeInsets.all(2.0),
+    //     child: Icon(Icons.help_outline, size: 18, color: AppColors.purple),
+    //   ),
+    // );
+    return quickHelp(
+      context.l10n.settings_cost_center_help_code(_costCenterIdMaxLength),
     );
   }
 
   Widget _buildDescriptionHelpIcon() {
+    // return Tooltip(
+    //   message: context.l10n.settings_cost_center_help_description,
+    //   child: const Padding(
+    //     padding: EdgeInsets.all(2.0),
+    //     child: Icon(Icons.help_outline, size: 18, color: AppColors.purple),
+    //   ),
+    // );
+    return quickHelp(context.l10n.settings_cost_center_help_description);
+  }
+
+  Widget quickHelp(String messae) {
     return Tooltip(
-      message: context.l10n.settings_cost_center_help_description,
-      child: const Padding(
-        padding: EdgeInsets.all(2.0),
-        child: Icon(Icons.help_outline, size: 18, color: AppColors.purple),
+      message: messae,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+        decoration: BoxDecoration(
+          color: const Color.fromRGBO(243, 205, 51, 0.51),
+          borderRadius: BorderRadius.circular(999),
+        ),
+        child: const Icon(Icons.help_outline, size: 14, color: Colors.black87),
       ),
     );
   }

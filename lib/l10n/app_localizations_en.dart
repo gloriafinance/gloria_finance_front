@@ -1468,6 +1468,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reports_income_category_unknown_title => 'Category';
 
   @override
+  String get reports_income_category_help_revenue_body => 'This shows money the church received during the period, such as tithes, offerings, and donations.\n\nIn simple terms: money coming in.\n\nExample: monthly member contributions.';
+
+  @override
+  String get reports_income_category_help_cogs_body => 'These are costs directly tied to a specific activity, project, or event.\n\nIn simple terms: without this expense, that activity cannot happen.\n\nExample: buying materials for a social outreach event.';
+
+  @override
+  String get reports_income_category_help_opex_body => 'These are day-to-day costs required to run the church.\n\nIn simple terms: regular operating costs.\n\nExample: utilities, internet, cleaning, and administrative team costs.';
+
+  @override
+  String get reports_income_category_help_ministry_transfers_body => 'These are amounts allocated to ministries, departments, or internal work areas.\n\nIn simple terms: money going out to support internal ministry work.\n\nExample: monthly allocation to children ministry or music ministry.';
+
+  @override
+  String get reports_income_category_help_capex_body => 'These are expenses to buy or improve long-term assets.\n\nIn simple terms: long-term investment, not routine day-to-day spending.\n\nExample: renovation, projector purchase, or sound system upgrade.';
+
+  @override
+  String get reports_income_category_help_other_body => 'This includes occasional movements outside the main routine that do not fit other categories.\n\nIn simple terms: one-off cases.\n\nExample: sale of old equipment or an insurance reimbursement.';
+
+  @override
+  String get reports_income_category_help_unknown_body => 'This line represents a transaction without detailed category classification.\n\nIn simple terms: there is financial movement, but the exact category was not identified.';
+
+  @override
   String get reports_dre_download_pdf => 'Download PDF';
 
   @override
@@ -1496,6 +1517,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reports_income_breakdown_header_balance => 'Balance';
+
+  @override
+  String get reports_income_view_mode_cards => 'Cards';
+
+  @override
+  String get reports_income_view_mode_table => 'Table';
+
+  @override
+  String reports_income_currency_badge(String symbols, String count) {
+    return 'Currencies: $symbols ($count)';
+  }
+
+  @override
+  String get reports_income_multi_currency_disclaimer => 'Values are shown by currency. Totals are not summed across currencies.';
+
+  @override
+  String get reports_income_empty_selected_period => 'No data for the selected period.';
 
   @override
   String get reports_income_cashflow_title => 'Cash flow by availability account';
@@ -1876,6 +1914,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get member_home_placeholder => 'Member experience';
+
+  @override
+  String get member_home_generosity_title => 'My generosity journey';
+
+  @override
+  String get member_home_generosity_year_label => 'Contributed this year';
+
+  @override
+  String get member_home_generosity_month_label => 'Contributed this month';
+
+  @override
+  String get member_home_generosity_commitments_label => 'Commitments in progress';
+
+  @override
+  String get member_home_generosity_commitments_hint => 'Tap to view details';
 
   @override
   String get member_home_upcoming_events_title => 'Upcoming events';

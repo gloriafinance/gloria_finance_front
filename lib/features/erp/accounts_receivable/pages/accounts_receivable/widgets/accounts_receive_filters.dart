@@ -33,6 +33,8 @@ class _AccountsReceiveFilters extends State<AccountsReceiveFilters> {
         children: [
           Row(
             children: [
+              Expanded(flex: 1, child: _debtor(store)),
+              SizedBox(width: 10),
               Expanded(flex: 1, child: _status(store)),
               SizedBox(width: 10),
               Expanded(flex: 2, child: _dateStart(store)),
@@ -106,6 +108,17 @@ class _AccountsReceiveFilters extends State<AccountsReceiveFilters> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _debtor(AccountsReceivableStore store) {
+    return Input(
+      label: context.l10n.accountsReceivable_form_field_debtor_name,
+      keyboardType: TextInputType.number,
+      initialValue: store.state.filter.debtor,
+      onChanged: (value) {
+        store.setDebtor(value);
+      },
     );
   }
 

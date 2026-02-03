@@ -2959,6 +2959,48 @@ abstract class AppLocalizations {
   /// **'Category'**
   String get reports_income_category_unknown_title;
 
+  /// No description provided for @reports_income_category_help_revenue_body.
+  ///
+  /// In en, this message translates to:
+  /// **'This shows money the church received during the period, such as tithes, offerings, and donations.\n\nIn simple terms: money coming in.\n\nExample: monthly member contributions.'**
+  String get reports_income_category_help_revenue_body;
+
+  /// No description provided for @reports_income_category_help_cogs_body.
+  ///
+  /// In en, this message translates to:
+  /// **'These are costs directly tied to a specific activity, project, or event.\n\nIn simple terms: without this expense, that activity cannot happen.\n\nExample: buying materials for a social outreach event.'**
+  String get reports_income_category_help_cogs_body;
+
+  /// No description provided for @reports_income_category_help_opex_body.
+  ///
+  /// In en, this message translates to:
+  /// **'These are day-to-day costs required to run the church.\n\nIn simple terms: regular operating costs.\n\nExample: utilities, internet, cleaning, and administrative team costs.'**
+  String get reports_income_category_help_opex_body;
+
+  /// No description provided for @reports_income_category_help_ministry_transfers_body.
+  ///
+  /// In en, this message translates to:
+  /// **'These are amounts allocated to ministries, departments, or internal work areas.\n\nIn simple terms: money going out to support internal ministry work.\n\nExample: monthly allocation to children ministry or music ministry.'**
+  String get reports_income_category_help_ministry_transfers_body;
+
+  /// No description provided for @reports_income_category_help_capex_body.
+  ///
+  /// In en, this message translates to:
+  /// **'These are expenses to buy or improve long-term assets.\n\nIn simple terms: long-term investment, not routine day-to-day spending.\n\nExample: renovation, projector purchase, or sound system upgrade.'**
+  String get reports_income_category_help_capex_body;
+
+  /// No description provided for @reports_income_category_help_other_body.
+  ///
+  /// In en, this message translates to:
+  /// **'This includes occasional movements outside the main routine that do not fit other categories.\n\nIn simple terms: one-off cases.\n\nExample: sale of old equipment or an insurance reimbursement.'**
+  String get reports_income_category_help_other_body;
+
+  /// No description provided for @reports_income_category_help_unknown_body.
+  ///
+  /// In en, this message translates to:
+  /// **'This line represents a transaction without detailed category classification.\n\nIn simple terms: there is financial movement, but the exact category was not identified.'**
+  String get reports_income_category_help_unknown_body;
+
   /// No description provided for @reports_dre_download_pdf.
   ///
   /// In en, this message translates to:
@@ -3018,6 +3060,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Balance'**
   String get reports_income_breakdown_header_balance;
+
+  /// No description provided for @reports_income_view_mode_cards.
+  ///
+  /// In en, this message translates to:
+  /// **'Cards'**
+  String get reports_income_view_mode_cards;
+
+  /// No description provided for @reports_income_view_mode_table.
+  ///
+  /// In en, this message translates to:
+  /// **'Table'**
+  String get reports_income_view_mode_table;
+
+  /// No description provided for @reports_income_currency_badge.
+  ///
+  /// In en, this message translates to:
+  /// **'Currencies: {symbols} ({count})'**
+  String reports_income_currency_badge(String symbols, String count);
+
+  /// No description provided for @reports_income_multi_currency_disclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Values are shown by currency. Totals are not summed across currencies.'**
+  String get reports_income_multi_currency_disclaimer;
+
+  /// No description provided for @reports_income_empty_selected_period.
+  ///
+  /// In en, this message translates to:
+  /// **'No data for the selected period.'**
+  String get reports_income_empty_selected_period;
 
   /// No description provided for @reports_income_cashflow_title.
   ///
@@ -3762,6 +3834,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Member experience'**
   String get member_home_placeholder;
+
+  /// No description provided for @member_home_generosity_title.
+  ///
+  /// In en, this message translates to:
+  /// **'My generosity journey'**
+  String get member_home_generosity_title;
+
+  /// No description provided for @member_home_generosity_year_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Contributed this year'**
+  String get member_home_generosity_year_label;
+
+  /// No description provided for @member_home_generosity_month_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Contributed this month'**
+  String get member_home_generosity_month_label;
+
+  /// No description provided for @member_home_generosity_commitments_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Commitments in progress'**
+  String get member_home_generosity_commitments_label;
+
+  /// No description provided for @member_home_generosity_commitments_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to view details'**
+  String get member_home_generosity_commitments_hint;
 
   /// No description provided for @member_home_upcoming_events_title.
   ///

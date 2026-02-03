@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:intl/intl.dart';
 
-enum CurrencyType { REAL, BOLIVAR, DOLLAR, SONIC, BITCOIN, USDT }
+enum CurrencyType { REAL, BOLIVAR, DOLLAR, SONIC, BITCOIN, USDT, ORO }
 
 extension CurrencyTypeExtension on CurrencyType {
   String get apiValue {
@@ -20,6 +20,8 @@ extension CurrencyTypeExtension on CurrencyType {
         return 'USDT';
       case CurrencyType.BOLIVAR:
         return 'Bs';
+      case CurrencyType.ORO:
+        return 'g';
     }
   }
 
@@ -37,6 +39,8 @@ extension CurrencyTypeExtension on CurrencyType {
         return 'Tether';
       case CurrencyType.BOLIVAR:
         return 'Bolívar';
+      case CurrencyType.ORO:
+        return 'Gramos';
     }
   }
 }
@@ -69,6 +73,10 @@ class CurrencyFormatter {
 
     if (_isFiatCurrency(finalSymbol)) {
       return '$finalSymbol ${amount.toStringAsFixed(2).replaceAll('.', ',').replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}';
+    }
+
+    if (symbol == CurrencyType.ORO.apiValue) {
+      return '${amount.toStringAsFixed(3).replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}')} $finalSymbol';
     }
 
     return '${amount.toStringAsFixed(8).replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}')} $finalSymbol';
