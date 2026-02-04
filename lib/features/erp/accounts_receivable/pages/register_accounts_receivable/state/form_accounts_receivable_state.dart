@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 import '../../../../models/installment_model.dart';
 import '../../../models/index.dart';
 
@@ -20,6 +22,9 @@ class FormAccountsReceivableState {
   String automaticFirstDueDate;
   List<InstallmentModel> installments;
   String symbolFormatMoney = '';
+  bool isMovementBank = false;
+  String availabilityAccountId;
+  MultipartFile? file;
 
   FormAccountsReceivableState({
     required this.makeRequest,
@@ -40,6 +45,9 @@ class FormAccountsReceivableState {
     required this.automaticInstallmentAmount,
     required this.automaticFirstDueDate,
     required this.symbolFormatMoney,
+    required this.isMovementBank,
+    required this.availabilityAccountId,
+    this.file,
   });
 
   factory FormAccountsReceivableState.init() {
@@ -62,6 +70,8 @@ class FormAccountsReceivableState {
       automaticInstallmentAmount: 0,
       automaticFirstDueDate: '',
       symbolFormatMoney: '',
+      isMovementBank: false,
+      availabilityAccountId: '',
     );
   }
 
@@ -84,6 +94,9 @@ class FormAccountsReceivableState {
     double? automaticInstallmentAmount,
     String? automaticFirstDueDate,
     String? symbolFormatMoney,
+    bool? isMovementBank,
+    String? availabilityAccountId,
+    MultipartFile? file,
   }) {
     return FormAccountsReceivableState(
       makeRequest: makeRequest ?? this.makeRequest,
@@ -107,6 +120,10 @@ class FormAccountsReceivableState {
       automaticFirstDueDate:
           automaticFirstDueDate ?? this.automaticFirstDueDate,
       symbolFormatMoney: symbolFormatMoney ?? this.symbolFormatMoney,
+      isMovementBank: isMovementBank ?? this.isMovementBank,
+      availabilityAccountId:
+          availabilityAccountId ?? this.availabilityAccountId,
+      file: file ?? this.file,
     );
   }
 
@@ -125,6 +142,8 @@ class FormAccountsReceivableState {
       'financialConceptId': financialConceptId,
       'installments': effectiveInstallments.map((e) => e.toJson()).toList(),
       'type': type.apiValue,
+      "availabilityAccountId": availabilityAccountId,
+      "file": file,
     };
   }
 

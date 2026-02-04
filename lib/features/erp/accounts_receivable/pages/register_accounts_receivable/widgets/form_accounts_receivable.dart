@@ -6,12 +6,15 @@ import 'package:church_finance_bk/core/utils/index.dart';
 import 'package:church_finance_bk/core/widgets/index.dart';
 import 'package:church_finance_bk/features/erp/settings/financial_concept/models/financial_concept_model.dart';
 import 'package:church_finance_bk/features/erp/settings/financial_concept/store/financial_concept_store.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../auth/pages/login/store/auth_session_store.dart';
+import '../../../../settings/availability_accounts/models/availability_account_model.dart';
+import '../../../../settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
 import '../../../helpers/accounts_receivable_helper.dart';
 import '../../../models/index.dart';
 import '../store/form_accounts_receivable_store.dart';
@@ -87,6 +90,10 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 20),
+
+            _accountTypeSelector(context, formStore),
+
             SizedBox(height: 40),
 
             // Tipo de deudor selector
@@ -103,15 +110,19 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
 
             SizedBox(height: 20),
 
-            _accountTypeSelector(context, formStore),
-
-            SizedBox(height: 20),
-
             _financialConceptSelector(formStore, conceptStore),
 
             SizedBox(height: 20),
 
             _description(formStore, validator),
+
+            SizedBox(height: 20),
+
+            _dropdownAvailabilityAccounts(formStore, conceptStore),
+
+            SizedBox(height: 20),
+
+            _uploadFile(formStore),
 
             SizedBox(height: 20),
 
@@ -134,18 +145,76 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
     );
   }
 
+  Widget _dropdownAvailabilityAccounts(
+    FormAccountsReceivableStore formStore,
+    FinancialConceptStore conceptStore,
+  ) {
+    if (formStore.state.type != AccountsReceivableType.LOAN) {
+      return SizedBox.shrink();
+    }
+
+    final availabilityAccountsListStore =
+        context.read<AvailabilityAccountsListStore>();
+
+    return Dropdown(
+      label: context.l10n.finance_records_filter_availability_account,
+      items:
+          availabilityAccountsListStore.state.availabilityAccounts
+              .where((a) => a.accountType != AccountType.INVESTMENT.apiValue)
+              .map((a) => a.accountName)
+              .toList(),
+      onChanged: (value) {
+        final selectedAccount = availabilityAccountsListStore
+            .state
+            .availabilityAccounts
+            .firstWhere((e) => e.accountName == value);
+
+        selectedAccount.accountType == AccountType.BANK.apiValue
+            ? formStore.setIsMovementBank(true)
+            : formStore.setIsMovementBank(false);
+
+        if (selectedAccount.symbol != formStore.state.symbolFormatMoney) {
+          formStore.setSymbolFormatMoney(selectedAccount.symbol);
+        }
+
+        formStore.setAvailabilityAccountId(
+          selectedAccount.availabilityAccountId,
+        );
+      },
+    );
+  }
+
+  Widget _uploadFile(FormAccountsReceivableStore formStore) {
+    if (formStore.state.isMovementBank) {
+      return UploadFile(
+        label: context.l10n.finance_records_form_field_receipt,
+        multipartFile: (MultipartFile m) => formStore.setFile(m),
+      );
+    } else {
+      return SizedBox.shrink();
+    }
+  }
+
   Widget _financialConceptSelector(
     FormAccountsReceivableStore formStore,
     FinancialConceptStore conceptStore,
   ) {
     final List<FinancialConceptModel> incomeConcepts =
-        conceptStore.state.financialConcepts
-            .where(
-              (concept) =>
-                  concept.type == FinancialConceptType.INCOME.apiValue &&
-                  concept.active,
-            )
-            .toList();
+        formStore.state.type != AccountsReceivableType.LOAN
+            ? conceptStore.state.financialConcepts
+                .where(
+                  (concept) =>
+                      concept.type == FinancialConceptType.INCOME.apiValue &&
+                      concept.active,
+                )
+                .toList()
+            : conceptStore.state.financialConcepts
+                .where(
+                  (concept) =>
+                      concept.type == FinancialConceptType.OUTGO.apiValue &&
+                      concept.active,
+                )
+                .toList();
 
     final initialValue =
         incomeConcepts.any(
@@ -170,6 +239,7 @@ class _FormAccountsReceivableState extends State<FormAccountsReceivable> {
         final selected = incomeConcepts.firstWhere(
           (concept) => concept.name == value,
         );
+
         formStore.setFinancialConceptId(selected.financialConceptId);
       },
       onValidator: validator.byField(formStore.state, 'financialConceptId'),

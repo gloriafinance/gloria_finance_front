@@ -42,11 +42,11 @@ class FormAccountsReceivableValidator
       key: 'description',
     ).notEmpty(message: descriptionRequired);
 
-    ruleFor((m) => m, key: 'financialConceptId').must(
-      (state) => state.type != AccountsReceivableType.LOAN,
-      financialConceptRequired,
-      'financialConcept_required',
-    );
+    // ruleFor((m) => m, key: 'financialConceptId').must(
+    //   (state) => state.type != AccountsReceivableType.LOAN,
+    //   financialConceptRequired,
+    //   'financialConcept_required',
+    // );
 
     ruleFor(
       (m) => m.debtorName,
