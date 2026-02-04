@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:church_finance_bk/core/app_http.dart';
 import 'package:church_finance_bk/core/paginate/paginate_response.dart';
 import 'package:church_finance_bk/features/auth/auth_persistence.dart';
@@ -12,10 +14,18 @@ class AccountsReceivableService extends AppHttp {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
+    FormData formData = FormData.fromMap({
+      ...accountsReceivable,
+      'debtor': jsonEncode(accountsReceivable['debtor']),
+      'installments': jsonEncode(accountsReceivable['installments']),
+      if (accountsReceivable['file'] != null)
+        'file': accountsReceivable['file']!,
+    });
+
     try {
       await http.post(
         '${await getUrlApi()}account-receivable',
-        data: accountsReceivable,
+        data: formData,
         options: Options(headers: bearerToken()),
       );
     } on DioException catch (e) {

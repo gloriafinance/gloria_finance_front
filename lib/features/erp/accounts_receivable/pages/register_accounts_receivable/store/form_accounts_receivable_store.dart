@@ -1,4 +1,5 @@
 import 'package:church_finance_bk/features/erp/settings/members/models/member_model.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -17,6 +18,21 @@ class FormAccountsReceivableStore extends ChangeNotifier {
       debtorDNI: '',
       debtorName: '',
     );
+    notifyListeners();
+  }
+
+  void setAvailabilityAccountId(String availabilityAccountId) {
+    state = state.copyWith(availabilityAccountId: availabilityAccountId);
+    notifyListeners();
+  }
+
+  void setFile(MultipartFile file) {
+    state = state.copyWith(file: file);
+    notifyListeners();
+  }
+
+  void setIsMovementBank(bool isMovementBank) {
+    state = state.copyWith(isMovementBank: isMovementBank);
     notifyListeners();
   }
 
