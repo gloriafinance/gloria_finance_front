@@ -59,11 +59,7 @@ flutter {
 }
 
 dependencies {
-    id 'com.android.application'
     // Necesario para flutter_local_notifications
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
-    id 'com.google.gms.google-services'
 }
-
-apply plugin: 'com.google.gms.google-services'
 
