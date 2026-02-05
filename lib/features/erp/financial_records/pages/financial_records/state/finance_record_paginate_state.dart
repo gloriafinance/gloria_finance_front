@@ -1,5 +1,5 @@
-import 'package:church_finance_bk/core/paginate/paginate_response.dart';
-import 'package:church_finance_bk/features/erp/financial_records/models/finance_record_filter_model.dart';
+import 'package:gloria_finance/core/paginate/paginate_response.dart';
+import 'package:gloria_finance/features/erp/financial_records/models/finance_record_filter_model.dart';
 
 import '../../../models/finance_record_list_model.dart';
 

@@ -1,6 +1,6 @@
-import 'package:church_finance_bk/features/auth/auth_persistence.dart';
-import 'package:church_finance_bk/features/member_experience/home/models/member_generosity_summary_model.dart';
-import 'package:church_finance_bk/features/member_experience/home/service/member_generosity_summary_service.dart';
+import 'package:gloria_finance/features/auth/auth_persistence.dart';
+import 'package:gloria_finance/features/member_experience/home/models/member_generosity_summary_model.dart';
+import 'package:gloria_finance/features/member_experience/home/service/member_generosity_summary_service.dart';
 import 'package:flutter/foundation.dart';
 
 class MemberGenerositySummaryStore extends ChangeNotifier {

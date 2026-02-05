@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/features/erp/reports/pages/monthly_tithes/models/monthly_tithes_filter_model.dart';
+import 'package:gloria_finance/features/erp/reports/pages/monthly_tithes/models/monthly_tithes_filter_model.dart';
 
 import '../models/monthly_tithes_list_model.dart';
 

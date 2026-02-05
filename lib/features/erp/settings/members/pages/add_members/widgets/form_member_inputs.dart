@@ -1,5 +1,5 @@
-import 'package:church_finance_bk/core/widgets/form_controls.dart';
-import 'package:church_finance_bk/core/utils/index.dart';
+import 'package:gloria_finance/core/widgets/form_controls.dart';
+import 'package:gloria_finance/core/utils/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import '../../../../../../../../l10n/app_localizations.dart';

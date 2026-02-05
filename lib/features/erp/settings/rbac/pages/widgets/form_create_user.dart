@@ -1,5 +1,5 @@
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/widgets/index.dart';
+import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/widgets/index.dart';
 import 'package:flutter/material.dart';
 
 typedef CreateUserResult =

@@ -1,9 +1,9 @@
-import 'package:church_finance_bk/core/theme/index.dart';
-import 'package:church_finance_bk/core/toast.dart';
-import 'package:church_finance_bk/core/utils/index.dart';
-import 'package:church_finance_bk/core/widgets/app_logo.dart';
-import 'package:church_finance_bk/features/auth/widgets/layout_auth.dart';
-import 'package:church_finance_bk/features/erp/payment_commitment/payment_commitment_store.dart';
+import 'package:gloria_finance/core/theme/index.dart';
+import 'package:gloria_finance/core/toast.dart';
+import 'package:gloria_finance/core/utils/index.dart';
+import 'package:gloria_finance/core/widgets/app_logo.dart';
+import 'package:gloria_finance/features/auth/widgets/layout_auth.dart';
+import 'package:gloria_finance/features/erp/payment_commitment/payment_commitment_store.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

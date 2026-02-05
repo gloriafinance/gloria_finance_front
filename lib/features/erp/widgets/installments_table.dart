@@ -1,6 +1,6 @@
-import 'package:church_finance_bk/core/paginate/custom_table.dart';
-import 'package:church_finance_bk/core/theme/index.dart';
-import 'package:church_finance_bk/core/utils/index.dart';
+import 'package:gloria_finance/core/paginate/custom_table.dart';
+import 'package:gloria_finance/core/theme/index.dart';
+import 'package:gloria_finance/core/utils/index.dart';
 import 'package:flutter/material.dart';
 
 import '../models/installment_model.dart';

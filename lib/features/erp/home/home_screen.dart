@@ -1,6 +1,6 @@
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
-import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
-import 'package:church_finance_bk/features/erp/trends/widgets/trend_widget.dart';
+import 'package:gloria_finance/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
+import 'package:gloria_finance/features/erp/trends/widgets/trend_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets/availability_account_cards.dart';

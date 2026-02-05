@@ -1,5 +1,5 @@
-import 'package:church_finance_bk/core/paginate/paginate_response.dart';
-import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_asset_model.dart';
+import 'package:gloria_finance/core/paginate/paginate_response.dart';
+import 'package:gloria_finance/features/erp/patrimony/models/patrimony_asset_model.dart';
 
 class PatrimonyAssetsListState {
   final bool loading;

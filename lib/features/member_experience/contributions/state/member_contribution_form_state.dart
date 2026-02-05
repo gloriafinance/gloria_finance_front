@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/features/member_experience/contributions/models/member_contribution_models.dart';
+import 'package:gloria_finance/features/member_experience/contributions/models/member_contribution_models.dart';
 
 class MemberContributionFormState {
   // Selection state

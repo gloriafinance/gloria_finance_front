@@ -1,6 +1,6 @@
-import 'package:church_finance_bk/features/erp/schedule/models/schedule_models.dart';
-import 'package:church_finance_bk/features/erp/schedule/service/schedule_service.dart';
-import 'package:church_finance_bk/features/erp/schedule/state/schedule_form_state.dart';
+import 'package:gloria_finance/features/erp/schedule/models/schedule_models.dart';
+import 'package:gloria_finance/features/erp/schedule/service/schedule_service.dart';
+import 'package:gloria_finance/features/erp/schedule/state/schedule_form_state.dart';
 import 'package:flutter/foundation.dart';
 
 class ScheduleFormStore extends ChangeNotifier {

@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/core/theme/transition_custom.dart';
+import 'package:gloria_finance/core/theme/transition_custom.dart';
 import 'package:go_router/go_router.dart';
 
 import 'pages/register_supplier/register_supplier_screen.dart';

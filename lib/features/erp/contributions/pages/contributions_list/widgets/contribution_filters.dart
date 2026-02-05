@@ -1,9 +1,9 @@
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
-import 'package:church_finance_bk/core/utils/index.dart';
-import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
-import 'package:church_finance_bk/core/widgets/form_controls.dart';
-import 'package:church_finance_bk/features/erp/contributions/models/contribution_model.dart';
+import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
+import 'package:gloria_finance/core/utils/index.dart';
+import 'package:gloria_finance/core/widgets/button_acton_table.dart';
+import 'package:gloria_finance/core/widgets/form_controls.dart';
+import 'package:gloria_finance/features/erp/contributions/models/contribution_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../../helpers/contribution.helper.dart';

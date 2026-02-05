@@ -1,5 +1,5 @@
-import 'package:church_finance_bk/features/erp/settings/availability_accounts/models/availability_account_model.dart';
-import 'package:church_finance_bk/features/erp/settings/banks/models/bank_model.dart';
+import 'package:gloria_finance/features/erp/settings/availability_accounts/models/availability_account_model.dart';
+import 'package:gloria_finance/features/erp/settings/banks/models/bank_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 

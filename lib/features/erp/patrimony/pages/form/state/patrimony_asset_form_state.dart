@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:church_finance_bk/core/utils/currency_formatter.dart';
-import 'package:church_finance_bk/core/utils/date_formatter.dart';
+import 'package:gloria_finance/core/utils/currency_formatter.dart';
+import 'package:gloria_finance/core/utils/date_formatter.dart';
 import 'package:dio/dio.dart';
 
 import '../../../models/patrimony_asset_enums.dart';

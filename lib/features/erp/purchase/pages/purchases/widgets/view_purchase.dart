@@ -1,8 +1,8 @@
-import 'package:church_finance_bk/core/layout/view_detail_widgets.dart';
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
-import 'package:church_finance_bk/core/utils/index.dart';
-import 'package:church_finance_bk/features/erp/purchase/pages/purchases/models/purchase_list_model.dart';
-import 'package:church_finance_bk/features/erp/widgets/content_viewer.dart';
+import 'package:gloria_finance/core/layout/view_detail_widgets.dart';
+import 'package:gloria_finance/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/utils/index.dart';
+import 'package:gloria_finance/features/erp/purchase/pages/purchases/models/purchase_list_model.dart';
+import 'package:gloria_finance/features/erp/widgets/content_viewer.dart';
 import 'package:flutter/material.dart';
 
 class ViewPurchase extends StatelessWidget {

@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/core/app_http.dart';
+import 'package:gloria_finance/core/app_http.dart';
 import 'package:dio/dio.dart';
 
 import '../../../models/policy_acceptance_model.dart';

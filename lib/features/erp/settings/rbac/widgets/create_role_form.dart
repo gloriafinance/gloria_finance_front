@@ -1,6 +1,6 @@
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/widgets/custom_button.dart';
-import 'package:church_finance_bk/core/widgets/form_controls.dart';
+import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/widgets/custom_button.dart';
+import 'package:gloria_finance/core/widgets/form_controls.dart';
 import 'package:flutter/material.dart';
 
 class CreateRoleForm extends StatefulWidget {

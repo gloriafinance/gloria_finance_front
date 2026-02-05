@@ -1,6 +1,6 @@
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
-import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
-import 'package:church_finance_bk/features/erp/trends/models/trend_model.dart';
+import 'package:gloria_finance/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
+import 'package:gloria_finance/features/erp/trends/models/trend_model.dart';
 import 'package:flutter/material.dart';
 
 class TrendHeader extends StatelessWidget {

@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
-import 'package:church_finance_bk/core/utils/index.dart';
-import 'package:church_finance_bk/features/erp/bank_statements/models/bank_statement_model.dart';
+import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/utils/index.dart';
+import 'package:gloria_finance/features/erp/bank_statements/models/bank_statement_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

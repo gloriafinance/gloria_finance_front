@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/features/auth/auth_service.dart';
+import 'package:gloria_finance/features/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
 import 'member_change_password_state.dart';

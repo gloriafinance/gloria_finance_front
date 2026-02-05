@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

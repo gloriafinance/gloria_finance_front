@@ -1,5 +1,5 @@
-import 'package:church_finance_bk/features/erp/accounts_payable/models/accounts_payable_tax.dart';
-import 'package:church_finance_bk/features/erp/accounts_payable/models/accounts_payable_types.dart';
+import 'package:gloria_finance/features/erp/accounts_payable/models/accounts_payable_tax.dart';
+import 'package:gloria_finance/features/erp/accounts_payable/models/accounts_payable_types.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

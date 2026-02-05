@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/features/erp/accounts_payable/pages/view_account_payable/state/payment_account_payable.dart';
+import 'package:gloria_finance/features/erp/accounts_payable/pages/view_account_payable/state/payment_account_payable.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 

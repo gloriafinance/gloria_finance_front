@@ -1,6 +1,6 @@
-import 'package:church_finance_bk/features/erp/bank_statements/bank_statement_service.dart';
-import 'package:church_finance_bk/features/erp/bank_statements/models/index.dart';
-import 'package:church_finance_bk/features/erp/bank_statements/state/bank_statement_list_state.dart';
+import 'package:gloria_finance/features/erp/bank_statements/bank_statement_service.dart';
+import 'package:gloria_finance/features/erp/bank_statements/models/index.dart';
+import 'package:gloria_finance/features/erp/bank_statements/state/bank_statement_list_state.dart';
 import 'package:flutter/material.dart';
 
 class BankStatementListStore extends ChangeNotifier {

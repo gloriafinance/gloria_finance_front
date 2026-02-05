@@ -1,9 +1,9 @@
-import 'package:church_finance_bk/features/erp/trends/models/trend_model.dart';
-import 'package:church_finance_bk/features/erp/trends/store/trend_store.dart';
-import 'package:church_finance_bk/features/erp/trends/widgets/trend_header.dart';
-import 'package:church_finance_bk/features/erp/trends/widgets/trend_list.dart';
-import 'package:church_finance_bk/features/erp/trends/widgets/trend_main_cards.dart';
-import 'package:church_finance_bk/features/erp/trends/widgets/trend_summary_cards.dart';
+import 'package:gloria_finance/features/erp/trends/models/trend_model.dart';
+import 'package:gloria_finance/features/erp/trends/store/trend_store.dart';
+import 'package:gloria_finance/features/erp/trends/widgets/trend_header.dart';
+import 'package:gloria_finance/features/erp/trends/widgets/trend_list.dart';
+import 'package:gloria_finance/features/erp/trends/widgets/trend_main_cards.dart';
+import 'package:gloria_finance/features/erp/trends/widgets/trend_summary_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

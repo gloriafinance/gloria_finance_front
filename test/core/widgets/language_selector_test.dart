@@ -1,5 +1,5 @@
-import 'package:church_finance_bk/app/locale_store.dart';
-import 'package:church_finance_bk/core/widgets/language_selector.dart';
+import 'package:gloria_finance/app/locale_store.dart';
+import 'package:gloria_finance/core/widgets/language_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';

@@ -1,6 +1,6 @@
-import 'package:church_finance_bk/features/erp/accounts_receivable/models/index.dart';
-import 'package:church_finance_bk/features/erp/accounts_receivable/pages/register_accounts_receivable/state/form_accounts_receivable_state.dart';
-import 'package:church_finance_bk/features/erp/models/installment_model.dart';
+import 'package:gloria_finance/features/erp/accounts_receivable/models/index.dart';
+import 'package:gloria_finance/features/erp/accounts_receivable/pages/register_accounts_receivable/state/form_accounts_receivable_state.dart';
+import 'package:gloria_finance/features/erp/models/installment_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

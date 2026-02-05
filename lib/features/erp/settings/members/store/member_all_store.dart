@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/features/erp/settings/members/models/member_model.dart';
+import 'package:gloria_finance/features/erp/settings/members/models/member_model.dart';
 import 'package:flutter/material.dart';
 
 import '../services/member_list_service.dart';

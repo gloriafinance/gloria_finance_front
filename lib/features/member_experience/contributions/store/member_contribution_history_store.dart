@@ -1,5 +1,5 @@
-import 'package:church_finance_bk/features/member_experience/contributions/contribution_service.dart';
-import 'package:church_finance_bk/features/member_experience/contributions/models/member_contribution_history_model.dart';
+import 'package:gloria_finance/features/member_experience/contributions/contribution_service.dart';
+import 'package:gloria_finance/features/member_experience/contributions/models/member_contribution_history_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

@@ -1,5 +1,5 @@
-import 'package:church_finance_bk/app/locale_store.dart';
-import 'package:church_finance_bk/core/toast.dart';
+import 'package:gloria_finance/app/locale_store.dart';
+import 'package:gloria_finance/core/toast.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../app/member_router.dart'; // To access memberRouter

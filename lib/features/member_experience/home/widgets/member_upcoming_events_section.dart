@@ -1,8 +1,8 @@
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
-import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
-import 'package:church_finance_bk/features/erp/schedule/models/schedule_models.dart';
-import 'package:church_finance_bk/features/member_experience/home/store/member_upcoming_events_store.dart';
+import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
+import 'package:gloria_finance/features/erp/schedule/models/schedule_models.dart';
+import 'package:gloria_finance/features/member_experience/home/store/member_upcoming_events_store.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';

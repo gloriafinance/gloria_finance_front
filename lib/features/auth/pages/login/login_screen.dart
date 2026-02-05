@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/core/widgets/app_logo.dart';
+import 'package:gloria_finance/core/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/layout_auth.dart';

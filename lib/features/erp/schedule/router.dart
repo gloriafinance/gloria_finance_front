@@ -1,7 +1,7 @@
-import 'package:church_finance_bk/core/theme/transition_custom.dart';
-import 'package:church_finance_bk/features/erp/schedule/models/schedule_models.dart';
-import 'package:church_finance_bk/features/erp/schedule/pages/schedule_form_screen.dart';
-import 'package:church_finance_bk/features/erp/schedule/pages/schedule_list_screen.dart';
+import 'package:gloria_finance/core/theme/transition_custom.dart';
+import 'package:gloria_finance/features/erp/schedule/models/schedule_models.dart';
+import 'package:gloria_finance/features/erp/schedule/pages/schedule_form_screen.dart';
+import 'package:gloria_finance/features/erp/schedule/pages/schedule_list_screen.dart';
 import 'package:go_router/go_router.dart';
 
 scheduleRouter() {

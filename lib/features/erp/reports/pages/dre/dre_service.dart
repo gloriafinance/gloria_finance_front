@@ -1,7 +1,7 @@
 // lib/finance/reports/pages/dre/dre_service.dart
 
-import 'package:church_finance_bk/core/app_http.dart';
-import 'package:church_finance_bk/features/auth/auth_persistence.dart';
+import 'package:gloria_finance/core/app_http.dart';
+import 'package:gloria_finance/features/auth/auth_persistence.dart';
 import 'package:dio/dio.dart';
 
 import 'download/pdf_downloader.dart';

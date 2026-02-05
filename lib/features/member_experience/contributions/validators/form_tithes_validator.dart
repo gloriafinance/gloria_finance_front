@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/l10n/app_localizations.dart';
+import 'package:gloria_finance/l10n/app_localizations.dart';
 import 'package:lucid_validation/lucid_validation.dart';
 
 import '../state/form_tithes_state.dart';

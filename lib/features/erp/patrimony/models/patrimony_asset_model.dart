@@ -1,5 +1,5 @@
-import 'package:church_finance_bk/core/utils/currency_formatter.dart';
-import 'package:church_finance_bk/core/utils/date_formatter.dart';
+import 'package:gloria_finance/core/utils/currency_formatter.dart';
+import 'package:gloria_finance/core/utils/date_formatter.dart';
 
 import 'patrimony_asset_enums.dart';
 import 'patrimony_attachment_model.dart';

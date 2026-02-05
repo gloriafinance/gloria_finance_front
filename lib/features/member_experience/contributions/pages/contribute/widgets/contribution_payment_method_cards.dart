@@ -1,7 +1,7 @@
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
-import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
-import 'package:church_finance_bk/features/member_experience/contributions/models/member_contribution_models.dart';
+import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
+import 'package:gloria_finance/features/member_experience/contributions/models/member_contribution_models.dart';
 import 'package:flutter/material.dart';
 
 class ContributionPaymentMethodCards extends StatelessWidget {
