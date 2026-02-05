@@ -1,5 +1,5 @@
-import 'package:church_finance_bk/core/utils/date_formatter.dart';
-import 'package:church_finance_bk/core/utils/index.dart';
+import 'package:gloria_finance/core/utils/date_formatter.dart';
+import 'package:gloria_finance/core/utils/index.dart';
 
 import '../../models/installment_model.dart';
 import 'debtor_model.dart';

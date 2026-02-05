@@ -1,5 +1,5 @@
-import 'package:church_finance_bk/features/erp/accounts_receivable/models/accounts_receivable_model.dart';
-import 'package:church_finance_bk/features/erp/accounts_receivable/models/accounts_receivable_payment_mode.dart';
+import 'package:gloria_finance/features/erp/accounts_receivable/models/accounts_receivable_model.dart';
+import 'package:gloria_finance/features/erp/accounts_receivable/models/accounts_receivable_payment_mode.dart';
 import 'package:lucid_validation/lucid_validation.dart';
 
 import '../state/form_accounts_receivable_state.dart';

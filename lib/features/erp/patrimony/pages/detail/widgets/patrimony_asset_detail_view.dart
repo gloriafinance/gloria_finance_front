@@ -1,15 +1,15 @@
 import 'dart:math' as math;
 import 'dart:typed_data';
 
-import 'package:church_finance_bk/core/layout/modal_page_layout.dart';
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
-import 'package:church_finance_bk/core/toast.dart';
-import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
-import 'package:church_finance_bk/core/widgets/custom_button.dart';
-import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_asset_model.dart';
-import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_history_entry.dart';
-import 'package:church_finance_bk/features/erp/settings/members/store/member_all_store.dart';
+import 'package:gloria_finance/core/layout/modal_page_layout.dart';
+import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/toast.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
+import 'package:gloria_finance/core/widgets/custom_button.dart';
+import 'package:gloria_finance/features/erp/patrimony/models/patrimony_asset_model.dart';
+import 'package:gloria_finance/features/erp/patrimony/models/patrimony_history_entry.dart';
+import 'package:gloria_finance/features/erp/settings/members/store/member_all_store.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';

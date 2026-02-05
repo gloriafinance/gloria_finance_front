@@ -1,7 +1,7 @@
-import 'package:church_finance_bk/features/erp/trends/models/trend_model.dart';
-import 'package:church_finance_bk/features/erp/trends/store/trend_store.dart';
-import 'package:church_finance_bk/features/erp/trends/widgets/trend_widget.dart';
-import 'package:church_finance_bk/l10n/app_localizations.dart';
+import 'package:gloria_finance/features/erp/trends/models/trend_model.dart';
+import 'package:gloria_finance/features/erp/trends/store/trend_store.dart';
+import 'package:gloria_finance/features/erp/trends/widgets/trend_widget.dart';
+import 'package:gloria_finance/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';

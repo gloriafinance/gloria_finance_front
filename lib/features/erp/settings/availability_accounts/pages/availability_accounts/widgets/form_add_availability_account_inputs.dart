@@ -1,7 +1,7 @@
-import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
-import 'package:church_finance_bk/core/utils/index.dart';
-import 'package:church_finance_bk/core/widgets/form_controls.dart';
-import 'package:church_finance_bk/features/erp/settings/banks/store/bank_store.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
+import 'package:gloria_finance/core/utils/index.dart';
+import 'package:gloria_finance/core/widgets/form_controls.dart';
+import 'package:gloria_finance/features/erp/settings/banks/store/bank_store.dart';
 import 'package:flutter/material.dart';
 
 import '../../../models/availability_account_model.dart';

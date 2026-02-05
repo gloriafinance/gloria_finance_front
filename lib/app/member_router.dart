@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/features/auth/pages/login/store/auth_session_store.dart';
+import 'package:gloria_finance/features/auth/pages/login/store/auth_session_store.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/layout/member/member_shell.dart';

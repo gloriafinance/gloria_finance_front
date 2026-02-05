@@ -1,7 +1,7 @@
-import 'package:church_finance_bk/features/auth/auth_persistence.dart';
-import 'package:church_finance_bk/features/erp/settings/cost_center/cost_center_service.dart';
-import 'package:church_finance_bk/features/erp/settings/cost_center/models/cost_center_model.dart';
-import 'package:church_finance_bk/features/erp/settings/members/models/member_model.dart';
+import 'package:gloria_finance/features/auth/auth_persistence.dart';
+import 'package:gloria_finance/features/erp/settings/cost_center/cost_center_service.dart';
+import 'package:gloria_finance/features/erp/settings/cost_center/models/cost_center_model.dart';
+import 'package:gloria_finance/features/erp/settings/members/models/member_model.dart';
 import 'package:flutter/material.dart';
 
 import '../state/cost_center_form_state.dart';

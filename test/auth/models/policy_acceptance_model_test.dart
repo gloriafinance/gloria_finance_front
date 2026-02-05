@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/features/auth/models/policy_acceptance_model.dart';
+import 'package:gloria_finance/features/auth/models/policy_acceptance_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

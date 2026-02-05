@@ -1,12 +1,12 @@
-import 'package:church_finance_bk/features/erp/settings/rbac/models/permission_action_model.dart';
-import 'package:church_finance_bk/features/erp/settings/rbac/models/permission_module_group.dart';
-import 'package:church_finance_bk/features/erp/settings/rbac/models/rbac_user_model.dart';
-import 'package:church_finance_bk/features/erp/settings/rbac/models/rbac_user_page.dart';
-import 'package:church_finance_bk/features/erp/settings/rbac/models/role_model.dart';
-import 'package:church_finance_bk/features/erp/settings/rbac/models/user_authorization_model.dart';
-import 'package:church_finance_bk/features/erp/settings/rbac/services/rbac_user_service.dart';
-import 'package:church_finance_bk/features/erp/settings/rbac/services/role_permission_service.dart';
-import 'package:church_finance_bk/features/erp/settings/rbac/store/user_access_store.dart';
+import 'package:gloria_finance/features/erp/settings/rbac/models/permission_action_model.dart';
+import 'package:gloria_finance/features/erp/settings/rbac/models/permission_module_group.dart';
+import 'package:gloria_finance/features/erp/settings/rbac/models/rbac_user_model.dart';
+import 'package:gloria_finance/features/erp/settings/rbac/models/rbac_user_page.dart';
+import 'package:gloria_finance/features/erp/settings/rbac/models/role_model.dart';
+import 'package:gloria_finance/features/erp/settings/rbac/models/user_authorization_model.dart';
+import 'package:gloria_finance/features/erp/settings/rbac/services/rbac_user_service.dart';
+import 'package:gloria_finance/features/erp/settings/rbac/services/role_permission_service.dart';
+import 'package:gloria_finance/features/erp/settings/rbac/store/user_access_store.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class _FakeRolePermissionService extends RolePermissionService {

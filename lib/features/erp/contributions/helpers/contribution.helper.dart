@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:flutter/material.dart';
 
 import '../models/contribution_model.dart';

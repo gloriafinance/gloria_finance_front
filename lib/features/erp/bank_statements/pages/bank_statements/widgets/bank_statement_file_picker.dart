@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';

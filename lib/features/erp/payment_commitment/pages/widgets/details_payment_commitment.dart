@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:church_finance_bk/core/paginate/custom_table.dart';
-import 'package:church_finance_bk/core/theme/index.dart';
-import 'package:church_finance_bk/core/utils/index.dart';
-import 'package:church_finance_bk/core/widgets/index.dart';
-import 'package:church_finance_bk/features/erp/accounts_receivable/models/accounts_receivable_model.dart';
-import 'package:church_finance_bk/features/erp/widgets/content_viewer.dart';
+import 'package:gloria_finance/core/paginate/custom_table.dart';
+import 'package:gloria_finance/core/theme/index.dart';
+import 'package:gloria_finance/core/utils/index.dart';
+import 'package:gloria_finance/core/widgets/index.dart';
+import 'package:gloria_finance/features/erp/accounts_receivable/models/accounts_receivable_model.dart';
+import 'package:gloria_finance/features/erp/widgets/content_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

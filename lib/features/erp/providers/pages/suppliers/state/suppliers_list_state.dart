@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/features/erp/providers/models/supplier_model.dart';
+import 'package:gloria_finance/features/erp/providers/models/supplier_model.dart';
 
 class SuppliersListState {
   final List<SupplierModel> suppliers;

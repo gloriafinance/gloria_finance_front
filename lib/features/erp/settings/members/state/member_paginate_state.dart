@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/core/paginate/paginate_response.dart';
+import 'package:gloria_finance/core/paginate/paginate_response.dart';
 
 import '../models/member_filter_model.dart';
 import '../models/member_model.dart';

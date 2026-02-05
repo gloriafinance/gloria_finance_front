@@ -1,5 +1,5 @@
-import 'package:church_finance_bk/features/erp/bank_statements/bank_statement_service.dart';
-import 'package:church_finance_bk/features/erp/bank_statements/state/bank_statement_import_state.dart';
+import 'package:gloria_finance/features/erp/bank_statements/bank_statement_service.dart';
+import 'package:gloria_finance/features/erp/bank_statements/state/bank_statement_import_state.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 

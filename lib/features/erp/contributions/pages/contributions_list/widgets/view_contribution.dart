@@ -1,13 +1,13 @@
-import 'package:church_finance_bk/core/layout/view_detail_widgets.dart';
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
-import 'package:church_finance_bk/core/toast.dart';
-import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
-import 'package:church_finance_bk/core/utils/index.dart';
-import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
-import 'package:church_finance_bk/features/auth/pages/login/store/auth_session_store.dart';
-import 'package:church_finance_bk/features/erp/contributions/models/contribution_model.dart';
-import 'package:church_finance_bk/features/erp/settings/banks/store/bank_store.dart';
+import 'package:gloria_finance/core/layout/view_detail_widgets.dart';
+import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/toast.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
+import 'package:gloria_finance/core/utils/index.dart';
+import 'package:gloria_finance/core/widgets/button_acton_table.dart';
+import 'package:gloria_finance/features/auth/pages/login/store/auth_session_store.dart';
+import 'package:gloria_finance/features/erp/contributions/models/contribution_model.dart';
+import 'package:gloria_finance/features/erp/settings/banks/store/bank_store.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

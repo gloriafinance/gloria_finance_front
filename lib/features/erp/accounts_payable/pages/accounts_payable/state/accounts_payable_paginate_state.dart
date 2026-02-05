@@ -1,5 +1,5 @@
-import 'package:church_finance_bk/core/paginate/paginate_response.dart';
-import 'package:church_finance_bk/features/erp/accounts_payable/models/accounts_payable_model.dart';
+import 'package:gloria_finance/core/paginate/paginate_response.dart';
+import 'package:gloria_finance/features/erp/accounts_payable/models/accounts_payable_model.dart';
 
 import '../../../models/accounts_payable_filter_model.dart';
 

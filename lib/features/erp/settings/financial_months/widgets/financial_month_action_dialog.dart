@@ -1,6 +1,6 @@
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
-import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
+import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/widgets/button_acton_table.dart';
 import 'package:flutter/material.dart';
 
 import '../models/financial_month_model.dart';

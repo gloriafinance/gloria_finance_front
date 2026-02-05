@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/core/utils/index.dart';
+import 'package:gloria_finance/core/utils/index.dart';
 
 class PurchaseFilterModel {
   int perPage;

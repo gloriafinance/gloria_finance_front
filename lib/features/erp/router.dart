@@ -1,6 +1,6 @@
 // lib/finance/router.dart
 
-import 'package:church_finance_bk/core/theme/transition_custom.dart';
+import 'package:gloria_finance/core/theme/transition_custom.dart';
 import 'package:go_router/go_router.dart';
 
 import 'accounts_payable/models/accounts_payable_model.dart';

@@ -1,5 +1,5 @@
-import 'package:church_finance_bk/core/utils/currency_formatter.dart';
-import 'package:church_finance_bk/features/erp/settings/financial_concept/models/financial_concept_model.dart';
+import 'package:gloria_finance/core/utils/currency_formatter.dart';
+import 'package:gloria_finance/features/erp/settings/financial_concept/models/financial_concept_model.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
 import 'finance_record_model.dart';

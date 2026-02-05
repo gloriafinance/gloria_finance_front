@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/features/erp/bank_statements/models/index.dart';
+import 'package:gloria_finance/features/erp/bank_statements/models/index.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

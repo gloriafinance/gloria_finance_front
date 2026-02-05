@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/features/erp/settings/availability_accounts/availability_account_service.dart';
+import 'package:gloria_finance/features/erp/settings/availability_accounts/availability_account_service.dart';
 import 'package:flutter/material.dart';
 
 import '../state/form_availability_state.dart';

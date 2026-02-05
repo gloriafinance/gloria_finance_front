@@ -1,7 +1,7 @@
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
-import 'package:church_finance_bk/core/toast.dart';
-import 'package:church_finance_bk/features/erp/schedule/models/schedule_models.dart';
+import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/toast.dart';
+import 'package:gloria_finance/features/erp/schedule/models/schedule_models.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';

@@ -1,7 +1,7 @@
-import 'package:church_finance_bk/core/theme/index.dart';
-import 'package:church_finance_bk/core/toast.dart';
-import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
-import 'package:church_finance_bk/features/erp/financial_records/models/finance_record_export_format.dart';
+import 'package:gloria_finance/core/theme/index.dart';
+import 'package:gloria_finance/core/toast.dart';
+import 'package:gloria_finance/core/widgets/button_acton_table.dart';
+import 'package:gloria_finance/features/erp/financial_records/models/finance_record_export_format.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

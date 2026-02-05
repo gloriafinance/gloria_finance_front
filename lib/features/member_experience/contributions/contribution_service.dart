@@ -1,7 +1,7 @@
-import 'package:church_finance_bk/core/app_http.dart';
-import 'package:church_finance_bk/features/auth/auth_persistence.dart';
-import 'package:church_finance_bk/features/member_experience/contributions/models/member_contribution_history_model.dart';
-import 'package:church_finance_bk/features/member_experience/contributions/models/member_contribution_models.dart';
+import 'package:gloria_finance/core/app_http.dart';
+import 'package:gloria_finance/features/auth/auth_persistence.dart';
+import 'package:gloria_finance/features/member_experience/contributions/models/member_contribution_history_model.dart';
+import 'package:gloria_finance/features/member_experience/contributions/models/member_contribution_models.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 

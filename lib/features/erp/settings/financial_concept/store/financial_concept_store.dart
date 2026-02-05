@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/features/auth/auth_persistence.dart';
+import 'package:gloria_finance/features/auth/auth_persistence.dart';
 import 'package:flutter/material.dart';
 
 import '../financial_concept_service.dart';

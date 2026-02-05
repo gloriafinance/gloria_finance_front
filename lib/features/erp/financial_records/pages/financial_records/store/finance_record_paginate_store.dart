@@ -1,6 +1,6 @@
-import 'package:church_finance_bk/core/utils/index.dart';
-import 'package:church_finance_bk/features/erp/financial_records/finance_record_service.dart';
-import 'package:church_finance_bk/features/erp/financial_records/models/finance_record_export_format.dart';
+import 'package:gloria_finance/core/utils/index.dart';
+import 'package:gloria_finance/features/erp/financial_records/finance_record_service.dart';
+import 'package:gloria_finance/features/erp/financial_records/models/finance_record_export_format.dart';
 import 'package:flutter/material.dart';
 
 import '../state/finance_record_paginate_state.dart';

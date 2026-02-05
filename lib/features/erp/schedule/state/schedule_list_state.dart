@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/features/erp/schedule/models/schedule_models.dart';
+import 'package:gloria_finance/features/erp/schedule/models/schedule_models.dart';
 
 class ScheduleListState {
   final List<ScheduleItemConfig> items;

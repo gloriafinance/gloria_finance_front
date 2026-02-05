@@ -1,10 +1,10 @@
-import 'package:church_finance_bk/core/paginate/custom_table.dart';
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
-import 'package:church_finance_bk/core/widgets/button_acton_table.dart';
-import 'package:church_finance_bk/core/widgets/tag_status.dart';
-import 'package:church_finance_bk/features/erp/settings/financial_concept/models/financial_concept_model.dart';
-import 'package:church_finance_bk/features/erp/settings/financial_concept/store/financial_concept_store.dart';
+import 'package:gloria_finance/core/paginate/custom_table.dart';
+import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/widgets/button_acton_table.dart';
+import 'package:gloria_finance/core/widgets/tag_status.dart';
+import 'package:gloria_finance/features/erp/settings/financial_concept/models/financial_concept_model.dart';
+import 'package:gloria_finance/features/erp/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';

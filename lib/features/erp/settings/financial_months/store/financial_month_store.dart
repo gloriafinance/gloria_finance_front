@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/core/toast.dart';
+import 'package:gloria_finance/core/toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

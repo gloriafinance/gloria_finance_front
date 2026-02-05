@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:church_finance_bk/features/erp/trends/models/trend_model.dart';
+import 'package:gloria_finance/features/erp/trends/models/trend_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

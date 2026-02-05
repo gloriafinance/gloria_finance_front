@@ -1,6 +1,6 @@
-import 'package:church_finance_bk/core/toast.dart';
-import 'package:church_finance_bk/features/erp/accounts_receivable/accounts_receivable_service.dart';
-import 'package:church_finance_bk/features/erp/models/installment_model.dart';
+import 'package:gloria_finance/core/toast.dart';
+import 'package:gloria_finance/features/erp/accounts_receivable/accounts_receivable_service.dart';
+import 'package:gloria_finance/features/erp/models/installment_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 

@@ -1,10 +1,10 @@
-import 'package:church_finance_bk/core/theme/index.dart';
-import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
-import 'package:church_finance_bk/core/utils/index.dart';
-import 'package:church_finance_bk/core/widgets/index.dart';
-import 'package:church_finance_bk/features/auth/pages/login/store/auth_session_store.dart';
-import 'package:church_finance_bk/features/erp/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
-import 'package:church_finance_bk/features/erp/widgets/account_style.dart';
+import 'package:gloria_finance/core/theme/index.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
+import 'package:gloria_finance/core/utils/index.dart';
+import 'package:gloria_finance/core/widgets/index.dart';
+import 'package:gloria_finance/features/auth/pages/login/store/auth_session_store.dart';
+import 'package:gloria_finance/features/erp/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
+import 'package:gloria_finance/features/erp/widgets/account_style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

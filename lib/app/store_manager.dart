@@ -1,7 +1,7 @@
 // lib/store_manager.dart
-import 'package:church_finance_bk/core/layout/state/navigator_member_state.dart';
-import 'package:church_finance_bk/core/layout/state/sidebar_state.dart';
-import 'package:church_finance_bk/features/auth/pages/login/store/auth_session_store.dart';
+import 'package:gloria_finance/core/layout/state/navigator_member_state.dart';
+import 'package:gloria_finance/core/layout/state/sidebar_state.dart';
+import 'package:gloria_finance/features/auth/pages/login/store/auth_session_store.dart';
 
 import 'locale_store.dart';
 

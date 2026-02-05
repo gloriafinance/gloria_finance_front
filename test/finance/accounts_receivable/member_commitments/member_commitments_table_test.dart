@@ -1,10 +1,10 @@
-import 'package:church_finance_bk/core/paginate/paginate_response.dart';
-import 'package:church_finance_bk/features/erp/accounts_receivable/accounts_receivable_service.dart';
-import 'package:church_finance_bk/features/erp/accounts_receivable/models/index.dart';
-import 'package:church_finance_bk/features/erp/accounts_receivable/pages/member_commitments/state/member_commitments_state.dart';
-import 'package:church_finance_bk/features/erp/accounts_receivable/pages/member_commitments/store/member_commitments_store.dart';
-import 'package:church_finance_bk/features/erp/accounts_receivable/pages/member_commitments/widgets/member_commitments_table.dart';
-import 'package:church_finance_bk/features/erp/models/installment_model.dart';
+import 'package:gloria_finance/core/paginate/paginate_response.dart';
+import 'package:gloria_finance/features/erp/accounts_receivable/accounts_receivable_service.dart';
+import 'package:gloria_finance/features/erp/accounts_receivable/models/index.dart';
+import 'package:gloria_finance/features/erp/accounts_receivable/pages/member_commitments/state/member_commitments_state.dart';
+import 'package:gloria_finance/features/erp/accounts_receivable/pages/member_commitments/store/member_commitments_store.dart';
+import 'package:gloria_finance/features/erp/accounts_receivable/pages/member_commitments/widgets/member_commitments_table.dart';
+import 'package:gloria_finance/features/erp/models/installment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';

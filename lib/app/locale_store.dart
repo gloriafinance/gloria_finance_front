@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/core/utils/currency_formatter.dart';
+import 'package:gloria_finance/core/utils/currency_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

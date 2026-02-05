@@ -1,5 +1,5 @@
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/utils/app_localizations_ext.dart';
+import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';

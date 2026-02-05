@@ -1,5 +1,5 @@
-import 'package:church_finance_bk/core/theme/transition_custom.dart';
-import 'package:church_finance_bk/features/erp/patrimony/models/patrimony_asset_model.dart';
+import 'package:gloria_finance/core/theme/transition_custom.dart';
+import 'package:gloria_finance/features/erp/patrimony/models/patrimony_asset_model.dart';
 import 'package:go_router/go_router.dart';
 
 import 'pages/form/patrimony_asset_form_screen.dart';

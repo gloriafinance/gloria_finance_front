@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/features/erp/settings/cost_center/models/cost_center_model.dart';
+import 'package:gloria_finance/features/erp/settings/cost_center/models/cost_center_model.dart';
 
 class CostCenterFormState {
   final bool makeRequest;

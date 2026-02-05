@@ -1,8 +1,8 @@
-import 'package:church_finance_bk/core/theme/app_color.dart';
-import 'package:church_finance_bk/core/theme/app_fonts.dart';
-import 'package:church_finance_bk/core/widgets/form_controls.dart';
-import 'package:church_finance_bk/l10n/app_localizations.dart';
-import 'package:church_finance_bk/features/erp/schedule/models/schedule_models.dart';
+import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/widgets/form_controls.dart';
+import 'package:gloria_finance/l10n/app_localizations.dart';
+import 'package:gloria_finance/features/erp/schedule/models/schedule_models.dart';
 import 'package:flutter/material.dart';
 
 class DuplicateEventSummary extends StatelessWidget {

@@ -1,6 +1,6 @@
-import 'package:church_finance_bk/app/store_manager.dart';
-import 'package:church_finance_bk/features/erp/home/home_screen.dart';
-import 'package:church_finance_bk/features/erp/router.dart';
+import 'package:gloria_finance/app/store_manager.dart';
+import 'package:gloria_finance/features/erp/home/home_screen.dart';
+import 'package:gloria_finance/features/erp/router.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/layout/erp/erp_shell.dart';

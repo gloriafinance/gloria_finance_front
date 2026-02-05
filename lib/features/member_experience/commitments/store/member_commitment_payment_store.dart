@@ -1,6 +1,6 @@
-import 'package:church_finance_bk/core/toast.dart';
-import 'package:church_finance_bk/features/member_experience/commitments/models/member_commitment_model.dart';
-import 'package:church_finance_bk/features/member_experience/commitments/service/member_commitment_service.dart';
+import 'package:gloria_finance/core/toast.dart';
+import 'package:gloria_finance/features/member_experience/commitments/models/member_commitment_model.dart';
+import 'package:gloria_finance/features/member_experience/commitments/service/member_commitment_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 

@@ -1,4 +1,4 @@
-import 'package:church_finance_bk/core/utils/date_formatter.dart';
+import 'package:gloria_finance/core/utils/date_formatter.dart';
 
 import '../../../models/member_model.dart';
 
