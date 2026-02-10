@@ -11,6 +11,7 @@ class CustomButton extends StatelessWidget {
   static const String basic = 'basic';
   final void Function()? onPressed;
   final IconData? icon;
+  final Widget? leading;
   EdgeInsetsGeometry? padding;
 
   CustomButton({
@@ -21,6 +22,7 @@ class CustomButton extends StatelessWidget {
     this.textColor = Colors.black87,
     this.typeButton = 'basic',
     this.icon,
+    this.leading,
     this.padding,
   });
 
@@ -36,21 +38,25 @@ class CustomButton extends StatelessWidget {
                     ? EdgeInsets.only(top: 18, bottom: 18)
                     : EdgeInsets.only(top: 14, bottom: 14),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center, // Centra el contenido
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (icon != null) // Si hay un icono, lo muestra
+            if (leading != null) leading!,
+            if (leading != null) const SizedBox(width: 14),
+            if (leading == null && icon != null)
               Icon(
                 icon,
                 color: textColor, // Color del icono
               ),
-            if (icon != null) // Espacio entre el icono y el texto
-              const SizedBox(width: 14),
-            Text(
-              text.toUpperCase(),
-              style: TextStyle(
-                fontFamily: AppFonts.fontTitle,
-                color: textColor,
-                fontSize: 14.0,
+            if (leading == null && icon != null) const SizedBox(width: 14),
+            Flexible(
+              child: Text(
+                text.toUpperCase(),
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontFamily: AppFonts.fontTitle,
+                  color: textColor,
+                  fontSize: 14.0,
+                ),
               ),
             ),
           ],
@@ -63,7 +69,7 @@ class CustomButton extends StatelessWidget {
     return ElevatedButton.styleFrom(
       backgroundColor: backgroundColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-      // elevation: 4.0,
+      elevation: 4.0,
     );
   }
 

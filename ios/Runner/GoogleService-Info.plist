@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.churchFinanceBk</string>
+	<string>com.gloria_finance.app</string>
 	<key>PROJECT_ID</key>
 	<string>devpto-dev</string>
 	<key>STORAGE_BUCKET</key>

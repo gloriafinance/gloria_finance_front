@@ -24,6 +24,12 @@ android {
     }
 
     signingConfigs {
+        debug {
+            storeFile = file('jaspe.keystore')
+            keyAlias = 'jaspe'
+            storePassword = '130202angel'
+            keyPassword = '130202angel'
+        }
         release {
 
             storeFile = file('jaspe.keystore')
@@ -42,9 +48,16 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        manifestPlaceholders = [
+            appAuthRedirectScheme: "msauth",
+            applicationName: "io.flutter.app.FlutterApplication"
+        ]
     }
 
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
@@ -62,4 +75,3 @@ dependencies {
     // Necesario para flutter_local_notifications
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
 }
-

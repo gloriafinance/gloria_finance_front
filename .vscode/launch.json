@@ -12,7 +12,12 @@
       "name": "Member Experience",
       "request": "launch",
       "type": "dart",
-      "program": "lib/main_member.dart"
+      "program": "lib/main_member.dart",
+      "deviceId": "RQCX802C58A",
+      "args": [
+        "--dart-define=API_URL=http://0.0.0.0:5200/api/",
+        "--dart-define=MICROSOFT_CLIENT_ID=6a536a53-11d6-460b-b3d6-0f8faa2e3b2c"
+      ]
     }
   ]
 }

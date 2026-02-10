@@ -1,6 +1,9 @@
 import 'package:gloria_finance/app/locale_store.dart';
 import 'package:gloria_finance/core/toast.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+import 'package:flutter_appauth/flutter_appauth.dart';
 
 import '../../../../../app/member_router.dart'; // To access memberRouter
 import '../../../../member_experience/notifications/notification_api.dart';
@@ -16,6 +19,13 @@ class AuthSessionStore extends ChangeNotifier {
   FormLoginState formState = FormLoginState.init();
 
   AuthSessionState state = AuthSessionState(session: AuthSessionModel.empty());
+
+  static const _microsoftClientId = String.fromEnvironment(
+    'MICROSOFT_CLIENT_ID',
+    defaultValue: '6a536a53-11d6-460b-b3d6-0f8faa2e3b2c',
+  );
+  static const _microsoftRedirectUri =
+      'msauth://com.gloria_finance.app/Ai4V8SL6HflR%2FfJn8GFsyubX7XU%3D';
 
   final LocaleStore? localeStore;
   final PushNotificationManager? pushNotificationManager;
@@ -65,31 +75,129 @@ class AuthSessionStore extends ChangeNotifier {
         return false;
       }
 
-      state = state.copyWith(session: session, makeRequest: false);
-
-      if (localeStore != null && session.lang.isNotEmpty) {
-        final parts = session.lang.split('-');
-
-        if (parts.length == 2) {
-          localeStore!.setLocale(Locale(parts[0], parts[1]));
-        } else if (parts.isNotEmpty) {
-          localeStore!.setLocale(Locale(parts[0]));
-        }
-      }
-
-      await AuthPersistence().save(session);
-
-      if (pushNotificationManager != null) {
-        _initPushNotifications();
-      }
-
-      notifyListeners();
+      await _applySession(session);
 
       return true;
     } catch (e) {
       print("ERRRRORRRR ${e}");
       Toast.showMessage(
         // Mensaje genérico; será traducido en la UI cuando se disponga
+        "Ocorreu um erro interno no sistema, informe ao administrador do sistema",
+        ToastType.warning,
+      );
+      formState = formState.copyWith(makeRequest: false);
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> loginWithGoogle() async {
+    formState = formState.copyWith(makeRequest: true);
+    notifyListeners();
+
+    try {
+      final googleSignIn = GoogleSignIn(scopes: ['email']);
+      final account = await googleSignIn.signIn();
+
+      if (account == null) {
+        formState = formState.copyWith(makeRequest: false);
+        notifyListeners();
+        return false;
+      }
+
+      final auth = await account.authentication;
+      final token = auth.idToken ?? auth.accessToken;
+
+      if (token == null || token.isEmpty) {
+        Toast.showMessage(
+          "Não foi possível autenticar com Google",
+          ToastType.warning,
+        );
+        formState = formState.copyWith(makeRequest: false);
+        notifyListeners();
+        return false;
+      }
+
+      final session = await service.socialLogin(
+        provider: "google",
+        idToken: token,
+      );
+
+      formState = formState.copyWith(makeRequest: false);
+      notifyListeners();
+
+      if (session == null) {
+        return false;
+      }
+
+      await _applySession(session);
+      return true;
+    } catch (e) {
+      print("ERRRRORRRR ${e}");
+      Toast.showMessage(
+        "Ocorreu um erro interno no sistema, informe ao administrador do sistema",
+        ToastType.warning,
+      );
+      formState = formState.copyWith(makeRequest: false);
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> loginWithMicrosoft() async {
+    formState = formState.copyWith(makeRequest: true);
+    notifyListeners();
+
+    try {
+      if (_microsoftClientId.isEmpty) {
+        Toast.showMessage(
+          "MICROSOFT_CLIENT_ID no configurado",
+          ToastType.warning,
+        );
+        formState = formState.copyWith(makeRequest: false);
+        notifyListeners();
+        return false;
+      }
+
+      const appAuth = FlutterAppAuth();
+      final result = await appAuth.authorizeAndExchangeCode(
+        AuthorizationTokenRequest(
+          _microsoftClientId,
+          _microsoftRedirectUri,
+          serviceConfiguration: const AuthorizationServiceConfiguration(
+            authorizationEndpoint:
+                'https://login.microsoftonline.com/47f49fd8-40cf-40dd-9451-ca97bb62aafd/oauth2/v2.0/authorize',
+            tokenEndpoint:
+                'https://login.microsoftonline.com/47f49fd8-40cf-40dd-9451-ca97bb62aafd/oauth2/v2.0/token',
+          ),
+          scopes: const ['openid', 'email', 'profile'],
+          promptValues: const ['select_account'],
+        ),
+      );
+
+      if (result == null || result.idToken == null) {
+        formState = formState.copyWith(makeRequest: false);
+        notifyListeners();
+        return false;
+      }
+
+      final session = await service.socialLogin(
+        provider: "microsoft",
+        idToken: result.idToken!,
+      );
+
+      formState = formState.copyWith(makeRequest: false);
+      notifyListeners();
+
+      if (session == null) {
+        return false;
+      }
+
+      await _applySession(session);
+      return true;
+    } catch (e) {
+      print("ERRRRORRRR ${e}");
+      Toast.showMessage(
         "Ocorreu um erro interno no sistema, informe ao administrador do sistema",
         ToastType.warning,
       );
@@ -171,5 +279,27 @@ class AuthSessionStore extends ChangeNotifier {
         ).registerToken(token: token, deviceId: deviceId, platform: platform);
       },
     );
+  }
+
+  Future<void> _applySession(AuthSessionModel session) async {
+    state = state.copyWith(session: session, makeRequest: false);
+
+    if (localeStore != null && session.lang.isNotEmpty) {
+      final parts = session.lang.split('-');
+
+      if (parts.length == 2) {
+        localeStore!.setLocale(Locale(parts[0], parts[1]));
+      } else if (parts.isNotEmpty) {
+        localeStore!.setLocale(Locale(parts[0]));
+      }
+    }
+
+    await AuthPersistence().save(session);
+
+    if (pushNotificationManager != null) {
+      _initPushNotifications();
+    }
+
+    notifyListeners();
   }
 }

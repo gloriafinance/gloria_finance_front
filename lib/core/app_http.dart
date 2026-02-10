@@ -47,10 +47,7 @@ class AppHttp {
                         e.requestOptions.receiveDataWhenStatusError,
                     sendTimeout: e.requestOptions.sendTimeout,
                     receiveTimeout: e.requestOptions.receiveTimeout,
-                    extra: {
-                      ...e.requestOptions.extra,
-                      'isRetryRequest': true,
-                    },
+                    extra: {...e.requestOptions.extra, 'isRetryRequest': true},
                   ),
                   cancelToken: e.requestOptions.cancelToken,
                   onSendProgress: e.requestOptions.onSendProgress,
@@ -86,13 +83,13 @@ class AppHttp {
   _urlServer() async {
     final apiProd = 'https://api.gloriafinance.com.br/api/';
     //final apiDev = 'https://api.gloriafinance.com.br/api/';
-    final apiDev = 'http://localhost:5200/api/';
+    final apiDev = 'http://0.0.0.0:5200/api/';
 
-    if (kReleaseMode) {
-      return apiProd;
-    }
+    //if (kReleaseMode) {
+    return apiProd;
+    //}
 
-    return apiDev;
+    //return apiDev;
   }
 
   transformResponse(data) {
@@ -171,7 +168,9 @@ class AppHttp {
       }
 
       final refreshToken =
-          (data['refreshToken'] ?? data['refresh_token'] ?? session.refreshToken)
+          (data['refreshToken'] ??
+                  data['refresh_token'] ??
+                  session.refreshToken)
               .toString();
 
       AuthSessionModel updated;
@@ -179,20 +178,12 @@ class AppHttp {
           data.containsKey('userId') ||
           data.containsKey('name')) {
         try {
-          updated = AuthSessionModel.fromJson(
-            Map<String, dynamic>.from(data),
-          );
+          updated = AuthSessionModel.fromJson(Map<String, dynamic>.from(data));
         } catch (_) {
-          updated = session.copyWith(
-            token: token,
-            refreshToken: refreshToken,
-          );
+          updated = session.copyWith(token: token, refreshToken: refreshToken);
         }
       } else {
-        updated = session.copyWith(
-          token: token,
-          refreshToken: refreshToken,
-        );
+        updated = session.copyWith(token: token, refreshToken: refreshToken);
       }
 
       await AuthPersistence().save(updated);

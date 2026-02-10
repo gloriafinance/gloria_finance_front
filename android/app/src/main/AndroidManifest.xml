@@ -5,6 +5,7 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:label="Glória Finance"
+        android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
         android:preserveLegacyExternalStorage="true"
         android:hasFragileUserData="true">
@@ -14,7 +15,6 @@
             android:exported="true"
             android:hardwareAccelerated="true"
             android:launchMode="singleTop"
-            android:taskAffinity=""
             android:theme="@style/LaunchTheme"
             android:windowSoftInputMode="adjustResize">
             <!-- Specifies an Android theme to apply to this Activity as soon as
@@ -27,6 +27,19 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name="net.openid.appauth.RedirectUriReceiverActivity"
+            android:exported="true"
+            tools:node="replace">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="msauth"/>
             </intent-filter>
         </activity>
         

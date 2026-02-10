@@ -1,5 +1,6 @@
 import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/features/auth/auth_persistence.dart';
+import 'package:gloria_finance/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:motion_toast/motion_toast.dart';
@@ -12,6 +13,8 @@ class Toast {
   static init(BuildContext context) {
     _context = context;
   }
+
+  static AppLocalizations get l10n => AppLocalizations.of(_context)!;
 
   static showMessage(String message, ToastType type) {
     if (message == 'Unauthorized.') {

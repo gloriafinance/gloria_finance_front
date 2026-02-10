@@ -126,6 +126,21 @@ class AppLocalizationsPt extends AppLocalizations {
   String get auth_error_generic => 'Ocorreu um erro interno no sistema, informe ao administrador do sistema';
 
   @override
+  String get auth_login_social_title => 'Entre com sua conta social';
+
+  @override
+  String get auth_login_social_google => 'Entrar com Gmail';
+
+  @override
+  String get auth_login_social_outlook => 'Entrar com Outlook';
+
+  @override
+  String get auth_login_social_outlook_soon => 'Em breve';
+
+  @override
+  String get app_error_unexpected_retry => 'Ocorreu um erro inesperado. Tente novamente.';
+
+  @override
   String get auth_recovery_request_title => 'Digite o e-mail associado à sua conta e enviaremos um e-mail com uma senha temporária.';
 
   @override

@@ -126,6 +126,21 @@ class AppLocalizationsEs extends AppLocalizations {
   String get auth_error_generic => 'Ocurrió un error interno en el sistema, informa al administrador del sistema';
 
   @override
+  String get auth_login_social_title => 'Inicia sesión con tu cuenta social';
+
+  @override
+  String get auth_login_social_google => 'Iniciar con Gmail';
+
+  @override
+  String get auth_login_social_outlook => 'Iniciar con Outlook';
+
+  @override
+  String get auth_login_social_outlook_soon => 'Próximamente';
+
+  @override
+  String get app_error_unexpected_retry => 'Ocurrió un error inesperado. Inténtalo de nuevo.';
+
+  @override
   String get auth_recovery_request_title => 'Introduce el correo asociado a tu cuenta y te enviaremos una contraseña temporal.';
 
   @override

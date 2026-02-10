@@ -331,6 +331,36 @@ abstract class AppLocalizations {
   /// **'An internal system error occurred, please contact your system administrator'**
   String get auth_error_generic;
 
+  /// No description provided for @auth_login_social_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with your social account'**
+  String get auth_login_social_title;
+
+  /// No description provided for @auth_login_social_google.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Gmail'**
+  String get auth_login_social_google;
+
+  /// No description provided for @auth_login_social_outlook.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Outlook'**
+  String get auth_login_social_outlook;
+
+  /// No description provided for @auth_login_social_outlook_soon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get auth_login_social_outlook_soon;
+
+  /// No description provided for @app_error_unexpected_retry.
+  ///
+  /// In en, this message translates to:
+  /// **'An unexpected error occurred. Please try again.'**
+  String get app_error_unexpected_retry;
+
   /// No description provided for @auth_recovery_request_title.
   ///
   /// In en, this message translates to:
