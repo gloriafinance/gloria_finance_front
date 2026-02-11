@@ -9,6 +9,7 @@ import 'core/app_http.dart';
 
 void main() {
   final storeManager = StoreManager();
+  storeManager.isMemberExperience = false;
   AppHttp.onUnauthorized = () {
     storeManager.authSessionStore.logout();
   };
