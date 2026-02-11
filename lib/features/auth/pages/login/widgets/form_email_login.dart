@@ -125,11 +125,14 @@ class _FormEmailLoginState extends State<FormEmailLogin> {
   Widget _buttonLogin(AuthSessionStore authStore) {
     return Padding(
       padding: const EdgeInsets.only(top: 60),
-      child: CustomButton(
-        backgroundColor: AppColors.green,
-        text: context.l10n.auth_login_submit,
-        onPressed: isFormValid ? () => _makeLogin(authStore) : null,
-        typeButton: CustomButton.basic,
+      child: SizedBox(
+        width: double.infinity,
+        child: CustomButton(
+          backgroundColor: AppColors.green,
+          text: context.l10n.auth_login_submit,
+          onPressed: isFormValid ? () => _makeLogin(authStore) : null,
+          typeButton: CustomButton.basic,
+        ),
       ),
     );
   }
