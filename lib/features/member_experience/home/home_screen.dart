@@ -1,6 +1,7 @@
 import 'package:gloria_finance/features/member_experience/home/store/member_generosity_summary_store.dart';
 import 'package:gloria_finance/features/member_experience/home/store/member_upcoming_events_store.dart';
 import 'package:gloria_finance/features/member_experience/home/widgets/member_generosity_summary_section.dart';
+import 'package:gloria_finance/features/member_experience/home/widgets/member_shortcuts_section.dart';
 import 'package:gloria_finance/features/member_experience/home/widgets/member_upcoming_events_section.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -46,6 +47,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           children: const [
             MemberGenerositySummarySection(),
+            SizedBox(height: 16),
+            MemberShortcutsSection(),
             SizedBox(height: 16),
             MemberUpcomingEventsSection(),
             SizedBox(height: 16),
