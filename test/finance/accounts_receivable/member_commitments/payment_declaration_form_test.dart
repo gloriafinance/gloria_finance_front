@@ -51,6 +51,7 @@ void main() {
         description: 'Oferta mensal',
         installments: [installment],
         type: AccountsReceivableType.CONTRIBUTION,
+        symbol: 'R\$',
       );
 
       await tester.pumpWidget(

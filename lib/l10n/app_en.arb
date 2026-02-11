@@ -798,6 +798,25 @@
   "finance_records_table_header_date": "Date",
   "finance_records_table_header_amount": "Amount",
   "finance_records_table_header_type": "Movement type",
+  "auth_login_social_enter_title": "Sign in",
+  "auth_login_social_enter_subtitle": "Use your account to continue",
+  "auth_login_social_divider_or": "or",
+  "auth_login_social_google_btn": "Continue with Google",
+  "auth_login_social_microsoft_btn": "Continue with Microsoft",
+  "auth_login_social_legal_text": "By continuing, you agree to our {terms} and {privacy}.",
+  "@auth_login_social_legal_text": {
+    "placeholders": {
+      "terms": {
+        "type": "String"
+      },
+      "privacy": {
+        "type": "String"
+      }
+    }
+  },
+  "auth_login_social_terms": "Terms of Use",
+  "auth_login_social_privacy": "Privacy Policy",
+  "auth_login_error_social_failed": "Social login failed. Please try again.",
   "finance_records_table_header_concept": "Concept",
   "finance_records_table_header_availability_account": "Availability account",
   "finance_records_table_header_status": "Status",

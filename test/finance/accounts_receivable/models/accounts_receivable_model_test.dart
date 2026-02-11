@@ -48,6 +48,7 @@ void main() {
         description: 'Locacao de auditorio',
         installments: [InstallmentModel(amount: 300, dueDate: '15/12/2024')],
         type: AccountsReceivableType.LEGAL,
+        symbol: 'R\$',
       );
 
       final payload = model.toJson();

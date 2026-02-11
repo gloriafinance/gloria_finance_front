@@ -3769,6 +3769,60 @@ abstract class AppLocalizations {
   /// **'Movement type'**
   String get finance_records_table_header_type;
 
+  /// No description provided for @auth_login_social_enter_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get auth_login_social_enter_title;
+
+  /// No description provided for @auth_login_social_enter_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use your account to continue'**
+  String get auth_login_social_enter_subtitle;
+
+  /// No description provided for @auth_login_social_divider_or.
+  ///
+  /// In en, this message translates to:
+  /// **'or'**
+  String get auth_login_social_divider_or;
+
+  /// No description provided for @auth_login_social_google_btn.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get auth_login_social_google_btn;
+
+  /// No description provided for @auth_login_social_microsoft_btn.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Microsoft'**
+  String get auth_login_social_microsoft_btn;
+
+  /// No description provided for @auth_login_social_legal_text.
+  ///
+  /// In en, this message translates to:
+  /// **'By continuing, you agree to our {terms} and {privacy}.'**
+  String auth_login_social_legal_text(String terms, String privacy);
+
+  /// No description provided for @auth_login_social_terms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Use'**
+  String get auth_login_social_terms;
+
+  /// No description provided for @auth_login_social_privacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get auth_login_social_privacy;
+
+  /// No description provided for @auth_login_error_social_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Social login failed. Please try again.'**
+  String get auth_login_error_social_failed;
+
   /// No description provided for @finance_records_table_header_concept.
   ///
   /// In en, this message translates to:

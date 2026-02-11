@@ -16,8 +16,8 @@ class LoginScreen extends StatelessWidget {
     final isMember = StoreManager().isMemberExperience;
 
     return LayoutAuth(
-      height: 570,
-      width: 500,
+      height: isMember ? 500: 570,
+      width: isMember ? 380: 500,
       child: Column(
         children: [
           Padding(

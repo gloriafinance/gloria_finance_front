@@ -50,6 +50,7 @@ AccountsReceivableModel _commitmentWithInstallments() {
         'urn:accountReceivable:2e504ce8-66bb-4fda-80c2-dee781dbd16e',
     status: 'PENDING',
     type: AccountsReceivableType.CONTRIBUTION,
+    symbol: 'R\$',
   );
 }
 

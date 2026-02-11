@@ -798,6 +798,25 @@
     }
   },
   "accountsPayable_form_installment_item_due_date": "Vencimiento: {date}",
+  "auth_login_social_enter_title": "Iniciar sesión",
+  "auth_login_social_enter_subtitle": "Usa tu cuenta para continuar",
+  "auth_login_social_divider_or": "o",
+  "auth_login_social_google_btn": "Continuar con Google",
+  "auth_login_social_microsoft_btn": "Continuar con Microsoft",
+  "auth_login_social_legal_text": "Al continuar, aceptas nuestros {terms} y {privacy}.",
+  "@auth_login_social_legal_text": {
+    "placeholders": {
+      "terms": {
+        "type": "String"
+      },
+      "privacy": {
+        "type": "String"
+      }
+    }
+  },
+  "auth_login_social_terms": "Términos de uso",
+  "auth_login_social_privacy": "Política de privacidad",
+  "auth_login_error_social_failed": "Error al iniciar sesión con red social. Inténtalo de nuevo.",
   "@accountsPayable_form_installment_item_due_date": {
     "placeholders": {
       "date": {

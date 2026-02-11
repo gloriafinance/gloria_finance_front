@@ -129,10 +129,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get auth_login_social_title => 'Inicia sesión con tu cuenta social';
 
   @override
-  String get auth_login_social_google => 'Iniciar con Gmail';
+  String get auth_login_social_google => 'Continuar con Google';
 
   @override
-  String get auth_login_social_outlook => 'Iniciar con Outlook';
+  String get auth_login_social_outlook => 'Continuar con Microsoft';
 
   @override
   String get auth_login_social_outlook_soon => 'Próximamente';
@@ -1891,6 +1891,35 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get finance_records_table_header_type => 'Tipo de movimiento';
+
+  @override
+  String get auth_login_social_enter_title => 'Iniciar sesión';
+
+  @override
+  String get auth_login_social_enter_subtitle => 'Usa tu cuenta para continuar';
+
+  @override
+  String get auth_login_social_divider_or => 'o';
+
+  @override
+  String get auth_login_social_google_btn => 'Continuar con Google';
+
+  @override
+  String get auth_login_social_microsoft_btn => 'Continuar con Microsoft';
+
+  @override
+  String auth_login_social_legal_text(String terms, String privacy) {
+    return 'Al continuar, aceptas nuestros $terms y $privacy.';
+  }
+
+  @override
+  String get auth_login_social_terms => 'Términos de uso';
+
+  @override
+  String get auth_login_social_privacy => 'Política de privacidad';
+
+  @override
+  String get auth_login_error_social_failed => 'Error al iniciar sesión con red social. Inténtalo de nuevo.';
 
   @override
   String get finance_records_table_header_concept => 'Concepto';

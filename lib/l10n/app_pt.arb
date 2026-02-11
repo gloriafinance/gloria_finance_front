@@ -1291,5 +1291,24 @@
   "tax_form_status_taxed": "Tributada",
   "tax_form_status_substitution": "Substituição tributária",
   "tax_form_empty_list": "Nenhum imposto adicionado até o momento.",
-  "common_save": "Salvar"
+  "common_save": "Salvar",
+  "auth_login_social_enter_title": "Entrar",
+  "auth_login_social_enter_subtitle": "Use sua conta para continuar",
+  "auth_login_social_divider_or": "ou",
+  "auth_login_social_google_btn": "Continuar com Google",
+  "auth_login_social_microsoft_btn": "Continuar com Microsoft",
+  "auth_login_social_legal_text": "Ao continuar, você concorda com nossos {terms} e {privacy}.",
+  "@auth_login_social_legal_text": {
+    "placeholders": {
+      "terms": {
+        "type": "String"
+      },
+      "privacy": {
+        "type": "String"
+      }
+    }
+  },
+  "auth_login_social_terms": "Termos de Uso",
+  "auth_login_social_privacy": "Política de Privacidade",
+  "auth_login_error_social_failed": "Erro ao realizar login social. Tente novamente."
 }
