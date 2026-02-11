@@ -16,17 +16,31 @@ class LoginScreen extends StatelessWidget {
     final isMember = StoreManager().isMemberExperience;
 
     return LayoutAuth(
-      height: isMember ? 500: 570,
-      width: isMember ? 380: 500,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            child: const ApplicationLogo(height: 100),
-          ),
-          // Show Social Login for Member Experience, Email Login for ERP
-          isMember ? const FormLogin() : const FormEmailLogin(),
-        ],
+      height: isMember ? 500 : 570,
+      width: isMember ? 380 : 600,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 16.0,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            SizedBox(height: 40),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: const ApplicationLogo(height: 100),
+            ),
+            // Show Social Login for Member Experience, Email Login for ERP
+            isMember ? const FormLogin() : const FormEmailLogin(),
+          ],
+        ),
       ),
     );
   }

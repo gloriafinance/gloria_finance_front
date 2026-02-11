@@ -37,29 +37,36 @@ class CustomButton extends StatelessWidget {
                 isMobile(context)
                     ? EdgeInsets.only(top: 18, bottom: 18)
                     : EdgeInsets.only(top: 14, bottom: 14),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (leading != null) leading!,
-            if (leading != null) const SizedBox(width: 14),
-            if (leading == null && icon != null)
-              Icon(
-                icon,
-                color: textColor, // Color del icono
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final canFlex = constraints.maxWidth.isFinite;
+            final textWidget = Text(
+              text.toUpperCase(),
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontFamily: AppFonts.fontTitle,
+                color: textColor,
+                fontSize: 14.0,
               ),
-            if (leading == null && icon != null) const SizedBox(width: 14),
-            Flexible(
-              child: Text(
-                text.toUpperCase(),
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontFamily: AppFonts.fontTitle,
-                  color: textColor,
-                  fontSize: 14.0,
-                ),
-              ),
-            ),
-          ],
+            );
+
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (leading != null) leading!,
+                if (leading != null) const SizedBox(width: 14),
+                if (leading == null && icon != null)
+                  Icon(
+                    icon,
+                    color: textColor, // Color del icono
+                  ),
+                if (leading == null && icon != null) const SizedBox(width: 14),
+                if (canFlex) Flexible(fit: FlexFit.loose, child: textWidget),
+                if (!canFlex) textWidget,
+              ],
+            );
+          },
         ),
       ),
     );
