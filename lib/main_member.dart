@@ -26,6 +26,7 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);
 
   final storeManager = StoreManager();
+  storeManager.isMemberExperience = true;
 
   AppHttp.onUnauthorized = () {
     storeManager.authSessionStore.logout();

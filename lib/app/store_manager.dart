@@ -34,4 +34,6 @@ class StoreManager {
   final memberAllStore = MemberAllStore();
   final sidebarNotifier = SidebarNotifier();
   final trendStore = TrendStore();
+
+  bool isMemberExperience = false;
 }
