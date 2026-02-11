@@ -25,6 +25,7 @@ import 'reports/pages/dre/dre_screen.dart';
 import 'reports/pages/income_statement/income_statement_screen.dart';
 import 'reports/pages/monthly_tithes/monthly_tithes_screen.dart';
 import 'schedule/router.dart';
+import 'settings/pages/change_password/change_password_screen.dart';
 import 'settings/router.dart';
 
 erpListRouter() {
@@ -134,6 +135,12 @@ erpListRouter() {
       path: '/finance/bank-statements',
       pageBuilder: (context, state) {
         return transitionCustom(const BankStatementsScreen());
+      },
+    ),
+    GoRoute(
+      path: '/change-password',
+      pageBuilder: (context, state) {
+        return transitionCustom(const ChangePasswordScreen());
       },
     ),
     ...patrimonyRouter(),
