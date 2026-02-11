@@ -180,7 +180,7 @@ class _HeaderLayoutState extends State<HeaderLayout> {
           ],
       onSelected: (String value) {
         if (value == 'trocar_senha') {
-          context.push('/change-password');
+          context.go('/change-password');
         } else if (value == 'sair') {
           final authStore = Provider.of<AuthSessionStore>(
             _contextRef,
