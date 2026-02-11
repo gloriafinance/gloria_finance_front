@@ -64,21 +64,9 @@ class _LayoutAuthState extends State<LayoutAuth> {
                 ? constraints.maxHeight * 0.85
                 : 600);
         return Center(
-          child: Container(
-            width: widget.width ?? MediaQuery.of(context).size.width * 0.97,
+          child: SizedBox(
+            width: widget.width ?? MediaQuery.of(context).size.width * 0.87,
             height: containerHeight,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 20,
-                  offset: const Offset(0, 10),
-                ),
-              ],
-            ),
-            // Sin ScrollView interno, permitiendo que el contenido maneje su propio scroll
             child: widget.child,
           ),
         );
@@ -97,7 +85,7 @@ class _LayoutAuthState extends State<LayoutAuth> {
             Text(
               context.l10n.auth_layout_footer(DateTime.now().year),
               style: TextStyle(
-                color: Colors.white,
+                color: Colors.grey, // Adjusted for white background
                 fontFamily: AppFonts.fontSubTitle,
               ),
               textAlign: TextAlign.center,
@@ -105,7 +93,7 @@ class _LayoutAuthState extends State<LayoutAuth> {
             Text(
               _version,
               style: TextStyle(
-                color: Colors.white,
+                color: Colors.grey, // Adjusted for white background
                 fontFamily: AppFonts.fontSubTitle,
               ),
               textAlign: TextAlign.center,

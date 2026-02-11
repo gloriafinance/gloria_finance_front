@@ -1893,6 +1893,35 @@ class AppLocalizationsEn extends AppLocalizations {
   String get finance_records_table_header_type => 'Movement type';
 
   @override
+  String get auth_login_social_enter_title => 'Sign in';
+
+  @override
+  String get auth_login_social_enter_subtitle => 'Use your account to continue';
+
+  @override
+  String get auth_login_social_divider_or => 'or';
+
+  @override
+  String get auth_login_social_google_btn => 'Continue with Google';
+
+  @override
+  String get auth_login_social_microsoft_btn => 'Continue with Microsoft';
+
+  @override
+  String auth_login_social_legal_text(String terms, String privacy) {
+    return 'By continuing, you agree to our $terms and $privacy.';
+  }
+
+  @override
+  String get auth_login_social_terms => 'Terms of Use';
+
+  @override
+  String get auth_login_social_privacy => 'Privacy Policy';
+
+  @override
+  String get auth_login_error_social_failed => 'Social login failed. Please try again.';
+
+  @override
   String get finance_records_table_header_concept => 'Concept';
 
   @override

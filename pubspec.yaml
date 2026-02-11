@@ -2,7 +2,7 @@ name: gloria_finance
 description: "administrative system for the financial management of churches."
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.15.1+91
+version: 1.15.2+92
 
 environment:
   sdk: ^3.7.2

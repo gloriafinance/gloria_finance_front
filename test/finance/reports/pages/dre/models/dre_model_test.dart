@@ -4,7 +4,7 @@ import 'package:gloria_finance/features/erp/reports/pages/dre/models/dre_model.d
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('DREModel', () {
+  group('DREBySymbolModel', () {
     test('fromJson parses all fields correctly according to API spec', () {
       final json = {
         'grossRevenue': 3117.05,
@@ -19,9 +19,10 @@ void main() {
         'netResult': 3015.55,
         'year': 2024,
         'month': 7,
+        'symbol': 'R\$',
       };
 
-      final model = DREModel.fromJson(json);
+      final model = DREBySymbolModel.fromJson(json);
 
       expect(model.grossRevenue, equals(3117.05));
       expect(model.netRevenue, equals(3117.05));
@@ -33,12 +34,10 @@ void main() {
       expect(model.operationalResult, equals(3015.55));
       expect(model.extraordinaryResults, equals(0.0));
       expect(model.netResult, equals(3015.55));
-      expect(model.year, equals(2024));
-      expect(model.month, equals(7));
     });
 
     test('fromJson handles null values', () {
-      final model = DREModel.fromJson(null);
+      final model = DREBySymbolModel.fromJson({});
 
       expect(model.grossRevenue, equals(0.0));
       expect(model.netRevenue, equals(0.0));
@@ -51,7 +50,7 @@ void main() {
     });
 
     test('empty factory creates model with zero values', () {
-      final model = DREModel.empty();
+      final model = DREBySymbolModel.empty();
 
       expect(model.grossRevenue, equals(0.0));
       expect(model.netRevenue, equals(0.0));
@@ -61,38 +60,6 @@ void main() {
       expect(model.operationalResult, equals(0.0));
       expect(model.extraordinaryResults, equals(0.0));
       expect(model.netResult, equals(0.0));
-    });
-
-    test('toJson serializes all fields correctly', () {
-      final model = DREModel(
-        grossRevenue: 5000.0,
-        netRevenue: 4500.0,
-        directCosts: 1000.0,
-        grossProfit: 3500.0,
-        operationalExpenses: 500.0,
-        ministryTransfers: 400.0,
-        capexInvestments: 250.0,
-        operationalResult: 3000.0,
-        extraordinaryResults: 200.0,
-        netResult: 3200.0,
-        year: 2024,
-        month: 7,
-      );
-
-      final json = model.toJson();
-
-      expect(json['grossRevenue'], equals(5000.0));
-      expect(json['netRevenue'], equals(4500.0));
-      expect(json['directCosts'], equals(1000.0));
-      expect(json['grossProfit'], equals(3500.0));
-      expect(json['operationalExpenses'], equals(500.0));
-      expect(json['ministryTransfers'], equals(400.0));
-      expect(json['capexInvestments'], equals(250.0));
-      expect(json['operationalResult'], equals(3000.0));
-      expect(json['extraordinaryResults'], equals(200.0));
-      expect(json['netResult'], equals(3200.0));
-      expect(json['year'], equals(2024));
-      expect(json['month'], equals(7));
     });
 
     test('handles string values that can be converted to double', () {
@@ -107,9 +74,10 @@ void main() {
         'operationalResult': '1200.25',
         'extraordinaryResults': '50',
         'netResult': '1250.25',
+        'symbol': 'R\$',
       };
 
-      final model = DREModel.fromJson(json);
+      final model = DREBySymbolModel.fromJson(json);
 
       expect(model.grossRevenue, equals(1500.50));
       expect(model.netRevenue, equals(1500.50));

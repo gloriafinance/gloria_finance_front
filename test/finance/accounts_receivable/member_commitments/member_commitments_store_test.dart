@@ -74,6 +74,7 @@ AccountsReceivableModel _sampleCommitment({String status = 'PENDING'}) {
     accountReceivableId: 'ar-1',
     status: status,
     type: AccountsReceivableType.CONTRIBUTION,
+    symbol: 'R\$',
   );
 }
 

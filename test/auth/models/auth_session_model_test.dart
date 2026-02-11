@@ -107,6 +107,7 @@ void main() {
         churchName: "Test Church",
         country: "VE",
         token: "token",
+        refreshToken: "refresh-token",
         name: "Test User",
         email: "test@test.com",
         createdAt: "now",
@@ -131,6 +132,7 @@ void main() {
     test('needsPolicyAcceptance returns true when policies not accepted', () {
       final model = AuthSessionModel(
         token: 'test-token',
+        refreshToken: 'refresh-token',
         name: 'Test User',
         email: 'test@example.com',
         createdAt: '2024-01-15',
@@ -149,6 +151,7 @@ void main() {
       () {
         final model = AuthSessionModel(
           token: 'test-token',
+          refreshToken: 'refresh-token',
           name: 'Test User',
           email: 'test@example.com',
           createdAt: '2024-01-15',
@@ -177,6 +180,7 @@ void main() {
     test('copyWith preserves new fields', () {
       final original = AuthSessionModel(
         token: 'test-token',
+        refreshToken: 'refresh-token',
         name: 'Test User',
         email: 'test@example.com',
         createdAt: '2024-01-15',
@@ -204,6 +208,7 @@ void main() {
     test('copyWith updates new fields', () {
       final original = AuthSessionModel(
         token: 'test-token',
+        refreshToken: 'refresh-token',
         name: 'Test User',
         email: 'test@example.com',
         createdAt: '2024-01-15',
