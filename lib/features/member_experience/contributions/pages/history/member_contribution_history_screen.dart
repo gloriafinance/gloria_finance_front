@@ -32,9 +32,12 @@ class MemberContributionHistoryScreen extends StatelessWidget {
                       showBackButton: false,
                     ),
                     _buildFilters(context, store),
-                    store.isLoading
-                        ? const Center(child: CircularProgressIndicator())
-                        : _buildHistoryList(store),
+                    Expanded(
+                      child:
+                          store.isLoading
+                              ? const Center(child: CircularProgressIndicator())
+                              : _buildHistoryList(store),
+                    ),
                   ],
                 ),
                 Positioned(
