@@ -1411,6 +1411,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get reports_income_download_success => 'PDF baixado com sucesso';
 
   @override
+  String get reports_income_download_email_arriving => 'O demonstrativo de resultados está chegando no seu e-mail';
+
+  @override
   String get reports_income_download_error => 'Não foi possível baixar o PDF';
 
   @override

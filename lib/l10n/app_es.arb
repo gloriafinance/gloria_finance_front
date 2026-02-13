@@ -444,6 +444,7 @@
   "accountsReceivable_form_toast_generate_installments_success": "Cuotas generadas automáticamente.",
   "reports_income_download_pdf": "Descargar PDF",
   "reports_income_download_success": "PDF descargado con éxito",
+  "reports_income_download_email_arriving": "El estado de resultados está llegando a tu correo electrónico",
   "reports_income_download_error": "No fue posible descargar el PDF",
   "reports_income_download_error_generic": "Error al descargar el PDF",
   "reports_income_statement_monthly_title": "Informe financiero mensual",

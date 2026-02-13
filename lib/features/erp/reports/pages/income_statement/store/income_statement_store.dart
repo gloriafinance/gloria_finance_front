@@ -26,10 +26,7 @@ class IncomeStatementStore extends ChangeNotifier {
 
       final data = await service.fetchIncomeStatement(state.filter);
 
-      state = state.copyWith(
-        data: data,
-        makeRequest: false,
-      );
+      state = state.copyWith(data: data, makeRequest: false);
 
       notifyListeners();
     } catch (e) {
@@ -48,12 +45,11 @@ class IncomeStatementStore extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final success =
-          await service.downloadIncomeStatementPdf(state.filter);
+      final success = await service.downloadIncomeStatementPdf(state.filter);
 
       if (success) {
         Toast.showMessage(
-          context.l10n.reports_income_download_success,
+          context.l10n.reports_income_download_email_arriving,
           ToastType.info,
         );
       } else {

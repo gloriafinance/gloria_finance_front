@@ -85,11 +85,11 @@ class AppHttp {
     //final apiDev = 'https://api.gloriafinance.com.br/api/';
     final apiDev = 'http://0.0.0.0:5200/api/';
 
-    //if (kReleaseMode) {
-    return apiProd;
-    //}
+    if (kReleaseMode) {
+        return apiProd;
+    }
 
-    //return apiDev;
+    return apiDev;
   }
 
   transformResponse(data) {
