@@ -443,6 +443,7 @@
   "accountsReceivable_form_toast_generate_installments_success": "Parcelas geradas automaticamente.",
   "reports_income_download_pdf": "Baixar PDF",
   "reports_income_download_success": "PDF baixado com sucesso",
+  "reports_income_download_email_arriving": "O demonstrativo de resultados está chegando no seu e-mail",
   "reports_income_download_error": "Não foi possível baixar o PDF",
   "reports_income_download_error_generic": "Erro ao baixar o PDF",
   "reports_income_statement_monthly_title": "Relatório financeiro mensal",

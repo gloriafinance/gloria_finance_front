@@ -2,7 +2,6 @@ import 'package:gloria_finance/core/app_http.dart';
 import 'package:gloria_finance/features/auth/auth_persistence.dart';
 import 'package:dio/dio.dart';
 
-import 'download/pdf_downloader.dart';
 import 'models/income_statement_filter_model.dart';
 import 'models/income_statement_model.dart';
 
@@ -38,20 +37,12 @@ class IncomeStatementService extends AppHttp {
     params.churchId = session.churchId;
 
     try {
-      final response = await http.get(
+      await http.get(
         '${await getUrlApi()}reports/finance/income-statement/pdf',
         queryParameters: params.toJson(),
-        options: Options(
-          headers: bearerToken(),
-          responseType: ResponseType.bytes,
-        ),
+        options: Options(headers: bearerToken()),
       );
-
-      final downloader = getIncomeStatementPdfDownloader();
-      final bytes = response.data as List<int>;
-      const fileName = 'estado_ingresos.pdf';
-
-      return await downloader.savePdf(bytes, fileName);
+      return true;
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;

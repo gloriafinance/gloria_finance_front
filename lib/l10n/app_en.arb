@@ -556,6 +556,7 @@
   "accountsPayable_form_save": "Save",
   "reports_income_download_pdf": "Download PDF",
   "reports_income_download_success": "PDF downloaded successfully",
+  "reports_income_download_email_arriving": "Income statement is arriving in your email",
   "reports_income_download_error": "Could not download the PDF",
   "reports_income_download_error_generic": "Error while downloading the PDF",
   "reports_income_statement_monthly_title": "Monthly financial report",
