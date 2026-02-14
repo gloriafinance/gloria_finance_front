@@ -64,7 +64,8 @@ class MemberContributionFormStore extends ChangeNotifier {
 
   void selectPaymentChannel(MemberPaymentChannel channel) {
     _state = _state.copyWith(selectedChannel: channel);
-    // Reset receipt data if switching away from manual
+
+    // If switching to manual receipt, reset paidAt if switching away from manual
     if (channel != MemberPaymentChannel.externalWithReceipt) {
       _state = _state.copyWith(
         paidAt: null,
