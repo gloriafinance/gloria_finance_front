@@ -52,7 +52,7 @@ class DREStore extends ChangeNotifier {
 
       if (success) {
         Toast.showMessage(
-          context.l10n.reports_dre_download_success,
+          context.l10n.reports_dre_download_email_arriving,
           ToastType.info,
         );
       } else {
