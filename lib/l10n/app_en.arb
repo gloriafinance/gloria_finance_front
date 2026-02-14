@@ -590,6 +590,7 @@
   "reports_income_category_help_unknown_body": "This line represents a transaction without detailed category classification.\n\nIn simple terms: there is financial movement, but the exact category was not identified.",
   "reports_dre_download_pdf": "Download PDF",
   "reports_dre_download_success": "PDF downloaded successfully",
+  "reports_dre_download_email_arriving": "Income statement is arriving in your email",
   "reports_dre_download_error": "Could not download the PDF",
   "reports_dre_download_error_generic": "Error while downloading the PDF",
   "reports_income_breakdown_title": "Income and expenses by category",

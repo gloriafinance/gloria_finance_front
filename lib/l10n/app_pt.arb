@@ -477,6 +477,7 @@
   "reports_income_category_help_unknown_body": "Esta linha representa um lançamento sem classificação detalhada.\n\nEm termos simples: existe movimento financeiro, mas a categoria não foi identificada.",
   "reports_dre_download_pdf": "Baixar PDF",
   "reports_dre_download_success": "PDF baixado com sucesso",
+  "reports_dre_download_email_arriving": "O demonstrativo de resultados está chegando no seu e-mail",
   "reports_dre_download_error": "Não foi possível baixar o PDF",
   "reports_dre_download_error_generic": "Erro ao baixar o PDF",
   "reports_income_breakdown_title": "Receitas e despesas por categoria",

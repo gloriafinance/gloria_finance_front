@@ -3049,6 +3049,12 @@ abstract class AppLocalizations {
   /// **'PDF downloaded successfully'**
   String get reports_dre_download_success;
 
+  /// No description provided for @reports_dre_download_email_arriving.
+  ///
+  /// In en, this message translates to:
+  /// **'Income statement is arriving in your email'**
+  String get reports_dre_download_email_arriving;
+
   /// No description provided for @reports_dre_download_error.
   ///
   /// In en, this message translates to:

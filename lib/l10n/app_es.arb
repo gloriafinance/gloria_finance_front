@@ -478,6 +478,7 @@
   "reports_income_category_help_unknown_body": "Esta línea representa un movimiento sin clasificación detallada.\n\nEn simple: hay movimiento financiero, pero no se identificó la categoría.",
   "reports_dre_download_pdf": "Descargar PDF",
   "reports_dre_download_success": "PDF descargado con éxito",
+  "reports_dre_download_email_arriving": "El estado de resultados está llegando a tu correo electrónico",
   "reports_dre_download_error": "No fue posible descargar el PDF",
   "reports_dre_download_error_generic": "Error al descargar el PDF",
   "reports_income_breakdown_title": "Ingresos y gastos por categoría",

@@ -1513,6 +1513,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get reports_dre_download_success => 'PDF descargado con éxito';
 
   @override
+  String get reports_dre_download_email_arriving => 'El estado de resultados está llegando a tu correo electrónico';
+
+  @override
   String get reports_dre_download_error => 'No fue posible descargar el PDF';
 
   @override
