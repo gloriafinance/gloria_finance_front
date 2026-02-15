@@ -243,7 +243,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get erp_menu_settings => 'Configuraçōes';
 
   @override
-  String get erp_menu_settings_security => 'Security Settings';
+  String get erp_menu_settings_security => 'Configuração de segurança';
 
   @override
   String get erp_menu_settings_users_access => 'Usuários e acesso';

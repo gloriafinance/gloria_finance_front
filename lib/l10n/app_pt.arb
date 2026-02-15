@@ -97,6 +97,7 @@
     }
   },
   "erp_menu_settings": "Configuraçōes",
+  "erp_menu_settings_security": "Configuração de segurança",
   "erp_menu_settings_users_access": "Usuários e acesso",
   "erp_menu_settings_roles_permissions": "Papéis e permissões",
   "erp_menu_settings_members": "Membros",
