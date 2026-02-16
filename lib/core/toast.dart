@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:motion_toast/motion_toast.dart';
 
-enum ToastType { info, warning, error }
+enum ToastType { info, warning, error, success }
 
 class Toast {
   static late BuildContext _context;

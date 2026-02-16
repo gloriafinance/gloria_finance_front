@@ -44,6 +44,17 @@ final List<Map<String, dynamic>> items = [
     ],
   },
   {
+    "key": "erp_menu_settings_integrations",
+    //"icon": Icons.integration_instructions,
+    "items": [
+      {
+        "key": "erp_menu_settings_whatsapp",
+        "icon": Icons.message, // Replace with specific icon if available
+        "to": "/integrations/whatsapp",
+      },
+    ],
+  },
+  {
     "key": "erp_menu_settings_security",
     //"icon": Icons.settings,
     "items": [

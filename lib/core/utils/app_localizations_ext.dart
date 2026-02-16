@@ -30,6 +30,10 @@ extension L10nMenuX on AppLocalizations {
         return erp_menu_settings_suppliers;
       case 'erp_menu_settings_financial_concepts':
         return erp_menu_settings_financial_concepts;
+      case 'erp_menu_settings_integrations':
+        return erp_menu_settings_integrations;
+      case 'erp_menu_settings_whatsapp':
+        return erp_menu_settings_whatsapp;
       case 'erp_menu_finance':
         return erp_menu_finance;
       case 'erp_menu_finance_contributions':

@@ -613,6 +613,96 @@ abstract class AppLocalizations {
   /// **'Financial concepts'**
   String get erp_menu_settings_financial_concepts;
 
+  /// No description provided for @erp_menu_settings_integrations.
+  ///
+  /// In en, this message translates to:
+  /// **'Integrations'**
+  String get erp_menu_settings_integrations;
+
+  /// No description provided for @erp_menu_settings_whatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get erp_menu_settings_whatsapp;
+
+  /// No description provided for @settings_integrations_whatsapp_title.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp Business'**
+  String get settings_integrations_whatsapp_title;
+
+  /// No description provided for @settings_integrations_whatsapp_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect your WhatsApp Business account to send automatic messages to your members.'**
+  String get settings_integrations_whatsapp_description;
+
+  /// No description provided for @settings_integrations_whatsapp_button_connect.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect my WhatsApp Business'**
+  String get settings_integrations_whatsapp_button_connect;
+
+  /// No description provided for @settings_integrations_whatsapp_connected.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected'**
+  String get settings_integrations_whatsapp_connected;
+
+  /// No description provided for @settings_integrations_whatsapp_disconnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect'**
+  String get settings_integrations_whatsapp_disconnect;
+
+  /// No description provided for @settings_integrations_whatsapp_waba_id.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp Business Account ID'**
+  String get settings_integrations_whatsapp_waba_id;
+
+  /// No description provided for @settings_integrations_whatsapp_phone_id.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number ID'**
+  String get settings_integrations_whatsapp_phone_id;
+
+  /// No description provided for @settings_integrations_whatsapp_success.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp connected successfully!'**
+  String get settings_integrations_whatsapp_success;
+
+  /// No description provided for @settings_integrations_whatsapp_error_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid WhatsApp credentials received.'**
+  String get settings_integrations_whatsapp_error_invalid;
+
+  /// No description provided for @settings_integrations_whatsapp_callback_loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting your WhatsApp Business account...'**
+  String get settings_integrations_whatsapp_callback_loading;
+
+  /// No description provided for @settings_integrations_whatsapp_callback_error_generic.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save credentials.'**
+  String get settings_integrations_whatsapp_callback_error_generic;
+
+  /// No description provided for @settings_integrations_whatsapp_callback_error_missing.
+  ///
+  /// In en, this message translates to:
+  /// **'Missing credentials from Meta. Please try again.'**
+  String get settings_integrations_whatsapp_callback_error_missing;
+
+  /// No description provided for @settings_integrations_whatsapp_callback_button_back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Settings'**
+  String get settings_integrations_whatsapp_callback_button_back;
+
   /// No description provided for @erp_menu_finance.
   ///
   /// In en, this message translates to:

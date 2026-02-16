@@ -273,6 +273,51 @@ class AppLocalizationsEn extends AppLocalizations {
   String get erp_menu_settings_financial_concepts => 'Financial concepts';
 
   @override
+  String get erp_menu_settings_integrations => 'Integrations';
+
+  @override
+  String get erp_menu_settings_whatsapp => 'WhatsApp';
+
+  @override
+  String get settings_integrations_whatsapp_title => 'WhatsApp Business';
+
+  @override
+  String get settings_integrations_whatsapp_description => 'Connect your WhatsApp Business account to send automatic messages to your members.';
+
+  @override
+  String get settings_integrations_whatsapp_button_connect => 'Connect my WhatsApp Business';
+
+  @override
+  String get settings_integrations_whatsapp_connected => 'Connected';
+
+  @override
+  String get settings_integrations_whatsapp_disconnect => 'Disconnect';
+
+  @override
+  String get settings_integrations_whatsapp_waba_id => 'WhatsApp Business Account ID';
+
+  @override
+  String get settings_integrations_whatsapp_phone_id => 'Phone Number ID';
+
+  @override
+  String get settings_integrations_whatsapp_success => 'WhatsApp connected successfully!';
+
+  @override
+  String get settings_integrations_whatsapp_error_invalid => 'Invalid WhatsApp credentials received.';
+
+  @override
+  String get settings_integrations_whatsapp_callback_loading => 'Connecting your WhatsApp Business account...';
+
+  @override
+  String get settings_integrations_whatsapp_callback_error_generic => 'Failed to save credentials.';
+
+  @override
+  String get settings_integrations_whatsapp_callback_error_missing => 'Missing credentials from Meta. Please try again.';
+
+  @override
+  String get settings_integrations_whatsapp_callback_button_back => 'Back to Settings';
+
+  @override
   String get erp_menu_finance => 'Finance';
 
   @override

@@ -273,6 +273,51 @@ class AppLocalizationsEs extends AppLocalizations {
   String get erp_menu_settings_financial_concepts => 'Conceptos financieros';
 
   @override
+  String get erp_menu_settings_integrations => 'Integraciones';
+
+  @override
+  String get erp_menu_settings_whatsapp => 'WhatsApp';
+
+  @override
+  String get settings_integrations_whatsapp_title => 'WhatsApp Business';
+
+  @override
+  String get settings_integrations_whatsapp_description => 'Conecta tu cuenta de WhatsApp Business para enviar mensajes automáticos a tus miembros.';
+
+  @override
+  String get settings_integrations_whatsapp_button_connect => 'Conectar mi WhatsApp Business';
+
+  @override
+  String get settings_integrations_whatsapp_connected => 'Conectado';
+
+  @override
+  String get settings_integrations_whatsapp_disconnect => 'Desconectar';
+
+  @override
+  String get settings_integrations_whatsapp_waba_id => 'ID de la cuenta de WhatsApp Business';
+
+  @override
+  String get settings_integrations_whatsapp_phone_id => 'ID del número de teléfono';
+
+  @override
+  String get settings_integrations_whatsapp_success => '¡WhatsApp conectado con éxito!';
+
+  @override
+  String get settings_integrations_whatsapp_error_invalid => 'Se recibieron credenciales de WhatsApp inválidas.';
+
+  @override
+  String get settings_integrations_whatsapp_callback_loading => 'Conectando tu cuenta de WhatsApp Business...';
+
+  @override
+  String get settings_integrations_whatsapp_callback_error_generic => 'Error al guardar las credenciales.';
+
+  @override
+  String get settings_integrations_whatsapp_callback_error_missing => 'Faltan credenciales de Meta. Por favor, inténtalo de nuevo.';
+
+  @override
+  String get settings_integrations_whatsapp_callback_button_back => 'Volver a Configuración';
+
+  @override
   String get erp_menu_finance => 'Finanzas';
 
   @override
