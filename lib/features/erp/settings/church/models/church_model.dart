@@ -16,6 +16,7 @@ class ChurchModel {
   final String? phoneNumberId;
   final bool isWhatsappConnected;
   final String? logoUrl;
+  final List<ChurchDoctrinalBaseModel> doctrinalBases;
 
   ChurchModel({
     required this.id,
@@ -35,6 +36,7 @@ class ChurchModel {
     this.phoneNumberId,
     this.isWhatsappConnected = false,
     this.logoUrl,
+    this.doctrinalBases = const [],
   });
 
   factory ChurchModel.fromJson(Map<String, dynamic> json) {
@@ -59,6 +61,16 @@ class ChurchModel {
       phoneNumberId: json['phoneNumberId'],
       isWhatsappConnected: json['isWhatsappConnected'] == true,
       logoUrl: json['logoUrl'],
+      doctrinalBases:
+          (json['doctrinalBases'] as List?)
+              ?.whereType<Map>()
+              .map(
+                (item) => ChurchDoctrinalBaseModel.fromJson(
+                  Map<String, dynamic>.from(item),
+                ),
+              )
+              .toList() ??
+          const [],
     );
   }
 
@@ -81,6 +93,7 @@ class ChurchModel {
       'phoneNumberId': phoneNumberId,
       'isWhatsappConnected': isWhatsappConnected,
       'logoUrl': logoUrl,
+      'doctrinalBases': doctrinalBases.map((item) => item.toJson()).toList(),
     };
   }
 
@@ -100,6 +113,7 @@ class ChurchModel {
     String? phoneNumberId,
     bool? isWhatsappConnected,
     String? logoUrl,
+    List<ChurchDoctrinalBaseModel>? doctrinalBases,
   }) {
     return ChurchModel(
       id: id,
@@ -119,6 +133,35 @@ class ChurchModel {
       phoneNumberId: phoneNumberId ?? this.phoneNumberId,
       isWhatsappConnected: isWhatsappConnected ?? this.isWhatsappConnected,
       logoUrl: logoUrl ?? this.logoUrl,
+      doctrinalBases: doctrinalBases ?? this.doctrinalBases,
+    );
+  }
+}
+
+class ChurchDoctrinalBaseModel {
+  final String title;
+  final String scripture;
+
+  const ChurchDoctrinalBaseModel({
+    required this.title,
+    required this.scripture,
+  });
+
+  factory ChurchDoctrinalBaseModel.fromJson(Map<String, dynamic> json) {
+    return ChurchDoctrinalBaseModel(
+      title: json['title']?.toString() ?? '',
+      scripture: json['scripture']?.toString() ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'title': title, 'scripture': scripture};
+  }
+
+  ChurchDoctrinalBaseModel copyWith({String? title, String? scripture}) {
+    return ChurchDoctrinalBaseModel(
+      title: title ?? this.title,
+      scripture: scripture ?? this.scripture,
     );
   }
 }

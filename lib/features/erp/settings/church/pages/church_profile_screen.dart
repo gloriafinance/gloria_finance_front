@@ -1,7 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/toast.dart';
 import 'package:gloria_finance/features/auth/pages/login/store/auth_session_store.dart';
+import 'package:gloria_finance/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -9,6 +12,7 @@ import '../models/church_model.dart';
 import '../services/church_service.dart';
 import '../store/church_store.dart';
 import 'widgets/church_profile_address_card.dart';
+import 'widgets/church_profile_doctrinal_bases_card.dart';
 import 'widgets/church_profile_general_info_card.dart';
 import 'widgets/church_profile_header.dart';
 import 'widgets/church_profile_logo_card.dart';
@@ -40,8 +44,10 @@ class _ChurchProfileContent extends StatefulWidget {
   State<_ChurchProfileContent> createState() => _ChurchProfileContentState();
 }
 
-class _ChurchProfileContentState extends State<_ChurchProfileContent> {
+class _ChurchProfileContentState extends State<_ChurchProfileContent>
+    with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
+  late final TabController _tabController;
 
   String _name = '';
   String _openerDate = '';
@@ -52,10 +58,18 @@ class _ChurchProfileContentState extends State<_ChurchProfileContent> {
   String _number = '';
   String _city = '';
   String _state = '';
+  List<ChurchDoctrinalBaseModel> _doctrinalBases = [];
 
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   void _populateFields(ChurchModel church) {
@@ -70,6 +84,11 @@ class _ChurchProfileContentState extends State<_ChurchProfileContent> {
     if (_street.isEmpty) _street = church.street;
     if (_number.isEmpty) _number = church.number;
     if (_city.isEmpty) _city = church.city;
+    if (_doctrinalBases.isEmpty) {
+      _doctrinalBases = List<ChurchDoctrinalBaseModel>.from(
+        church.doctrinalBases,
+      );
+    }
   }
 
   Future<void> _launchMetaSignup() async {
@@ -110,6 +129,65 @@ class _ChurchProfileContentState extends State<_ChurchProfileContent> {
     }
   }
 
+  Future<void> _saveProfile() async {
+    final store = context.read<ChurchStore>();
+    final church = store.church;
+    if (church == null) {
+      return;
+    }
+
+    final openingDate = _parseOpeningDate(_openerDate) ?? church.openingDate;
+    if (openingDate == null) {
+      Toast.showMessage('Invalid opening date', ToastType.warning);
+      return;
+    }
+
+    final doctrinalBases =
+        _doctrinalBases
+            .where(
+              (item) =>
+                  item.title.trim().isNotEmpty &&
+                  item.scripture.trim().isNotEmpty,
+            )
+            .toList();
+
+    final updatedChurch = church.copyWith(
+      name: _name.trim(),
+      email: _email.trim(),
+      city: _city.trim(),
+      address: church.address,
+      street: _street.trim(),
+      number: _number.trim(),
+      postalCode: _cep.trim(),
+      openingDate: openingDate,
+      doctrinalBases: doctrinalBases,
+    );
+
+    await store.updateChurch(updatedChurch);
+    if (!mounted) return;
+
+    if (store.errorMessage == null) {
+      Toast.showMessage('Dados da igreja atualizados', ToastType.success);
+    }
+  }
+
+  DateTime? _parseOpeningDate(String value) {
+    final parts = value.split('/');
+    if (parts.length != 3) {
+      return null;
+    }
+
+    final month = int.tryParse(parts[0]);
+    final day = int.tryParse(parts[1]);
+    final year = int.tryParse(parts[2]);
+
+    if (month == null || day == null || year == null) {
+      return null;
+    }
+
+    return DateTime(year, month, day);
+  }
+
   @override
   Widget build(BuildContext context) {
     final store = context.watch<ChurchStore>();
@@ -137,17 +215,72 @@ class _ChurchProfileContentState extends State<_ChurchProfileContent> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const ChurchProfileHeader(),
-                const SizedBox(height: 48),
-                if (isDesktop)
-                  _buildDesktopLayout(store)
-                else
-                  _buildMobileLayout(store),
+                ChurchProfileHeader(
+                  onSave: _saveProfile,
+                  isSaving: store.isLoading,
+                ),
+                const SizedBox(height: 32),
+                _buildTabs(store, isDesktop),
               ],
             ),
           ),
         );
       },
+    );
+  }
+
+  Widget _buildTabs(ChurchStore store, bool isDesktop) {
+    final l10n = AppLocalizations.of(context)!;
+    final profileContent =
+        isDesktop ? _buildDesktopLayout(store) : _buildMobileLayout(store);
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 16,
+            offset: Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TabBar(
+            controller: _tabController,
+            labelColor: AppColors.purple,
+            unselectedLabelColor: AppColors.grey,
+            indicator: BoxDecoration(
+              color: AppColors.purple.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            indicatorSize: TabBarIndicatorSize.tab,
+            labelStyle: const TextStyle(
+              fontFamily: AppFonts.fontSubTitle,
+              fontWeight: FontWeight.w600,
+            ),
+            tabs: [
+              Tab(text: l10n.settings_church_profile_title),
+              const Tab(text: 'Bases doutrinárias'),
+            ],
+          ),
+          const SizedBox(height: 24),
+          AnimatedBuilder(
+            animation: _tabController,
+            builder: (context, _) {
+              return IndexedStack(
+                index: _tabController.index,
+                children: [profileContent, _buildDoctrinalTabContent()],
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -194,6 +327,13 @@ class _ChurchProfileContentState extends State<_ChurchProfileContent> {
     );
   }
 
+  Widget _buildDoctrinalTabContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [_buildDoctrinalBasesCard()],
+    );
+  }
+
   Widget _buildGeneralInfoCard() {
     return ChurchProfileGeneralInfoCard(
       name: _name,
@@ -219,6 +359,17 @@ class _ChurchProfileContentState extends State<_ChurchProfileContent> {
       onNumberChanged: (value) => _number = value,
       onCityChanged: (value) => _city = value,
       onStateChanged: (value) => _state = value,
+    );
+  }
+
+  Widget _buildDoctrinalBasesCard() {
+    return ChurchProfileDoctrinalBasesCard(
+      doctrinalBases: _doctrinalBases,
+      onChanged: (value) {
+        setState(() {
+          _doctrinalBases = value;
+        });
+      },
     );
   }
 
