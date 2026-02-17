@@ -22,6 +22,9 @@ import 'members/pages/members_list/members_screen.dart';
 import 'rbac/pages/role_permission_screen.dart';
 import 'rbac/pages/user_access_screen.dart';
 
+import 'pages/integrations/whatsapp/whatsapp_callback_screen.dart';
+import 'church/pages/church_profile_screen.dart';
+
 settingsRouter() {
   return <RouteBase>[
     GoRoute(
@@ -136,7 +139,6 @@ settingsRouter() {
       path: '/cost-center/edit/:costCenterId',
       pageBuilder: (context, state) {
         CostCenterModel? costCenter;
-        print(state.extra);
         if (state.extra is CostCenterModel) {
           costCenter = state.extra as CostCenterModel;
         } else {
@@ -154,6 +156,26 @@ settingsRouter() {
       path: '/financial-months',
       pageBuilder: (context, state) {
         return transitionCustom(const FinancialMonthListScreen());
+      },
+    ),
+
+    GoRoute(
+      path: '/integrations/whatsapp/callback',
+      pageBuilder: (context, state) {
+        return transitionCustom(
+          WhatsappCallbackScreen(queryParameters: state.uri.queryParameters),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/church-profile',
+      pageBuilder: (context, state) {
+        if (state.uri.queryParameters['code'] != null) {
+          return transitionCustom(
+            WhatsappCallbackScreen(queryParameters: state.uri.queryParameters),
+          );
+        }
+        return transitionCustom(const ChurchProfileScreen());
       },
     ),
   ];

@@ -4,6 +4,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:flutter_web_plugins/url_strategy.dart';
+
 import 'app/member_router.dart';
 import 'app/my_app.dart';
 import 'app/store_manager.dart';
@@ -18,6 +20,7 @@ Future<void> _firebaseBackgroundHandler(RemoteMessage message) async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  usePathUrlStrategy();
 
   // 2) Firebase init
   await Firebase.initializeApp();

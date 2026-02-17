@@ -2,12 +2,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:flutter_web_plugins/url_strategy.dart';
+
 import 'app/erp_router.dart';
 import 'app/my_app.dart';
 import 'app/store_manager.dart';
 import 'core/app_http.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  usePathUrlStrategy();
   final storeManager = StoreManager();
   storeManager.isMemberExperience = false;
   AppHttp.onUnauthorized = () {

@@ -30,6 +30,10 @@ extension L10nMenuX on AppLocalizations {
         return erp_menu_settings_suppliers;
       case 'erp_menu_settings_financial_concepts':
         return erp_menu_settings_financial_concepts;
+      case 'erp_menu_settings_integrations':
+        return erp_menu_settings_integrations;
+      case 'erp_menu_settings_whatsapp':
+        return erp_menu_settings_whatsapp;
       case 'erp_menu_finance':
         return erp_menu_finance;
       case 'erp_menu_finance_contributions':
@@ -60,6 +64,8 @@ extension L10nMenuX on AppLocalizations {
         return erp_menu_schedule;
       case 'erp_menu_schedule_events':
         return erp_menu_schedule_events;
+      case 'erp_menu_settings_church_profile':
+        return erp_menu_settings_church_profile;
       default:
         return key;
     }

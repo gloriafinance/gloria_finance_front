@@ -613,6 +613,396 @@ abstract class AppLocalizations {
   /// **'Financial concepts'**
   String get erp_menu_settings_financial_concepts;
 
+  /// No description provided for @erp_menu_settings_integrations.
+  ///
+  /// In en, this message translates to:
+  /// **'Integrations'**
+  String get erp_menu_settings_integrations;
+
+  /// No description provided for @erp_menu_settings_whatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get erp_menu_settings_whatsapp;
+
+  /// No description provided for @erp_menu_settings_church_profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Church Profile'**
+  String get erp_menu_settings_church_profile;
+
+  /// No description provided for @settings_church_profile_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Church Profile'**
+  String get settings_church_profile_title;
+
+  /// No description provided for @settings_church_profile_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your organization\'s main information and settings.'**
+  String get settings_church_profile_subtitle;
+
+  /// No description provided for @settings_church_profile_general_info.
+  ///
+  /// In en, this message translates to:
+  /// **'General Information'**
+  String get settings_church_profile_general_info;
+
+  /// No description provided for @settings_church_profile_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization Name'**
+  String get settings_church_profile_name;
+
+  /// No description provided for @settings_church_profile_opening_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening Date'**
+  String get settings_church_profile_opening_date;
+
+  /// No description provided for @settings_church_profile_status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get settings_church_profile_status;
+
+  /// No description provided for @settings_church_profile_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Main Email'**
+  String get settings_church_profile_email;
+
+  /// No description provided for @settings_church_profile_address.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get settings_church_profile_address;
+
+  /// No description provided for @settings_church_profile_cep.
+  ///
+  /// In en, this message translates to:
+  /// **'ZIP Code'**
+  String get settings_church_profile_cep;
+
+  /// No description provided for @settings_church_profile_street.
+  ///
+  /// In en, this message translates to:
+  /// **'Street'**
+  String get settings_church_profile_street;
+
+  /// No description provided for @settings_church_profile_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Number'**
+  String get settings_church_profile_number;
+
+  /// No description provided for @settings_church_profile_city.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get settings_church_profile_city;
+
+  /// No description provided for @settings_church_profile_state.
+  ///
+  /// In en, this message translates to:
+  /// **'State'**
+  String get settings_church_profile_state;
+
+  /// No description provided for @settings_church_profile_logo_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization Logo'**
+  String get settings_church_profile_logo_title;
+
+  /// No description provided for @settings_church_profile_logo_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended: 500x500px, PNG or JPG. Max 2MB.'**
+  String get settings_church_profile_logo_subtitle;
+
+  /// No description provided for @settings_church_profile_upload_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload New Image'**
+  String get settings_church_profile_upload_button;
+
+  /// No description provided for @settings_church_profile_whatsapp_title.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get settings_church_profile_whatsapp_title;
+
+  /// No description provided for @settings_church_profile_whatsapp_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect your WhatsApp Business account to send reports and receipts automatically.'**
+  String get settings_church_profile_whatsapp_subtitle;
+
+  /// No description provided for @settings_church_profile_whatsapp_connect.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect Business'**
+  String get settings_church_profile_whatsapp_connect;
+
+  /// No description provided for @settings_church_profile_whatsapp_connected.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp Connected'**
+  String get settings_church_profile_whatsapp_connected;
+
+  /// No description provided for @settings_church_profile_whatsapp_disconnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect'**
+  String get settings_church_profile_whatsapp_disconnect;
+
+  /// No description provided for @settings_church_profile_cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get settings_church_profile_cancel;
+
+  /// No description provided for @settings_church_profile_save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get settings_church_profile_save;
+
+  /// No description provided for @settings_church_profile_doctrinal_basis.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctrinal Basis'**
+  String get settings_church_profile_doctrinal_basis;
+
+  /// No description provided for @settings_church_profile_doctrinal_important.
+  ///
+  /// In en, this message translates to:
+  /// **'Important'**
+  String get settings_church_profile_doctrinal_important;
+
+  /// No description provided for @settings_church_profile_doctrinal_banner_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Register and maintain the church\'s doctrinal bases for institutional use. This information may appear in official reports and documents.'**
+  String get settings_church_profile_doctrinal_banner_text;
+
+  /// No description provided for @settings_church_profile_doctrinal_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No doctrinal bases registered. Add the first base to get started.'**
+  String get settings_church_profile_doctrinal_empty;
+
+  /// No description provided for @settings_church_profile_doctrinal_title_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctrine Title'**
+  String get settings_church_profile_doctrinal_title_label;
+
+  /// No description provided for @settings_church_profile_doctrinal_scripture_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Biblical References'**
+  String get settings_church_profile_doctrinal_scripture_label;
+
+  /// No description provided for @settings_church_profile_doctrinal_scripture_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No references registered.'**
+  String get settings_church_profile_doctrinal_scripture_empty;
+
+  /// No description provided for @settings_church_profile_doctrinal_base_fundamental.
+  ///
+  /// In en, this message translates to:
+  /// **'FUNDAMENTAL BASE'**
+  String get settings_church_profile_doctrinal_base_fundamental;
+
+  /// No description provided for @settings_church_profile_doctrinal_base_theological.
+  ///
+  /// In en, this message translates to:
+  /// **'THEOLOGICAL BASE'**
+  String get settings_church_profile_doctrinal_base_theological;
+
+  /// No description provided for @settings_church_profile_doctrinal_base_ordinal.
+  ///
+  /// In en, this message translates to:
+  /// **'DOCTRINAL BASE {index}'**
+  String settings_church_profile_doctrinal_base_ordinal(int index);
+
+  /// No description provided for @settings_church_profile_doctrinal_edit_tooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit base'**
+  String get settings_church_profile_doctrinal_edit_tooltip;
+
+  /// No description provided for @settings_church_profile_doctrinal_delete_tooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove base'**
+  String get settings_church_profile_doctrinal_delete_tooltip;
+
+  /// No description provided for @settings_church_profile_doctrinal_add_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Add doctrinal base'**
+  String get settings_church_profile_doctrinal_add_title;
+
+  /// No description provided for @settings_church_profile_doctrinal_edit_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit doctrinal base'**
+  String get settings_church_profile_doctrinal_edit_title;
+
+  /// No description provided for @settings_church_profile_doctrinal_form_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctrine title'**
+  String get settings_church_profile_doctrinal_form_title;
+
+  /// No description provided for @settings_church_profile_doctrinal_form_title_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe the belief or fundamental principle.'**
+  String get settings_church_profile_doctrinal_form_title_hint;
+
+  /// No description provided for @settings_church_profile_doctrinal_form_title_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the doctrine title'**
+  String get settings_church_profile_doctrinal_form_title_error;
+
+  /// No description provided for @settings_church_profile_doctrinal_form_scripture.
+  ///
+  /// In en, this message translates to:
+  /// **'Biblical references'**
+  String get settings_church_profile_doctrinal_form_scripture;
+
+  /// No description provided for @settings_church_profile_doctrinal_form_scripture_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a reference and press Enter to add as a tag.'**
+  String get settings_church_profile_doctrinal_form_scripture_hint;
+
+  /// No description provided for @settings_church_profile_doctrinal_form_scripture_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Add at least one biblical reference.'**
+  String get settings_church_profile_doctrinal_form_scripture_error;
+
+  /// No description provided for @settings_church_profile_toast_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Church data updated'**
+  String get settings_church_profile_toast_success;
+
+  /// No description provided for @settings_church_profile_toast_invalid_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid opening date'**
+  String get settings_church_profile_toast_invalid_date;
+
+  /// No description provided for @settings_church_profile_toast_meta_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not launch Meta Signup'**
+  String get settings_church_profile_toast_meta_error;
+
+  /// No description provided for @settings_church_profile_status_active.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get settings_church_profile_status_active;
+
+  /// No description provided for @settings_church_profile_status_inactive.
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive'**
+  String get settings_church_profile_status_inactive;
+
+  /// No description provided for @settings_church_profile_state_select.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get settings_church_profile_state_select;
+
+  /// No description provided for @settings_integrations_whatsapp_title.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp Business'**
+  String get settings_integrations_whatsapp_title;
+
+  /// No description provided for @settings_integrations_whatsapp_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect your WhatsApp Business account to send automatic messages to your members.'**
+  String get settings_integrations_whatsapp_description;
+
+  /// No description provided for @settings_integrations_whatsapp_button_connect.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect my WhatsApp Business'**
+  String get settings_integrations_whatsapp_button_connect;
+
+  /// No description provided for @settings_integrations_whatsapp_connected.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected'**
+  String get settings_integrations_whatsapp_connected;
+
+  /// No description provided for @settings_integrations_whatsapp_disconnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect'**
+  String get settings_integrations_whatsapp_disconnect;
+
+  /// No description provided for @settings_integrations_whatsapp_waba_id.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp Business Account ID'**
+  String get settings_integrations_whatsapp_waba_id;
+
+  /// No description provided for @settings_integrations_whatsapp_phone_id.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number ID'**
+  String get settings_integrations_whatsapp_phone_id;
+
+  /// No description provided for @settings_integrations_whatsapp_success.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp connected successfully!'**
+  String get settings_integrations_whatsapp_success;
+
+  /// No description provided for @settings_integrations_whatsapp_error_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid WhatsApp credentials received.'**
+  String get settings_integrations_whatsapp_error_invalid;
+
+  /// No description provided for @settings_integrations_whatsapp_callback_loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting your WhatsApp Business account...'**
+  String get settings_integrations_whatsapp_callback_loading;
+
+  /// No description provided for @settings_integrations_whatsapp_callback_error_generic.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save credentials.'**
+  String get settings_integrations_whatsapp_callback_error_generic;
+
+  /// No description provided for @settings_integrations_whatsapp_callback_error_missing.
+  ///
+  /// In en, this message translates to:
+  /// **'Missing credentials from Meta. Please try again.'**
+  String get settings_integrations_whatsapp_callback_error_missing;
+
+  /// No description provided for @settings_integrations_whatsapp_callback_button_back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Settings'**
+  String get settings_integrations_whatsapp_callback_button_back;
+
   /// No description provided for @erp_menu_finance.
   ///
   /// In en, this message translates to:

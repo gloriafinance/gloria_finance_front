@@ -30,16 +30,18 @@ class LoginScreen extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(
-          children: [
-            SizedBox(height: 40),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              child: const ApplicationLogo(height: 100),
-            ),
-            // Show Social Login for Member Experience, Email Login for ERP
-            isMember ? const FormLogin() : const FormEmailLogin(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 40),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: const ApplicationLogo(height: 100),
+              ),
+              // Show Social Login for Member Experience, Email Login for ERP
+              isMember ? const FormLogin() : const FormEmailLogin(),
+            ],
+          ),
         ),
       ),
     );

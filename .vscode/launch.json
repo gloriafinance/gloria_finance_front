@@ -6,7 +6,8 @@
       "request": "launch",
       "type": "dart",
       "program": "lib/main_erp.dart",
-      "deviceId": "chrome"
+      "deviceId": "chrome",
+      "args": ["--web-port", "3000"]
     },
     {
       "name": "Member Experience",

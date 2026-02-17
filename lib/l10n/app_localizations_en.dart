@@ -273,6 +273,203 @@ class AppLocalizationsEn extends AppLocalizations {
   String get erp_menu_settings_financial_concepts => 'Financial concepts';
 
   @override
+  String get erp_menu_settings_integrations => 'Integrations';
+
+  @override
+  String get erp_menu_settings_whatsapp => 'WhatsApp';
+
+  @override
+  String get erp_menu_settings_church_profile => 'Church Profile';
+
+  @override
+  String get settings_church_profile_title => 'Church Profile';
+
+  @override
+  String get settings_church_profile_subtitle => 'Manage your organization\'s main information and settings.';
+
+  @override
+  String get settings_church_profile_general_info => 'General Information';
+
+  @override
+  String get settings_church_profile_name => 'Organization Name';
+
+  @override
+  String get settings_church_profile_opening_date => 'Opening Date';
+
+  @override
+  String get settings_church_profile_status => 'Status';
+
+  @override
+  String get settings_church_profile_email => 'Main Email';
+
+  @override
+  String get settings_church_profile_address => 'Address';
+
+  @override
+  String get settings_church_profile_cep => 'ZIP Code';
+
+  @override
+  String get settings_church_profile_street => 'Street';
+
+  @override
+  String get settings_church_profile_number => 'Number';
+
+  @override
+  String get settings_church_profile_city => 'City';
+
+  @override
+  String get settings_church_profile_state => 'State';
+
+  @override
+  String get settings_church_profile_logo_title => 'Organization Logo';
+
+  @override
+  String get settings_church_profile_logo_subtitle => 'Recommended: 500x500px, PNG or JPG. Max 2MB.';
+
+  @override
+  String get settings_church_profile_upload_button => 'Upload New Image';
+
+  @override
+  String get settings_church_profile_whatsapp_title => 'WhatsApp';
+
+  @override
+  String get settings_church_profile_whatsapp_subtitle => 'Connect your WhatsApp Business account to send reports and receipts automatically.';
+
+  @override
+  String get settings_church_profile_whatsapp_connect => 'Connect Business';
+
+  @override
+  String get settings_church_profile_whatsapp_connected => 'WhatsApp Connected';
+
+  @override
+  String get settings_church_profile_whatsapp_disconnect => 'Disconnect';
+
+  @override
+  String get settings_church_profile_cancel => 'Cancel';
+
+  @override
+  String get settings_church_profile_save => 'Save Changes';
+
+  @override
+  String get settings_church_profile_doctrinal_basis => 'Doctrinal Basis';
+
+  @override
+  String get settings_church_profile_doctrinal_important => 'Important';
+
+  @override
+  String get settings_church_profile_doctrinal_banner_text => 'Register and maintain the church\'s doctrinal bases for institutional use. This information may appear in official reports and documents.';
+
+  @override
+  String get settings_church_profile_doctrinal_empty => 'No doctrinal bases registered. Add the first base to get started.';
+
+  @override
+  String get settings_church_profile_doctrinal_title_label => 'Doctrine Title';
+
+  @override
+  String get settings_church_profile_doctrinal_scripture_label => 'Biblical References';
+
+  @override
+  String get settings_church_profile_doctrinal_scripture_empty => 'No references registered.';
+
+  @override
+  String get settings_church_profile_doctrinal_base_fundamental => 'FUNDAMENTAL BASE';
+
+  @override
+  String get settings_church_profile_doctrinal_base_theological => 'THEOLOGICAL BASE';
+
+  @override
+  String settings_church_profile_doctrinal_base_ordinal(int index) {
+    return 'DOCTRINAL BASE $index';
+  }
+
+  @override
+  String get settings_church_profile_doctrinal_edit_tooltip => 'Edit base';
+
+  @override
+  String get settings_church_profile_doctrinal_delete_tooltip => 'Remove base';
+
+  @override
+  String get settings_church_profile_doctrinal_add_title => 'Add doctrinal base';
+
+  @override
+  String get settings_church_profile_doctrinal_edit_title => 'Edit doctrinal base';
+
+  @override
+  String get settings_church_profile_doctrinal_form_title => 'Doctrine title';
+
+  @override
+  String get settings_church_profile_doctrinal_form_title_hint => 'Describe the belief or fundamental principle.';
+
+  @override
+  String get settings_church_profile_doctrinal_form_title_error => 'Enter the doctrine title';
+
+  @override
+  String get settings_church_profile_doctrinal_form_scripture => 'Biblical references';
+
+  @override
+  String get settings_church_profile_doctrinal_form_scripture_hint => 'Enter a reference and press Enter to add as a tag.';
+
+  @override
+  String get settings_church_profile_doctrinal_form_scripture_error => 'Add at least one biblical reference.';
+
+  @override
+  String get settings_church_profile_toast_success => 'Church data updated';
+
+  @override
+  String get settings_church_profile_toast_invalid_date => 'Invalid opening date';
+
+  @override
+  String get settings_church_profile_toast_meta_error => 'Could not launch Meta Signup';
+
+  @override
+  String get settings_church_profile_status_active => 'Active';
+
+  @override
+  String get settings_church_profile_status_inactive => 'Inactive';
+
+  @override
+  String get settings_church_profile_state_select => 'Select';
+
+  @override
+  String get settings_integrations_whatsapp_title => 'WhatsApp Business';
+
+  @override
+  String get settings_integrations_whatsapp_description => 'Connect your WhatsApp Business account to send automatic messages to your members.';
+
+  @override
+  String get settings_integrations_whatsapp_button_connect => 'Connect my WhatsApp Business';
+
+  @override
+  String get settings_integrations_whatsapp_connected => 'Connected';
+
+  @override
+  String get settings_integrations_whatsapp_disconnect => 'Disconnect';
+
+  @override
+  String get settings_integrations_whatsapp_waba_id => 'WhatsApp Business Account ID';
+
+  @override
+  String get settings_integrations_whatsapp_phone_id => 'Phone Number ID';
+
+  @override
+  String get settings_integrations_whatsapp_success => 'WhatsApp connected successfully!';
+
+  @override
+  String get settings_integrations_whatsapp_error_invalid => 'Invalid WhatsApp credentials received.';
+
+  @override
+  String get settings_integrations_whatsapp_callback_loading => 'Connecting your WhatsApp Business account...';
+
+  @override
+  String get settings_integrations_whatsapp_callback_error_generic => 'Failed to save credentials.';
+
+  @override
+  String get settings_integrations_whatsapp_callback_error_missing => 'Missing credentials from Meta. Please try again.';
+
+  @override
+  String get settings_integrations_whatsapp_callback_button_back => 'Back to Settings';
+
+  @override
   String get erp_menu_finance => 'Finance';
 
   @override

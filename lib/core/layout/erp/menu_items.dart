@@ -11,6 +11,11 @@ final List<Map<String, dynamic>> items = [
     //"icon": Icons.settings,
     "items": [
       {
+        "key": "erp_menu_settings_church_profile",
+        "icon": Icons.church,
+        "to": "/church-profile",
+      },
+      {
         "key": "erp_menu_settings_financial_periods",
         "icon": Icons.calendar_month_outlined,
         "to": "/financial-months",
@@ -43,6 +48,7 @@ final List<Map<String, dynamic>> items = [
       },
     ],
   },
+
   {
     "key": "erp_menu_settings_security",
     //"icon": Icons.settings,
