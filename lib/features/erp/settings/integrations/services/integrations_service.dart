@@ -3,6 +3,7 @@ import 'package:gloria_finance/core/app_http.dart';
 
 class IntegrationsService extends AppHttp {
   IntegrationsService({super.tokenAPI});
+
   Future<void> setWhatsappCredentials({
     required String code,
     required String redirectUri,
@@ -13,6 +14,20 @@ class IntegrationsService extends AppHttp {
       await http.post(
         '${url}integrations/whatsapp',
         data: {'code': code, 'redirectUri': redirectUri},
+        options: Options(headers: bearerToken()),
+      );
+    } catch (e) {
+      transformResponse(e is DioException ? e.response?.data : e);
+      rethrow;
+    }
+  }
+
+  Future<void> disconnectWhatsapp() async {
+    final url = await getUrlApi();
+
+    try {
+      await http.delete(
+        '${url}integrations/whatsapp',
         options: Options(headers: bearerToken()),
       );
     } catch (e) {

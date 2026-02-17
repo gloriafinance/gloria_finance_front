@@ -1,29 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:gloria_finance/features/auth/pages/login/store/auth_session_store.dart';
+import 'package:gloria_finance/features/erp/settings/church/store/church_store.dart';
+import 'package:gloria_finance/features/erp/settings/integrations/services/integrations_service.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/widgets/custom_button.dart';
 import 'package:gloria_finance/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/church_model.dart';
 import 'church_profile_card.dart';
 
-class ChurchProfileWhatsAppCard extends StatelessWidget {
+class ChurchProfileWhatsAppCard extends StatefulWidget {
   final ChurchModel? church;
   final VoidCallback onConnect;
-  final VoidCallback onDisconnect;
 
   const ChurchProfileWhatsAppCard({
     super.key,
     required this.church,
     required this.onConnect,
-    required this.onDisconnect,
   });
+
+  @override
+  State<ChurchProfileWhatsAppCard> createState() =>
+      _ChurchProfileWhatsAppCardState();
+}
+
+class _ChurchProfileWhatsAppCardState extends State<ChurchProfileWhatsAppCard> {
+  bool _isDisconnecting = false;
+
+  Future<void> _disconnectWhatsapp() async {
+    if (_isDisconnecting) return;
+
+    final authStore = context.read<AuthSessionStore>();
+    final churchStore = context.read<ChurchStore>();
+    final service = IntegrationsService(
+      tokenAPI: authStore.state.session.token,
+    );
+
+    setState(() => _isDisconnecting = true);
+    try {
+      await service.disconnectWhatsapp();
+      await churchStore.loadChurch(authStore.state.session.churchId);
+    } catch (_) {
+      // Error toast is already handled by AppHttp.transformResponse.
+    } finally {
+      if (mounted) {
+        setState(() => _isDisconnecting = false);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     // Check if WABA ID is present (connected)
     final bool isConnected =
-        church?.wabaId != null && church!.wabaId!.isNotEmpty;
+        widget.church?.wabaId != null && widget.church!.wabaId!.isNotEmpty;
 
     return ChurchProfileCard(
       title: l10n.settings_church_profile_whatsapp_title,
@@ -47,7 +79,8 @@ class ChurchProfileWhatsAppCard extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: CustomButton(
-              onPressed: isConnected ? null : onConnect,
+              onPressed:
+                  isConnected || _isDisconnecting ? null : widget.onConnect,
               icon: isConnected ? Icons.check_circle : Icons.chat,
               text:
                   isConnected
@@ -63,11 +96,19 @@ class ChurchProfileWhatsAppCard extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: CustomButton(
-                onPressed: onDisconnect,
+                onPressed: _isDisconnecting ? null : _disconnectWhatsapp,
                 text: l10n.settings_church_profile_whatsapp_disconnect,
                 backgroundColor: Colors.red,
                 typeButton: CustomButton.outline,
                 textColor: Colors.red,
+                leading:
+                    _isDisconnecting
+                        ? const SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                        : null,
               ),
             ),
           ],

@@ -226,9 +226,6 @@ class _ChurchProfileContentState extends State<_ChurchProfileContent> {
     return ChurchProfileWhatsAppCard(
       church: store.church,
       onConnect: _launchMetaSignup,
-      onDisconnect: () {
-        // Implement Disconnect
-      },
     );
   }
 }
