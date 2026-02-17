@@ -139,7 +139,6 @@ settingsRouter() {
       path: '/cost-center/edit/:costCenterId',
       pageBuilder: (context, state) {
         CostCenterModel? costCenter;
-        print(state.extra);
         if (state.extra is CostCenterModel) {
           costCenter = state.extra as CostCenterModel;
         } else {
@@ -171,6 +170,11 @@ settingsRouter() {
     GoRoute(
       path: '/church-profile',
       pageBuilder: (context, state) {
+        if (state.uri.queryParameters['code'] != null) {
+          return transitionCustom(
+            WhatsappCallbackScreen(queryParameters: state.uri.queryParameters),
+          );
+        }
         return transitionCustom(const ChurchProfileScreen());
       },
     ),
