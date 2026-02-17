@@ -14,6 +14,7 @@ class ChurchModel {
   final String country;
   final String? wabaId;
   final String? phoneNumberId;
+  final bool isWhatsappConnected;
   final String? logoUrl;
 
   ChurchModel({
@@ -32,6 +33,7 @@ class ChurchModel {
     this.country = 'BR',
     this.wabaId,
     this.phoneNumberId,
+    this.isWhatsappConnected = false,
     this.logoUrl,
   });
 
@@ -55,6 +57,7 @@ class ChurchModel {
       country: json['country'] ?? 'BR',
       wabaId: json['wabaId'],
       phoneNumberId: json['phoneNumberId'],
+      isWhatsappConnected: json['isWhatsappConnected'] == true,
       logoUrl: json['logoUrl'],
     );
   }
@@ -76,6 +79,7 @@ class ChurchModel {
       'country': country,
       'wabaId': wabaId,
       'phoneNumberId': phoneNumberId,
+      'isWhatsappConnected': isWhatsappConnected,
       'logoUrl': logoUrl,
     };
   }
@@ -94,6 +98,7 @@ class ChurchModel {
     String? country,
     String? wabaId,
     String? phoneNumberId,
+    bool? isWhatsappConnected,
     String? logoUrl,
   }) {
     return ChurchModel(
@@ -112,6 +117,7 @@ class ChurchModel {
       country: country ?? this.country,
       wabaId: wabaId ?? this.wabaId,
       phoneNumberId: phoneNumberId ?? this.phoneNumberId,
+      isWhatsappConnected: isWhatsappConnected ?? this.isWhatsappConnected,
       logoUrl: logoUrl ?? this.logoUrl,
     );
   }

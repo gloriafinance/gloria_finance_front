@@ -53,9 +53,7 @@ class _ChurchProfileWhatsAppCardState extends State<ChurchProfileWhatsAppCard> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    // Check if WABA ID is present (connected)
-    final bool isConnected =
-        widget.church?.wabaId != null && widget.church!.wabaId!.isNotEmpty;
+    final bool isConnected = widget.church?.isWhatsappConnected == true;
 
     return ChurchProfileCard(
       title: l10n.settings_church_profile_whatsapp_title,
