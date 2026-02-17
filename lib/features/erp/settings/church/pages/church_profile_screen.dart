@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/toast.dart';
+import 'package:gloria_finance/core/utils/index.dart';
 import 'package:gloria_finance/features/auth/pages/login/store/auth_session_store.dart';
 import 'package:gloria_finance/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -64,12 +65,22 @@ class _ChurchProfileContentState extends State<_ChurchProfileContent>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(_onTabChanged);
   }
 
   @override
   void dispose() {
+    _tabController.removeListener(_onTabChanged);
     _tabController.dispose();
     super.dispose();
+  }
+
+  void _onTabChanged() {
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {});
   }
 
   void _populateFields(ChurchModel church) {
@@ -110,7 +121,12 @@ class _ChurchProfileContentState extends State<_ChurchProfileContent>
     );
 
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-      Toast.showMessage('Could not launch Meta Signup', ToastType.error);
+      if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
+      Toast.showMessage(
+        l10n.settings_church_profile_toast_meta_error,
+        ToastType.error,
+      );
     }
   }
 
@@ -136,9 +152,14 @@ class _ChurchProfileContentState extends State<_ChurchProfileContent>
       return;
     }
 
+    final l10n = AppLocalizations.of(context)!;
+
     final openingDate = _parseOpeningDate(_openerDate) ?? church.openingDate;
     if (openingDate == null) {
-      Toast.showMessage('Invalid opening date', ToastType.warning);
+      Toast.showMessage(
+        l10n.settings_church_profile_toast_invalid_date,
+        ToastType.warning,
+      );
       return;
     }
 
@@ -167,8 +188,23 @@ class _ChurchProfileContentState extends State<_ChurchProfileContent>
     if (!mounted) return;
 
     if (store.errorMessage == null) {
-      Toast.showMessage('Dados da igreja atualizados', ToastType.success);
+      final l10n = AppLocalizations.of(context)!;
+      Toast.showMessage(
+        l10n.settings_church_profile_toast_success,
+        ToastType.success,
+      );
     }
+  }
+
+  Future<void> _addDoctrinalBase() async {
+    final result = await showDoctrinalBaseEditorModal(context);
+    if (result == null) {
+      return;
+    }
+
+    setState(() {
+      _doctrinalBases = [..._doctrinalBases, result];
+    });
   }
 
   DateTime? _parseOpeningDate(String value) {
@@ -206,24 +242,47 @@ class _ChurchProfileContentState extends State<_ChurchProfileContent>
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final isDesktop = constraints.maxWidth >= 900;
+        final isDesktop = !isMobile(context);
+        final l10n = AppLocalizations.of(context)!;
 
-        return SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ChurchProfileHeader(
-                  onSave: _saveProfile,
-                  isSaving: store.isLoading,
+        return Stack(
+          children: [
+            SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ChurchProfileHeader(
+                      onSave: _saveProfile,
+                      isSaving: store.isLoading,
+                    ),
+                    const SizedBox(height: 32),
+                    _buildTabs(store, isDesktop),
+                  ],
                 ),
-                const SizedBox(height: 32),
-                _buildTabs(store, isDesktop),
-              ],
+              ),
             ),
-          ),
+            if (_tabController.index == 1)
+              Positioned(
+                right: 24,
+                bottom: 24,
+                child: FloatingActionButton.extended(
+                  heroTag: 'add_doctrinal_base_fab',
+                  onPressed: _addDoctrinalBase,
+                  backgroundColor: AppColors.purple,
+                  foregroundColor: Colors.white,
+                  icon: const Icon(Icons.add),
+                  label: Text(
+                    l10n.settings_church_profile_doctrinal_add_title,
+                    style: const TextStyle(
+                      fontFamily: AppFonts.fontSubTitle,
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
+              ),
+          ],
         );
       },
     );
@@ -238,15 +297,9 @@ class _ChurchProfileContentState extends State<_ChurchProfileContent>
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: const Color(0xFFF3F4F6),
         borderRadius: BorderRadius.circular(16),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 16,
-            offset: Offset(0, 6),
-          ),
-        ],
+        border: Border.all(color: AppColors.greyMiddle),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -256,17 +309,20 @@ class _ChurchProfileContentState extends State<_ChurchProfileContent>
             labelColor: AppColors.purple,
             unselectedLabelColor: AppColors.grey,
             indicator: BoxDecoration(
-              color: AppColors.purple.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(8),
+              color: const Color(0xFFEDE7F6),
+              borderRadius: BorderRadius.circular(10),
             ),
             indicatorSize: TabBarIndicatorSize.tab,
-            labelStyle: const TextStyle(
-              fontFamily: AppFonts.fontSubTitle,
-              fontWeight: FontWeight.w600,
-            ),
+            labelStyle: const TextStyle(fontFamily: AppFonts.fontSubTitle),
             tabs: [
-              Tab(text: l10n.settings_church_profile_title),
-              const Tab(text: 'Bases doutrinárias'),
+              Tab(
+                icon: const Icon(Icons.church_outlined, size: 20),
+                text: l10n.settings_church_profile_title,
+              ),
+              Tab(
+                icon: const Icon(Icons.menu_book_outlined, size: 20),
+                text: l10n.settings_church_profile_doctrinal_basis,
+              ),
             ],
           ),
           const SizedBox(height: 24),
@@ -328,9 +384,12 @@ class _ChurchProfileContentState extends State<_ChurchProfileContent>
   }
 
   Widget _buildDoctrinalTabContent() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [_buildDoctrinalBasesCard()],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 90),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [_buildDoctrinalBasesCard()],
+      ),
     );
   }
 

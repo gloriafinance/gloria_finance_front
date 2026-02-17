@@ -351,6 +351,86 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settings_church_profile_save => 'Salvar Alterações';
 
   @override
+  String get settings_church_profile_doctrinal_basis => 'Bases Doutrinárias';
+
+  @override
+  String get settings_church_profile_doctrinal_important => 'Importante';
+
+  @override
+  String get settings_church_profile_doctrinal_banner_text => 'Cadastre e mantenha as bases doutrinárias da igreja para uso institucional. Estas informações podem aparecer em relatórios e documentos oficiais.';
+
+  @override
+  String get settings_church_profile_doctrinal_empty => 'Nenhuma base doutrinária cadastrada. Adicione a primeira base para começar.';
+
+  @override
+  String get settings_church_profile_doctrinal_title_label => 'Título da Doutrina';
+
+  @override
+  String get settings_church_profile_doctrinal_scripture_label => 'Referências Bíblicas';
+
+  @override
+  String get settings_church_profile_doctrinal_scripture_empty => 'Sem referências cadastradas.';
+
+  @override
+  String get settings_church_profile_doctrinal_base_fundamental => 'BASE FUNDAMENTAL';
+
+  @override
+  String get settings_church_profile_doctrinal_base_theological => 'BASE TEOLÓGICA';
+
+  @override
+  String settings_church_profile_doctrinal_base_ordinal(int index) {
+    return 'BASE DOUTRINÁRIA $index';
+  }
+
+  @override
+  String get settings_church_profile_doctrinal_edit_tooltip => 'Editar base';
+
+  @override
+  String get settings_church_profile_doctrinal_delete_tooltip => 'Remover base';
+
+  @override
+  String get settings_church_profile_doctrinal_add_title => 'Adicionar base doutrinária';
+
+  @override
+  String get settings_church_profile_doctrinal_edit_title => 'Editar base doutrinária';
+
+  @override
+  String get settings_church_profile_doctrinal_form_title => 'Título da doutrina';
+
+  @override
+  String get settings_church_profile_doctrinal_form_title_hint => 'Descreva a crença ou princípio fundamental.';
+
+  @override
+  String get settings_church_profile_doctrinal_form_title_error => 'Informe o título da doutrina';
+
+  @override
+  String get settings_church_profile_doctrinal_form_scripture => 'Referências bíblicas';
+
+  @override
+  String get settings_church_profile_doctrinal_form_scripture_hint => 'Digite uma referência e pressione Enter para adicionar como tag.';
+
+  @override
+  String get settings_church_profile_doctrinal_form_scripture_error => 'Adicione pelo menos uma referência bíblica.';
+
+  @override
+  String get settings_church_profile_toast_success => 'Dados da igreja atualizados';
+
+  @override
+  String get settings_church_profile_toast_invalid_date => 'Data de abertura inválida';
+
+  @override
+  String get settings_church_profile_toast_meta_error => 'Não foi possível iniciar o Meta Signup';
+
+  @override
+  String get settings_church_profile_status_active => 'Ativo';
+
+  @override
+  String get settings_church_profile_status_inactive => 'Inativo';
+
+  @override
+  String get settings_church_profile_state_select => 'Selecione';
+
+  @override
   String get settings_integrations_whatsapp_title => 'WhatsApp Business';
 
   @override

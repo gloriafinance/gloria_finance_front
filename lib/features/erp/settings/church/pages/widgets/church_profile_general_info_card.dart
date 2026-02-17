@@ -62,13 +62,20 @@ class ChurchProfileGeneralInfoCard extends StatelessWidget {
               Expanded(
                 child: Dropdown(
                   label: l10n.settings_church_profile_status,
-                  items: const [
-                    'Ativo',
-                    'Inativo',
+                  items: [
+                    l10n.settings_church_profile_status_active,
+                    l10n.settings_church_profile_status_inactive,
                   ], // TODO: connect to proper Status Enum/Values
-                  initialValue: status == 'ACTIVE' ? 'Ativo' : 'Inativo',
+                  initialValue:
+                      status == 'ACTIVE'
+                          ? l10n.settings_church_profile_status_active
+                          : l10n.settings_church_profile_status_inactive,
                   onChanged: (value) {
-                    onStatusChanged(value == 'Ativo' ? 'ACTIVE' : 'INACTIVE');
+                    onStatusChanged(
+                      value == l10n.settings_church_profile_status_active
+                          ? 'ACTIVE'
+                          : 'INACTIVE',
+                    );
                   },
                 ),
               ),

@@ -86,7 +86,7 @@ class ChurchProfileAddressCard extends StatelessWidget {
               Expanded(
                 child: Dropdown(
                   label: l10n.settings_church_profile_state,
-                  searchHint: 'Selecione',
+                  searchHint: l10n.settings_church_profile_state_select,
                   items: const [
                     'São Paulo',
                     'Rio de Janeiro',

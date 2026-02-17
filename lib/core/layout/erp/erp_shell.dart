@@ -54,13 +54,16 @@ class _ErpShellState extends State<ErpShell> {
   Widget build(BuildContext context) {
     final store = Provider.of<AuthSessionStore>(context);
     final storeSidebar = Provider.of<SidebarNotifier>(context);
+    final location = GoRouterState.of(context).uri.path;
+    final shouldUseShellScroll = !location.endsWith('/church-profile');
+    final router = GoRouter.of(context);
 
     final List<String> roles = store.state.session.roles;
     final items = menuItems(roles);
 
     Future.delayed(const Duration(seconds: 5)).then((_) {
       if (mounted && !store.state.isLogged()) {
-        GoRouter.of(context).go('/');
+        router.go('/');
       }
     });
 
@@ -113,7 +116,10 @@ class _ErpShellState extends State<ErpShell> {
                     children: [
                       //widget.title,
                       Expanded(
-                        child: SingleChildScrollView(child: widget.screen),
+                        child:
+                            shouldUseShellScroll
+                                ? SingleChildScrollView(child: widget.screen)
+                                : widget.screen,
                       ),
                     ],
                   ),

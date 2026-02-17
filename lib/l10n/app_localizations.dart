@@ -769,6 +769,162 @@ abstract class AppLocalizations {
   /// **'Save Changes'**
   String get settings_church_profile_save;
 
+  /// No description provided for @settings_church_profile_doctrinal_basis.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctrinal Basis'**
+  String get settings_church_profile_doctrinal_basis;
+
+  /// No description provided for @settings_church_profile_doctrinal_important.
+  ///
+  /// In en, this message translates to:
+  /// **'Important'**
+  String get settings_church_profile_doctrinal_important;
+
+  /// No description provided for @settings_church_profile_doctrinal_banner_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Register and maintain the church\'s doctrinal bases for institutional use. This information may appear in official reports and documents.'**
+  String get settings_church_profile_doctrinal_banner_text;
+
+  /// No description provided for @settings_church_profile_doctrinal_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No doctrinal bases registered. Add the first base to get started.'**
+  String get settings_church_profile_doctrinal_empty;
+
+  /// No description provided for @settings_church_profile_doctrinal_title_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctrine Title'**
+  String get settings_church_profile_doctrinal_title_label;
+
+  /// No description provided for @settings_church_profile_doctrinal_scripture_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Biblical References'**
+  String get settings_church_profile_doctrinal_scripture_label;
+
+  /// No description provided for @settings_church_profile_doctrinal_scripture_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No references registered.'**
+  String get settings_church_profile_doctrinal_scripture_empty;
+
+  /// No description provided for @settings_church_profile_doctrinal_base_fundamental.
+  ///
+  /// In en, this message translates to:
+  /// **'FUNDAMENTAL BASE'**
+  String get settings_church_profile_doctrinal_base_fundamental;
+
+  /// No description provided for @settings_church_profile_doctrinal_base_theological.
+  ///
+  /// In en, this message translates to:
+  /// **'THEOLOGICAL BASE'**
+  String get settings_church_profile_doctrinal_base_theological;
+
+  /// No description provided for @settings_church_profile_doctrinal_base_ordinal.
+  ///
+  /// In en, this message translates to:
+  /// **'DOCTRINAL BASE {index}'**
+  String settings_church_profile_doctrinal_base_ordinal(int index);
+
+  /// No description provided for @settings_church_profile_doctrinal_edit_tooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit base'**
+  String get settings_church_profile_doctrinal_edit_tooltip;
+
+  /// No description provided for @settings_church_profile_doctrinal_delete_tooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove base'**
+  String get settings_church_profile_doctrinal_delete_tooltip;
+
+  /// No description provided for @settings_church_profile_doctrinal_add_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Add doctrinal base'**
+  String get settings_church_profile_doctrinal_add_title;
+
+  /// No description provided for @settings_church_profile_doctrinal_edit_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit doctrinal base'**
+  String get settings_church_profile_doctrinal_edit_title;
+
+  /// No description provided for @settings_church_profile_doctrinal_form_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctrine title'**
+  String get settings_church_profile_doctrinal_form_title;
+
+  /// No description provided for @settings_church_profile_doctrinal_form_title_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe the belief or fundamental principle.'**
+  String get settings_church_profile_doctrinal_form_title_hint;
+
+  /// No description provided for @settings_church_profile_doctrinal_form_title_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the doctrine title'**
+  String get settings_church_profile_doctrinal_form_title_error;
+
+  /// No description provided for @settings_church_profile_doctrinal_form_scripture.
+  ///
+  /// In en, this message translates to:
+  /// **'Biblical references'**
+  String get settings_church_profile_doctrinal_form_scripture;
+
+  /// No description provided for @settings_church_profile_doctrinal_form_scripture_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a reference and press Enter to add as a tag.'**
+  String get settings_church_profile_doctrinal_form_scripture_hint;
+
+  /// No description provided for @settings_church_profile_doctrinal_form_scripture_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Add at least one biblical reference.'**
+  String get settings_church_profile_doctrinal_form_scripture_error;
+
+  /// No description provided for @settings_church_profile_toast_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Church data updated'**
+  String get settings_church_profile_toast_success;
+
+  /// No description provided for @settings_church_profile_toast_invalid_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid opening date'**
+  String get settings_church_profile_toast_invalid_date;
+
+  /// No description provided for @settings_church_profile_toast_meta_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not launch Meta Signup'**
+  String get settings_church_profile_toast_meta_error;
+
+  /// No description provided for @settings_church_profile_status_active.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get settings_church_profile_status_active;
+
+  /// No description provided for @settings_church_profile_status_inactive.
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive'**
+  String get settings_church_profile_status_inactive;
+
+  /// No description provided for @settings_church_profile_state_select.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get settings_church_profile_state_select;
+
   /// No description provided for @settings_integrations_whatsapp_title.
   ///
   /// In en, this message translates to:
