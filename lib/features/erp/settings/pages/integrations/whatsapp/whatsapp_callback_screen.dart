@@ -64,7 +64,7 @@ class _WhatsappCallbackScreenState extends State<WhatsappCallbackScreen> {
           context.l10n.settings_integrations_whatsapp_success,
           ToastType.success,
         );
-        context.go('/integrations/whatsapp');
+        context.go('/church-profile');
       }
     } on DioException catch (e) {
       if (mounted) {
@@ -119,7 +119,7 @@ class _WhatsappCallbackScreenState extends State<WhatsappCallbackScreen> {
               ),
               const SizedBox(height: 24),
               ElevatedButton(
-                onPressed: () => context.go('/integrations/whatsapp'),
+                onPressed: () => context.go('/church-profile'),
                 child: Text(
                   context
                       .l10n

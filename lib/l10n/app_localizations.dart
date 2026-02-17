@@ -625,6 +625,150 @@ abstract class AppLocalizations {
   /// **'WhatsApp'**
   String get erp_menu_settings_whatsapp;
 
+  /// No description provided for @erp_menu_settings_church_profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Church Profile'**
+  String get erp_menu_settings_church_profile;
+
+  /// No description provided for @settings_church_profile_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Church Profile'**
+  String get settings_church_profile_title;
+
+  /// No description provided for @settings_church_profile_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your organization\'s main information and settings.'**
+  String get settings_church_profile_subtitle;
+
+  /// No description provided for @settings_church_profile_general_info.
+  ///
+  /// In en, this message translates to:
+  /// **'General Information'**
+  String get settings_church_profile_general_info;
+
+  /// No description provided for @settings_church_profile_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization Name'**
+  String get settings_church_profile_name;
+
+  /// No description provided for @settings_church_profile_opening_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening Date'**
+  String get settings_church_profile_opening_date;
+
+  /// No description provided for @settings_church_profile_status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get settings_church_profile_status;
+
+  /// No description provided for @settings_church_profile_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Main Email'**
+  String get settings_church_profile_email;
+
+  /// No description provided for @settings_church_profile_address.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get settings_church_profile_address;
+
+  /// No description provided for @settings_church_profile_cep.
+  ///
+  /// In en, this message translates to:
+  /// **'ZIP Code'**
+  String get settings_church_profile_cep;
+
+  /// No description provided for @settings_church_profile_street.
+  ///
+  /// In en, this message translates to:
+  /// **'Street'**
+  String get settings_church_profile_street;
+
+  /// No description provided for @settings_church_profile_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Number'**
+  String get settings_church_profile_number;
+
+  /// No description provided for @settings_church_profile_city.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get settings_church_profile_city;
+
+  /// No description provided for @settings_church_profile_state.
+  ///
+  /// In en, this message translates to:
+  /// **'State'**
+  String get settings_church_profile_state;
+
+  /// No description provided for @settings_church_profile_logo_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization Logo'**
+  String get settings_church_profile_logo_title;
+
+  /// No description provided for @settings_church_profile_logo_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended: 500x500px, PNG or JPG. Max 2MB.'**
+  String get settings_church_profile_logo_subtitle;
+
+  /// No description provided for @settings_church_profile_upload_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload New Image'**
+  String get settings_church_profile_upload_button;
+
+  /// No description provided for @settings_church_profile_whatsapp_title.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get settings_church_profile_whatsapp_title;
+
+  /// No description provided for @settings_church_profile_whatsapp_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect your WhatsApp Business account to send reports and receipts automatically.'**
+  String get settings_church_profile_whatsapp_subtitle;
+
+  /// No description provided for @settings_church_profile_whatsapp_connect.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect Business'**
+  String get settings_church_profile_whatsapp_connect;
+
+  /// No description provided for @settings_church_profile_whatsapp_connected.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp Connected'**
+  String get settings_church_profile_whatsapp_connected;
+
+  /// No description provided for @settings_church_profile_whatsapp_disconnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect'**
+  String get settings_church_profile_whatsapp_disconnect;
+
+  /// No description provided for @settings_church_profile_cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get settings_church_profile_cancel;
+
+  /// No description provided for @settings_church_profile_save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get settings_church_profile_save;
+
   /// No description provided for @settings_integrations_whatsapp_title.
   ///
   /// In en, this message translates to:

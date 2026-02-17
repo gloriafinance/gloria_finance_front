@@ -21,8 +21,9 @@ import 'members/pages/add_members/add_member_screen.dart';
 import 'members/pages/members_list/members_screen.dart';
 import 'rbac/pages/role_permission_screen.dart';
 import 'rbac/pages/user_access_screen.dart';
-import 'pages/integrations/whatsapp/whatsapp_integration_screen.dart';
+
 import 'pages/integrations/whatsapp/whatsapp_callback_screen.dart';
+import 'church/pages/church_profile_screen.dart';
 
 settingsRouter() {
   return <RouteBase>[
@@ -158,18 +159,19 @@ settingsRouter() {
         return transitionCustom(const FinancialMonthListScreen());
       },
     ),
-    GoRoute(
-      path: '/integrations/whatsapp',
-      pageBuilder: (context, state) {
-        return transitionCustom(const WhatsappIntegrationScreen());
-      },
-    ),
+
     GoRoute(
       path: '/integrations/whatsapp/callback',
       pageBuilder: (context, state) {
         return transitionCustom(
           WhatsappCallbackScreen(queryParameters: state.uri.queryParameters),
         );
+      },
+    ),
+    GoRoute(
+      path: '/church-profile',
+      pageBuilder: (context, state) {
+        return transitionCustom(const ChurchProfileScreen());
       },
     ),
   ];

@@ -279,6 +279,78 @@ class AppLocalizationsPt extends AppLocalizations {
   String get erp_menu_settings_whatsapp => 'WhatsApp';
 
   @override
+  String get erp_menu_settings_church_profile => 'Perfil da Igreja';
+
+  @override
+  String get settings_church_profile_title => 'Perfil da Igreja';
+
+  @override
+  String get settings_church_profile_subtitle => 'Gerencie as informações principais e configurações da sua organização.';
+
+  @override
+  String get settings_church_profile_general_info => 'Informações Gerais';
+
+  @override
+  String get settings_church_profile_name => 'Nome da Instituição';
+
+  @override
+  String get settings_church_profile_opening_date => 'Data de Abertura';
+
+  @override
+  String get settings_church_profile_status => 'Status';
+
+  @override
+  String get settings_church_profile_email => 'Email Principal';
+
+  @override
+  String get settings_church_profile_address => 'Endereço';
+
+  @override
+  String get settings_church_profile_cep => 'CEP';
+
+  @override
+  String get settings_church_profile_street => 'Rua';
+
+  @override
+  String get settings_church_profile_number => 'Número';
+
+  @override
+  String get settings_church_profile_city => 'Cidade';
+
+  @override
+  String get settings_church_profile_state => 'Estado';
+
+  @override
+  String get settings_church_profile_logo_title => 'Logo da Instituição';
+
+  @override
+  String get settings_church_profile_logo_subtitle => 'Recomendado: 500x500px, PNG ou JPG. Max 2MB.';
+
+  @override
+  String get settings_church_profile_upload_button => 'Carregar Nova Imagem';
+
+  @override
+  String get settings_church_profile_whatsapp_title => 'WhatsApp';
+
+  @override
+  String get settings_church_profile_whatsapp_subtitle => 'Conecte sua conta do WhatsApp Business para enviar relatórios e comprovantes automaticamente.';
+
+  @override
+  String get settings_church_profile_whatsapp_connect => 'Conectar Business';
+
+  @override
+  String get settings_church_profile_whatsapp_connected => 'WhatsApp Conectado';
+
+  @override
+  String get settings_church_profile_whatsapp_disconnect => 'Desconectar';
+
+  @override
+  String get settings_church_profile_cancel => 'Cancelar';
+
+  @override
+  String get settings_church_profile_save => 'Salvar Alterações';
+
+  @override
   String get settings_integrations_whatsapp_title => 'WhatsApp Business';
 
   @override
