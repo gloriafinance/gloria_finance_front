@@ -1,5 +1,7 @@
 import 'package:gloria_finance/features/member_experience/home/store/member_generosity_summary_store.dart';
+import 'package:gloria_finance/features/member_experience/home/store/member_today_devotional_store.dart';
 import 'package:gloria_finance/features/member_experience/home/store/member_upcoming_events_store.dart';
+import 'package:gloria_finance/features/member_experience/home/widgets/member_devotional_moment_section.dart';
 import 'package:gloria_finance/features/member_experience/home/widgets/member_generosity_summary_section.dart';
 import 'package:gloria_finance/features/member_experience/home/widgets/member_shortcuts_section.dart';
 import 'package:gloria_finance/features/member_experience/home/widgets/member_upcoming_events_section.dart';
@@ -16,23 +18,30 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late final MemberUpcomingEventsStore _eventsStore;
   late final MemberGenerositySummaryStore _summaryStore;
+  late final MemberTodayDevotionalStore _devotionalStore;
 
   @override
   void initState() {
     super.initState();
     _eventsStore = MemberUpcomingEventsStore()..load();
     _summaryStore = MemberGenerositySummaryStore()..load();
+    _devotionalStore = MemberTodayDevotionalStore()..load();
   }
 
   @override
   void dispose() {
     _eventsStore.dispose();
     _summaryStore.dispose();
+    _devotionalStore.dispose();
     super.dispose();
   }
 
   Future<void> _refreshAll() async {
-    await Future.wait([_eventsStore.load(), _summaryStore.load()]);
+    await Future.wait([
+      _eventsStore.load(),
+      _summaryStore.load(),
+      _devotionalStore.load(),
+    ]);
   }
 
   @override
@@ -41,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
       providers: [
         ChangeNotifierProvider.value(value: _eventsStore),
         ChangeNotifierProvider.value(value: _summaryStore),
+        ChangeNotifierProvider.value(value: _devotionalStore),
       ],
       child: RefreshIndicator(
         onRefresh: _refreshAll,
@@ -51,6 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
             MemberShortcutsSection(),
             SizedBox(height: 16),
             MemberUpcomingEventsSection(),
+            SizedBox(height: 16),
+            MemberDevotionalMomentSection(),
             SizedBox(height: 16),
           ],
         ),

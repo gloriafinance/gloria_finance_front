@@ -110,6 +110,8 @@
   "erp_menu_settings_integrations": "Integrations",
   "erp_menu_settings_whatsapp": "WhatsApp",
   "erp_menu_settings_church_profile": "Church Profile",
+  "erp_menu_settings_church": "Church",
+  "erp_menu_settings_church_devotional": "Devotional",
   "settings_church_profile_title": "Church Profile",
   "settings_church_profile_subtitle": "Manage your organization's main information and settings.",
   "settings_church_profile_general_info": "General Information",
@@ -360,6 +362,8 @@
   "settings_cost_center_toast_saved": "Record saved successfully",
   "settings_cost_center_toast_updated": "Record updated successfully",
   "settings_financial_concept_title": "Financial concepts",
+  "settings_financial_concept_form_title_create": "Register financial concept",
+  "settings_financial_concept_form_title_edit": "Edit financial concept",
   "settings_financial_concept_new": "New concept",
   "settings_financial_concept_filter_all": "All",
   "settings_financial_concept_filter_by_type": "Filter by type",
@@ -391,6 +395,43 @@
   "settings_financial_concept_help_indicator_operational_title": "Recurring operational event",
   "settings_financial_concept_help_indicator_operational_desc": "Enable for routine commitments in the church's day-to-day operations, related to core activities.",
   "settings_financial_concept_help_understood": "Got it",
+  "settings_financial_concept_ai_title": "AI assistant for financial concepts",
+  "settings_financial_concept_ai_description": "Describe the scenario and the assistant will suggest an existing concept or auto-fill the form fields.",
+  "settings_financial_concept_ai_button": "Use AI assistant",
+  "settings_financial_concept_ai_modal_title": "Ask AI for guidance",
+  "settings_financial_concept_ai_modal_description": "Describe your scenario with enough detail. Example: payment to an invited musician for a one-time event.",
+  "settings_financial_concept_ai_modal_context_label": "Scenario",
+  "settings_financial_concept_ai_modal_submit": "Get suggestion",
+  "settings_financial_concept_ai_modal_cancel": "Cancel",
+  "settings_financial_concept_ai_error_required": "Describe the scenario to continue.",
+  "settings_financial_concept_ai_error_max_chars": "Use at most {max} characters.",
+  "@settings_financial_concept_ai_error_max_chars": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "settings_financial_concept_ai_result_applied": "Suggestion applied. Review and save if everything is correct.",
+  "settings_financial_concept_ai_result_applied_summary": "Suggestion applied: {type} · {category}. Review indicators and then save.",
+  "@settings_financial_concept_ai_result_applied_summary": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "settings_financial_concept_ai_result_assistant_tone": "I filled the fields based on your description. Adjust if needed, then save.",
+  "settings_financial_concept_ai_result_existing": "An existing concept already covers this scenario. Creating a new one is blocked.",
+  "settings_financial_concept_ai_details_action": "View details",
+  "settings_financial_concept_ai_existing_action": "Go to concept list",
+  "settings_financial_concept_ai_save_blocked": "This scenario already has an existing concept. Use it instead of creating a new one.",
+  "settings_financial_concept_ai_toast_applied": "AI suggestion applied to the form.",
+  "settings_financial_concept_ai_toast_existing": "An existing concept was found. New save was blocked.",
+  "settings_financial_concept_ai_toast_error": "Could not get assistance right now. Try again.",
   "bankStatements_empty_title": "No statements imported yet.",
   "bankStatements_empty_subtitle": "Import a CSV file to start bank reconciliation.",
   "bankStatements_header_date": "Date",
@@ -1404,5 +1445,207 @@
   "tax_form_status_taxed": "Taxed",
   "tax_form_status_substitution": "Tax Substitution",
   "tax_form_empty_list": "No taxes added yet.",
-  "common_save": "Save"
+  "common_save": "Save",
+  "devotional_title": "Devotionals",
+  "devotional_subtitle": "Weekly planning, review, delivery and history.",
+  "devotional_tab_configure": "Configure",
+  "devotional_tab_agenda": "Agenda",
+  "devotional_tab_history": "History",
+  "devotional_service_status_title": "Activate this week",
+  "devotional_service_status_subtitle": "Turn this week's devotional flow on or off",
+  "devotional_theme_week": "Week theme",
+  "devotional_send_time": "Delivery time (HH:mm)",
+  "devotional_timezone_hint": "Church local time: {timezone}",
+  "@devotional_timezone_hint": {
+    "placeholders": {
+      "timezone": {
+        "type": "String"
+      }
+    }
+  },
+  "devotional_audience": "Audience",
+  "devotional_audience_all": "All",
+  "devotional_audience_youth": "Youth",
+  "devotional_audience_women": "Women",
+  "devotional_audience_men": "Men",
+  "devotional_audience_kids": "Kids",
+  "devotional_operation_mode": "How it is sent",
+  "devotional_mode_automatic_title": "Automatic",
+  "devotional_mode_automatic_subtitle": "Generate and send right away",
+  "devotional_mode_review_title": "With pastoral review",
+  "devotional_mode_review_subtitle": "Generate and wait for your approval",
+  "devotional_channel_push": "Mobile app notification",
+  "devotional_channel_push_subtitle": "Delivered inside the app for the member experience.",
+  "devotional_channel_whatsapp": "WhatsApp message",
+  "devotional_channel_whatsapp_subtitle": "Delivered by WhatsApp to members with consent.",
+  "devotional_days_of_week": "Days of week",
+  "devotional_day_config": "Daily configuration",
+  "devotional_day_complete": "Complete",
+  "devotional_day_incomplete": "Incomplete",
+  "devotional_day_title_hint": "Suggested title",
+  "devotional_day_biblical_context": "Biblical context",
+  "devotional_day_tone": "Message tone",
+  "devotional_copy_previous_week": "Copy previous week",
+  "devotional_copy_no_previous": "No previous week configuration found.",
+  "devotional_copy_success": "Configuration copied from previous week.",
+  "devotional_copy_error": "Could not copy previous week configuration.",
+  "devotional_save_configuration": "Save configuration",
+  "devotional_saving": "Saving...",
+  "devotional_config_saved": "Configuration saved",
+  "devotional_week_label": "Week: {weekStartDate}",
+  "@devotional_week_label": {
+    "placeholders": {
+      "weekStartDate": {
+        "type": "String"
+      }
+    }
+  },
+  "devotional_summary_line": "{count} devotionals will be sent to {audience} at {time} ({timezone})",
+  "@devotional_summary_line": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "audience": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      },
+      "timezone": {
+        "type": "String"
+      }
+    }
+  },
+  "devotional_quick_guide": "Enable weekly plan: turns this week's devotional flow on or off.\nDelivery method: Automatic sends without approval; Review requires pastoral approval.",
+  "devotional_review_mode_hint": "Devotionals are not sent until approved.",
+  "devotional_validation_theme_required": "Week theme is required.",
+  "devotional_validation_days_required": "Select at least one day.",
+  "devotional_validation_time_invalid": "Invalid time. Use the time picker.",
+  "devotional_validation_audience_required": "Select audience.",
+  "devotional_validation_channel_required": "Enable at least one delivery channel.",
+  "devotional_validation_day_missing": "Missing configuration for {day}.",
+  "@devotional_validation_day_missing": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "devotional_validation_title_hint_missing": "Complete suggested title for {day}.",
+  "@devotional_validation_title_hint_missing": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "devotional_validation_context_missing": "Complete biblical context for {day}.",
+  "@devotional_validation_context_missing": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "devotional_loader_generating": "Generating new content...",
+  "devotional_loader_subtitle": "AI is drafting a pastoral reflection based on the theme.",
+  "devotional_content_updated": "Content updated.",
+  "devotional_operation_failed": "Could not complete the operation.",
+  "devotional_retry_done": "Retry executed.",
+  "devotional_tone_pastoral": "Pastoral",
+  "devotional_tone_pastoral_desc": "Care and guidance",
+  "devotional_tone_exhortative": "Exhortative",
+  "devotional_tone_exhortative_desc": "Call to action",
+  "devotional_tone_celebrative": "Celebrative",
+  "devotional_tone_celebrative_desc": "Joy and praise",
+  "devotional_tone_contemplative": "Reflective",
+  "devotional_tone_contemplative_desc": "Inner peace",
+  "devotional_status_pending": "Pending",
+  "devotional_status_generating": "Generating",
+  "devotional_status_in_review": "In review",
+  "devotional_status_approved": "Approved",
+  "devotional_status_sending": "Sending",
+  "devotional_status_sent": "Sent",
+  "devotional_status_failed": "Failed",
+  "devotional_status_partial": "Partial",
+  "devotional_status_not_enabled": "Not enabled",
+  "member_home_devotional_moment_title": "Devotional moment",
+  "member_home_devotional_moment_empty": "No devotional is available for today yet.",
+  "member_home_devotional_moment_today_badge": "Today",
+  "member_home_devotional_moment_cta": "Read",
+  "member_devotional_detail_unavailable": "This devotional is not available right now.",
+  "member_devotional_detail_content_title": "Reflection",
+  "member_devotional_detail_scriptures_title": "Scriptures",
+  "devotional_agenda_status_filter": "Status",
+  "devotional_agenda_channel_filter": "Channel",
+  "devotional_apply_filters": "Apply filters",
+  "devotional_agenda_summary": "Next send: {nextSend}. In review: {inReview}",
+  "@devotional_agenda_summary": {
+    "placeholders": {
+      "nextSend": {
+        "type": "String"
+      },
+      "inReview": {
+        "type": "int"
+      }
+    }
+  },
+  "devotional_no_agenda": "No devotionals scheduled for this week.",
+  "devotional_item_no_title": "No title",
+  "devotional_item_channel_line": "Audience: {audience} | Push: {push} | WhatsApp: {whatsapp}",
+  "@devotional_item_channel_line": {
+    "placeholders": {
+      "audience": {
+        "type": "String"
+      },
+      "push": {
+        "type": "String"
+      },
+      "whatsapp": {
+        "type": "String"
+      }
+    }
+  },
+  "devotional_item_urgent_approval": "Requires approval before scheduled time.",
+  "devotional_view_detail": "View details",
+  "devotional_regenerate": "Regenerate with AI",
+  "devotional_retry_send": "Retry send",
+  "devotional_metric_total": "Total",
+  "devotional_metric_sent": "Sent",
+  "devotional_metric_partial": "Partial",
+  "devotional_metric_error": "Errors",
+  "devotional_history_empty": "No deliveries registered yet.",
+  "devotional_review_title": "Devotional Review",
+  "devotional_review_header_line": "{day} - {date} | Audience: {audience}",
+  "@devotional_review_header_line": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      },
+      "audience": {
+        "type": "String"
+      }
+    }
+  },
+  "devotional_review_label_title": "Title",
+  "devotional_review_label_content": "Devotional content",
+  "devotional_review_label_push_title": "Push title",
+  "devotional_review_label_push_body": "Push message",
+  "devotional_review_label_scriptures": "Scriptures (one per line: Reference | Text)",
+  "devotional_review_save_changes": "Save changes",
+  "devotional_review_approve_send": "Approve and send",
+  "devotional_review_cancel": "Cancel and go back",
+  "devotional_review_confirm_title": "Confirm delivery",
+  "devotional_review_confirm_message": "Do you want to approve and send this devotional now?",
+  "devotional_review_confirm_yes": "Yes, send",
+  "devotional_review_fields_required": "All fields are required.",
+  "devotional_review_scripture_required": "Add at least one scripture (Reference | Text).",
+  "devotional_review_updated": "Devotional updated.",
+  "devotional_review_loader_approving": "Approving and sending...",
+  "devotional_review_loader_approving_subtitle": "Processing delivery through configured channels.",
+  "devotional_review_retry_done": "Send retry executed."
 }

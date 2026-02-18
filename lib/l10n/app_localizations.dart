@@ -631,6 +631,18 @@ abstract class AppLocalizations {
   /// **'Church Profile'**
   String get erp_menu_settings_church_profile;
 
+  /// No description provided for @erp_menu_settings_church.
+  ///
+  /// In en, this message translates to:
+  /// **'Church'**
+  String get erp_menu_settings_church;
+
+  /// No description provided for @erp_menu_settings_church_devotional.
+  ///
+  /// In en, this message translates to:
+  /// **'Devotional'**
+  String get erp_menu_settings_church_devotional;
+
   /// No description provided for @settings_church_profile_title.
   ///
   /// In en, this message translates to:
@@ -1879,6 +1891,18 @@ abstract class AppLocalizations {
   /// **'Financial concepts'**
   String get settings_financial_concept_title;
 
+  /// No description provided for @settings_financial_concept_form_title_create.
+  ///
+  /// In en, this message translates to:
+  /// **'Register financial concept'**
+  String get settings_financial_concept_form_title_create;
+
+  /// No description provided for @settings_financial_concept_form_title_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit financial concept'**
+  String get settings_financial_concept_form_title_edit;
+
   /// No description provided for @settings_financial_concept_new.
   ///
   /// In en, this message translates to:
@@ -2064,6 +2088,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Got it'**
   String get settings_financial_concept_help_understood;
+
+  /// No description provided for @settings_financial_concept_ai_title.
+  ///
+  /// In en, this message translates to:
+  /// **'AI assistant for financial concepts'**
+  String get settings_financial_concept_ai_title;
+
+  /// No description provided for @settings_financial_concept_ai_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe the scenario and the assistant will suggest an existing concept or auto-fill the form fields.'**
+  String get settings_financial_concept_ai_description;
+
+  /// No description provided for @settings_financial_concept_ai_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Use AI assistant'**
+  String get settings_financial_concept_ai_button;
+
+  /// No description provided for @settings_financial_concept_ai_modal_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask AI for guidance'**
+  String get settings_financial_concept_ai_modal_title;
+
+  /// No description provided for @settings_financial_concept_ai_modal_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe your scenario with enough detail. Example: payment to an invited musician for a one-time event.'**
+  String get settings_financial_concept_ai_modal_description;
+
+  /// No description provided for @settings_financial_concept_ai_modal_context_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Scenario'**
+  String get settings_financial_concept_ai_modal_context_label;
+
+  /// No description provided for @settings_financial_concept_ai_modal_submit.
+  ///
+  /// In en, this message translates to:
+  /// **'Get suggestion'**
+  String get settings_financial_concept_ai_modal_submit;
+
+  /// No description provided for @settings_financial_concept_ai_modal_cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get settings_financial_concept_ai_modal_cancel;
+
+  /// No description provided for @settings_financial_concept_ai_error_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe the scenario to continue.'**
+  String get settings_financial_concept_ai_error_required;
+
+  /// No description provided for @settings_financial_concept_ai_error_max_chars.
+  ///
+  /// In en, this message translates to:
+  /// **'Use at most {max} characters.'**
+  String settings_financial_concept_ai_error_max_chars(int max);
+
+  /// No description provided for @settings_financial_concept_ai_result_applied.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggestion applied. Review and save if everything is correct.'**
+  String get settings_financial_concept_ai_result_applied;
+
+  /// No description provided for @settings_financial_concept_ai_result_applied_summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggestion applied: {type} · {category}. Review indicators and then save.'**
+  String settings_financial_concept_ai_result_applied_summary(String type, String category);
+
+  /// No description provided for @settings_financial_concept_ai_result_assistant_tone.
+  ///
+  /// In en, this message translates to:
+  /// **'I filled the fields based on your description. Adjust if needed, then save.'**
+  String get settings_financial_concept_ai_result_assistant_tone;
+
+  /// No description provided for @settings_financial_concept_ai_result_existing.
+  ///
+  /// In en, this message translates to:
+  /// **'An existing concept already covers this scenario. Creating a new one is blocked.'**
+  String get settings_financial_concept_ai_result_existing;
+
+  /// No description provided for @settings_financial_concept_ai_details_action.
+  ///
+  /// In en, this message translates to:
+  /// **'View details'**
+  String get settings_financial_concept_ai_details_action;
+
+  /// No description provided for @settings_financial_concept_ai_existing_action.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to concept list'**
+  String get settings_financial_concept_ai_existing_action;
+
+  /// No description provided for @settings_financial_concept_ai_save_blocked.
+  ///
+  /// In en, this message translates to:
+  /// **'This scenario already has an existing concept. Use it instead of creating a new one.'**
+  String get settings_financial_concept_ai_save_blocked;
+
+  /// No description provided for @settings_financial_concept_ai_toast_applied.
+  ///
+  /// In en, this message translates to:
+  /// **'AI suggestion applied to the form.'**
+  String get settings_financial_concept_ai_toast_applied;
+
+  /// No description provided for @settings_financial_concept_ai_toast_existing.
+  ///
+  /// In en, this message translates to:
+  /// **'An existing concept was found. New save was blocked.'**
+  String get settings_financial_concept_ai_toast_existing;
+
+  /// No description provided for @settings_financial_concept_ai_toast_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not get assistance right now. Try again.'**
+  String get settings_financial_concept_ai_toast_error;
 
   /// No description provided for @bankStatements_empty_title.
   ///
@@ -6972,6 +7116,696 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save'**
   String get common_save;
+
+  /// No description provided for @devotional_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Devotionals'**
+  String get devotional_title;
+
+  /// No description provided for @devotional_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly planning, review, delivery and history.'**
+  String get devotional_subtitle;
+
+  /// No description provided for @devotional_tab_configure.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure'**
+  String get devotional_tab_configure;
+
+  /// No description provided for @devotional_tab_agenda.
+  ///
+  /// In en, this message translates to:
+  /// **'Agenda'**
+  String get devotional_tab_agenda;
+
+  /// No description provided for @devotional_tab_history.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get devotional_tab_history;
+
+  /// No description provided for @devotional_service_status_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Activate this week'**
+  String get devotional_service_status_title;
+
+  /// No description provided for @devotional_service_status_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn this week\'s devotional flow on or off'**
+  String get devotional_service_status_subtitle;
+
+  /// No description provided for @devotional_theme_week.
+  ///
+  /// In en, this message translates to:
+  /// **'Week theme'**
+  String get devotional_theme_week;
+
+  /// No description provided for @devotional_send_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery time (HH:mm)'**
+  String get devotional_send_time;
+
+  /// No description provided for @devotional_timezone_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Church local time: {timezone}'**
+  String devotional_timezone_hint(String timezone);
+
+  /// No description provided for @devotional_audience.
+  ///
+  /// In en, this message translates to:
+  /// **'Audience'**
+  String get devotional_audience;
+
+  /// No description provided for @devotional_audience_all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get devotional_audience_all;
+
+  /// No description provided for @devotional_audience_youth.
+  ///
+  /// In en, this message translates to:
+  /// **'Youth'**
+  String get devotional_audience_youth;
+
+  /// No description provided for @devotional_audience_women.
+  ///
+  /// In en, this message translates to:
+  /// **'Women'**
+  String get devotional_audience_women;
+
+  /// No description provided for @devotional_audience_men.
+  ///
+  /// In en, this message translates to:
+  /// **'Men'**
+  String get devotional_audience_men;
+
+  /// No description provided for @devotional_audience_kids.
+  ///
+  /// In en, this message translates to:
+  /// **'Kids'**
+  String get devotional_audience_kids;
+
+  /// No description provided for @devotional_operation_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'How it is sent'**
+  String get devotional_operation_mode;
+
+  /// No description provided for @devotional_mode_automatic_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic'**
+  String get devotional_mode_automatic_title;
+
+  /// No description provided for @devotional_mode_automatic_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate and send right away'**
+  String get devotional_mode_automatic_subtitle;
+
+  /// No description provided for @devotional_mode_review_title.
+  ///
+  /// In en, this message translates to:
+  /// **'With pastoral review'**
+  String get devotional_mode_review_title;
+
+  /// No description provided for @devotional_mode_review_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate and wait for your approval'**
+  String get devotional_mode_review_subtitle;
+
+  /// No description provided for @devotional_channel_push.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile app notification'**
+  String get devotional_channel_push;
+
+  /// No description provided for @devotional_channel_push_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered inside the app for the member experience.'**
+  String get devotional_channel_push_subtitle;
+
+  /// No description provided for @devotional_channel_whatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp message'**
+  String get devotional_channel_whatsapp;
+
+  /// No description provided for @devotional_channel_whatsapp_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered by WhatsApp to members with consent.'**
+  String get devotional_channel_whatsapp_subtitle;
+
+  /// No description provided for @devotional_days_of_week.
+  ///
+  /// In en, this message translates to:
+  /// **'Days of week'**
+  String get devotional_days_of_week;
+
+  /// No description provided for @devotional_day_config.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily configuration'**
+  String get devotional_day_config;
+
+  /// No description provided for @devotional_day_complete.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete'**
+  String get devotional_day_complete;
+
+  /// No description provided for @devotional_day_incomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Incomplete'**
+  String get devotional_day_incomplete;
+
+  /// No description provided for @devotional_day_title_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested title'**
+  String get devotional_day_title_hint;
+
+  /// No description provided for @devotional_day_biblical_context.
+  ///
+  /// In en, this message translates to:
+  /// **'Biblical context'**
+  String get devotional_day_biblical_context;
+
+  /// No description provided for @devotional_day_tone.
+  ///
+  /// In en, this message translates to:
+  /// **'Message tone'**
+  String get devotional_day_tone;
+
+  /// No description provided for @devotional_copy_previous_week.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy previous week'**
+  String get devotional_copy_previous_week;
+
+  /// No description provided for @devotional_copy_no_previous.
+  ///
+  /// In en, this message translates to:
+  /// **'No previous week configuration found.'**
+  String get devotional_copy_no_previous;
+
+  /// No description provided for @devotional_copy_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Configuration copied from previous week.'**
+  String get devotional_copy_success;
+
+  /// No description provided for @devotional_copy_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not copy previous week configuration.'**
+  String get devotional_copy_error;
+
+  /// No description provided for @devotional_save_configuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Save configuration'**
+  String get devotional_save_configuration;
+
+  /// No description provided for @devotional_saving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get devotional_saving;
+
+  /// No description provided for @devotional_config_saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Configuration saved'**
+  String get devotional_config_saved;
+
+  /// No description provided for @devotional_week_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Week: {weekStartDate}'**
+  String devotional_week_label(String weekStartDate);
+
+  /// No description provided for @devotional_summary_line.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} devotionals will be sent to {audience} at {time} ({timezone})'**
+  String devotional_summary_line(int count, String audience, String time, String timezone);
+
+  /// No description provided for @devotional_quick_guide.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable weekly plan: turns this week\'s devotional flow on or off.\nDelivery method: Automatic sends without approval; Review requires pastoral approval.'**
+  String get devotional_quick_guide;
+
+  /// No description provided for @devotional_review_mode_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Devotionals are not sent until approved.'**
+  String get devotional_review_mode_hint;
+
+  /// No description provided for @devotional_validation_theme_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Week theme is required.'**
+  String get devotional_validation_theme_required;
+
+  /// No description provided for @devotional_validation_days_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Select at least one day.'**
+  String get devotional_validation_days_required;
+
+  /// No description provided for @devotional_validation_time_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid time. Use the time picker.'**
+  String get devotional_validation_time_invalid;
+
+  /// No description provided for @devotional_validation_audience_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Select audience.'**
+  String get devotional_validation_audience_required;
+
+  /// No description provided for @devotional_validation_channel_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable at least one delivery channel.'**
+  String get devotional_validation_channel_required;
+
+  /// No description provided for @devotional_validation_day_missing.
+  ///
+  /// In en, this message translates to:
+  /// **'Missing configuration for {day}.'**
+  String devotional_validation_day_missing(String day);
+
+  /// No description provided for @devotional_validation_title_hint_missing.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete suggested title for {day}.'**
+  String devotional_validation_title_hint_missing(String day);
+
+  /// No description provided for @devotional_validation_context_missing.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete biblical context for {day}.'**
+  String devotional_validation_context_missing(String day);
+
+  /// No description provided for @devotional_loader_generating.
+  ///
+  /// In en, this message translates to:
+  /// **'Generating new content...'**
+  String get devotional_loader_generating;
+
+  /// No description provided for @devotional_loader_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI is drafting a pastoral reflection based on the theme.'**
+  String get devotional_loader_subtitle;
+
+  /// No description provided for @devotional_content_updated.
+  ///
+  /// In en, this message translates to:
+  /// **'Content updated.'**
+  String get devotional_content_updated;
+
+  /// No description provided for @devotional_operation_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not complete the operation.'**
+  String get devotional_operation_failed;
+
+  /// No description provided for @devotional_retry_done.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry executed.'**
+  String get devotional_retry_done;
+
+  /// No description provided for @devotional_tone_pastoral.
+  ///
+  /// In en, this message translates to:
+  /// **'Pastoral'**
+  String get devotional_tone_pastoral;
+
+  /// No description provided for @devotional_tone_pastoral_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Care and guidance'**
+  String get devotional_tone_pastoral_desc;
+
+  /// No description provided for @devotional_tone_exhortative.
+  ///
+  /// In en, this message translates to:
+  /// **'Exhortative'**
+  String get devotional_tone_exhortative;
+
+  /// No description provided for @devotional_tone_exhortative_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Call to action'**
+  String get devotional_tone_exhortative_desc;
+
+  /// No description provided for @devotional_tone_celebrative.
+  ///
+  /// In en, this message translates to:
+  /// **'Celebrative'**
+  String get devotional_tone_celebrative;
+
+  /// No description provided for @devotional_tone_celebrative_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Joy and praise'**
+  String get devotional_tone_celebrative_desc;
+
+  /// No description provided for @devotional_tone_contemplative.
+  ///
+  /// In en, this message translates to:
+  /// **'Reflective'**
+  String get devotional_tone_contemplative;
+
+  /// No description provided for @devotional_tone_contemplative_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Inner peace'**
+  String get devotional_tone_contemplative_desc;
+
+  /// No description provided for @devotional_status_pending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get devotional_status_pending;
+
+  /// No description provided for @devotional_status_generating.
+  ///
+  /// In en, this message translates to:
+  /// **'Generating'**
+  String get devotional_status_generating;
+
+  /// No description provided for @devotional_status_in_review.
+  ///
+  /// In en, this message translates to:
+  /// **'In review'**
+  String get devotional_status_in_review;
+
+  /// No description provided for @devotional_status_approved.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved'**
+  String get devotional_status_approved;
+
+  /// No description provided for @devotional_status_sending.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending'**
+  String get devotional_status_sending;
+
+  /// No description provided for @devotional_status_sent.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent'**
+  String get devotional_status_sent;
+
+  /// No description provided for @devotional_status_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get devotional_status_failed;
+
+  /// No description provided for @devotional_status_partial.
+  ///
+  /// In en, this message translates to:
+  /// **'Partial'**
+  String get devotional_status_partial;
+
+  /// No description provided for @devotional_status_not_enabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enabled'**
+  String get devotional_status_not_enabled;
+
+  /// No description provided for @member_home_devotional_moment_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Devotional moment'**
+  String get member_home_devotional_moment_title;
+
+  /// No description provided for @member_home_devotional_moment_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No devotional is available for today yet.'**
+  String get member_home_devotional_moment_empty;
+
+  /// No description provided for @member_home_devotional_moment_today_badge.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get member_home_devotional_moment_today_badge;
+
+  /// No description provided for @member_home_devotional_moment_cta.
+  ///
+  /// In en, this message translates to:
+  /// **'Read'**
+  String get member_home_devotional_moment_cta;
+
+  /// No description provided for @member_devotional_detail_unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'This devotional is not available right now.'**
+  String get member_devotional_detail_unavailable;
+
+  /// No description provided for @member_devotional_detail_content_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Reflection'**
+  String get member_devotional_detail_content_title;
+
+  /// No description provided for @member_devotional_detail_scriptures_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Scriptures'**
+  String get member_devotional_detail_scriptures_title;
+
+  /// No description provided for @devotional_agenda_status_filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get devotional_agenda_status_filter;
+
+  /// No description provided for @devotional_agenda_channel_filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel'**
+  String get devotional_agenda_channel_filter;
+
+  /// No description provided for @devotional_apply_filters.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply filters'**
+  String get devotional_apply_filters;
+
+  /// No description provided for @devotional_agenda_summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Next send: {nextSend}. In review: {inReview}'**
+  String devotional_agenda_summary(String nextSend, int inReview);
+
+  /// No description provided for @devotional_no_agenda.
+  ///
+  /// In en, this message translates to:
+  /// **'No devotionals scheduled for this week.'**
+  String get devotional_no_agenda;
+
+  /// No description provided for @devotional_item_no_title.
+  ///
+  /// In en, this message translates to:
+  /// **'No title'**
+  String get devotional_item_no_title;
+
+  /// No description provided for @devotional_item_channel_line.
+  ///
+  /// In en, this message translates to:
+  /// **'Audience: {audience} | Push: {push} | WhatsApp: {whatsapp}'**
+  String devotional_item_channel_line(String audience, String push, String whatsapp);
+
+  /// No description provided for @devotional_item_urgent_approval.
+  ///
+  /// In en, this message translates to:
+  /// **'Requires approval before scheduled time.'**
+  String get devotional_item_urgent_approval;
+
+  /// No description provided for @devotional_view_detail.
+  ///
+  /// In en, this message translates to:
+  /// **'View details'**
+  String get devotional_view_detail;
+
+  /// No description provided for @devotional_regenerate.
+  ///
+  /// In en, this message translates to:
+  /// **'Regenerate with AI'**
+  String get devotional_regenerate;
+
+  /// No description provided for @devotional_retry_send.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry send'**
+  String get devotional_retry_send;
+
+  /// No description provided for @devotional_metric_total.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get devotional_metric_total;
+
+  /// No description provided for @devotional_metric_sent.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent'**
+  String get devotional_metric_sent;
+
+  /// No description provided for @devotional_metric_partial.
+  ///
+  /// In en, this message translates to:
+  /// **'Partial'**
+  String get devotional_metric_partial;
+
+  /// No description provided for @devotional_metric_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Errors'**
+  String get devotional_metric_error;
+
+  /// No description provided for @devotional_history_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No deliveries registered yet.'**
+  String get devotional_history_empty;
+
+  /// No description provided for @devotional_review_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Devotional Review'**
+  String get devotional_review_title;
+
+  /// No description provided for @devotional_review_header_line.
+  ///
+  /// In en, this message translates to:
+  /// **'{day} - {date} | Audience: {audience}'**
+  String devotional_review_header_line(String day, String date, String audience);
+
+  /// No description provided for @devotional_review_label_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get devotional_review_label_title;
+
+  /// No description provided for @devotional_review_label_content.
+  ///
+  /// In en, this message translates to:
+  /// **'Devotional content'**
+  String get devotional_review_label_content;
+
+  /// No description provided for @devotional_review_label_push_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Push title'**
+  String get devotional_review_label_push_title;
+
+  /// No description provided for @devotional_review_label_push_body.
+  ///
+  /// In en, this message translates to:
+  /// **'Push message'**
+  String get devotional_review_label_push_body;
+
+  /// No description provided for @devotional_review_label_scriptures.
+  ///
+  /// In en, this message translates to:
+  /// **'Scriptures (one per line: Reference | Text)'**
+  String get devotional_review_label_scriptures;
+
+  /// No description provided for @devotional_review_save_changes.
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get devotional_review_save_changes;
+
+  /// No description provided for @devotional_review_approve_send.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve and send'**
+  String get devotional_review_approve_send;
+
+  /// No description provided for @devotional_review_cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel and go back'**
+  String get devotional_review_cancel;
+
+  /// No description provided for @devotional_review_confirm_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm delivery'**
+  String get devotional_review_confirm_title;
+
+  /// No description provided for @devotional_review_confirm_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to approve and send this devotional now?'**
+  String get devotional_review_confirm_message;
+
+  /// No description provided for @devotional_review_confirm_yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, send'**
+  String get devotional_review_confirm_yes;
+
+  /// No description provided for @devotional_review_fields_required.
+  ///
+  /// In en, this message translates to:
+  /// **'All fields are required.'**
+  String get devotional_review_fields_required;
+
+  /// No description provided for @devotional_review_scripture_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Add at least one scripture (Reference | Text).'**
+  String get devotional_review_scripture_required;
+
+  /// No description provided for @devotional_review_updated.
+  ///
+  /// In en, this message translates to:
+  /// **'Devotional updated.'**
+  String get devotional_review_updated;
+
+  /// No description provided for @devotional_review_loader_approving.
+  ///
+  /// In en, this message translates to:
+  /// **'Approving and sending...'**
+  String get devotional_review_loader_approving;
+
+  /// No description provided for @devotional_review_loader_approving_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing delivery through configured channels.'**
+  String get devotional_review_loader_approving_subtitle;
+
+  /// No description provided for @devotional_review_retry_done.
+  ///
+  /// In en, this message translates to:
+  /// **'Send retry executed.'**
+  String get devotional_review_retry_done;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

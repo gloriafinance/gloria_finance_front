@@ -1,6 +1,7 @@
 import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/toast.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/features/erp/settings/financial_concept/models/financial_concept_model.dart';
 import 'package:gloria_finance/features/erp/settings/financial_concept/pages/form_financial_concept/store/financial_concept_form_store.dart';
 import 'package:gloria_finance/features/erp/settings/financial_concept/pages/form_financial_concept/widgets/financial_concept_form.dart';
@@ -19,8 +20,8 @@ class FinancialConceptFormScreen extends StatelessWidget {
 
     final title =
         concept != null
-            ? 'Editar conceito financeiro'
-            : 'Cadastrar conceito financeiro';
+            ? context.l10n.settings_financial_concept_form_title_edit
+            : context.l10n.settings_financial_concept_form_title_create;
 
     return ChangeNotifierProvider(
       create: (_) => FinancialConceptFormStore(concept: concept),

@@ -2,12 +2,17 @@ import 'package:gloria_finance/features/auth/auth_persistence.dart';
 import 'package:flutter/material.dart';
 
 import '../../../financial_concept_service.dart';
+import '../../../models/financial_concept_assistance_model.dart';
 import '../../../models/financial_concept_model.dart';
 import '../state/financial_concept_form_state.dart';
 
 class FinancialConceptFormStore extends ChangeNotifier {
+  static const int maxAssistanceContextLength = 300;
+
   final FinancialConceptService service;
   FinancialConceptFormState state;
+  bool requestingAssistance = false;
+  FinancialConceptAssistanceModel? assistanceResponse;
 
   FinancialConceptFormStore({FinancialConceptModel? concept})
     : service = FinancialConceptService(),
@@ -63,7 +68,51 @@ class FinancialConceptFormStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool get isSaveBlockedByAssistant {
+    if (state.isEdit) return false;
+    return assistanceResponse != null &&
+        assistanceResponse!.needsCreate == false;
+  }
+
+  Future<FinancialConceptAssistanceModel?> requestAssistance(
+    String context,
+  ) async {
+    final sanitizedContext = context.trim();
+    if (sanitizedContext.isEmpty) return null;
+    if (sanitizedContext.length > maxAssistanceContextLength) return null;
+
+    requestingAssistance = true;
+    notifyListeners();
+
+    try {
+      final session = await AuthPersistence().restore();
+      service.tokenAPI = session.token;
+
+      final response = await service.getFinancialConceptAssistance(
+        sanitizedContext,
+      );
+      assistanceResponse = response;
+
+      if (response.needsCreate) {
+        _applyAssistanceSuggestion(response.concept);
+      }
+
+      requestingAssistance = false;
+      notifyListeners();
+      return response;
+    } catch (e) {
+      requestingAssistance = false;
+      notifyListeners();
+      debugPrint('ERROR getFinancialConceptAssistance: $e');
+      return null;
+    }
+  }
+
   Future<bool> submit() async {
+    if (isSaveBlockedByAssistant) {
+      return false;
+    }
+
     state = state.copyWith(makeRequest: true);
     notifyListeners();
 
@@ -101,6 +150,32 @@ class FinancialConceptFormStore extends ChangeNotifier {
       affectsResult: defaults.affectsResult,
       affectsBalance: defaults.affectsBalance,
       isOperational: defaults.isOperational,
+    );
+  }
+
+  void _applyAssistanceSuggestion(
+    FinancialConceptAssistanceSuggestion concept,
+  ) {
+    final type = FinancialConceptType.values.firstWhere(
+      (item) => item.apiValue == concept.type,
+      orElse: () => FinancialConceptType.OUTGO,
+    );
+
+    final statementCategory = StatementCategory.values.firstWhere(
+      (item) => item.apiValue == concept.statementCategory,
+      orElse: () => StatementCategory.OTHER,
+    );
+
+    state = state.copyWith(
+      name: concept.name,
+      description: concept.description,
+      type: type,
+      statementCategory: statementCategory,
+      affectsCashFlow: concept.affectsCashFlow,
+      affectsResult: concept.affectsResult,
+      affectsBalance: concept.affectsBalance,
+      isOperational: concept.isOperational,
+      indicatorsEdited: true,
     );
   }
 }

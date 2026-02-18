@@ -170,6 +170,7 @@ class Dropdown extends StatefulWidget {
   final Widget? labelSuffix;
   final String? initialValue;
   final String searchHint;
+  final String Function(String)? itemLabelBuilder;
 
   const Dropdown({
     Key? key,
@@ -179,7 +180,8 @@ class Dropdown extends StatefulWidget {
     required this.onChanged,
     this.labelSuffix,
     this.initialValue,
-    this.searchHint = 'Buscar...',
+    this.searchHint = '',
+    this.itemLabelBuilder,
   }) : super(key: key);
 
   @override
@@ -198,6 +200,10 @@ class _DropdownState extends State<Dropdown> {
   OverlayEntry? _overlayEntry;
   ModalRoute? _route;
   bool _isDisposing = false;
+
+  String _itemLabel(String value) {
+    return widget.itemLabelBuilder?.call(value) ?? value;
+  }
 
   @override
   void initState() {
@@ -355,7 +361,7 @@ class _DropdownState extends State<Dropdown> {
                                       return ListTile(
                                         dense: true,
                                         title: Text(
-                                          item,
+                                          _itemLabel(item),
                                           style: TextStyle(
                                             fontFamily: AppFonts.fontSubTitle,
                                             color:
@@ -424,7 +430,9 @@ class _DropdownState extends State<Dropdown> {
         _filteredItems =
             widget.items
                 .where(
-                  (item) => item.toLowerCase().contains(query.toLowerCase()),
+                  (item) => _itemLabel(
+                    item,
+                  ).toLowerCase().contains(query.toLowerCase()),
                 )
                 .toList();
       }
@@ -484,7 +492,9 @@ class _DropdownState extends State<Dropdown> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  _selectedValue ?? '',
+                                  _selectedValue != null
+                                      ? _itemLabel(_selectedValue!)
+                                      : '',
                                   style: TextStyle(
                                     fontFamily: AppFonts.fontSubTitle,
                                     color:

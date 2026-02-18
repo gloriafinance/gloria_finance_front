@@ -66,6 +66,10 @@ extension L10nMenuX on AppLocalizations {
         return erp_menu_schedule_events;
       case 'erp_menu_settings_church_profile':
         return erp_menu_settings_church_profile;
+      case 'erp_menu_settings_church':
+        return erp_menu_settings_church;
+      case 'erp_menu_settings_church_devotional':
+        return erp_menu_settings_church_devotional;
       default:
         return key;
     }
