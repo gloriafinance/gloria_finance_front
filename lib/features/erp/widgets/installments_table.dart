@@ -73,13 +73,19 @@ class _InstallmentsTableState extends State<InstallmentsTable> {
             _getStatusWidget(item.status),
             formatCurrency(item.amountPaid ?? 0, symbol: widget.symbol),
             formatCurrency(item.amountPending ?? 0, symbol: widget.symbol),
-            item.paymentDate != null
-                ? convertDateFormatToDDMMYYYY(item.paymentDate as String?)
-                : 'N/A',
+            _formatPaymentDate(item.paymentDate),
           ];
         },
       ),
     );
+  }
+
+  String _formatPaymentDate(DateTime? paymentDate) {
+    if (paymentDate == null) {
+      return 'N/A';
+    }
+
+    return formatDateToDDMMYYYY(paymentDate);
   }
 
   _setStatedSelectedInstallmentsIds() {
