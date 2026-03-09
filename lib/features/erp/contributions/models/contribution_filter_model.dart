@@ -2,6 +2,7 @@ class ContributionFilterModel {
   int perPage;
   int page;
   String? startDate;
+  String? endDate;
   String? status;
   String? memberId;
 
@@ -9,6 +10,7 @@ class ContributionFilterModel {
     this.perPage = 20,
     this.page = 1,
     this.startDate,
+    this.endDate,
     this.status,
     this.memberId,
   });
@@ -21,6 +23,7 @@ class ContributionFilterModel {
     int? perPage,
     int? page,
     String? startDate,
+    String? endDate,
     String? status,
     String? memberId,
   }) {
@@ -28,18 +31,34 @@ class ContributionFilterModel {
       page: page ?? this.page,
       perPage: perPage ?? this.perPage,
       startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
       status: status ?? this.status,
       memberId: memberId ?? this.memberId,
     );
   }
 
-  toJson() {
-    return {
+  Map<String, dynamic> toJson() {
+    final payload = <String, dynamic>{
       'perPage': perPage,
       'page': page,
-      'startDate': startDate,
-      'status': status,
-      'memberId': memberId,
     };
+
+    if (startDate != null && startDate!.isNotEmpty) {
+      payload['startDate'] = startDate;
+    }
+
+    if (endDate != null && endDate!.isNotEmpty) {
+      payload['endDate'] = endDate;
+    }
+
+    if (status != null && status!.isNotEmpty) {
+      payload['status'] = status;
+    }
+
+    if (memberId != null && memberId!.isNotEmpty) {
+      payload['memberId'] = memberId;
+    }
+
+    return payload;
   }
 }

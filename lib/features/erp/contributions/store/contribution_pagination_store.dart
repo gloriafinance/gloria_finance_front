@@ -11,12 +11,26 @@ class ContributionPaginationStore extends ChangeNotifier {
   ContributionPaginationState state = ContributionPaginationState.empty();
 
   void setStatus(ContributionStatus status) {
-    state = state.copyWith(status: status.toString().split('.').last);
+    state = state.copyWith(
+      status: status.toString().split('.').last,
+      page: 1,
+    );
+    notifyListeners();
+  }
+
+  void setMemberFilter(String? memberId) {
+    final normalized = memberId?.trim() ?? "";
+    state = state.copyWith(memberId: normalized, page: 1);
     notifyListeners();
   }
 
   void setStartDate(String startDate) {
-    state = state.copyWith(startDate: startDate);
+    state = state.copyWith(startDate: startDate, page: 1);
+    notifyListeners();
+  }
+
+  void setEndDate(String endDate) {
+    state = state.copyWith(endDate: endDate, page: 1);
     notifyListeners();
   }
 
@@ -43,6 +57,18 @@ class ContributionPaginationStore extends ChangeNotifier {
   }
 
   void apply() {
+    notifyListeners();
+    searchContributions();
+  }
+
+  void clearFilters() {
+    state = state.copyWith(
+      status: "",
+      memberId: "",
+      startDate: "",
+      endDate: "",
+      page: 1,
+    );
     notifyListeners();
     searchContributions();
   }
@@ -87,7 +113,6 @@ class ContributionPaginationStore extends ChangeNotifier {
 
       state = state.copyWith(makeRequest: true);
 
-      //TODO si se agrega un filtro por miembro, esta condicion debe cambiar.
       if (session.isMember()) {
         state = state.copyWith(memberId: session.memberId);
       }

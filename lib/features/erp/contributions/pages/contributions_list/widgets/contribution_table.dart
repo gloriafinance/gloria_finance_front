@@ -27,6 +27,14 @@ class _ContributionTableState extends State<ContributionTable> {
 
     final state = contributionPaginationStore.state;
 
+    if (state.makeRequest) {
+      return Container(
+        alignment: Alignment.center,
+        margin: isMobile(context) ? null : const EdgeInsets.only(top: 40.0),
+        child: const CircularProgressIndicator(),
+      );
+    }
+
     if (state.paginate.results.isEmpty) {
       return Center(
         child: Text(context.l10n.contributions_table_empty),

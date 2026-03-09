@@ -31,6 +31,7 @@ class ContributionPaginationState {
     int? perPage,
     int? page,
     String? startDate,
+    String? endDate,
     String? status,
     String? memberId,
   }) {
@@ -41,6 +42,7 @@ class ContributionPaginationState {
           perPage: perPage,
           page: page,
           startDate: startDate,
+          endDate: endDate,
           status: status,
           memberId: memberId,
         ));

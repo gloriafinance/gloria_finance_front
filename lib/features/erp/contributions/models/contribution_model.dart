@@ -44,17 +44,23 @@ class ContributionModel {
   });
 
   factory ContributionModel.fromJson(Map<String, dynamic> json) {
+    final memberJson = (json['member'] as Map?)?.cast<String, dynamic>() ?? {};
+    final financeConceptJson =
+        (json['financeConcept'] as Map?)?.cast<String, dynamic>() ?? {};
+    final availabilityAccountJson =
+        (json['availabilityAccount'] as Map?)?.cast<String, dynamic>() ?? {};
+
     return ContributionModel(
-      contributionId: json['contributionId'],
-      amount: double.parse(json['amount'].toString()),
-      status: json['status'],
-      createdAt: DateTime.parse(json['createdAt']),
-      bankTransferReceipt: json['bankTransferReceipt'],
-      financeConcept:
-          ContributionFinancialConcept.fromJson(json['financeConcept']),
-      member: ContributionMember.fromJson(json['member']),
-      account: ContributionAvailabilityAccount.fromJson(
-          json['availabilityAccount']),
+      contributionId: (json['contributionId'] ?? '').toString(),
+      amount: double.tryParse((json['amount'] ?? '').toString()) ?? 0,
+      status: (json['status'] ?? '').toString(),
+      createdAt:
+          DateTime.tryParse((json['createdAt'] ?? '').toString()) ??
+          DateTime.fromMillisecondsSinceEpoch(0),
+      bankTransferReceipt: (json['bankTransferReceipt'] ?? '').toString(),
+      financeConcept: ContributionFinancialConcept.fromJson(financeConceptJson),
+      member: ContributionMember.fromJson(memberJson),
+      account: ContributionAvailabilityAccount.fromJson(availabilityAccountJson),
     );
   }
 
@@ -107,9 +113,9 @@ class ContributionMember {
 
   factory ContributionMember.fromJson(Map<String, dynamic> json) {
     return ContributionMember(
-      memberId: json['memberId'],
-      name: json['name'],
-      churchId: json['churchId'],
+      memberId: (json['memberId'] ?? '').toString(),
+      name: (json['name'] ?? '').toString(),
+      churchId: (json['churchId'] ?? '').toString(),
     );
   }
 
@@ -133,8 +139,8 @@ class ContributionFinancialConcept {
 
   factory ContributionFinancialConcept.fromJson(Map<String, dynamic> json) {
     return ContributionFinancialConcept(
-      financialConceptId: json['financialConceptId'],
-      name: json['name'],
+      financialConceptId: (json['financialConceptId'] ?? '').toString(),
+      name: (json['name'] ?? '').toString(),
     );
   }
 
@@ -155,8 +161,8 @@ class ContributionAvailabilityAccount {
 
   factory ContributionAvailabilityAccount.fromJson(Map<String, dynamic> json) {
     return ContributionAvailabilityAccount(
-      symbol: json['symbol'],
-      accountName: json['accountName'],
+      symbol: (json['symbol'] ?? '').toString(),
+      accountName: (json['accountName'] ?? '').toString(),
     );
   }
 
