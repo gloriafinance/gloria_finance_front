@@ -2134,6 +2134,18 @@ class AppLocalizationsPt extends AppLocalizations {
   String get finance_records_table_header_status => 'Status';
 
   @override
+  String get finance_records_status_pending => 'Pendente';
+
+  @override
+  String get finance_records_status_cleared => 'Compensado';
+
+  @override
+  String get finance_records_status_reconciled => 'Conciliado';
+
+  @override
+  String get finance_records_status_void => 'Anulado';
+
+  @override
   String get finance_records_table_action_void => 'Anular';
 
   @override
@@ -2165,6 +2177,51 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get finance_records_form_toast_saved_success => 'Registro salvo com sucesso';
+
+  @override
+  String get finance_records_list_title => 'Movimentos financeiros';
+
+  @override
+  String get finance_records_list_action_register => 'Registrar';
+
+  @override
+  String get finance_records_transfer_action_list => 'Transferências internas';
+
+  @override
+  String get finance_records_transfer_list_title => 'Lista de transferências internas';
+
+  @override
+  String get finance_records_transfer_action_new => 'Nova transferência';
+
+  @override
+  String get finance_records_transfer_form_title => 'Transferência entre contas';
+
+  @override
+  String get finance_records_transfer_field_from_account => 'Conta de origem';
+
+  @override
+  String get finance_records_transfer_field_to_account => 'Conta de destino';
+
+  @override
+  String get finance_records_transfer_concept_internal => 'Transferência interna entre contas';
+
+  @override
+  String get finance_records_transfer_action_create => 'Registrar transferência';
+
+  @override
+  String get finance_records_transfer_action_reverse => 'Reverter';
+
+  @override
+  String get finance_records_transfer_confirm_reverse => 'Deseja reverter esta transferência interna?';
+
+  @override
+  String get finance_records_transfer_error_required_fields => 'Preencha contas, data e valor para continuar.';
+
+  @override
+  String get finance_records_transfer_error_same_account => 'A conta de origem e destino devem ser diferentes.';
+
+  @override
+  String get finance_records_transfer_success_created => 'Transferência interna registrada com sucesso.';
 
   @override
   String get common_view => 'Visualizar';

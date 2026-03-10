@@ -1,4 +1,5 @@
 import 'package:gloria_finance/core/theme/index.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/index.dart';
 import 'package:gloria_finance/core/widgets/button_acton_table.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class FinancialRecordScreen extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              'Movimentos financeiros',
+              context.l10n.finance_records_list_title,
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontFamily: AppFonts.fontTitle,
@@ -50,7 +51,11 @@ class FinancialRecordScreen extends StatelessWidget {
           Align(
             alignment: Alignment.centerRight,
             child: Row(
-              children: [_generateReport(context), _newRecord(context)],
+              children: [
+                _internalTransfers(context),
+                _generateReport(context),
+                _newRecord(context),
+              ],
             ),
           ),
         ],
@@ -61,7 +66,7 @@ class FinancialRecordScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Movimentos financeiros',
+          context.l10n.finance_records_list_title,
           textAlign: TextAlign.left,
           style: TextStyle(
             fontFamily: AppFonts.fontTitle,
@@ -70,10 +75,13 @@ class FinancialRecordScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        Row(
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
           children: [
-            Expanded(child: _generateReport(context)),
-            Expanded(child: _newRecord(context)),
+            _internalTransfers(context),
+            _generateReport(context),
+            _newRecord(context),
           ],
         ),
         const SizedBox(height: 16),
@@ -84,9 +92,19 @@ class FinancialRecordScreen extends StatelessWidget {
   Widget _newRecord(BuildContext context) {
     return ButtonActionTable(
       color: AppColors.purple,
-      text: "Registrar",
+      text: context.l10n.finance_records_list_action_register,
       onPressed: () => GoRouter.of(context).go('/financial-record/add'),
       icon: Icons.add_chart,
+    );
+  }
+
+  Widget _internalTransfers(BuildContext context) {
+    return ButtonActionTable(
+      color: AppColors.mustard,
+      text: context.l10n.finance_records_transfer_action_list,
+      onPressed:
+          () => GoRouter.of(context).go('/financial-record/internal-transfer'),
+      icon: Icons.swap_horiz,
     );
   }
 

@@ -2134,6 +2134,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get finance_records_table_header_status => 'Status';
 
   @override
+  String get finance_records_status_pending => 'Pending';
+
+  @override
+  String get finance_records_status_cleared => 'Cleared';
+
+  @override
+  String get finance_records_status_reconciled => 'Reconciled';
+
+  @override
+  String get finance_records_status_void => 'Voided';
+
+  @override
   String get finance_records_table_action_void => 'Void';
 
   @override
@@ -2165,6 +2177,51 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get finance_records_form_toast_saved_success => 'Record saved successfully';
+
+  @override
+  String get finance_records_list_title => 'Financial movements';
+
+  @override
+  String get finance_records_list_action_register => 'Register';
+
+  @override
+  String get finance_records_transfer_action_list => 'Internal transfers';
+
+  @override
+  String get finance_records_transfer_list_title => 'Internal transfer list';
+
+  @override
+  String get finance_records_transfer_action_new => 'New transfer';
+
+  @override
+  String get finance_records_transfer_form_title => 'Transfer between accounts';
+
+  @override
+  String get finance_records_transfer_field_from_account => 'Source account';
+
+  @override
+  String get finance_records_transfer_field_to_account => 'Destination account';
+
+  @override
+  String get finance_records_transfer_concept_internal => 'Internal transfer between accounts';
+
+  @override
+  String get finance_records_transfer_action_create => 'Register transfer';
+
+  @override
+  String get finance_records_transfer_action_reverse => 'Reverse';
+
+  @override
+  String get finance_records_transfer_confirm_reverse => 'Do you want to reverse this internal transfer?';
+
+  @override
+  String get finance_records_transfer_error_required_fields => 'Fill source, destination, date and amount to continue.';
+
+  @override
+  String get finance_records_transfer_error_same_account => 'Source and destination accounts must be different.';
+
+  @override
+  String get finance_records_transfer_success_created => 'Internal transfer registered successfully.';
 
   @override
   String get common_view => 'View';

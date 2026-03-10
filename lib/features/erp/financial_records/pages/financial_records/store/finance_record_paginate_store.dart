@@ -27,6 +27,16 @@ class FinanceRecordPaginateStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setReferenceType(String referenceType) {
+    state = state.copyWith(referenceType: referenceType);
+    notifyListeners();
+  }
+
+  void setReferenceEntityId(String referenceEntityId) {
+    state = state.copyWith(referenceEntityId: referenceEntityId);
+    notifyListeners();
+  }
+
   void setStartDate(String startDate) {
     state = state.copyWith(startDate: convertDateFormatToDDMMYYYY(startDate));
     notifyListeners();
@@ -125,6 +135,25 @@ class FinanceRecordPaginateStore extends ChangeNotifier {
       return true;
     } catch (e) {
       print("ERROR EN CANCELACIÓN: ${e}");
+      state = state.copyWith(makeRequest: false);
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> reverseInternalTransfer(String transferId) async {
+    try {
+      state = state.copyWith(makeRequest: true);
+      notifyListeners();
+
+      await service.reverseInternalTransfer(transferId);
+
+      state = state.copyWith(makeRequest: false);
+      notifyListeners();
+
+      return true;
+    } catch (e) {
+      print("ERROR EN REVERSA DE TRANSFERENCIA: $e");
       state = state.copyWith(makeRequest: false);
       notifyListeners();
       return false;

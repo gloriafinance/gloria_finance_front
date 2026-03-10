@@ -1,5 +1,6 @@
 import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:flutter/material.dart';
+import 'package:gloria_finance/l10n/app_localizations.dart';
 
 enum FinancialRecordStatus { PENDING, CLEARED, RECONCILED, VOID }
 
@@ -14,6 +15,19 @@ extension FinancialRecordStatusExtension on FinancialRecordStatus {
         return 'Conciliado';
       case FinancialRecordStatus.VOID:
         return 'Anulado';
+    }
+  }
+
+  String localizedName(AppLocalizations l10n) {
+    switch (this) {
+      case FinancialRecordStatus.PENDING:
+        return l10n.finance_records_status_pending;
+      case FinancialRecordStatus.CLEARED:
+        return l10n.finance_records_status_cleared;
+      case FinancialRecordStatus.RECONCILED:
+        return l10n.finance_records_status_reconciled;
+      case FinancialRecordStatus.VOID:
+        return l10n.finance_records_status_void;
     }
   }
 

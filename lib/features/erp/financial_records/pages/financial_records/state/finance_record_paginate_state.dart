@@ -37,6 +37,8 @@ class FinanceRecordPaginateState {
     String? financialConceptId,
     String? availabilityAccountId,
     String? conceptType,
+    String? referenceType,
+    String? referenceEntityId,
   }) {
     return FinanceRecordPaginateState(
       makeRequest: makeRequest ?? this.makeRequest,
@@ -50,6 +52,8 @@ class FinanceRecordPaginateState {
         financialConceptId: financialConceptId,
         availabilityAccountId: availabilityAccountId,
         conceptType: conceptType,
+        referenceType: referenceType,
+        referenceEntityId: referenceEntityId,
       ),
     );
   }

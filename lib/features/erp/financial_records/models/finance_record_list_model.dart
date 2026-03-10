@@ -1,6 +1,5 @@
 import 'package:gloria_finance/core/utils/currency_formatter.dart';
 import 'package:gloria_finance/features/erp/settings/financial_concept/models/financial_concept_model.dart';
-import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
 import 'finance_record_model.dart';
 
@@ -38,6 +37,20 @@ class CostCenter {
   }
 }
 
+class FinanceRecordReference {
+  final String type;
+  final String entityId;
+
+  FinanceRecordReference({required this.type, required this.entityId});
+
+  factory FinanceRecordReference.fromJson(Map<String, dynamic> json) {
+    return FinanceRecordReference(
+      type: json['type']?.toString() ?? '',
+      entityId: json['entityId']?.toString() ?? '',
+    );
+  }
+}
+
 class FinanceRecordListModel {
   final double amount;
   final DateTime date;
@@ -50,6 +63,7 @@ class FinanceRecordListModel {
   final AvailabilityAccount availabilityAccount;
   final CostCenter? costCenter;
   final FinancialRecordStatus? status;
+  final FinanceRecordReference? reference;
 
   FinanceRecordListModel({
     this.voucher,
@@ -63,6 +77,7 @@ class FinanceRecordListModel {
     required this.type,
     required this.availabilityAccount,
     required this.status,
+    this.reference,
   });
 
   factory FinanceRecordListModel.fromJson(Map<String, dynamic> json) {
@@ -88,6 +103,10 @@ class FinanceRecordListModel {
       status:
           json['status'] != null
               ? FinancialRecordStatusExtension.fromApiValue(json['status'])
+              : null,
+      reference:
+          json['reference'] != null
+              ? FinanceRecordReference.fromJson(json['reference'])
               : null,
     );
   }

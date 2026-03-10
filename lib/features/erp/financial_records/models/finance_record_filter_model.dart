@@ -9,6 +9,8 @@ class FinanceRecordFilterModel {
   String? financialConceptId;
   String? availabilityAccountId;
   String? conceptType;
+  String? referenceType;
+  String? referenceEntityId;
 
   FinanceRecordFilterModel({
     this.perPage = 20,
@@ -19,6 +21,8 @@ class FinanceRecordFilterModel {
     this.financialConceptId,
     this.availabilityAccountId,
     this.conceptType,
+    this.referenceType,
+    this.referenceEntityId,
   });
 
   factory FinanceRecordFilterModel.init() {
@@ -34,6 +38,8 @@ class FinanceRecordFilterModel {
     String? financialConceptId,
     String? availabilityAccountId,
     String? conceptType,
+    String? referenceType,
+    String? referenceEntityId,
   }) {
     return FinanceRecordFilterModel(
       page: page ?? this.page,
@@ -45,6 +51,8 @@ class FinanceRecordFilterModel {
       availabilityAccountId:
           availabilityAccountId ?? this.availabilityAccountId,
       conceptType: conceptType ?? this.conceptType,
+      referenceType: referenceType ?? this.referenceType,
+      referenceEntityId: referenceEntityId ?? this.referenceEntityId,
     );
   }
 
@@ -58,6 +66,8 @@ class FinanceRecordFilterModel {
       'financialConceptId': financialConceptId,
       'availabilityAccountId': availabilityAccountId,
       'conceptType': conceptType,
+      'referenceType': referenceType,
+      'referenceEntityId': referenceEntityId,
     };
   }
 }

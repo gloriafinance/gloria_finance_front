@@ -1,8 +1,10 @@
 import 'package:gloria_finance/core/layout/view_detail_widgets.dart';
 import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/index.dart';
 import 'package:gloria_finance/features/erp/financial_records/models/finance_record_list_model.dart';
+import 'package:gloria_finance/features/erp/financial_records/models/internal_transfer_constants.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../settings/financial_concept/models/financial_concept_model.dart';
@@ -44,7 +46,7 @@ class ViewFinanceRecord extends StatelessWidget {
 
             _buildSectionTitle('Conceito Financeiro'),
             Text(
-              financeRecord.financialConcept?.name ?? 'N/A',
+              _conceptLabel(context),
               style: const TextStyle(
                 fontSize: 16,
                 fontFamily: AppFonts.fontText,
@@ -110,5 +112,14 @@ class ViewFinanceRecord extends StatelessWidget {
         color: AppColors.purple,
       ),
     );
+  }
+
+  String _conceptLabel(BuildContext context) {
+    final conceptName = financeRecord.financialConcept?.name;
+    if (isInternalTransferConcept(conceptName)) {
+      return context.l10n.finance_records_transfer_concept_internal;
+    }
+
+    return conceptName ?? 'N/A';
   }
 }

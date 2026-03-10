@@ -122,4 +122,35 @@ class FinanceRecordService extends AppHttp {
       rethrow;
     }
   }
+
+  Future<void> sendInternalTransfer(Map<String, dynamic> payload) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      await http.post(
+        '${await getUrlApi()}finance/financial-record/transfer-between-accounts',
+        data: payload,
+        options: Options(headers: bearerToken()),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<void> reverseInternalTransfer(String transferId) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      await http.patch(
+        '${await getUrlApi()}finance/financial-record/reverse-transfer/$transferId',
+        options: Options(headers: bearerToken()),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
 }

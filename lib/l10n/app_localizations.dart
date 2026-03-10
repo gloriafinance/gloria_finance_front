@@ -4243,6 +4243,30 @@ abstract class AppLocalizations {
   /// **'Status'**
   String get finance_records_table_header_status;
 
+  /// No description provided for @finance_records_status_pending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get finance_records_status_pending;
+
+  /// No description provided for @finance_records_status_cleared.
+  ///
+  /// In en, this message translates to:
+  /// **'Cleared'**
+  String get finance_records_status_cleared;
+
+  /// No description provided for @finance_records_status_reconciled.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconciled'**
+  String get finance_records_status_reconciled;
+
+  /// No description provided for @finance_records_status_void.
+  ///
+  /// In en, this message translates to:
+  /// **'Voided'**
+  String get finance_records_status_void;
+
   /// No description provided for @finance_records_table_action_void.
   ///
   /// In en, this message translates to:
@@ -4308,6 +4332,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Record saved successfully'**
   String get finance_records_form_toast_saved_success;
+
+  /// No description provided for @finance_records_list_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial movements'**
+  String get finance_records_list_title;
+
+  /// No description provided for @finance_records_list_action_register.
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get finance_records_list_action_register;
+
+  /// No description provided for @finance_records_transfer_action_list.
+  ///
+  /// In en, this message translates to:
+  /// **'Internal transfers'**
+  String get finance_records_transfer_action_list;
+
+  /// No description provided for @finance_records_transfer_list_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Internal transfer list'**
+  String get finance_records_transfer_list_title;
+
+  /// No description provided for @finance_records_transfer_action_new.
+  ///
+  /// In en, this message translates to:
+  /// **'New transfer'**
+  String get finance_records_transfer_action_new;
+
+  /// No description provided for @finance_records_transfer_form_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer between accounts'**
+  String get finance_records_transfer_form_title;
+
+  /// No description provided for @finance_records_transfer_field_from_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Source account'**
+  String get finance_records_transfer_field_from_account;
+
+  /// No description provided for @finance_records_transfer_field_to_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Destination account'**
+  String get finance_records_transfer_field_to_account;
+
+  /// No description provided for @finance_records_transfer_concept_internal.
+  ///
+  /// In en, this message translates to:
+  /// **'Internal transfer between accounts'**
+  String get finance_records_transfer_concept_internal;
+
+  /// No description provided for @finance_records_transfer_action_create.
+  ///
+  /// In en, this message translates to:
+  /// **'Register transfer'**
+  String get finance_records_transfer_action_create;
+
+  /// No description provided for @finance_records_transfer_action_reverse.
+  ///
+  /// In en, this message translates to:
+  /// **'Reverse'**
+  String get finance_records_transfer_action_reverse;
+
+  /// No description provided for @finance_records_transfer_confirm_reverse.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to reverse this internal transfer?'**
+  String get finance_records_transfer_confirm_reverse;
+
+  /// No description provided for @finance_records_transfer_error_required_fields.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill source, destination, date and amount to continue.'**
+  String get finance_records_transfer_error_required_fields;
+
+  /// No description provided for @finance_records_transfer_error_same_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Source and destination accounts must be different.'**
+  String get finance_records_transfer_error_same_account;
+
+  /// No description provided for @finance_records_transfer_success_created.
+  ///
+  /// In en, this message translates to:
+  /// **'Internal transfer registered successfully.'**
+  String get finance_records_transfer_success_created;
 
   /// No description provided for @common_view.
   ///

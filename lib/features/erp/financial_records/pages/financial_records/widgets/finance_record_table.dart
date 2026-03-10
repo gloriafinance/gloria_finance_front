@@ -12,12 +12,15 @@ import 'package:provider/provider.dart';
 import '../../../../settings/financial_concept/models/financial_concept_model.dart'
     show getFriendlyNameFinancialConceptType;
 import '../../../models/finance_record_list_model.dart';
+import '../../../models/internal_transfer_constants.dart';
 import '../../../models/finance_record_model.dart';
 import '../store/finance_record_paginate_store.dart';
 import 'view_finance_record.dart';
 
 class FinanceRecordTable extends StatefulWidget {
-  const FinanceRecordTable({super.key});
+  final bool internalTransferMode;
+
+  const FinanceRecordTable({super.key, this.internalTransferMode = false});
 
   @override
   State<FinanceRecordTable> createState() => _FinanceRecordTableState();
@@ -46,17 +49,29 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
     }
 
     return CustomTable(
-      headers: [
-        context.l10n.finance_records_table_header_date,
-        context.l10n.finance_records_table_header_amount,
-        context.l10n.finance_records_table_header_type,
-        context.l10n.finance_records_table_header_concept,
-        context.l10n.finance_records_table_header_availability_account,
-        context.l10n.finance_records_table_header_status,
-      ],
+      headers:
+          widget.internalTransferMode
+              ? [
+                context.l10n.finance_records_table_header_date,
+                context.l10n.finance_records_table_header_amount,
+                context.l10n.finance_records_table_header_availability_account,
+                context.l10n.finance_records_form_field_description,
+                context.l10n.finance_records_table_header_status,
+              ]
+              : [
+                context.l10n.finance_records_table_header_date,
+                context.l10n.finance_records_table_header_amount,
+                context.l10n.finance_records_table_header_type,
+                context.l10n.finance_records_table_header_concept,
+                context.l10n.finance_records_table_header_availability_account,
+                context.l10n.finance_records_table_header_status,
+              ],
       data: FactoryDataTable<FinanceRecordListModel>(
         data: state.paginate.results,
-        dataBuilder: financeRecordDTO,
+        dataBuilder:
+            widget.internalTransferMode
+                ? internalTransferDTO
+                : financeRecordDTO,
       ),
       paginate: PaginationData(
         totalRecords: state.paginate.count,
@@ -83,6 +98,38 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
           icon: Icons.remove_red_eye_sharp,
         ),
         (fianceRecord) {
+          if (widget.internalTransferMode) {
+            final transferId = fianceRecord.reference?.entityId ?? '';
+            final isTransferSource =
+                fianceRecord.reference?.type == transferReferenceTypeSource;
+
+            if (!isTransferSource ||
+                transferId.isEmpty ||
+                fianceRecord.status == FinancialRecordStatus.VOID) {
+              return const SizedBox.shrink();
+            }
+
+            return ButtonActionTable(
+              color: Colors.deepOrangeAccent,
+              text: context.l10n.finance_records_transfer_action_reverse,
+              onPressed: () async {
+                final res = await confirmationDialog(
+                  context,
+                  context.l10n.finance_records_transfer_confirm_reverse,
+                );
+
+                if (res == true) {
+                  store.reverseInternalTransfer(transferId).then((value) {
+                    if (value) {
+                      store.searchFinanceRecords();
+                    }
+                  });
+                }
+              },
+              icon: Icons.swap_horiz,
+            );
+          }
+
           // Solo mostrar el botón si es OUTGO y no está VOID ni RECONCILED
           if ((fianceRecord.type == "OUTGO" || fianceRecord.type == "INCOME") &&
               fianceRecord.status != FinancialRecordStatus.VOID &&
@@ -131,11 +178,37 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
         symbol: financeRecord.availabilityAccount.symbol,
       ),
       getFriendlyNameFinancialConceptType(financeRecord.type),
-      financeRecord?.financialConcept?.name ?? 'N/A',
+      _conceptLabel(financeRecord),
       financeRecord.availabilityAccount.accountName,
       tagStatus(
         model.status?.color ?? AppColors.green,
-        model.status?.friendlyName ?? "-",
+        model.status?.localizedName(context.l10n) ?? "-",
+      ),
+    ];
+  }
+
+  String _conceptLabel(FinanceRecordListModel record) {
+    final conceptName = record.financialConcept?.name;
+    if (isInternalTransferConcept(conceptName)) {
+      return context.l10n.finance_records_transfer_concept_internal;
+    }
+
+    return conceptName ?? 'N/A';
+  }
+
+  List<dynamic> internalTransferDTO(dynamic financeRecord) {
+    var model = financeRecord as FinanceRecordListModel;
+    return [
+      convertDateFormatToDDMMYYYY(financeRecord.date.toString()),
+      CurrencyFormatter.formatCurrency(
+        financeRecord.amount,
+        symbol: financeRecord.availabilityAccount.symbol,
+      ),
+      financeRecord.availabilityAccount.accountName,
+      financeRecord.description ?? "-",
+      tagStatus(
+        model.status?.color ?? AppColors.green,
+        model.status?.localizedName(context.l10n) ?? "-",
       ),
     ];
   }

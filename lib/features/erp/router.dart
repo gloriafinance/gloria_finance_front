@@ -16,6 +16,8 @@ import 'bank_statements/pages/bank_statements/bank_statements_screen.dart';
 import 'contributions/pages/contributions_list/contributions_list_screen.dart';
 import 'financial_records/pages/add_financial_records/add_financial_record_screen.dart';
 import 'financial_records/pages/financial_records/financial_record_list_screen.dart';
+import 'financial_records/pages/internal_transfers/internal_transfer_form_screen.dart';
+import 'financial_records/pages/internal_transfers/internal_transfer_list_screen.dart';
 import 'patrimony/router.dart';
 import 'payment_commitment/pages/index.dart';
 import 'providers/router.dart';
@@ -40,6 +42,18 @@ erpListRouter() {
       path: '/financial-record/add',
       pageBuilder: (context, state) {
         return transitionCustom(AddFinancialRecordScreen());
+      },
+    ),
+    GoRoute(
+      path: '/financial-record/internal-transfer',
+      pageBuilder: (context, state) {
+        return transitionCustom(const InternalTransferListScreen());
+      },
+    ),
+    GoRoute(
+      path: '/financial-record/internal-transfer/add',
+      pageBuilder: (context, state) {
+        return transitionCustom(const InternalTransferFormScreen());
       },
     ),
     GoRoute(
