@@ -3,9 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>247774651903-2q9ruehmb6hah36c0o7d4hod2vtn3sre.apps.googleusercontent.com</string>
+	<string>247774651903-mt69825d3g1htuhlaccs21a53n6r77n3.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.247774651903-2q9ruehmb6hah36c0o7d4hod2vtn3sre</string>
+	<string>com.googleusercontent.apps.247774651903-mt69825d3g1htuhlaccs21a53n6r77n3</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>247774651903-imoh2b5vrqsdoqnni2vgv9h9lo1704rq.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCLrlyg6k-Uhu9RfzCWwC9SXl6beJ3WESk</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.gloria_finance.app</string>
+	<string>com.gloriafinance.app</string>
 	<key>PROJECT_ID</key>
 	<string>devpto-dev</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:247774651903:ios:769e9a6f2190fbec9bb3ca</string>
+	<string>1:247774651903:ios:e32430e5dcec461d9bb3ca</string>
 </dict>
 </plist>
