@@ -10,6 +10,7 @@ import 'package:gloria_finance/features/member_experience/contributions/pages/co
 import 'package:gloria_finance/features/member_experience/contributions/pages/history/member_contribution_history_screen.dart';
 import 'package:gloria_finance/features/erp/schedule/models/schedule_models.dart';
 import 'package:gloria_finance/features/member_experience/home/home_screen.dart';
+import 'package:gloria_finance/features/member_experience/devotional/pages/member_devotional_detail_screen.dart';
 import 'package:gloria_finance/features/member_experience/profile/pages/member_profile_screen.dart';
 import 'package:gloria_finance/features/member_experience/profile/pages/change_password/member_change_password_screen.dart';
 import 'package:gloria_finance/features/member_experience/schedule/pages/member_schedule_detail_screen.dart';
@@ -75,6 +76,15 @@ memberExperienceRouter() {
         final occurrence = state.extra as WeeklyOccurrence;
         return transitionCustom(
           MemberScheduleDetailScreen(occurrence: occurrence),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/member/devotional/:devotionalId',
+      pageBuilder: (context, state) {
+        final devotionalId = state.pathParameters['devotionalId'] ?? '';
+        return transitionCustom(
+          MemberDevotionalDetailScreen(devotionalId: devotionalId),
         );
       },
     ),

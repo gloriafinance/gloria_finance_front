@@ -282,6 +282,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get erp_menu_settings_church_profile => 'Church Profile';
 
   @override
+  String get erp_menu_settings_church => 'Church';
+
+  @override
+  String get erp_menu_settings_church_devotional => 'Devotional';
+
+  @override
   String get settings_church_profile_title => 'Church Profile';
 
   @override
@@ -918,6 +924,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_financial_concept_title => 'Financial concepts';
 
   @override
+  String get settings_financial_concept_form_title_create => 'Register financial concept';
+
+  @override
+  String get settings_financial_concept_form_title_edit => 'Edit financial concept';
+
+  @override
   String get settings_financial_concept_new => 'New concept';
 
   @override
@@ -1009,6 +1021,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_financial_concept_help_understood => 'Got it';
+
+  @override
+  String get settings_financial_concept_ai_title => 'AI assistant for financial concepts';
+
+  @override
+  String get settings_financial_concept_ai_description => 'Describe the scenario and the assistant will suggest an existing concept or auto-fill the form fields.';
+
+  @override
+  String get settings_financial_concept_ai_button => 'Use AI assistant';
+
+  @override
+  String get settings_financial_concept_ai_modal_title => 'Ask AI for guidance';
+
+  @override
+  String get settings_financial_concept_ai_modal_description => 'Describe your scenario with enough detail. Example: payment to an invited musician for a one-time event.';
+
+  @override
+  String get settings_financial_concept_ai_modal_context_label => 'Scenario';
+
+  @override
+  String get settings_financial_concept_ai_modal_submit => 'Get suggestion';
+
+  @override
+  String get settings_financial_concept_ai_modal_cancel => 'Cancel';
+
+  @override
+  String get settings_financial_concept_ai_error_required => 'Describe the scenario to continue.';
+
+  @override
+  String settings_financial_concept_ai_error_max_chars(int max) {
+    return 'Use at most $max characters.';
+  }
+
+  @override
+  String get settings_financial_concept_ai_result_applied => 'Suggestion applied. Review and save if everything is correct.';
+
+  @override
+  String settings_financial_concept_ai_result_applied_summary(String type, String category) {
+    return 'Suggestion applied: $type · $category. Review indicators and then save.';
+  }
+
+  @override
+  String get settings_financial_concept_ai_result_assistant_tone => 'I filled the fields based on your description. Adjust if needed, then save.';
+
+  @override
+  String get settings_financial_concept_ai_result_existing => 'An existing concept already covers this scenario. Creating a new one is blocked.';
+
+  @override
+  String get settings_financial_concept_ai_details_action => 'View details';
+
+  @override
+  String get settings_financial_concept_ai_existing_action => 'Go to concept list';
+
+  @override
+  String get settings_financial_concept_ai_save_blocked => 'This scenario already has an existing concept. Use it instead of creating a new one.';
+
+  @override
+  String get settings_financial_concept_ai_toast_applied => 'AI suggestion applied to the form.';
+
+  @override
+  String get settings_financial_concept_ai_toast_existing => 'An existing concept was found. New save was blocked.';
+
+  @override
+  String get settings_financial_concept_ai_toast_error => 'Could not get assistance right now. Try again.';
 
   @override
   String get bankStatements_empty_title => 'No statements imported yet.';
@@ -3513,4 +3589,367 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get common_save => 'Save';
+
+  @override
+  String get devotional_title => 'Devotionals';
+
+  @override
+  String get devotional_subtitle => 'Weekly planning, review, delivery and history.';
+
+  @override
+  String get devotional_tab_configure => 'Configure';
+
+  @override
+  String get devotional_tab_agenda => 'Agenda';
+
+  @override
+  String get devotional_tab_history => 'History';
+
+  @override
+  String get devotional_service_status_title => 'Activate this week';
+
+  @override
+  String get devotional_service_status_subtitle => 'Turn this week\'s devotional flow on or off';
+
+  @override
+  String get devotional_theme_week => 'Week theme';
+
+  @override
+  String get devotional_send_time => 'Delivery time (HH:mm)';
+
+  @override
+  String devotional_timezone_hint(String timezone) {
+    return 'Church local time: $timezone';
+  }
+
+  @override
+  String get devotional_audience => 'Audience';
+
+  @override
+  String get devotional_audience_all => 'All';
+
+  @override
+  String get devotional_audience_youth => 'Youth';
+
+  @override
+  String get devotional_audience_women => 'Women';
+
+  @override
+  String get devotional_audience_men => 'Men';
+
+  @override
+  String get devotional_audience_kids => 'Kids';
+
+  @override
+  String get devotional_operation_mode => 'How it is sent';
+
+  @override
+  String get devotional_mode_automatic_title => 'Automatic';
+
+  @override
+  String get devotional_mode_automatic_subtitle => 'Generate and send right away';
+
+  @override
+  String get devotional_mode_review_title => 'With pastoral review';
+
+  @override
+  String get devotional_mode_review_subtitle => 'Generate and wait for your approval';
+
+  @override
+  String get devotional_channel_push => 'Mobile app notification';
+
+  @override
+  String get devotional_channel_push_subtitle => 'Delivered inside the app for the member experience.';
+
+  @override
+  String get devotional_channel_whatsapp => 'WhatsApp message';
+
+  @override
+  String get devotional_channel_whatsapp_subtitle => 'Delivered by WhatsApp to members with consent.';
+
+  @override
+  String get devotional_days_of_week => 'Days of week';
+
+  @override
+  String get devotional_day_config => 'Daily configuration';
+
+  @override
+  String get devotional_day_complete => 'Complete';
+
+  @override
+  String get devotional_day_incomplete => 'Incomplete';
+
+  @override
+  String get devotional_day_title_hint => 'Suggested title';
+
+  @override
+  String get devotional_day_biblical_context => 'Biblical context';
+
+  @override
+  String get devotional_day_tone => 'Message tone';
+
+  @override
+  String get devotional_copy_previous_week => 'Copy previous week';
+
+  @override
+  String get devotional_copy_no_previous => 'No previous week configuration found.';
+
+  @override
+  String get devotional_copy_success => 'Configuration copied from previous week.';
+
+  @override
+  String get devotional_copy_error => 'Could not copy previous week configuration.';
+
+  @override
+  String get devotional_save_configuration => 'Save configuration';
+
+  @override
+  String get devotional_saving => 'Saving...';
+
+  @override
+  String get devotional_config_saved => 'Configuration saved';
+
+  @override
+  String devotional_week_label(String weekStartDate) {
+    return 'Week: $weekStartDate';
+  }
+
+  @override
+  String devotional_summary_line(int count, String audience, String time, String timezone) {
+    return '$count devotionals will be sent to $audience at $time ($timezone)';
+  }
+
+  @override
+  String get devotional_quick_guide => 'Enable weekly plan: turns this week\'s devotional flow on or off.\nDelivery method: Automatic sends without approval; Review requires pastoral approval.';
+
+  @override
+  String get devotional_review_mode_hint => 'Devotionals are not sent until approved.';
+
+  @override
+  String get devotional_validation_theme_required => 'Week theme is required.';
+
+  @override
+  String get devotional_validation_days_required => 'Select at least one day.';
+
+  @override
+  String get devotional_validation_time_invalid => 'Invalid time. Use the time picker.';
+
+  @override
+  String get devotional_validation_audience_required => 'Select audience.';
+
+  @override
+  String get devotional_validation_channel_required => 'Enable at least one delivery channel.';
+
+  @override
+  String devotional_validation_day_missing(String day) {
+    return 'Missing configuration for $day.';
+  }
+
+  @override
+  String devotional_validation_title_hint_missing(String day) {
+    return 'Complete suggested title for $day.';
+  }
+
+  @override
+  String devotional_validation_context_missing(String day) {
+    return 'Complete biblical context for $day.';
+  }
+
+  @override
+  String get devotional_loader_generating => 'Generating new content...';
+
+  @override
+  String get devotional_loader_subtitle => 'AI is drafting a pastoral reflection based on the theme.';
+
+  @override
+  String get devotional_content_updated => 'Content updated.';
+
+  @override
+  String get devotional_operation_failed => 'Could not complete the operation.';
+
+  @override
+  String get devotional_retry_done => 'Retry executed.';
+
+  @override
+  String get devotional_tone_pastoral => 'Pastoral';
+
+  @override
+  String get devotional_tone_pastoral_desc => 'Care and guidance';
+
+  @override
+  String get devotional_tone_exhortative => 'Exhortative';
+
+  @override
+  String get devotional_tone_exhortative_desc => 'Call to action';
+
+  @override
+  String get devotional_tone_celebrative => 'Celebrative';
+
+  @override
+  String get devotional_tone_celebrative_desc => 'Joy and praise';
+
+  @override
+  String get devotional_tone_contemplative => 'Reflective';
+
+  @override
+  String get devotional_tone_contemplative_desc => 'Inner peace';
+
+  @override
+  String get devotional_status_pending => 'Pending';
+
+  @override
+  String get devotional_status_generating => 'Generating';
+
+  @override
+  String get devotional_status_in_review => 'In review';
+
+  @override
+  String get devotional_status_approved => 'Approved';
+
+  @override
+  String get devotional_status_sending => 'Sending';
+
+  @override
+  String get devotional_status_sent => 'Sent';
+
+  @override
+  String get devotional_status_failed => 'Failed';
+
+  @override
+  String get devotional_status_partial => 'Partial';
+
+  @override
+  String get devotional_status_not_enabled => 'Not enabled';
+
+  @override
+  String get member_home_devotional_moment_title => 'Devotional moment';
+
+  @override
+  String get member_home_devotional_moment_empty => 'No devotional is available for today yet.';
+
+  @override
+  String get member_home_devotional_moment_today_badge => 'Today';
+
+  @override
+  String get member_home_devotional_moment_cta => 'Read';
+
+  @override
+  String get member_devotional_detail_unavailable => 'This devotional is not available right now.';
+
+  @override
+  String get member_devotional_detail_content_title => 'Reflection';
+
+  @override
+  String get member_devotional_detail_scriptures_title => 'Scriptures';
+
+  @override
+  String get devotional_agenda_status_filter => 'Status';
+
+  @override
+  String get devotional_agenda_channel_filter => 'Channel';
+
+  @override
+  String get devotional_apply_filters => 'Apply filters';
+
+  @override
+  String devotional_agenda_summary(String nextSend, int inReview) {
+    return 'Next send: $nextSend. In review: $inReview';
+  }
+
+  @override
+  String get devotional_no_agenda => 'No devotionals scheduled for this week.';
+
+  @override
+  String get devotional_item_no_title => 'No title';
+
+  @override
+  String devotional_item_channel_line(String audience, String push, String whatsapp) {
+    return 'Audience: $audience | Push: $push | WhatsApp: $whatsapp';
+  }
+
+  @override
+  String get devotional_item_urgent_approval => 'Requires approval before scheduled time.';
+
+  @override
+  String get devotional_view_detail => 'View details';
+
+  @override
+  String get devotional_regenerate => 'Regenerate with AI';
+
+  @override
+  String get devotional_retry_send => 'Retry send';
+
+  @override
+  String get devotional_metric_total => 'Total';
+
+  @override
+  String get devotional_metric_sent => 'Sent';
+
+  @override
+  String get devotional_metric_partial => 'Partial';
+
+  @override
+  String get devotional_metric_error => 'Errors';
+
+  @override
+  String get devotional_history_empty => 'No deliveries registered yet.';
+
+  @override
+  String get devotional_review_title => 'Devotional Review';
+
+  @override
+  String devotional_review_header_line(String day, String date, String audience) {
+    return '$day - $date | Audience: $audience';
+  }
+
+  @override
+  String get devotional_review_label_title => 'Title';
+
+  @override
+  String get devotional_review_label_content => 'Devotional content';
+
+  @override
+  String get devotional_review_label_push_title => 'Push title';
+
+  @override
+  String get devotional_review_label_push_body => 'Push message';
+
+  @override
+  String get devotional_review_label_scriptures => 'Scriptures (one per line: Reference | Text)';
+
+  @override
+  String get devotional_review_save_changes => 'Save changes';
+
+  @override
+  String get devotional_review_approve_send => 'Approve and send';
+
+  @override
+  String get devotional_review_cancel => 'Cancel and go back';
+
+  @override
+  String get devotional_review_confirm_title => 'Confirm delivery';
+
+  @override
+  String get devotional_review_confirm_message => 'Do you want to approve and send this devotional now?';
+
+  @override
+  String get devotional_review_confirm_yes => 'Yes, send';
+
+  @override
+  String get devotional_review_fields_required => 'All fields are required.';
+
+  @override
+  String get devotional_review_scripture_required => 'Add at least one scripture (Reference | Text).';
+
+  @override
+  String get devotional_review_updated => 'Devotional updated.';
+
+  @override
+  String get devotional_review_loader_approving => 'Approving and sending...';
+
+  @override
+  String get devotional_review_loader_approving_subtitle => 'Processing delivery through configured channels.';
+
+  @override
+  String get devotional_review_retry_done => 'Send retry executed.';
 }

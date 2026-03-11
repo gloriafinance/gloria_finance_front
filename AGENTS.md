@@ -2,6 +2,13 @@
 
 ## Reglas Fundamentales
 
+### Política de Cambios (Obligatoria)
+
+- `No backward-compat shims`: está prohibido agregar compatibilidad temporal (alias de endpoints, campos duplicados, fallbacks silenciosos, feature flags de transición) salvo petición explícita del usuario en ese ticket.
+- `Fix at source`: corregir siempre en la fuente de verdad (contrato/API/modelo) y actualizar todos los consumidores en el mismo cambio.
+- `Schema changes`: si hay cambio estructural de datos, hacer migration/backfill formal (idempotente) y retirar la estructura anterior; no mantener ambas.
+- `No hidden transitions`: si una transición es inevitable, debe estar aprobada explícitamente, con fecha de retiro y tareas de limpieza definidas.
+
 ### 1. **SIEMPRE Revisar Código Existente Antes de Crear Nuevo**
 
 Antes de crear cualquier componente nuevo (filtros, tablas, formularios, etc.), **SIEMPRE** debes:

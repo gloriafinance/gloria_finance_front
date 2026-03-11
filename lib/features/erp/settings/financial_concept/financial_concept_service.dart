@@ -1,6 +1,7 @@
 import 'package:gloria_finance/core/app_http.dart';
 import 'package:dio/dio.dart';
 
+import 'models/financial_concept_assistance_model.dart';
 import 'models/financial_concept_model.dart';
 
 class FinancialConceptService extends AppHttp {
@@ -36,6 +37,25 @@ class FinancialConceptService extends AppHttp {
         '${await getUrlApi()}finance/configuration/financial-concepts',
         data: payload,
         options: Options(headers: bearerToken()),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<FinancialConceptAssistanceModel> getFinancialConceptAssistance(
+    String context,
+  ) async {
+    try {
+      final response = await http.post(
+        '${await getUrlApi()}ai/assistance/financial-concepts',
+        data: {'context': context},
+        options: Options(headers: bearerToken()),
+      );
+
+      return FinancialConceptAssistanceModel.fromJson(
+        Map<String, dynamic>.from(response.data ?? const {}),
       );
     } on DioException catch (e) {
       transformResponse(e.response?.data);

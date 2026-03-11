@@ -14,6 +14,7 @@ import 'accounts_receivable/pages/register_accounts_receivable/accounts_receivab
 import 'accounts_receivable/pages/view_account_receivable/view_account_receive_screen.dart';
 import 'bank_statements/pages/bank_statements/bank_statements_screen.dart';
 import 'contributions/pages/contributions_list/contributions_list_screen.dart';
+import 'devotional/router.dart';
 import 'financial_records/pages/add_financial_records/add_financial_record_screen.dart';
 import 'financial_records/pages/financial_records/financial_record_list_screen.dart';
 import 'financial_records/pages/internal_transfers/internal_transfer_form_screen.dart';
@@ -159,6 +160,7 @@ erpListRouter() {
     ),
     ...patrimonyRouter(),
     ...providerRouter(),
+    ...devotionalRouter(),
     ...settingsRouter(),
     ...scheduleRouter(),
   ];

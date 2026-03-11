@@ -9,6 +9,7 @@ import 'package:gloria_finance/core/widgets/form_controls.dart';
 import 'package:gloria_finance/core/widgets/loading.dart';
 import 'package:gloria_finance/features/erp/settings/financial_concept/models/financial_concept_model.dart';
 import 'package:gloria_finance/features/erp/settings/financial_concept/pages/form_financial_concept/store/financial_concept_form_store.dart';
+import 'package:gloria_finance/features/erp/settings/financial_concept/pages/form_financial_concept/widgets/financial_concept_ai_assistant.dart';
 import 'package:gloria_finance/features/erp/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:gloria_finance/features/erp/widgets/statement_category_help.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,10 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        FinancialConceptAIAssistant(
+          formStore: formStore,
+          onOpenConceptList: () => context.go('/financial-concepts'),
+        ),
         _buildNameField(formStore),
         _buildDescriptionField(formStore),
         _buildTypeField(formStore),
@@ -68,6 +73,10 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        FinancialConceptAIAssistant(
+          formStore: formStore,
+          onOpenConceptList: () => context.go('/financial-concepts'),
+        ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -166,7 +175,11 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
         ),
         const SizedBox(width: 12),
         Switch(
-          activeColor: AppColors.purple,
+          thumbColor: WidgetStateProperty.resolveWith((states) {
+            return states.contains(WidgetState.selected)
+                ? AppColors.purple
+                : null;
+          }),
           value: formStore.state.active,
           onChanged: formStore.setActive,
         ),
@@ -263,7 +276,11 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
           ),
           const SizedBox(width: 12),
           Switch(
-            activeColor: AppColors.purple,
+            thumbColor: WidgetStateProperty.resolveWith((states) {
+              return states.contains(WidgetState.selected)
+                  ? AppColors.purple
+                  : null;
+            }),
             value: value,
             onChanged: onChanged,
           ),
@@ -273,6 +290,7 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
   }
 
   Widget _buildSubmitButton(FinancialConceptFormStore formStore) {
+    final blocked = formStore.isSaveBlockedByAssistant;
     return Align(
       alignment: Alignment.centerRight,
       child: SizedBox(
@@ -284,7 +302,7 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
                   text: context.l10n.settings_financial_concept_save,
                   backgroundColor: AppColors.green,
                   textColor: Colors.black,
-                  onPressed: () => _save(formStore),
+                  onPressed: blocked ? null : () => _save(formStore),
                 ),
       ),
     );
@@ -338,6 +356,14 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
   }
 
   Future<void> _save(FinancialConceptFormStore formStore) async {
+    if (formStore.isSaveBlockedByAssistant) {
+      Toast.showMessage(
+        context.l10n.settings_financial_concept_ai_save_blocked,
+        ToastType.warning,
+      );
+      return;
+    }
+
     if (!formKey.currentState!.validate()) {
       return;
     }
@@ -351,6 +377,7 @@ class _FinancialConceptFormState extends State<FinancialConceptForm> {
       );
       final conceptStore = context.read<FinancialConceptStore>();
       await conceptStore.searchFinancialConcepts();
+      if (!mounted) return;
       context.go('/financial-concepts');
     }
   }

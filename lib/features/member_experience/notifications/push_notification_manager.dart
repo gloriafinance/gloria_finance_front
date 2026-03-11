@@ -51,13 +51,15 @@ class PushNotificationManager {
     }
 
     // Current token
-    // On iOS Simulator (and without APNs config), getToken will throw/fail.
-    // User requested to skip this check on iOS for now.
-    if (!Platform.isIOS) {
+    // On iOS Simulator (and without APNs config), getToken can fail.
+    // We still try for real devices and avoid breaking the app flow if it fails.
+    try {
       final token = await FirebaseMessaging.instance.getToken();
-      if (token != null) {
+      if (token != null && token.isNotEmpty) {
         await onToken(token, deviceId, platform);
       }
+    } catch (e) {
+      debugPrint("PUSH: getToken failed: $e");
     }
 
     // Token refresh
