@@ -2173,11 +2173,29 @@ abstract class AppLocalizations {
   /// **'An existing concept already covers this scenario. Creating a new one is blocked.'**
   String get settings_financial_concept_ai_result_existing;
 
+  /// No description provided for @settings_financial_concept_ai_result_existing_summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the concept \"{conceptName}\" for this scenario. Search by this exact name in the list.'**
+  String settings_financial_concept_ai_result_existing_summary(String conceptName);
+
   /// No description provided for @settings_financial_concept_ai_details_action.
   ///
   /// In en, this message translates to:
   /// **'View details'**
   String get settings_financial_concept_ai_details_action;
+
+  /// No description provided for @settings_financial_concept_ai_details_hide_action.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide details'**
+  String get settings_financial_concept_ai_details_hide_action;
+
+  /// No description provided for @settings_financial_concept_ai_existing_concept_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Concept name to search'**
+  String get settings_financial_concept_ai_existing_concept_label;
 
   /// No description provided for @settings_financial_concept_ai_existing_action.
   ///

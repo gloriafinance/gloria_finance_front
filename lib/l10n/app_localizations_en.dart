@@ -1069,7 +1069,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_financial_concept_ai_result_existing => 'An existing concept already covers this scenario. Creating a new one is blocked.';
 
   @override
+  String settings_financial_concept_ai_result_existing_summary(String conceptName) {
+    return 'Use the concept \"$conceptName\" for this scenario. Search by this exact name in the list.';
+  }
+
+  @override
   String get settings_financial_concept_ai_details_action => 'View details';
+
+  @override
+  String get settings_financial_concept_ai_details_hide_action => 'Hide details';
+
+  @override
+  String get settings_financial_concept_ai_existing_concept_label => 'Concept name to search';
 
   @override
   String get settings_financial_concept_ai_existing_action => 'Go to concept list';

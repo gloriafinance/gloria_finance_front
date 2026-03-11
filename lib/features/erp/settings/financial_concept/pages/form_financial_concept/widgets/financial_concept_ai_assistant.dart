@@ -30,13 +30,29 @@ class FinancialConceptAIAssistant extends StatefulWidget {
 class _FinancialConceptAIAssistantState
     extends State<FinancialConceptAIAssistant> {
   bool _showDetails = false;
+  FinancialConceptAssistanceModel? _lastSuggestion;
+
+  @override
+  void initState() {
+    super.initState();
+    _lastSuggestion = widget.formStore.assistanceResponse;
+    _showDetails = _shouldShowDetailsByDefault(_lastSuggestion);
+  }
 
   @override
   void didUpdateWidget(covariant FinancialConceptAIAssistant oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.formStore.assistanceResponse != widget.formStore.assistanceResponse) {
-      _showDetails = false;
+    final currentSuggestion = widget.formStore.assistanceResponse;
+    if (_lastSuggestion != currentSuggestion) {
+      _showDetails = _shouldShowDetailsByDefault(currentSuggestion);
+      _lastSuggestion = currentSuggestion;
     }
+  }
+
+  bool _shouldShowDetailsByDefault(
+    FinancialConceptAssistanceModel? suggestion,
+  ) {
+    return suggestion != null && !suggestion.needsCreate;
   }
 
   @override
@@ -210,9 +226,13 @@ class _FinancialConceptAIAssistantState
               fontSize: 12.5,
               color: Colors.black87,
             ),
-            maxLines: isMobile(context) ? 2 : 3,
+            maxLines: isMobile(context) ? 3 : 4,
             overflow: TextOverflow.ellipsis,
           ),
+          if (saveBlocked) ...[
+            const SizedBox(height: 8),
+            _buildExistingConceptFocus(context, suggestion),
+          ],
           const SizedBox(height: 4),
           TextButton(
             onPressed: () => setState(() => _showDetails = !_showDetails),
@@ -222,7 +242,11 @@ class _FinancialConceptAIAssistantState
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
             child: Text(
-              context.l10n.settings_financial_concept_ai_details_action,
+              _showDetails
+                  ? context
+                      .l10n
+                      .settings_financial_concept_ai_details_hide_action
+                  : context.l10n.settings_financial_concept_ai_details_action,
               style: const TextStyle(
                 fontFamily: AppFonts.fontSubTitle,
                 fontSize: 12.5,
@@ -267,7 +291,9 @@ class _FinancialConceptAIAssistantState
     FinancialConceptAssistanceModel suggestion,
   ) {
     final typeLabel = _resolveTypeLabel(suggestion.concept.type);
-    final categoryLabel = _resolveCategoryLabel(suggestion.concept.statementCategory);
+    final categoryLabel = _resolveCategoryLabel(
+      suggestion.concept.statementCategory,
+    );
 
     return Container(
       width: double.infinity,
@@ -297,15 +323,18 @@ class _FinancialConceptAIAssistantState
               color: Colors.black87,
             ),
           ),
-          const SizedBox(height: 6),
-          Text(
-            suggestion.justification,
-            style: const TextStyle(
-              fontFamily: AppFonts.fontSubTitle,
-              fontSize: 12.5,
-              color: Colors.black87,
+          if (suggestion.concept.description.trim().isNotEmpty) ...[
+            const SizedBox(height: 6),
+            Text(
+              suggestion.concept.description.trim(),
+              style: const TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+                fontSize: 12.5,
+                color: Colors.black87,
+              ),
             ),
-          ),
+          ],
+          ..._buildJustificationAsPoints(suggestion.justification),
         ],
       ),
     );
@@ -316,12 +345,17 @@ class _FinancialConceptAIAssistantState
     FinancialConceptAssistanceModel suggestion,
   ) {
     if (!suggestion.needsCreate) {
-      return context.l10n.settings_financial_concept_ai_result_existing;
+      return context.l10n.settings_financial_concept_ai_result_existing_summary(
+        suggestion.concept.name,
+      );
     }
 
     final typeLabel = _resolveTypeLabel(suggestion.concept.type);
-    final categoryLabel = _resolveCategoryLabel(suggestion.concept.statementCategory);
-    final hasTypeAndCategory = typeLabel.trim().isNotEmpty && categoryLabel.trim().isNotEmpty;
+    final categoryLabel = _resolveCategoryLabel(
+      suggestion.concept.statementCategory,
+    );
+    final hasTypeAndCategory =
+        typeLabel.trim().isNotEmpty && categoryLabel.trim().isNotEmpty;
     final shouldUseAssistantTone = suggestion.justification.trim().length > 260;
 
     if (shouldUseAssistantTone) {
@@ -352,6 +386,89 @@ class _FinancialConceptAIAssistantState
     } catch (_) {
       return apiValue;
     }
+  }
+
+  Widget _buildExistingConceptFocus(
+    BuildContext context,
+    FinancialConceptAssistanceModel suggestion,
+  ) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.72),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: AppColors.greyMiddle),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            context.l10n.settings_financial_concept_ai_existing_concept_label,
+            style: const TextStyle(
+              fontFamily: AppFonts.fontSubTitle,
+              fontSize: 12,
+              color: AppColors.grey,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            suggestion.concept.name,
+            style: const TextStyle(
+              fontFamily: AppFonts.fontTitle,
+              fontSize: 15,
+              color: AppColors.purple,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _buildJustificationAsPoints(String justification) {
+    final points = _extractJustificationPoints(justification);
+    if (points.isEmpty) return const [];
+
+    final visiblePoints = points.take(6).toList();
+    return [
+      const SizedBox(height: 8),
+      ...visiblePoints.map(
+        (point) => Padding(
+          padding: const EdgeInsets.only(bottom: 3),
+          child: Text(
+            '• $point',
+            style: const TextStyle(
+              fontFamily: AppFonts.fontSubTitle,
+              fontSize: 12.5,
+              color: Colors.black87,
+            ),
+          ),
+        ),
+      ),
+    ];
+  }
+
+  List<String> _extractJustificationPoints(String justification) {
+    final normalized =
+        justification
+            .replaceAll('\n', ' ')
+            .replaceAll(RegExp(r'\s+'), ' ')
+            .trim();
+    if (normalized.isEmpty) return const [];
+
+    final parts = normalized.split(RegExp(r'\s*;\s*'));
+    final points = <String>[];
+    final seen = <String>{};
+
+    for (final rawPart in parts) {
+      final part = rawPart.trim();
+      if (part.isEmpty) continue;
+      final key = part.toLowerCase();
+      if (!seen.add(key)) continue;
+      points.add(part);
+    }
+
+    return points;
   }
 
   Future<void> _openAssistantModal(FinancialConceptFormStore formStore) async {

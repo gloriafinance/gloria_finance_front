@@ -426,7 +426,17 @@
   },
   "settings_financial_concept_ai_result_assistant_tone": "Preenchi os campos com base na sua descrição. Ajuste se necessário e depois Salve.",
   "settings_financial_concept_ai_result_existing": "Já existe um conceito que cobre esta situação. Criar um novo foi bloqueado.",
+  "settings_financial_concept_ai_result_existing_summary": "Use o conceito \"{conceptName}\" para esta situação. Procure esse nome na lista para utilizar.",
+  "@settings_financial_concept_ai_result_existing_summary": {
+    "placeholders": {
+      "conceptName": {
+        "type": "String"
+      }
+    }
+  },
   "settings_financial_concept_ai_details_action": "Ver detalhes",
+  "settings_financial_concept_ai_details_hide_action": "Ocultar detalhes",
+  "settings_financial_concept_ai_existing_concept_label": "Nome do conceito para buscar",
   "settings_financial_concept_ai_existing_action": "Ir para a lista",
   "settings_financial_concept_ai_save_blocked": "Esta situação já possui um conceito existente. Use-o em vez de criar um novo.",
   "settings_financial_concept_ai_toast_applied": "Sugestão da IA aplicada ao formulário.",
