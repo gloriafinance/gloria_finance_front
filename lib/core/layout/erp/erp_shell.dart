@@ -71,7 +71,7 @@ class _ErpShellState extends State<ErpShell> {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80.0),
+        preferredSize: Size.fromHeight(isMobile(context) ? 68.0 : 80.0),
         child: HeaderLayout(),
       ),
       drawer:

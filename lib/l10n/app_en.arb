@@ -426,7 +426,17 @@
   },
   "settings_financial_concept_ai_result_assistant_tone": "I filled the fields based on your description. Adjust if needed, then save.",
   "settings_financial_concept_ai_result_existing": "An existing concept already covers this scenario. Creating a new one is blocked.",
+  "settings_financial_concept_ai_result_existing_summary": "Use the concept \"{conceptName}\" for this scenario. Search by this exact name in the list.",
+  "@settings_financial_concept_ai_result_existing_summary": {
+    "placeholders": {
+      "conceptName": {
+        "type": "String"
+      }
+    }
+  },
   "settings_financial_concept_ai_details_action": "View details",
+  "settings_financial_concept_ai_details_hide_action": "Hide details",
+  "settings_financial_concept_ai_existing_concept_label": "Concept name to search",
   "settings_financial_concept_ai_existing_action": "Go to concept list",
   "settings_financial_concept_ai_save_blocked": "This scenario already has an existing concept. Use it instead of creating a new one.",
   "settings_financial_concept_ai_toast_applied": "AI suggestion applied to the form.",
