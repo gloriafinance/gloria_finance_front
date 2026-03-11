@@ -30,10 +30,11 @@ class _HeaderLayoutState extends State<HeaderLayout> {
   @override
   Widget build(BuildContext context) {
     final authStore = Provider.of<AuthSessionStore>(context);
+    final mobile = isMobile(context);
 
     return Container(
       padding: const EdgeInsets.only(top: 4.0, bottom: 0, left: 4.0),
-      height: 110,
+      height: mobile ? 60 : 80,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: const [
@@ -52,26 +53,14 @@ class _HeaderLayoutState extends State<HeaderLayout> {
           color: Colors.white,
           child: Row(
             children: [
-              if (isMobile(context)) const SizedBox(width: 20),
-              if (isMobile(context))
-                Container(
-                  margin: EdgeInsets.only(top: 42),
-                  padding: const EdgeInsets.only(left: 26.0, right: 8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      context.go('/dashboard');
-                    },
-                    child: Image.asset('images/applogo.jpg', height: 55),
-                  ),
-                )
-              else
+              if (!mobile)
                 GestureDetector(
                   onTap: () {
                     context.go('/dashboard');
                   },
                   child: _logoDesktop(),
                 ),
-              const SizedBox(width: 20),
+              if (!mobile) const SizedBox(width: 20),
             ],
           ),
         ),
@@ -87,7 +76,7 @@ class _HeaderLayoutState extends State<HeaderLayout> {
                   // Alineado al inicio
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 18.0),
+                      padding: EdgeInsets.only(top: mobile ? 14.0 : 18.0),
                       child: Text(
                         '${authStore.state.session.name.split(' ').first} ${authStore.state.session.name.split(' ').last}',
                         style: TextStyle(
