@@ -78,7 +78,10 @@ String devotionalCurrentWeekMonday({DateTime? now, String? timezone}) {
       (timezone != null && timezone.trim().isNotEmpty)
           ? devotionalNowInTimezone(timezone, now: now)
           : (now ?? DateTime.now());
-  final monday = current.subtract(Duration(days: current.weekday - 1));
+  final monday =
+      current.weekday == DateTime.sunday
+          ? current.add(const Duration(days: 1))
+          : current.subtract(Duration(days: current.weekday - 1));
   return DateFormat('yyyy-MM-dd').format(monday);
 }
 
