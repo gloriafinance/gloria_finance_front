@@ -71,7 +71,10 @@ class ScheduleListStore extends ChangeNotifier {
   }
 
   void setStatusFilter(ScheduleItemStatus? value) {
-    state = state.copyWith(statusFilter: value);
+    state = state.copyWith(
+      statusFilter: value,
+      clearStatusFilter: value == null,
+    );
     notifyListeners();
   }
 

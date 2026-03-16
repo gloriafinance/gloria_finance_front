@@ -34,6 +34,7 @@ class ScheduleListState {
     ScheduleItemType? typeFilter,
     ScheduleVisibility? visibilityFilter,
     ScheduleItemStatus? statusFilter,
+    bool clearStatusFilter = false,
     String? searchQuery,
   }) {
     return ScheduleListState(
@@ -41,7 +42,7 @@ class ScheduleListState {
       loading: loading ?? this.loading,
       typeFilter: typeFilter ?? this.typeFilter,
       visibilityFilter: visibilityFilter ?? this.visibilityFilter,
-      statusFilter: statusFilter ?? this.statusFilter,
+      statusFilter: clearStatusFilter ? null : (statusFilter ?? this.statusFilter),
       searchQuery: searchQuery ?? this.searchQuery,
     );
   }

@@ -3141,7 +3141,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get schedule_status_active => 'Activo';
 
   @override
-  String get schedule_status_inactive => 'Inactivo';
+  String get schedule_status_suspended => 'Suspendido';
+
+  @override
+  String get schedule_status_finalized => 'Finalizado';
 
   @override
   String get schedule_status_all => 'Todos';
@@ -3171,13 +3174,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get schedule_action_reactivate => 'Reactivar';
 
   @override
-  String get schedule_action_deactivate => 'Desactivar';
+  String get schedule_action_suspend => 'Suspender';
 
   @override
-  String get schedule_delete_confirm_title => 'Confirmar desactivación';
+  String get schedule_suspend_confirm_title => 'Confirmar suspensión';
 
   @override
-  String get schedule_delete_confirm_message => '¿Estás seguro de que deseas desactivar este evento?';
+  String get schedule_suspend_confirm_message => '¿Estás seguro de que deseas suspender este evento?';
 
   @override
   String get schedule_reactivate_confirm_title => 'Confirmar reactivación';

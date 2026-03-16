@@ -6217,11 +6217,17 @@ abstract class AppLocalizations {
   /// **'Active'**
   String get schedule_status_active;
 
-  /// No description provided for @schedule_status_inactive.
+  /// No description provided for @schedule_status_suspended.
   ///
   /// In en, this message translates to:
-  /// **'Inactive'**
-  String get schedule_status_inactive;
+  /// **'Suspended'**
+  String get schedule_status_suspended;
+
+  /// No description provided for @schedule_status_finalized.
+  ///
+  /// In en, this message translates to:
+  /// **'Finalized'**
+  String get schedule_status_finalized;
 
   /// No description provided for @schedule_status_all.
   ///
@@ -6277,23 +6283,23 @@ abstract class AppLocalizations {
   /// **'Reactivate'**
   String get schedule_action_reactivate;
 
-  /// No description provided for @schedule_action_deactivate.
+  /// No description provided for @schedule_action_suspend.
   ///
   /// In en, this message translates to:
-  /// **'Deactivate'**
-  String get schedule_action_deactivate;
+  /// **'Suspend'**
+  String get schedule_action_suspend;
 
-  /// No description provided for @schedule_delete_confirm_title.
+  /// No description provided for @schedule_suspend_confirm_title.
   ///
   /// In en, this message translates to:
-  /// **'Confirm deactivation'**
-  String get schedule_delete_confirm_title;
+  /// **'Confirm suspension'**
+  String get schedule_suspend_confirm_title;
 
-  /// No description provided for @schedule_delete_confirm_message.
+  /// No description provided for @schedule_suspend_confirm_message.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to deactivate this event?'**
-  String get schedule_delete_confirm_message;
+  /// **'Are you sure you want to suspend this event?'**
+  String get schedule_suspend_confirm_message;
 
   /// No description provided for @schedule_reactivate_confirm_title.
   ///

@@ -88,8 +88,8 @@ class BankTable extends StatelessWidget {
   ) {
     final statusLabel =
         bank.active
-            ? context.l10n.schedule_status_active
-            : context.l10n.schedule_status_inactive;
+            ? context.l10n.settings_church_profile_status_active
+            : context.l10n.settings_church_profile_status_inactive;
 
     if (isVenezuela) {
       return [

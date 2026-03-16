@@ -81,8 +81,8 @@ class _AvailabilityAccountTable extends State<AvailabilityAccountTable> {
     final accountType = AccountTypeExtension.fromApiValue(account.accountType);
     final statusLabel =
         account.active
-            ? l10n.schedule_status_active
-            : l10n.schedule_status_inactive;
+            ? l10n.settings_church_profile_status_active
+            : l10n.settings_church_profile_status_inactive;
 
     return [
       account.accountName,
