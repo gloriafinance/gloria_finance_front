@@ -96,19 +96,22 @@ class ScheduleFilters extends StatelessWidget {
   Widget _statusDropdown(ScheduleListStore store, l10n) {
     return Dropdown(
       label: l10n.schedule_filters_status,
-      initialValue: _getStatusLabel(store.state.isActiveFilter, l10n),
+      initialValue: _getStatusLabel(store.state.statusFilter, l10n),
       items: [
         l10n.schedule_status_all,
         l10n.schedule_status_active,
-        l10n.schedule_status_inactive,
+        l10n.schedule_status_suspended,
+        l10n.schedule_status_finalized,
       ],
       onChanged: (value) {
         if (value == l10n.schedule_status_active) {
-          store.setIsActiveFilter(true);
-        } else if (value == l10n.schedule_status_inactive) {
-          store.setIsActiveFilter(false);
+          store.setStatusFilter(ScheduleItemStatus.active);
+        } else if (value == l10n.schedule_status_suspended) {
+          store.setStatusFilter(ScheduleItemStatus.suspended);
+        } else if (value == l10n.schedule_status_finalized) {
+          store.setStatusFilter(ScheduleItemStatus.finalized);
         } else {
-          store.setIsActiveFilter(null);
+          store.setStatusFilter(null);
         }
       },
     );
@@ -132,11 +135,17 @@ class ScheduleFilters extends StatelessWidget {
     );
   }
 
-  String _getStatusLabel(bool? isActive, l10n) {
-    if (isActive == null) return l10n.schedule_status_all;
-    return isActive
-        ? l10n.schedule_status_active
-        : l10n.schedule_status_inactive;
+  String _getStatusLabel(ScheduleItemStatus? status, l10n) {
+    switch (status) {
+      case null:
+        return l10n.schedule_status_all;
+      case ScheduleItemStatus.active:
+        return l10n.schedule_status_active;
+      case ScheduleItemStatus.suspended:
+        return l10n.schedule_status_suspended;
+      case ScheduleItemStatus.finalized:
+        return l10n.schedule_status_finalized;
+    }
   }
 
   String _getTypeLabel(ScheduleItemType type, l10n) {

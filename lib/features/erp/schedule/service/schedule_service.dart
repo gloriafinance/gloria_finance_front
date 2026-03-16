@@ -9,7 +9,7 @@ class ScheduleService extends AppHttp {
   Future<List<ScheduleItemConfig>> getScheduleItems({
     ScheduleItemType? type,
     ScheduleVisibility? visibility,
-    bool? isActive,
+    ScheduleItemStatus? status,
   }) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
@@ -18,7 +18,7 @@ class ScheduleService extends AppHttp {
 
     if (type != null) queryParams['type'] = type.apiValue;
     if (visibility != null) queryParams['visibility'] = visibility.apiValue;
-    if (isActive != null) queryParams['isActive'] = isActive ? 'true' : 'false';
+    if (status != null) queryParams['status'] = status.apiValue;
 
     try {
       final response = await http.get(
@@ -121,8 +121,8 @@ class ScheduleService extends AppHttp {
   }
 
   /// DELETE /api/v1/schedule/{scheduleItemId}
-  /// Desativa (soft delete) um item de agenda
-  Future<void> deleteScheduleItem(String scheduleItemId) async {
+  /// Suspende um item de agenda
+  Future<void> suspendScheduleItem(String scheduleItemId) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 

@@ -88,12 +88,31 @@ class ScheduleTable extends StatelessWidget {
   }
 
   Widget _statusTag(ScheduleItemConfig item, AppLocalizations l10n) {
-    final color = item.isActive ? AppColors.green : AppColors.grey;
-    final label =
-        item.isActive
-            ? l10n.schedule_status_active
-            : l10n.schedule_status_inactive;
+    final color = _statusColor(item.status);
+    final label = _statusLabel(item.status, l10n);
     return SizedBox(width: 100, child: tagStatus(color, label));
+  }
+
+  Color _statusColor(ScheduleItemStatus status) {
+    switch (status) {
+      case ScheduleItemStatus.active:
+        return AppColors.green;
+      case ScheduleItemStatus.suspended:
+        return AppColors.mustard;
+      case ScheduleItemStatus.finalized:
+        return AppColors.grey;
+    }
+  }
+
+  String _statusLabel(ScheduleItemStatus status, AppLocalizations l10n) {
+    switch (status) {
+      case ScheduleItemStatus.active:
+        return l10n.schedule_status_active;
+      case ScheduleItemStatus.suspended:
+        return l10n.schedule_status_suspended;
+      case ScheduleItemStatus.finalized:
+        return l10n.schedule_status_finalized;
+    }
   }
 
   String _getTypeLabel(ScheduleItemType type, AppLocalizations l10n) {
@@ -184,7 +203,7 @@ class ScheduleTable extends StatelessWidget {
     final store = Provider.of<ScheduleListStore>(context, listen: false);
     final l10n = context.l10n;
 
-    if (!scheduleItem.isActive) {
+    if (scheduleItem.status != ScheduleItemStatus.active) {
       return ButtonActionTable(
         color: AppColors.green,
         text: l10n.schedule_action_reactivate,
@@ -203,15 +222,15 @@ class ScheduleTable extends StatelessWidget {
 
     return ButtonActionTable(
       color: AppColors.mustard,
-      text: l10n.schedule_action_deactivate,
-      icon: Icons.delete_outline,
+      text: l10n.schedule_action_suspend,
+      icon: Icons.pause_circle_outline,
       onPressed: () async {
         final confirmed = await confirmationDialog(
           context,
-          l10n.schedule_delete_confirm_message,
+          l10n.schedule_suspend_confirm_message,
         );
         if (confirmed == true && context.mounted) {
-          await store.deleteItem(scheduleItem.scheduleItemId);
+          await store.suspendItem(scheduleItem.scheduleItemId);
         }
       },
     );
@@ -242,25 +261,25 @@ class ScheduleTable extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 8),
-        if (scheduleItem.isActive)
+        if (scheduleItem.status == ScheduleItemStatus.active)
           OutlinedButton.icon(
             onPressed: () async {
               final confirmed = await confirmationDialog(
                 context,
-                l10n.schedule_delete_confirm_message,
+                l10n.schedule_suspend_confirm_message,
               );
               if (confirmed == true && context.mounted) {
-                await store.deleteItem(scheduleItem.scheduleItemId);
+                await store.suspendItem(scheduleItem.scheduleItemId);
                 if (context.mounted) {
                   Navigator.of(context, rootNavigator: true).pop();
                 }
               }
             },
-            icon: const Icon(Icons.block, size: 18),
-            label: Text(l10n.schedule_action_deactivate),
+            icon: const Icon(Icons.pause_circle_outline, size: 18),
+            label: Text(l10n.schedule_action_suspend),
             style: OutlinedButton.styleFrom(
-              foregroundColor: Colors.red,
-              side: const BorderSide(color: Colors.red),
+              foregroundColor: AppColors.mustard,
+              side: const BorderSide(color: AppColors.mustard),
             ),
           )
         else

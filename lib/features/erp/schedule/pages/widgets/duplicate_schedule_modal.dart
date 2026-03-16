@@ -12,6 +12,7 @@ import 'package:gloria_finance/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class DuplicateScheduleModal extends StatefulWidget {
   final ScheduleItemConfig originalItem;
@@ -32,6 +33,7 @@ class _DuplicateScheduleModalState extends State<DuplicateScheduleModal> {
   TimeOfDay? _startTime;
   TimeOfDay? _endTime;
   int _durationMinutes = 0;
+  late DateTime _startDate;
 
   late DayOfWeek _selectedDay;
   late ScheduleVisibility _selectedVisibility;
@@ -48,6 +50,7 @@ class _DuplicateScheduleModalState extends State<DuplicateScheduleModal> {
     _selectedDay = widget.originalItem.recurrencePattern.dayOfWeek;
     _selectedVisibility = widget.originalItem.visibility;
     _durationMinutes = widget.originalItem.recurrencePattern.durationMinutes;
+    _startDate = DateTime.parse(widget.originalItem.recurrencePattern.startDate);
 
     final timeParts = widget.originalItem.recurrencePattern.time.split(':');
     if (timeParts.length == 2) {
@@ -118,8 +121,8 @@ class _DuplicateScheduleModalState extends State<DuplicateScheduleModal> {
               '${_startTime!.hour.toString().padLeft(2, '0')}:${_startTime!.minute.toString().padLeft(2, '0')}',
           durationMinutes: _durationMinutes,
           timezone: widget.originalItem.recurrencePattern.timezone,
-          startDate: DateTime.now().toIso8601String().split('T')[0],
-          endDate: widget.originalItem.recurrencePattern.endDate,
+          startDate: DateFormat('yyyy-MM-dd').format(_startDate),
+          endDate: _resolvedEndDate(),
         ),
         visibility: _selectedVisibility,
         director: widget.originalItem.director,
@@ -208,6 +211,8 @@ class _DuplicateScheduleModalState extends State<DuplicateScheduleModal> {
                             ? l10n.schedule_form_error_required
                             : null,
               ),
+              const SizedBox(height: 16),
+              _buildDateField(l10n),
               const SizedBox(height: 16),
               Row(
                 children: [
@@ -344,6 +349,50 @@ class _DuplicateScheduleModalState extends State<DuplicateScheduleModal> {
         ),
       ),
     );
+  }
+
+  Widget _buildDateField(AppLocalizations l10n) {
+    return Input(
+      label: l10n.schedule_form_field_start_date,
+      initialValue: DateFormat('dd/MM/yyyy').format(_startDate),
+      readOnly: true,
+      onChanged: (_) {},
+      icon: Icons.calendar_today_outlined,
+      onTap: () async {
+        final picked = await showDatePicker(
+          context: context,
+          initialDate: _startDate,
+          firstDate: DateTime(2020),
+          lastDate: DateTime(2100),
+        );
+
+        if (picked != null) {
+          setState(() {
+            _startDate = picked;
+          });
+        }
+      },
+    );
+  }
+
+  String? _resolvedEndDate() {
+    final rawEndDate = widget.originalItem.recurrencePattern.endDate?.trim();
+    if (rawEndDate == null || rawEndDate.isEmpty) {
+      return null;
+    }
+
+    final parsedEndDate = DateTime.tryParse(rawEndDate);
+    if (parsedEndDate == null) {
+      return null;
+    }
+
+    if (parsedEndDate.isBefore(
+      DateTime(_startDate.year, _startDate.month, _startDate.day),
+    )) {
+      return null;
+    }
+
+    return DateFormat('yyyy-MM-dd').format(parsedEndDate);
   }
 
   String _getVisibilityLabel(

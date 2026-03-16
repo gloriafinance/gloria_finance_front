@@ -71,6 +71,28 @@ extension ScheduleVisibilityExtension on ScheduleVisibility {
   }
 }
 
+enum ScheduleItemStatus { active, suspended, finalized }
+
+extension ScheduleItemStatusExtension on ScheduleItemStatus {
+  String get apiValue {
+    switch (this) {
+      case ScheduleItemStatus.active:
+        return 'ACTIVE';
+      case ScheduleItemStatus.suspended:
+        return 'SUSPENDED';
+      case ScheduleItemStatus.finalized:
+        return 'FINALIZED';
+    }
+  }
+
+  static ScheduleItemStatus fromApiValue(String value) {
+    return ScheduleItemStatus.values.firstWhere(
+      (e) => e.apiValue == value,
+      orElse: () => ScheduleItemStatus.active,
+    );
+  }
+}
+
 enum RecurrenceType { weekly }
 
 extension RecurrenceTypeExtension on RecurrenceType {
@@ -184,6 +206,7 @@ class RecurrencePattern {
   });
 
   factory RecurrencePattern.fromJson(Map<String, dynamic> json) {
+    final rawEndDate = json['endDate']?.toString();
     return RecurrencePattern(
       type: RecurrenceTypeExtension.fromApiValue(json['type'] as String),
       dayOfWeek: DayOfWeekExtension.fromApiValue(json['dayOfWeek'] as String),
@@ -191,7 +214,8 @@ class RecurrencePattern {
       durationMinutes: json['durationMinutes'] as int,
       timezone: json['timezone'] as String,
       startDate: json['startDate'] as String,
-      endDate: json['endDate'] as String?,
+      endDate:
+          rawEndDate == null || rawEndDate.trim().isEmpty ? null : rawEndDate,
     );
   }
 
@@ -294,7 +318,7 @@ class ScheduleItemConfig {
   final String director;
   final String? preacher;
   final String? observations;
-  final bool isActive;
+  final ScheduleItemStatus status;
   final String createdAt;
   final String createdByUserId;
   final String? updatedAt;
@@ -312,7 +336,7 @@ class ScheduleItemConfig {
     required this.director,
     this.preacher,
     this.observations,
-    required this.isActive,
+    required this.status,
     required this.createdAt,
     required this.createdByUserId,
     this.updatedAt,
@@ -336,7 +360,9 @@ class ScheduleItemConfig {
       director: json['director'] as String,
       preacher: json['preacher'] as String?,
       observations: json['observations'] as String?,
-      isActive: json['isActive'] as bool,
+      status: ScheduleItemStatusExtension.fromApiValue(
+        json['status'] as String,
+      ),
       createdAt: json['createdAt'] as String,
       createdByUserId: json['createdByUserId'] as String,
       updatedAt: json['updatedAt'] as String?,
@@ -357,7 +383,7 @@ class ScheduleItemConfig {
       'director': director,
       if (preacher != null) 'preacher': preacher,
       if (observations != null) 'observations': observations,
-      'isActive': isActive,
+      'status': status.apiValue,
       'createdAt': createdAt,
       'createdByUserId': createdByUserId,
       if (updatedAt != null) 'updatedAt': updatedAt,

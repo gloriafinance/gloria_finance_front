@@ -17,7 +17,7 @@ class ScheduleListStore extends ChangeNotifier {
       final items = await service.getScheduleItems(
         type: state.typeFilter,
         visibility: state.visibilityFilter,
-        isActive: state.isActiveFilter,
+        status: state.statusFilter,
       );
       state = state.copyWith(items: items, loading: false);
       notifyListeners();
@@ -32,9 +32,9 @@ class ScheduleListStore extends ChangeNotifier {
     return await service.getScheduleItemById(scheduleItemId);
   }
 
-  Future<void> deleteItem(String scheduleItemId) async {
+  Future<void> suspendItem(String scheduleItemId) async {
     try {
-      await service.deleteScheduleItem(scheduleItemId);
+      await service.suspendScheduleItem(scheduleItemId);
       await fetchScheduleItems(silent: true);
     } catch (e) {
       rethrow;
@@ -70,8 +70,8 @@ class ScheduleListStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setIsActiveFilter(bool? value) {
-    state = state.copyWith(isActiveFilter: value);
+  void setStatusFilter(ScheduleItemStatus? value) {
+    state = state.copyWith(statusFilter: value);
     notifyListeners();
   }
 

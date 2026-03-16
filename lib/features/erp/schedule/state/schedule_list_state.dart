@@ -5,7 +5,7 @@ class ScheduleListState {
   final bool loading;
   final ScheduleItemType? typeFilter;
   final ScheduleVisibility? visibilityFilter;
-  final bool? isActiveFilter;
+  final ScheduleItemStatus? statusFilter;
   final String searchQuery;
 
   const ScheduleListState({
@@ -13,7 +13,7 @@ class ScheduleListState {
     required this.loading,
     this.typeFilter,
     this.visibilityFilter,
-    this.isActiveFilter,
+    this.statusFilter,
     required this.searchQuery,
   });
 
@@ -23,7 +23,7 @@ class ScheduleListState {
       loading: false,
       typeFilter: null,
       visibilityFilter: null,
-      isActiveFilter: null, // Por defecto mostrar todos
+      statusFilter: null,
       searchQuery: '',
     );
   }
@@ -33,7 +33,7 @@ class ScheduleListState {
     bool? loading,
     ScheduleItemType? typeFilter,
     ScheduleVisibility? visibilityFilter,
-    bool? isActiveFilter,
+    ScheduleItemStatus? statusFilter,
     String? searchQuery,
   }) {
     return ScheduleListState(
@@ -41,17 +41,38 @@ class ScheduleListState {
       loading: loading ?? this.loading,
       typeFilter: typeFilter ?? this.typeFilter,
       visibilityFilter: visibilityFilter ?? this.visibilityFilter,
-      isActiveFilter: isActiveFilter ?? this.isActiveFilter,
+      statusFilter: statusFilter ?? this.statusFilter,
       searchQuery: searchQuery ?? this.searchQuery,
     );
   }
 
-  // Items filtrados por búsqueda
   List<ScheduleItemConfig> get filteredItems {
-    if (searchQuery.isEmpty) return items;
+    final normalizedQuery = searchQuery.trim().toLowerCase();
+    final filtered =
+        normalizedQuery.isEmpty
+            ? List<ScheduleItemConfig>.from(items)
+            : items.where((item) {
+              return item.title.toLowerCase().contains(normalizedQuery);
+            }).toList();
 
-    return items.where((item) {
-      return item.title.toLowerCase().contains(searchQuery.toLowerCase());
-    }).toList();
+    filtered.sort((left, right) {
+      final rankDiff =
+          _statusRank(left.status).compareTo(_statusRank(right.status));
+      if (rankDiff != 0) return rankDiff;
+      return left.title.toLowerCase().compareTo(right.title.toLowerCase());
+    });
+
+    return filtered;
+  }
+
+  int _statusRank(ScheduleItemStatus status) {
+    switch (status) {
+      case ScheduleItemStatus.active:
+        return 0;
+      case ScheduleItemStatus.suspended:
+        return 1;
+      case ScheduleItemStatus.finalized:
+        return 2;
+    }
   }
 }

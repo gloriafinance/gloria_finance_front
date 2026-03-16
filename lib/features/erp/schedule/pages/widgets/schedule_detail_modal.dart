@@ -42,13 +42,9 @@ class ScheduleDetailModal extends StatelessWidget {
                     Icons.public,
                   ),
                   _buildBadge(
-                    item.isActive
-                        ? l10n.schedule_status_active
-                        : l10n.schedule_status_inactive,
-                    item.isActive
-                        ? Colors.green.withOpacity(0.1)
-                        : Colors.grey.withOpacity(0.1),
-                    item.isActive ? Colors.green : Colors.grey,
+                    _statusLabel(item.status, l10n),
+                    _statusColor(item.status).withOpacity(0.1),
+                    _statusColor(item.status),
                     Icons.circle,
                     iconSize: 8,
                   ),
@@ -232,6 +228,28 @@ class ScheduleDetailModal extends StatelessWidget {
         ],
       ],
     );
+  }
+
+  Color _statusColor(ScheduleItemStatus status) {
+    switch (status) {
+      case ScheduleItemStatus.active:
+        return Colors.green;
+      case ScheduleItemStatus.suspended:
+        return AppColors.mustard;
+      case ScheduleItemStatus.finalized:
+        return Colors.grey;
+    }
+  }
+
+  String _statusLabel(ScheduleItemStatus status, l10n) {
+    switch (status) {
+      case ScheduleItemStatus.active:
+        return l10n.schedule_status_active;
+      case ScheduleItemStatus.suspended:
+        return l10n.schedule_status_suspended;
+      case ScheduleItemStatus.finalized:
+        return l10n.schedule_status_finalized;
+    }
   }
 
   Widget _buildResponsavel(String role, String name, IconData icon) {
