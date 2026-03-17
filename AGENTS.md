@@ -1,5 +1,10 @@
 # Guía de Desarrollo para Agentes IA
 
+## Referencia de Arquitectura
+
+- Antes de implementar o refactorizar frontend, revisa `ARCHITECTURE.md`.
+- Las reglas de arquitectura, tamaño de archivos, separación de responsabilidades, contratos estrictos y estructura por feature definidas allí son obligatorias.
+
 ## Reglas Fundamentales
 
 ### Política de Cambios (Obligatoria)

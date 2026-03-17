@@ -7603,11 +7603,47 @@ abstract class AppLocalizations {
   /// **'Read'**
   String get member_home_devotional_moment_cta;
 
+  /// No description provided for @member_home_devotional_moment_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A pause to hear the Word and walk in communion.'**
+  String get member_home_devotional_moment_subtitle;
+
+  /// No description provided for @member_home_devotional_moment_preview_fallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a few minutes to receive direction, peace, and hope for today.'**
+  String get member_home_devotional_moment_preview_fallback;
+
+  /// No description provided for @member_home_devotional_moment_read_now.
+  ///
+  /// In en, this message translates to:
+  /// **'Read now'**
+  String get member_home_devotional_moment_read_now;
+
+  /// No description provided for @member_home_devotional_moment_reactions.
+  ///
+  /// In en, this message translates to:
+  /// **'reactions'**
+  String get member_home_devotional_moment_reactions;
+
+  /// No description provided for @member_home_devotional_moment_comments.
+  ///
+  /// In en, this message translates to:
+  /// **'comments'**
+  String get member_home_devotional_moment_comments;
+
   /// No description provided for @member_devotional_detail_unavailable.
   ///
   /// In en, this message translates to:
   /// **'This devotional is not available right now.'**
   String get member_devotional_detail_unavailable;
+
+  /// No description provided for @member_devotional_detail_breadcrumb.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s reading'**
+  String get member_devotional_detail_breadcrumb;
 
   /// No description provided for @member_devotional_detail_content_title.
   ///
@@ -7620,6 +7656,264 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Scriptures'**
   String get member_devotional_detail_scriptures_title;
+
+  /// No description provided for @member_devotional_detail_hero_kicker.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s devotional moment'**
+  String get member_devotional_detail_hero_kicker;
+
+  /// No description provided for @member_devotional_detail_quote_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Word to keep'**
+  String get member_devotional_detail_quote_label;
+
+  /// No description provided for @member_devotional_detail_reactions_title.
+  ///
+  /// In en, this message translates to:
+  /// **'How did this Word touch you?'**
+  String get member_devotional_detail_reactions_title;
+
+  /// No description provided for @member_devotional_detail_reactions_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the response that best expresses what God ministered to your heart.'**
+  String get member_devotional_detail_reactions_hint;
+
+  /// No description provided for @member_devotional_detail_reactions_cta.
+  ///
+  /// In en, this message translates to:
+  /// **'React'**
+  String get member_devotional_detail_reactions_cta;
+
+  /// No description provided for @member_devotional_detail_reactions_cta_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to react and press to see all options.'**
+  String get member_devotional_detail_reactions_cta_hint;
+
+  /// No description provided for @member_devotional_detail_reactions_selected_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your current response: {reaction}. Tap to change or remove it.'**
+  String member_devotional_detail_reactions_selected_hint(String reaction);
+
+  /// No description provided for @member_devotional_detail_reactions_picker_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your reaction'**
+  String get member_devotional_detail_reactions_picker_title;
+
+  /// No description provided for @member_devotional_detail_reactions_remove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove reaction'**
+  String get member_devotional_detail_reactions_remove;
+
+  /// No description provided for @member_devotional_detail_comments_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Community in prayer'**
+  String get member_devotional_detail_comments_title;
+
+  /// No description provided for @member_devotional_detail_comments_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'See how the church is being ministered to by this Word and join in with reverence.'**
+  String get member_devotional_detail_comments_subtitle;
+
+  /// No description provided for @member_devotional_detail_comments_presence.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} comments in communion today.'**
+  String member_devotional_detail_comments_presence(int count);
+
+  /// No description provided for @member_devotional_detail_comments_presence_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Make room for this Word to keep echoing through the church.'**
+  String get member_devotional_detail_comments_presence_empty;
+
+  /// No description provided for @member_devotional_detail_comment_highlight.
+  ///
+  /// In en, this message translates to:
+  /// **'Community reflection'**
+  String get member_devotional_detail_comment_highlight;
+
+  /// No description provided for @member_devotional_detail_comments_view_all.
+  ///
+  /// In en, this message translates to:
+  /// **'View comments'**
+  String get member_devotional_detail_comments_view_all;
+
+  /// No description provided for @member_devotional_detail_comments_write.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment'**
+  String get member_devotional_detail_comments_write;
+
+  /// No description provided for @member_devotional_detail_comments_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit comment'**
+  String get member_devotional_detail_comments_edit;
+
+  /// No description provided for @member_devotional_detail_comments_editing.
+  ///
+  /// In en, this message translates to:
+  /// **'Editing your comment'**
+  String get member_devotional_detail_comments_editing;
+
+  /// No description provided for @member_devotional_detail_comments_update.
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get member_devotional_detail_comments_update;
+
+  /// No description provided for @member_devotional_detail_comments_cancel_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get member_devotional_detail_comments_cancel_edit;
+
+  /// No description provided for @member_devotional_detail_comments_edited.
+  ///
+  /// In en, this message translates to:
+  /// **'Edited'**
+  String get member_devotional_detail_comments_edited;
+
+  /// No description provided for @member_devotional_detail_comments_input_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write with warmth and reverence'**
+  String get member_devotional_detail_comments_input_hint;
+
+  /// No description provided for @member_devotional_detail_comments_send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send comment'**
+  String get member_devotional_detail_comments_send;
+
+  /// No description provided for @member_devotional_detail_comments_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Be the first to share your reflection.'**
+  String get member_devotional_detail_comments_empty;
+
+  /// No description provided for @member_devotional_detail_share_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Carry this Word forward'**
+  String get member_devotional_detail_share_title;
+
+  /// No description provided for @member_devotional_detail_share_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share this message with someone who needs direction and hope today.'**
+  String get member_devotional_detail_share_subtitle;
+
+  /// No description provided for @member_devotional_detail_share_action.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get member_devotional_detail_share_action;
+
+  /// No description provided for @member_devotional_detail_share_whatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get member_devotional_detail_share_whatsapp;
+
+  /// No description provided for @member_devotional_detail_share_facebook.
+  ///
+  /// In en, this message translates to:
+  /// **'Facebook'**
+  String get member_devotional_detail_share_facebook;
+
+  /// No description provided for @member_devotional_detail_share_instagram.
+  ///
+  /// In en, this message translates to:
+  /// **'Instagram'**
+  String get member_devotional_detail_share_instagram;
+
+  /// No description provided for @member_devotional_detail_share_copy_text.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy text'**
+  String get member_devotional_detail_share_copy_text;
+
+  /// No description provided for @member_devotional_detail_share_system.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get member_devotional_detail_share_system;
+
+  /// No description provided for @member_devotional_detail_share_text_copied.
+  ///
+  /// In en, this message translates to:
+  /// **'Text copied successfully.'**
+  String get member_devotional_detail_share_text_copied;
+
+  /// No description provided for @member_devotional_detail_share_instagram_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Instagram from the share menu.'**
+  String get member_devotional_detail_share_instagram_hint;
+
+  /// No description provided for @member_devotional_reaction_edified.
+  ///
+  /// In en, this message translates to:
+  /// **'Built me up'**
+  String get member_devotional_reaction_edified;
+
+  /// No description provided for @member_devotional_reaction_amen.
+  ///
+  /// In en, this message translates to:
+  /// **'Amen'**
+  String get member_devotional_reaction_amen;
+
+  /// No description provided for @member_devotional_reaction_challenged.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenged me'**
+  String get member_devotional_reaction_challenged;
+
+  /// No description provided for @member_devotional_reaction_peace.
+  ///
+  /// In en, this message translates to:
+  /// **'Brought me peace'**
+  String get member_devotional_reaction_peace;
+
+  /// No description provided for @member_devotional_reaction_reflect.
+  ///
+  /// In en, this message translates to:
+  /// **'Made me reflect'**
+  String get member_devotional_reaction_reflect;
+
+  /// No description provided for @member_devotional_comment_seed_1.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s Word brought peace to my heart early this morning.'**
+  String get member_devotional_comment_seed_1;
+
+  /// No description provided for @member_devotional_comment_seed_2.
+  ///
+  /// In en, this message translates to:
+  /// **'I needed this reminder to keep praying with firmness.'**
+  String get member_devotional_comment_seed_2;
+
+  /// No description provided for @member_devotional_comment_seed_3.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m going to share this with my cell group. It was deeply uplifting.'**
+  String get member_devotional_comment_seed_3;
+
+  /// No description provided for @member_devotional_detail_share_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Devotional moment: {title}\n\n{content}'**
+  String member_devotional_detail_share_message(String title, String content);
 
   /// No description provided for @devotional_agenda_status_filter.
   ///

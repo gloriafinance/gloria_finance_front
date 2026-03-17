@@ -1585,9 +1585,82 @@
   "member_home_devotional_moment_empty": "No devotional is available for today yet.",
   "member_home_devotional_moment_today_badge": "Today",
   "member_home_devotional_moment_cta": "Read",
+  "member_home_devotional_moment_subtitle": "A pause to hear the Word and walk in communion.",
+  "member_home_devotional_moment_preview_fallback": "Take a few minutes to receive direction, peace, and hope for today.",
+  "member_home_devotional_moment_read_now": "Read now",
+  "member_home_devotional_moment_reactions": "reactions",
+  "member_home_devotional_moment_comments": "comments",
   "member_devotional_detail_unavailable": "This devotional is not available right now.",
+  "member_devotional_detail_breadcrumb": "Today's reading",
   "member_devotional_detail_content_title": "Reflection",
   "member_devotional_detail_scriptures_title": "Scriptures",
+  "member_devotional_detail_hero_kicker": "Today's devotional moment",
+  "member_devotional_detail_quote_label": "Word to keep",
+  "member_devotional_detail_reactions_title": "How did this Word touch you?",
+  "member_devotional_detail_reactions_hint": "Choose the response that best expresses what God ministered to your heart.",
+  "member_devotional_detail_reactions_cta": "React",
+  "member_devotional_detail_reactions_cta_hint": "Tap to react and press to see all options.",
+  "member_devotional_detail_reactions_selected_hint": "Your current response: {reaction}. Tap to change or remove it.",
+  "@member_devotional_detail_reactions_selected_hint": {
+    "placeholders": {
+      "reaction": {
+        "type": "String"
+      }
+    }
+  },
+  "member_devotional_detail_reactions_picker_title": "Choose your reaction",
+  "member_devotional_detail_reactions_remove": "Remove reaction",
+  "member_devotional_detail_comments_title": "Community in prayer",
+  "member_devotional_detail_comments_subtitle": "See how the church is being ministered to by this Word and join in with reverence.",
+  "member_devotional_detail_comments_presence": "{count} comments in communion today.",
+  "@member_devotional_detail_comments_presence": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "member_devotional_detail_comments_presence_empty": "Make room for this Word to keep echoing through the church.",
+  "member_devotional_detail_comment_highlight": "Community reflection",
+  "member_devotional_detail_comments_view_all": "View comments",
+  "member_devotional_detail_comments_write": "Comment",
+  "member_devotional_detail_comments_edit": "Edit comment",
+  "member_devotional_detail_comments_editing": "Editing your comment",
+  "member_devotional_detail_comments_update": "Save changes",
+  "member_devotional_detail_comments_cancel_edit": "Cancel",
+  "member_devotional_detail_comments_edited": "Edited",
+  "member_devotional_detail_comments_input_hint": "Write with warmth and reverence",
+  "member_devotional_detail_comments_send": "Send comment",
+  "member_devotional_detail_comments_empty": "Be the first to share your reflection.",
+  "member_devotional_detail_share_title": "Carry this Word forward",
+  "member_devotional_detail_share_subtitle": "Share this message with someone who needs direction and hope today.",
+  "member_devotional_detail_share_action": "Share",
+  "member_devotional_detail_share_whatsapp": "WhatsApp",
+  "member_devotional_detail_share_facebook": "Facebook",
+  "member_devotional_detail_share_instagram": "Instagram",
+  "member_devotional_detail_share_copy_text": "Copy text",
+  "member_devotional_detail_share_system": "More options",
+  "member_devotional_detail_share_text_copied": "Text copied successfully.",
+  "member_devotional_detail_share_instagram_hint": "Choose Instagram from the share menu.",
+  "member_devotional_reaction_edified": "Built me up",
+  "member_devotional_reaction_amen": "Amen",
+  "member_devotional_reaction_challenged": "Challenged me",
+  "member_devotional_reaction_peace": "Brought me peace",
+  "member_devotional_reaction_reflect": "Made me reflect",
+  "member_devotional_comment_seed_1": "Today's Word brought peace to my heart early this morning.",
+  "member_devotional_comment_seed_2": "I needed this reminder to keep praying with firmness.",
+  "member_devotional_comment_seed_3": "I'm going to share this with my cell group. It was deeply uplifting.",
+  "member_devotional_detail_share_message": "Devotional moment: {title}\n\n{content}",
+  "@member_devotional_detail_share_message": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "content": {
+        "type": "String"
+      }
+    }
+  },
   "devotional_agenda_status_filter": "Status",
   "devotional_agenda_channel_filter": "Channel",
   "devotional_apply_filters": "Apply filters",

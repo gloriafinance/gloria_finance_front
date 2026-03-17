@@ -1585,9 +1585,82 @@
   "member_home_devotional_moment_empty": "Ainda não há devocional disponível para hoje.",
   "member_home_devotional_moment_today_badge": "Hoje",
   "member_home_devotional_moment_cta": "Ler",
+  "member_home_devotional_moment_subtitle": "Uma pausa para ouvir a Palavra e caminhar em comunhão.",
+  "member_home_devotional_moment_preview_fallback": "Reserve alguns minutos para receber direção, paz e esperança para hoje.",
+  "member_home_devotional_moment_read_now": "Ler agora",
+  "member_home_devotional_moment_reactions": "reações",
+  "member_home_devotional_moment_comments": "comentários",
   "member_devotional_detail_unavailable": "Este devocional não está disponível no momento.",
+  "member_devotional_detail_breadcrumb": "Leitura de hoje",
   "member_devotional_detail_content_title": "Reflexão",
   "member_devotional_detail_scriptures_title": "Passagens bíblicas",
+  "member_devotional_detail_hero_kicker": "Momento devocional do dia",
+  "member_devotional_detail_quote_label": "Palavra para guardar",
+  "member_devotional_detail_reactions_title": "Como esta Palavra tocou você?",
+  "member_devotional_detail_reactions_hint": "Escolha a resposta que melhor expressa o que Deus ministrou ao seu coração.",
+  "member_devotional_detail_reactions_cta": "Reagir",
+  "member_devotional_detail_reactions_cta_hint": "Toque para reagir e pressione para ver todas as opções.",
+  "member_devotional_detail_reactions_selected_hint": "Sua resposta atual: {reaction}. Toque para trocar ou remover.",
+  "@member_devotional_detail_reactions_selected_hint": {
+    "placeholders": {
+      "reaction": {
+        "type": "String"
+      }
+    }
+  },
+  "member_devotional_detail_reactions_picker_title": "Escolha sua reação",
+  "member_devotional_detail_reactions_remove": "Remover reação",
+  "member_devotional_detail_comments_title": "Comunidade em oração",
+  "member_devotional_detail_comments_subtitle": "Veja como a igreja está sendo ministrada por esta Palavra e participe com reverência.",
+  "member_devotional_detail_comments_presence": "{count} comentários em comunhão hoje.",
+  "@member_devotional_detail_comments_presence": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "member_devotional_detail_comments_presence_empty": "Abra espaço para que esta Palavra continue ecoando na igreja.",
+  "member_devotional_detail_comment_highlight": "Reflexão da comunidade",
+  "member_devotional_detail_comments_view_all": "Ver comentários",
+  "member_devotional_detail_comments_write": "Comentar",
+  "member_devotional_detail_comments_edit": "Editar comentário",
+  "member_devotional_detail_comments_editing": "Editando seu comentário",
+  "member_devotional_detail_comments_update": "Salvar edição",
+  "member_devotional_detail_comments_cancel_edit": "Cancelar",
+  "member_devotional_detail_comments_edited": "Editado",
+  "member_devotional_detail_comments_input_hint": "Escreva com carinho e reverência",
+  "member_devotional_detail_comments_send": "Enviar comentário",
+  "member_devotional_detail_comments_empty": "Seja o primeiro a compartilhar sua reflexão.",
+  "member_devotional_detail_share_title": "Leve esta Palavra adiante",
+  "member_devotional_detail_share_subtitle": "Compartilhe esta mensagem com alguém que precise de direção e esperança hoje.",
+  "member_devotional_detail_share_action": "Compartilhar",
+  "member_devotional_detail_share_whatsapp": "WhatsApp",
+  "member_devotional_detail_share_facebook": "Facebook",
+  "member_devotional_detail_share_instagram": "Instagram",
+  "member_devotional_detail_share_copy_text": "Copiar texto",
+  "member_devotional_detail_share_system": "Mais opções",
+  "member_devotional_detail_share_text_copied": "Texto copiado com sucesso.",
+  "member_devotional_detail_share_instagram_hint": "Escolha o Instagram no menu de compartilhamento.",
+  "member_devotional_reaction_edified": "Me edificou",
+  "member_devotional_reaction_amen": "Amém",
+  "member_devotional_reaction_challenged": "Me desafiou",
+  "member_devotional_reaction_peace": "Me trouxe paz",
+  "member_devotional_reaction_reflect": "Me fez refletir",
+  "member_devotional_comment_seed_1": "A Palavra de hoje trouxe paz para o meu coração logo cedo.",
+  "member_devotional_comment_seed_2": "Precisava exatamente dessa lembrança para seguir firme em oração.",
+  "member_devotional_comment_seed_3": "Vou compartilhar com meu grupo de célula. Foi muito edificante.",
+  "member_devotional_detail_share_message": "Momento devocional: {title}\n\n{content}",
+  "@member_devotional_detail_share_message": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "content": {
+        "type": "String"
+      }
+    }
+  },
   "devotional_agenda_status_filter": "Estado",
   "devotional_agenda_channel_filter": "Canal",
   "devotional_apply_filters": "Aplicar filtros",

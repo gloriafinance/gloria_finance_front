@@ -3848,13 +3848,166 @@ class AppLocalizationsPt extends AppLocalizations {
   String get member_home_devotional_moment_cta => 'Ler';
 
   @override
+  String get member_home_devotional_moment_subtitle => 'Uma pausa para ouvir a Palavra e caminhar em comunhão.';
+
+  @override
+  String get member_home_devotional_moment_preview_fallback => 'Reserve alguns minutos para receber direção, paz e esperança para hoje.';
+
+  @override
+  String get member_home_devotional_moment_read_now => 'Ler agora';
+
+  @override
+  String get member_home_devotional_moment_reactions => 'reações';
+
+  @override
+  String get member_home_devotional_moment_comments => 'comentários';
+
+  @override
   String get member_devotional_detail_unavailable => 'Este devocional não está disponível no momento.';
+
+  @override
+  String get member_devotional_detail_breadcrumb => 'Leitura de hoje';
 
   @override
   String get member_devotional_detail_content_title => 'Reflexão';
 
   @override
   String get member_devotional_detail_scriptures_title => 'Passagens bíblicas';
+
+  @override
+  String get member_devotional_detail_hero_kicker => 'Momento devocional do dia';
+
+  @override
+  String get member_devotional_detail_quote_label => 'Palavra para guardar';
+
+  @override
+  String get member_devotional_detail_reactions_title => 'Como esta Palavra tocou você?';
+
+  @override
+  String get member_devotional_detail_reactions_hint => 'Escolha a resposta que melhor expressa o que Deus ministrou ao seu coração.';
+
+  @override
+  String get member_devotional_detail_reactions_cta => 'Reagir';
+
+  @override
+  String get member_devotional_detail_reactions_cta_hint => 'Toque para reagir e pressione para ver todas as opções.';
+
+  @override
+  String member_devotional_detail_reactions_selected_hint(String reaction) {
+    return 'Sua resposta atual: $reaction. Toque para trocar ou remover.';
+  }
+
+  @override
+  String get member_devotional_detail_reactions_picker_title => 'Escolha sua reação';
+
+  @override
+  String get member_devotional_detail_reactions_remove => 'Remover reação';
+
+  @override
+  String get member_devotional_detail_comments_title => 'Comunidade em oração';
+
+  @override
+  String get member_devotional_detail_comments_subtitle => 'Veja como a igreja está sendo ministrada por esta Palavra e participe com reverência.';
+
+  @override
+  String member_devotional_detail_comments_presence(int count) {
+    return '$count comentários em comunhão hoje.';
+  }
+
+  @override
+  String get member_devotional_detail_comments_presence_empty => 'Abra espaço para que esta Palavra continue ecoando na igreja.';
+
+  @override
+  String get member_devotional_detail_comment_highlight => 'Reflexão da comunidade';
+
+  @override
+  String get member_devotional_detail_comments_view_all => 'Ver comentários';
+
+  @override
+  String get member_devotional_detail_comments_write => 'Comentar';
+
+  @override
+  String get member_devotional_detail_comments_edit => 'Editar comentário';
+
+  @override
+  String get member_devotional_detail_comments_editing => 'Editando seu comentário';
+
+  @override
+  String get member_devotional_detail_comments_update => 'Salvar edição';
+
+  @override
+  String get member_devotional_detail_comments_cancel_edit => 'Cancelar';
+
+  @override
+  String get member_devotional_detail_comments_edited => 'Editado';
+
+  @override
+  String get member_devotional_detail_comments_input_hint => 'Escreva com carinho e reverência';
+
+  @override
+  String get member_devotional_detail_comments_send => 'Enviar comentário';
+
+  @override
+  String get member_devotional_detail_comments_empty => 'Seja o primeiro a compartilhar sua reflexão.';
+
+  @override
+  String get member_devotional_detail_share_title => 'Leve esta Palavra adiante';
+
+  @override
+  String get member_devotional_detail_share_subtitle => 'Compartilhe esta mensagem com alguém que precise de direção e esperança hoje.';
+
+  @override
+  String get member_devotional_detail_share_action => 'Compartilhar';
+
+  @override
+  String get member_devotional_detail_share_whatsapp => 'WhatsApp';
+
+  @override
+  String get member_devotional_detail_share_facebook => 'Facebook';
+
+  @override
+  String get member_devotional_detail_share_instagram => 'Instagram';
+
+  @override
+  String get member_devotional_detail_share_copy_text => 'Copiar texto';
+
+  @override
+  String get member_devotional_detail_share_system => 'Mais opções';
+
+  @override
+  String get member_devotional_detail_share_text_copied => 'Texto copiado com sucesso.';
+
+  @override
+  String get member_devotional_detail_share_instagram_hint => 'Escolha o Instagram no menu de compartilhamento.';
+
+  @override
+  String get member_devotional_reaction_edified => 'Me edificou';
+
+  @override
+  String get member_devotional_reaction_amen => 'Amém';
+
+  @override
+  String get member_devotional_reaction_challenged => 'Me desafiou';
+
+  @override
+  String get member_devotional_reaction_peace => 'Me trouxe paz';
+
+  @override
+  String get member_devotional_reaction_reflect => 'Me fez refletir';
+
+  @override
+  String get member_devotional_comment_seed_1 => 'A Palavra de hoje trouxe paz para o meu coração logo cedo.';
+
+  @override
+  String get member_devotional_comment_seed_2 => 'Precisava exatamente dessa lembrança para seguir firme em oração.';
+
+  @override
+  String get member_devotional_comment_seed_3 => 'Vou compartilhar com meu grupo de célula. Foi muito edificante.';
+
+  @override
+  String member_devotional_detail_share_message(String title, String content) {
+    return 'Momento devocional: $title\n\n$content';
+  }
 
   @override
   String get devotional_agenda_status_filter => 'Estado';

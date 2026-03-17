@@ -88,6 +88,143 @@ class MemberDevotionalService extends AppHttp {
     }
   }
 
+  Future<MemberDevotionalCommunityModel> fetchDevotionalCommunity(
+    String devotionalId,
+  ) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.get(
+        '${await getUrlApi()}church/devotional/$devotionalId/community',
+        options: Options(headers: bearerToken()),
+      );
+
+      final data = response.data;
+      if (data is! Map<String, dynamic>) {
+        throw Exception('Invalid devotional community response');
+      }
+
+      return MemberDevotionalCommunityModel.fromResponse(
+        Map<String, dynamic>.from(data),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<MemberDevotionalCommunityModel> setReaction(
+    String devotionalId,
+    String reactionType,
+  ) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.put(
+        '${await getUrlApi()}church/devotional/$devotionalId/reaction',
+        data: {'reactionType': reactionType},
+        options: Options(headers: bearerToken()),
+      );
+
+      final data = response.data;
+      if (data is! Map<String, dynamic>) {
+        throw Exception('Invalid devotional reaction response');
+      }
+
+      return MemberDevotionalCommunityModel.fromResponse(
+        Map<String, dynamic>.from(data),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<MemberDevotionalCommunityModel> clearReaction(
+    String devotionalId,
+  ) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.delete(
+        '${await getUrlApi()}church/devotional/$devotionalId/reaction',
+        options: Options(headers: bearerToken()),
+      );
+
+      final data = response.data;
+      if (data is! Map<String, dynamic>) {
+        throw Exception('Invalid devotional reaction response');
+      }
+
+      return MemberDevotionalCommunityModel.fromResponse(
+        Map<String, dynamic>.from(data),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<MemberDevotionalCommunityModel> createComment(
+    String devotionalId,
+    String message,
+  ) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.post(
+        '${await getUrlApi()}church/devotional/$devotionalId/comments',
+        data: {'message': message},
+        options: Options(headers: bearerToken()),
+      );
+
+      final data = response.data;
+      if (data is! Map<String, dynamic>) {
+        throw Exception('Invalid devotional comment response');
+      }
+
+      return MemberDevotionalCommunityModel.fromResponse(
+        Map<String, dynamic>.from(data),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<MemberDevotionalCommunityModel> updateComment(
+    String devotionalId,
+    String commentId,
+    String message,
+  ) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.patch(
+        '${await getUrlApi()}church/devotional/$devotionalId/comments/$commentId',
+        data: {'message': message},
+        options: Options(headers: bearerToken()),
+      );
+
+      final data = response.data;
+      if (data is! Map<String, dynamic>) {
+        throw Exception('Invalid devotional comment response');
+      }
+
+      return MemberDevotionalCommunityModel.fromResponse(
+        Map<String, dynamic>.from(data),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
   String _currentWeekMonday(DateTime now) {
     final today = DateTime(now.year, now.month, now.day);
     final monday = today.subtract(Duration(days: today.weekday - 1));
