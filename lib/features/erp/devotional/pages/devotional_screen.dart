@@ -10,6 +10,7 @@ import 'package:gloria_finance/features/erp/devotional/models/devotional_models.
 import 'package:gloria_finance/features/erp/devotional/services/devotional_service.dart';
 import 'package:gloria_finance/features/erp/devotional/utils/devotional_screen_utils.dart';
 import 'package:gloria_finance/features/erp/devotional/widgets/devotional_agenda_tab.dart';
+import 'package:gloria_finance/features/erp/devotional/widgets/devotional_community_insights_sheet.dart';
 import 'package:gloria_finance/features/erp/devotional/widgets/devotional_config_section.dart';
 import 'package:gloria_finance/features/erp/devotional/widgets/devotional_history_tab.dart';
 import 'package:gloria_finance/features/erp/devotional/widgets/devotional_overview_panel.dart';
@@ -141,9 +142,9 @@ class _DevotionalScreenState extends State<DevotionalScreen>
       hasExistingPlan = timezoneResponse != null;
       base =
           timezoneResponse ??
-          DevotionalPlanModel.empty(_weekStartDate).copyWith(
-            timezone: base.timezone,
-          );
+          DevotionalPlanModel.empty(
+            _weekStartDate,
+          ).copyWith(timezone: base.timezone);
     }
 
     setState(() {
@@ -195,6 +196,41 @@ class _DevotionalScreenState extends State<DevotionalScreen>
         setState(() => _loadingHistory = false);
       }
     }
+  }
+
+  Future<void> _openCommunityInsights(DevotionalAgendaItemModel item) async {
+    final title =
+        item.title?.isNotEmpty == true
+            ? item.title!
+            : context.l10n.devotional_item_no_title;
+
+    if (isMobile(context)) {
+      await showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (_) {
+          return DevotionalCommunityInsightsSheet(
+            devotionalTitle: title,
+            loadInsights:
+                () => _service.getCommunityInsights(item.devotionalId),
+          );
+        },
+      );
+      return;
+    }
+
+    await showDialog<void>(
+      context: context,
+      barrierColor: Colors.black.withAlpha(90),
+      builder: (_) {
+        return DevotionalCommunityInsightsSheet(
+          devotionalTitle: title,
+          loadInsights: () => _service.getCommunityInsights(item.devotionalId),
+          presentation: DevotionalCommunityInsightsPresentation.dialog,
+        );
+      },
+    );
   }
 
   Future<void> _savePlan() async {
@@ -536,6 +572,7 @@ class _DevotionalScreenState extends State<DevotionalScreen>
           onOpenDetail: _openReview,
           onRegenerate: _regenerateFromAgenda,
           onRetrySend: _retrySend,
+          onViewEngagement: _openCommunityInsights,
           dayLabelBuilder: (day) => devotionalDayLabel(context, day),
           audienceLabelBuilder:
               (audience) => devotionalAudienceLabel(context, audience),
@@ -551,6 +588,7 @@ class _DevotionalScreenState extends State<DevotionalScreen>
           channelLineBuilder: context.l10n.devotional_item_channel_line,
           lateWarningLabel: context.l10n.devotional_item_urgent_approval,
           viewDetailLabel: context.l10n.devotional_view_detail,
+          viewEngagementLabel: context.l10n.devotional_view_engagement,
           regenerateLabel: context.l10n.devotional_regenerate,
           retrySendLabel: context.l10n.devotional_retry_send,
         );

@@ -4041,10 +4041,31 @@ class AppLocalizationsEs extends AppLocalizations {
   String get devotional_view_detail => 'Ver detalle';
 
   @override
+  String get devotional_view_engagement => 'Ver interacción';
+
+  @override
   String get devotional_regenerate => 'Regenerar con IA';
 
   @override
   String get devotional_retry_send => 'Reintentar envío';
+
+  @override
+  String get devotional_engagement_title => 'Reacciones y comentarios';
+
+  @override
+  String get devotional_engagement_subtitle => 'Mira el compromiso de la iglesia con este mensaje sin recargar la agenda.';
+
+  @override
+  String get devotional_engagement_reactions => 'Reacciones';
+
+  @override
+  String get devotional_engagement_comments => 'Comentarios';
+
+  @override
+  String get devotional_engagement_empty => 'Aún no hay reacciones ni comentarios para este devocional.';
+
+  @override
+  String get devotional_engagement_comments_empty => 'Aún no hay comentarios visibles para este devocional.';
 
   @override
   String get devotional_metric_total => 'Total';

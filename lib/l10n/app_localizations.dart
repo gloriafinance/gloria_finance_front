@@ -7969,6 +7969,12 @@ abstract class AppLocalizations {
   /// **'View details'**
   String get devotional_view_detail;
 
+  /// No description provided for @devotional_view_engagement.
+  ///
+  /// In en, this message translates to:
+  /// **'View engagement'**
+  String get devotional_view_engagement;
+
   /// No description provided for @devotional_regenerate.
   ///
   /// In en, this message translates to:
@@ -7980,6 +7986,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Retry send'**
   String get devotional_retry_send;
+
+  /// No description provided for @devotional_engagement_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Reactions and comments'**
+  String get devotional_engagement_title;
+
+  /// No description provided for @devotional_engagement_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'See how the church engaged with this message without cluttering the agenda.'**
+  String get devotional_engagement_subtitle;
+
+  /// No description provided for @devotional_engagement_reactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Reactions'**
+  String get devotional_engagement_reactions;
+
+  /// No description provided for @devotional_engagement_comments.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments'**
+  String get devotional_engagement_comments;
+
+  /// No description provided for @devotional_engagement_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no reactions or comments for this devotional yet.'**
+  String get devotional_engagement_empty;
+
+  /// No description provided for @devotional_engagement_comments_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no visible comments for this devotional yet.'**
+  String get devotional_engagement_comments_empty;
 
   /// No description provided for @devotional_metric_total.
   ///

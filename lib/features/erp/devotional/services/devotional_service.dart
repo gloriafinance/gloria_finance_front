@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:gloria_finance/core/app_http.dart';
 import 'package:gloria_finance/features/auth/auth_persistence.dart';
+import 'package:gloria_finance/features/erp/devotional/models/devotional_community_models.dart';
 import 'package:gloria_finance/features/erp/devotional/models/devotional_models.dart';
 
 class DevotionalService extends AppHttp {
@@ -173,6 +174,27 @@ class DevotionalService extends AppHttp {
       );
 
       return DevotionalDetailModel.fromJson(
+        Map<String, dynamic>.from(response.data),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<DevotionalCommunityInsightsModel> getCommunityInsights(
+    String devotionalId,
+  ) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.get(
+        '${await getUrlApi()}church/devotional/$devotionalId/community',
+        options: Options(headers: bearerToken()),
+      );
+
+      return DevotionalCommunityInsightsModel.fromResponse(
         Map<String, dynamic>.from(response.data),
       );
     } on DioException catch (e) {

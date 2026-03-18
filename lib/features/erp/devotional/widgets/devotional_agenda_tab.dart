@@ -26,6 +26,7 @@ class DevotionalAgendaTab extends StatelessWidget {
   final void Function(DevotionalAgendaItemModel item) onOpenDetail;
   final ValueChanged<String> onRegenerate;
   final ValueChanged<String> onRetrySend;
+  final void Function(DevotionalAgendaItemModel item) onViewEngagement;
   final String Function(String) dayLabelBuilder;
   final String Function(String) audienceLabelBuilder;
   final String Function(String) statusLabelBuilder;
@@ -40,6 +41,7 @@ class DevotionalAgendaTab extends StatelessWidget {
   channelLineBuilder;
   final String lateWarningLabel;
   final String viewDetailLabel;
+  final String viewEngagementLabel;
   final String regenerateLabel;
   final String retrySendLabel;
 
@@ -59,6 +61,7 @@ class DevotionalAgendaTab extends StatelessWidget {
     required this.onOpenDetail,
     required this.onRegenerate,
     required this.onRetrySend,
+    required this.onViewEngagement,
     required this.dayLabelBuilder,
     required this.audienceLabelBuilder,
     required this.statusLabelBuilder,
@@ -72,6 +75,7 @@ class DevotionalAgendaTab extends StatelessWidget {
     required this.channelLineBuilder,
     required this.lateWarningLabel,
     required this.viewDetailLabel,
+    required this.viewEngagementLabel,
     required this.regenerateLabel,
     required this.retrySendLabel,
   });
@@ -145,11 +149,13 @@ class DevotionalAgendaTab extends StatelessWidget {
                     noTitleLabel: noTitleLabel,
                     lateWarningLabel: lateWarningLabel,
                     viewDetailLabel: viewDetailLabel,
+                    viewEngagementLabel: viewEngagementLabel,
                     regenerateLabel: regenerateLabel,
                     retrySendLabel: retrySendLabel,
                     onOpenDetail: onOpenDetail,
                     onRegenerate: onRegenerate,
                     onRetrySend: onRetrySend,
+                    onViewEngagement: onViewEngagement,
                   );
                 }).toList(),
           ),
@@ -295,11 +301,13 @@ class _AgendaCard extends StatelessWidget {
   final String noTitleLabel;
   final String lateWarningLabel;
   final String viewDetailLabel;
+  final String viewEngagementLabel;
   final String regenerateLabel;
   final String retrySendLabel;
   final void Function(DevotionalAgendaItemModel item) onOpenDetail;
   final ValueChanged<String> onRegenerate;
   final ValueChanged<String> onRetrySend;
+  final void Function(DevotionalAgendaItemModel item) onViewEngagement;
 
   const _AgendaCard({
     required this.item,
@@ -310,11 +318,13 @@ class _AgendaCard extends StatelessWidget {
     required this.noTitleLabel,
     required this.lateWarningLabel,
     required this.viewDetailLabel,
+    required this.viewEngagementLabel,
     required this.regenerateLabel,
     required this.retrySendLabel,
     required this.onOpenDetail,
     required this.onRegenerate,
     required this.onRetrySend,
+    required this.onViewEngagement,
   });
 
   @override
@@ -378,6 +388,11 @@ class _AgendaCard extends StatelessWidget {
                 ),
               ),
             ),
+          const SizedBox(height: 6),
+          _AgendaSecondaryAction(
+            label: viewEngagementLabel,
+            onPressed: () => onViewEngagement(item),
+          ),
           const SizedBox(height: 10),
           Wrap(
             spacing: 8,
@@ -406,6 +421,39 @@ class _AgendaCard extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _AgendaSecondaryAction extends StatelessWidget {
+  final String label;
+  final VoidCallback onPressed;
+
+  const _AgendaSecondaryAction({required this.label, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: TextButton.icon(
+        onPressed: onPressed,
+        style: TextButton.styleFrom(
+          foregroundColor: AppColors.blue,
+          backgroundColor: AppColors.blue.withAlpha(10),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(999),
+          ),
+        ),
+        icon: const Icon(Icons.insights_outlined, size: 16),
+        label: Text(
+          label,
+          style: const TextStyle(
+            fontFamily: AppFonts.fontSubTitle,
+            fontSize: 12.5,
+          ),
+        ),
       ),
     );
   }
