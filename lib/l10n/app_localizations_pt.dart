@@ -936,7 +936,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settings_financial_concept_filter_all => 'Todos';
 
   @override
-  String get settings_financial_concept_filter_by_type => 'Filtrar por tipo';
+  String get settings_financial_concept_filter_by_type => 'Filtrar por tipo de conceito';
+
+  @override
+  String get settings_financial_concept_filter_by_statement_category => 'Filtrar por categoria do demonstrativo';
 
   @override
   String get settings_financial_concept_field_name => 'Nome';
@@ -963,7 +966,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settings_financial_concept_indicator_result => 'Impacta o resultado (DRE)';
 
   @override
-  String get settings_financial_concept_indicator_balance => 'Impacta o balanço patrimonial';
+  String get settings_financial_concept_indicator_balance => 'Movimento patrimonial (fora do DRE)';
 
   @override
   String get settings_financial_concept_indicator_operational => 'Evento operacional recorrente';
@@ -1008,10 +1011,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settings_financial_concept_help_indicator_result_desc => 'Use quando o valor deve compor a Demonstração do Resultado, afetando lucro ou prejuízo.';
 
   @override
-  String get settings_financial_concept_help_indicator_balance_title => 'Impacta o balanço patrimonial';
+  String get settings_financial_concept_help_indicator_balance_title => 'Movimento patrimonial (fora do DRE)';
 
   @override
-  String get settings_financial_concept_help_indicator_balance_desc => 'Selecione para eventos que criam ou liquidam ativos e passivos diretamente no balanço.';
+  String get settings_financial_concept_help_indicator_balance_desc => 'Selecione para movimentos que ajustam ativos, passivos ou saldos patrimoniais, mesmo quando não compõem o DRE.';
 
   @override
   String get settings_financial_concept_help_indicator_operational_title => 'Evento operacional recorrente';
@@ -2210,6 +2213,26 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get auth_login_error_social_failed => 'Erro ao realizar login social. Tente novamente.';
+
+  @override
+  String auth_login_error_social_device_issue(String provider) {
+    return 'Não foi possível concluir o login com $provider neste dispositivo. Verifique sua conexão com a internet e tente novamente.';
+  }
+
+  @override
+  String auth_login_error_social_interrupted(String provider) {
+    return 'O login com $provider foi interrompido antes de ser concluído. Tente novamente.';
+  }
+
+  @override
+  String auth_login_error_social_unavailable(String provider) {
+    return 'Não foi possível autenticar com $provider neste dispositivo no momento. Tente novamente.';
+  }
+
+  @override
+  String auth_login_error_social_configuration(String provider) {
+    return 'O login com $provider não está disponível no momento. Se o problema continuar, entre em contato com o suporte.';
+  }
 
   @override
   String get finance_records_table_header_concept => 'Conceito';

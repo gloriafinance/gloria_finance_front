@@ -58,11 +58,6 @@ final List<Map<String, dynamic>> items = [
         "icon": Icons.badge_outlined,
         "to": "/rbac/roles",
       },
-      {
-        "key": "erp_menu_settings_members",
-        "icon": Icons.people,
-        "to": "/members",
-      },
     ],
   },
   {
@@ -72,6 +67,11 @@ final List<Map<String, dynamic>> items = [
         "key": "erp_menu_settings_church_profile",
         "icon": Icons.church,
         "to": "/church-profile",
+      },
+      {
+        "key": "erp_menu_settings_members",
+        "icon": Icons.people,
+        "to": "/members",
       },
       {
         "key": "erp_menu_settings_church_devotional",

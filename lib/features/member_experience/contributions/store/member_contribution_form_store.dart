@@ -29,7 +29,10 @@ class MemberContributionFormStore extends ChangeNotifier {
     }
     // Load financial concepts for offerings if not loaded
     if (_conceptStore.state.financialConcepts.isEmpty) {
-      await _conceptStore.searchFinancialConcepts(FinancialConceptType.INCOME);
+      await _conceptStore.searchFinancialConcepts(
+        type: FinancialConceptType.INCOME,
+        updateSelectedType: true,
+      );
     }
     // Auto-select first account if available
     if (availabilityAccounts.isNotEmpty &&

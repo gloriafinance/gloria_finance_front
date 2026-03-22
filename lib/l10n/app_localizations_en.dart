@@ -936,7 +936,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_financial_concept_filter_all => 'All';
 
   @override
-  String get settings_financial_concept_filter_by_type => 'Filter by type';
+  String get settings_financial_concept_filter_by_type => 'Filter by concept type';
+
+  @override
+  String get settings_financial_concept_filter_by_statement_category => 'Filter by statement category';
 
   @override
   String get settings_financial_concept_field_name => 'Name';
@@ -2210,6 +2213,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get auth_login_error_social_failed => 'Social login failed. Please try again.';
+
+  @override
+  String auth_login_error_social_device_issue(String provider) {
+    return 'We couldn\'t complete the $provider sign-in on this device. Check your internet connection and try again.';
+  }
+
+  @override
+  String auth_login_error_social_interrupted(String provider) {
+    return 'The $provider sign-in was interrupted before it finished. Please try again.';
+  }
+
+  @override
+  String auth_login_error_social_unavailable(String provider) {
+    return 'We couldn\'t authenticate with $provider on this device right now. Please try again.';
+  }
+
+  @override
+  String auth_login_error_social_configuration(String provider) {
+    return '$provider sign-in is unavailable right now. If the problem continues, contact support.';
+  }
 
   @override
   String get finance_records_table_header_concept => 'Concept';

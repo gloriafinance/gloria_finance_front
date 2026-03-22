@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:gloria_finance/app/locale_store.dart';
 import 'package:gloria_finance/core/toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:flutter_appauth/flutter_appauth.dart';
@@ -14,11 +17,20 @@ import '../../../auth_session_model.dart';
 import '../state/auth_session_state.dart';
 import '../state/form_login_state.dart';
 
+enum SocialLoginErrorType {
+  canceled,
+  interrupted,
+  deviceIssue,
+  unavailable,
+  configuration,
+}
+
 class AuthSessionStore extends ChangeNotifier {
   var service = AuthService();
   FormLoginState formState = FormLoginState.init();
 
   AuthSessionState state = AuthSessionState(session: AuthSessionModel.empty());
+  SocialLoginErrorType? _socialLoginError;
 
   static const _microsoftClientId = String.fromEnvironment(
     'MICROSOFT_CLIENT_ID',
@@ -79,7 +91,7 @@ class AuthSessionStore extends ChangeNotifier {
 
       return true;
     } catch (e) {
-      print("ERRRRORRRR ${e}");
+      print("ERRRRORRRR $e");
       Toast.showMessage(
         // Mensaje genérico; será traducido en la UI cuando se disponga
         "Ocorreu um erro interno no sistema, informe ao administrador do sistema",
@@ -92,16 +104,15 @@ class AuthSessionStore extends ChangeNotifier {
   }
 
   Future<bool> loginWithGoogle() async {
-    formState = formState.copyWith(makeRequest: true);
-    notifyListeners();
+    _startSocialLoginRequest();
 
     try {
       final googleSignIn = GoogleSignIn(scopes: ['email']);
       final account = await googleSignIn.signIn();
 
       if (account == null) {
-        formState = formState.copyWith(makeRequest: false);
-        notifyListeners();
+        _socialLoginError = SocialLoginErrorType.canceled;
+        _finishSocialLoginRequest();
         return false;
       }
 
@@ -109,12 +120,8 @@ class AuthSessionStore extends ChangeNotifier {
       final token = auth.idToken ?? auth.accessToken;
 
       if (token == null || token.isEmpty) {
-        Toast.showMessage(
-          "Não foi possível autenticar com Google",
-          ToastType.warning,
-        );
-        formState = formState.copyWith(makeRequest: false);
-        notifyListeners();
+        _socialLoginError = SocialLoginErrorType.unavailable;
+        _finishSocialLoginRequest();
         return false;
       }
 
@@ -123,8 +130,7 @@ class AuthSessionStore extends ChangeNotifier {
         idToken: token,
       );
 
-      formState = formState.copyWith(makeRequest: false);
-      notifyListeners();
+      _finishSocialLoginRequest();
 
       if (session == null) {
         return false;
@@ -132,30 +138,26 @@ class AuthSessionStore extends ChangeNotifier {
 
       await _applySession(session);
       return true;
+    } on PlatformException catch (e) {
+      print("ERRRRORRRR $e");
+      _socialLoginError = _mapGoogleSignInError(e);
+      _finishSocialLoginRequest();
+      return false;
     } catch (e) {
-      print("ERRRRORRRR ${e}");
-      Toast.showMessage(
-        "Ocorreu um erro interno no sistema, informe ao administrador do sistema",
-        ToastType.warning,
-      );
-      formState = formState.copyWith(makeRequest: false);
-      notifyListeners();
+      print("ERRRRORRRR $e");
+      _socialLoginError = _mapSocialLoginError(e);
+      _finishSocialLoginRequest();
       return false;
     }
   }
 
   Future<bool> loginWithMicrosoft() async {
-    formState = formState.copyWith(makeRequest: true);
-    notifyListeners();
+    _startSocialLoginRequest();
 
     try {
       if (_microsoftClientId.isEmpty) {
-        Toast.showMessage(
-          "MICROSOFT_CLIENT_ID no configurado",
-          ToastType.warning,
-        );
-        formState = formState.copyWith(makeRequest: false);
-        notifyListeners();
+        _socialLoginError = SocialLoginErrorType.configuration;
+        _finishSocialLoginRequest();
         return false;
       }
 
@@ -175,9 +177,9 @@ class AuthSessionStore extends ChangeNotifier {
         ),
       );
 
-      if (result == null || result.idToken == null) {
-        formState = formState.copyWith(makeRequest: false);
-        notifyListeners();
+      if (result.idToken == null || result.idToken!.isEmpty) {
+        _socialLoginError = SocialLoginErrorType.unavailable;
+        _finishSocialLoginRequest();
         return false;
       }
 
@@ -186,8 +188,7 @@ class AuthSessionStore extends ChangeNotifier {
         idToken: result.idToken!,
       );
 
-      formState = formState.copyWith(makeRequest: false);
-      notifyListeners();
+      _finishSocialLoginRequest();
 
       if (session == null) {
         return false;
@@ -195,16 +196,28 @@ class AuthSessionStore extends ChangeNotifier {
 
       await _applySession(session);
       return true;
+    } on FlutterAppAuthUserCancelledException catch (e) {
+      print("ERRRRORRRR $e");
+      _socialLoginError = SocialLoginErrorType.canceled;
+      _finishSocialLoginRequest();
+      return false;
+    } on FlutterAppAuthPlatformException catch (e) {
+      print("ERRRRORRRR $e");
+      _socialLoginError = _mapMicrosoftLoginError(e);
+      _finishSocialLoginRequest();
+      return false;
     } catch (e) {
-      print("ERRRRORRRR ${e}");
-      Toast.showMessage(
-        "Ocorreu um erro interno no sistema, informe ao administrador do sistema",
-        ToastType.warning,
-      );
-      formState = formState.copyWith(makeRequest: false);
-      notifyListeners();
+      print("ERRRRORRRR $e");
+      _socialLoginError = _mapSocialLoginError(e);
+      _finishSocialLoginRequest();
       return false;
     }
+  }
+
+  SocialLoginErrorType? consumeSocialLoginError() {
+    final error = _socialLoginError;
+    _socialLoginError = null;
+    return error;
   }
 
   void logout() async {
@@ -301,5 +314,151 @@ class AuthSessionStore extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  void _startSocialLoginRequest() {
+    _socialLoginError = null;
+    formState = formState.copyWith(makeRequest: true);
+    notifyListeners();
+  }
+
+  void _finishSocialLoginRequest() {
+    formState = formState.copyWith(makeRequest: false);
+    notifyListeners();
+  }
+
+  SocialLoginErrorType _mapGoogleSignInError(PlatformException error) {
+    switch (error.code) {
+      case GoogleSignIn.kSignInCanceledError:
+        return SocialLoginErrorType.canceled;
+      case GoogleSignInAccount.kFailedToRecoverAuthError:
+      case GoogleSignInAccount.kUserRecoverableAuthError:
+        return SocialLoginErrorType.interrupted;
+      case GoogleSignIn.kNetworkError:
+        return SocialLoginErrorType.deviceIssue;
+      case GoogleSignIn.kSignInRequiredError:
+        return SocialLoginErrorType.unavailable;
+      case GoogleSignIn.kSignInFailedError:
+        if (_looksLikeConfigurationIssue(
+          '${error.message ?? ''} ${error.details ?? ''}',
+        )) {
+          return SocialLoginErrorType.configuration;
+        }
+        return SocialLoginErrorType.unavailable;
+      default:
+        if (_looksLikeConnectivityIssue(
+          '${error.message ?? ''} ${error.details ?? ''}',
+        )) {
+          return SocialLoginErrorType.deviceIssue;
+        }
+
+        if (_looksLikeConfigurationIssue(
+          '${error.message ?? ''} ${error.details ?? ''}',
+        )) {
+          return SocialLoginErrorType.configuration;
+        }
+
+        return SocialLoginErrorType.configuration;
+    }
+  }
+
+  SocialLoginErrorType _mapMicrosoftLoginError(
+    FlutterAppAuthPlatformException error,
+  ) {
+    final details = error.platformErrorDetails;
+    final joinedDetails = [
+      error.code,
+      error.message,
+      details.error,
+      details.errorDescription,
+      details.errorDebugDescription,
+      details.rootCauseDebugDescription,
+      details.code,
+      details.type,
+    ].whereType<String>().join(' ');
+
+    if (_looksLikeCancellation(joinedDetails)) {
+      return SocialLoginErrorType.canceled;
+    }
+
+    if (_looksLikeConnectivityIssue(joinedDetails)) {
+      return SocialLoginErrorType.deviceIssue;
+    }
+
+    if (_looksLikeConfigurationIssue(joinedDetails)) {
+      return SocialLoginErrorType.configuration;
+    }
+
+    return SocialLoginErrorType.unavailable;
+  }
+
+  SocialLoginErrorType _mapSocialLoginError(Object error) {
+    if (error is SocketException) {
+      return SocialLoginErrorType.deviceIssue;
+    }
+
+    if (error is PlatformException) {
+      final joinedDetails = [
+        error.code,
+        error.message,
+        error.details?.toString(),
+      ].whereType<String>().join(' ');
+
+      if (_looksLikeCancellation(joinedDetails)) {
+        return SocialLoginErrorType.canceled;
+      }
+
+      if (_looksLikeConnectivityIssue(joinedDetails)) {
+        return SocialLoginErrorType.deviceIssue;
+      }
+
+      if (_looksLikeConfigurationIssue(joinedDetails)) {
+        return SocialLoginErrorType.configuration;
+      }
+    }
+
+    return SocialLoginErrorType.deviceIssue;
+  }
+
+  bool _looksLikeConnectivityIssue(String rawText) {
+    final text = rawText.toLowerCase();
+    const keywords = [
+      'network',
+      'internet',
+      'connection',
+      'timeout',
+      'socket',
+      'unreachable',
+      'offline',
+      'host',
+      'dns',
+      'temporarily unavailable',
+      'service unavailable',
+    ];
+
+    return keywords.any(text.contains);
+  }
+
+  bool _looksLikeConfigurationIssue(String rawText) {
+    final text = rawText.toLowerCase();
+    const keywords = [
+      'invalid_client',
+      'invalid_request',
+      'unauthorized_client',
+      'redirect',
+      'configuration',
+      'configuração',
+      'configured',
+      'misconfigured',
+      'client id',
+    ];
+
+    return keywords.any(text.contains);
+  }
+
+  bool _looksLikeCancellation(String rawText) {
+    final text = rawText.toLowerCase();
+    const keywords = ['cancel', 'canceled', 'cancelled', 'user_cancelled'];
+    return keywords.any(text.contains);
   }
 }

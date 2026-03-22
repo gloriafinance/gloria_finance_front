@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/financial_concept_model.dart';
+import 'widgets/financial_concept_filters.dart';
 import 'widgets/financial_concept_table.dart';
 
 class FinancialConceptListScreen extends StatefulWidget {
@@ -39,7 +39,7 @@ class _FinancialConceptListScreenState
         _header(context),
 
         SizedBox(height: 24),
-        _FilterBar(),
+        const FinancialConceptFilters(),
         FinancialConceptTable(),
       ],
     );
@@ -69,68 +69,6 @@ class _FinancialConceptListScreenState
           ),
         ),
       ],
-    );
-  }
-}
-
-class _FilterBar extends StatelessWidget {
-  const _FilterBar();
-
-  @override
-  Widget build(BuildContext context) {
-    final store = context.watch<FinancialConceptStore>();
-
-    final items = [
-      context.l10n.settings_financial_concept_filter_all,
-      ...FinancialConceptTypeExtension.listFriendlyName,
-    ];
-
-    final selectedType = store.state.selectedType;
-    final initialValue =
-        selectedType != null ? selectedType.friendlyName : 'Todos';
-
-    return Padding(
-      padding: const EdgeInsets.only(top: 24.0),
-      child: SizedBox(
-        width: 320,
-        child: DropdownButtonFormField<String>(
-          decoration: InputDecoration(
-            labelStyle: const TextStyle(fontFamily: AppFonts.fontSubTitle),
-            labelText: context.l10n.settings_financial_concept_filter_by_type,
-            border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(18)),
-            ),
-          ),
-          value: initialValue,
-          items:
-              items
-                  .map(
-                    (value) => DropdownMenuItem(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: TextStyle(fontFamily: AppFonts.fontSubTitle),
-                      ),
-                    ),
-                  )
-                  .toList(),
-          onChanged: (value) {
-            if (value == null) {
-              return;
-            }
-
-            if (value == context.l10n.settings_financial_concept_filter_all) {
-              store.clearFilter();
-              return;
-            }
-
-            final selected = FinancialConceptType.values.firstWhere(
-              (element) => element.friendlyName == value,
-            );
-            store.filterByType(selected);
-          },
-        ),
-      ),
     );
   }
 }

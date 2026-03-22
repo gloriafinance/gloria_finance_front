@@ -8,17 +8,25 @@ class FinancialConceptService extends AppHttp {
   Future<List<FinancialConceptModel>> searchFinancialConcepts(
     String churchId,
     FinancialConceptType? type,
+    StatementCategory? statementCategory,
   ) async {
     try {
-      String url =
-          '${await getUrlApi()}finance/configuration/financial-concepts/$churchId';
+      final query = <String, dynamic>{};
 
       if (type != null) {
-        url += '/${type.apiValue}';
+        query['type'] = type.apiValue;
       }
+
+      if (statementCategory != null) {
+        query['statementCategory'] = statementCategory.apiValue;
+      }
+
+      final url =
+          '${await getUrlApi()}finance/configuration/financial-concepts/$churchId';
 
       final response = await http.get(
         url,
+        queryParameters: query,
         options: Options(headers: bearerToken()),
       );
 

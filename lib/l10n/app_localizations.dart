@@ -1918,8 +1918,15 @@ abstract class AppLocalizations {
   /// No description provided for @settings_financial_concept_filter_by_type.
   ///
   /// In en, this message translates to:
-  /// **'Filter by type'**
+  /// **'Filter by concept type'**
   String get settings_financial_concept_filter_by_type;
+
+  /// No description provided for
+  /// @settings_financial_concept_filter_by_statement_category.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by statement category'**
+  String get settings_financial_concept_filter_by_statement_category;
 
   /// No description provided for @settings_financial_concept_field_name.
   ///
@@ -4386,6 +4393,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Social login failed. Please try again.'**
   String get auth_login_error_social_failed;
+
+  /// No description provided for @auth_login_error_social_device_issue.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t complete the {provider} sign-in on this device. Check your internet connection and try again.'**
+  String auth_login_error_social_device_issue(String provider);
+
+  /// No description provided for @auth_login_error_social_interrupted.
+  ///
+  /// In en, this message translates to:
+  /// **'The {provider} sign-in was interrupted before it finished. Please try again.'**
+  String auth_login_error_social_interrupted(String provider);
+
+  /// No description provided for @auth_login_error_social_unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t authenticate with {provider} on this device right now. Please try again.'**
+  String auth_login_error_social_unavailable(String provider);
+
+  /// No description provided for @auth_login_error_social_configuration.
+  ///
+  /// In en, this message translates to:
+  /// **'{provider} sign-in is unavailable right now. If the problem continues, contact support.'**
+  String auth_login_error_social_configuration(String provider);
 
   /// No description provided for @finance_records_table_header_concept.
   ///

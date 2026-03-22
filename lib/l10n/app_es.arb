@@ -366,7 +366,8 @@
   "settings_financial_concept_form_title_edit": "Editar concepto financiero",
   "settings_financial_concept_new": "Nuevo concepto",
   "settings_financial_concept_filter_all": "Todos",
-  "settings_financial_concept_filter_by_type": "Filtrar por tipo",
+  "settings_financial_concept_filter_by_type": "Filtrar por tipo de concepto",
+  "settings_financial_concept_filter_by_statement_category": "Filtrar por categoría del estado",
   "settings_financial_concept_field_name": "Nombre",
   "settings_financial_concept_field_description": "Descripción",
   "settings_financial_concept_field_type": "Tipo de concepto",
@@ -375,7 +376,7 @@
   "settings_financial_concept_indicators_title": "Indicadores contables",
   "settings_financial_concept_indicator_cash_flow": "Impacta flujo de caja",
   "settings_financial_concept_indicator_result": "Impacta el resultado (DRE)",
-  "settings_financial_concept_indicator_balance": "Impacta el balance general",
+  "settings_financial_concept_indicator_balance": "Movimiento patrimonial (fuera del DRE)",
   "settings_financial_concept_indicator_operational": "Evento operacional recurrente",
   "settings_financial_concept_error_required": "Campo obligatorio",
   "settings_financial_concept_error_select_type": "Selecciona el tipo",
@@ -390,8 +391,8 @@
   "settings_financial_concept_help_indicator_cash_flow_desc": "Márquelo cuando el movimiento cambie el saldo disponible después del pago o cobro.",
   "settings_financial_concept_help_indicator_result_title": "Impacta el resultado (DRE)",
   "settings_financial_concept_help_indicator_result_desc": "Úsalo cuando el valor deba componer el estado de resultados, afectando ganancias o pérdidas.",
-  "settings_financial_concept_help_indicator_balance_title": "Impacta el balance general",
-  "settings_financial_concept_help_indicator_balance_desc": "Selecciona para eventos que crean o liquidan activos y pasivos directamente en el balance.",
+  "settings_financial_concept_help_indicator_balance_title": "Movimiento patrimonial (fuera del DRE)",
+  "settings_financial_concept_help_indicator_balance_desc": "Úsalo para movimientos que ajustan activos, pasivos o saldos patrimoniales, incluso cuando no forman parte del DRE.",
   "settings_financial_concept_help_indicator_operational_title": "Evento operacional recurrente",
   "settings_financial_concept_help_indicator_operational_desc": "Habilítalo para compromisos rutinarios del día a día de la iglesia, ligados a las operaciones principales.",
   "settings_financial_concept_help_understood": "Entendido",
@@ -961,6 +962,38 @@
   "auth_login_social_terms": "Términos de uso",
   "auth_login_social_privacy": "Política de privacidad",
   "auth_login_error_social_failed": "Error al iniciar sesión con red social. Inténtalo de nuevo.",
+  "auth_login_error_social_device_issue": "No fue posible completar el inicio de sesión con {provider} en este dispositivo. Verifica tu conexión a internet e inténtalo de nuevo.",
+  "@auth_login_error_social_device_issue": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "auth_login_error_social_interrupted": "El inicio de sesión con {provider} se interrumpió antes de completarse. Inténtalo de nuevo.",
+  "@auth_login_error_social_interrupted": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "auth_login_error_social_unavailable": "No fue posible autenticar con {provider} en este dispositivo por ahora. Inténtalo de nuevo.",
+  "@auth_login_error_social_unavailable": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "auth_login_error_social_configuration": "El inicio de sesión con {provider} no está disponible en este momento. Si el problema continúa, contacta al soporte.",
+  "@auth_login_error_social_configuration": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
   "@accountsPayable_form_installment_item_due_date": {
     "placeholders": {
       "date": {

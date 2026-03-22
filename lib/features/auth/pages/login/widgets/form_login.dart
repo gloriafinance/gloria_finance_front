@@ -59,8 +59,6 @@ class _FormLogin extends State<FormLogin> {
   Widget _buildHeader(BuildContext context) {
     return Column(
       children: [
-
-
         Text(
           context.l10n.auth_login_social_enter_subtitle,
           textAlign: TextAlign.center,
@@ -278,10 +276,15 @@ class _FormLogin extends State<FormLogin> {
           }
         }
       } else {
-        if (mounted) _showError(context);
+        final socialLoginError = authStore.consumeSocialLoginError();
+        if (mounted && socialLoginError != null) {
+          _showError(context, provider, socialLoginError);
+        }
       }
     } catch (e) {
-      if (mounted) _showError(context);
+      if (mounted) {
+        _showError(context, provider, SocialLoginErrorType.deviceIssue);
+      }
     } finally {
       if (mounted) {
         setState(() {
@@ -292,12 +295,34 @@ class _FormLogin extends State<FormLogin> {
     }
   }
 
-  void _showError(BuildContext context) {
+  void _showError(
+    BuildContext context,
+    LoginProvider provider,
+    SocialLoginErrorType errorType,
+  ) {
+    if (errorType == SocialLoginErrorType.canceled) {
+      return;
+    }
+
+    final providerName = switch (provider) {
+      LoginProvider.google => 'Google',
+      LoginProvider.microsoft => 'Microsoft',
+    };
+
+    final message = switch (errorType) {
+      SocialLoginErrorType.interrupted => context.l10n
+          .auth_login_error_social_interrupted(providerName),
+      SocialLoginErrorType.deviceIssue => context.l10n
+          .auth_login_error_social_device_issue(providerName),
+      SocialLoginErrorType.unavailable => context.l10n
+          .auth_login_error_social_unavailable(providerName),
+      SocialLoginErrorType.configuration => context.l10n
+          .auth_login_error_social_configuration(providerName),
+      SocialLoginErrorType.canceled => '',
+    };
+
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(context.l10n.auth_login_error_social_failed),
-        backgroundColor: Colors.red,
-      ),
+      SnackBar(content: Text(message), backgroundColor: Colors.red),
     );
   }
 }
