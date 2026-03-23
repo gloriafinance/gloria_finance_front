@@ -46,6 +46,13 @@ class IncomeStatementPeriod {
       month: _toInt(json['month']),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'year': year,
+      'month': month,
+    };
+  }
 }
 
 enum IncomeStatementCategory {
@@ -55,7 +62,7 @@ enum IncomeStatementCategory {
   capex,
   other,
   unknown,
-  ministry_transfers,
+  ministryTransfers,
 }
 
 IncomeStatementCategory incomeStatementCategoryFromApi(String? value) {
@@ -71,9 +78,28 @@ IncomeStatementCategory incomeStatementCategoryFromApi(String? value) {
     case 'OTHER':
       return IncomeStatementCategory.other;
     case 'MINISTRY_TRANSFERS':
-      return IncomeStatementCategory.ministry_transfers;
+      return IncomeStatementCategory.ministryTransfers;
     default:
       return IncomeStatementCategory.unknown;
+  }
+}
+
+String incomeStatementCategoryToApi(IncomeStatementCategory category) {
+  switch (category) {
+    case IncomeStatementCategory.revenue:
+      return 'REVENUE';
+    case IncomeStatementCategory.cogs:
+      return 'COGS';
+    case IncomeStatementCategory.opex:
+      return 'OPEX';
+    case IncomeStatementCategory.capex:
+      return 'CAPEX';
+    case IncomeStatementCategory.other:
+      return 'OTHER';
+    case IncomeStatementCategory.ministryTransfers:
+      return 'MINISTRY_TRANSFERS';
+    case IncomeStatementCategory.unknown:
+      return 'UNKNOWN';
   }
 }
 
@@ -90,7 +116,7 @@ extension IncomeStatementCategoryExtension on IncomeStatementCategory {
         return l10n.reports_income_category_capex_title;
       case IncomeStatementCategory.other:
         return l10n.reports_income_category_other_title;
-      case IncomeStatementCategory.ministry_transfers:
+      case IncomeStatementCategory.ministryTransfers:
         return l10n.reports_income_category_ministry_transfers_title;
       case IncomeStatementCategory.unknown:
         return l10n.reports_income_category_unknown_title;
@@ -109,7 +135,7 @@ extension IncomeStatementCategoryExtension on IncomeStatementCategory {
         return l10n.reports_income_category_capex_desc;
       case IncomeStatementCategory.other:
         return l10n.reports_income_category_other_desc;
-      case IncomeStatementCategory.ministry_transfers:
+      case IncomeStatementCategory.ministryTransfers:
         return l10n.reports_income_category_ministry_transfers_desc;
       case IncomeStatementCategory.unknown:
         return '';
@@ -128,7 +154,7 @@ extension IncomeStatementCategoryExtension on IncomeStatementCategory {
         return const Color(0xFFFB8500);
       case IncomeStatementCategory.other:
         return const Color(0xFF6A4C93);
-      case IncomeStatementCategory.ministry_transfers:
+      case IncomeStatementCategory.ministryTransfers:
         return const Color(0xFF2A9D8F);
       case IncomeStatementCategory.unknown:
         return const Color(0xFFADB5BD);
@@ -157,6 +183,15 @@ class IncomeStatementBreakdown {
       net: _toDouble(json['net']),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'category': incomeStatementCategoryToApi(category),
+      'income': income,
+      'expenses': expenses,
+      'net': net,
+    };
+  }
 }
 
 class IncomeStatementBreakdownBySymbol {
@@ -180,6 +215,13 @@ class IncomeStatementBreakdownBySymbol {
               )
               .toList(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'symbol': symbol,
+      'breakdown': breakdown.map((item) => item.toJson()).toList(growable: false),
+    };
   }
 }
 
@@ -253,6 +295,24 @@ class IncomeStatementSummary {
       netIncome: 0,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'revenue': revenue,
+      'cogs': cogs,
+      'grossProfit': grossProfit,
+      'operatingExpenses': operatingExpenses,
+      'operatingIncome': operatingIncome,
+      'capitalExpenditures': capitalExpenditures,
+      'otherIncome': otherIncome,
+      'otherExpenses': otherExpenses,
+      'otherNet': otherNet,
+      'reversalAdjustments': reversalAdjustments,
+      'totalIncome': totalIncome,
+      'totalExpenses': totalExpenses,
+      'netIncome': netIncome,
+    };
+  }
 }
 
 class IncomeStatementSummaryBySymbol {
@@ -271,6 +331,13 @@ class IncomeStatementSummaryBySymbol {
       symbol: _toSymbol(json['symbol']),
       summary: IncomeStatementSummary.fromJson(summaryJson),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'symbol': symbol,
+      'summary': summary.toJson(),
+    };
   }
 }
 
@@ -299,6 +366,14 @@ class AvailabilityAccountInfo {
       accountName: json['accountName'] ?? '',
       symbol: _toSymbol(json['symbol']),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'availabilityAccountId': availabilityAccountId,
+      'accountName': accountName,
+      'symbol': symbol,
+    };
   }
 }
 
@@ -336,6 +411,19 @@ class AvailabilityAccountEntry {
   }
 
   double get balance => totalInput - totalOutput;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'month': month,
+      'year': year,
+      'totalOutput': totalOutput,
+      'totalInput': totalInput,
+      'availabilityAccount': availabilityAccount.toJson(),
+      'availabilityAccountMasterId': availabilityAccountMasterId,
+      'churchId': churchId,
+      'balance': balance,
+    };
+  }
 }
 
 class AvailabilityAccountsTotal {
@@ -358,6 +446,15 @@ class AvailabilityAccountsTotal {
       income: _toDouble(json['income']),
       expenses: _toDouble(json['expenses']),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'symbol': symbol,
+      'total': total,
+      'income': income,
+      'expenses': expenses,
+    };
   }
 }
 
@@ -417,6 +514,13 @@ class AvailabilityAccountsSnapshot {
   factory AvailabilityAccountsSnapshot.empty() {
     return AvailabilityAccountsSnapshot(accounts: [], totals: []);
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'accounts': accounts.map((item) => item.toJson()).toList(growable: false),
+      'totals': totals.map((item) => item.toJson()).toList(growable: false),
+    };
+  }
 }
 
 class CostCenterInfo {
@@ -434,6 +538,13 @@ class CostCenterInfo {
       costCenterId: json['costCenterId'] ?? '',
       costCenterName: json['costCenterName'] ?? '',
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'costCenterId': costCenterId,
+      'costCenterName': costCenterName,
+    };
   }
 }
 
@@ -471,6 +582,19 @@ class CostCenterUsage {
       symbol: _toSymbol(json['symbol']),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'month': month,
+      'year': year,
+      'total': total,
+      'costCenter': costCenter.toJson(),
+      'churchId': churchId,
+      'lastMove': lastMove?.toIso8601String(),
+      'symbol': symbol,
+    };
+  }
 }
 
 class CostCentersTotal {
@@ -484,6 +608,13 @@ class CostCentersTotal {
       symbol: _toSymbol(json['symbol']),
       total: _toDouble(json['total']),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'symbol': symbol,
+      'total': total,
+    };
   }
 }
 
@@ -534,6 +665,13 @@ class CostCentersSnapshot {
   factory CostCentersSnapshot.empty() {
     return CostCentersSnapshot(costCenters: [], totals: []);
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'costCenters': costCenters.map((item) => item.toJson()).toList(growable: false),
+      'totals': totals.map((item) => item.toJson()).toList(growable: false),
+    };
+  }
 }
 
 class CashFlowSnapshot {
@@ -563,6 +701,13 @@ class CashFlowSnapshot {
       availabilityAccounts: AvailabilityAccountsSnapshot.empty(),
       costCenters: CostCentersSnapshot.empty(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'availabilityAccounts': availabilityAccounts.toJson(),
+      'costCenters': costCenters.toJson(),
+    };
   }
 }
 
@@ -644,6 +789,17 @@ class IncomeStatementModel {
       breakdownSections: const <IncomeStatementBreakdownBySymbol>[],
       cashFlowSnapshot: CashFlowSnapshot.empty(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'period': period.toJson(),
+      'summary': summaries.map((item) => item.toJson()).toList(growable: false),
+      'breakdown': breakdownSections
+          .map((item) => item.toJson())
+          .toList(growable: false),
+      'cashFlowSnapshot': cashFlowSnapshot.toJson(),
+    };
   }
 
   bool get hasSummary => summaries.isNotEmpty;

@@ -1921,8 +1921,7 @@ abstract class AppLocalizations {
   /// **'Filter by concept type'**
   String get settings_financial_concept_filter_by_type;
 
-  /// No description provided for
-  /// @settings_financial_concept_filter_by_statement_category.
+  /// No description provided for @settings_financial_concept_filter_by_statement_category.
   ///
   /// In en, this message translates to:
   /// **'Filter by statement category'**
@@ -8197,6 +8196,414 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Send retry executed.'**
   String get devotional_review_retry_done;
+
+  /// No description provided for @support_assistant_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Gloria Assistance'**
+  String get support_assistant_title;
+
+  /// No description provided for @support_assistant_header_compact.
+  ///
+  /// In en, this message translates to:
+  /// **'Gloria Assistance helps you with screens, flows, concepts and images when you need guidance for a registration.'**
+  String get support_assistant_header_compact;
+
+  /// No description provided for @support_assistant_header_wide.
+  ///
+  /// In en, this message translates to:
+  /// **'Gloria Assistance is your technical assistant for resolving system questions, guiding registrations and analyzing receipts, invoices and images.'**
+  String get support_assistant_header_wide;
+
+  /// No description provided for @support_assistant_empty_intro.
+  ///
+  /// In en, this message translates to:
+  /// **'I am Gloria Assistance. I can help with navigation, configuration, accounting concepts and initial document reading.'**
+  String get support_assistant_empty_intro;
+
+  /// No description provided for @support_assistant_empty_suggestions.
+  ///
+  /// In en, this message translates to:
+  /// **'You can start with one of these questions:'**
+  String get support_assistant_empty_suggestions;
+
+  /// No description provided for @support_assistant_loading_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Analyzing your request'**
+  String get support_assistant_loading_title;
+
+  /// No description provided for @support_assistant_loading_description.
+  ///
+  /// In en, this message translates to:
+  /// **'I am reviewing the system context to prepare a useful response.'**
+  String get support_assistant_loading_description;
+
+  /// No description provided for @support_assistant_show_more.
+  ///
+  /// In en, this message translates to:
+  /// **'Show more'**
+  String get support_assistant_show_more;
+
+  /// No description provided for @support_assistant_show_less.
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get support_assistant_show_less;
+
+  /// No description provided for @support_assistant_suggestion_overview.
+  ///
+  /// In en, this message translates to:
+  /// **'What can I do in Gloria Finance?'**
+  String get support_assistant_suggestion_overview;
+
+  /// No description provided for @support_assistant_suggestion_paid_expense.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I register an already paid expense?'**
+  String get support_assistant_suggestion_paid_expense;
+
+  /// No description provided for @support_assistant_suggestion_accounts_payable.
+  ///
+  /// In en, this message translates to:
+  /// **'Which screen should I use for accounts payable?'**
+  String get support_assistant_suggestion_accounts_payable;
+
+  /// No description provided for @support_assistant_suggestion_analyze_image.
+  ///
+  /// In en, this message translates to:
+  /// **'Analyze this image and tell me how to register it'**
+  String get support_assistant_suggestion_analyze_image;
+
+  /// No description provided for @support_assistant_context_action.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask Gloria Assistance'**
+  String get support_assistant_context_action;
+
+  /// No description provided for @support_assistant_context_financial_record_question.
+  ///
+  /// In en, this message translates to:
+  /// **'Help me register a movement correctly on this screen.'**
+  String get support_assistant_context_financial_record_question;
+
+  /// No description provided for @support_assistant_context_financial_concept_question.
+  ///
+  /// In en, this message translates to:
+  /// **'Help me configure a financial concept correctly on this screen.'**
+  String get support_assistant_context_financial_concept_question;
+
+  /// No description provided for @support_assistant_context_purchase_question.
+  ///
+  /// In en, this message translates to:
+  /// **'Help me register a purchase correctly on this screen.'**
+  String get support_assistant_context_purchase_question;
+
+  /// No description provided for @support_assistant_context_accounts_payable_question.
+  ///
+  /// In en, this message translates to:
+  /// **'Help me register an account payable correctly on this screen.'**
+  String get support_assistant_context_accounts_payable_question;
+
+  /// No description provided for @support_assistant_context_accounts_receivable_question.
+  ///
+  /// In en, this message translates to:
+  /// **'Help me register an account receivable correctly on this screen.'**
+  String get support_assistant_context_accounts_receivable_question;
+
+  /// No description provided for @support_assistant_context_internal_transfer_question.
+  ///
+  /// In en, this message translates to:
+  /// **'Help me register an internal transfer correctly on this screen.'**
+  String get support_assistant_context_internal_transfer_question;
+
+  /// No description provided for @support_assistant_context_supplier_question.
+  ///
+  /// In en, this message translates to:
+  /// **'Help me register a supplier correctly on this screen.'**
+  String get support_assistant_context_supplier_question;
+
+  /// No description provided for @support_assistant_context_bank_question.
+  ///
+  /// In en, this message translates to:
+  /// **'Help me configure a bank correctly on this screen.'**
+  String get support_assistant_context_bank_question;
+
+  /// No description provided for @support_assistant_context_availability_account_question.
+  ///
+  /// In en, this message translates to:
+  /// **'Help me configure an availability account correctly on this screen.'**
+  String get support_assistant_context_availability_account_question;
+
+  /// No description provided for @support_assistant_context_cost_center_question.
+  ///
+  /// In en, this message translates to:
+  /// **'Help me configure a cost center correctly on this screen.'**
+  String get support_assistant_context_cost_center_question;
+
+  /// No description provided for @support_assistant_context_patrimony_question.
+  ///
+  /// In en, this message translates to:
+  /// **'Help me register a patrimony asset correctly on this screen.'**
+  String get support_assistant_context_patrimony_question;
+
+  /// No description provided for @support_assistant_context_bank_statements_question.
+  ///
+  /// In en, this message translates to:
+  /// **'Help me understand and use bank reconciliation correctly on this screen.'**
+  String get support_assistant_context_bank_statements_question;
+
+  /// No description provided for @support_assistant_new_conversation.
+  ///
+  /// In en, this message translates to:
+  /// **'New conversation'**
+  String get support_assistant_new_conversation;
+
+  /// No description provided for @support_assistant_recent_conversations.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent conversations'**
+  String get support_assistant_recent_conversations;
+
+  /// No description provided for @support_assistant_delete_conversation.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete conversation'**
+  String get support_assistant_delete_conversation;
+
+  /// No description provided for @support_assistant_delete_conversation_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete conversation?'**
+  String get support_assistant_delete_conversation_title;
+
+  /// No description provided for @support_assistant_delete_conversation_body.
+  ///
+  /// In en, this message translates to:
+  /// **'This conversation and its history will be deleted. This action cannot be undone.'**
+  String get support_assistant_delete_conversation_body;
+
+  /// No description provided for @support_assistant_action_analyze_report.
+  ///
+  /// In en, this message translates to:
+  /// **'Analyze report'**
+  String get support_assistant_action_analyze_report;
+
+  /// No description provided for @support_assistant_input_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask about flows, screens, concepts or attach an image...'**
+  String get support_assistant_input_hint;
+
+  /// No description provided for @support_assistant_action_attach.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach'**
+  String get support_assistant_action_attach;
+
+  /// No description provided for @support_assistant_action_report.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get support_assistant_action_report;
+
+  /// No description provided for @support_assistant_action_send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get support_assistant_action_send;
+
+  /// No description provided for @support_assistant_dialog_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Analyze report'**
+  String get support_assistant_dialog_title;
+
+  /// No description provided for @support_assistant_dialog_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Provide the report title and the data you want the assistant to interpret.'**
+  String get support_assistant_dialog_description;
+
+  /// No description provided for @support_assistant_dialog_report_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Report title'**
+  String get support_assistant_dialog_report_title;
+
+  /// No description provided for @support_assistant_dialog_report_data.
+  ///
+  /// In en, this message translates to:
+  /// **'Report data'**
+  String get support_assistant_dialog_report_data;
+
+  /// No description provided for @support_assistant_dialog_report_data_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste JSON, summarized text or tabular report data.'**
+  String get support_assistant_dialog_report_data_hint;
+
+  /// No description provided for @support_assistant_dialog_submit.
+  ///
+  /// In en, this message translates to:
+  /// **'Analyze'**
+  String get support_assistant_dialog_submit;
+
+  /// No description provided for @support_assistant_analysis_question.
+  ///
+  /// In en, this message translates to:
+  /// **'Analyze this report and explain the main points.'**
+  String get support_assistant_analysis_question;
+
+  /// No description provided for @support_assistant_confidence_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Confidence'**
+  String get support_assistant_confidence_label;
+
+  /// No description provided for @support_assistant_confidence_low.
+  ///
+  /// In en, this message translates to:
+  /// **'low'**
+  String get support_assistant_confidence_low;
+
+  /// No description provided for @support_assistant_confidence_medium.
+  ///
+  /// In en, this message translates to:
+  /// **'medium'**
+  String get support_assistant_confidence_medium;
+
+  /// No description provided for @support_assistant_confidence_high.
+  ///
+  /// In en, this message translates to:
+  /// **'high'**
+  String get support_assistant_confidence_high;
+
+  /// No description provided for @support_assistant_recommended_screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended screen'**
+  String get support_assistant_recommended_screen;
+
+  /// No description provided for @support_assistant_open_screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open screen'**
+  String get support_assistant_open_screen;
+
+  /// No description provided for @support_assistant_recommended_concept.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested concept'**
+  String get support_assistant_recommended_concept;
+
+  /// No description provided for @support_assistant_steps.
+  ///
+  /// In en, this message translates to:
+  /// **'Steps'**
+  String get support_assistant_steps;
+
+  /// No description provided for @support_assistant_recommended_actions.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended actions'**
+  String get support_assistant_recommended_actions;
+
+  /// No description provided for @support_assistant_extracted_data.
+  ///
+  /// In en, this message translates to:
+  /// **'Extracted data'**
+  String get support_assistant_extracted_data;
+
+  /// No description provided for @support_assistant_extracted_type.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get support_assistant_extracted_type;
+
+  /// No description provided for @support_assistant_extracted_vendor.
+  ///
+  /// In en, this message translates to:
+  /// **'Vendor'**
+  String get support_assistant_extracted_vendor;
+
+  /// No description provided for @support_assistant_extracted_amount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get support_assistant_extracted_amount;
+
+  /// No description provided for @support_assistant_extracted_currency.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get support_assistant_extracted_currency;
+
+  /// No description provided for @support_assistant_extracted_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get support_assistant_extracted_date;
+
+  /// No description provided for @support_assistant_extracted_summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get support_assistant_extracted_summary;
+
+  /// No description provided for @support_assistant_warnings.
+  ///
+  /// In en, this message translates to:
+  /// **'Warnings'**
+  String get support_assistant_warnings;
+
+  /// No description provided for @support_assistant_sources.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources'**
+  String get support_assistant_sources;
+
+  /// No description provided for @support_assistant_intent_product_overview.
+  ///
+  /// In en, this message translates to:
+  /// **'General support'**
+  String get support_assistant_intent_product_overview;
+
+  /// No description provided for @support_assistant_intent_navigation_help.
+  ///
+  /// In en, this message translates to:
+  /// **'Navigation help'**
+  String get support_assistant_intent_navigation_help;
+
+  /// No description provided for @support_assistant_intent_register_financial_movement.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial registration'**
+  String get support_assistant_intent_register_financial_movement;
+
+  /// No description provided for @support_assistant_intent_report_analysis.
+  ///
+  /// In en, this message translates to:
+  /// **'Report analysis'**
+  String get support_assistant_intent_report_analysis;
+
+  /// No description provided for @support_assistant_intent_document_guidance.
+  ///
+  /// In en, this message translates to:
+  /// **'Document guidance'**
+  String get support_assistant_intent_document_guidance;
+
+  /// No description provided for @support_assistant_intent_configuration_help.
+  ///
+  /// In en, this message translates to:
+  /// **'Configuration help'**
+  String get support_assistant_intent_configuration_help;
+
+  /// No description provided for @support_assistant_intent_general_support.
+  ///
+  /// In en, this message translates to:
+  /// **'General support'**
+  String get support_assistant_intent_general_support;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

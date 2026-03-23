@@ -5,6 +5,9 @@ import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/features/erp/reports/pages/monthly_tithes/store/monthly_tithes_list_store.dart';
 import 'package:gloria_finance/features/erp/reports/pages/monthly_tithes/widgets/monthly_tithes_table.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:gloria_finance/features/erp/support_assistant/models/support_assistant_launch_model.dart';
+import 'package:gloria_finance/features/erp/support_assistant/widgets/analyze_report_with_support_button.dart';
 import 'package:provider/provider.dart';
 
 import 'widgets/cards_summary_tithes.dart';
@@ -53,6 +56,10 @@ class MonthlyTithesScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const MonthlyTithesFilters(),
+                if (data.results.isNotEmpty) ...[
+                  const SizedBox(height: 16),
+                  _buildAnalyzeButton(context, store),
+                ],
                 const SizedBox(height: 24),
                 if (isLoading)
                   Container(
@@ -137,6 +144,36 @@ class MonthlyTithesScreen extends StatelessWidget {
           fontFamily: AppFonts.fontSubTitle,
           color: Colors.black45,
         ),
+      ),
+    );
+  }
+
+  Widget _buildAnalyzeButton(
+    BuildContext context,
+    MonthlyTithesListStore store,
+  ) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: AnalyzeReportWithSupportButton(
+        label: context.l10n.support_assistant_action_analyze_report,
+        onPressed: () {
+          context.push(
+            '/support-assistant',
+            extra: SupportAssistantLaunchModel(
+              question: context.l10n.support_assistant_analysis_question,
+              analysisTarget: SupportAssistantAnalysisTargetModel(
+                type: SupportAssistantAnalysisTargetType.report,
+                title: context.l10n.reports_monthly_tithes_title,
+                data: {
+                  'reportType': 'monthly_tithes',
+                  'route': '/report/monthly-tithes',
+                  'filter': store.state.filter.toJson(),
+                  'reportData': store.state.data.toJson(),
+                },
+              ),
+            ),
+          );
+        },
       ),
     );
   }

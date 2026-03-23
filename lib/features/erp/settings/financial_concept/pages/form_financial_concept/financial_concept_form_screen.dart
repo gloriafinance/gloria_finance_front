@@ -28,25 +28,31 @@ class FinancialConceptFormScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              GestureDetector(
-                onTap: () => context.go('/financial-concepts'),
-                child: const Icon(
-                  Icons.arrow_back_ios,
-                  color: AppColors.purple,
-                ),
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => context.go('/financial-concepts'),
+                    child: const Icon(
+                      Icons.arrow_back_ios,
+                      color: AppColors.purple,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    title,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                      fontFamily: AppFonts.fontTitle,
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 8),
-              Text(
-                title,
-                textAlign: TextAlign.left,
-                style: const TextStyle(
-                  fontFamily: AppFonts.fontTitle,
-                  fontSize: 18,
-                  color: Colors.black,
-                ),
-              ),
+              const SizedBox(height: 12),
             ],
           ),
           const FinancialConceptForm(),

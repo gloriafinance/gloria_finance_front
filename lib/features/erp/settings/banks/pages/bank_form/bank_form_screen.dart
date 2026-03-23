@@ -3,6 +3,7 @@ import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/toast.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/features/auth/pages/login/store/auth_session_store.dart';
+import 'package:gloria_finance/features/erp/support_assistant/widgets/open_gloria_assistance_context_button.dart';
 import 'package:gloria_finance/features/erp/settings/banks/models/bank_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -63,6 +64,22 @@ class BankFormScreen extends StatelessWidget {
             ),
           ],
         ),
+        const SizedBox(height: 12),
+        OpenGloriaAssistanceContextButton(
+          question: context.l10n.support_assistant_context_bank_question,
+          title: title,
+          route: '/banks/add',
+          module: 'banking',
+          summary:
+              'Screen used to configure a bank before banking and reconciliation flows.',
+          relatedRoutes: const [
+            '/banks',
+            '/finance/bank-statements',
+            '/availability-accounts/add',
+          ],
+          extraData: {'mode': bank != null ? 'edit' : 'create'},
+        ),
+        const SizedBox(height: 12),
         form,
       ],
     );

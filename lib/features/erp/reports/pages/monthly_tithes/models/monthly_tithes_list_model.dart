@@ -22,6 +22,16 @@ class MonthlyTithesModel {
       symbol: (json['symbol'] ?? '').toString(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'amount': amount,
+      'date': date.toIso8601String(),
+      'availabilityAccountName': accountName,
+      'availabilityAccountType': accountType,
+      'symbol': symbol,
+    };
+  }
 }
 
 class MonthlyTithesTotalBySymbol {
@@ -35,6 +45,13 @@ class MonthlyTithesTotalBySymbol {
       symbol: (json['symbol'] ?? '').toString(),
       total: double.parse((json['total'] ?? 0).toString()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'symbol': symbol,
+      'total': total,
+    };
   }
 }
 
@@ -107,4 +124,13 @@ class MonthlyTithesListModel {
   }
 
   int get currencyCount => orderedSymbols.length;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'records': results.map((item) => item.toJson()).toList(growable: false),
+      'totals': totalsBySymbol
+          .map((item) => item.toJson())
+          .toList(growable: false),
+    };
+  }
 }

@@ -1,11 +1,13 @@
 import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/index.dart';
 import 'package:gloria_finance/core/widgets/button_acton_table.dart';
 import 'package:gloria_finance/features/erp/bank_statements/models/bank_statement_model.dart';
 import 'package:gloria_finance/features/erp/bank_statements/store/bank_statement_import_store.dart';
 import 'package:gloria_finance/features/erp/bank_statements/store/bank_statement_list_store.dart';
 import 'package:gloria_finance/features/erp/settings/banks/store/bank_store.dart';
+import 'package:gloria_finance/features/erp/support_assistant/widgets/open_gloria_assistance_context_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -91,6 +93,17 @@ class _Header extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 12),
+            OpenGloriaAssistanceContextButton(
+              question:
+                  context.l10n.support_assistant_context_bank_statements_question,
+              title: 'Bank reconciliation',
+              route: '/finance/bank-statements',
+              module: 'banking',
+              summary:
+                  'Screen used to import statements, review unmatched movements and reconcile banking activity.',
+              relatedRoutes: const ['/banks/add', '/financial-record/add'],
+            ),
+            const SizedBox(width: 8),
             ButtonActionTable(
               color: AppColors.blue,
               text: 'Importar extrato',
@@ -134,6 +147,17 @@ class _Header extends StatelessWidget {
             fontSize: 22,
             color: AppColors.black,
           ),
+        ),
+        const SizedBox(height: 12),
+        OpenGloriaAssistanceContextButton(
+          question:
+              context.l10n.support_assistant_context_bank_statements_question,
+          title: 'Bank reconciliation',
+          route: '/finance/bank-statements',
+          module: 'banking',
+          summary:
+              'Screen used to import statements, review unmatched movements and reconcile banking activity.',
+          relatedRoutes: const ['/banks/add', '/financial-record/add'],
         ),
         const SizedBox(height: 12),
         Row(
@@ -262,8 +286,8 @@ class _StatusCard extends StatelessWidget {
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withOpacity(0.2)),
-        color: color.withOpacity(0.08),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
+        color: color.withValues(alpha: 0.08),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -5,6 +5,9 @@ import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/toast.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:gloria_finance/features/erp/support_assistant/models/support_assistant_launch_model.dart';
+import 'package:gloria_finance/features/erp/support_assistant/widgets/analyze_report_with_support_button.dart';
 import 'package:provider/provider.dart';
 
 import 'models/dre_model.dart';
@@ -57,6 +60,10 @@ class DREScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const DREFilters(),
+                if (data.hasData) ...[
+                  const SizedBox(height: 16),
+                  _buildAnalyzeButton(context, store),
+                ],
                 const SizedBox(height: 24),
                 if (isLoading)
                   Container(
@@ -137,6 +144,33 @@ class DREScreen extends StatelessWidget {
           ),
         ],
       ],
+    );
+  }
+
+  Widget _buildAnalyzeButton(BuildContext context, DREStore store) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: AnalyzeReportWithSupportButton(
+        label: context.l10n.support_assistant_action_analyze_report,
+        onPressed: () {
+          context.push(
+            '/support-assistant',
+            extra: SupportAssistantLaunchModel(
+              question: context.l10n.support_assistant_analysis_question,
+              analysisTarget: SupportAssistantAnalysisTargetModel(
+                type: SupportAssistantAnalysisTargetType.report,
+                title: context.l10n.reports_dre_screen_title,
+                data: {
+                  'reportType': 'dre',
+                  'route': '/report/dre',
+                  'filter': store.state.filter.toJson(),
+                  'reportData': store.state.data.toJson(),
+                },
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 

@@ -30,6 +30,8 @@ import 'reports/pages/monthly_tithes/monthly_tithes_screen.dart';
 import 'schedule/router.dart';
 import 'settings/pages/change_password/change_password_screen.dart';
 import 'settings/router.dart';
+import 'support_assistant/pages/support_assistant/support_assistant_screen.dart';
+import 'support_assistant/models/support_assistant_launch_model.dart';
 
 erpListRouter() {
   return <RouteBase>[
@@ -150,6 +152,18 @@ erpListRouter() {
       path: '/finance/bank-statements',
       pageBuilder: (context, state) {
         return transitionCustom(const BankStatementsScreen());
+      },
+    ),
+    GoRoute(
+      path: '/support-assistant',
+      pageBuilder: (context, state) {
+        final initialRequest =
+            state.extra is SupportAssistantLaunchModel
+                ? state.extra as SupportAssistantLaunchModel
+                : null;
+        return transitionCustom(
+          SupportAssistantScreen(initialRequest: initialRequest),
+        );
       },
     ),
     GoRoute(

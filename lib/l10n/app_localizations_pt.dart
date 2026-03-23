@@ -4163,4 +4163,208 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get devotional_review_retry_done => 'Nova tentativa de envio executada.';
+
+  @override
+  String get support_assistant_title => 'Gloria Assistance';
+
+  @override
+  String get support_assistant_header_compact => 'Gloria Assistance ajuda você com telas, fluxos, conceitos e imagens quando precisa de orientação para um registro.';
+
+  @override
+  String get support_assistant_header_wide => 'Gloria Assistance é o seu assistente técnico para tirar dúvidas do sistema, orientar registros e analisar comprovantes, notas e imagens.';
+
+  @override
+  String get support_assistant_empty_intro => 'Eu sou Gloria Assistance. Posso ajudar com navegação, configuração, conceitos contábeis e leitura inicial de documentos.';
+
+  @override
+  String get support_assistant_empty_suggestions => 'Você pode começar por uma destas perguntas:';
+
+  @override
+  String get support_assistant_loading_title => 'Analisando sua solicitação';
+
+  @override
+  String get support_assistant_loading_description => 'Estou revisando o contexto do sistema para preparar uma resposta útil.';
+
+  @override
+  String get support_assistant_show_more => 'Ver mais';
+
+  @override
+  String get support_assistant_show_less => 'Ver menos';
+
+  @override
+  String get support_assistant_suggestion_overview => 'O que posso fazer no Gloria Finance?';
+
+  @override
+  String get support_assistant_suggestion_paid_expense => 'Como registro uma despesa já paga?';
+
+  @override
+  String get support_assistant_suggestion_accounts_payable => 'Qual tela usar para contas a pagar?';
+
+  @override
+  String get support_assistant_suggestion_analyze_image => 'Analise esta imagem e diga como registrar';
+
+  @override
+  String get support_assistant_context_action => 'Perguntar ao Gloria Assistance';
+
+  @override
+  String get support_assistant_context_financial_record_question => 'Ajude-me a registrar corretamente um movimento nesta tela.';
+
+  @override
+  String get support_assistant_context_financial_concept_question => 'Ajude-me a configurar corretamente um conceito financeiro nesta tela.';
+
+  @override
+  String get support_assistant_context_purchase_question => 'Ajude-me a registrar corretamente uma compra nesta tela.';
+
+  @override
+  String get support_assistant_context_accounts_payable_question => 'Ajude-me a registrar corretamente uma conta a pagar nesta tela.';
+
+  @override
+  String get support_assistant_context_accounts_receivable_question => 'Ajude-me a registrar corretamente uma conta a receber nesta tela.';
+
+  @override
+  String get support_assistant_context_internal_transfer_question => 'Ajude-me a registrar corretamente uma transferência interna nesta tela.';
+
+  @override
+  String get support_assistant_context_supplier_question => 'Ajude-me a cadastrar corretamente um fornecedor nesta tela.';
+
+  @override
+  String get support_assistant_context_bank_question => 'Ajude-me a configurar corretamente um banco nesta tela.';
+
+  @override
+  String get support_assistant_context_availability_account_question => 'Ajude-me a configurar corretamente uma conta de disponibilidade nesta tela.';
+
+  @override
+  String get support_assistant_context_cost_center_question => 'Ajude-me a configurar corretamente um centro de custo nesta tela.';
+
+  @override
+  String get support_assistant_context_patrimony_question => 'Ajude-me a registrar corretamente um bem patrimonial nesta tela.';
+
+  @override
+  String get support_assistant_context_bank_statements_question => 'Ajude-me a entender e usar corretamente a conciliação bancária nesta tela.';
+
+  @override
+  String get support_assistant_new_conversation => 'Nova conversa';
+
+  @override
+  String get support_assistant_recent_conversations => 'Conversas recentes';
+
+  @override
+  String get support_assistant_delete_conversation => 'Excluir conversa';
+
+  @override
+  String get support_assistant_delete_conversation_title => 'Excluir conversa?';
+
+  @override
+  String get support_assistant_delete_conversation_body => 'Esta conversa e seu histórico serão excluídos. Esta ação não pode ser desfeita.';
+
+  @override
+  String get support_assistant_action_analyze_report => 'Analisar relatório';
+
+  @override
+  String get support_assistant_input_hint => 'Pergunte sobre fluxos, telas, conceitos ou anexe uma imagem...';
+
+  @override
+  String get support_assistant_action_attach => 'Anexar';
+
+  @override
+  String get support_assistant_action_report => 'Relatório';
+
+  @override
+  String get support_assistant_action_send => 'Enviar';
+
+  @override
+  String get support_assistant_dialog_title => 'Analisar relatório';
+
+  @override
+  String get support_assistant_dialog_description => 'Informe o título do relatório e os dados que você quer que o assistente interprete.';
+
+  @override
+  String get support_assistant_dialog_report_title => 'Título do relatório';
+
+  @override
+  String get support_assistant_dialog_report_data => 'Dados do relatório';
+
+  @override
+  String get support_assistant_dialog_report_data_hint => 'Cole JSON, texto resumido ou dados tabulares do relatório.';
+
+  @override
+  String get support_assistant_dialog_submit => 'Analisar';
+
+  @override
+  String get support_assistant_analysis_question => 'Analise este relatório e explique os principais pontos.';
+
+  @override
+  String get support_assistant_confidence_label => 'Confiança';
+
+  @override
+  String get support_assistant_confidence_low => 'baixa';
+
+  @override
+  String get support_assistant_confidence_medium => 'média';
+
+  @override
+  String get support_assistant_confidence_high => 'alta';
+
+  @override
+  String get support_assistant_recommended_screen => 'Tela recomendada';
+
+  @override
+  String get support_assistant_open_screen => 'Abrir tela';
+
+  @override
+  String get support_assistant_recommended_concept => 'Conceito sugerido';
+
+  @override
+  String get support_assistant_steps => 'Passos';
+
+  @override
+  String get support_assistant_recommended_actions => 'Ações sugeridas';
+
+  @override
+  String get support_assistant_extracted_data => 'Dados extraídos';
+
+  @override
+  String get support_assistant_extracted_type => 'Tipo';
+
+  @override
+  String get support_assistant_extracted_vendor => 'Fornecedor';
+
+  @override
+  String get support_assistant_extracted_amount => 'Valor';
+
+  @override
+  String get support_assistant_extracted_currency => 'Moeda';
+
+  @override
+  String get support_assistant_extracted_date => 'Data';
+
+  @override
+  String get support_assistant_extracted_summary => 'Resumo';
+
+  @override
+  String get support_assistant_warnings => 'Avisos';
+
+  @override
+  String get support_assistant_sources => 'Fontes';
+
+  @override
+  String get support_assistant_intent_product_overview => 'Suporte geral';
+
+  @override
+  String get support_assistant_intent_navigation_help => 'Ajuda de navegação';
+
+  @override
+  String get support_assistant_intent_register_financial_movement => 'Registro financeiro';
+
+  @override
+  String get support_assistant_intent_report_analysis => 'Análise de relatório';
+
+  @override
+  String get support_assistant_intent_document_guidance => 'Guia com documento';
+
+  @override
+  String get support_assistant_intent_configuration_help => 'Ajuda de configuração';
+
+  @override
+  String get support_assistant_intent_general_support => 'Suporte geral';
 }

@@ -2,6 +2,8 @@ import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/toast.dart';
 import 'package:gloria_finance/core/utils/index.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
+import 'package:gloria_finance/features/erp/support_assistant/widgets/open_gloria_assistance_context_button.dart';
 import 'package:gloria_finance/features/erp/patrimony/models/patrimony_asset_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -26,7 +28,24 @@ class PatrimonyAssetFormScreen extends StatelessWidget {
       create: (_) => PatrimonyAssetFormStore(assetId: assetId, asset: asset),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [_header(context), const PatrimonyAssetForm()],
+        children: [
+          _header(context),
+          const SizedBox(height: 12),
+          OpenGloriaAssistanceContextButton(
+            question:
+                context.l10n.support_assistant_context_patrimony_question,
+            title:
+                isEditing ? 'Edit patrimony asset' : 'Register patrimony asset',
+            route: '/patrimony/assets/new',
+            module: 'patrimony',
+            summary:
+                'Screen used to register or update a church asset for inventory, control and lifecycle follow-up.',
+            relatedRoutes: const ['/patrimony/assets', '/purchase/register'],
+            extraData: {'mode': isEditing ? 'edit' : 'create'},
+          ),
+          const SizedBox(height: 12),
+          const PatrimonyAssetForm(),
+        ],
       ),
     );
   }

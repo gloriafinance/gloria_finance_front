@@ -1,6 +1,8 @@
 import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/toast.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
+import 'package:gloria_finance/features/erp/support_assistant/widgets/open_gloria_assistance_context_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -48,6 +50,23 @@ class CostCenterFormScreen extends StatelessWidget {
               ),
             ],
           ),
+          const SizedBox(height: 12),
+          OpenGloriaAssistanceContextButton(
+            question:
+                context.l10n.support_assistant_context_cost_center_question,
+            title: title,
+            route: '/cost-center/add',
+            module: 'finance_configuration',
+            summary:
+                'Screen used to configure a cost center for expense, ministry or project classification.',
+            relatedRoutes: const [
+              '/cost-center',
+              '/financial-record/add',
+              '/purchase/register',
+            ],
+            extraData: {'mode': isEdit ? 'edit' : 'create'},
+          ),
+          const SizedBox(height: 12),
           CostCenterForm(isEdit: isEdit),
         ],
       ),

@@ -1,6 +1,8 @@
 import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/toast.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
+import 'package:gloria_finance/features/erp/support_assistant/widgets/open_gloria_assistance_context_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +39,22 @@ class RegisterSupplierScreen extends StatelessWidget {
               ),
             ],
           ),
+          const SizedBox(height: 12),
+          OpenGloriaAssistanceContextButton(
+            question:
+                context.l10n.support_assistant_context_supplier_question,
+            title: 'Register supplier',
+            route: '/suppliers/register',
+            module: 'providers',
+            summary:
+                'Screen used to register a supplier before purchase or accounts payable workflows.',
+            relatedRoutes: const [
+              '/suppliers',
+              '/purchase/register',
+              '/accounts-payable/add',
+            ],
+          ),
+          const SizedBox(height: 12),
           FormSupplier(),
         ],
       ),

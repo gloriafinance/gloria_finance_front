@@ -2,6 +2,9 @@ import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/toast.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:gloria_finance/features/erp/support_assistant/models/support_assistant_launch_model.dart';
+import 'package:gloria_finance/features/erp/support_assistant/widgets/analyze_report_with_support_button.dart';
 import 'package:provider/provider.dart';
 
 import 'models/income_statement_model.dart';
@@ -51,6 +54,10 @@ class IncomeStatementScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const IncomeStatementFilters(),
+                if (data.hasSummary) ...[
+                  const SizedBox(height: 16),
+                  _buildAnalyzeButton(context, store),
+                ],
                 const SizedBox(height: 24),
                 if (isLoading)
                   Container(
@@ -146,6 +153,36 @@ class IncomeStatementScreen extends StatelessWidget {
           fontFamily: AppFonts.fontSubTitle,
           color: Colors.black45,
         ),
+      ),
+    );
+  }
+
+  Widget _buildAnalyzeButton(
+    BuildContext context,
+    IncomeStatementStore store,
+  ) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: AnalyzeReportWithSupportButton(
+        label: context.l10n.support_assistant_action_analyze_report,
+        onPressed: () {
+          context.push(
+            '/support-assistant',
+            extra: SupportAssistantLaunchModel(
+              question: context.l10n.support_assistant_analysis_question,
+              analysisTarget: SupportAssistantAnalysisTargetModel(
+                type: SupportAssistantAnalysisTargetType.report,
+                title: context.l10n.erp_menu_reports_income_statement,
+                data: {
+                  'reportType': 'income_statement',
+                  'route': '/report/income-statement',
+                  'filter': store.state.filter.toJson(),
+                  'reportData': store.state.data.toJson(),
+                },
+              ),
+            ),
+          );
+        },
       ),
     );
   }

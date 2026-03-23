@@ -1,6 +1,7 @@
 import 'package:gloria_finance/core/theme/index.dart';
 import 'package:gloria_finance/core/toast.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
+import 'package:gloria_finance/features/erp/support_assistant/widgets/open_gloria_assistance_context_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -27,21 +28,45 @@ class AccountsReceivableRegistrationScreen extends StatelessWidget {
   }
 
   Widget _header(BuildContext context) {
-    return Row(
+    final title = context.l10n.accountsReceivable_register_title;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        GestureDetector(
-          onTap: () => context.go("/accounts-receivables"),
-          child: Icon(Icons.arrow_back_ios, color: AppColors.purple),
+        Row(
+          children: [
+            GestureDetector(
+              onTap: () => context.go("/accounts-receivables"),
+              child: Icon(Icons.arrow_back_ios, color: AppColors.purple),
+            ),
+            Text(
+              title,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontFamily: AppFonts.fontTitle,
+                fontSize: 20,
+                color: Colors.black,
+              ),
+            ),
+          ],
         ),
-        Text(
-          context.l10n.accountsReceivable_register_title,
-          textAlign: TextAlign.left,
-          style: TextStyle(
-            fontFamily: AppFonts.fontTitle,
-            fontSize: 20,
-            color: Colors.black,
-          ),
+        const SizedBox(height: 12),
+        OpenGloriaAssistanceContextButton(
+          question: context
+              .l10n
+              .support_assistant_context_accounts_receivable_question,
+          title: title,
+          route: '/accounts-receivables/add',
+          module: 'accounts_receivable',
+          summary:
+              'Screen used to register an amount the church expects to receive later, with debtor, installments and collection follow-up.',
+          relatedRoutes: const [
+            '/financial-record/add',
+            '/financial-concepts',
+            '/accounts-receivables',
+          ],
         ),
+        const SizedBox(height: 12),
       ],
     );
   }

@@ -2,6 +2,7 @@ import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/toast.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
+import 'package:gloria_finance/features/erp/support_assistant/widgets/open_gloria_assistance_context_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -23,21 +24,44 @@ class AddFinancialRecordScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              GestureDetector(
-                onTap: () => context.go("/financial-record"),
-                child: Icon(Icons.arrow_back_ios, color: AppColors.purple),
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => context.go("/financial-record"),
+                    child: Icon(Icons.arrow_back_ios, color: AppColors.purple),
+                  ),
+                  Text(
+                    context.l10n.finance_records_form_title,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontFamily: AppFonts.fontTitle,
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                context.l10n.finance_records_form_title,
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontFamily: AppFonts.fontTitle,
-                  fontSize: 18,
-                  color: Colors.black,
-                ),
+              const SizedBox(height: 12),
+              OpenGloriaAssistanceContextButton(
+                question:
+                    context
+                        .l10n
+                        .support_assistant_context_financial_record_question,
+                title: 'Register financial record',
+                route: '/financial-record/add',
+                module: 'financial_records',
+                summary:
+                    'Screen used to register an income or expense already paid or received with immediate cash impact.',
+                relatedRoutes: const [
+                  '/accounts-payable/add',
+                  '/accounts-receivables/add',
+                  '/financial-concepts',
+                ],
               ),
+              const SizedBox(height: 12),
             ],
           ),
           FormFinanceRecord(),

@@ -56,6 +56,22 @@ class DREBySymbolModel {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'symbol': symbol,
+      'grossRevenue': grossRevenue,
+      'netRevenue': netRevenue,
+      'directCosts': directCosts,
+      'grossProfit': grossProfit,
+      'operationalExpenses': operationalExpenses,
+      'ministryTransfers': ministryTransfers,
+      'capexInvestments': capexInvestments,
+      'operationalResult': operationalResult,
+      'extraordinaryResults': extraordinaryResults,
+      'netResult': netResult,
+    };
+  }
+
   factory DREBySymbolModel.empty() {
     return DREBySymbolModel(
       symbol: '',
@@ -97,6 +113,10 @@ class DREReportModel {
 
   factory DREReportModel.empty() {
     return DREReportModel(items: []);
+  }
+
+  List<Map<String, dynamic>> toJson() {
+    return items.map((item) => item.toJson()).toList(growable: false);
   }
 
   bool get hasData => items.isNotEmpty;

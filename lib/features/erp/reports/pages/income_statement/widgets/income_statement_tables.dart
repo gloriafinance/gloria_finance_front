@@ -571,7 +571,7 @@ class IncomeStatementReportSections extends StatelessWidget {
           title: category.friendlyName(context.l10n),
           body: context.l10n.reports_income_category_help_opex_body,
         );
-      case IncomeStatementCategory.ministry_transfers:
+      case IncomeStatementCategory.ministryTransfers:
         return StatementCategoryHelpEntry(
           title: category.friendlyName(context.l10n),
           body:
@@ -878,7 +878,7 @@ class IncomeStatementReportSections extends StatelessWidget {
       IncomeStatementCategory.revenue: 0,
       IncomeStatementCategory.cogs: 1,
       IncomeStatementCategory.opex: 2,
-      IncomeStatementCategory.ministry_transfers: 3,
+      IncomeStatementCategory.ministryTransfers: 3,
       IncomeStatementCategory.capex: 4,
       IncomeStatementCategory.other: 5,
       IncomeStatementCategory.unknown: 6,
