@@ -11,6 +11,7 @@ import '../utils/cash_flow_utils.dart';
 Future<void> showCashFlowDetailsDialog(
   BuildContext context,
   CashFlowBucketDetailsModel details,
+  String? currencySymbol,
 ) {
   final locale = Localizations.localeOf(context).toLanguageTag();
 
@@ -56,7 +57,11 @@ Future<void> showCashFlowDetailsDialog(
           ),
         ] else ...[
           const SizedBox(height: 20),
-          _CashFlowDetailsTable(details: details, locale: locale),
+          _CashFlowDetailsTable(
+            details: details,
+            locale: locale,
+            currencySymbol: currencySymbol,
+          ),
         ],
       ],
     ),
@@ -122,8 +127,13 @@ class _FlowTypeBadge extends StatelessWidget {
 class _CashFlowDetailsTable extends StatelessWidget {
   final CashFlowBucketDetailsModel details;
   final String locale;
+  final String? currencySymbol;
 
-  const _CashFlowDetailsTable({required this.details, required this.locale});
+  const _CashFlowDetailsTable({
+    required this.details,
+    required this.locale,
+    required this.currencySymbol,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +191,7 @@ class _CashFlowDetailsTable extends StatelessWidget {
       Align(
         alignment: Alignment.centerLeft,
         child: Text(
-          formatCurrency(row.amount),
+          formatCurrency(row.amount, symbol: currencySymbol),
           style: TextStyle(
             fontFamily: AppFonts.fontSubTitle,
             color:

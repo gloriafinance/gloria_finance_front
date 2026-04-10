@@ -12,6 +12,9 @@ import '../utils/cash_flow_utils.dart';
 class CashFlowStore extends ChangeNotifier {
   final service = CashFlowService();
   CashFlowState state = CashFlowState.empty();
+  bool _bootstrapped = false;
+
+  bool get isBootstrapped => _bootstrapped;
 
   void setStartDate(DateTime date) {
     final safeDate = DateTime(date.year, date.month, date.day);
@@ -80,19 +83,54 @@ class CashFlowStore extends ChangeNotifier {
     _setFilter(state.filter.copyWith(projectionBuckets: value));
   }
 
-  void setAvailabilityAccountIds(List<String> ids) {
-    _setFilter(state.filter.copyWith(availabilityAccountIds: ids));
+  void setAvailabilityAccountId(String? id) {
+    _setFilter(
+      id == null
+          ? state.filter.copyWith(clearAvailabilityAccountId: true)
+          : state.filter.copyWith(availabilityAccountId: id),
+    );
   }
 
-  void clearFilters() {
+  void clearFilters({String? defaultAvailabilityAccountId}) {
     state = state.copyWith(
-      filter: CashFlowFilterModel.init(),
+      filter: CashFlowFilterModel.init().copyWith(
+        availabilityAccountId: defaultAvailabilityAccountId,
+      ),
       groupByTouched: false,
     );
     notifyListeners();
   }
 
+  Future<void> bootstrap({required List<String> availableAccountIds}) async {
+    if (_bootstrapped || availableAccountIds.isEmpty) return;
+
+    final selectedAccountId =
+        availableAccountIds.contains(state.filter.availabilityAccountId)
+            ? state.filter.availabilityAccountId
+            : availableAccountIds.first;
+
+    if (selectedAccountId != state.filter.availabilityAccountId) {
+      state = state.copyWith(
+        filter: state.filter.copyWith(availabilityAccountId: selectedAccountId),
+      );
+      notifyListeners();
+    }
+
+    _bootstrapped = true;
+    await fetchCashFlow();
+  }
+
   Future<void> fetchCashFlow() async {
+    if (state.filter.availabilityAccountId == null ||
+        state.filter.availabilityAccountId!.isEmpty) {
+      state = state.copyWith(
+        makeRequest: false,
+        data: CashFlowReportModel.empty(),
+      );
+      notifyListeners();
+      return;
+    }
+
     try {
       state = state.copyWith(makeRequest: true);
       notifyListeners();

@@ -161,7 +161,7 @@ class CashFlowAppliedFiltersModel {
   final DateTime startDate;
   final DateTime endDate;
   final CashFlowGroupBy groupBy;
-  final List<String> availabilityAccountIds;
+  final String? availabilityAccountId;
   final String? costCenterId;
   final String? method;
   final bool includeProjection;
@@ -171,7 +171,7 @@ class CashFlowAppliedFiltersModel {
     required this.startDate,
     required this.endDate,
     required this.groupBy,
-    required this.availabilityAccountIds,
+    required this.availabilityAccountId,
     required this.costCenterId,
     required this.method,
     required this.includeProjection,
@@ -187,10 +187,7 @@ class CashFlowAppliedFiltersModel {
       startDate: startDate,
       endDate: endDate,
       groupBy: CashFlowGroupByX.fromApiValue(json?['groupBy']?.toString()),
-      availabilityAccountIds:
-          (json?['availabilityAccountIds'] as List<dynamic>? ?? const [])
-              .map((item) => item.toString())
-              .toList(),
+      availabilityAccountId: stringOrNull(json?['availabilityAccountId']),
       costCenterId: stringOrNull(json?['costCenterId']),
       method: stringOrNull(json?['method']),
       includeProjection: parseNullableBool(json?['includeProjection']) ?? false,
@@ -205,7 +202,7 @@ class CashFlowAppliedFiltersModel {
       startDate: filter.startDate,
       endDate: filter.endDate,
       groupBy: filter.groupBy,
-      availabilityAccountIds: filter.availabilityAccountIds,
+      availabilityAccountId: filter.availabilityAccountId,
       costCenterId: filter.costCenterId,
       method: filter.method,
       includeProjection: filter.includeProjection,

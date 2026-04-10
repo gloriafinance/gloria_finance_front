@@ -8,35 +8,40 @@ import '../models/cash_flow_model.dart';
 
 class CashFlowSummaryCards extends StatelessWidget {
   final CashFlowSummaryModel summary;
+  final String? currencySymbol;
 
-  const CashFlowSummaryCards({super.key, required this.summary});
+  const CashFlowSummaryCards({
+    super.key,
+    required this.summary,
+    required this.currencySymbol,
+  });
 
   @override
   Widget build(BuildContext context) {
     final items = [
       _SummaryCardData(
         title: context.l10n.reports_cash_flow_kpi_opening_balance,
-        value: formatCurrency(summary.openingBalance),
+        value: formatCurrency(summary.openingBalance, symbol: currencySymbol),
         accent: AppColors.blue,
       ),
       _SummaryCardData(
         title: context.l10n.reports_cash_flow_kpi_entries,
-        value: formatCurrency(summary.entries),
+        value: formatCurrency(summary.entries, symbol: currencySymbol),
         accent: AppColors.green,
       ),
       _SummaryCardData(
         title: context.l10n.reports_cash_flow_kpi_exits,
-        value: formatCurrency(summary.exits),
+        value: formatCurrency(summary.exits, symbol: currencySymbol),
         accent: const Color(0xFFD62839),
       ),
       _SummaryCardData(
         title: context.l10n.reports_cash_flow_kpi_net,
-        value: formatCurrency(summary.net),
+        value: formatCurrency(summary.net, symbol: currencySymbol),
         accent: summary.net >= 0 ? AppColors.green : const Color(0xFFD62839),
       ),
       _SummaryCardData(
         title: context.l10n.reports_cash_flow_kpi_closing_balance,
-        value: formatCurrency(summary.closingBalance),
+        value: formatCurrency(summary.closingBalance, symbol: currencySymbol),
         accent: AppColors.purple,
       ),
     ];

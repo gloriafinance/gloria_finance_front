@@ -14,6 +14,7 @@ class CashFlowSeriesTable extends StatelessWidget {
   final List<CashFlowSeriesRowModel> series;
   final CashFlowGroupBy groupBy;
   final DateTime reportEndDate;
+  final String? currencySymbol;
   final Future<void> Function(CashFlowSeriesRowModel row) onViewDetails;
 
   const CashFlowSeriesTable({
@@ -21,6 +22,7 @@ class CashFlowSeriesTable extends StatelessWidget {
     required this.series,
     required this.groupBy,
     required this.reportEndDate,
+    required this.currencySymbol,
     required this.onViewDetails,
   });
 
@@ -76,14 +78,27 @@ class CashFlowSeriesTable extends StatelessWidget {
                   locale: locale,
                   bucketEnd: bucketEnd,
                 ),
-                _AmountText(value: row.entries, color: AppColors.green),
-                _AmountText(value: row.exits, color: const Color(0xFFD62839)),
+                _AmountText(
+                  value: row.entries,
+                  color: AppColors.green,
+                  currencySymbol: currencySymbol,
+                ),
+                _AmountText(
+                  value: row.exits,
+                  color: const Color(0xFFD62839),
+                  currencySymbol: currencySymbol,
+                ),
                 _AmountText(
                   value: row.net,
                   color:
                       row.net >= 0 ? AppColors.green : const Color(0xFFD62839),
+                  currencySymbol: currencySymbol,
                 ),
-                _AmountText(value: row.runningBalance, color: AppColors.blue),
+                _AmountText(
+                  value: row.runningBalance,
+                  color: AppColors.blue,
+                  currencySymbol: currencySymbol,
+                ),
               ];
             },
           ),
@@ -106,11 +121,13 @@ class CashFlowSeriesTable extends StatelessWidget {
 class CashFlowProjectionTable extends StatelessWidget {
   final CashFlowProjectionModel projection;
   final CashFlowGroupBy groupBy;
+  final String? currencySymbol;
 
   const CashFlowProjectionTable({
     super.key,
     required this.projection,
     required this.groupBy,
+    required this.currencySymbol,
   });
 
   @override
@@ -172,10 +189,12 @@ class CashFlowProjectionTable extends StatelessWidget {
                   _AmountText(
                     value: row.projectedEntries,
                     color: AppColors.green,
+                    currencySymbol: currencySymbol,
                   ),
                   _AmountText(
                     value: row.projectedExits,
                     color: const Color(0xFFD62839),
+                    currencySymbol: currencySymbol,
                   ),
                   _AmountText(
                     value: row.projectedNet,
@@ -183,10 +202,12 @@ class CashFlowProjectionTable extends StatelessWidget {
                         row.projectedNet >= 0
                             ? AppColors.green
                             : const Color(0xFFD62839),
+                    currencySymbol: currencySymbol,
                   ),
                   _AmountText(
                     value: row.projectedBalance,
                     color: AppColors.blue,
+                    currencySymbol: currencySymbol,
                   ),
                 ];
               },
@@ -202,13 +223,18 @@ class CashFlowProjectionTable extends StatelessWidget {
 class _AmountText extends StatelessWidget {
   final double value;
   final Color color;
+  final String? currencySymbol;
 
-  const _AmountText({required this.value, required this.color});
+  const _AmountText({
+    required this.value,
+    required this.color,
+    required this.currencySymbol,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      formatCurrency(value),
+      formatCurrency(value, symbol: currencySymbol),
       style: TextStyle(fontFamily: AppFonts.fontSubTitle, color: color),
     );
   }

@@ -31,7 +31,7 @@ class CashFlowScreen extends StatelessWidget {
     CurrencyFormatter.updateLocale(Localizations.localeOf(context));
 
     return ChangeNotifierProvider(
-      create: (_) => CashFlowStore()..fetchCashFlow(),
+      create: (_) => CashFlowStore(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [_buildTitle(context), _buildContent()],
@@ -52,10 +52,31 @@ class CashFlowScreen extends StatelessWidget {
   }
 
   Widget _buildContent() {
-    return Consumer<CashFlowStore>(
-      builder: (context, store, _) {
+    return Consumer2<CashFlowStore, AvailabilityAccountsListStore>(
+      builder: (context, store, accountStore, _) {
+        final visibleAccounts = resolveCashFlowVisibleAccounts(
+          accounts: accountStore.state.availabilityAccounts,
+          accountType: store.state.filter.method,
+        );
+        final selectedAccount = resolveCashFlowSelectedAccount(
+          accounts: visibleAccounts,
+          accountId: store.state.filter.availabilityAccountId,
+        );
+        final currencySymbol = selectedAccount?.symbol;
         final isLoading = store.state.makeRequest;
         final data = store.state.data;
+        final waitingForAccounts =
+            !store.isBootstrapped && accountStore.state.makeRequest;
+
+        if (!store.isBootstrapped && visibleAccounts.isNotEmpty) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            store.bootstrap(
+              availableAccountIds: visibleAccounts
+                  .map((item) => item.availabilityAccountId)
+                  .toList(growable: false),
+            );
+          });
+        }
 
         return SingleChildScrollView(
           child: Padding(
@@ -77,7 +98,7 @@ class CashFlowScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                 ],
-                if (isLoading)
+                if (waitingForAccounts || isLoading)
                   Container(
                     alignment: Alignment.center,
                     margin: const EdgeInsets.symmetric(vertical: 80),
@@ -86,7 +107,10 @@ class CashFlowScreen extends StatelessWidget {
                 else if (!data.hasSeries)
                   _EmptyState(message: context.l10n.reports_cash_flow_empty)
                 else ...[
-                  CashFlowSummaryCards(summary: data.summary),
+                  CashFlowSummaryCards(
+                    summary: data.summary,
+                    currencySymbol: currencySymbol,
+                  ),
                   const SizedBox(height: 28),
                   CashFlowChart(
                     series: data.series,
@@ -98,10 +122,15 @@ class CashFlowScreen extends StatelessWidget {
                     series: data.series,
                     groupBy: store.state.filter.groupBy,
                     reportEndDate: store.state.filter.endDate,
+                    currencySymbol: currencySymbol,
                     onViewDetails: (row) async {
                       final details = await store.fetchBucketDetails(row);
                       if (details == null || !context.mounted) return;
-                      await showCashFlowDetailsDialog(context, details);
+                      await showCashFlowDetailsDialog(
+                        context,
+                        details,
+                        currencySymbol,
+                      );
                     },
                   ),
                   if (store.state.filter.includeProjection) ...[
@@ -109,6 +138,7 @@ class CashFlowScreen extends StatelessWidget {
                     CashFlowProjectionTable(
                       projection: data.projection,
                       groupBy: store.state.filter.groupBy,
+                      currencySymbol: currencySymbol,
                     ),
                   ],
                 ],
@@ -302,23 +332,15 @@ class _ReportHeader extends StatelessWidget {
       }
     }
 
-    if (filter.availabilityAccountIds.isNotEmpty) {
-      String label = context.l10n.reports_cash_flow_filter_all_accounts;
+    if (filter.availabilityAccountId != null) {
+      var label = filter.availabilityAccountId!;
 
-      if (filter.availabilityAccountIds.length == 1) {
-        try {
-          final account = accountStore.state.availabilityAccounts.firstWhere(
-            (item) =>
-                item.availabilityAccountId ==
-                filter.availabilityAccountIds.first,
-          );
-          label = account.accountName;
-        } catch (_) {}
-      } else {
-        label = context.l10n.reports_cash_flow_filter_selected_accounts(
-          filter.availabilityAccountIds.length.toString(),
+      try {
+        final account = accountStore.state.availabilityAccounts.firstWhere(
+          (item) => item.availabilityAccountId == filter.availabilityAccountId,
         );
-      }
+        label = account.accountName;
+      } catch (_) {}
 
       chips.add(
         _MetaChip(

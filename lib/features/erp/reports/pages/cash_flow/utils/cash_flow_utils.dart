@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gloria_finance/features/erp/settings/availability_accounts/models/availability_account_model.dart';
 import 'package:intl/intl.dart';
 
 import '../models/cash_flow_filter_model.dart';
@@ -57,6 +58,36 @@ String formatCashFlowPeriodLabel(
 
 DateTime _endOfMonth(DateTime date) {
   return DateTime(date.year, date.month + 1, 0);
+}
+
+List<AvailabilityAccountModel> resolveCashFlowVisibleAccounts({
+  required List<AvailabilityAccountModel> accounts,
+  required String? accountType,
+}) {
+  if (accountType == null) {
+    return accounts;
+  }
+
+  return accounts
+      .where((item) => item.accountType == accountType)
+      .toList(growable: false);
+}
+
+AvailabilityAccountModel? resolveCashFlowSelectedAccount({
+  required List<AvailabilityAccountModel> accounts,
+  required String? accountId,
+}) {
+  if (accountId == null) {
+    return null;
+  }
+
+  for (final account in accounts) {
+    if (account.availabilityAccountId == accountId) {
+      return account;
+    }
+  }
+
+  return null;
 }
 
 DateTimeRange resolveCashFlowBucketRange({

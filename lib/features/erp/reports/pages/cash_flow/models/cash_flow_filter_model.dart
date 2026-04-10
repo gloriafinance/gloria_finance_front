@@ -45,7 +45,7 @@ class CashFlowFilterModel {
   final DateTime startDate;
   final DateTime endDate;
   final CashFlowGroupBy groupBy;
-  final List<String> availabilityAccountIds;
+  final String? availabilityAccountId;
   final String? costCenterId;
   final String? method;
   final bool includeProjection;
@@ -56,7 +56,7 @@ class CashFlowFilterModel {
     required this.startDate,
     required this.endDate,
     required this.groupBy,
-    required this.availabilityAccountIds,
+    required this.availabilityAccountId,
     required this.costCenterId,
     required this.method,
     required this.includeProjection,
@@ -73,7 +73,7 @@ class CashFlowFilterModel {
       startDate: start,
       endDate: end,
       groupBy: suggestCashFlowGroupBy(start, end),
-      availabilityAccountIds: const [],
+      availabilityAccountId: null,
       costCenterId: null,
       method: null,
       includeProjection: false,
@@ -86,7 +86,8 @@ class CashFlowFilterModel {
     DateTime? startDate,
     DateTime? endDate,
     CashFlowGroupBy? groupBy,
-    List<String>? availabilityAccountIds,
+    String? availabilityAccountId,
+    bool clearAvailabilityAccountId = false,
     String? costCenterId,
     bool clearCostCenterId = false,
     String? method,
@@ -99,9 +100,10 @@ class CashFlowFilterModel {
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       groupBy: groupBy ?? this.groupBy,
-      availabilityAccountIds:
-          availabilityAccountIds ??
-          List<String>.from(this.availabilityAccountIds),
+      availabilityAccountId:
+          clearAvailabilityAccountId
+              ? null
+              : availabilityAccountId ?? this.availabilityAccountId,
       costCenterId:
           clearCostCenterId ? null : costCenterId ?? this.costCenterId,
       method: clearMethod ? null : method ?? this.method,
@@ -116,8 +118,8 @@ class CashFlowFilterModel {
       'startDate': cashFlowApiDate(startDate),
       'endDate': cashFlowApiDate(endDate),
       'groupBy': groupBy.apiValue,
-      if (availabilityAccountIds.isNotEmpty)
-        'availabilityAccountId': availabilityAccountIds,
+      if (availabilityAccountId != null)
+        'availabilityAccountId': availabilityAccountId,
       if (costCenterId != null) 'costCenterId': costCenterId,
       if (method != null) 'method': method,
       'includeProjection': includeProjection,
