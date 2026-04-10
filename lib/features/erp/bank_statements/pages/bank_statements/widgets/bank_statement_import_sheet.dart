@@ -29,12 +29,13 @@ class _BankStatementImportSheetState extends State<BankStatementImportSheet> {
 
     final monthItems =
         monthDropdown(context)
-            .map(
-              (item) => DropdownMenuItem<String>(
-                value: item.value.toString(),
-                child: item.child,
-              ),
-            )
+            .map((item) {
+              final month = int.tryParse(item.value.toString());
+              if (month == null) return null;
+
+              return DropdownMenuItem<int>(value: month, child: item.child);
+            })
+            .whereType<DropdownMenuItem<int>>()
             .toList();
 
     return Padding(
@@ -75,7 +76,7 @@ class _BankStatementImportSheetState extends State<BankStatementImportSheet> {
                 isMobile: isMobileLayout,
                 submitting: state.importing,
                 bankValue: state.bankId,
-                monthValue: state.month?.toString(),
+                monthValue: state.month,
                 yearValue: state.year,
                 bankItems:
                     bankStore.state.banks
@@ -94,7 +95,7 @@ class _BankStatementImportSheetState extends State<BankStatementImportSheet> {
                 onMonthChanged:
                     (value) => context
                         .read<BankStatementImportStore>()
-                        .setMonth(value != null ? int.tryParse(value) : null),
+                        .setMonth(value),
                 onYearChanged:
                     (value) =>
                         context.read<BankStatementImportStore>().setYear(value),
@@ -160,12 +161,12 @@ class _BankStatementImportSheetState extends State<BankStatementImportSheet> {
       await importStore.importStatement();
       //await context.read<BankStatementListStore>().fetchStatements();
 
+      if (!context.mounted) return;
+
       Toast.showMessage('Extrato importado com sucesso.', ToastType.info);
 
-      if (mounted) {
-        importStore.reset();
-        Navigator.of(context).pop();
-      }
+      importStore.reset();
+      Navigator.of(context).pop();
     } catch (e) {
       Toast.showMessage(
         'Não foi possível importar o extrato. Verifique os dados e tente novamente.',
@@ -179,12 +180,12 @@ class _FormFields extends StatelessWidget {
   final bool isMobile;
   final bool submitting;
   final String? bankValue;
-  final String? monthValue;
+  final int? monthValue;
   final int? yearValue;
   final List<DropdownMenuItem<String>> bankItems;
-  final List<DropdownMenuItem<String>> monthItems;
+  final List<DropdownMenuItem<int>> monthItems;
   final ValueChanged<String?> onBankChanged;
-  final ValueChanged<String?> onMonthChanged;
+  final ValueChanged<int?> onMonthChanged;
   final ValueChanged<int?> onYearChanged;
 
   const _FormFields({
@@ -215,13 +216,12 @@ class _FormFields extends StatelessWidget {
       },
     );
 
-    final monthField = DropdownButtonFormField<String>(
+    final monthField = DropdownButtonFormField<int>(
       value: monthValue,
       items: monthItems,
       onChanged: submitting ? null : onMonthChanged,
       decoration: _fieldDecoration('Mês'),
-      validator:
-          (value) => value == null || value.isEmpty ? 'Informe o mês.' : null,
+      validator: (value) => value == null ? 'Informe o mês.' : null,
     );
 
     final yearField = TextFormField(

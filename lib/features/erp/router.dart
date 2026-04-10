@@ -25,6 +25,7 @@ import 'providers/router.dart';
 import 'purchase/pages/purchases/purchase_list_screen.dart';
 import 'purchase/pages/register_purchase/add_purchase_screen.dart';
 import 'reports/pages/dre/dre_screen.dart';
+import 'reports/pages/cash_flow/cash_flow_screen.dart';
 import 'reports/pages/income_statement/income_statement_screen.dart';
 import 'reports/pages/monthly_tithes/monthly_tithes_screen.dart';
 import 'schedule/router.dart';
@@ -82,6 +83,12 @@ erpListRouter() {
       path: '/report/monthly-tithes',
       pageBuilder: (context, state) {
         return transitionCustom(MonthlyTithesScreen());
+      },
+    ),
+    GoRoute(
+      path: '/report/cash-flow',
+      pageBuilder: (context, state) {
+        return transitionCustom(const CashFlowScreen());
       },
     ),
     GoRoute(

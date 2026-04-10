@@ -509,10 +509,34 @@ class AppLocalizationsPt extends AppLocalizations {
   String get erp_menu_reports_monthly_tithes => 'Dízimos mensais';
 
   @override
+  String get erp_menu_reports_cash_flow => 'Fluxo de caixa';
+
+  @override
   String get erp_menu_reports_income_statement => 'Estado de Ingresos';
 
   @override
   String get erp_menu_reports_dre => 'DRE';
+
+  @override
+  String get common_clear => 'Limpar';
+
+  @override
+  String get common_apply => 'Aplicar';
+
+  @override
+  String get common_period => 'Período';
+
+  @override
+  String get common_amount => 'Valor';
+
+  @override
+  String get common_type => 'Tipo';
+
+  @override
+  String get common_date => 'Data';
+
+  @override
+  String get common_description => 'Descrição';
 
   @override
   String get common_cancel => 'Cancelar';
@@ -1865,6 +1889,176 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get reports_income_cashflow_header_balance => 'Saldo do período';
+
+  @override
+  String get reports_cash_flow_group_day => 'Dia';
+
+  @override
+  String get reports_cash_flow_group_week => 'Semana';
+
+  @override
+  String get reports_cash_flow_group_month => 'Mês';
+
+  @override
+  String get reports_cash_flow_kpi_opening_balance => 'Saldo inicial';
+
+  @override
+  String get reports_cash_flow_kpi_entries => 'Entradas';
+
+  @override
+  String get reports_cash_flow_kpi_exits => 'Saídas';
+
+  @override
+  String get reports_cash_flow_kpi_net => 'Líquido';
+
+  @override
+  String get reports_cash_flow_kpi_closing_balance => 'Saldo final';
+
+  @override
+  String get reports_cash_flow_kpi_running_balance => 'Saldo acumulado';
+
+  @override
+  String get reports_cash_flow_chart_title => 'Entradas, saídas e saldo acumulado';
+
+  @override
+  String get reports_cash_flow_chart_subtitle => 'Barras para o fluxo realizado e linha para a evolução do saldo.';
+
+  @override
+  String get reports_cash_flow_table_title => 'Detalhe por período';
+
+  @override
+  String get reports_cash_flow_table_subtitle => 'Clique em um bucket para ver os movimentos incluídos.';
+
+  @override
+  String get reports_cash_flow_projection_entries => 'Entradas projetadas';
+
+  @override
+  String get reports_cash_flow_projection_exits => 'Saídas projetadas';
+
+  @override
+  String get reports_cash_flow_projection_net => 'Líquido projetado';
+
+  @override
+  String get reports_cash_flow_projection_balance => 'Saldo projetado';
+
+  @override
+  String get reports_cash_flow_projection_disclaimer => 'Esta projeção é uma referência simples baseada no comportamento recente. Não considera eventos futuros, compromissos agendados nem orçamento.';
+
+  @override
+  String get reports_cash_flow_projection_empty => 'Não há buckets projetados para exibir.';
+
+  @override
+  String get reports_cash_flow_projection_disabled => 'Desativada';
+
+  @override
+  String get reports_cash_flow_projection_help_title => 'Ajuda: próximos períodos a estimar';
+
+  @override
+  String get reports_cash_flow_projection_help_tooltip => 'O que significa este campo?';
+
+  @override
+  String get reports_cash_flow_projection_help_body => 'Define quantos períodos futuros você quer ver na projeção base. Por exemplo, se selecionar 3 e agrupar por mês, o relatório estimará os próximos 3 meses usando o comportamento recente. É uma referência simples e não substitui um planejamento financeiro.';
+
+  @override
+  String get reports_cash_flow_filter_group_by => 'Agrupamento';
+
+  @override
+  String get reports_cash_flow_filter_method => 'Método';
+
+  @override
+  String get reports_cash_flow_filter_account_types => 'Tipos de conta';
+
+  @override
+  String get reports_cash_flow_filter_financial_concept => 'Conceito financeiro';
+
+  @override
+  String get reports_cash_flow_filter_cost_center => 'Centro de custo';
+
+  @override
+  String get reports_cash_flow_filter_availability_accounts => 'Contas de disponibilidade';
+
+  @override
+  String get reports_cash_flow_filter_include_projection => 'Incluir projeção base';
+
+  @override
+  String get reports_cash_flow_filter_projection_buckets => 'Buckets a projetar';
+
+  @override
+  String get reports_cash_flow_filter_projection_horizon => 'Próximos períodos a estimar';
+
+  @override
+  String get reports_cash_flow_filter_all_accounts => 'Todas as contas';
+
+  @override
+  String reports_cash_flow_filter_selected_accounts(String count) {
+    return '$count contas selecionadas';
+  }
+
+  @override
+  String get reports_cash_flow_header_subtitle => 'Liquidez operacional realizada, agrupada por dia, semana ou mês, com projeção simples opcional.';
+
+  @override
+  String reports_cash_flow_meta_range(String value) {
+    return 'Período: $value';
+  }
+
+  @override
+  String reports_cash_flow_meta_group_by(String value) {
+    return 'Agrupamento: $value';
+  }
+
+  @override
+  String reports_cash_flow_meta_generated_at(String value) {
+    return 'Gerado em: $value';
+  }
+
+  @override
+  String reports_cash_flow_meta_projection(String count) {
+    return 'Projeção: $count buckets';
+  }
+
+  @override
+  String get reports_cash_flow_empty => 'Não há dados para os filtros selecionados.';
+
+  @override
+  String get reports_cash_flow_details_title => 'Detalhe de movimentos';
+
+  @override
+  String reports_cash_flow_details_range(String value) {
+    return 'Bucket: $value';
+  }
+
+  @override
+  String reports_cash_flow_details_count(String value) {
+    return 'Movimentos: $value';
+  }
+
+  @override
+  String get reports_cash_flow_details_empty => 'Não há movimentos para este bucket.';
+
+  @override
+  String get reports_cash_flow_details_action => 'Ver detalhe';
+
+  @override
+  String get reports_cash_flow_details_category => 'Categoria';
+
+  @override
+  String get reports_cash_flow_export_csv => 'Exportar CSV';
+
+  @override
+  String get reports_cash_flow_export_pdf => 'Exportar PDF';
+
+  @override
+  String get reports_cash_flow_export_success => 'Relatório exportado com sucesso.';
+
+  @override
+  String get reports_cash_flow_export_error => 'Não foi possível exportar o relatório.';
+
+  @override
+  String get reports_cash_flow_flow_entry => 'Entrada';
+
+  @override
+  String get reports_cash_flow_flow_exit => 'Saída';
 
   @override
   String get reports_income_cost_centers_title => 'Uso dos centros de custo';

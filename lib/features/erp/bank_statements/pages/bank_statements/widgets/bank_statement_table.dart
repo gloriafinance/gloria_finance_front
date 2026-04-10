@@ -80,6 +80,21 @@ class BankStatementTable extends StatelessWidget {
         data: state.statements,
         dataBuilder: (dynamic item) => _buildRow(item as BankStatementModel),
       ),
+      paginate: PaginationData(
+        totalRecords: state.paginated.count,
+        nextPag: state.paginated.hasNextPage,
+        perPage: state.filter.perPage ?? 20,
+        currentPage: state.filter.page ?? 1,
+        onNextPag: () {
+          context.read<BankStatementListStore>().nextPage();
+        },
+        onPrevPag: () {
+          context.read<BankStatementListStore>().prevPage();
+        },
+        onChangePerPage: (perPage) {
+          context.read<BankStatementListStore>().setPerPage(perPage);
+        },
+      ),
       actionBuilders: [
         (statement) => ButtonActionTable(
           color: AppColors.blue,
@@ -102,14 +117,16 @@ class BankStatementTable extends StatelessWidget {
             icon: Icons.restart_alt,
             onPressed: () async {
               if (state.isRetrying(model.bankStatementId)) return;
+              final autoReconciledMessage =
+                  context.l10n.bankStatements_toast_auto_reconciled;
+              final noMatchMessage = context.l10n.bankStatements_toast_no_match;
+
               final response = await context
                   .read<BankStatementListStore>()
                   .retryStatement(model.bankStatementId);
 
               final message =
-                  response.matched
-                      ? context.l10n.bankStatements_toast_auto_reconciled
-                      : context.l10n.bankStatements_toast_no_match;
+                  response.matched ? autoReconciledMessage : noMatchMessage;
 
               Toast.showMessage(message, ToastType.info);
             },
@@ -223,6 +240,8 @@ class BankStatementTable extends StatelessWidget {
         },
       ),
     ).show<bool>(context);
+
+    if (!context.mounted) return;
 
     if (result == true) {
       Toast.showMessage(

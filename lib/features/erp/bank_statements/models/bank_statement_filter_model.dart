@@ -24,7 +24,7 @@ class BankStatementFilterModel {
   });
 
   factory BankStatementFilterModel.initial() {
-    return const BankStatementFilterModel();
+    return const BankStatementFilterModel(page: 1, perPage: 20);
   }
 
   BankStatementFilterModel copyWith({

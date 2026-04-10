@@ -58,6 +58,8 @@ extension L10nMenuX on AppLocalizations {
         return erp_menu_reports_monthly_tithes;
       case 'erp_menu_reports_income_statement':
         return erp_menu_reports_income_statement;
+      case 'erp_menu_reports_cash_flow':
+        return erp_menu_reports_cash_flow;
       case 'erp_menu_reports_dre':
         return erp_menu_reports_dre;
       case 'erp_menu_schedule':

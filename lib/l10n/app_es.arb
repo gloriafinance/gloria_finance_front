@@ -192,8 +192,16 @@
   "erp_menu_assets_items": "Bienes patrimoniales",
   "erp_menu_reports": "Reportes",
   "erp_menu_reports_monthly_tithes": "Diezmos mensuales",
+  "erp_menu_reports_cash_flow": "Flujo de caja",
   "erp_menu_reports_income_statement": "Estado de resultados",
   "erp_menu_reports_dre": "DRE",
+  "common_clear": "Limpiar",
+  "common_apply": "Aplicar",
+  "common_period": "Período",
+  "common_amount": "Monto",
+  "common_type": "Tipo",
+  "common_date": "Fecha",
+  "common_description": "Descripción",
   "common_cancel": "Cancelar",
   "common_retry": "Reintentar",
   "common_processing": "Procesando...",
@@ -646,6 +654,107 @@
   "reports_income_cashflow_header_income": "Entradas",
   "reports_income_cashflow_header_expenses": "Salidas",
   "reports_income_cashflow_header_balance": "Saldo del período",
+  "reports_cash_flow_group_day": "Día",
+  "reports_cash_flow_group_week": "Semana",
+  "reports_cash_flow_group_month": "Mes",
+  "reports_cash_flow_kpi_opening_balance": "Saldo inicial",
+  "reports_cash_flow_kpi_entries": "Entradas",
+  "reports_cash_flow_kpi_exits": "Salidas",
+  "reports_cash_flow_kpi_net": "Neto",
+  "reports_cash_flow_kpi_closing_balance": "Saldo final",
+  "reports_cash_flow_kpi_running_balance": "Saldo acumulado",
+  "reports_cash_flow_chart_title": "Entradas, salidas y saldo acumulado",
+  "reports_cash_flow_chart_subtitle": "Barras para flujo realizado y línea para evolución del saldo.",
+  "reports_cash_flow_table_title": "Detalle por período",
+  "reports_cash_flow_table_subtitle": "Haz click en un bucket para ver los movimientos incluidos.",
+  "reports_cash_flow_projection_entries": "Entradas proyectadas",
+  "reports_cash_flow_projection_exits": "Salidas proyectadas",
+  "reports_cash_flow_projection_net": "Neto proyectado",
+  "reports_cash_flow_projection_balance": "Saldo proyectado",
+  "reports_cash_flow_projection_disclaimer": "Esta proyección es una referencia simple basada en el comportamiento reciente. No considera eventos futuros, compromisos programados ni presupuesto.",
+  "reports_cash_flow_projection_empty": "No hay buckets proyectados para mostrar.",
+  "reports_cash_flow_projection_disabled": "Desactivada",
+  "reports_cash_flow_projection_help_title": "Ayuda: próximos períodos a estimar",
+  "reports_cash_flow_projection_help_tooltip": "¿Qué significa este campo?",
+  "reports_cash_flow_projection_help_body": "Define cuántos períodos futuros quieres ver en la proyección base. Por ejemplo, si seleccionas 3 y agrupas por mes, el reporte estimará los próximos 3 meses usando el comportamiento reciente. Es una referencia simple y no reemplaza una planificación financiera.",
+  "reports_cash_flow_filter_group_by": "Agrupación",
+  "reports_cash_flow_filter_method": "Método",
+  "reports_cash_flow_filter_account_types": "Tipos de cuenta",
+  "reports_cash_flow_filter_financial_concept": "Concepto financiero",
+  "reports_cash_flow_filter_cost_center": "Centro de costo",
+  "reports_cash_flow_filter_availability_accounts": "Cuentas de disponibilidad",
+  "reports_cash_flow_filter_include_projection": "Incluir proyección base",
+  "reports_cash_flow_filter_projection_buckets": "Buckets a proyectar",
+  "reports_cash_flow_filter_projection_horizon": "Próximos períodos a estimar",
+  "reports_cash_flow_filter_all_accounts": "Todas las cuentas",
+  "reports_cash_flow_filter_selected_accounts": "{count} cuentas seleccionadas",
+  "@reports_cash_flow_filter_selected_accounts": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_cash_flow_header_subtitle": "Liquidez operativa realizada, agrupada por día, semana o mes, con proyección simple opcional.",
+  "reports_cash_flow_meta_range": "Rango: {value}",
+  "@reports_cash_flow_meta_range": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_cash_flow_meta_group_by": "Agrupación: {value}",
+  "@reports_cash_flow_meta_group_by": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_cash_flow_meta_generated_at": "Generado: {value}",
+  "@reports_cash_flow_meta_generated_at": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_cash_flow_meta_projection": "Proyección: {count} buckets",
+  "@reports_cash_flow_meta_projection": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_cash_flow_empty": "No hay datos para los filtros seleccionados.",
+  "reports_cash_flow_details_title": "Detalle de movimientos",
+  "reports_cash_flow_details_range": "Bucket: {value}",
+  "@reports_cash_flow_details_range": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_cash_flow_details_count": "Movimientos: {value}",
+  "@reports_cash_flow_details_count": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "reports_cash_flow_details_empty": "No hay movimientos para este bucket.",
+  "reports_cash_flow_details_action": "Ver detalle",
+  "reports_cash_flow_details_category": "Categoría",
+  "reports_cash_flow_export_csv": "Exportar CSV",
+  "reports_cash_flow_export_pdf": "Exportar PDF",
+  "reports_cash_flow_export_success": "Reporte exportado correctamente.",
+  "reports_cash_flow_export_error": "No fue posible exportar el reporte.",
+  "reports_cash_flow_flow_entry": "Entrada",
+  "reports_cash_flow_flow_exit": "Salida",
   "reports_income_cost_centers_title": "Uso de centros de costo",
   "reports_income_cost_centers_total_applied": "Total aplicado: {total}",
   "@reports_income_cost_centers_total_applied": {

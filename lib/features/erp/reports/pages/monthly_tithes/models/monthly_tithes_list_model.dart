@@ -4,6 +4,7 @@ class MonthlyTithesModel {
   final String accountName;
   final String accountType;
   final String symbol;
+  final String description;
 
   MonthlyTithesModel({
     required this.amount,
@@ -11,6 +12,7 @@ class MonthlyTithesModel {
     required this.accountName,
     required this.accountType,
     required this.symbol,
+    required this.description,
   });
 
   factory MonthlyTithesModel.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class MonthlyTithesModel {
       accountName: json['availabilityAccountName'],
       accountType: json['availabilityAccountType'],
       symbol: (json['symbol'] ?? '').toString(),
+      description: json['description'],
     );
   }
 
@@ -30,6 +33,7 @@ class MonthlyTithesModel {
       'availabilityAccountName': accountName,
       'availabilityAccountType': accountType,
       'symbol': symbol,
+      'description': description,
     };
   }
 }
@@ -48,10 +52,7 @@ class MonthlyTithesTotalBySymbol {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'symbol': symbol,
-      'total': total,
-    };
+    return {'symbol': symbol, 'total': total};
   }
 }
 

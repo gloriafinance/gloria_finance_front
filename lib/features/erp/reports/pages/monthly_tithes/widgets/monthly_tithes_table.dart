@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:gloria_finance/core/paginate/custom_table.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/index.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/monthly_tithes_list_model.dart';
@@ -67,6 +67,9 @@ class MonthlyTithesTable extends StatelessWidget {
                     child: CustomTable(
                       headers: [
                         context.l10n.reports_monthly_tithes_header_date,
+                        context
+                            .l10n
+                            .accountsReceivable_table_header_description,
                         context.l10n.reports_monthly_tithes_header_amount,
                         context.l10n.reports_monthly_tithes_header_account,
                         context.l10n.reports_monthly_tithes_header_account_type,
@@ -87,6 +90,7 @@ class MonthlyTithesTable extends StatelessWidget {
   List<dynamic> monthlyTithesDTO(dynamic data) {
     return [
       convertDateFormatToDDMMYYYY(data.date.toString()),
+      data.description,
       CurrencyFormatter.formatCurrency(data.amount, symbol: data.symbol),
       data.accountName,
       data.accountType,

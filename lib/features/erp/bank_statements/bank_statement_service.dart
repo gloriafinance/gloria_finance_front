@@ -1,7 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:gloria_finance/core/app_http.dart';
 import 'package:gloria_finance/features/auth/auth_persistence.dart';
 import 'package:gloria_finance/features/erp/bank_statements/models/index.dart';
-import 'package:dio/dio.dart';
 
 class BankStatementService extends AppHttp {
   BankStatementService({super.tokenAPI});
@@ -29,7 +29,7 @@ class BankStatementService extends AppHttp {
     }
   }
 
-  Future<List<BankStatementModel>> fetchStatements(
+  Future<BankStatementPaginatedResponse> fetchStatements(
     BankStatementFilterModel filter,
   ) async {
     final session = await AuthPersistence().restore();
@@ -44,26 +44,17 @@ class BankStatementService extends AppHttp {
         options: Options(headers: bearerToken()),
       );
 
-      final dynamic raw = response.data;
-      final Iterable<dynamic> collection;
+      final raw = response.data;
 
-      // La API retorna un objeto con { count, nextPag, results }
-      if (raw is Map<String, dynamic> && raw['results'] is List) {
-        collection = raw['results'] as List;
-      } else if (raw is List) {
-        // Fallback para compatibilidad con respuestas sin paginación
-        collection = raw;
-      } else {
-        collection = const [];
+      if (raw is Map<String, dynamic>) {
+        return BankStatementPaginatedResponse.fromJson(raw);
       }
 
-      return collection
-          .map(
-            (item) => BankStatementModel.fromJson(
-              Map<String, dynamic>.from(item as Map),
-            ),
-          )
-          .toList();
+      return const BankStatementPaginatedResponse(
+        count: 0,
+        nextPag: null,
+        results: [],
+      );
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;

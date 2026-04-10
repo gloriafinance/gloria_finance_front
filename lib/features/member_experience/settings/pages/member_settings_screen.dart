@@ -18,7 +18,7 @@ class MemberSettingsScreen extends StatelessWidget {
         MemberHeaderWidget(
           title: l10n.member_settings_title,
           subtitle: l10n.member_settings_subtitle,
-          onBack: () => context.canPop() ? context.pop() : context.go('/'),
+          onBack: () => context.pop(),
         ),
         Expanded(
           child: SingleChildScrollView(

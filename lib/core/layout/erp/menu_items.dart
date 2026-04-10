@@ -149,6 +149,11 @@ final List<Map<String, dynamic>> items = [
         "to": "/report/monthly-tithes",
       },
       {
+        "key": "erp_menu_reports_cash_flow",
+        "icon": Icons.show_chart,
+        "to": "/report/cash-flow",
+      },
+      {
         "key": "erp_menu_reports_income_statement",
         "icon": Icons.account_balance,
         "to": "/report/income-statement",
