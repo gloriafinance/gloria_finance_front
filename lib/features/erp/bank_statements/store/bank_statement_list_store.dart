@@ -17,8 +17,8 @@ class BankStatementListStore extends ChangeNotifier {
     }
 
     try {
-      final statements = await service.fetchStatements(state.filter);
-      state = state.copyWith(statements: statements, loading: false);
+      final paginated = await service.fetchStatements(state.filter);
+      state = state.copyWith(paginated: paginated, loading: false);
       notifyListeners();
     } catch (e) {
       state = state.copyWith(loading: false);
@@ -82,35 +82,79 @@ class BankStatementListStore extends ChangeNotifier {
   }
 
   void setBank(String? bankId) {
-    state = state.copyWith(filter: state.filter.copyWith(bankId: bankId));
+    state = state.copyWith(
+      filter: state.filter.copyWith(bankId: bankId, page: 1),
+    );
     notifyListeners();
   }
 
   void setStatus(BankStatementReconciliationStatus? status) {
-    state = state.copyWith(filter: state.filter.copyWith(status: status));
+    state = state.copyWith(
+      filter: state.filter.copyWith(status: status, page: 1),
+    );
     notifyListeners();
   }
 
   void setMonth(int? month) {
-    state = state.copyWith(filter: state.filter.copyWith(month: month));
+    state = state.copyWith(
+      filter: state.filter.copyWith(month: month, page: 1),
+    );
     notifyListeners();
   }
 
   void setYear(int? year) {
-    state = state.copyWith(filter: state.filter.copyWith(year: year));
+    state = state.copyWith(filter: state.filter.copyWith(year: year, page: 1));
     notifyListeners();
   }
 
   void setDateRange(DateTimeRange? range) {
     state = state.copyWith(
-      filter: state.filter.copyWith(dateFrom: range?.start, dateTo: range?.end),
+      filter: state.filter.copyWith(
+        dateFrom: range?.start,
+        dateTo: range?.end,
+        page: 1,
+      ),
     );
     notifyListeners();
   }
 
   void setChurchId(String? churchId) {
-    state = state.copyWith(filter: state.filter.copyWith(churchId: churchId));
+    state = state.copyWith(
+      filter: state.filter.copyWith(churchId: churchId, page: 1),
+    );
     notifyListeners();
+  }
+
+  Future<void> nextPage() async {
+    if (!state.paginated.hasNextPage) return;
+
+    state = state.copyWith(
+      filter: state.filter.copyWith(page: (state.filter.page ?? 1) + 1),
+    );
+    notifyListeners();
+
+    await fetchStatements();
+  }
+
+  Future<void> prevPage() async {
+    final currentPage = state.filter.page ?? 1;
+    if (currentPage <= 1) return;
+
+    state = state.copyWith(
+      filter: state.filter.copyWith(page: currentPage - 1),
+    );
+    notifyListeners();
+
+    await fetchStatements();
+  }
+
+  Future<void> setPerPage(int perPage) async {
+    state = state.copyWith(
+      filter: state.filter.copyWith(page: 1, perPage: perPage),
+    );
+    notifyListeners();
+
+    await fetchStatements();
   }
 
   void clearFilters() {

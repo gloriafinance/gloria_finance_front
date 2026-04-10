@@ -95,7 +95,9 @@ class _Header extends StatelessWidget {
             const SizedBox(width: 12),
             OpenGloriaAssistanceContextButton(
               question:
-                  context.l10n.support_assistant_context_bank_statements_question,
+                  context
+                      .l10n
+                      .support_assistant_context_bank_statements_question,
               title: 'Bank reconciliation',
               route: '/finance/bank-statements',
               module: 'banking',
@@ -195,18 +197,39 @@ class _Header extends StatelessWidget {
   }
 
   void _openImportSheet(BuildContext context) {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
+    if (isMobile(context)) {
+      showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        useSafeArea: true,
+        backgroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        builder:
+            (_) => ChangeNotifierProvider(
+              create: (_) => BankStatementImportStore(),
+              child: const BankStatementImportSheet(),
+            ),
+      );
+      return;
+    }
 
+    showDialog<void>(
+      context: context,
       builder:
           (_) => ChangeNotifierProvider(
             create: (_) => BankStatementImportStore(),
-            child: const BankStatementImportSheet(),
+            child: Dialog(
+              insetPadding: const EdgeInsets.all(24),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 720),
+                child: const BankStatementImportSheet(),
+              ),
+            ),
           ),
     );
   }

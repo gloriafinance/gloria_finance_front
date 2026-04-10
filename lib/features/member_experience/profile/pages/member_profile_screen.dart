@@ -4,6 +4,7 @@ import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/features/auth/auth_session_model.dart';
 import 'package:gloria_finance/features/auth/pages/login/store/auth_session_store.dart';
 import 'package:gloria_finance/features/member_experience/widgets/member_header.dart';
+import 'package:gloria_finance/features/member_experience/profile/store/member_profile_store.dart';
 import 'package:gloria_finance/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -18,53 +19,73 @@ class MemberProfileScreen extends StatelessWidget {
     final sessionStore = context.watch<AuthSessionStore>();
     final session = sessionStore.state.session;
 
-    return Column(
-      children: [
-        // Custom Purple Header matching MemberContributeScreen
-        MemberHeaderWidget(
-          title: l10n.member_drawer_profile,
-          onBack: () => context.pop(),
-        ),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                _buildUserInfoCard(session, context, l10n),
-                const SizedBox(height: 24),
-                _buildSection(
-                  title: l10n.member_profile_personal_data_title,
-                  child: _buildPersonalDataCard(session, context, l10n),
+    return ChangeNotifierProvider(
+      create: (_) => MemberProfileStore()..loadProfile(session.memberId ?? ''),
+      child: Builder(
+        builder: (context) {
+          final profileStore = context.watch<MemberProfileStore>();
+
+          return Column(
+            children: [
+              // Custom Purple Header matching MemberContributeScreen
+              MemberHeaderWidget(
+                title: l10n.member_drawer_profile,
+                onBack: () => context.pop(),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _buildUserInfoCard(session, profileStore, context, l10n),
+                      const SizedBox(height: 24),
+                      _buildSection(
+                        title: l10n.member_profile_personal_data_title,
+                        child: _buildPersonalDataCard(
+                          session,
+                          profileStore,
+                          context,
+                          l10n,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      // _buildSection(
+                      //   title: l10n.member_profile_security_title,
+                      //   child: _buildSecurityCard(context, l10n),
+                      // ),
+                      const SizedBox(height: 24),
+                      _buildSection(
+                        title: l10n.member_profile_notifications_title,
+                        child: _buildSettings(context, l10n),
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 24),
-                _buildSection(
-                  title: l10n.member_profile_security_title,
-                  child: _buildSecurityCard(context, l10n),
-                ),
-                const SizedBox(height: 24),
-                _buildSection(
-                  title: l10n.member_profile_notifications_title,
-                  child: _buildSettings(context, l10n),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 
   Widget _buildUserInfoCard(
     AuthSessionModel session,
+    MemberProfileStore profileStore,
     BuildContext context,
     AppLocalizations l10n,
   ) {
+    final profile = profileStore.profile;
     // Mock date or format createdAt
     String memberSince = "2023";
     try {
-      if (session.createdAt.isNotEmpty) {
-        memberSince = DateTime.parse(session.createdAt).year.toString();
+      final createdAtRaw = profile?.createdAt ?? session.createdAt;
+      if (createdAtRaw.isNotEmpty) {
+        memberSince = DateTime.parse(createdAtRaw).year.toString();
       }
     } catch (_) {}
+
+    final name = profile?.name ?? session.name;
+    final churchName = profile?.church?.name ?? session.churchName;
 
     return Container(
       width: double.infinity,
@@ -87,19 +108,29 @@ class MemberProfileScreen extends StatelessWidget {
             backgroundColor: const Color(
               0xFF7B8FA1,
             ), // Greyish blue from design
-            child: Text(
-              session.name.isNotEmpty ? session.name[0].toUpperCase() : '?',
-              style: const TextStyle(
-                fontFamily: AppFonts.fontTitle,
-                fontSize: 32,
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+            child:
+                profileStore.isLoading
+                    ? const SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
+                    )
+                    : Text(
+                      name.isNotEmpty ? name[0].toUpperCase() : '?',
+                      style: const TextStyle(
+                        fontFamily: AppFonts.fontTitle,
+                        fontSize: 32,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
           ),
           const SizedBox(height: 16),
           Text(
-            session.name,
+            name,
             style: const TextStyle(
               fontFamily: AppFonts.fontTitle,
               fontSize: 20,
@@ -119,9 +150,7 @@ class MemberProfileScreen extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            session.churchName.isNotEmpty
-                ? session.churchName
-                : "Igreja Batista Glória",
+            churchName,
             style: TextStyle(
               fontFamily: AppFonts.fontText,
               fontSize: 14,
@@ -156,9 +185,15 @@ class MemberProfileScreen extends StatelessWidget {
 
   Widget _buildPersonalDataCard(
     AuthSessionModel session,
+    MemberProfileStore profileStore,
     BuildContext context,
     AppLocalizations l10n,
   ) {
+    final name = profileStore.profile?.name ?? session.name;
+    final email = profileStore.profile?.email ?? session.email;
+    final phone = profileStore.profile?.phone ?? "";
+    final dni = profileStore.profile?.dni ?? "";
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -166,26 +201,37 @@ class MemberProfileScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.grey.shade200),
       ),
-      child: Column(
-        children: [
-          _buildInfoRow(
-            l10n.member_profile_full_name_label,
-            session.name,
-            isFirst: true,
-          ),
-          const Divider(height: 1, color: Color(0xFFEEEEEE)),
-          _buildInfoRow(l10n.member_profile_email_label, session.email),
-          const Divider(height: 1, color: Color(0xFFEEEEEE)),
-          // TODO: Mock data for now as per plan
-          _buildInfoRow(l10n.member_profile_phone_label, "(11) 91234-5678"),
-          const Divider(height: 1, color: Color(0xFFEEEEEE)),
-          _buildInfoRow(
-            l10n.member_profile_dni_label,
-            "123.456.789-00",
-            isLast: true,
-          ),
-        ],
-      ),
+      child:
+          profileStore.isLoading
+              ? const Padding(
+                padding: EdgeInsets.all(32.0),
+                child: Center(child: CircularProgressIndicator()),
+              )
+              : Column(
+                children: [
+                  _buildInfoRow(
+                    l10n.member_profile_full_name_label,
+                    name.isNotEmpty ? name : "-",
+                    isFirst: true,
+                  ),
+                  const Divider(height: 1, color: Color(0xFFEEEEEE)),
+                  _buildInfoRow(
+                    l10n.member_profile_email_label,
+                    email.isNotEmpty ? email : "-",
+                  ),
+                  const Divider(height: 1, color: Color(0xFFEEEEEE)),
+                  _buildInfoRow(
+                    l10n.member_profile_phone_label,
+                    phone.isNotEmpty ? phone : "-",
+                  ),
+                  const Divider(height: 1, color: Color(0xFFEEEEEE)),
+                  _buildInfoRow(
+                    l10n.member_profile_dni_label,
+                    dni.isNotEmpty ? dni : "-",
+                    isLast: true,
+                  ),
+                ],
+              ),
     );
   }
 
@@ -226,67 +272,6 @@ class MemberProfileScreen extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildSecurityCard(BuildContext context, AppLocalizations l10n) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () {
-            context.go('/member/profile/change-password');
-          },
-          borderRadius: BorderRadius.circular(12),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: AppColors.purple.withValues(alpha: 0.1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(Icons.lock, color: AppColors.purple),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        l10n.member_profile_change_password_title,
-                        style: TextStyle(
-                          fontFamily: AppFonts.fontTitle,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.black,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        l10n.member_profile_change_password_subtitle,
-                        style: TextStyle(
-                          fontFamily: AppFonts.fontText,
-                          fontSize: 14,
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Icon(Icons.chevron_right, color: Colors.grey),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }

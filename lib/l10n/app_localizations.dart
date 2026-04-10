@@ -1081,6 +1081,12 @@ abstract class AppLocalizations {
   /// **'Monthly tithes'**
   String get erp_menu_reports_monthly_tithes;
 
+  /// No description provided for @erp_menu_reports_cash_flow.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash flow'**
+  String get erp_menu_reports_cash_flow;
+
   /// No description provided for @erp_menu_reports_income_statement.
   ///
   /// In en, this message translates to:
@@ -1092,6 +1098,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'DRE'**
   String get erp_menu_reports_dre;
+
+  /// No description provided for @common_clear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get common_clear;
+
+  /// No description provided for @common_apply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get common_apply;
+
+  /// No description provided for @common_period.
+  ///
+  /// In en, this message translates to:
+  /// **'Period'**
+  String get common_period;
+
+  /// No description provided for @common_amount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get common_amount;
+
+  /// No description provided for @common_type.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get common_type;
+
+  /// No description provided for @common_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get common_date;
+
+  /// No description provided for @common_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get common_description;
 
   /// No description provided for @common_cancel.
   ///
@@ -3732,6 +3780,318 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Period balance'**
   String get reports_income_cashflow_header_balance;
+
+  /// No description provided for @reports_cash_flow_group_day.
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get reports_cash_flow_group_day;
+
+  /// No description provided for @reports_cash_flow_group_week.
+  ///
+  /// In en, this message translates to:
+  /// **'Week'**
+  String get reports_cash_flow_group_week;
+
+  /// No description provided for @reports_cash_flow_group_month.
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get reports_cash_flow_group_month;
+
+  /// No description provided for @reports_cash_flow_kpi_opening_balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening balance'**
+  String get reports_cash_flow_kpi_opening_balance;
+
+  /// No description provided for @reports_cash_flow_kpi_entries.
+  ///
+  /// In en, this message translates to:
+  /// **'Entries'**
+  String get reports_cash_flow_kpi_entries;
+
+  /// No description provided for @reports_cash_flow_kpi_exits.
+  ///
+  /// In en, this message translates to:
+  /// **'Exits'**
+  String get reports_cash_flow_kpi_exits;
+
+  /// No description provided for @reports_cash_flow_kpi_net.
+  ///
+  /// In en, this message translates to:
+  /// **'Net'**
+  String get reports_cash_flow_kpi_net;
+
+  /// No description provided for @reports_cash_flow_kpi_closing_balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Closing balance'**
+  String get reports_cash_flow_kpi_closing_balance;
+
+  /// No description provided for @reports_cash_flow_kpi_running_balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Running balance'**
+  String get reports_cash_flow_kpi_running_balance;
+
+  /// No description provided for @reports_cash_flow_chart_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Entries, exits and running balance'**
+  String get reports_cash_flow_chart_title;
+
+  /// No description provided for @reports_cash_flow_chart_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bars for realized flow and a line for balance evolution.'**
+  String get reports_cash_flow_chart_subtitle;
+
+  /// No description provided for @reports_cash_flow_table_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Detail by period'**
+  String get reports_cash_flow_table_title;
+
+  /// No description provided for @reports_cash_flow_table_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Click a bucket to inspect the underlying movements.'**
+  String get reports_cash_flow_table_subtitle;
+
+  /// No description provided for @reports_cash_flow_projection_entries.
+  ///
+  /// In en, this message translates to:
+  /// **'Projected entries'**
+  String get reports_cash_flow_projection_entries;
+
+  /// No description provided for @reports_cash_flow_projection_exits.
+  ///
+  /// In en, this message translates to:
+  /// **'Projected exits'**
+  String get reports_cash_flow_projection_exits;
+
+  /// No description provided for @reports_cash_flow_projection_net.
+  ///
+  /// In en, this message translates to:
+  /// **'Projected net'**
+  String get reports_cash_flow_projection_net;
+
+  /// No description provided for @reports_cash_flow_projection_balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Projected balance'**
+  String get reports_cash_flow_projection_balance;
+
+  /// No description provided for @reports_cash_flow_projection_disclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'This projection is a simple reference based on recent behavior. It does not consider future events, scheduled commitments, or budget.'**
+  String get reports_cash_flow_projection_disclaimer;
+
+  /// No description provided for @reports_cash_flow_projection_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no projected buckets to display.'**
+  String get reports_cash_flow_projection_empty;
+
+  /// No description provided for @reports_cash_flow_projection_disabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled'**
+  String get reports_cash_flow_projection_disabled;
+
+  /// No description provided for @reports_cash_flow_projection_help_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Help: future periods to estimate'**
+  String get reports_cash_flow_projection_help_title;
+
+  /// No description provided for @reports_cash_flow_projection_help_tooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'What does this field mean?'**
+  String get reports_cash_flow_projection_help_tooltip;
+
+  /// No description provided for @reports_cash_flow_projection_help_body.
+  ///
+  /// In en, this message translates to:
+  /// **'It defines how many future periods you want to see in the base projection. For example, if you choose 3 and group by month, the report will estimate the next 3 months using recent behavior. It is a simple reference and does not replace financial planning.'**
+  String get reports_cash_flow_projection_help_body;
+
+  /// No description provided for @reports_cash_flow_filter_group_by.
+  ///
+  /// In en, this message translates to:
+  /// **'Grouping'**
+  String get reports_cash_flow_filter_group_by;
+
+  /// No description provided for @reports_cash_flow_filter_method.
+  ///
+  /// In en, this message translates to:
+  /// **'Method'**
+  String get reports_cash_flow_filter_method;
+
+  /// No description provided for @reports_cash_flow_filter_account_types.
+  ///
+  /// In en, this message translates to:
+  /// **'Account types'**
+  String get reports_cash_flow_filter_account_types;
+
+  /// No description provided for @reports_cash_flow_filter_financial_concept.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial concept'**
+  String get reports_cash_flow_filter_financial_concept;
+
+  /// No description provided for @reports_cash_flow_filter_cost_center.
+  ///
+  /// In en, this message translates to:
+  /// **'Cost center'**
+  String get reports_cash_flow_filter_cost_center;
+
+  /// No description provided for @reports_cash_flow_filter_availability_accounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Availability accounts'**
+  String get reports_cash_flow_filter_availability_accounts;
+
+  /// No description provided for @reports_cash_flow_filter_include_projection.
+  ///
+  /// In en, this message translates to:
+  /// **'Include base projection'**
+  String get reports_cash_flow_filter_include_projection;
+
+  /// No description provided for @reports_cash_flow_filter_projection_buckets.
+  ///
+  /// In en, this message translates to:
+  /// **'Buckets to project'**
+  String get reports_cash_flow_filter_projection_buckets;
+
+  /// No description provided for @reports_cash_flow_filter_projection_horizon.
+  ///
+  /// In en, this message translates to:
+  /// **'Future periods to estimate'**
+  String get reports_cash_flow_filter_projection_horizon;
+
+  /// No description provided for @reports_cash_flow_filter_all_accounts.
+  ///
+  /// In en, this message translates to:
+  /// **'All accounts'**
+  String get reports_cash_flow_filter_all_accounts;
+
+  /// No description provided for @reports_cash_flow_filter_selected_accounts.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} selected accounts'**
+  String reports_cash_flow_filter_selected_accounts(String count);
+
+  /// No description provided for @reports_cash_flow_header_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Realized operating liquidity grouped by day, week, or month, with optional simple projection.'**
+  String get reports_cash_flow_header_subtitle;
+
+  /// No description provided for @reports_cash_flow_meta_range.
+  ///
+  /// In en, this message translates to:
+  /// **'Range: {value}'**
+  String reports_cash_flow_meta_range(String value);
+
+  /// No description provided for @reports_cash_flow_meta_group_by.
+  ///
+  /// In en, this message translates to:
+  /// **'Grouping: {value}'**
+  String reports_cash_flow_meta_group_by(String value);
+
+  /// No description provided for @reports_cash_flow_meta_generated_at.
+  ///
+  /// In en, this message translates to:
+  /// **'Generated: {value}'**
+  String reports_cash_flow_meta_generated_at(String value);
+
+  /// No description provided for @reports_cash_flow_meta_projection.
+  ///
+  /// In en, this message translates to:
+  /// **'Projection: {count} buckets'**
+  String reports_cash_flow_meta_projection(String count);
+
+  /// No description provided for @reports_cash_flow_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'There is no data for the selected filters.'**
+  String get reports_cash_flow_empty;
+
+  /// No description provided for @reports_cash_flow_details_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Movement details'**
+  String get reports_cash_flow_details_title;
+
+  /// No description provided for @reports_cash_flow_details_range.
+  ///
+  /// In en, this message translates to:
+  /// **'Bucket: {value}'**
+  String reports_cash_flow_details_range(String value);
+
+  /// No description provided for @reports_cash_flow_details_count.
+  ///
+  /// In en, this message translates to:
+  /// **'Movements: {value}'**
+  String reports_cash_flow_details_count(String value);
+
+  /// No description provided for @reports_cash_flow_details_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no movements for this bucket.'**
+  String get reports_cash_flow_details_empty;
+
+  /// No description provided for @reports_cash_flow_details_action.
+  ///
+  /// In en, this message translates to:
+  /// **'View detail'**
+  String get reports_cash_flow_details_action;
+
+  /// No description provided for @reports_cash_flow_details_category.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get reports_cash_flow_details_category;
+
+  /// No description provided for @reports_cash_flow_export_csv.
+  ///
+  /// In en, this message translates to:
+  /// **'Export CSV'**
+  String get reports_cash_flow_export_csv;
+
+  /// No description provided for @reports_cash_flow_export_pdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Export PDF'**
+  String get reports_cash_flow_export_pdf;
+
+  /// No description provided for @reports_cash_flow_export_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Report exported successfully.'**
+  String get reports_cash_flow_export_success;
+
+  /// No description provided for @reports_cash_flow_export_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not export the report.'**
+  String get reports_cash_flow_export_error;
+
+  /// No description provided for @reports_cash_flow_flow_entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry'**
+  String get reports_cash_flow_flow_entry;
+
+  /// No description provided for @reports_cash_flow_flow_exit.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit'**
+  String get reports_cash_flow_flow_exit;
 
   /// No description provided for @reports_income_cost_centers_title.
   ///
