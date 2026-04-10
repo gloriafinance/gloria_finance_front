@@ -204,7 +204,7 @@ class _FormFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bankField = DropdownButtonFormField<String>(
-      initialValue: bankValue,
+      value: bankValue,
       items: bankItems,
       onChanged: submitting ? null : onBankChanged,
       decoration: _fieldDecoration('Banco'),
@@ -217,7 +217,7 @@ class _FormFields extends StatelessWidget {
     );
 
     final monthField = DropdownButtonFormField<int>(
-      initialValue: monthValue,
+      value: monthValue,
       items: monthItems,
       onChanged: submitting ? null : onMonthChanged,
       decoration: _fieldDecoration('Mês'),
