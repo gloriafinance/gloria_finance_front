@@ -398,6 +398,7 @@ class _DRESymbolSectionState extends State<_DRESymbolSection> {
                 id: group.id,
                 title: group.title,
                 rows: rows,
+                total: group.total,
               );
             })
             .where((group) => group.rows.isNotEmpty)
@@ -412,11 +413,6 @@ class _DRESymbolSectionState extends State<_DRESymbolSection> {
       },
       children:
           filteredGroups.map((group) {
-            final subtotal = group.rows.fold<double>(
-              0,
-              (sum, row) => sum + row.value,
-            );
-
             return ExpansionPanel(
               canTapOnHeader: true,
               isExpanded: _expandedByGroup[group.id] ?? true,
@@ -431,12 +427,12 @@ class _DRESymbolSectionState extends State<_DRESymbolSection> {
                     ),
                   ),
                   trailing: Text(
-                    _formatCurrency(subtotal, data.symbol),
+                    _formatCurrency(group.total, data.symbol),
                     style: TextStyle(
                       fontFamily: AppFonts.fontTitle,
                       fontSize: 14,
                       color:
-                          subtotal < 0
+                          group.total < 0
                               ? const Color(0xFFD62839)
                               : Colors.black87,
                     ),
@@ -516,6 +512,7 @@ class _DRESymbolSectionState extends State<_DRESymbolSection> {
       _DetailGroupData(
         id: 'revenue',
         title: context.l10n.reports_dre_group_revenue,
+        total: data.netRevenue,
         rows: [
           _DetailRowData(
             title: context.l10n.reports_dre_card_gross_revenue_title,
@@ -534,6 +531,11 @@ class _DRESymbolSectionState extends State<_DRESymbolSection> {
       _DetailGroupData(
         id: 'costs',
         title: context.l10n.reports_dre_group_costs,
+        total:
+            data.directCosts +
+            data.operationalExpenses +
+            data.ministryTransfers +
+            data.capexInvestments,
         rows: [
           _DetailRowData(
             title: context.l10n.reports_dre_item_direct_costs_title,
@@ -568,6 +570,7 @@ class _DRESymbolSectionState extends State<_DRESymbolSection> {
       _DetailGroupData(
         id: 'results',
         title: context.l10n.reports_dre_group_results,
+        total: data.netResult,
         rows: [
           _DetailRowData(
             title: context.l10n.reports_dre_item_gross_profit_title,
@@ -717,9 +720,15 @@ class _MainIndicatorCard extends StatelessWidget {
 class _DetailGroupData {
   final String id;
   final String title;
+  final double total;
   final List<_DetailRowData> rows;
 
-  _DetailGroupData({required this.id, required this.title, required this.rows});
+  _DetailGroupData({
+    required this.id,
+    required this.title,
+    required this.total,
+    required this.rows,
+  });
 }
 
 class _DetailRowData {

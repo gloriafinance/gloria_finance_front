@@ -73,6 +73,55 @@ List<AvailabilityAccountModel> resolveCashFlowVisibleAccounts({
       .toList(growable: false);
 }
 
+List<String> resolveCashFlowSymbols({
+  required List<AvailabilityAccountModel> accounts,
+}) {
+  final symbols = <String>{};
+
+  for (final account in accounts) {
+    if (account.symbol.isNotEmpty) {
+      symbols.add(account.symbol);
+    }
+  }
+
+  return symbols.toList(growable: false)..sort();
+}
+
+List<AvailabilityAccountModel> resolveCashFlowAccountsBySymbol({
+  required List<AvailabilityAccountModel> accounts,
+  required String? symbol,
+}) {
+  if (symbol == null || symbol.isEmpty) {
+    return const [];
+  }
+
+  return accounts
+      .where((item) => item.symbol == symbol)
+      .toList(growable: false);
+}
+
+List<String> resolveCashFlowAccountSelection({
+  required List<AvailabilityAccountModel> accounts,
+  required List<String> selectedIds,
+}) {
+  if (accounts.isEmpty) {
+    return const [];
+  }
+
+  final accountIds = accounts.map((item) => item.availabilityAccountId).toSet();
+  final filteredSelection = selectedIds
+      .where(accountIds.contains)
+      .toList(growable: false);
+
+  if (filteredSelection.isNotEmpty) {
+    return filteredSelection;
+  }
+
+  return accounts
+      .map((item) => item.availabilityAccountId)
+      .toList(growable: false);
+}
+
 AvailabilityAccountModel? resolveCashFlowSelectedAccount({
   required List<AvailabilityAccountModel> accounts,
   required String? accountId,
@@ -88,6 +137,32 @@ AvailabilityAccountModel? resolveCashFlowSelectedAccount({
   }
 
   return null;
+}
+
+String cashFlowAccountsSummary({
+  required List<AvailabilityAccountModel> accounts,
+  required List<String> selectedIds,
+  required String allAccountsLabel,
+  required String Function(String count) selectedAccountsLabel,
+}) {
+  if (accounts.isEmpty) {
+    return allAccountsLabel;
+  }
+
+  final selectedCount = selectedIds.length;
+  if (selectedCount == 0 || selectedCount == accounts.length) {
+    return allAccountsLabel;
+  }
+
+  if (selectedCount == 1) {
+    final selectedAccount = resolveCashFlowSelectedAccount(
+      accounts: accounts,
+      accountId: selectedIds.first,
+    );
+    return selectedAccount?.accountName ?? allAccountsLabel;
+  }
+
+  return selectedAccountsLabel(selectedCount.toString());
 }
 
 DateTimeRange resolveCashFlowBucketRange({

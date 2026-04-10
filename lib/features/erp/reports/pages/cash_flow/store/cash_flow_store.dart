@@ -83,46 +83,60 @@ class CashFlowStore extends ChangeNotifier {
     _setFilter(state.filter.copyWith(projectionBuckets: value));
   }
 
-  void setAvailabilityAccountId(String? id) {
+  void setSymbol(String? symbol) {
     _setFilter(
-      id == null
-          ? state.filter.copyWith(clearAvailabilityAccountId: true)
-          : state.filter.copyWith(availabilityAccountId: id),
+      symbol == null
+          ? state.filter.copyWith(clearSymbol: true, availabilityAccountIds: [])
+          : state.filter.copyWith(symbol: symbol),
     );
   }
 
-  void clearFilters({String? defaultAvailabilityAccountId}) {
+  void setAvailabilityAccountIds(List<String> ids) {
+    _setFilter(state.filter.copyWith(availabilityAccountIds: ids));
+  }
+
+  void clearFilters({
+    String? defaultSymbol,
+    List<String> defaultAvailabilityAccountIds = const [],
+  }) {
     state = state.copyWith(
       filter: CashFlowFilterModel.init().copyWith(
-        availabilityAccountId: defaultAvailabilityAccountId,
+        symbol: defaultSymbol,
+        availabilityAccountIds: defaultAvailabilityAccountIds,
       ),
       groupByTouched: false,
     );
     notifyListeners();
   }
 
-  Future<void> bootstrap({required List<String> availableAccountIds}) async {
-    if (_bootstrapped || availableAccountIds.isEmpty) return;
+  Future<void> bootstrap({
+    required List<String> availableSymbols,
+    required String defaultSymbol,
+    required List<String> defaultAvailabilityAccountIds,
+  }) async {
+    if (_bootstrapped || availableSymbols.isEmpty) return;
 
-    final selectedAccountId =
-        availableAccountIds.contains(state.filter.availabilityAccountId)
-            ? state.filter.availabilityAccountId
-            : availableAccountIds.first;
+    final selectedSymbol =
+        availableSymbols.contains(state.filter.symbol)
+            ? state.filter.symbol
+            : defaultSymbol;
 
-    if (selectedAccountId != state.filter.availabilityAccountId) {
-      state = state.copyWith(
-        filter: state.filter.copyWith(availabilityAccountId: selectedAccountId),
-      );
-      notifyListeners();
-    }
+    state = state.copyWith(
+      filter: state.filter.copyWith(
+        symbol: selectedSymbol,
+        availabilityAccountIds: defaultAvailabilityAccountIds,
+      ),
+    );
+    notifyListeners();
 
     _bootstrapped = true;
     await fetchCashFlow();
   }
 
   Future<void> fetchCashFlow() async {
-    if (state.filter.availabilityAccountId == null ||
-        state.filter.availabilityAccountId!.isEmpty) {
+    if (state.filter.symbol == null ||
+        state.filter.symbol!.isEmpty ||
+        state.filter.availabilityAccountIds.isEmpty) {
       state = state.copyWith(
         makeRequest: false,
         data: CashFlowReportModel.empty(),

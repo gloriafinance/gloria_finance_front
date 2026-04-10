@@ -5,6 +5,7 @@ import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/index.dart';
 import 'package:gloria_finance/core/widgets/index.dart';
+import 'package:gloria_finance/features/auth/pages/login/store/auth_session_store.dart';
 import 'package:gloria_finance/features/erp/settings/availability_accounts/models/availability_account_model.dart';
 import 'package:gloria_finance/features/erp/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:gloria_finance/features/erp/settings/cost_center/store/cost_center_list_store.dart';
@@ -30,23 +31,27 @@ class _CashFlowFiltersState extends State<CashFlowFilters> {
     final store = context.watch<CashFlowStore>();
     final accountStore = context.watch<AvailabilityAccountsListStore>();
     final costCenterStore = context.watch<CostCenterListStore>();
-    final visibleAccounts = _visibleAccounts(
+    final methodVisibleAccounts = _visibleAccounts(
       accountStore,
       store.state.filter.method,
     );
+    final symbolAccounts = resolveCashFlowAccountsBySymbol(
+      accounts: methodVisibleAccounts,
+      symbol: store.state.filter.symbol,
+    );
 
-    _syncAvailabilityAccount(store, visibleAccounts);
+    _syncSelection(store, methodVisibleAccounts);
 
     return isMobile(context)
-        ? _layoutMobile(store, accountStore, costCenterStore, visibleAccounts)
-        : _layoutDesktop(store, accountStore, costCenterStore, visibleAccounts);
+        ? _layoutMobile(store, accountStore, costCenterStore, symbolAccounts)
+        : _layoutDesktop(store, accountStore, costCenterStore, symbolAccounts);
   }
 
   Widget _layoutDesktop(
     CashFlowStore store,
     AvailabilityAccountsListStore accountStore,
     CostCenterListStore costCenterStore,
-    List<AvailabilityAccountModel> visibleAccounts,
+    List<AvailabilityAccountModel> symbolAccounts,
   ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,7 +76,7 @@ class _CashFlowFiltersState extends State<CashFlowFilters> {
         ),
         Row(
           children: [
-            Expanded(child: _availabilityAccountsField(store, visibleAccounts)),
+            Expanded(child: _availabilityAccountsField(store, symbolAccounts)),
             const SizedBox(width: 12),
             Expanded(child: _projectionToggle(store)),
             const SizedBox(width: 12),
@@ -99,7 +104,7 @@ class _CashFlowFiltersState extends State<CashFlowFilters> {
     CashFlowStore store,
     AvailabilityAccountsListStore accountStore,
     CostCenterListStore costCenterStore,
-    List<AvailabilityAccountModel> visibleAccounts,
+    List<AvailabilityAccountModel> symbolAccounts,
   ) {
     return ExpansionPanelList(
       expansionCallback: (index, isExpanded) {
@@ -132,7 +137,7 @@ class _CashFlowFiltersState extends State<CashFlowFilters> {
                 _groupByField(store),
                 _methodField(store, accountStore),
                 _costCenterField(store, costCenterStore),
-                _availabilityAccountsField(store, visibleAccounts),
+                _availabilityAccountsField(store, symbolAccounts),
                 _projectionToggle(store),
                 _projectionBucketsField(store),
                 const SizedBox(height: 16),
@@ -226,22 +231,29 @@ class _CashFlowFiltersState extends State<CashFlowFilters> {
         final selected = AccountType.values.firstWhere(
           (item) => item.friendlyName(context.l10n) == value,
         );
-        final visibleAccounts = _visibleAccounts(
+        final methodVisibleAccounts = _visibleAccounts(
           accountStore,
           selected.apiValue,
         );
-        final currentSelectedId = store.state.filter.availabilityAccountId;
-        final nextSelectedAccount =
-            resolveCashFlowSelectedAccount(
-              accounts: visibleAccounts,
-              accountId: currentSelectedId,
-            ) ??
-            (visibleAccounts.isNotEmpty ? visibleAccounts.first : null);
+        final visibleSymbols = resolveCashFlowSymbols(
+          accounts: methodVisibleAccounts,
+        );
+        final nextSymbol = _resolvePreferredSymbol(
+          symbols: visibleSymbols,
+          currentSymbol: store.state.filter.symbol,
+        );
+        final symbolAccounts = resolveCashFlowAccountsBySymbol(
+          accounts: methodVisibleAccounts,
+          symbol: nextSymbol,
+        );
+        final nextSelection = resolveCashFlowAccountSelection(
+          accounts: symbolAccounts,
+          selectedIds: store.state.filter.availabilityAccountIds,
+        );
 
         store.setMethod(selected.apiValue);
-        store.setAvailabilityAccountId(
-          nextSelectedAccount?.availabilityAccountId,
-        );
+        store.setSymbol(nextSymbol);
+        store.setAvailabilityAccountIds(nextSelection);
       },
     );
   }
@@ -273,21 +285,26 @@ class _CashFlowFiltersState extends State<CashFlowFilters> {
     CashFlowStore store,
     List<AvailabilityAccountModel> accounts,
   ) {
-    final selectedAccount = resolveCashFlowSelectedAccount(
-      accounts: accounts,
-      accountId: store.state.filter.availabilityAccountId,
-    );
-
-    return Dropdown(
+    return Input(
       label: context.l10n.reports_cash_flow_filter_availability_accounts,
-      items: accounts.map((item) => item.accountName).toList(growable: false),
-      initialValue: selectedAccount?.accountName,
-      onChanged: (value) {
-        final selected = accounts.firstWhere(
-          (item) => item.accountName == value,
-        );
-        store.setAvailabilityAccountId(selected.availabilityAccountId);
-      },
+      readOnly: true,
+      initialValue: cashFlowAccountsSummary(
+        accounts: accounts,
+        selectedIds: store.state.filter.availabilityAccountIds,
+        allAccountsLabel: context.l10n.reports_cash_flow_filter_all_accounts,
+        selectedAccountsLabel:
+            context.l10n.reports_cash_flow_filter_selected_accounts,
+      ),
+      iconRight: const Icon(Icons.arrow_drop_down),
+      onChanged: (_) {},
+      onTap:
+          () => _showAccountSelector(
+            store,
+            _visibleAccounts(
+              context.read<AvailabilityAccountsListStore>(),
+              store.state.filter.method,
+            ),
+          ),
     );
   }
 
@@ -375,7 +392,20 @@ class _CashFlowFiltersState extends State<CashFlowFilters> {
     CashFlowStore store,
     AvailabilityAccountsListStore accountStore,
   ) {
+    final authStore = context.read<AuthSessionStore>();
     final accounts = _visibleAccounts(accountStore, null);
+    final symbols = resolveCashFlowSymbols(accounts: accounts);
+    final preferredSessionSymbol = authStore.state.session.symbolFormatMoney;
+    final defaultSymbol =
+        symbols.contains(preferredSessionSymbol)
+            ? preferredSessionSymbol
+            : symbols.isNotEmpty
+            ? symbols.first
+            : null;
+    final defaultSelection = resolveCashFlowAccountsBySymbol(
+      accounts: accounts,
+      symbol: defaultSymbol,
+    );
 
     return ButtonActionTable(
       color: Colors.grey,
@@ -383,8 +413,10 @@ class _CashFlowFiltersState extends State<CashFlowFilters> {
       icon: Icons.refresh,
       onPressed: () {
         store.clearFilters(
-          defaultAvailabilityAccountId:
-              accounts.isNotEmpty ? accounts.first.availabilityAccountId : null,
+          defaultSymbol: defaultSymbol,
+          defaultAvailabilityAccountIds: defaultSelection
+              .map((item) => item.availabilityAccountId)
+              .toList(growable: false),
         );
       },
     );
@@ -446,7 +478,143 @@ class _CashFlowFiltersState extends State<CashFlowFilters> {
     );
   }
 
-  void _syncAvailabilityAccount(
+  Future<void> _showAccountSelector(
+    CashFlowStore store,
+    List<AvailabilityAccountModel> accounts,
+  ) async {
+    final symbols = resolveCashFlowSymbols(accounts: accounts);
+    if (symbols.isEmpty) {
+      return;
+    }
+
+    var selectedSymbol =
+        _resolvePreferredSymbol(
+          symbols: symbols,
+          currentSymbol: store.state.filter.symbol,
+        )!;
+    var visibleAccounts = resolveCashFlowAccountsBySymbol(
+      accounts: accounts,
+      symbol: selectedSymbol,
+    );
+    final selected = Set<String>.from(
+      resolveCashFlowAccountSelection(
+        accounts: visibleAccounts,
+        selectedIds: store.state.filter.availabilityAccountIds,
+      ),
+    );
+
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: Text(
+                context.l10n.reports_cash_flow_filter_availability_accounts,
+                style: const TextStyle(fontFamily: AppFonts.fontTitle),
+              ),
+              content: SizedBox(
+                width: 560,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Dropdown(
+                        label: context.l10n.reports_dre_primary_currency_badge,
+                        items: symbols,
+                        initialValue: selectedSymbol,
+                        onChanged: (value) {
+                          setDialogState(() {
+                            selectedSymbol = value;
+                            visibleAccounts = resolveCashFlowAccountsBySymbol(
+                              accounts: accounts,
+                              symbol: selectedSymbol,
+                            );
+                            selected
+                              ..clear()
+                              ..addAll(
+                                visibleAccounts.map(
+                                  (item) => item.availabilityAccountId,
+                                ),
+                              );
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 8),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextButton(
+                          onPressed: () {
+                            setDialogState(() {
+                              selected
+                                ..clear()
+                                ..addAll(
+                                  visibleAccounts.map(
+                                    (item) => item.availabilityAccountId,
+                                  ),
+                                );
+                            });
+                          },
+                          child: Text(
+                            context.l10n.reports_cash_flow_filter_all_accounts,
+                          ),
+                        ),
+                      ),
+                      ...visibleAccounts.map(
+                        (account) => CheckboxListTile(
+                          value: selected.contains(
+                            account.availabilityAccountId,
+                          ),
+                          title: Text(account.accountName),
+                          subtitle: Text(
+                            AccountTypeExtension.fromApiValue(
+                              account.accountType,
+                            ).friendlyName(context.l10n),
+                          ),
+                          onChanged: (value) {
+                            setDialogState(() {
+                              if (value == true) {
+                                selected.add(account.availabilityAccountId);
+                              } else {
+                                selected.remove(account.availabilityAccountId);
+                              }
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(dialogContext).pop(),
+                  child: Text(context.l10n.common_cancel),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    final nextSelection =
+                        selected.isEmpty
+                            ? visibleAccounts
+                                .map((item) => item.availabilityAccountId)
+                                .toList(growable: false)
+                            : selected.toList(growable: false);
+
+                    store.setSymbol(selectedSymbol);
+                    store.setAvailabilityAccountIds(nextSelection);
+                    Navigator.of(dialogContext).pop();
+                  },
+                  child: Text(context.l10n.common_apply),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void _syncSelection(
     CashFlowStore store,
     List<AvailabilityAccountModel> visibleAccounts,
   ) {
@@ -454,20 +622,56 @@ class _CashFlowFiltersState extends State<CashFlowFilters> {
       return;
     }
 
-    final selectedAccount = resolveCashFlowSelectedAccount(
-      accounts: visibleAccounts,
-      accountId: store.state.filter.availabilityAccountId,
+    final visibleSymbols = resolveCashFlowSymbols(accounts: visibleAccounts);
+    final nextSymbol = _resolvePreferredSymbol(
+      symbols: visibleSymbols,
+      currentSymbol: store.state.filter.symbol,
     );
+    final symbolAccounts = resolveCashFlowAccountsBySymbol(
+      accounts: visibleAccounts,
+      symbol: nextSymbol,
+    );
+    final nextSelection = resolveCashFlowAccountSelection(
+      accounts: symbolAccounts,
+      selectedIds: store.state.filter.availabilityAccountIds,
+    );
+    final sameSymbol = nextSymbol == store.state.filter.symbol;
+    final sameSelection =
+        nextSelection.length ==
+            store.state.filter.availabilityAccountIds.length &&
+        nextSelection.every(
+          (item) => store.state.filter.availabilityAccountIds.contains(item),
+        );
 
-    if (selectedAccount != null) {
+    if (sameSymbol && sameSelection) {
       return;
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      store.setAvailabilityAccountId(
-        visibleAccounts.first.availabilityAccountId,
-      );
+      store.setSymbol(nextSymbol);
+      store.setAvailabilityAccountIds(nextSelection);
     });
+  }
+
+  String? _resolvePreferredSymbol({
+    required List<String> symbols,
+    required String? currentSymbol,
+  }) {
+    if (symbols.isEmpty) {
+      return null;
+    }
+
+    if (currentSymbol != null && symbols.contains(currentSymbol)) {
+      return currentSymbol;
+    }
+
+    final sessionSymbol =
+        context.read<AuthSessionStore>().state.session.symbolFormatMoney;
+    if (symbols.contains(sessionSymbol)) {
+      return sessionSymbol;
+    }
+
+    return symbols.first;
   }
 }

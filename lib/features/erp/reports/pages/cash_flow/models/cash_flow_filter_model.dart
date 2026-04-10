@@ -45,7 +45,8 @@ class CashFlowFilterModel {
   final DateTime startDate;
   final DateTime endDate;
   final CashFlowGroupBy groupBy;
-  final String? availabilityAccountId;
+  final String? symbol;
+  final List<String> availabilityAccountIds;
   final String? costCenterId;
   final String? method;
   final bool includeProjection;
@@ -56,7 +57,8 @@ class CashFlowFilterModel {
     required this.startDate,
     required this.endDate,
     required this.groupBy,
-    required this.availabilityAccountId,
+    required this.symbol,
+    required this.availabilityAccountIds,
     required this.costCenterId,
     required this.method,
     required this.includeProjection,
@@ -73,7 +75,8 @@ class CashFlowFilterModel {
       startDate: start,
       endDate: end,
       groupBy: suggestCashFlowGroupBy(start, end),
-      availabilityAccountId: null,
+      symbol: null,
+      availabilityAccountIds: const [],
       costCenterId: null,
       method: null,
       includeProjection: false,
@@ -86,8 +89,9 @@ class CashFlowFilterModel {
     DateTime? startDate,
     DateTime? endDate,
     CashFlowGroupBy? groupBy,
-    String? availabilityAccountId,
-    bool clearAvailabilityAccountId = false,
+    String? symbol,
+    bool clearSymbol = false,
+    List<String>? availabilityAccountIds,
     String? costCenterId,
     bool clearCostCenterId = false,
     String? method,
@@ -100,10 +104,10 @@ class CashFlowFilterModel {
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       groupBy: groupBy ?? this.groupBy,
-      availabilityAccountId:
-          clearAvailabilityAccountId
-              ? null
-              : availabilityAccountId ?? this.availabilityAccountId,
+      symbol: clearSymbol ? null : symbol ?? this.symbol,
+      availabilityAccountIds:
+          availabilityAccountIds ??
+          List<String>.from(this.availabilityAccountIds),
       costCenterId:
           clearCostCenterId ? null : costCenterId ?? this.costCenterId,
       method: clearMethod ? null : method ?? this.method,
@@ -118,8 +122,8 @@ class CashFlowFilterModel {
       'startDate': cashFlowApiDate(startDate),
       'endDate': cashFlowApiDate(endDate),
       'groupBy': groupBy.apiValue,
-      if (availabilityAccountId != null)
-        'availabilityAccountId': availabilityAccountId,
+      if (availabilityAccountIds.isNotEmpty)
+        'availabilityAccountId': availabilityAccountIds,
       if (costCenterId != null) 'costCenterId': costCenterId,
       if (method != null) 'method': method,
       'includeProjection': includeProjection,

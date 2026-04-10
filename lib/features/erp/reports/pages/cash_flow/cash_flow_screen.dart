@@ -4,6 +4,7 @@ import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/toast.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/currency_formatter.dart';
+import 'package:gloria_finance/features/auth/pages/login/store/auth_session_store.dart';
 import 'package:gloria_finance/features/erp/settings/availability_accounts/models/availability_account_model.dart';
 import 'package:gloria_finance/features/erp/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:gloria_finance/features/erp/settings/cost_center/store/cost_center_list_store.dart';
@@ -52,28 +53,53 @@ class CashFlowScreen extends StatelessWidget {
   }
 
   Widget _buildContent() {
-    return Consumer2<CashFlowStore, AvailabilityAccountsListStore>(
-      builder: (context, store, accountStore, _) {
-        final visibleAccounts = resolveCashFlowVisibleAccounts(
+    return Consumer3<
+      CashFlowStore,
+      AvailabilityAccountsListStore,
+      AuthSessionStore
+    >(
+      builder: (context, store, accountStore, authStore, _) {
+        final methodVisibleAccounts = resolveCashFlowVisibleAccounts(
           accounts: accountStore.state.availabilityAccounts,
           accountType: store.state.filter.method,
         );
-        final selectedAccount = resolveCashFlowSelectedAccount(
-          accounts: visibleAccounts,
-          accountId: store.state.filter.availabilityAccountId,
+        final visibleSymbols = resolveCashFlowSymbols(
+          accounts: methodVisibleAccounts,
         );
-        final currencySymbol = selectedAccount?.symbol;
+        final preferredSessionSymbol =
+            authStore.state.session.symbolFormatMoney;
+        final defaultSymbol =
+            visibleSymbols.contains(preferredSessionSymbol)
+                ? preferredSessionSymbol
+                : visibleSymbols.isNotEmpty
+                ? visibleSymbols.first
+                : null;
+        final selectedSymbol =
+            visibleSymbols.contains(store.state.filter.symbol)
+                ? store.state.filter.symbol
+                : defaultSymbol;
+        final symbolAccounts = resolveCashFlowAccountsBySymbol(
+          accounts: methodVisibleAccounts,
+          symbol: selectedSymbol,
+        );
+        final selectedAccountIds = resolveCashFlowAccountSelection(
+          accounts: symbolAccounts,
+          selectedIds: store.state.filter.availabilityAccountIds,
+        );
+        final currencySymbol = selectedSymbol;
         final isLoading = store.state.makeRequest;
         final data = store.state.data;
         final waitingForAccounts =
             !store.isBootstrapped && accountStore.state.makeRequest;
 
-        if (!store.isBootstrapped && visibleAccounts.isNotEmpty) {
+        if (!store.isBootstrapped &&
+            selectedSymbol != null &&
+            symbolAccounts.isNotEmpty) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             store.bootstrap(
-              availableAccountIds: visibleAccounts
-                  .map((item) => item.availabilityAccountId)
-                  .toList(growable: false),
+              availableSymbols: visibleSymbols,
+              defaultSymbol: defaultSymbol ?? selectedSymbol,
+              defaultAvailabilityAccountIds: selectedAccountIds,
             );
           });
         }
@@ -332,15 +358,27 @@ class _ReportHeader extends StatelessWidget {
       }
     }
 
-    if (filter.availabilityAccountId != null) {
-      var label = filter.availabilityAccountId!;
+    if (filter.symbol != null) {
+      chips.add(
+        _MetaChip(
+          label:
+              '${context.l10n.reports_dre_primary_currency_badge}: ${filter.symbol}',
+        ),
+      );
+    }
 
-      try {
-        final account = accountStore.state.availabilityAccounts.firstWhere(
-          (item) => item.availabilityAccountId == filter.availabilityAccountId,
-        );
-        label = account.accountName;
-      } catch (_) {}
+    if (filter.availabilityAccountIds.isNotEmpty) {
+      final symbolAccounts = resolveCashFlowAccountsBySymbol(
+        accounts: accountStore.state.availabilityAccounts,
+        symbol: filter.symbol,
+      );
+      final label = cashFlowAccountsSummary(
+        accounts: symbolAccounts,
+        selectedIds: filter.availabilityAccountIds,
+        allAccountsLabel: context.l10n.reports_cash_flow_filter_all_accounts,
+        selectedAccountsLabel:
+            context.l10n.reports_cash_flow_filter_selected_accounts,
+      );
 
       chips.add(
         _MetaChip(
