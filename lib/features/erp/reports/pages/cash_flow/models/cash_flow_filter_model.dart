@@ -122,6 +122,7 @@ class CashFlowFilterModel {
       'startDate': cashFlowApiDate(startDate),
       'endDate': cashFlowApiDate(endDate),
       'groupBy': groupBy.apiValue,
+      if (symbol != null) 'symbol': symbol,
       if (availabilityAccountIds.isNotEmpty)
         'availabilityAccountId': availabilityAccountIds,
       if (costCenterId != null) 'costCenterId': costCenterId,

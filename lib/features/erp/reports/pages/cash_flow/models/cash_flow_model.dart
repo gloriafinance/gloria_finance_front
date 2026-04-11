@@ -161,6 +161,7 @@ class CashFlowAppliedFiltersModel {
   final DateTime startDate;
   final DateTime endDate;
   final CashFlowGroupBy groupBy;
+  final String? symbol;
   final List<String> availabilityAccountIds;
   final String? costCenterId;
   final String? method;
@@ -171,6 +172,7 @@ class CashFlowAppliedFiltersModel {
     required this.startDate,
     required this.endDate,
     required this.groupBy,
+    required this.symbol,
     required this.availabilityAccountIds,
     required this.costCenterId,
     required this.method,
@@ -187,6 +189,7 @@ class CashFlowAppliedFiltersModel {
       startDate: startDate,
       endDate: endDate,
       groupBy: CashFlowGroupByX.fromApiValue(json?['groupBy']?.toString()),
+      symbol: stringOrNull(json?['symbol']),
       availabilityAccountIds:
           (json?['availabilityAccountIds'] as List<dynamic>? ?? const [])
               .map((item) => item.toString())
@@ -205,6 +208,7 @@ class CashFlowAppliedFiltersModel {
       startDate: filter.startDate,
       endDate: filter.endDate,
       groupBy: filter.groupBy,
+      symbol: filter.symbol,
       availabilityAccountIds: filter.availabilityAccountIds,
       costCenterId: filter.costCenterId,
       method: filter.method,
@@ -260,7 +264,7 @@ class CashFlowReportModel {
 
   factory CashFlowReportModel.empty() {
     return CashFlowReportModel(
-      reportName: 'Flujo de Caja (Directo)',
+      reportName: '',
       generatedAt: null,
       filters: CashFlowAppliedFiltersModel.empty(),
       summary: CashFlowSummaryModel.empty(),
