@@ -16,7 +16,7 @@ Widget formMobileLayout(
   return Column(
     children: [
       SizedBox(height: 30),
-      dropdownCostCenter(costCenterStore, conceptStore, formStore),
+      dropdownCostCenter(costCenterStore, formStore),
       dropdownFinancialConcepts(conceptStore, formStore),
       description(formStore),
       Row(

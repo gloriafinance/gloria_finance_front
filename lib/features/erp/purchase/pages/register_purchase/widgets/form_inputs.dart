@@ -21,7 +21,7 @@ Widget description(PurchaseRegisterFormStore formStore) {
   return Input(
     label: 'Descrição',
     initialValue: formStore.state.description,
-    onChanged: (value) => formStore.state.description = value,
+    onChanged: formStore.setDescription,
     onValidator: validator.byField(formStore.state, 'description'),
   );
 }
@@ -71,7 +71,7 @@ Widget dropdownAvailabilityAccounts(
 
       formStore.setAvailabilityAccount(selectedAccount);
     },
-    onValidator: validator.byField(formStore.state, 'moneyLocation'),
+    onValidator: validator.byField(formStore.state, 'availabilityAccountId'),
   );
 }
 
@@ -93,7 +93,7 @@ Widget total(PurchaseRegisterFormStore formStore) {
     onChanged: (value) {
       formStore.setTotal(CurrencyFormatter.cleanCurrency(value));
     },
-    onValidator: validator.byField(formStore.state, 'amount'),
+    onValidator: validator.byField(formStore.state, 'total'),
   );
 }
 
@@ -143,7 +143,7 @@ Widget purchaseDate(BuildContext context, PurchaseRegisterFormStore formStore) {
         );
       });
     },
-    onValidator: validator.byField(formStore.state, 'date'),
+    onValidator: validator.byField(formStore.state, 'purchaseDate'),
   );
 }
 
@@ -166,7 +166,6 @@ Widget dropdownBank(BankStore bankStore, PurchaseRegisterFormStore formStore) {
 
 Widget dropdownCostCenter(
   CostCenterListStore costCenterStore,
-  FinancialConceptStore conceptStore,
   PurchaseRegisterFormStore formStore,
 ) {
   return Dropdown(
@@ -178,5 +177,6 @@ Widget dropdownCostCenter(
       );
       formStore.setCostCenterId(selectedCostCenter.costCenterId);
     },
+    onValidator: validator.byField(formStore.state, 'costCenterId'),
   );
 }

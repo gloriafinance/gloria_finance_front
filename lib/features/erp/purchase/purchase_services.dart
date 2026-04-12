@@ -8,6 +8,14 @@ import 'pages/purchases/models/purchase_filter_model.dart';
 
 class PurchaseService extends AppHttp {
   sendSavePurchase(Map<String, dynamic> form) async {
+    return _sendPurchase('purchase', form);
+  }
+
+  sendSaveCreditPurchase(Map<String, dynamic> form) async {
+    return _sendPurchase('purchase/credit', form);
+  }
+
+  Future<bool> _sendPurchase(String path, Map<String, dynamic> form) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
@@ -25,7 +33,7 @@ class PurchaseService extends AppHttp {
 
     try {
       await http.post(
-        '${await getUrlApi()}purchase',
+        '${await getUrlApi()}$path',
         data: formData,
         options: Options(headers: bearerToken()),
       );
@@ -33,7 +41,7 @@ class PurchaseService extends AppHttp {
       return true;
     } on DioException catch (e) {
       transformResponse(e.response?.data);
-      return false;
+      rethrow;
     }
   }
 

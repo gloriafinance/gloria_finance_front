@@ -7,7 +7,6 @@ import 'package:gloria_finance/core/widgets/button_acton_table.dart';
 import 'package:gloria_finance/core/widgets/custom_button.dart';
 import 'package:gloria_finance/core/widgets/loading.dart';
 import 'package:gloria_finance/features/erp/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
-import 'package:gloria_finance/features/erp/settings/banks/store/bank_store.dart';
 import 'package:gloria_finance/features/erp/settings/cost_center/store/cost_center_list_store.dart';
 import 'package:gloria_finance/features/erp/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +34,6 @@ class _FormPurchaseState extends State<FormPurchase> {
   Widget build(BuildContext context) {
     final conceptStore = Provider.of<FinancialConceptStore>(context);
     final formStore = Provider.of<PurchaseRegisterFormStore>(context);
-    final bankStore = Provider.of<BankStore>(context);
     final availabilityAccountsListStore =
         Provider.of<AvailabilityAccountsListStore>(context);
     final costCenterStore = Provider.of<CostCenterListStore>(context);
@@ -76,7 +74,7 @@ class _FormPurchaseState extends State<FormPurchase> {
                 ),
                 _btnAddItem(formStore),
                 const SizedBox(height: 12),
-                TableItem(),
+                TableItem(items: formStore.state.items),
                 const SizedBox(height: 32),
                 isMobile(context)
                     ? _btnSave(formStore)
@@ -131,6 +129,14 @@ class _FormPurchaseState extends State<FormPurchase> {
 
   void _saveRecord(PurchaseRegisterFormStore formStore) async {
     if (!formKey.currentState!.validate()) {
+      return;
+    }
+
+    if (formStore.state.items.isEmpty) {
+      Toast.showMessage(
+        "Adicione pelo menos um item a compra",
+        ToastType.warning,
+      );
       return;
     }
 

@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import '../store/form_accounts_payable_store.dart';
 import '../validators/form_accounts_payable_validator.dart';
 import 'installment_account_payable_form.dart';
+import 'section_card.dart';
 import 'tax_account_payable_form.dart';
 
 Widget generalInformationSection(
@@ -19,7 +20,7 @@ Widget generalInformationSection(
   FormAccountsPayableStore formStore,
   FormAccountsPayableValidator validator,
 ) {
-  return _SectionCard(
+  return SectionCard(
     title: context.l10n.accountsPayable_form_section_basic_title,
     subtitle: context.l10n.accountsPayable_form_section_basic_subtitle,
     children: [
@@ -36,7 +37,7 @@ Widget documentSection(
 ) {
   final state = formStore.state;
 
-  return _SectionCard(
+  return SectionCard(
     title: context.l10n.accountsPayable_form_section_document_title,
     subtitle: context.l10n.accountsPayable_form_section_document_subtitle,
     children: [
@@ -109,7 +110,7 @@ Widget taxSection(
       state.taxStatus == AccountsPayableTaxStatus.taxed ||
       state.taxStatus == AccountsPayableTaxStatus.substitution;
 
-  return _SectionCard(
+  return SectionCard(
     title: context.l10n.accountsPayable_form_section_tax_title,
     subtitle: context.l10n.accountsPayable_form_section_tax_subtitle,
     children: [
@@ -219,7 +220,7 @@ Widget paymentSection(
   FormAccountsPayableValidator validator,
   bool showValidationMessages,
 ) {
-  return _SectionCard(
+  return SectionCard(
     title: context.l10n.accountsPayable_form_section_payment_title,
     subtitle: context.l10n.accountsPayable_form_section_payment_subtitle,
     children: [
@@ -534,61 +535,4 @@ Widget _buildHelpDialogEntry(String code, String description) {
       ),
     ),
   );
-}
-
-class _SectionCard extends StatelessWidget {
-  final String title;
-  final String? subtitle;
-  final List<Widget> children;
-
-  const _SectionCard({
-    required this.title,
-    this.subtitle,
-    required this.children,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.greyMiddle),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.02),
-            blurRadius: 12,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontFamily: AppFonts.fontTitle,
-              fontSize: 18,
-              color: AppColors.purple,
-            ),
-          ),
-          if (subtitle != null) ...[
-            const SizedBox(height: 6),
-            Text(
-              subtitle!,
-              style: const TextStyle(
-                fontFamily: AppFonts.fontSubTitle,
-                color: AppColors.grey,
-              ),
-            ),
-          ],
-          const SizedBox(height: 20),
-          ...children,
-        ],
-      ),
-    );
-  }
 }

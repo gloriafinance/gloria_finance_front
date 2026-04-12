@@ -20,7 +20,7 @@ Widget formDesktopLayout(
       Row(
         children: [
           Expanded(
-            child: dropdownCostCenter(costCenterStore, conceptStore, formStore),
+            child: dropdownCostCenter(costCenterStore, formStore),
           ),
           const SizedBox(width: 16),
           Expanded(child: dropdownFinancialConcepts(conceptStore, formStore)),
