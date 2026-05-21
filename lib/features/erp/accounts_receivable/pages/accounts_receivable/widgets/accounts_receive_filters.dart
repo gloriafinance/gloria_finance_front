@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:gloria_finance/core/theme/index.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/index.dart';
 import 'package:gloria_finance/core/widgets/index.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/accounts_receivable_model.dart';
@@ -40,6 +40,8 @@ class _AccountsReceiveFilters extends State<AccountsReceiveFilters> {
               Expanded(flex: 2, child: _dateStart(store)),
               SizedBox(width: 10),
               Expanded(flex: 2, child: _dateEnd(store)),
+              SizedBox(width: 10),
+              Expanded(flex: 2, child: _type(store)),
             ],
           ),
           SizedBox(height: 10),
@@ -85,7 +87,13 @@ class _AccountsReceiveFilters extends State<AccountsReceiveFilters> {
             },
             body: Column(
               children: [
-                Row(children: [Expanded(child: _status(store))]),
+                Row(
+                  children: [
+                    Expanded(child: _status(store)),
+                    SizedBox(width: 10),
+                    Expanded(child: _type(store)),
+                  ],
+                ),
                 SizedBox(height: 10),
                 Row(
                   children: [
@@ -199,6 +207,30 @@ class _AccountsReceiveFilters extends State<AccountsReceiveFilters> {
       color: AppColors.mustard,
       text: context.l10n.common_clear_filters,
       onPressed: () => store.clearFilters(),
+    );
+  }
+
+  Widget _type(AccountsReceivableStore store) {
+    AccountsReceivableType? type;
+    try {
+      type = AccountsReceivableType.values.firstWhere(
+        (e) => e.apiValue == store.state.filter.type,
+      );
+    } catch (e) {
+      type = null;
+    }
+
+    return Dropdown(
+      label: context.l10n.common_type,
+      initialValue: type?.friendlyName,
+      items:
+          AccountsReceivableType.values
+              .map((type) => type.friendlyName)
+              .toList(),
+      onChanged: (value) {
+        print(value);
+        store.setType(value);
+      },
     );
   }
 }

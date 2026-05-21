@@ -5,6 +5,7 @@ class AccountsReceivableFilterModel {
   String? endDate;
   String? status;
   String? debtor;
+  String? type;
 
   AccountsReceivableFilterModel({
     this.perPage = 20,
@@ -13,6 +14,7 @@ class AccountsReceivableFilterModel {
     this.endDate,
     this.status,
     this.debtor,
+    this.type,
   });
 
   AccountsReceivableFilterModel.init()
@@ -21,7 +23,8 @@ class AccountsReceivableFilterModel {
       startDate = null,
       endDate = null,
       debtor = null,
-      status = null;
+      status = null,
+      type = null;
 
   AccountsReceivableFilterModel copyWith({
     int? perPage,
@@ -30,6 +33,7 @@ class AccountsReceivableFilterModel {
     String? endDate,
     String? status,
     String? debtor,
+    String? type,
   }) {
     return AccountsReceivableFilterModel(
       page: page ?? this.page,
@@ -38,6 +42,7 @@ class AccountsReceivableFilterModel {
       endDate: endDate ?? this.endDate,
       status: status ?? this.status,
       debtor: debtor ?? this.debtor,
+      type: type ?? this.type,
     );
   }
 
@@ -49,6 +54,7 @@ class AccountsReceivableFilterModel {
       'endDate': endDate,
       'status': status,
       'debtor': debtor,
+      'type': type,
     };
   }
 }

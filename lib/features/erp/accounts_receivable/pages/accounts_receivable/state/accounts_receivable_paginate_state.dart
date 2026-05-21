@@ -32,6 +32,7 @@ class AccountsReceivablePaginateState {
     String? status,
     String? debtor,
     //String? memberId,
+    String? type,
   }) {
     return AccountsReceivablePaginateState(
       makeRequest: makeRequest ?? this.makeRequest,
@@ -43,6 +44,7 @@ class AccountsReceivablePaginateState {
         endDate: endDate,
         status: status,
         debtor: debtor,
+        type: type,
         //  memberId: memberId,
       ),
     );

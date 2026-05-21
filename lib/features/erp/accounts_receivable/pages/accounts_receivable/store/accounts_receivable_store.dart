@@ -1,5 +1,5 @@
-import 'package:gloria_finance/features/erp/accounts_receivable/pages/accounts_receivable/state/accounts_receivable_paginate_state.dart';
 import 'package:flutter/material.dart';
+import 'package:gloria_finance/features/erp/accounts_receivable/pages/accounts_receivable/state/accounts_receivable_paginate_state.dart';
 
 import '../../../accounts_receivable_service.dart';
 import '../../../models/index.dart';
@@ -33,6 +33,17 @@ class AccountsReceivableStore extends ChangeNotifier {
 
   void setPerPage(int perPage) {
     state = state.copyWith(perPage: perPage);
+  }
+
+  void setType(String type) {
+    print("Setting type: $type");
+    final v = AccountsReceivableType.values.firstWhere(
+      (e) => e.friendlyName == type,
+    );
+    print("Found type: ${v.toString()}");
+
+    state = state.copyWith(type: v.toString().split('.').last);
+    notifyListeners();
   }
 
   void nextPage() {
