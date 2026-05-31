@@ -1,9 +1,10 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:gloria_finance/core/app_http.dart';
 import 'package:gloria_finance/core/paginate/paginate_response.dart';
 import 'package:gloria_finance/features/auth/auth_persistence.dart';
-import 'package:dio/dio.dart';
+import 'package:gloria_finance/features/erp/home/models/dashboard_loans_model.dart';
 
 import 'models/index.dart';
 
@@ -116,6 +117,23 @@ class AccountsReceivableService extends AppHttp {
         data: declaration.toFormData(),
         options: Options(headers: bearerToken()),
       );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<DashboardLoanModel> getDashboardLoans() async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.get(
+        '${await getUrlApi()}account-receivable/dashboard-data',
+        options: Options(headers: bearerToken()),
+      );
+
+      return DashboardLoanModel.fromJson(response.data);
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;

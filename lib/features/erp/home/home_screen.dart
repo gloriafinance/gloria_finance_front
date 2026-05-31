@@ -1,11 +1,13 @@
-import 'package:gloria_finance/core/theme/app_fonts.dart';
-import 'package:gloria_finance/core/theme/app_color.dart';
-import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
-import 'package:gloria_finance/features/erp/trends/widgets/trend_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
+import 'package:gloria_finance/core/utils/general.dart';
+import 'package:gloria_finance/features/erp/home/widgets/availability_account_cards.dart';
+import 'package:gloria_finance/features/erp/trends/widgets/trend_widget.dart';
 import 'package:go_router/go_router.dart';
 
-import 'widgets/availability_account_cards.dart';
+import 'widgets/financial_commitments.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,8 +25,38 @@ class _HomeScreenState extends State<HomeScreen> {
         _buildHeader(),
         const SizedBox(height: 20),
         _buildSupportCard(context),
+
         const SizedBox(height: 32),
+
+        !isMobile(context) ? _desktopLayout() : _mobileLayout(),
+      ],
+    );
+  }
+
+  Widget _desktopLayout() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Expanded(flex: 5, child: AvailabilityAccountCards()),
+            const SizedBox(width: 40),
+            Expanded(child: const FinancialCommitments()),
+          ],
+        ),
+        // AvailabilityAccountCards(),
+        const SizedBox(height: 40),
+        const TrendWidget(),
+      ],
+    );
+  }
+
+  Widget _mobileLayout() {
+    return Column(
+      children: [
         AvailabilityAccountCards(),
+        const SizedBox(height: 40),
+        FinancialCommitments(),
         const SizedBox(height: 40),
         const TrendWidget(),
       ],
@@ -60,30 +92,31 @@ class _HomeScreenState extends State<HomeScreen> {
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: AppColors.purple.withValues(alpha: 0.18)),
       ),
-      child: isCompact
-          ? Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _supportCardLead(),
-                const SizedBox(height: 16),
-                FilledButton.icon(
-                  onPressed: () => context.go('/support-assistant'),
-                  icon: const Icon(Icons.open_in_new),
-                  label: Text(context.l10n.support_assistant_open_screen),
-                ),
-              ],
-            )
-          : Row(
-              children: [
-                Expanded(child: _supportCardLead()),
-                const SizedBox(width: 16),
-                FilledButton.icon(
-                  onPressed: () => context.go('/support-assistant'),
-                  icon: const Icon(Icons.open_in_new),
-                  label: Text(context.l10n.support_assistant_open_screen),
-                ),
-              ],
-            ),
+      child:
+          isCompact
+              ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _supportCardLead(),
+                  const SizedBox(height: 16),
+                  FilledButton.icon(
+                    onPressed: () => context.go('/support-assistant'),
+                    icon: const Icon(Icons.open_in_new),
+                    label: Text(context.l10n.support_assistant_open_screen),
+                  ),
+                ],
+              )
+              : Row(
+                children: [
+                  Expanded(child: _supportCardLead()),
+                  const SizedBox(width: 16),
+                  FilledButton.icon(
+                    onPressed: () => context.go('/support-assistant'),
+                    icon: const Icon(Icons.open_in_new),
+                    label: Text(context.l10n.support_assistant_open_screen),
+                  ),
+                ],
+              ),
     );
   }
 

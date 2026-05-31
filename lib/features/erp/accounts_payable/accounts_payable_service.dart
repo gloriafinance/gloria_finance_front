@@ -1,7 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:gloria_finance/core/app_http.dart';
 import 'package:gloria_finance/core/paginate/paginate_response.dart';
 import 'package:gloria_finance/features/auth/auth_persistence.dart';
-import 'package:dio/dio.dart';
+import 'package:gloria_finance/features/erp/home/models/dashboard_account_payable_model.dart';
 
 import 'models/accounts_payable_filter_model.dart';
 import 'models/accounts_payable_model.dart';
@@ -63,6 +64,22 @@ class AccountsPayableService extends AppHttp {
       );
 
       return response.data;
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<DashboardAccountPayableModel> getDashboardAccountsPayable() async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+    try {
+      final response = await http.get(
+        '${await getUrlApi()}account-payable/dashboard-data',
+        options: Options(headers: bearerToken()),
+      );
+
+      return DashboardAccountPayableModel.fromJson(response.data);
     } on DioException catch (e) {
       transformResponse(e.response?.data);
       rethrow;
