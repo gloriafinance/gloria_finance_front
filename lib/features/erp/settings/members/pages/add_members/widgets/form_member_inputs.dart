@@ -128,27 +128,30 @@ Widget birthdate(BuildContext context, FormMemberStore formStore) {
 
 Widget status(BuildContext context, FormMemberStore formStore) {
   final l10n = AppLocalizations.of(context)!;
-  final items = <MemberStatus, String>{
-    MemberStatus.approved: l10n.member_register_status_approved,
-    MemberStatus.inactive: l10n.member_register_status_inactive,
-  };
 
-  return DropdownButtonFormField<MemberStatus>(
-    value: formStore.state.status,
-    decoration: InputDecoration(
-      labelText: l10n.member_register_status_label,
-      border: const OutlineInputBorder(),
-    ),
-    items:
-        items.entries.map((entry) {
-          return DropdownMenuItem<MemberStatus>(
-            value: entry.key,
-            child: Text(entry.value),
-          );
-        }).toList(),
+  final items = [
+    MemberStatus.approved.value,
+    MemberStatus.inactive.value,
+    MemberStatus.pendingReview.value,
+  ];
+
+  String labelFor(String value) {
+    return switch (value) {
+      'APPROVED' => l10n.member_register_status_approved,
+      'INACTIVE' => l10n.member_register_status_inactive,
+      'PENDING_REVIEW' => l10n.member_register_status_pending_review,
+      _ => value,
+    };
+  }
+
+  return Dropdown(
+    label: l10n.member_register_status_label,
+    items: items,
+    initialValue: formStore.state.status.value,
+    itemLabelBuilder: labelFor,
     onChanged: (value) {
       if (value != null) {
-        formStore.setStatus(value);
+        formStore.setStatus(MemberStatus.fromString(value));
       }
     },
   );
