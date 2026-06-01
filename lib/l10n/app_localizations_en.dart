@@ -3205,6 +3205,47 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_list_action_register => 'Register new member';
 
   @override
+  String get member_registration_link_button => 'Invite members';
+
+  @override
+  String get member_registration_link_title => 'Member registration';
+
+  @override
+  String get member_registration_link_description => 'Share this link with church members so they can register or update their information.';
+
+  @override
+  String get member_registration_link_church_label => 'Church';
+
+  @override
+  String get member_registration_link_review_note => 'Submitted records will remain pending review by the church administration.';
+
+  @override
+  String get member_registration_link_copy_button => 'Copy link';
+
+  @override
+  String get member_registration_link_whatsapp_button => 'Share on WhatsApp';
+
+  @override
+  String get member_registration_link_close_button => 'Close';
+
+  @override
+  String get member_registration_link_copied => 'Link copied';
+
+  @override
+  String get member_registration_link_error_permission => 'You do not have permission to generate the registration link.';
+
+  @override
+  String get member_registration_link_error_generic => 'Could not generate the link. Please try again.';
+
+  @override
+  String get member_registration_link_loading => 'Loading...';
+
+  @override
+  String member_registration_link_whatsapp_message(String registrationUrl) {
+    return 'Praise the Lord.\n\nWe are updating the church member registry.\n\nPlease complete your information using this link:\n$registrationUrl\n\nAfter submitting, the church administration will review the information.';
+  }
+
+  @override
   String get member_list_empty => 'No members registered.';
 
   @override
