@@ -3175,13 +3175,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String get member_register_birthdate_label => 'Data de nascimento';
 
   @override
-  String get member_register_active_label => 'Ativo?';
+  String get member_register_status_label => 'Status';
 
   @override
-  String get member_register_yes => 'Sim';
+  String get member_register_status_approved => 'Ativo';
 
   @override
-  String get member_register_no => 'Não';
+  String get member_register_status_inactive => 'Inativo';
+
+  @override
+  String get member_register_status_pending_review => 'Pendente de revisão';
 
   @override
   String get validation_required => 'O campo é obrigatório';
@@ -3217,16 +3220,19 @@ class AppLocalizationsPt extends AppLocalizations {
   String get member_list_header_birthdate => 'Data de nascimento';
 
   @override
-  String get member_list_header_active => 'Ativo?';
+  String get member_list_header_status => 'Status';
 
   @override
   String get member_list_action_edit => 'Editar';
 
   @override
-  String get member_list_status_yes => 'Sim';
+  String get member_list_status_approved => 'Ativo';
 
   @override
-  String get member_list_status_no => 'Não';
+  String get member_list_status_inactive => 'Inativo';
+
+  @override
+  String get member_list_status_pending_review => 'Pendente de revisão';
 
   @override
   String get trends_main_card_revenue_title => 'Receita Bruta';

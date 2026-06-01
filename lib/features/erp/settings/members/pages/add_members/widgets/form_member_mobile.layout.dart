@@ -31,7 +31,7 @@ Widget formMemberMobileLayout(BuildContext context, FormMemberStore formStore) {
           Expanded(child: baptismDate(context, formStore)),
         ],
       ),
-      Row(children: [Expanded(child: active(context, formStore))]),
+      Row(children: [Expanded(child: status(context, formStore))]),
     ],
   );
 }

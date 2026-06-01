@@ -1,3 +1,5 @@
+import 'member_status.dart';
+
 String? _readStringOrNull(Map<String, dynamic> json, List<String> keys) {
   for (final key in keys) {
     final value = json[key];
@@ -54,7 +56,7 @@ class MemberModel {
   String birthdate;
   bool isMinister;
   bool isTreasurer;
-  bool active = true;
+  MemberStatus status;
 
   // Church church;
   // Region region;
@@ -70,7 +72,7 @@ class MemberModel {
     required this.birthdate,
     required this.isMinister,
     required this.isTreasurer,
-    required this.active,
+    required this.status,
     required this.address
     // required this.church,
     // required this.region,
@@ -88,7 +90,7 @@ class MemberModel {
       birthdate: json['birthdate'],
       isMinister: json['isMinister'],
       isTreasurer: json['isTreasurer'] ?? false,
-      active: json['active'] ?? true,
+      status: MemberStatus.fromString(json['status']),
       address: _buildAddress(json),
       //church: Church.fromJson(json['church']),
       //region: Region.fromJson(json['region']),
@@ -107,7 +109,7 @@ class MemberModel {
       'birthdate': birthdate,
       'isMinister': isMinister,
       'isTreasurer': isTreasurer,
-      'active': active,
+      'status': status.value,
       'address': address,
       // 'church': church.toJson(),
       // 'region': region.toJson(),

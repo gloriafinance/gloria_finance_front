@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import '../../../../../../../../l10n/app_localizations.dart';
 
+import '../../../models/member_status.dart';
 import '../../../validator/form_member_validator.dart';
 import '../store/form_member_store.dart';
 
@@ -125,41 +126,30 @@ Widget birthdate(BuildContext context, FormMemberStore formStore) {
   );
 }
 
-Widget active(BuildContext context, FormMemberStore formStore) {
+Widget status(BuildContext context, FormMemberStore formStore) {
   final l10n = AppLocalizations.of(context)!;
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        l10n.member_register_active_label,
-        style: const TextStyle(fontSize: 16),
-      ),
-      const SizedBox(height: 8),
-      Row(
-        children: [
-          Radio<bool>(
-            value: true,
-            groupValue: formStore.state.active,
-            onChanged: (value) {
-              if (value != null) {
-                formStore.setActive(value);
-              }
-            },
-          ),
-          Text(l10n.member_register_yes),
-          const SizedBox(width: 16),
-          Radio<bool>(
-            value: false,
-            groupValue: formStore.state.active,
-            onChanged: (value) {
-              if (value != null) {
-                formStore.setActive(value);
-              }
-            },
-          ),
-          Text(l10n.member_register_no),
-        ],
-      ),
-    ],
+  final items = <MemberStatus, String>{
+    MemberStatus.approved: l10n.member_register_status_approved,
+    MemberStatus.inactive: l10n.member_register_status_inactive,
+  };
+
+  return DropdownButtonFormField<MemberStatus>(
+    value: formStore.state.status,
+    decoration: InputDecoration(
+      labelText: l10n.member_register_status_label,
+      border: const OutlineInputBorder(),
+    ),
+    items:
+        items.entries.map((entry) {
+          return DropdownMenuItem<MemberStatus>(
+            value: entry.key,
+            child: Text(entry.value),
+          );
+        }).toList(),
+    onChanged: (value) {
+      if (value != null) {
+        formStore.setStatus(value);
+      }
+    },
   );
 }

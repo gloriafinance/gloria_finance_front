@@ -6241,23 +6241,17 @@ abstract class AppLocalizations {
   /// **'Birthdate'**
   String get member_register_birthdate_label;
 
-  /// No description provided for @member_register_active_label.
-  ///
-  /// In en, this message translates to:
-  /// **'Active?'**
-  String get member_register_active_label;
+  /// No description provided for @member_register_status_label.
+  String get member_register_status_label;
 
-  /// No description provided for @member_register_yes.
-  ///
-  /// In en, this message translates to:
-  /// **'Yes'**
-  String get member_register_yes;
+  /// No description provided for @member_register_status_approved.
+  String get member_register_status_approved;
 
-  /// No description provided for @member_register_no.
-  ///
-  /// In en, this message translates to:
-  /// **'No'**
-  String get member_register_no;
+  /// No description provided for @member_register_status_inactive.
+  String get member_register_status_inactive;
+
+  /// No description provided for @member_register_status_pending_review.
+  String get member_register_status_pending_review;
 
   /// No description provided for @validation_required.
   ///
@@ -6325,11 +6319,8 @@ abstract class AppLocalizations {
   /// **'Birthdate'**
   String get member_list_header_birthdate;
 
-  /// No description provided for @member_list_header_active.
-  ///
-  /// In en, this message translates to:
-  /// **'Active?'**
-  String get member_list_header_active;
+  /// No description provided for @member_list_header_status.
+  String get member_list_header_status;
 
   /// No description provided for @member_list_action_edit.
   ///
@@ -6337,17 +6328,14 @@ abstract class AppLocalizations {
   /// **'Edit'**
   String get member_list_action_edit;
 
-  /// No description provided for @member_list_status_yes.
-  ///
-  /// In en, this message translates to:
-  /// **'Yes'**
-  String get member_list_status_yes;
+  /// No description provided for @member_list_status_approved.
+  String get member_list_status_approved;
 
-  /// No description provided for @member_list_status_no.
-  ///
-  /// In en, this message translates to:
-  /// **'No'**
-  String get member_list_status_no;
+  /// No description provided for @member_list_status_inactive.
+  String get member_list_status_inactive;
+
+  /// No description provided for @member_list_status_pending_review.
+  String get member_list_status_pending_review;
 
   /// No description provided for @trends_main_card_revenue_title.
   ///

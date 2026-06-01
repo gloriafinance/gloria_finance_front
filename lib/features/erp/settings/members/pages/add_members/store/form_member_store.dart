@@ -1,4 +1,5 @@
 import 'package:gloria_finance/features/erp/settings/members/models/member_model.dart';
+import 'package:gloria_finance/features/erp/settings/members/models/member_status.dart';
 import 'package:gloria_finance/features/erp/settings/members/pages/add_members/state/form_member_state.dart';
 import 'package:flutter/material.dart';
 
@@ -50,8 +51,8 @@ class FormMemberStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setActive(bool active) {
-    state = state.copyWith(active: active);
+  void setStatus(MemberStatus status) {
+    state = state.copyWith(status: status);
     notifyListeners();
   }
 

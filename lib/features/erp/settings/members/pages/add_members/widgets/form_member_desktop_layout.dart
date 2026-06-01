@@ -40,7 +40,7 @@ Widget formMemberDesktopLayout(
             width: 216,
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 25),
-              child: active(context, formStore),
+              child: status(context, formStore),
             ),
           ),
         ],

@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import 'package:gloria_finance/l10n/app_localizations.dart';
 import '../../../models/member_model.dart';
+import '../../../models/member_status.dart';
 import '../../../store/member_paginate_store.dart';
 
 class MemberTable extends StatefulWidget {
@@ -47,7 +48,7 @@ class _MemberTableState extends State<MemberTable> {
         AppLocalizations.of(context)!.member_list_header_email,
         AppLocalizations.of(context)!.member_list_header_phone,
         AppLocalizations.of(context)!.member_list_header_birthdate,
-        AppLocalizations.of(context)!.member_list_header_active,
+        AppLocalizations.of(context)!.member_list_header_status,
       ],
       data: FactoryDataTable<MemberModel>(
         data: state.paginate.results,
@@ -81,15 +82,24 @@ class _MemberTableState extends State<MemberTable> {
   }
 
   List<dynamic> memberDTO(dynamic member, AppLocalizations l10n) {
+    final color = switch (member.status) {
+      MemberStatus.approved => Colors.green,
+      MemberStatus.inactive => Colors.red,
+      MemberStatus.pendingReview => Colors.orange,
+      _ => Colors.grey,
+    };
+    final label = switch (member.status) {
+      MemberStatus.approved => l10n.member_list_status_approved,
+      MemberStatus.inactive => l10n.member_list_status_inactive,
+      MemberStatus.pendingReview => l10n.member_list_status_pending_review,
+      _ => member.status.value,
+    };
     return [
       member.name,
       member.email,
       member.phone,
       member.birthdate,
-      //member.active ? "Sim" : "Nāo",
-      member.active
-          ? tagStatus(Colors.green, l10n.member_list_status_yes)
-          : tagStatus(Colors.red, l10n.member_list_status_no),
+      tagStatus(color, label),
     ];
   }
 

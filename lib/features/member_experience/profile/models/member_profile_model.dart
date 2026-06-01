@@ -1,3 +1,5 @@
+import 'package:gloria_finance/features/erp/settings/members/models/member_status.dart';
+
 class MemberProfileModel {
   final String memberId;
   final String name;
@@ -9,7 +11,7 @@ class MemberProfileModel {
   final String baptismDate;
   final String birthdate;
   final MemberProfileChurchModel? church;
-  final bool active;
+  final MemberStatus status;
 
   MemberProfileModel({
     required this.memberId,
@@ -22,7 +24,7 @@ class MemberProfileModel {
     required this.baptismDate,
     required this.birthdate,
     this.church,
-    required this.active,
+    required this.status,
   });
 
   factory MemberProfileModel.fromJson(Map<String, dynamic> json) {
@@ -40,7 +42,7 @@ class MemberProfileModel {
           json['church'] != null
               ? MemberProfileChurchModel.fromJson(json['church'])
               : null,
-      active: json['active'] ?? false,
+      status: MemberStatus.fromString(json['status']),
     );
   }
 }

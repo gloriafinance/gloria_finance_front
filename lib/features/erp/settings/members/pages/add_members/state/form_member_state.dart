@@ -1,6 +1,7 @@
 import 'package:gloria_finance/core/utils/date_formatter.dart';
 
 import '../../../models/member_model.dart';
+import '../../../models/member_status.dart';
 
 class FormMemberState {
   String? memberId;
@@ -11,7 +12,7 @@ class FormMemberState {
   String conversionDate;
   String? baptismDate;
   String birthdate;
-  bool active;
+  MemberStatus status;
   bool makeRequest;
 
   FormMemberState({
@@ -24,13 +25,13 @@ class FormMemberState {
     required this.conversionDate,
     this.baptismDate,
     required this.birthdate,
-    required this.active,
+    required this.status,
   });
 
   factory FormMemberState.init() {
     return FormMemberState(
       makeRequest: false,
-      active: true,
+      status: MemberStatus.approved,
       memberId: null,
       name: '',
       email: '',
@@ -52,7 +53,7 @@ class FormMemberState {
       conversionDate: member.conversionDate,
       baptismDate: member.baptismDate,
       birthdate: member.birthdate,
-      active: member.active,
+      status: member.status,
     );
   }
 
@@ -66,7 +67,7 @@ class FormMemberState {
     String? baptismDate,
     String? birthdate,
     bool? makeRequest,
-    bool? active,
+    MemberStatus? status,
   }) {
     return FormMemberState(
       memberId: memberId ?? this.memberId,
@@ -77,7 +78,7 @@ class FormMemberState {
       conversionDate: conversionDate ?? this.conversionDate,
       baptismDate: baptismDate ?? this.baptismDate,
       birthdate: birthdate ?? this.birthdate,
-      active: active ?? this.active,
+      status: status ?? this.status,
       makeRequest: makeRequest ?? this.makeRequest,
     );
   }
@@ -91,7 +92,7 @@ class FormMemberState {
       'conversionDate': convertDateFormat(conversionDate),
       'baptismDate': convertDateFormat(baptismDate),
       'birthdate': convertDateFormat(birthdate),
-      'active': active,
+      'status': status.value,
       'isTreasurer': false,
     };
 
