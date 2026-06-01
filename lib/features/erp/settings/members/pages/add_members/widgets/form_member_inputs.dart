@@ -129,17 +129,26 @@ Widget birthdate(BuildContext context, FormMemberStore formStore) {
 Widget status(BuildContext context, FormMemberStore formStore) {
   final l10n = AppLocalizations.of(context)!;
 
+  // Administrative form only allows APPROVED and INACTIVE.
+  // PENDING_REVIEW is reserved for the future self-registration flow.
+  if (formStore.state.status == MemberStatus.pendingReview) {
+    return Input(
+      label: l10n.member_register_status_label,
+      initialValue: l10n.member_register_status_pending_review,
+      onChanged: (value) {},
+      readOnly: true,
+    );
+  }
+
   final items = [
     MemberStatus.approved.value,
     MemberStatus.inactive.value,
-    MemberStatus.pendingReview.value,
   ];
 
   String labelFor(String value) {
     return switch (value) {
       'APPROVED' => l10n.member_register_status_approved,
       'INACTIVE' => l10n.member_register_status_inactive,
-      'PENDING_REVIEW' => l10n.member_register_status_pending_review,
       _ => value,
     };
   }

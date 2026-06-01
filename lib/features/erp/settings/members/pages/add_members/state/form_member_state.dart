@@ -84,7 +84,7 @@ class FormMemberState {
   }
 
   Map<String, dynamic> toJson() {
-    final payload = {
+    final payload = <String, dynamic>{
       'name': name,
       'email': email,
       'phone': phone,
@@ -92,9 +92,14 @@ class FormMemberState {
       'conversionDate': convertDateFormat(conversionDate),
       'baptismDate': convertDateFormat(baptismDate),
       'birthdate': convertDateFormat(birthdate),
-      'status': status.value,
       'isTreasurer': false,
     };
+
+    // Administrative update only sends APPROVED or INACTIVE.
+    // PENDING_REVIEW is reserved for the self-registration flow.
+    if (status != MemberStatus.pendingReview) {
+      payload['status'] = status.value;
+    }
 
     if (memberId != null) {
       payload['memberId'] = memberId!;
