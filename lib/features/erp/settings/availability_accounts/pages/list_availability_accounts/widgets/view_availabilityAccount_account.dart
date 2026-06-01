@@ -16,7 +16,7 @@ class ViewAvailabilityAccount extends StatelessWidget {
     final l10n = context.l10n;
     final accountType = AccountTypeExtension.fromApiValue(account.accountType);
     final activeLabel =
-        account.active ? l10n.member_list_status_yes : l10n.member_list_status_no;
+        account.active ? l10n.settings_church_profile_status_active : l10n.settings_church_profile_status_inactive;
 
     return Card(
       color: Colors.white,

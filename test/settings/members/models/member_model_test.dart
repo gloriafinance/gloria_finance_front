@@ -14,7 +14,7 @@ void main() {
         'birthdate': '1990-05-10',
         'isMinister': false,
         'isTreasurer': false,
-        'active': true,
+        'status': 'APPROVED',
         'address': 'Rua das Flores, 100',
       });
 
@@ -34,7 +34,7 @@ void main() {
           'birthdate': '1985-07-22',
           'isMinister': true,
           'isTreasurer': false,
-          'active': true,
+          'status': 'APPROVED',
           'addressStreet': 'Avenida Central',
           'addressNumber': '250',
           'addressComplement': 'Bloco B',
@@ -50,5 +50,60 @@ void main() {
         );
       },
     );
+
+    test('parses APPROVED status', () {
+      final member = MemberModel.fromJson({
+        'memberId': 'm-003',
+        'name': 'João',
+        'email': 'joao@example.com',
+        'phone': '5511999999999',
+        'dni': '00000000000',
+        'conversionDate': '2021-01-01',
+        'birthdate': '2000-01-01',
+        'isMinister': false,
+        'isTreasurer': false,
+        'status': 'APPROVED',
+        'address': '',
+      });
+
+      expect(member.status.value, 'APPROVED');
+    });
+
+    test('throws on invalid status', () {
+      expect(
+        () => MemberModel.fromJson({
+          'memberId': 'm-004',
+          'name': 'Invalid',
+          'email': 'invalid@example.com',
+          'phone': '5511999999999',
+          'dni': '00000000000',
+          'conversionDate': '2021-01-01',
+          'birthdate': '2000-01-01',
+          'isMinister': false,
+          'isTreasurer': false,
+          'status': 'UNKNOWN',
+          'address': '',
+        }),
+        throwsA(isA<ArgumentError>()),
+      );
+    });
+
+    test('throws on missing status', () {
+      expect(
+        () => MemberModel.fromJson({
+          'memberId': 'm-005',
+          'name': 'Missing',
+          'email': 'missing@example.com',
+          'phone': '5511999999999',
+          'dni': '00000000000',
+          'conversionDate': '2021-01-01',
+          'birthdate': '2000-01-01',
+          'isMinister': false,
+          'isTreasurer': false,
+          'address': '',
+        }),
+        throwsA(isA<ArgumentError>()),
+      );
+    });
   });
 }

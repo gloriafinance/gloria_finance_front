@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import '../../../../../../../../l10n/app_localizations.dart';
 
+import '../../../models/member_status.dart';
 import '../../../validator/form_member_validator.dart';
 import '../store/form_member_store.dart';
 
@@ -125,41 +126,42 @@ Widget birthdate(BuildContext context, FormMemberStore formStore) {
   );
 }
 
-Widget active(BuildContext context, FormMemberStore formStore) {
+Widget status(BuildContext context, FormMemberStore formStore) {
   final l10n = AppLocalizations.of(context)!;
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        l10n.member_register_active_label,
-        style: const TextStyle(fontSize: 16),
-      ),
-      const SizedBox(height: 8),
-      Row(
-        children: [
-          Radio<bool>(
-            value: true,
-            groupValue: formStore.state.active,
-            onChanged: (value) {
-              if (value != null) {
-                formStore.setActive(value);
-              }
-            },
-          ),
-          Text(l10n.member_register_yes),
-          const SizedBox(width: 16),
-          Radio<bool>(
-            value: false,
-            groupValue: formStore.state.active,
-            onChanged: (value) {
-              if (value != null) {
-                formStore.setActive(value);
-              }
-            },
-          ),
-          Text(l10n.member_register_no),
-        ],
-      ),
-    ],
+
+  // Administrative form only allows APPROVED and INACTIVE.
+  // PENDING_REVIEW is reserved for the future self-registration flow.
+  if (formStore.state.status == MemberStatus.pendingReview) {
+    return Input(
+      label: l10n.member_register_status_label,
+      initialValue: l10n.member_register_status_pending_review,
+      onChanged: (value) {},
+      readOnly: true,
+    );
+  }
+
+  final items = [
+    MemberStatus.approved.value,
+    MemberStatus.inactive.value,
+  ];
+
+  String labelFor(String value) {
+    return switch (value) {
+      'APPROVED' => l10n.member_register_status_approved,
+      'INACTIVE' => l10n.member_register_status_inactive,
+      _ => value,
+    };
+  }
+
+  return Dropdown(
+    label: l10n.member_register_status_label,
+    items: items,
+    initialValue: formStore.state.status.value,
+    itemLabelBuilder: labelFor,
+    onChanged: (value) {
+      if (value != null) {
+        formStore.setStatus(MemberStatus.fromString(value));
+      }
+    },
   );
 }
