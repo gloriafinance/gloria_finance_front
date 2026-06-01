@@ -1342,6 +1342,26 @@
   "validation_invalid_cpf": "CPF inválido",
   "member_list_title": "Listagem de membros",
   "member_list_action_register": "Registrar novo membro",
+  "member_registration_link_button": "Convidar membros",
+  "member_registration_link_title": "Registro de membros",
+  "member_registration_link_description": "Compartilhe este link com os membros da igreja para que possam registrar ou atualizar seus dados.",
+  "member_registration_link_church_label": "Igreja",
+  "member_registration_link_review_note": "Os registros enviados pelos membros ficarão pendentes de revisão pela administração da igreja.",
+  "member_registration_link_copy_button": "Copiar link",
+  "member_registration_link_whatsapp_button": "Compartilhar pelo WhatsApp",
+  "member_registration_link_close_button": "Fechar",
+  "member_registration_link_copied": "Link copiado",
+  "member_registration_link_error_permission": "Você não tem permissão para gerar o link de cadastro.",
+  "member_registration_link_error_generic": "Não foi possível gerar o link. Tente novamente.",
+  "member_registration_link_loading": "Carregando...",
+  "member_registration_link_whatsapp_message": "A paz do Senhor.\n\nEstamos atualizando o cadastro de membros da igreja.\n\nPor favor, preencha seus dados neste link:\n{registrationUrl}\n\nDepois do envio, a administração da igreja revisará as informações.",
+  "@member_registration_link_whatsapp_message": {
+    "placeholders": {
+      "registrationUrl": {
+        "type": "String"
+      }
+    }
+  },
   "member_list_empty": "Não há membros cadastrados.",
   "member_list_header_name": "Nome",
   "member_list_header_email": "Email",

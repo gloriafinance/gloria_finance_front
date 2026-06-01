@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:gloria_finance/l10n/app_localizations.dart';
 
 import '../../store/member_paginate_store.dart';
+import '../../store/member_registration_link_store.dart';
+import 'widgets/member_registration_link_dialog.dart';
 import 'widgets/member_table.dart';
 
 class MembersScreen extends StatelessWidget {
@@ -48,7 +50,9 @@ class MembersScreen extends StatelessWidget {
   }
 
   Widget _buttons(BuildContext context) {
-    return Row(
+    return Wrap(
+      alignment: WrapAlignment.end,
+      spacing: 8,
       children: [
         ButtonActionTable(
           color: AppColors.purple,
@@ -56,7 +60,23 @@ class MembersScreen extends StatelessWidget {
           onPressed: () => GoRouter.of(context).go('/member/add'),
           icon: Icons.add_reaction_outlined,
         ),
+        ButtonActionTable(
+          color: AppColors.purple,
+          text: AppLocalizations.of(context)!.member_registration_link_button,
+          onPressed: () => _showRegistrationLinkDialog(context),
+          icon: Icons.person_add_alt_1_outlined,
+        ),
       ],
+    );
+  }
+
+  void _showRegistrationLinkDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => ChangeNotifierProvider(
+        create: (_) => MemberRegistrationLinkStore()..load(),
+        child: const MemberRegistrationLinkDialog(),
+      ),
     );
   }
 }

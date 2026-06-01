@@ -6289,6 +6289,45 @@ abstract class AppLocalizations {
   /// **'Register new member'**
   String get member_list_action_register;
 
+  /// No description provided for @member_registration_link_button.
+  String get member_registration_link_button;
+
+  /// No description provided for @member_registration_link_title.
+  String get member_registration_link_title;
+
+  /// No description provided for @member_registration_link_description.
+  String get member_registration_link_description;
+
+  /// No description provided for @member_registration_link_church_label.
+  String get member_registration_link_church_label;
+
+  /// No description provided for @member_registration_link_review_note.
+  String get member_registration_link_review_note;
+
+  /// No description provided for @member_registration_link_copy_button.
+  String get member_registration_link_copy_button;
+
+  /// No description provided for @member_registration_link_whatsapp_button.
+  String get member_registration_link_whatsapp_button;
+
+  /// No description provided for @member_registration_link_close_button.
+  String get member_registration_link_close_button;
+
+  /// No description provided for @member_registration_link_copied.
+  String get member_registration_link_copied;
+
+  /// No description provided for @member_registration_link_error_permission.
+  String get member_registration_link_error_permission;
+
+  /// No description provided for @member_registration_link_error_generic.
+  String get member_registration_link_error_generic;
+
+  /// No description provided for @member_registration_link_loading.
+  String get member_registration_link_loading;
+
+  /// No description provided for @member_registration_link_whatsapp_message.
+  String member_registration_link_whatsapp_message(String registrationUrl);
+
   /// No description provided for @member_list_empty.
   ///
   /// In en, this message translates to:

@@ -3205,6 +3205,47 @@ class AppLocalizationsEs extends AppLocalizations {
   String get member_list_action_register => 'Registrar nuevo miembro';
 
   @override
+  String get member_registration_link_button => 'Invitar miembros';
+
+  @override
+  String get member_registration_link_title => 'Registro de miembros';
+
+  @override
+  String get member_registration_link_description => 'Comparte este enlace con los miembros de la iglesia para que puedan registrar o actualizar sus datos.';
+
+  @override
+  String get member_registration_link_church_label => 'Iglesia';
+
+  @override
+  String get member_registration_link_review_note => 'Los registros enviados por los miembros quedarán pendientes de revisión por la administración de la iglesia.';
+
+  @override
+  String get member_registration_link_copy_button => 'Copiar link';
+
+  @override
+  String get member_registration_link_whatsapp_button => 'Compartir por WhatsApp';
+
+  @override
+  String get member_registration_link_close_button => 'Cerrar';
+
+  @override
+  String get member_registration_link_copied => 'Link copiado';
+
+  @override
+  String get member_registration_link_error_permission => 'No tienes permiso para generar el link de registro.';
+
+  @override
+  String get member_registration_link_error_generic => 'No fue posible generar el link. Intenta nuevamente.';
+
+  @override
+  String get member_registration_link_loading => 'Cargando...';
+
+  @override
+  String member_registration_link_whatsapp_message(String registrationUrl) {
+    return 'Paz del Señor.\n\nEstamos actualizando el registro de miembros de la iglesia.\n\nPor favor completa tus datos en este enlace:\n$registrationUrl\n\nDespués de enviar, la administración de la iglesia revisará la información.';
+  }
+
+  @override
   String get member_list_empty => 'No hay miembros registrados.';
 
   @override
