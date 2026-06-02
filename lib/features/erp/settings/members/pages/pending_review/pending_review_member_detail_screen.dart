@@ -10,9 +10,10 @@ import 'package:gloria_finance/l10n/app_localizations.dart';
 
 import '../../models/member_model.dart';
 import '../../store/pending_review_member_detail_store.dart';
+import '../../widgets/detail/member_detail_layout.dart';
+import '../../widgets/detail/member_detail_support.dart';
 import 'widgets/pending_review_member_detail_actions.dart';
 import 'widgets/pending_review_member_detail_header.dart';
-import 'widgets/pending_review_member_detail_layout.dart';
 
 class PendingReviewMemberDetailScreen extends StatelessWidget {
   final String memberId;
@@ -24,8 +25,7 @@ class PendingReviewMemberDetailScreen extends StatelessWidget {
     Toast.init(context);
 
     return ChangeNotifierProvider(
-      create:
-          (_) => PendingReviewMemberDetailStore(memberId: memberId)..load(),
+      create: (_) => PendingReviewMemberDetailStore(memberId: memberId)..load(),
       child: const _PendingReviewMemberDetailView(),
     );
   }
@@ -64,7 +64,7 @@ class _PendingReviewMemberDetailView extends StatelessWidget {
               else if (state.member == null)
                 _errorState(state.error ?? l10n.member_pending_review_not_found)
               else
-                _reviewCard(context, store, state.member!, mobile),
+                _reviewCard(context, store, state.member!, mobile, l10n),
             ],
           ),
         ),
@@ -77,8 +77,14 @@ class _PendingReviewMemberDetailView extends StatelessWidget {
     PendingReviewMemberDetailStore store,
     MemberModel member,
     bool mobile,
+    AppLocalizations l10n,
   ) {
-    final l10n = AppLocalizations.of(context)!;
+    final labels = _pendingReviewLabels(l10n);
+    final statusBadge = memberDetailStatusBadge(
+      label: l10n.member_list_status_pending_review,
+      background: const Color(0xFFFFF1D6),
+      foreground: const Color(0xFF9A6700),
+    );
 
     return Container(
       width: double.infinity,
@@ -98,7 +104,12 @@ class _PendingReviewMemberDetailView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            PendingReviewMemberDetailLayout(member: member, mobile: mobile),
+            MemberDetailLayout(
+              member: member,
+              mobile: mobile,
+              labels: labels,
+              statusBadge: statusBadge,
+            ),
             const SizedBox(height: 24),
             const Divider(height: 1, color: Color(0xFFE5E7EB)),
             const SizedBox(height: 20),
@@ -111,6 +122,34 @@ class _PendingReviewMemberDetailView extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  MemberDetailLabels _pendingReviewLabels(AppLocalizations l10n) {
+    return MemberDetailLabels(
+      personalInfoTitle: l10n.member_pending_review_section_personal,
+      addressTitle: l10n.member_pending_review_field_address,
+      registrationTitle: l10n.member_pending_review_section_registration,
+      lgpdTitle: l10n.member_pending_review_lgpd_section_title,
+      notInformedLabel: l10n.member_pending_review_not_informed,
+      photoUnavailableLabel: l10n.member_pending_review_photo_unavailable,
+      nameLabel: l10n.member_list_header_name,
+      phoneLabel: l10n.member_list_header_phone,
+      emailLabel: l10n.member_list_header_email,
+      dniLabel: l10n.member_register_dni_label,
+      birthdateLabel: l10n.member_register_birthdate_label,
+      genderLabel: l10n.member_pending_review_field_gender,
+      conversionDateLabel: l10n.member_register_conversion_date_label,
+      baptismDateLabel: l10n.member_register_baptism_date_label,
+      createdAtLabel: l10n.member_pending_review_header_created_at,
+      churchLabel: l10n.member_registration_link_church_label,
+      statusLabel: l10n.member_list_header_status,
+      addressFieldLabel: l10n.member_pending_review_field_address,
+      lgpdYesLabel: l10n.member_pending_review_lgpd_yes,
+      lgpdNoLabel: l10n.member_pending_review_lgpd_no,
+      lgpdNotInformedLabel: l10n.member_pending_review_lgpd_not_informed,
+      lgpdSourceLabel: l10n.member_pending_review_lgpd_source_label,
+      lgpdAcceptedMessage: l10n.member_pending_review_lgpd_accepted_message,
     );
   }
 

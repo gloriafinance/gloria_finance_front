@@ -4812,4 +4812,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get member_registration_invalid_token => 'The registration link is invalid or has expired.';
+
+  @override
+  String get member_view_action => 'View';
+
+  @override
+  String get member_view_title => 'View member';
+
+  @override
+  String get member_view_description => 'Check the information registered for this member.';
+
+  @override
+  String get member_view_back => 'Back';
+
+  @override
+  String get member_view_edit => 'Edit member';
+
+  @override
+  String get member_view_personal_info => 'Personal information';
+
+  @override
+  String get member_view_address => 'Address';
+
+  @override
+  String get member_view_registration_info => 'Registration details';
+
+  @override
+  String get member_view_lgpd => 'LGPD consent';
+
+  @override
+  String get member_view_not_informed => 'Not informed';
+
+  @override
+  String get member_view_status_active => 'Active';
+
+  @override
+  String get member_view_status_inactive => 'Inactive';
+
+  @override
+  String get member_view_status_pending_review => 'Under review';
+
+  @override
+  String get member_view_photo_not_available => 'Photo not available';
+
+  @override
+  String get member_view_load_error => 'Could not load the member data.';
 }

@@ -4812,4 +4812,49 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get member_registration_invalid_token => 'El enlace de registro es inválido o ha expirado.';
+
+  @override
+  String get member_view_action => 'Ver';
+
+  @override
+  String get member_view_title => 'Ver miembro';
+
+  @override
+  String get member_view_description => 'Consulta la información registrada de este miembro.';
+
+  @override
+  String get member_view_back => 'Volver';
+
+  @override
+  String get member_view_edit => 'Editar miembro';
+
+  @override
+  String get member_view_personal_info => 'Información personal';
+
+  @override
+  String get member_view_address => 'Dirección';
+
+  @override
+  String get member_view_registration_info => 'Datos del registro';
+
+  @override
+  String get member_view_lgpd => 'Consentimiento LGPD';
+
+  @override
+  String get member_view_not_informed => 'No informado';
+
+  @override
+  String get member_view_status_active => 'Activo';
+
+  @override
+  String get member_view_status_inactive => 'Inactivo';
+
+  @override
+  String get member_view_status_pending_review => 'En revisión';
+
+  @override
+  String get member_view_photo_not_available => 'Foto no disponible';
+
+  @override
+  String get member_view_load_error => 'No fue posible cargar los datos del miembro.';
 }
