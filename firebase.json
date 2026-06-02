@@ -3,10 +3,24 @@
     "public": "build/web",
     "ignore": [
       "firebase.json",
-      "**/.*",
       "**/node_modules/**"
     ],
+    "headers": [
+      {
+        "source": "/.well-known/*",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ]
+      }
+    ],
     "rewrites": [
+      {
+        "source": "/.well-known/**",
+        "destination": "/.well-known/:splat"
+      },
       {
         "source": "**",
         "destination": "/index.html"

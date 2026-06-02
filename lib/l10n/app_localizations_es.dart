@@ -4608,4 +4608,106 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get support_assistant_intent_general_support => 'Soporte general';
+
+  @override
+  String get member_registration_title => 'Registro de miembro';
+
+  @override
+  String get member_registration_description => 'Completa tus datos para que la administración de la iglesia pueda revisar tu registro.';
+
+  @override
+  String get member_registration_add_photo => 'Agregar foto';
+
+  @override
+  String get member_registration_change_photo => 'Cambiar foto';
+
+  @override
+  String get member_registration_photo_required => 'La foto de perfil es obligatoria.';
+
+  @override
+  String get member_registration_photo_too_large => 'La foto debe tener como máximo 3 MB.';
+
+  @override
+  String get member_registration_photo_hint => 'La foto ayuda a la iglesia a identificarte.';
+
+  @override
+  String get member_registration_full_name => 'Nombre completo *';
+
+  @override
+  String get member_registration_full_name_required => 'Ingresa el nombre completo.';
+
+  @override
+  String get member_registration_phone => 'Teléfono *';
+
+  @override
+  String get member_registration_phone_required => 'Ingresa el teléfono.';
+
+  @override
+  String get member_registration_email_optional => 'Correo electrónico';
+
+  @override
+  String get member_registration_email_invalid => 'Correo electrónico inválido.';
+
+  @override
+  String get member_registration_dni_optional => 'DNI / Documento';
+
+  @override
+  String get member_registration_birthdate_optional => 'Fecha de nacimiento';
+
+  @override
+  String get member_registration_gender_optional => 'Género';
+
+  @override
+  String get member_registration_gender_male => 'Masculino';
+
+  @override
+  String get member_registration_gender_female => 'Femenino';
+
+  @override
+  String get member_registration_gender_not_informed => 'No informado';
+
+  @override
+  String get member_registration_address_title => 'Dirección (opcional)';
+
+  @override
+  String get member_registration_address_street => 'Calle';
+
+  @override
+  String get member_registration_address_number => 'Número';
+
+  @override
+  String get member_registration_address_complement => 'Complemento';
+
+  @override
+  String get member_registration_address_district => 'Barrio';
+
+  @override
+  String get member_registration_address_city => 'Ciudad';
+
+  @override
+  String get member_registration_address_state => 'Estado';
+
+  @override
+  String get member_registration_address_zip_code => 'Código postal';
+
+  @override
+  String get member_registration_lgpd_label => 'Autorizo a la iglesia a almacenar mis datos y mi foto para fines administrativos internos relacionados con la gestión de miembros.';
+
+  @override
+  String get member_registration_lgpd_required => 'Es necesario aceptar el tratamiento de los datos.';
+
+  @override
+  String get member_registration_submit => 'Enviar registro';
+
+  @override
+  String get member_registration_submit_error => 'No fue posible enviar el registro. Intenta nuevamente.';
+
+  @override
+  String get member_registration_success_title => 'Registro enviado';
+
+  @override
+  String get member_registration_success_message => 'Tus datos fueron recibidos y quedarán pendientes de revisión por la administración de la iglesia.';
+
+  @override
+  String get member_registration_invalid_token => 'El enlace de registro es inválido o ha expirado.';
 }

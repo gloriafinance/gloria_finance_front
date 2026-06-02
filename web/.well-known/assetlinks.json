@@ -3,7 +3,7 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.gloriafinance.app",
+      "package_name": "com.gloria_finance.app",
       "sha256_cert_fingerprints": [
         "515bf2f02fd1dde3f11eb5ce1fbeefffcedebe58981ab96ca25c37a3852496f5"
       ]

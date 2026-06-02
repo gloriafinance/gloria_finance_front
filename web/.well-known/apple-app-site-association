@@ -3,7 +3,7 @@
     "apps": [],
     "details": [
       {
-        "appID": "<TEAM_ID>.com.gloriafinance.app",
+        "appID": "2CVGCT7T72.com.gloriafinance.app",
         "paths": ["/member-registration/*"]
       }
     ]

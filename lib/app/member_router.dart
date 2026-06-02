@@ -1,5 +1,8 @@
 import 'package:gloria_finance/features/auth/pages/login/store/auth_session_store.dart';
+import 'package:gloria_finance/features/member_registration/pages/member_registration_screen.dart';
+import 'package:gloria_finance/features/member_registration/store/member_registration_store.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../core/layout/member/member_shell.dart';
 import '../core/theme/transition_custom.dart';
@@ -10,9 +13,18 @@ import 'store_manager.dart';
 
 /// Puedes tener listas de rutas distintas si quieres
 const _memberPublicRoutes = ['/', '/recovery-password'];
+const _memberPublicPrefixes = ['/member-registration/'];
 const _memberPolicyRoutes = ['/policy-acceptance'];
 
 AuthSessionStore get _memberAuthStore => StoreManager().authSessionStore;
+
+bool _isMemberPublicRoute(String location) {
+  if (_memberPublicRoutes.contains(location)) return true;
+  for (final prefix in _memberPublicPrefixes) {
+    if (location.startsWith(prefix)) return true;
+  }
+  return false;
+}
 
 final GoRouter memberRouter = GoRouter(
   initialLocation: '/',
@@ -26,7 +38,7 @@ final GoRouter memberRouter = GoRouter(
     // If not initialized yet, don't redirect (wait)
     if (!isInitialized) return null;
 
-    if (_memberPublicRoutes.contains(currentLocation)) {
+    if (_isMemberPublicRoute(currentLocation)) {
       return null;
     }
 
@@ -49,6 +61,20 @@ final GoRouter memberRouter = GoRouter(
   },
   routes: [
     ...authRouters(),
+
+    GoRoute(
+      path: '/member-registration/:token',
+      pageBuilder: (context, state) {
+        final token = state.pathParameters['token']!;
+        return transitionCustom(
+          ChangeNotifierProvider(
+            create: (_) => MemberRegistrationStore(),
+            child: MemberRegistrationScreen(token: token),
+          ),
+        );
+      },
+    ),
+
     ShellRoute(
       builder: (context, state, child) {
         return MemberShell(child: child);
