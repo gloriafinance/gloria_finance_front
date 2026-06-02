@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/index.dart';
+import 'package:gloria_finance/core/widgets/custom_button.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -73,15 +74,22 @@ class _ViewMemberView extends StatelessWidget {
             children: [
               ViewMemberHeader(mobile: mobile, statusBadge: statusBadge),
               const SizedBox(height: 24),
-              if (state.loading && member == null)
+              if (state.loading)
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 64),
                   child: Center(child: CircularProgressIndicator()),
                 )
-              else if (member == null)
-                _errorState(state.error ?? l10n.member_view_load_error)
+              else if (state.error != null)
+                _errorState(
+                  context,
+                  l10n,
+                  state.error ?? l10n.member_view_load_error,
+                  onRetry: store.load,
+                )
+              else if (member != null)
+                _detailCard(context, member, mobile, l10n, statusBadge!)
               else
-                _detailCard(context, member, mobile, l10n, statusBadge!),
+                const SizedBox.shrink(),
             ],
           ),
         ),
@@ -168,22 +176,55 @@ class _ViewMemberView extends StatelessWidget {
     );
   }
 
-  Widget _errorState(String message) {
+  Widget _errorState(
+    BuildContext context,
+    AppLocalizations l10n,
+    String message, {
+    required Future<void> Function() onRetry,
+  }) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: const Color(0xFFE5E7EB)),
       ),
-      child: Text(
-        message,
-        style: const TextStyle(
-          fontFamily: AppFonts.fontSubTitle,
-          fontSize: 15,
-          color: AppColors.black,
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: 56,
+            height: 56,
+            decoration: const BoxDecoration(
+              color: Color(0xFFFEECEC),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.error_outline,
+              color: Color(0xFFB42318),
+              size: 32,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            message,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontFamily: AppFonts.fontSubTitle,
+              fontSize: 15,
+              color: AppColors.black,
+            ),
+          ),
+          const SizedBox(height: 20),
+          CustomButton(
+            text: l10n.common_retry,
+            backgroundColor: AppColors.purple,
+            textColor: Colors.white,
+            icon: Icons.refresh,
+            onPressed: onRetry,
+          ),
+        ],
       ),
     );
   }
