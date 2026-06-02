@@ -1,3 +1,5 @@
+import 'package:gloria_finance/core/utils/date_formatter.dart';
+
 import 'member_status.dart';
 
 String? _readStringOrNull(Map<String, dynamic> json, List<String> keys) {
@@ -24,7 +26,8 @@ String _buildAddress(Map<String, dynamic> json) {
       rawAddress is Map<String, dynamic> ? rawAddress : <String, dynamic>{};
 
   String? readAddressField(List<String> keys) {
-    return _readStringOrNull(addressJson, keys) ?? _readStringOrNull(json, keys);
+    return _readStringOrNull(addressJson, keys) ??
+        _readStringOrNull(json, keys);
   }
 
   final directAddress =
@@ -42,19 +45,17 @@ String _buildAddress(Map<String, dynamic> json) {
   final state = readAddressField(['addressState', 'state']);
   final zipCode = readAddressField(['addressZipCode', 'zipCode', 'postalCode']);
 
-  final cityState = [
-    if (city != null) city,
-    if (state != null) state,
-  ];
+  final cityState = [if (city != null) city, if (state != null) state];
 
-  final segments = [
-    street,
-    number,
-    complement,
-    district,
-    if (cityState.isNotEmpty) cityState.join('/'),
-    zipCode,
-  ].whereType<String>().toList();
+  final segments =
+      [
+        street,
+        number,
+        complement,
+        district,
+        if (cityState.isNotEmpty) cityState.join('/'),
+        zipCode,
+      ].whereType<String>().toList();
 
   return segments.isEmpty ? '' : segments.join(', ');
 }
@@ -67,6 +68,12 @@ bool? _readBoolOrNull(Map<String, dynamic> json, List<String> keys) {
     }
   }
   return null;
+}
+
+String? _normalizeOptionalDate(dynamic value) {
+  if (value == null) return null;
+  final normalized = convertDateFormatToDDMMYYYY(value);
+  return normalized.isEmpty ? null : normalized;
 }
 
 class MemberModel {
@@ -115,9 +122,9 @@ class MemberModel {
       email: json['email'] ?? '',
       phone: json['phone'] ?? '',
       dni: json['dni'] ?? '',
-      conversionDate: json['conversionDate'] ?? '',
-      baptismDate: _readStringOrNull(json, ['baptismDate']),
-      birthdate: json['birthdate'] ?? '',
+      conversionDate: convertDateFormatToDDMMYYYY(json['conversionDate']),
+      baptismDate: _normalizeOptionalDate(json['baptismDate']),
+      birthdate: convertDateFormatToDDMMYYYY(json['birthdate']),
       isMinister: json['isMinister'] ?? false,
       isTreasurer: json['isTreasurer'] ?? false,
       status: MemberStatus.fromString(json['status']),
@@ -143,9 +150,10 @@ class MemberModel {
       'email': email,
       'phone': phone,
       'dni': dni,
-      'conversionDate': conversionDate,
-      'baptismDate': baptismDate,
-      'birthdate': birthdate,
+      'conversionDate': convertDateFormat(conversionDate),
+      'baptismDate':
+          baptismDate == null ? null : convertDateFormat(baptismDate),
+      'birthdate': convertDateFormat(birthdate),
       'isMinister': isMinister,
       'isTreasurer': isTreasurer,
       'status': status.value,
@@ -163,23 +171,14 @@ class Church {
   String name;
   String churchId;
 
-  Church({
-    required this.name,
-    required this.churchId,
-  });
+  Church({required this.name, required this.churchId});
 
   factory Church.fromJson(Map<String, dynamic> json) {
-    return Church(
-      name: json['name'],
-      churchId: json['churchId'],
-    );
+    return Church(name: json['name'], churchId: json['churchId']);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'churchId': churchId,
-    };
+    return {'name': name, 'churchId': churchId};
   }
 }
 
@@ -188,11 +187,7 @@ class LgpdConsentInfo {
   String? acceptedAt;
   String? source;
 
-  LgpdConsentInfo({
-    required this.accepted,
-    this.acceptedAt,
-    this.source,
-  });
+  LgpdConsentInfo({required this.accepted, this.acceptedAt, this.source});
 
   factory LgpdConsentInfo.fromJson(Map<String, dynamic> json) {
     return LgpdConsentInfo(
@@ -203,11 +198,7 @@ class LgpdConsentInfo {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'accepted': accepted,
-      'acceptedAt': acceptedAt,
-      'source': source,
-    };
+    return {'accepted': accepted, 'acceptedAt': acceptedAt, 'source': source};
   }
 }
 
@@ -216,11 +207,7 @@ class Region {
   String name;
   DateTime createdAt;
 
-  Region({
-    required this.regionId,
-    required this.name,
-    required this.createdAt,
-  });
+  Region({required this.regionId, required this.name, required this.createdAt});
 
   factory Region.fromJson(Map<String, dynamic> json) {
     return Region(
