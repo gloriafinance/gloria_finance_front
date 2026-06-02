@@ -1,7 +1,10 @@
 import 'package:gloria_finance/app/store_manager.dart';
 import 'package:gloria_finance/features/erp/home/home_screen.dart';
 import 'package:gloria_finance/features/erp/router.dart';
+import 'package:gloria_finance/features/member_registration/pages/member_registration_screen.dart';
+import 'package:gloria_finance/features/member_registration/store/member_registration_store.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../core/layout/erp/erp_shell.dart';
 import '../core/theme/transition_custom.dart';
@@ -11,11 +14,22 @@ import '../features/auth/pages/login/store/auth_session_store.dart';
 /// Routes that don't require authentication
 const _publicRoutes = ['/', '/recovery-password'];
 
+/// Public dynamic route prefixes
+const _publicPrefixes = ['/member-registration/'];
+
 /// Routes related to policy acceptance
 const _policyRoutes = ['/policy-acceptance'];
 
 /// Get the AuthSessionStore instance from StoreManager
 AuthSessionStore get _authStore => StoreManager().authSessionStore;
+
+bool _isPublicRoute(String location) {
+  if (_publicRoutes.contains(location)) return true;
+  for (final prefix in _publicPrefixes) {
+    if (location.startsWith(prefix)) return true;
+  }
+  return false;
+}
 
 final GoRouter erpRouter = GoRouter(
   initialLocation: '/',
@@ -30,7 +44,7 @@ final GoRouter erpRouter = GoRouter(
     if (!isInitialized) return null;
 
     // Allow public routes without authentication - don't redirect away from them
-    if (_publicRoutes.contains(currentLocation)) {
+    if (_isPublicRoute(currentLocation)) {
       return null;
     }
 
@@ -57,6 +71,19 @@ final GoRouter erpRouter = GoRouter(
   },
   routes: [
     ...authRouters(),
+
+    GoRoute(
+      path: '/member-registration/:token',
+      pageBuilder: (context, state) {
+        final token = state.pathParameters['token']!;
+        return transitionCustom(
+          ChangeNotifierProvider(
+            create: (_) => MemberRegistrationStore(),
+            child: MemberRegistrationScreen(token: token),
+          ),
+        );
+      },
+    ),
 
     ShellRoute(
       builder: (context, state, child) {

@@ -50,6 +50,8 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>to take a profile photo during member registration.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>to attach and manage media files for contributions or records.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

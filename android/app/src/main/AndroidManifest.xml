@@ -29,6 +29,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="https"
+                    android:host="app.gloriafinance.com.br"
+                    android:pathPrefix="/member-registration" />
+            </intent-filter>
+
         </activity>
 
         <activity
@@ -99,6 +109,9 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     
+    <!-- Permiso de cámara -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <!-- Permiso de Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
 

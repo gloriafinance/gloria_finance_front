@@ -35,5 +35,5 @@ class MemberRegistrationLinkModel {
   }
 
   String get registrationUrl =>
-      'https://gloriafinance.com.br$registrationPath';
+      'https://app.gloriafinance.com.br$registrationPath';
 }

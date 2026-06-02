@@ -6242,15 +6242,27 @@ abstract class AppLocalizations {
   String get member_register_birthdate_label;
 
   /// No description provided for @member_register_status_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
   String get member_register_status_label;
 
   /// No description provided for @member_register_status_approved.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
   String get member_register_status_approved;
 
   /// No description provided for @member_register_status_inactive.
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive'**
   String get member_register_status_inactive;
 
   /// No description provided for @member_register_status_pending_review.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending review'**
   String get member_register_status_pending_review;
 
   /// No description provided for @validation_required.
@@ -6290,42 +6302,81 @@ abstract class AppLocalizations {
   String get member_list_action_register;
 
   /// No description provided for @member_registration_link_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite members'**
   String get member_registration_link_button;
 
   /// No description provided for @member_registration_link_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Member registration'**
   String get member_registration_link_title;
 
   /// No description provided for @member_registration_link_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Share this link with church members so they can register or update their information.'**
   String get member_registration_link_description;
 
   /// No description provided for @member_registration_link_church_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Church'**
   String get member_registration_link_church_label;
 
   /// No description provided for @member_registration_link_review_note.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitted records will remain pending review by the church administration.'**
   String get member_registration_link_review_note;
 
   /// No description provided for @member_registration_link_copy_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
   String get member_registration_link_copy_button;
 
   /// No description provided for @member_registration_link_whatsapp_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Share on WhatsApp'**
   String get member_registration_link_whatsapp_button;
 
   /// No description provided for @member_registration_link_close_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
   String get member_registration_link_close_button;
 
   /// No description provided for @member_registration_link_copied.
+  ///
+  /// In en, this message translates to:
+  /// **'Link copied'**
   String get member_registration_link_copied;
 
   /// No description provided for @member_registration_link_error_permission.
+  ///
+  /// In en, this message translates to:
+  /// **'You do not have permission to generate the registration link.'**
   String get member_registration_link_error_permission;
 
   /// No description provided for @member_registration_link_error_generic.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not generate the link. Please try again.'**
   String get member_registration_link_error_generic;
 
   /// No description provided for @member_registration_link_loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
   String get member_registration_link_loading;
 
   /// No description provided for @member_registration_link_whatsapp_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Praise the Lord.\n\nWe are updating the church member registry.\n\nPlease complete your information using this link:\n{registrationUrl}\n\nAfter submitting, the church administration will review the information.'**
   String member_registration_link_whatsapp_message(String registrationUrl);
 
   /// No description provided for @member_list_empty.
@@ -6359,6 +6410,9 @@ abstract class AppLocalizations {
   String get member_list_header_birthdate;
 
   /// No description provided for @member_list_header_status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
   String get member_list_header_status;
 
   /// No description provided for @member_list_action_edit.
@@ -6368,12 +6422,21 @@ abstract class AppLocalizations {
   String get member_list_action_edit;
 
   /// No description provided for @member_list_status_approved.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
   String get member_list_status_approved;
 
   /// No description provided for @member_list_status_inactive.
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive'**
   String get member_list_status_inactive;
 
   /// No description provided for @member_list_status_pending_review.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending review'**
   String get member_list_status_pending_review;
 
   /// No description provided for @trends_main_card_revenue_title.
@@ -8991,6 +9054,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'General support'**
   String get support_assistant_intent_general_support;
+
+  /// No description provided for @member_registration_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Member registration'**
+  String get member_registration_title;
+
+  /// No description provided for @member_registration_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in your details so the church administration can review your registration.'**
+  String get member_registration_description;
+
+  /// No description provided for @member_registration_add_photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Add photo'**
+  String get member_registration_add_photo;
+
+  /// No description provided for @member_registration_change_photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Change photo'**
+  String get member_registration_change_photo;
+
+  /// No description provided for @member_registration_photo_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile photo is required.'**
+  String get member_registration_photo_required;
+
+  /// No description provided for @member_registration_photo_too_large.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo must be at most 3 MB.'**
+  String get member_registration_photo_too_large;
+
+  /// No description provided for @member_registration_photo_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'The photo helps the church identify you.'**
+  String get member_registration_photo_hint;
+
+  /// No description provided for @member_registration_full_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name *'**
+  String get member_registration_full_name;
+
+  /// No description provided for @member_registration_full_name_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name is required.'**
+  String get member_registration_full_name_required;
+
+  /// No description provided for @member_registration_phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone *'**
+  String get member_registration_phone;
+
+  /// No description provided for @member_registration_phone_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone is required.'**
+  String get member_registration_phone_required;
+
+  /// No description provided for @member_registration_email_optional.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get member_registration_email_optional;
+
+  /// No description provided for @member_registration_email_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email.'**
+  String get member_registration_email_invalid;
+
+  /// No description provided for @member_registration_dni_optional.
+  ///
+  /// In en, this message translates to:
+  /// **'ID / Document'**
+  String get member_registration_dni_optional;
+
+  /// No description provided for @member_registration_birthdate_optional.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of birth'**
+  String get member_registration_birthdate_optional;
+
+  /// No description provided for @member_registration_gender_optional.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender'**
+  String get member_registration_gender_optional;
+
+  /// No description provided for @member_registration_gender_male.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get member_registration_gender_male;
+
+  /// No description provided for @member_registration_gender_female.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get member_registration_gender_female;
+
+  /// No description provided for @member_registration_gender_not_informed.
+  ///
+  /// In en, this message translates to:
+  /// **'Not informed'**
+  String get member_registration_gender_not_informed;
+
+  /// No description provided for @member_registration_address_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Address (optional)'**
+  String get member_registration_address_title;
+
+  /// No description provided for @member_registration_address_street.
+  ///
+  /// In en, this message translates to:
+  /// **'Street'**
+  String get member_registration_address_street;
+
+  /// No description provided for @member_registration_address_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Number'**
+  String get member_registration_address_number;
+
+  /// No description provided for @member_registration_address_complement.
+  ///
+  /// In en, this message translates to:
+  /// **'Complement'**
+  String get member_registration_address_complement;
+
+  /// No description provided for @member_registration_address_district.
+  ///
+  /// In en, this message translates to:
+  /// **'District'**
+  String get member_registration_address_district;
+
+  /// No description provided for @member_registration_address_city.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get member_registration_address_city;
+
+  /// No description provided for @member_registration_address_state.
+  ///
+  /// In en, this message translates to:
+  /// **'State'**
+  String get member_registration_address_state;
+
+  /// No description provided for @member_registration_address_zip_code.
+  ///
+  /// In en, this message translates to:
+  /// **'Zip code'**
+  String get member_registration_address_zip_code;
+
+  /// No description provided for @member_registration_lgpd_label.
+  ///
+  /// In en, this message translates to:
+  /// **'I authorize the church to store my data and photo for internal administrative purposes related to member management.'**
+  String get member_registration_lgpd_label;
+
+  /// No description provided for @member_registration_lgpd_required.
+  ///
+  /// In en, this message translates to:
+  /// **'You must agree to the data processing.'**
+  String get member_registration_lgpd_required;
+
+  /// No description provided for @member_registration_submit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit registration'**
+  String get member_registration_submit;
+
+  /// No description provided for @member_registration_submit_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not submit registration. Please try again.'**
+  String get member_registration_submit_error;
+
+  /// No description provided for @member_registration_success_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration submitted'**
+  String get member_registration_success_title;
+
+  /// No description provided for @member_registration_success_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Your information has been received and will remain pending review by the church administration.'**
+  String get member_registration_success_message;
+
+  /// No description provided for @member_registration_invalid_token.
+  ///
+  /// In en, this message translates to:
+  /// **'The registration link is invalid or has expired.'**
+  String get member_registration_invalid_token;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

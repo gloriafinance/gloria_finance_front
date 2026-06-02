@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "2CVGCT7T72.com.gloriafinance.app",
+        "paths": ["/member-registration/*"]
+      }
+    ]
+  }
+}
