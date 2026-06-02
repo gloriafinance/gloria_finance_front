@@ -105,14 +105,14 @@ class _PendingReviewMemberDetailView extends StatelessWidget {
           children: [
             buildTitle(l10n.member_pending_review_detail_card_title),
             const Divider(),
-            if (member.profilePhoto != null && member.profilePhoto!.isNotEmpty)
+            if (_photoUrl(member) != null)
               Padding(
                 padding: const EdgeInsets.only(bottom: 24),
                 child: Center(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child: Image.network(
-                      member.profilePhoto!,
+                      _photoUrl(member)!,
                       height: 220,
                       width: 220,
                       fit: BoxFit.cover,
@@ -371,5 +371,19 @@ class _PendingReviewMemberDetailView extends StatelessWidget {
     return accepted
         ? l10n.member_pending_review_lgpd_yes
         : l10n.member_pending_review_lgpd_no;
+  }
+
+  String? _photoUrl(MemberModel member) {
+    final value = member.profilePhoto;
+    if (value == null || value.isEmpty) {
+      return null;
+    }
+
+    final uri = Uri.tryParse(value);
+    if (uri == null || !uri.hasScheme || uri.host.isEmpty) {
+      return null;
+    }
+
+    return value;
   }
 }
