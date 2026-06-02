@@ -2051,5 +2051,20 @@
   "member_registration_submit_error": "Could not submit registration. Please try again.",
   "member_registration_success_title": "Registration submitted",
   "member_registration_success_message": "Your information has been received and will remain pending review by the church administration.",
-  "member_registration_invalid_token": "The registration link is invalid or has expired."
+  "member_registration_invalid_token": "The registration link is invalid or has expired.",
+  "member_view_action": "View",
+  "member_view_title": "View member",
+  "member_view_description": "Check the information registered for this member.",
+  "member_view_back": "Back",
+  "member_view_edit": "Edit member",
+  "member_view_personal_info": "Personal information",
+  "member_view_address": "Address",
+  "member_view_registration_info": "Registration details",
+  "member_view_lgpd": "LGPD consent",
+  "member_view_not_informed": "Not informed",
+  "member_view_status_active": "Active",
+  "member_view_status_inactive": "Inactive",
+  "member_view_status_pending_review": "Under review",
+  "member_view_photo_not_available": "Photo not available",
+  "member_view_load_error": "Could not load the member data."
 }

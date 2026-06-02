@@ -2051,5 +2051,20 @@
   "member_registration_submit_error": "Não foi possível enviar o cadastro. Tente novamente.",
   "member_registration_success_title": "Cadastro enviado",
   "member_registration_success_message": "Seus dados foram recebidos e ficarão pendentes de revisão pela administração da igreja.",
-  "member_registration_invalid_token": "O link de cadastro é inválido ou expirou."
+  "member_registration_invalid_token": "O link de cadastro é inválido ou expirou.",
+  "member_view_action": "Ver",
+  "member_view_title": "Ver membro",
+  "member_view_description": "Confira as informações cadastradas deste membro.",
+  "member_view_back": "Voltar",
+  "member_view_edit": "Editar membro",
+  "member_view_personal_info": "Informações pessoais",
+  "member_view_address": "Endereço",
+  "member_view_registration_info": "Dados do cadastro",
+  "member_view_lgpd": "Consentimento LGPD",
+  "member_view_not_informed": "Não informado",
+  "member_view_status_active": "Ativo",
+  "member_view_status_inactive": "Inativo",
+  "member_view_status_pending_review": "Em revisão",
+  "member_view_photo_not_available": "Foto não disponível",
+  "member_view_load_error": "Não foi possível carregar os dados do membro."
 }

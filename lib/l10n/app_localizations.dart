@@ -9450,6 +9450,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The registration link is invalid or has expired.'**
   String get member_registration_invalid_token;
+
+  /// No description provided for @member_view_action.
+  ///
+  /// In en, this message translates to:
+  /// **'View'**
+  String get member_view_action;
+
+  /// No description provided for @member_view_title.
+  ///
+  /// In en, this message translates to:
+  /// **'View member'**
+  String get member_view_title;
+
+  /// No description provided for @member_view_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the information registered for this member.'**
+  String get member_view_description;
+
+  /// No description provided for @member_view_back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get member_view_back;
+
+  /// No description provided for @member_view_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit member'**
+  String get member_view_edit;
+
+  /// No description provided for @member_view_personal_info.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal information'**
+  String get member_view_personal_info;
+
+  /// No description provided for @member_view_address.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get member_view_address;
+
+  /// No description provided for @member_view_registration_info.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration details'**
+  String get member_view_registration_info;
+
+  /// No description provided for @member_view_lgpd.
+  ///
+  /// In en, this message translates to:
+  /// **'LGPD consent'**
+  String get member_view_lgpd;
+
+  /// No description provided for @member_view_not_informed.
+  ///
+  /// In en, this message translates to:
+  /// **'Not informed'**
+  String get member_view_not_informed;
+
+  /// No description provided for @member_view_status_active.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get member_view_status_active;
+
+  /// No description provided for @member_view_status_inactive.
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive'**
+  String get member_view_status_inactive;
+
+  /// No description provided for @member_view_status_pending_review.
+  ///
+  /// In en, this message translates to:
+  /// **'Under review'**
+  String get member_view_status_pending_review;
+
+  /// No description provided for @member_view_photo_not_available.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo not available'**
+  String get member_view_photo_not_available;
+
+  /// No description provided for @member_view_load_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the member data.'**
+  String get member_view_load_error;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

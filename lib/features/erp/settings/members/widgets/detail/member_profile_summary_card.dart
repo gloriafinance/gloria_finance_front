@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
-import 'package:gloria_finance/l10n/app_localizations.dart';
 
-import '../../../models/member_model.dart';
-import 'pending_review_member_detail_support.dart';
+import '../../models/member_model.dart';
+import 'member_detail_support.dart';
 
-class PendingReviewMemberIdentityPanel extends StatelessWidget {
+class MemberProfileSummaryCard extends StatelessWidget {
   final MemberModel member;
   final bool mobile;
+  final Widget statusBadge;
+  final String photoUnavailableLabel;
 
-  const PendingReviewMemberIdentityPanel({
+  const MemberProfileSummaryCard({
     super.key,
     required this.member,
     required this.mobile,
+    required this.statusBadge,
+    required this.photoUnavailableLabel,
   });
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final photoUrl = pendingReviewPhotoUrl(member);
+    final photoUrl = memberDetailPhotoUrl(member);
     final photoSize = mobile ? 140.0 : 190.0;
 
     return Container(
@@ -48,10 +50,9 @@ class PendingReviewMemberIdentityPanel extends StatelessWidget {
                       ? Image.network(
                         photoUrl,
                         fit: BoxFit.cover,
-                        errorBuilder:
-                            (_, _, _) => _photoPlaceholder(photoSize, l10n),
+                        errorBuilder: (_, _, _) => _photoPlaceholder(photoSize),
                       )
-                      : _photoPlaceholder(photoSize, l10n),
+                      : _photoPlaceholder(photoSize),
             ),
           ),
           const SizedBox(height: 20),
@@ -73,18 +74,14 @@ class PendingReviewMemberIdentityPanel extends StatelessWidget {
           const SizedBox(height: 18),
           Align(
             alignment: mobile ? Alignment.center : Alignment.centerLeft,
-            child: pendingReviewStatusBadge(
-              label: l10n.member_list_status_pending_review,
-              background: const Color(0xFFFFF1D6),
-              foreground: const Color(0xFF9A6700),
-            ),
+            child: statusBadge,
           ),
         ],
       ),
     );
   }
 
-  Widget _photoPlaceholder(double size, AppLocalizations l10n) {
+  Widget _photoPlaceholder(double size) {
     return Container(
       color: AppColors.greyLight,
       alignment: Alignment.center,
@@ -95,7 +92,7 @@ class PendingReviewMemberIdentityPanel extends StatelessWidget {
           Icon(Icons.person_outline, size: size * 0.34, color: Colors.black45),
           const SizedBox(height: 10),
           Text(
-            l10n.member_pending_review_photo_unavailable,
+            photoUnavailableLabel,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: AppFonts.fontSubTitle,

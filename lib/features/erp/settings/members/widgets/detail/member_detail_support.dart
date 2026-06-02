@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/index.dart';
-import 'package:gloria_finance/l10n/app_localizations.dart';
 
-import '../../../models/member_model.dart';
+import '../../models/member_model.dart';
+import '../../models/member_status.dart';
 
-class PendingReviewInfoItem {
+class MemberDetailInfoItem {
   final String label;
   final String value;
   final bool fullWidth;
   final Widget? badge;
 
-  const PendingReviewInfoItem({
+  const MemberDetailInfoItem({
     required this.label,
     required this.value,
     this.fullWidth = false,
@@ -20,48 +20,74 @@ class PendingReviewInfoItem {
   });
 }
 
-String pendingReviewFormatDate(AppLocalizations l10n, String? value) {
-  if (value == null || value.isEmpty) {
-    return l10n.member_pending_review_not_informed;
-  }
+class MemberDetailLabels {
+  final String personalInfoTitle;
+  final String addressTitle;
+  final String registrationTitle;
+  final String lgpdTitle;
+  final String notInformedLabel;
+  final String photoUnavailableLabel;
+  final String nameLabel;
+  final String phoneLabel;
+  final String emailLabel;
+  final String dniLabel;
+  final String birthdateLabel;
+  final String genderLabel;
+  final String conversionDateLabel;
+  final String baptismDateLabel;
+  final String createdAtLabel;
+  final String churchLabel;
+  final String statusLabel;
+  final String addressFieldLabel;
+  final String lgpdYesLabel;
+  final String lgpdNoLabel;
+  final String lgpdNotInformedLabel;
+  final String lgpdSourceLabel;
+  final String Function(String date) lgpdAcceptedMessage;
 
-  // MemberModel normalizes birthdate/conversionDate/baptismDate to
-  // dd/MM/yyyy. Return as-is to avoid re-parsing the already-formatted
-  // string.
-  if (value.length == 10 && value[2] == '/' && value[5] == '/') {
-    return value;
-  }
+  const MemberDetailLabels({
+    required this.personalInfoTitle,
+    required this.addressTitle,
+    required this.registrationTitle,
+    required this.lgpdTitle,
+    required this.notInformedLabel,
+    required this.photoUnavailableLabel,
+    required this.nameLabel,
+    required this.phoneLabel,
+    required this.emailLabel,
+    required this.dniLabel,
+    required this.birthdateLabel,
+    required this.genderLabel,
+    required this.conversionDateLabel,
+    required this.baptismDateLabel,
+    required this.createdAtLabel,
+    required this.churchLabel,
+    required this.statusLabel,
+    required this.addressFieldLabel,
+    required this.lgpdYesLabel,
+    required this.lgpdNoLabel,
+    required this.lgpdNotInformedLabel,
+    required this.lgpdSourceLabel,
+    required this.lgpdAcceptedMessage,
+  });
+}
 
-  // Other timestamps (createdAt, lgpdConsent.acceptedAt) come as ISO 8601.
+String memberDetailFormatDate(String notInformedLabel, String? value) {
   final parsed = parseIsoDate(value);
   if (parsed == null) {
-    return l10n.member_pending_review_not_informed;
+    return notInformedLabel;
   }
   return formatDateToDDMMYYYY(parsed.toLocal());
 }
 
-String pendingReviewOrNotInformed(AppLocalizations l10n, String? value) {
+String memberDetailOrNotInformed(String notInformedLabel, String? value) {
   if (value == null || value.trim().isEmpty) {
-    return l10n.member_pending_review_not_informed;
+    return notInformedLabel;
   }
   return value;
 }
 
-String pendingReviewAddressValue(AppLocalizations l10n, String? value) {
-  if (value == null || value.trim().isEmpty) {
-    return l10n.member_pending_review_not_informed;
-  }
-  return value;
-}
-
-String pendingReviewLgpdLabel(AppLocalizations l10n, MemberModel member) {
-  final accepted = member.lgpdConsent?.accepted ?? false;
-  return accepted
-      ? l10n.member_pending_review_lgpd_yes
-      : l10n.member_pending_review_lgpd_no;
-}
-
-String? pendingReviewPhotoUrl(MemberModel member) {
+String? memberDetailPhotoUrl(MemberModel member) {
   final value = member.profilePhoto;
   if (value == null || value.isEmpty) {
     return null;
@@ -75,7 +101,7 @@ String? pendingReviewPhotoUrl(MemberModel member) {
   return value;
 }
 
-Widget pendingReviewStatusBadge({
+Widget memberDetailStatusBadge({
   required String label,
   required Color background,
   required Color foreground,
@@ -97,10 +123,32 @@ Widget pendingReviewStatusBadge({
   );
 }
 
-Widget pendingReviewSectionCard({
-  required String title,
-  required Widget child,
+Widget memberStatusBadgeFor({
+  required MemberStatus status,
+  required String activeLabel,
+  required String inactiveLabel,
+  required String pendingReviewLabel,
 }) {
+  return switch (status) {
+    MemberStatus.approved => memberDetailStatusBadge(
+      label: activeLabel,
+      background: const Color(0xFFE8F8EF),
+      foreground: const Color(0xFF0D7A43),
+    ),
+    MemberStatus.inactive => memberDetailStatusBadge(
+      label: inactiveLabel,
+      background: const Color(0xFFFEECEC),
+      foreground: const Color(0xFFB42318),
+    ),
+    MemberStatus.pendingReview => memberDetailStatusBadge(
+      label: pendingReviewLabel,
+      background: const Color(0xFFFFF1D6),
+      foreground: const Color(0xFF9A6700),
+    ),
+  };
+}
+
+Widget memberDetailSectionCard({required String title, required Widget child}) {
   return Container(
     width: double.infinity,
     padding: const EdgeInsets.all(18),
@@ -127,9 +175,9 @@ Widget pendingReviewSectionCard({
   );
 }
 
-Widget pendingReviewInfoGrid({
+Widget memberDetailInfoGrid({
   required bool mobile,
-  required List<PendingReviewInfoItem> items,
+  required List<MemberDetailInfoItem> items,
 }) {
   if (mobile) {
     return Column(
@@ -138,7 +186,7 @@ Widget pendingReviewInfoGrid({
               .map(
                 (item) => Padding(
                   padding: const EdgeInsets.only(bottom: 14),
-                  child: pendingReviewInfoTile(item),
+                  child: memberDetailInfoTile(item),
                 ),
               )
               .toList(),
@@ -154,7 +202,7 @@ Widget pendingReviewInfoGrid({
       rows.add(
         Padding(
           padding: const EdgeInsets.only(bottom: 14),
-          child: pendingReviewInfoTile(left),
+          child: memberDetailInfoTile(left),
         ),
       );
       continue;
@@ -166,14 +214,14 @@ Widget pendingReviewInfoGrid({
           padding: const EdgeInsets.only(bottom: 14),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [Expanded(child: pendingReviewInfoTile(left))],
+            children: [Expanded(child: memberDetailInfoTile(left))],
           ),
         ),
       );
       rows.add(
         Padding(
           padding: const EdgeInsets.only(bottom: 14),
-          child: pendingReviewInfoTile(right),
+          child: memberDetailInfoTile(right),
         ),
       );
       continue;
@@ -185,12 +233,12 @@ Widget pendingReviewInfoGrid({
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(child: pendingReviewInfoTile(left)),
+            Expanded(child: memberDetailInfoTile(left)),
             const SizedBox(width: 16),
             Expanded(
               child:
                   right != null
-                      ? pendingReviewInfoTile(right)
+                      ? memberDetailInfoTile(right)
                       : const SizedBox(),
             ),
           ],
@@ -202,7 +250,7 @@ Widget pendingReviewInfoGrid({
   return Column(children: rows);
 }
 
-Widget pendingReviewInfoTile(PendingReviewInfoItem item) {
+Widget memberDetailInfoTile(MemberDetailInfoItem item) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [

@@ -57,6 +57,12 @@ class _MemberTableState extends State<MemberTable> {
       ),
       actionBuilders: [
         (member) => ButtonActionTable(
+          color: AppColors.purple,
+          text: AppLocalizations.of(context)!.member_view_action,
+          onPressed: () => _goToView(context, member as MemberModel),
+          icon: Icons.visibility_outlined,
+        ),
+        (member) => ButtonActionTable(
           color: AppColors.blue,
           text: AppLocalizations.of(context)!.member_list_action_edit,
           onPressed: () => _goToEdit(context, member as MemberModel),
@@ -105,5 +111,9 @@ class _MemberTableState extends State<MemberTable> {
 
   void _goToEdit(BuildContext context, MemberModel member) {
     GoRouter.of(context).go('/member/edit/${member.memberId}', extra: member);
+  }
+
+  void _goToView(BuildContext context, MemberModel member) {
+    GoRouter.of(context).go('/member/view/${member.memberId}', extra: member);
   }
 }

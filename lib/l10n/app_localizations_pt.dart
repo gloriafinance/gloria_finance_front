@@ -4812,4 +4812,49 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get member_registration_invalid_token => 'O link de cadastro é inválido ou expirou.';
+
+  @override
+  String get member_view_action => 'Ver';
+
+  @override
+  String get member_view_title => 'Ver membro';
+
+  @override
+  String get member_view_description => 'Confira as informações cadastradas deste membro.';
+
+  @override
+  String get member_view_back => 'Voltar';
+
+  @override
+  String get member_view_edit => 'Editar membro';
+
+  @override
+  String get member_view_personal_info => 'Informações pessoais';
+
+  @override
+  String get member_view_address => 'Endereço';
+
+  @override
+  String get member_view_registration_info => 'Dados do cadastro';
+
+  @override
+  String get member_view_lgpd => 'Consentimento LGPD';
+
+  @override
+  String get member_view_not_informed => 'Não informado';
+
+  @override
+  String get member_view_status_active => 'Ativo';
+
+  @override
+  String get member_view_status_inactive => 'Inativo';
+
+  @override
+  String get member_view_status_pending_review => 'Em revisão';
+
+  @override
+  String get member_view_photo_not_available => 'Foto não disponível';
+
+  @override
+  String get member_view_load_error => 'Não foi possível carregar os dados do membro.';
 }

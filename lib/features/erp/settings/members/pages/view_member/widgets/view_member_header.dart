@@ -4,12 +4,11 @@ import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gloria_finance/l10n/app_localizations.dart';
 
-import '../../../widgets/detail/member_detail_support.dart';
-
-class PendingReviewMemberDetailHeader extends StatelessWidget {
+class ViewMemberHeader extends StatelessWidget {
   final bool mobile;
+  final Widget? statusBadge;
 
-  const PendingReviewMemberDetailHeader({super.key, required this.mobile});
+  const ViewMemberHeader({super.key, required this.mobile, this.statusBadge});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,7 @@ class PendingReviewMemberDetailHeader extends StatelessWidget {
           runSpacing: 12,
           children: [
             InkWell(
-              onTap: () => context.go('/members/pending-review'),
+              onTap: () => context.go('/members'),
               borderRadius: BorderRadius.circular(999),
               child: Container(
                 padding: const EdgeInsets.all(10),
@@ -41,23 +40,19 @@ class PendingReviewMemberDetailHeader extends StatelessWidget {
               ),
             ),
             Text(
-              l10n.member_pending_review_detail_title,
+              l10n.member_view_title,
               style: TextStyle(
                 fontFamily: AppFonts.fontTitle,
                 fontSize: mobile ? 26 : 30,
                 color: AppColors.black,
               ),
             ),
-            memberDetailStatusBadge(
-              label: l10n.member_list_status_pending_review,
-              background: const Color(0xFFFFF1D6),
-              foreground: const Color(0xFF9A6700),
-            ),
+            if (statusBadge != null) statusBadge!,
           ],
         ),
         const SizedBox(height: 12),
         Text(
-          l10n.member_pending_review_detail_subtitle,
+          l10n.member_view_description,
           style: const TextStyle(
             fontFamily: AppFonts.fontSubTitle,
             fontSize: 15,

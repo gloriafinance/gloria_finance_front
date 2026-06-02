@@ -2052,5 +2052,20 @@
   "member_registration_submit_error": "No fue posible enviar el registro. Intenta nuevamente.",
   "member_registration_success_title": "Registro enviado",
   "member_registration_success_message": "Tus datos fueron recibidos y quedarán pendientes de revisión por la administración de la iglesia.",
-  "member_registration_invalid_token": "El enlace de registro es inválido o ha expirado."
+  "member_registration_invalid_token": "El enlace de registro es inválido o ha expirado.",
+  "member_view_action": "Ver",
+  "member_view_title": "Ver miembro",
+  "member_view_description": "Consulta la información registrada de este miembro.",
+  "member_view_back": "Volver",
+  "member_view_edit": "Editar miembro",
+  "member_view_personal_info": "Información personal",
+  "member_view_address": "Dirección",
+  "member_view_registration_info": "Datos del registro",
+  "member_view_lgpd": "Consentimiento LGPD",
+  "member_view_not_informed": "No informado",
+  "member_view_status_active": "Activo",
+  "member_view_status_inactive": "Inactivo",
+  "member_view_status_pending_review": "En revisión",
+  "member_view_photo_not_available": "Foto no disponible",
+  "member_view_load_error": "No fue posible cargar los datos del miembro."
 }
