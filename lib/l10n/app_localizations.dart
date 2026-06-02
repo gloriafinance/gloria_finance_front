@@ -6487,6 +6487,12 @@ abstract class AppLocalizations {
   /// **'Pending member review'**
   String get member_pending_review_detail_card_title;
 
+  /// No description provided for @member_pending_review_detail_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review the data submitted by the member before approving or rejecting the registration.'**
+  String get member_pending_review_detail_subtitle;
+
   /// No description provided for @member_pending_review_not_found.
   ///
   /// In en, this message translates to:
@@ -6540,6 +6546,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not accepted'**
   String get member_pending_review_lgpd_no;
+
+  /// No description provided for @member_pending_review_lgpd_section_title.
+  ///
+  /// In en, this message translates to:
+  /// **'LGPD consent'**
+  String get member_pending_review_lgpd_section_title;
+
+  /// No description provided for @member_pending_review_lgpd_accepted_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Consent accepted on {date}'**
+  String member_pending_review_lgpd_accepted_message(Object date);
+
+  /// No description provided for @member_pending_review_lgpd_not_informed.
+  ///
+  /// In en, this message translates to:
+  /// **'Consent not informed'**
+  String get member_pending_review_lgpd_not_informed;
+
+  /// No description provided for @member_pending_review_lgpd_source_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get member_pending_review_lgpd_source_label;
+
+  /// No description provided for @member_pending_review_photo_unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo unavailable'**
+  String get member_pending_review_photo_unavailable;
+
+  /// No description provided for @member_pending_review_not_informed.
+  ///
+  /// In en, this message translates to:
+  /// **'Not informed'**
+  String get member_pending_review_not_informed;
 
   /// No description provided for @member_pending_review_action_approve.
   ///

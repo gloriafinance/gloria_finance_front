@@ -23,21 +23,24 @@ String _buildAddress(Map<String, dynamic> json) {
   final addressJson =
       rawAddress is Map<String, dynamic> ? rawAddress : <String, dynamic>{};
 
-  final directAddress = _readStringOrNull(addressJson, ['formattedAddress']);
+  String? readAddressField(List<String> keys) {
+    return _readStringOrNull(addressJson, keys) ?? _readStringOrNull(json, keys);
+  }
+
+  final directAddress =
+      _readStringOrNull(addressJson, ['formattedAddress']) ??
+      _readStringOrNull(json, ['formattedAddress']);
   if (directAddress != null) {
     return directAddress;
   }
 
-  final street = _readStringOrNull(addressJson, ['addressStreet', 'street']);
-  final number = _readStringOrNull(addressJson, ['addressNumber', 'number']);
-  final complement =
-      _readStringOrNull(addressJson, ['addressComplement', 'complement']);
-  final district =
-      _readStringOrNull(addressJson, ['addressDistrict', 'district']);
-  final city = _readStringOrNull(addressJson, ['addressCity', 'city']);
-  final state = _readStringOrNull(addressJson, ['addressState', 'state']);
-  final zipCode =
-      _readStringOrNull(addressJson, ['addressZipCode', 'zipCode', 'postalCode']);
+  final street = readAddressField(['addressStreet', 'street']);
+  final number = readAddressField(['addressNumber', 'number']);
+  final complement = readAddressField(['addressComplement', 'complement']);
+  final district = readAddressField(['addressDistrict', 'district']);
+  final city = readAddressField(['addressCity', 'city']);
+  final state = readAddressField(['addressState', 'state']);
+  final zipCode = readAddressField(['addressZipCode', 'zipCode', 'postalCode']);
 
   final cityState = [
     if (city != null) city,

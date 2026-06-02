@@ -1380,6 +1380,7 @@
   "member_pending_review_action_review": "Revisar",
   "member_pending_review_detail_title": "Revisar membro",
   "member_pending_review_detail_card_title": "Revisão de membro pendente",
+  "member_pending_review_detail_subtitle": "Confira os dados enviados pelo membro antes de aprovar ou rejeitar o cadastro.",
   "member_pending_review_not_found": "Membro pendente não encontrado.",
   "member_pending_review_section_personal": "Informações pessoais",
   "member_pending_review_section_registration": "Dados do cadastro",
@@ -1389,6 +1390,17 @@
   "member_pending_review_field_lgpd_accepted_at": "Consentimento aceito em",
   "member_pending_review_lgpd_yes": "Aceito",
   "member_pending_review_lgpd_no": "Não aceito",
+  "member_pending_review_lgpd_section_title": "Consentimento LGPD",
+  "member_pending_review_lgpd_accepted_message": "Consentimento aceito em {date}",
+  "@member_pending_review_lgpd_accepted_message": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "member_pending_review_lgpd_not_informed": "Consentimento não informado",
+  "member_pending_review_lgpd_source_label": "Origem",
+  "member_pending_review_photo_unavailable": "Foto não disponível",
+  "member_pending_review_not_informed": "Não informado",
   "member_pending_review_action_approve": "Aprovar",
   "member_pending_review_action_reject": "Rejeitar",
   "member_pending_review_approve_success": "Membro aprovado com sucesso.",

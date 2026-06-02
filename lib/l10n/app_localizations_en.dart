@@ -3300,6 +3300,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_pending_review_detail_card_title => 'Pending member review';
 
   @override
+  String get member_pending_review_detail_subtitle => 'Review the data submitted by the member before approving or rejecting the registration.';
+
+  @override
   String get member_pending_review_not_found => 'Pending member not found.';
 
   @override
@@ -3325,6 +3328,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get member_pending_review_lgpd_no => 'Not accepted';
+
+  @override
+  String get member_pending_review_lgpd_section_title => 'LGPD consent';
+
+  @override
+  String member_pending_review_lgpd_accepted_message(Object date) {
+    return 'Consent accepted on $date';
+  }
+
+  @override
+  String get member_pending_review_lgpd_not_informed => 'Consent not informed';
+
+  @override
+  String get member_pending_review_lgpd_source_label => 'Source';
+
+  @override
+  String get member_pending_review_photo_unavailable => 'Photo unavailable';
+
+  @override
+  String get member_pending_review_not_informed => 'Not informed';
 
   @override
   String get member_pending_review_action_approve => 'Approve';
