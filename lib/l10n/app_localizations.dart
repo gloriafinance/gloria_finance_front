@@ -6439,6 +6439,198 @@ abstract class AppLocalizations {
   /// **'Pending review'**
   String get member_list_status_pending_review;
 
+  /// No description provided for @member_pending_review_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending review'**
+  String get member_pending_review_button;
+
+  /// No description provided for @member_pending_review_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending review members'**
+  String get member_pending_review_title;
+
+  /// No description provided for @member_pending_review_back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to members'**
+  String get member_pending_review_back;
+
+  /// No description provided for @member_pending_review_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no members pending review.'**
+  String get member_pending_review_empty;
+
+  /// No description provided for @member_pending_review_header_created_at.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitted at'**
+  String get member_pending_review_header_created_at;
+
+  /// No description provided for @member_pending_review_action_review.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get member_pending_review_action_review;
+
+  /// No description provided for @member_pending_review_detail_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Review member'**
+  String get member_pending_review_detail_title;
+
+  /// No description provided for @member_pending_review_detail_card_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending member review'**
+  String get member_pending_review_detail_card_title;
+
+  /// No description provided for @member_pending_review_detail_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review the data submitted by the member before approving or rejecting the registration.'**
+  String get member_pending_review_detail_subtitle;
+
+  /// No description provided for @member_pending_review_not_found.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending member not found.'**
+  String get member_pending_review_not_found;
+
+  /// No description provided for @member_pending_review_section_personal.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal information'**
+  String get member_pending_review_section_personal;
+
+  /// No description provided for @member_pending_review_section_registration.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration details'**
+  String get member_pending_review_section_registration;
+
+  /// No description provided for @member_pending_review_field_gender.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender'**
+  String get member_pending_review_field_gender;
+
+  /// No description provided for @member_pending_review_field_address.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get member_pending_review_field_address;
+
+  /// No description provided for @member_pending_review_field_lgpd.
+  ///
+  /// In en, this message translates to:
+  /// **'LGPD consent'**
+  String get member_pending_review_field_lgpd;
+
+  /// No description provided for @member_pending_review_field_lgpd_accepted_at.
+  ///
+  /// In en, this message translates to:
+  /// **'Consent accepted at'**
+  String get member_pending_review_field_lgpd_accepted_at;
+
+  /// No description provided for @member_pending_review_lgpd_yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get member_pending_review_lgpd_yes;
+
+  /// No description provided for @member_pending_review_lgpd_no.
+  ///
+  /// In en, this message translates to:
+  /// **'Not accepted'**
+  String get member_pending_review_lgpd_no;
+
+  /// No description provided for @member_pending_review_lgpd_section_title.
+  ///
+  /// In en, this message translates to:
+  /// **'LGPD consent'**
+  String get member_pending_review_lgpd_section_title;
+
+  /// No description provided for @member_pending_review_lgpd_accepted_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Consent accepted on {date}'**
+  String member_pending_review_lgpd_accepted_message(Object date);
+
+  /// No description provided for @member_pending_review_lgpd_not_informed.
+  ///
+  /// In en, this message translates to:
+  /// **'Consent not informed'**
+  String get member_pending_review_lgpd_not_informed;
+
+  /// No description provided for @member_pending_review_lgpd_source_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get member_pending_review_lgpd_source_label;
+
+  /// No description provided for @member_pending_review_photo_unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo unavailable'**
+  String get member_pending_review_photo_unavailable;
+
+  /// No description provided for @member_pending_review_not_informed.
+  ///
+  /// In en, this message translates to:
+  /// **'Not informed'**
+  String get member_pending_review_not_informed;
+
+  /// No description provided for @member_pending_review_action_approve.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve'**
+  String get member_pending_review_action_approve;
+
+  /// No description provided for @member_pending_review_action_reject.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get member_pending_review_action_reject;
+
+  /// No description provided for @member_pending_review_approve_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Member approved successfully.'**
+  String get member_pending_review_approve_success;
+
+  /// No description provided for @member_pending_review_reject_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Member rejected successfully.'**
+  String get member_pending_review_reject_success;
+
+  /// No description provided for @member_pending_review_approve_confirm_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve member'**
+  String get member_pending_review_approve_confirm_title;
+
+  /// No description provided for @member_pending_review_reject_confirm_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject member'**
+  String get member_pending_review_reject_confirm_title;
+
+  /// No description provided for @member_pending_review_approve_confirm_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve {memberName} and enable access to the member experience?'**
+  String member_pending_review_approve_confirm_message(Object memberName);
+
+  /// No description provided for @member_pending_review_reject_confirm_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject {memberName} and permanently remove this registration?'**
+  String member_pending_review_reject_confirm_message(Object memberName);
+
   /// No description provided for @trends_main_card_revenue_title.
   ///
   /// In en, this message translates to:

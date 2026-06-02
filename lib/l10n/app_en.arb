@@ -1417,6 +1417,53 @@
   "member_list_status_approved": "Active",
   "member_list_status_inactive": "Inactive",
   "member_list_status_pending_review": "Pending review",
+  "member_pending_review_button": "Pending review",
+  "member_pending_review_title": "Pending review members",
+  "member_pending_review_back": "Back to members",
+  "member_pending_review_empty": "There are no members pending review.",
+  "member_pending_review_header_created_at": "Submitted at",
+  "member_pending_review_action_review": "Review",
+  "member_pending_review_detail_title": "Review member",
+  "member_pending_review_detail_card_title": "Pending member review",
+  "member_pending_review_detail_subtitle": "Review the data submitted by the member before approving or rejecting the registration.",
+  "member_pending_review_not_found": "Pending member not found.",
+  "member_pending_review_section_personal": "Personal information",
+  "member_pending_review_section_registration": "Registration details",
+  "member_pending_review_field_gender": "Gender",
+  "member_pending_review_field_address": "Address",
+  "member_pending_review_field_lgpd": "LGPD consent",
+  "member_pending_review_field_lgpd_accepted_at": "Consent accepted at",
+  "member_pending_review_lgpd_yes": "Accepted",
+  "member_pending_review_lgpd_no": "Not accepted",
+  "member_pending_review_lgpd_section_title": "LGPD consent",
+  "member_pending_review_lgpd_accepted_message": "Consent accepted on {date}",
+  "@member_pending_review_lgpd_accepted_message": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "member_pending_review_lgpd_not_informed": "Consent not informed",
+  "member_pending_review_lgpd_source_label": "Source",
+  "member_pending_review_photo_unavailable": "Photo unavailable",
+  "member_pending_review_not_informed": "Not informed",
+  "member_pending_review_action_approve": "Approve",
+  "member_pending_review_action_reject": "Reject",
+  "member_pending_review_approve_success": "Member approved successfully.",
+  "member_pending_review_reject_success": "Member rejected successfully.",
+  "member_pending_review_approve_confirm_title": "Approve member",
+  "member_pending_review_reject_confirm_title": "Reject member",
+  "member_pending_review_approve_confirm_message": "Approve {memberName} and enable access to the member experience?",
+  "@member_pending_review_approve_confirm_message": {
+    "placeholders": {
+      "memberName": {}
+    }
+  },
+  "member_pending_review_reject_confirm_message": "Reject {memberName} and permanently remove this registration?",
+  "@member_pending_review_reject_confirm_message": {
+    "placeholders": {
+      "memberName": {}
+    }
+  },
   "trends_main_card_revenue_title": "Gross Revenue",
   "trends_main_card_revenue_subtitle": "REVENUE",
   "trends_main_card_opex_title": "Operating Expenses",

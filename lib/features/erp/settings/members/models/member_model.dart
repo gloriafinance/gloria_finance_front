@@ -12,20 +12,35 @@ String? _readStringOrNull(Map<String, dynamic> json, List<String> keys) {
 }
 
 String _buildAddress(Map<String, dynamic> json) {
-  final directAddress = _readStringOrNull(json, ['address']);
+  final rawAddress = json['address'];
+  if (rawAddress is String) {
+    final directAddress = rawAddress.trim();
+    if (directAddress.isNotEmpty && directAddress != 'null') {
+      return directAddress;
+    }
+  }
+
+  final addressJson =
+      rawAddress is Map<String, dynamic> ? rawAddress : <String, dynamic>{};
+
+  String? readAddressField(List<String> keys) {
+    return _readStringOrNull(addressJson, keys) ?? _readStringOrNull(json, keys);
+  }
+
+  final directAddress =
+      _readStringOrNull(addressJson, ['formattedAddress']) ??
+      _readStringOrNull(json, ['formattedAddress']);
   if (directAddress != null) {
     return directAddress;
   }
 
-  final street = _readStringOrNull(json, ['addressStreet', 'street']);
-  final number = _readStringOrNull(json, ['addressNumber', 'number']);
-  final complement =
-      _readStringOrNull(json, ['addressComplement', 'complement']);
-  final district = _readStringOrNull(json, ['addressDistrict', 'district']);
-  final city = _readStringOrNull(json, ['addressCity', 'city']);
-  final state = _readStringOrNull(json, ['addressState', 'state']);
-  final zipCode =
-      _readStringOrNull(json, ['addressZipCode', 'zipCode', 'postalCode']);
+  final street = readAddressField(['addressStreet', 'street']);
+  final number = readAddressField(['addressNumber', 'number']);
+  final complement = readAddressField(['addressComplement', 'complement']);
+  final district = readAddressField(['addressDistrict', 'district']);
+  final city = readAddressField(['addressCity', 'city']);
+  final state = readAddressField(['addressState', 'state']);
+  final zipCode = readAddressField(['addressZipCode', 'zipCode', 'postalCode']);
 
   final cityState = [
     if (city != null) city,
@@ -44,6 +59,16 @@ String _buildAddress(Map<String, dynamic> json) {
   return segments.isEmpty ? '' : segments.join(', ');
 }
 
+bool? _readBoolOrNull(Map<String, dynamic> json, List<String> keys) {
+  for (final key in keys) {
+    final value = json[key];
+    if (value is bool) {
+      return value;
+    }
+  }
+  return null;
+}
+
 class MemberModel {
   String memberId;
   String name;
@@ -57,9 +82,11 @@ class MemberModel {
   bool isMinister;
   bool isTreasurer;
   MemberStatus status;
-
-  // Church church;
-  // Region region;
+  String? createdAt;
+  String? profilePhoto;
+  String? gender;
+  Church? church;
+  LgpdConsentInfo? lgpdConsent;
 
   MemberModel({
     required this.memberId,
@@ -73,27 +100,39 @@ class MemberModel {
     required this.isMinister,
     required this.isTreasurer,
     required this.status,
-    required this.address
-    // required this.church,
-    // required this.region,
+    required this.address,
+    this.createdAt,
+    this.profilePhoto,
+    this.gender,
+    this.church,
+    this.lgpdConsent,
   });
 
   factory MemberModel.fromJson(Map<String, dynamic> json) {
     return MemberModel(
       memberId: json['memberId'],
-      name: json['name'],
-      email: json['email'],
-      phone: json['phone'],
-      dni: json['dni'],
-      conversionDate: json['conversionDate'],
-      baptismDate: json['baptismDate'],
-      birthdate: json['birthdate'],
-      isMinister: json['isMinister'],
+      name: json['name'] ?? '',
+      email: json['email'] ?? '',
+      phone: json['phone'] ?? '',
+      dni: json['dni'] ?? '',
+      conversionDate: json['conversionDate'] ?? '',
+      baptismDate: _readStringOrNull(json, ['baptismDate']),
+      birthdate: json['birthdate'] ?? '',
+      isMinister: json['isMinister'] ?? false,
       isTreasurer: json['isTreasurer'] ?? false,
       status: MemberStatus.fromString(json['status']),
       address: _buildAddress(json),
-      //church: Church.fromJson(json['church']),
-      //region: Region.fromJson(json['region']),
+      createdAt: _readStringOrNull(json, ['createdAt']),
+      profilePhoto: _readStringOrNull(json, ['profilePhoto']),
+      gender: _readStringOrNull(json, ['gender']),
+      church:
+          json['church'] is Map<String, dynamic>
+              ? Church.fromJson(json['church'])
+              : null,
+      lgpdConsent:
+          json['lgpdConsent'] is Map<String, dynamic>
+              ? LgpdConsentInfo.fromJson(json['lgpdConsent'])
+              : null,
     );
   }
 
@@ -111,8 +150,11 @@ class MemberModel {
       'isTreasurer': isTreasurer,
       'status': status.value,
       'address': address,
-      // 'church': church.toJson(),
-      // 'region': region.toJson(),
+      'createdAt': createdAt,
+      'profilePhoto': profilePhoto,
+      'gender': gender,
+      'church': church?.toJson(),
+      'lgpdConsent': lgpdConsent?.toJson(),
     };
   }
 }
@@ -137,6 +179,34 @@ class Church {
     return {
       'name': name,
       'churchId': churchId,
+    };
+  }
+}
+
+class LgpdConsentInfo {
+  bool accepted;
+  String? acceptedAt;
+  String? source;
+
+  LgpdConsentInfo({
+    required this.accepted,
+    this.acceptedAt,
+    this.source,
+  });
+
+  factory LgpdConsentInfo.fromJson(Map<String, dynamic> json) {
+    return LgpdConsentInfo(
+      accepted: _readBoolOrNull(json, ['accepted']) ?? false,
+      acceptedAt: _readStringOrNull(json, ['acceptedAt']),
+      source: _readStringOrNull(json, ['source']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'accepted': accepted,
+      'acceptedAt': acceptedAt,
+      'source': source,
     };
   }
 }

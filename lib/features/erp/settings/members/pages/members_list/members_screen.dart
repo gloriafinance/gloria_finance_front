@@ -61,6 +61,12 @@ class MembersScreen extends StatelessWidget {
           icon: Icons.add_reaction_outlined,
         ),
         ButtonActionTable(
+          color: Colors.orange,
+          text: AppLocalizations.of(context)!.member_pending_review_button,
+          onPressed: () => GoRouter.of(context).go('/members/pending-review'),
+          icon: Icons.pending_actions_outlined,
+        ),
+        ButtonActionTable(
           color: AppColors.purple,
           text: AppLocalizations.of(context)!.member_registration_link_button,
           onPressed: () => _showRegistrationLinkDialog(context),

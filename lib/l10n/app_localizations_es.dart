@@ -3276,6 +3276,108 @@ class AppLocalizationsEs extends AppLocalizations {
   String get member_list_status_pending_review => 'Pendiente de revisión';
 
   @override
+  String get member_pending_review_button => 'Pendientes de revisión';
+
+  @override
+  String get member_pending_review_title => 'Miembros pendientes de revisión';
+
+  @override
+  String get member_pending_review_back => 'Volver a miembros';
+
+  @override
+  String get member_pending_review_empty => 'No hay miembros pendientes de revisión.';
+
+  @override
+  String get member_pending_review_header_created_at => 'Enviado el';
+
+  @override
+  String get member_pending_review_action_review => 'Revisar';
+
+  @override
+  String get member_pending_review_detail_title => 'Revisar miembro';
+
+  @override
+  String get member_pending_review_detail_card_title => 'Revisión de miembro pendiente';
+
+  @override
+  String get member_pending_review_detail_subtitle => 'Revisa los datos enviados por el miembro antes de aprobar o rechazar el registro.';
+
+  @override
+  String get member_pending_review_not_found => 'No se encontró el miembro pendiente.';
+
+  @override
+  String get member_pending_review_section_personal => 'Información personal';
+
+  @override
+  String get member_pending_review_section_registration => 'Datos del registro';
+
+  @override
+  String get member_pending_review_field_gender => 'Género';
+
+  @override
+  String get member_pending_review_field_address => 'Dirección';
+
+  @override
+  String get member_pending_review_field_lgpd => 'Consentimiento LGPD';
+
+  @override
+  String get member_pending_review_field_lgpd_accepted_at => 'Consentimiento aceptado el';
+
+  @override
+  String get member_pending_review_lgpd_yes => 'Aceptado';
+
+  @override
+  String get member_pending_review_lgpd_no => 'No aceptado';
+
+  @override
+  String get member_pending_review_lgpd_section_title => 'Consentimiento LGPD';
+
+  @override
+  String member_pending_review_lgpd_accepted_message(Object date) {
+    return 'Consentimiento aceptado el $date';
+  }
+
+  @override
+  String get member_pending_review_lgpd_not_informed => 'Consentimiento no informado';
+
+  @override
+  String get member_pending_review_lgpd_source_label => 'Origen';
+
+  @override
+  String get member_pending_review_photo_unavailable => 'Foto no disponible';
+
+  @override
+  String get member_pending_review_not_informed => 'No informado';
+
+  @override
+  String get member_pending_review_action_approve => 'Aprobar';
+
+  @override
+  String get member_pending_review_action_reject => 'Rechazar';
+
+  @override
+  String get member_pending_review_approve_success => 'Miembro aprobado correctamente.';
+
+  @override
+  String get member_pending_review_reject_success => 'Miembro rechazado correctamente.';
+
+  @override
+  String get member_pending_review_approve_confirm_title => 'Aprobar miembro';
+
+  @override
+  String get member_pending_review_reject_confirm_title => 'Rechazar miembro';
+
+  @override
+  String member_pending_review_approve_confirm_message(Object memberName) {
+    return '¿Aprobar a $memberName y habilitar su acceso a la experiencia de miembro?';
+  }
+
+  @override
+  String member_pending_review_reject_confirm_message(Object memberName) {
+    return '¿Rechazar a $memberName y eliminar permanentemente este registro?';
+  }
+
+  @override
   String get trends_main_card_revenue_title => 'Ingresos Brutos';
 
   @override
