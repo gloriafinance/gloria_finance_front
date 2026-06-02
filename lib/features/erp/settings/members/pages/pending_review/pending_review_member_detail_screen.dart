@@ -55,11 +55,7 @@ class _PendingReviewMemberDetailView extends StatelessWidget {
             ),
           )
         else
-          Expanded(
-            child: SingleChildScrollView(
-              child: _detailCard(context, store, state.member!, l10n),
-            ),
-          ),
+          _detailCard(context, store, state.member!, l10n),
       ],
     );
   }
