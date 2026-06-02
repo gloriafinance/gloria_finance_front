@@ -1,7 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:gloria_finance/core/app_http.dart';
 import 'package:gloria_finance/features/auth/auth_persistence.dart';
 import 'package:gloria_finance/features/member_experience/profile/models/member_profile_model.dart';
-import 'package:dio/dio.dart';
 
 class MemberProfileService extends AppHttp {
   MemberProfileService({super.tokenAPI});

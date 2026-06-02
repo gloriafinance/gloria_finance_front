@@ -1,6 +1,7 @@
 // lib/main_member.dart
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,10 +12,15 @@ import 'app/my_app.dart';
 import 'app/store_manager.dart';
 import 'core/app_http.dart';
 import 'features/member_experience/notifications/push_notification_manager.dart';
+import 'firebase_options.dart';
 
 // 1) Background handler (top-level function)
 Future<void> _firebaseBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  if (kIsWeb) {
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.web);
+  } else {
+    await Firebase.initializeApp();
+  }
   // opcional: log / analytics / etc.
 }
 
@@ -23,7 +29,11 @@ Future<void> main() async {
   usePathUrlStrategy();
 
   // 2) Firebase init
-  await Firebase.initializeApp();
+  if (kIsWeb) {
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.web);
+  } else {
+    await Firebase.initializeApp();
+  }
 
   // 3) Background messages
   FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);

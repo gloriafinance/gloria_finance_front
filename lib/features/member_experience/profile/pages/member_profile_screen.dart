@@ -1,12 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/features/auth/auth_session_model.dart';
 import 'package:gloria_finance/features/auth/pages/login/store/auth_session_store.dart';
-import 'package:gloria_finance/features/member_experience/widgets/member_header.dart';
 import 'package:gloria_finance/features/member_experience/profile/store/member_profile_store.dart';
+import 'package:gloria_finance/features/member_experience/widgets/member_header.dart';
 import 'package:gloria_finance/l10n/app_localizations.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 

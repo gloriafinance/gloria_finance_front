@@ -1,6 +1,6 @@
-import 'package:gloria_finance/core/app_http.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:gloria_finance/core/app_http.dart';
 
 class NotificationApi extends AppHttp {
   NotificationApi({super.tokenAPI});

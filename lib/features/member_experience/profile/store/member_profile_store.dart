@@ -3,35 +3,43 @@ import 'package:gloria_finance/features/member_experience/profile/models/member_
 import 'package:gloria_finance/features/member_experience/profile/service/member_profile_service.dart';
 
 class MemberProfileStore extends ChangeNotifier {
-  MemberProfileStore._internal();
-  static final MemberProfileStore _instance = MemberProfileStore._internal();
-  factory MemberProfileStore() => _instance;
+  MemberProfileStore();
 
   final MemberProfileService _service = MemberProfileService();
 
   MemberProfileModel? profile;
   bool isLoading = false;
   String? errorMessage;
+  bool _disposed = false;
 
   Future<void> loadProfile(String memberId, {bool refresh = false}) async {
     if (isLoading) return;
-    
-    // Cache check: return immediately if profile exists and we are not refreshing
+    if (_disposed) return;
+
     if (!refresh && profile != null) {
       return;
     }
 
     isLoading = true;
     errorMessage = null;
-    notifyListeners();
+    if (!_disposed) notifyListeners();
 
     try {
-      profile = await _service.getProfile(memberId);
+      final result = await _service.getProfile(memberId);
+      if (_disposed) return;
+      profile = result;
     } catch (e) {
+      if (_disposed) return;
       errorMessage = e.toString();
     } finally {
       isLoading = false;
-      notifyListeners();
+      if (!_disposed) notifyListeners();
     }
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
   }
 }
