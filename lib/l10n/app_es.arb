@@ -1417,6 +1417,41 @@
   "member_list_status_approved": "Activo",
   "member_list_status_inactive": "Inactivo",
   "member_list_status_pending_review": "Pendiente de revisión",
+  "member_pending_review_button": "Pendientes de revisión",
+  "member_pending_review_title": "Miembros pendientes de revisión",
+  "member_pending_review_back": "Volver a miembros",
+  "member_pending_review_empty": "No hay miembros pendientes de revisión.",
+  "member_pending_review_header_created_at": "Enviado el",
+  "member_pending_review_action_review": "Revisar",
+  "member_pending_review_detail_title": "Revisar miembro",
+  "member_pending_review_detail_card_title": "Revisión de miembro pendiente",
+  "member_pending_review_not_found": "No se encontró el miembro pendiente.",
+  "member_pending_review_section_personal": "Información personal",
+  "member_pending_review_section_registration": "Datos del registro",
+  "member_pending_review_field_gender": "Género",
+  "member_pending_review_field_address": "Dirección",
+  "member_pending_review_field_lgpd": "Consentimiento LGPD",
+  "member_pending_review_field_lgpd_accepted_at": "Consentimiento aceptado el",
+  "member_pending_review_lgpd_yes": "Aceptado",
+  "member_pending_review_lgpd_no": "No aceptado",
+  "member_pending_review_action_approve": "Aprobar",
+  "member_pending_review_action_reject": "Rechazar",
+  "member_pending_review_approve_success": "Miembro aprobado correctamente.",
+  "member_pending_review_reject_success": "Miembro rechazado correctamente.",
+  "member_pending_review_approve_confirm_title": "Aprobar miembro",
+  "member_pending_review_reject_confirm_title": "Rechazar miembro",
+  "member_pending_review_approve_confirm_message": "¿Aprobar a {memberName} y habilitar su acceso a la experiencia de miembro?",
+  "@member_pending_review_approve_confirm_message": {
+    "placeholders": {
+      "memberName": {}
+    }
+  },
+  "member_pending_review_reject_confirm_message": "¿Rechazar a {memberName} y eliminar permanentemente este registro?",
+  "@member_pending_review_reject_confirm_message": {
+    "placeholders": {
+      "memberName": {}
+    }
+  },
   "trends_main_card_revenue_title": "Ingresos Brutos",
   "trends_main_card_revenue_subtitle": "INGRESOS",
   "trends_main_card_opex_title": "Gastos Operativos",

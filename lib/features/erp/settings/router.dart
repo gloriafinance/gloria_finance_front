@@ -19,6 +19,8 @@ import 'financial_months/pages/financial_month_list_screen.dart';
 import 'members/models/member_model.dart';
 import 'members/pages/add_members/add_member_screen.dart';
 import 'members/pages/members_list/members_screen.dart';
+import 'members/pages/pending_review/pending_review_member_detail_screen.dart';
+import 'members/pages/pending_review/pending_review_members_screen.dart';
 import 'rbac/pages/role_permission_screen.dart';
 import 'rbac/pages/user_access_screen.dart';
 
@@ -58,6 +60,21 @@ settingsRouter() {
         member = state.extra as MemberModel;
 
         return transitionCustom(AddMemberScreen(member: member));
+      },
+    ),
+    GoRoute(
+      path: '/members/pending-review',
+      pageBuilder: (context, state) {
+        return transitionCustom(const PendingReviewMembersScreen());
+      },
+    ),
+    GoRoute(
+      path: '/members/pending-review/:memberId',
+      pageBuilder: (context, state) {
+        final memberId = state.pathParameters['memberId']!;
+        return transitionCustom(
+          PendingReviewMemberDetailScreen(memberId: memberId),
+        );
       },
     ),
     GoRoute(
