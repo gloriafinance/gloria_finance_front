@@ -21,6 +21,18 @@ class PendingReviewInfoItem {
 }
 
 String pendingReviewFormatDate(AppLocalizations l10n, String? value) {
+  if (value == null || value.isEmpty) {
+    return l10n.member_pending_review_not_informed;
+  }
+
+  // MemberModel normalizes birthdate/conversionDate/baptismDate to
+  // dd/MM/yyyy. Return as-is to avoid re-parsing the already-formatted
+  // string.
+  if (value.length == 10 && value[2] == '/' && value[5] == '/') {
+    return value;
+  }
+
+  // Other timestamps (createdAt, lgpdConsent.acceptedAt) come as ISO 8601.
   final parsed = parseIsoDate(value);
   if (parsed == null) {
     return l10n.member_pending_review_not_informed;
@@ -42,10 +54,7 @@ String pendingReviewAddressValue(AppLocalizations l10n, String? value) {
   return value;
 }
 
-String pendingReviewLgpdLabel(
-  AppLocalizations l10n,
-  MemberModel member,
-) {
+String pendingReviewLgpdLabel(AppLocalizations l10n, MemberModel member) {
   final accepted = member.lgpdConsent?.accepted ?? false;
   return accepted
       ? l10n.member_pending_review_lgpd_yes
@@ -142,27 +151,31 @@ Widget pendingReviewInfoGrid({
     final right = i + 1 < items.length ? items[i + 1] : null;
 
     if (left.fullWidth) {
-      rows.add(Padding(
-        padding: const EdgeInsets.only(bottom: 14),
-        child: pendingReviewInfoTile(left),
-      ));
+      rows.add(
+        Padding(
+          padding: const EdgeInsets.only(bottom: 14),
+          child: pendingReviewInfoTile(left),
+        ),
+      );
       continue;
     }
 
     if (right != null && right.fullWidth) {
-      rows.add(Padding(
-        padding: const EdgeInsets.only(bottom: 14),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(child: pendingReviewInfoTile(left)),
-          ],
+      rows.add(
+        Padding(
+          padding: const EdgeInsets.only(bottom: 14),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [Expanded(child: pendingReviewInfoTile(left))],
+          ),
         ),
-      ));
-      rows.add(Padding(
-        padding: const EdgeInsets.only(bottom: 14),
-        child: pendingReviewInfoTile(right),
-      ));
+      );
+      rows.add(
+        Padding(
+          padding: const EdgeInsets.only(bottom: 14),
+          child: pendingReviewInfoTile(right),
+        ),
+      );
       continue;
     }
 
@@ -175,7 +188,10 @@ Widget pendingReviewInfoGrid({
             Expanded(child: pendingReviewInfoTile(left)),
             const SizedBox(width: 16),
             Expanded(
-              child: right != null ? pendingReviewInfoTile(right) : const SizedBox(),
+              child:
+                  right != null
+                      ? pendingReviewInfoTile(right)
+                      : const SizedBox(),
             ),
           ],
         ),
