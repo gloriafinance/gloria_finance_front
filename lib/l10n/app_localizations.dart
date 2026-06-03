@@ -5953,6 +5953,42 @@ abstract class AppLocalizations {
   /// **'Choose how you want to be notified by the church'**
   String get member_profile_notifications_settings_subtitle;
 
+  /// No description provided for @member_profile_photo_source_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how to update the photo'**
+  String get member_profile_photo_source_title;
+
+  /// No description provided for @member_profile_photo_source_camera.
+  ///
+  /// In en, this message translates to:
+  /// **'Take photo'**
+  String get member_profile_photo_source_camera;
+
+  /// No description provided for @member_profile_photo_source_gallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get member_profile_photo_source_gallery;
+
+  /// No description provided for @member_profile_photo_invalid_format.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a JPG, PNG, or WEBP image.'**
+  String get member_profile_photo_invalid_format;
+
+  /// No description provided for @member_profile_photo_updated.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile photo updated successfully.'**
+  String get member_profile_photo_updated;
+
+  /// No description provided for @member_profile_photo_update_error.
+  ///
+  /// In en, this message translates to:
+  /// **'We could not update your photo. Please try again.'**
+  String get member_profile_photo_update_error;
+
   /// No description provided for @member_change_password_header_title.
   ///
   /// In en, this message translates to:

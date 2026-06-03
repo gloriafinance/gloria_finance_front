@@ -3029,6 +3029,24 @@ class AppLocalizationsPt extends AppLocalizations {
   String get member_profile_notifications_settings_subtitle => 'Escolha como deseja ser avisado pela igreja';
 
   @override
+  String get member_profile_photo_source_title => 'Escolha como atualizar a foto';
+
+  @override
+  String get member_profile_photo_source_camera => 'Tirar foto';
+
+  @override
+  String get member_profile_photo_source_gallery => 'Selecionar da galeria';
+
+  @override
+  String get member_profile_photo_invalid_format => 'Escolha uma imagem JPG, PNG ou WEBP.';
+
+  @override
+  String get member_profile_photo_updated => 'Foto de perfil atualizada com sucesso.';
+
+  @override
+  String get member_profile_photo_update_error => 'Não foi possível atualizar sua foto. Tente novamente.';
+
+  @override
   String get member_change_password_header_title => 'Mantenha sua conta segura';
 
   @override
