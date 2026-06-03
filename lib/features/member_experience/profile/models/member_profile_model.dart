@@ -6,6 +6,8 @@ class MemberProfileModel {
   final String email;
   final String phone;
   final String dni;
+  final String? profilePhoto;
+  final String? profilePhotoUrl;
   final String createdAt;
   final String conversionDate;
   final String baptismDate;
@@ -19,6 +21,8 @@ class MemberProfileModel {
     required this.email,
     required this.phone,
     required this.dni,
+    this.profilePhoto,
+    this.profilePhotoUrl,
     required this.createdAt,
     required this.conversionDate,
     required this.baptismDate,
@@ -27,6 +31,38 @@ class MemberProfileModel {
     required this.status,
   });
 
+  MemberProfileModel copyWith({
+    String? memberId,
+    String? name,
+    String? email,
+    String? phone,
+    String? dni,
+    String? profilePhoto,
+    String? profilePhotoUrl,
+    String? createdAt,
+    String? conversionDate,
+    String? baptismDate,
+    String? birthdate,
+    MemberProfileChurchModel? church,
+    MemberStatus? status,
+  }) {
+    return MemberProfileModel(
+      memberId: memberId ?? this.memberId,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      dni: dni ?? this.dni,
+      profilePhoto: profilePhoto ?? this.profilePhoto,
+      profilePhotoUrl: profilePhotoUrl ?? this.profilePhotoUrl,
+      createdAt: createdAt ?? this.createdAt,
+      conversionDate: conversionDate ?? this.conversionDate,
+      baptismDate: baptismDate ?? this.baptismDate,
+      birthdate: birthdate ?? this.birthdate,
+      church: church ?? this.church,
+      status: status ?? this.status,
+    );
+  }
+
   factory MemberProfileModel.fromJson(Map<String, dynamic> json) {
     return MemberProfileModel(
       memberId: json['memberId'] ?? '',
@@ -34,6 +70,8 @@ class MemberProfileModel {
       email: json['email'] ?? '',
       phone: json['phone'] ?? '',
       dni: json['dni'] ?? '',
+      profilePhoto: json['profilePhoto'] as String?,
+      profilePhotoUrl: json['profilePhotoUrl'] as String?,
       createdAt: json['createdAt'] ?? '',
       conversionDate: json['conversionDate'] ?? '',
       baptismDate: json['baptismDate'] ?? '',
