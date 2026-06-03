@@ -24,19 +24,21 @@ class MemberProfileScreen extends StatefulWidget {
 class _MemberProfileScreenState extends State<MemberProfileScreen> {
   static const _maxPhotoBytes = 3 * 1024 * 1024;
 
-  final MemberProfileStore _profileStore = MemberProfileStore();
   final ImagePicker _picker = ImagePicker();
 
   Uint8List? _previewPhotoBytes;
 
-  @override
-  void dispose() {
-    _profileStore.dispose();
-    super.dispose();
+  Future<void> _refreshProfile(BuildContext context) async {
+    await context.read<MemberProfileStore>().loadProfile(refresh: true);
   }
 
-  Future<void> _refreshProfile() async {
-    await _profileStore.loadProfile(refresh: true);
+  void _goBack(BuildContext context) {
+    if (context.canPop()) {
+      context.pop();
+      return;
+    }
+
+    context.go('/dashboard');
   }
 
   Future<void> _pickAndUploadPhoto(
@@ -49,6 +51,7 @@ class _MemberProfileScreenState extends State<MemberProfileScreen> {
     final invalidFormatLabel = l10n.member_profile_photo_invalid_format;
     final successLabel = l10n.member_profile_photo_updated;
     final errorLabel = l10n.member_profile_photo_update_error;
+    final profileStore = context.read<MemberProfileStore>();
 
     try {
       final picked = await _picker.pickImage(
@@ -81,7 +84,7 @@ class _MemberProfileScreenState extends State<MemberProfileScreen> {
         _previewPhotoBytes = bytes;
       });
 
-      final success = await _profileStore.updateProfilePhoto(
+      final success = await profileStore.updateProfilePhoto(
         photoBytes: bytes,
         fileName: picked.name,
         mimeType: mimeType,
@@ -101,7 +104,7 @@ class _MemberProfileScreenState extends State<MemberProfileScreen> {
         messenger.showSnackBar(
           SnackBar(
             content: Text(
-              _photoUpdateErrorLabel(l10n, _profileStore.photoUpdateErrorCode) ??
+              _photoUpdateErrorLabel(l10n, profileStore.photoUpdateErrorCode) ??
                   errorLabel,
             ),
           ),
@@ -236,74 +239,67 @@ class _MemberProfileScreenState extends State<MemberProfileScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final session = context.watch<AuthSessionStore>().state.session;
+    final profileStore = context.watch<MemberProfileStore>();
 
-    if (_profileStore.profile == null && !_profileStore.isLoading) {
+    if (profileStore.profile == null && !profileStore.isLoading) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
-        _profileStore.loadProfile(refresh: true);
+        context.read<MemberProfileStore>().loadProfile(refresh: true);
       });
     }
 
-    return ChangeNotifierProvider.value(
-      value: _profileStore,
-      child: Builder(
-        builder: (context) {
-          final profileStore = context.watch<MemberProfileStore>();
-          final profile = profileStore.profile;
-          final name = profile?.name ?? session.name;
-          final churchName = profile?.church?.name ?? session.churchName;
-          final createdAt = profile?.createdAt ?? session.createdAt;
-          final memberSince = _memberSince(createdAt);
+    final profile = profileStore.profile;
+    final name = profile?.name ?? session.name;
+    final churchName = profile?.church?.name ?? session.churchName;
+    final createdAt = profile?.createdAt ?? session.createdAt;
+    final memberSince = _memberSince(createdAt);
 
-          return Column(
-            children: [
-              MemberHeaderWidget(
-                title: l10n.member_drawer_profile,
-                onBack: () => context.pop(),
-              ),
-              Expanded(
-                child: RefreshIndicator(
-                  onRefresh: _refreshProfile,
-                  child: ListView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-                    children: [
-                      MemberProfileHeroCard(
-                        name: name,
-                        churchName: churchName,
-                        memberSinceLabel: l10n.member_profile_member_since(
-                          memberSince,
-                        ),
-                        changePhotoLabel: l10n.member_registration_change_photo,
-                        photoHintLabel: l10n.member_registration_photo_hint,
-                        photoUrl: profile?.profilePhotoUrl,
-                        previewPhotoBytes: _previewPhotoBytes,
-                        isLoading: profileStore.isLoading,
-                        isUploadingPhoto: profileStore.isUploadingPhoto,
-                        onChangePhoto: () => _showPhotoSourceSheet(context),
-                      ),
-                      const SizedBox(height: 24),
-                      _buildSection(
-                        title: l10n.member_profile_personal_data_title,
-                        child: _buildPersonalDataCard(
-                          session,
-                          profileStore,
-                          l10n,
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      _buildSection(
-                        title: l10n.member_profile_notifications_title,
-                        child: _buildSettings(context, l10n),
-                      ),
-                    ],
+    return Column(
+      children: [
+        MemberHeaderWidget(
+          title: l10n.member_drawer_profile,
+          onBack: () => _goBack(context),
+        ),
+        Expanded(
+          child: RefreshIndicator(
+            onRefresh: () => _refreshProfile(context),
+            child: ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+              children: [
+                MemberProfileHeroCard(
+                  name: name,
+                  churchName: churchName,
+                  memberSinceLabel: l10n.member_profile_member_since(
+                    memberSince,
+                  ),
+                  changePhotoLabel: l10n.member_registration_change_photo,
+                  photoHintLabel: l10n.member_registration_photo_hint,
+                  photoUrl: profile?.profilePhotoUrl,
+                  previewPhotoBytes: _previewPhotoBytes,
+                  isLoading: profileStore.isLoading,
+                  isUploadingPhoto: profileStore.isUploadingPhoto,
+                  onChangePhoto: () => _showPhotoSourceSheet(context),
+                ),
+                const SizedBox(height: 24),
+                _buildSection(
+                  title: l10n.member_profile_personal_data_title,
+                  child: _buildPersonalDataCard(
+                    session,
+                    profileStore,
+                    l10n,
                   ),
                 ),
-              ),
-            ],
-          );
-        },
-      ),
+                const SizedBox(height: 24),
+                _buildSection(
+                  title: l10n.member_profile_notifications_title,
+                  child: _buildSettings(context, l10n),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 

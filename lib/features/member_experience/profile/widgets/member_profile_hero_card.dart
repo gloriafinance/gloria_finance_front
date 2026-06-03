@@ -49,6 +49,45 @@ class MemberProfileHeroCard extends StatelessWidget {
       child: Column(
         children: [
           _avatar(),
+          const SizedBox(height: 14),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: isUploadingPhoto ? null : onChangePhoto,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.purple,
+                foregroundColor: Colors.white,
+                disabledBackgroundColor: AppColors.purple.withValues(
+                  alpha: 0.45,
+                ),
+                disabledForegroundColor: Colors.white.withValues(alpha: 0.7),
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 14),
+              ),
+              icon:
+                  isUploadingPhoto
+                      ? const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                      : const Icon(Icons.photo_camera_outlined, size: 18),
+              label: Text(
+                changePhotoLabel,
+                style: const TextStyle(
+                  fontFamily: AppFonts.fontTitle,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
           const SizedBox(height: 16),
           Text(
             name,
@@ -80,36 +119,6 @@ class MemberProfileHeroCard extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 20),
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton(
-              onPressed: isUploadingPhoto ? null : onChangePhoto,
-              style: OutlinedButton.styleFrom(
-                foregroundColor: AppColors.purple,
-                side: const BorderSide(color: AppColors.purple, width: 1.2),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 14),
-              ),
-              child:
-                  isUploadingPhoto
-                      ? const SizedBox(
-                        width: 18,
-                        height: 18,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                      : Text(
-                        changePhotoLabel,
-                        style: const TextStyle(
-                          fontFamily: AppFonts.fontTitle,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-            ),
-          ),
           const SizedBox(height: 10),
           Text(
             photoHintLabel,
@@ -126,7 +135,7 @@ class MemberProfileHeroCard extends StatelessWidget {
   }
 
   Widget _avatar() {
-    const double size = 88;
+    const double size = 168;
     final imageBytes = previewPhotoBytes;
     final imageUrl = _normalizedPhotoUrl(photoUrl);
 

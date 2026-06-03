@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../features/auth/pages/login/store/auth_session_store.dart';
+import '../../../features/member_experience/profile/store/member_profile_store.dart';
 
 class MemberShell extends StatefulWidget {
   final Widget child;
@@ -19,78 +20,95 @@ class MemberShell extends StatefulWidget {
 }
 
 class _MemberShellState extends State<MemberShell> {
+  late final MemberProfileStore _memberProfileStore;
+
+  @override
+  void initState() {
+    super.initState();
+    _memberProfileStore = MemberProfileStore()..loadProfile();
+  }
+
+  @override
+  void dispose() {
+    _memberProfileStore.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     AuthSessionStore authStore = context.watch<AuthSessionStore>();
 
-    return Scaffold(
-      backgroundColor: Colors.grey.shade200,
-      // Light grey base (aligned with other member screens)
-      extendBodyBehindAppBar: true,
-      drawer: const MemberDrawer(),
-      appBar: AppBar(
-        elevation: 0,
-        leadingWidth: 80,
-        // Allow space for Menu + Logo
-        leading: Builder(
-          builder: (context) {
-            return Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.menu, color: AppColors.black),
-                  onPressed: () => Scaffold.of(context).openDrawer(),
+    return ChangeNotifierProvider.value(
+      value: _memberProfileStore,
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade200,
+        // Light grey base (aligned with other member screens)
+        extendBodyBehindAppBar: true,
+        drawer: const MemberDrawer(),
+        appBar: AppBar(
+          elevation: 0,
+          leadingWidth: 80,
+          // Allow space for Menu + Logo
+          leading: Builder(
+            builder: (context) {
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.menu, color: AppColors.black),
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                  ),
+                  Image.asset('images/applogo.jpg', height: 32),
+                ],
+              );
+            },
+          ),
+          centerTitle: true,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                l10n.member_shell_header_tagline,
+                style: TextStyle(
+                  fontFamily: AppFonts.fontText,
+                  color: Colors.grey[700],
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 1.5,
                 ),
-                Image.asset('images/applogo.jpg', height: 32),
-              ],
-            );
-          },
-        ),
-        centerTitle: true,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              l10n.member_shell_header_tagline,
-              style: TextStyle(
-                fontFamily: AppFonts.fontText,
-                color: Colors.grey[700],
-                fontSize: 10,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 1.5,
               ),
-            ),
-            const SizedBox(height: 2),
-            Text(
-              // l10n.member_shell_header_default_church,
-              authStore.state.session.churchName,
-              style: const TextStyle(
-                fontFamily: AppFonts.fontTitle,
-                color: AppColors.black,
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                height: 1.1,
+              const SizedBox(height: 2),
+              Text(
+                // l10n.member_shell_header_default_church,
+                authStore.state.session.churchName,
+                style: const TextStyle(
+                  fontFamily: AppFonts.fontTitle,
+                  color: AppColors.black,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  height: 1.1,
+                ),
               ),
+            ],
+          ),
+          actions: [
+            NotificationBadge(
+              onTap: () {
+                // TODO: Handle notification tap
+              },
             ),
           ],
         ),
-        actions: [
-          NotificationBadge(
-            onTap: () {
-              // TODO: Handle notification tap
-            },
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+            child: widget.child,
           ),
-        ],
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-          child: widget.child,
         ),
+        bottomNavigationBar: const MemberBottomNavigationBar(),
       ),
-      bottomNavigationBar: const MemberBottomNavigationBar(),
     );
   }
 }

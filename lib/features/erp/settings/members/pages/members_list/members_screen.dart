@@ -1,5 +1,6 @@
 import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/utils/index.dart';
 import 'package:gloria_finance/core/widgets/button_acton_table.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -31,20 +32,40 @@ class MembersScreen extends StatelessWidget {
   }
 
   Widget _header(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Text(
-            AppLocalizations.of(context)!.member_list_title,
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontFamily: AppFonts.fontTitle,
-              fontSize: 24,
-              color: Colors.black,
+    if (!isMobile(context)) {
+      return Row(
+        children: [
+          Expanded(
+            child: Text(
+              AppLocalizations.of(context)!.member_list_title,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontFamily: AppFonts.fontTitle,
+                fontSize: 20,
+                color: Colors.black,
+              ),
             ),
           ),
+          Align(alignment: Alignment.centerRight, child: _buttons(context)),
+        ],
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AppLocalizations.of(context)!.member_list_title,
+          textAlign: TextAlign.left,
+          style: TextStyle(
+            fontFamily: AppFonts.fontTitle,
+            fontSize: 20,
+            color: Colors.black,
+          ),
         ),
-        Align(alignment: Alignment.centerRight, child: _buttons(context)),
+        const SizedBox(height: 16),
+        _buttons(context),
+        const SizedBox(height: 16),
       ],
     );
   }

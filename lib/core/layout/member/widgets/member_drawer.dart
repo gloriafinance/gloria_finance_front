@@ -4,6 +4,7 @@ import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/widgets/language_selector.dart';
 import 'package:gloria_finance/features/auth/pages/login/store/auth_session_store.dart';
+import 'package:gloria_finance/features/member_experience/profile/store/member_profile_store.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -67,6 +68,9 @@ class _MemberDrawerState extends State<MemberDrawer> {
             ? accountName.trim().substring(0, 1).toUpperCase()
             : 'M';
 
+    final profileStore = context.watch<MemberProfileStore>();
+    final profilePhotoUrl = profileStore.profile?.profilePhotoUrl;
+
     return Drawer(
       child: Column(
         children: [
@@ -96,16 +100,9 @@ class _MemberDrawerState extends State<MemberDrawer> {
                       ),
                     ),
                   ),
-                  currentAccountPicture: CircleAvatar(
-                    backgroundColor: Colors.white,
-                    child: Text(
-                      avatarLetter,
-                      style: const TextStyle(
-                        fontSize: 24,
-                        color: AppColors.purple,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                  currentAccountPicture: _currentAccountPicture(
+                    avatarLetter: avatarLetter,
+                    profilePhotoUrl: profilePhotoUrl,
                   ),
                 ),
                 if (localeStore != null)
@@ -225,5 +222,53 @@ class _MemberDrawerState extends State<MemberDrawer> {
         ],
       ),
     );
+  }
+
+  Widget _currentAccountPicture({
+    required String avatarLetter,
+    required String? profilePhotoUrl,
+  }) {
+    final imageUrl = _normalizedPhotoUrl(profilePhotoUrl);
+
+    return CircleAvatar(
+      backgroundColor: Colors.white,
+      child:
+          imageUrl != null
+              ? ClipOval(
+                child: Image.network(
+                  imageUrl,
+                  width: 72,
+                  height: 72,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => _avatarInitial(avatarLetter),
+                ),
+              )
+              : _avatarInitial(avatarLetter),
+    );
+  }
+
+  Widget _avatarInitial(String avatarLetter) {
+    return Text(
+      avatarLetter,
+      style: const TextStyle(
+        fontSize: 24,
+        color: AppColors.purple,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  String? _normalizedPhotoUrl(String? value) {
+    final trimmed = value?.trim();
+    if (trimmed == null || trimmed.isEmpty) {
+      return null;
+    }
+
+    final uri = Uri.tryParse(trimmed);
+    if (uri == null || !uri.hasScheme || uri.host.isEmpty) {
+      return null;
+    }
+
+    return trimmed;
   }
 }
