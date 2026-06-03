@@ -1,19 +1,21 @@
 import 'dart:typed_data';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gloria_finance/features/member_experience/profile/models/member_profile_model.dart';
+import 'package:gloria_finance/features/member_experience/profile/models/member_profile_photo_update_error.dart';
 import 'package:gloria_finance/features/member_experience/profile/service/member_profile_service.dart';
 
 class MemberProfileStore extends ChangeNotifier {
-  MemberProfileStore();
+  MemberProfileStore({MemberProfileService? service})
+    : _service = service ?? MemberProfileService();
 
-  final MemberProfileService _service = MemberProfileService();
+  final MemberProfileService _service;
 
   MemberProfileModel? profile;
   bool isLoading = false;
   bool isUploadingPhoto = false;
   String? errorMessage;
+  String? photoUpdateErrorCode;
   bool _disposed = false;
 
   Future<void> loadProfile({bool refresh = false}) async {
@@ -26,6 +28,7 @@ class MemberProfileStore extends ChangeNotifier {
 
     isLoading = true;
     errorMessage = null;
+    photoUpdateErrorCode = null;
     if (!_disposed) notifyListeners();
 
     try {
@@ -50,10 +53,11 @@ class MemberProfileStore extends ChangeNotifier {
 
     isUploadingPhoto = true;
     errorMessage = null;
+    photoUpdateErrorCode = null;
     if (!_disposed) notifyListeners();
 
     try {
-      final profilePhoto = await _service.updateProfilePhoto(
+      final result = await _service.updateProfilePhoto(
         photoBytes: photoBytes,
         fileName: fileName,
         mimeType: mimeType,
@@ -61,15 +65,24 @@ class MemberProfileStore extends ChangeNotifier {
 
       if (_disposed) return false;
 
-      if (profile != null && profilePhoto.isNotEmpty) {
-        profile = profile!.copyWith(profilePhoto: profilePhoto);
+      if (profile != null &&
+          result.profilePhoto.isNotEmpty &&
+          result.profilePhotoUrl.isNotEmpty) {
+        profile = profile!.copyWith(
+          profilePhoto: result.profilePhoto,
+          profilePhotoUrl: result.profilePhotoUrl,
+        );
       }
 
-      return profilePhoto.isNotEmpty;
-    } on DioException {
+      return result.profilePhotoUrl.isNotEmpty;
+    } on MemberProfilePhotoUpdateError catch (e) {
+      if (_disposed) return false;
+      photoUpdateErrorCode = e.code;
+      errorMessage = e.message;
       return false;
     } catch (e) {
       if (_disposed) return false;
+      photoUpdateErrorCode = 'UNKNOWN';
       errorMessage = e.toString();
       return false;
     } finally {

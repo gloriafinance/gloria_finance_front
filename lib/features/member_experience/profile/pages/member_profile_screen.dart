@@ -1,5 +1,4 @@
-import 'dart:typed_data';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
@@ -45,10 +44,11 @@ class _MemberProfileScreenState extends State<MemberProfileScreen> {
     ImageSource source,
   ) async {
     final messenger = ScaffoldMessenger.of(context);
+    final l10n = context.l10n;
     final tooLargeLabel = context.l10n.member_registration_photo_too_large;
-    final invalidFormatLabel = context.l10n.member_profile_photo_invalid_format;
-    final successLabel = context.l10n.member_profile_photo_updated;
-    final errorLabel = context.l10n.member_profile_photo_update_error;
+    final invalidFormatLabel = l10n.member_profile_photo_invalid_format;
+    final successLabel = l10n.member_profile_photo_updated;
+    final errorLabel = l10n.member_profile_photo_update_error;
 
     try {
       final picked = await _picker.pickImage(
@@ -97,8 +97,15 @@ class _MemberProfileScreenState extends State<MemberProfileScreen> {
 
       if (success) {
         messenger.showSnackBar(SnackBar(content: Text(successLabel)));
-      } else if (_profileStore.errorMessage != null) {
-        messenger.showSnackBar(SnackBar(content: Text(errorLabel)));
+      } else {
+        messenger.showSnackBar(
+          SnackBar(
+            content: Text(
+              _photoUpdateErrorLabel(l10n, _profileStore.photoUpdateErrorCode) ??
+                  errorLabel,
+            ),
+          ),
+        );
       }
     } catch (_) {
       if (!mounted) return;
@@ -159,15 +166,17 @@ class _MemberProfileScreenState extends State<MemberProfileScreen> {
                   ),
                 ),
                 const SizedBox(height: 14),
-                _PhotoSourceTile(
-                  icon: Icons.photo_camera_outlined,
-                  label: cameraLabel,
-                  onTap: () {
-                    Navigator.of(sheetContext).pop();
-                    _pickAndUploadPhoto(context, ImageSource.camera);
-                  },
-                ),
-                const SizedBox(height: 8),
+                if (!kIsWeb) ...[
+                  _PhotoSourceTile(
+                    icon: Icons.photo_camera_outlined,
+                    label: cameraLabel,
+                    onTap: () {
+                      Navigator.of(sheetContext).pop();
+                      _pickAndUploadPhoto(context, ImageSource.camera);
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                ],
                 _PhotoSourceTile(
                   icon: Icons.photo_library_outlined,
                   label: galleryLabel,
@@ -182,6 +191,25 @@ class _MemberProfileScreenState extends State<MemberProfileScreen> {
         );
       },
     );
+  }
+
+  String? _photoUpdateErrorLabel(
+    AppLocalizations l10n,
+    String? code,
+  ) {
+    switch (code) {
+      case 'INVALID_PROFILE_PHOTO':
+        return l10n.member_profile_photo_invalid_format;
+      case 'PROFILE_PHOTO_TOO_LARGE':
+        return l10n.member_registration_photo_too_large;
+      case 'MEMBER_NOT_FOUND':
+      case 'INVALID_MEMBER_STATUS':
+        return l10n.member_profile_photo_update_error;
+      case 'PROFILE_PHOTO_REQUIRED':
+        return l10n.member_profile_photo_update_error;
+      default:
+        return null;
+    }
   }
 
   String? _mimeTypeFor(String fileName, String? detectedMimeType) {
@@ -248,7 +276,7 @@ class _MemberProfileScreenState extends State<MemberProfileScreen> {
                         ),
                         changePhotoLabel: l10n.member_registration_change_photo,
                         photoHintLabel: l10n.member_registration_photo_hint,
-                        photoUrl: profile?.profilePhoto,
+                        photoUrl: profile?.profilePhotoUrl,
                         previewPhotoBytes: _previewPhotoBytes,
                         isLoading: profileStore.isLoading,
                         isUploadingPhoto: profileStore.isUploadingPhoto,

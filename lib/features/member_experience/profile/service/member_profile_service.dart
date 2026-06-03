@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:gloria_finance/core/app_http.dart';
 import 'package:gloria_finance/features/auth/auth_persistence.dart';
 import 'package:gloria_finance/features/member_experience/profile/models/member_profile_model.dart';
+import 'package:gloria_finance/features/member_experience/profile/models/member_profile_photo_update_error.dart';
+import 'package:gloria_finance/features/member_experience/profile/models/member_profile_photo_update_result.dart';
 import 'package:flutter/foundation.dart';
 
 class MemberProfileService extends AppHttp {
@@ -24,7 +26,7 @@ class MemberProfileService extends AppHttp {
     }
   }
 
-  Future<String> updateProfilePhoto({
+  Future<MemberProfilePhotoUpdateResult> updateProfilePhoto({
     required Uint8List photoBytes,
     required String fileName,
     required String mimeType,
@@ -49,19 +51,38 @@ class MemberProfileService extends AppHttp {
 
       final data = response.data;
       if (data is Map<String, dynamic>) {
-        final profilePhoto = data['profilePhoto']?.toString() ?? '';
-        if (profilePhoto.isNotEmpty) {
-          return profilePhoto;
-        }
-        throw StateError(
-          'The profilePhoto field is missing from the response.',
-        );
+        return MemberProfilePhotoUpdateResult.fromJson(data);
       }
 
       throw StateError('Unexpected response while updating the profile photo.');
     } on DioException catch (e) {
-      transformResponse(e.response?.data);
-      rethrow;
+      throw _parsePhotoUpdateError(e.response?.data);
     }
+  }
+
+  MemberProfilePhotoUpdateError _parsePhotoUpdateError(dynamic data) {
+    if (data is Map) {
+      final payload = Map<String, dynamic>.from(data);
+      final code = payload['code']?.toString() ?? 'UNKNOWN';
+      final message = payload['message']?.toString();
+      if (message != null && message.isNotEmpty) {
+        return MemberProfilePhotoUpdateError(code: code, message: message);
+      }
+
+      for (final entry in payload.entries) {
+        final value = entry.value;
+        if (value is Map && value['message'] != null) {
+          return MemberProfilePhotoUpdateError(
+            code: entry.key.toString(),
+            message: value['message'].toString(),
+          );
+        }
+      }
+    }
+
+    return const MemberProfilePhotoUpdateError(
+      code: 'UNKNOWN',
+      message: 'We could not update your photo. Please try again.',
+    );
   }
 }
