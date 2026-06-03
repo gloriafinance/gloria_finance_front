@@ -15,7 +15,6 @@ import 'package:provider/provider.dart';
 import '../../../widgets/member_header.dart';
 import '../../models/member_contribution_models.dart';
 import '../../store/member_contribution_form_store.dart';
-import 'widgets/contribution_payment_method_cards.dart';
 import 'widgets/contribution_receipt_uploader.dart';
 import 'widgets/contribution_type_selector.dart';
 
@@ -68,7 +67,7 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
+                          color: Colors.black.withValues(alpha: 0.05),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                         ),
@@ -87,10 +86,7 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
                           _buildFinancialConceptDropdown(store),
                         _buildAmountSelector(store),
                         const SizedBox(height: 24),
-                        _buildPaymentMethodCards(store),
-                        const SizedBox(height: 24),
-                        if (store.state.selectedChannel ==
-                            MemberPaymentChannel.externalWithReceipt) ...[
+                        if (store.state.amount != null) ...[
                           _buildReceiptUploader(store),
                           const SizedBox(height: 24),
                         ],
@@ -196,7 +192,7 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
             vertical: 16,
           ),
         ),
-        value:
+        initialValue:
             store.state.selectedDestinationId != null
                 ? accounts
                     .firstWhere(
@@ -274,7 +270,7 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
             vertical: 16,
           ),
         ),
-        value: store.state.financialConceptId,
+        initialValue: store.state.financialConceptId,
         items:
             concepts.map((concept) {
               return DropdownMenuItem<String>(
@@ -338,14 +334,14 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
                   ),
                 ),
                 selected: isSelected,
-                onSelected: (selected) {
-                  if (selected) {
-                    setState(() {
-                      _showCustomAmountInput = false;
-                    });
-                    store.selectAmount(amount);
-                  }
-                },
+              onSelected: (selected) {
+                if (selected) {
+                  setState(() {
+                    _showCustomAmountInput = false;
+                  });
+                  store.selectAmount(amount);
+                }
+              },
                 selectedColor: AppColors.purple,
                 backgroundColor: Colors.white,
                 side: BorderSide(
@@ -401,66 +397,22 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
                     : '',
             keyboardType: TextInputType.number,
             inputFormatters: [CurrencyFormatter.getInputFormatters('R\$')],
-            onChanged: (value) {
-              if (value.isNotEmpty) {
-                try {
-                  final amount = CurrencyFormatter.cleanCurrency(value);
-                  if (amount > 0) {
-                    store.selectAmount(amount);
-                  }
-                } catch (e) {
-                  // Invalid input, ignore
+          onChanged: (value) {
+            if (value.isNotEmpty) {
+              try {
+                final amount = CurrencyFormatter.cleanCurrency(value);
+                if (amount > 0) {
+                  store.selectAmount(amount);
                 }
+              } catch (e) {
+                // Invalid input, ignore
+              }
               }
             },
           ),
         ],
       ],
     );
-  }
-
-  Widget _buildPaymentMethodCards(MemberContributionFormStore store) {
-    // Get enabled channels based on selected account configurations
-    final enabledChannels = _getEnabledChannels(store);
-
-    return ContributionPaymentMethodCards(
-      selectedChannel: store.state.selectedChannel,
-      onChannelSelected: store.selectPaymentChannel,
-      enabledChannels: enabledChannels,
-    );
-  }
-
-  List<MemberPaymentChannel> _getEnabledChannels(
-    MemberContributionFormStore store,
-  ) {
-    final selectedAccountId = store.state.selectedDestinationId;
-    if (selectedAccountId == null) {
-      return [MemberPaymentChannel.externalWithReceipt];
-    }
-
-    final account = store.availabilityAccounts.firstWhere(
-      (a) => a.availabilityAccountId == selectedAccountId,
-      orElse: () => store.availabilityAccounts.first,
-    );
-
-    final config = account.configurations;
-    final channels = <MemberPaymentChannel>[];
-
-    // If configurations is null or empty, only show manual receipt upload
-    if (config == null) {
-      return [MemberPaymentChannel.externalWithReceipt];
-    }
-
-    if (config.enablePix) {
-      channels.add(MemberPaymentChannel.pix);
-    }
-    if (config.enableBankSlip) {
-      channels.add(MemberPaymentChannel.boleto);
-    }
-    // Always show manual receipt upload
-    channels.add(MemberPaymentChannel.externalWithReceipt);
-
-    return channels;
   }
 
   Widget _buildReceiptUploader(MemberContributionFormStore store) {
@@ -471,9 +423,15 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
         setState(() {
           _receiptFile = file;
         });
-        store.setReceiptFile(file, file.filename ?? 'receipt.pdf');
+        store.setReceiptFile(file, file.filename ?? 'receipt.jpg');
       },
       fileName: store.state.receiptFileName,
+      onFileRemoved: () {
+        setState(() {
+          _receiptFile = null;
+        });
+        store.clearReceipt();
+      },
     );
   }
 

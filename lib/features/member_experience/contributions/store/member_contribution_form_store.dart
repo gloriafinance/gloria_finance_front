@@ -210,6 +210,7 @@ class MemberContributionFormStore extends ChangeNotifier {
           availabilityAccounts.isNotEmpty
               ? availabilityAccounts.first.availabilityAccountId
               : null,
+      selectedChannel: MemberPaymentChannel.externalWithReceipt,
     );
     notifyListeners();
   }

@@ -28,7 +28,7 @@ class MemberContributionFormState {
     this.financialConceptId,
     this.amount,
     this.quickAmounts = const [20.0, 100.0, 150.0, 200.0],
-    this.selectedChannel,
+    this.selectedChannel = MemberPaymentChannel.externalWithReceipt,
     this.paidAt,
     this.receiptLocalPath,
     this.receiptFileName,
