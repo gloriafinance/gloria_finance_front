@@ -3,14 +3,13 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
-
 import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/date_formatter.dart';
 import 'package:gloria_finance/core/widgets/form_controls.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class ContributionReceiptUploader extends StatefulWidget {
   final DateTime? paidAt;
@@ -90,14 +89,6 @@ class _ContributionReceiptUploaderState
           keyboardType: TextInputType.datetime,
         ),
         const SizedBox(height: 12),
-        Text(
-          'Abra a fototeca do iPhone para escolher a imagem do comprovante.',
-          style: TextStyle(
-            fontFamily: AppFonts.fontText,
-            fontSize: 12,
-            color: Colors.grey.shade600,
-          ),
-        ),
       ],
     );
   }
@@ -165,9 +156,8 @@ class _ContributionReceiptUploaderState
 
   Widget _buildPreviewCard() {
     final name = _selectedName ?? widget.fileName ?? 'receipt.jpg';
-    final sizeLabel = _selectedBytes != null
-        ? _formatFileSize(_selectedBytes!.length)
-        : '';
+    final sizeLabel =
+        _selectedBytes != null ? _formatFileSize(_selectedBytes!.length) : '';
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
@@ -259,10 +249,7 @@ class _ContributionReceiptUploaderState
 
       final bytes = await picked.readAsBytes();
       final fileName = picked.name.isNotEmpty ? picked.name : 'receipt.jpg';
-      final multipartFile = MultipartFile.fromBytes(
-        bytes,
-        filename: fileName,
-      );
+      final multipartFile = MultipartFile.fromBytes(bytes, filename: fileName);
 
       setState(() {
         _selectedBytes = bytes;

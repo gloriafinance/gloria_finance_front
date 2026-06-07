@@ -1,8 +1,8 @@
-import 'package:gloria_finance/core/theme/app_color.dart';
-import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 
 class MemberBottomNavigationBar extends StatelessWidget {
   const MemberBottomNavigationBar({super.key});
@@ -41,40 +41,49 @@ class MemberBottomNavigationBar extends StatelessWidget {
     final l10n = context.l10n;
     final int selectedIndex = _calculateSelectedIndex(context);
 
-    return Container(
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-        child: GNav(
-          gap: 8,
-          activeColor: AppColors.purple,
-          iconSize: 24,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          duration: const Duration(milliseconds: 400),
-          tabBackgroundColor: AppColors.purple.withValues(alpha: 0.1),
-          color: Colors.grey,
-          tabs: [
-            GButton(
-              icon: Icons.home_outlined,
-              text: l10n.member_shell_nav_home,
-            ),
-            GButton(
-              icon: Icons.volunteer_activism,
-              text: l10n.member_shell_nav_contribute,
-            ),
-            GButton(
-              icon: Icons.event_note,
-              text: l10n.member_shell_nav_commitments,
-            ),
-            GButton(
-              icon: Icons.person_pin_sharp,
-              text: l10n.member_drawer_profile,
-            ),
-          ],
-          selectedIndex: selectedIndex,
-          onTabChange: (index) => _onItemTapped(index, context),
-        ),
+    return BottomNavigationBar(
+      currentIndex: selectedIndex,
+      backgroundColor: AppColors.purple,
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.white70,
+      selectedLabelStyle: const TextStyle(
+        fontSize: 12,
+        fontFamily: AppFonts.fontTitle,
       ),
+      unselectedLabelStyle: const TextStyle(
+        fontSize: 12,
+        fontFamily: AppFonts.fontText,
+      ),
+      elevation: 5,
+
+      items: [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home_outlined, color: Colors.white70),
+          activeIcon: Icon(Icons.home_filled, color: Colors.white),
+          label: l10n.member_shell_nav_home,
+          backgroundColor: Colors.white70,
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.volunteer_activism_outlined, color: Colors.white70),
+          activeIcon: Icon(Icons.volunteer_activism, color: Colors.white),
+          label: l10n.member_shell_nav_contribute,
+          backgroundColor: Colors.white70,
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.event_note, color: Colors.white70),
+          activeIcon: Icon(Icons.event_note, color: Colors.white),
+          label: l10n.member_shell_nav_commitments,
+          backgroundColor: Colors.white70,
+        ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.person_2_outlined, color: Colors.white70),
+        //   activeIcon: Icon(Icons.person, color: Colors.white),
+        //   label: l10n.member_drawer_profile,
+        //   backgroundColor: Colors.white70,
+        // ),
+      ],
+      onTap: (index) => _onItemTapped(index, context),
+      type: BottomNavigationBarType.fixed,
     );
   }
 }
