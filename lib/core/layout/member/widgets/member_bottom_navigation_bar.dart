@@ -14,8 +14,7 @@ class MemberBottomNavigationBar extends StatelessWidget {
     }
     if (location.startsWith('/member/contribute')) return 1;
     if (location.startsWith('/member/commitments')) return 2;
-    if (location.startsWith('/member/profile')) return 3;
-    // Profile is now in Drawer, so no index 4
+    // Profile lives in the drawer, not in the bottom bar.
     return 0;
   }
 
@@ -29,9 +28,6 @@ class MemberBottomNavigationBar extends StatelessWidget {
         break;
       case 2:
         context.go('/member/commitments');
-        break;
-      case 3:
-        context.go('/member/profile');
         break;
     }
   }

@@ -3129,6 +3129,21 @@ class AppLocalizationsPt extends AppLocalizations {
       'Selecione uma opção para continuar.';
 
   @override
+  String get member_contribution_offering_type_title => 'Tipo de oferta';
+
+  @override
+  String get member_contribution_offering_type_subtitle =>
+      'Escolha o destino da sua oferta.';
+
+  @override
+  String get member_contribution_offering_type_hint =>
+      'Primeiro escolha o tipo de oferta para continuar.';
+
+  @override
+  String get member_contribution_offering_type_selected_hint =>
+      'Você pode continuar com a oferta selecionada.';
+
+  @override
   String get member_contribution_amount_step_title =>
       'Qual foi o valor ofertado?';
 

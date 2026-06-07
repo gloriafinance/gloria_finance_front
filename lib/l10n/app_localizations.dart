@@ -5476,6 +5476,30 @@ abstract class AppLocalizations {
   /// **'Select an option to continue.'**
   String get member_contribution_type_step_subtitle;
 
+  /// No description provided for @member_contribution_offering_type_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Offering type'**
+  String get member_contribution_offering_type_title;
+
+  /// No description provided for @member_contribution_offering_type_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the destination for your offering.'**
+  String get member_contribution_offering_type_subtitle;
+
+  /// No description provided for @member_contribution_offering_type_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'First choose the offering type to continue.'**
+  String get member_contribution_offering_type_hint;
+
+  /// No description provided for @member_contribution_offering_type_selected_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'You can continue with the selected offering.'**
+  String get member_contribution_offering_type_selected_hint;
+
   /// No description provided for @member_contribution_amount_step_title.
   ///
   /// In en, this message translates to:

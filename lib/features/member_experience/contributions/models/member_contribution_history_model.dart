@@ -86,7 +86,7 @@ class MemberContributionHistoryResponse {
   ) {
     return MemberContributionHistoryResponse(
       count: json['count'] ?? 0,
-      nextPag: json['nextPag'],
+      nextPag: json['nextPag'].toString(),
       results:
           (json['results'] as List<dynamic>?)
               ?.map((e) => MemberContributionHistoryModel.fromJson(e))

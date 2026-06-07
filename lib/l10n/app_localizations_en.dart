@@ -3092,6 +3092,21 @@ class AppLocalizationsEn extends AppLocalizations {
       'Select an option to continue.';
 
   @override
+  String get member_contribution_offering_type_title => 'Offering type';
+
+  @override
+  String get member_contribution_offering_type_subtitle =>
+      'Choose the destination for your offering.';
+
+  @override
+  String get member_contribution_offering_type_hint =>
+      'First choose the offering type to continue.';
+
+  @override
+  String get member_contribution_offering_type_selected_hint =>
+      'You can continue with the selected offering.';
+
+  @override
   String get member_contribution_amount_step_title =>
       'What amount did you give?';
 

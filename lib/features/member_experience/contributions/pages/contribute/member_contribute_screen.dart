@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
-import 'package:gloria_finance/core/widgets/loading.dart';
 import 'package:gloria_finance/features/erp/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:gloria_finance/features/erp/settings/financial_concept/models/financial_concept_model.dart';
 import 'package:gloria_finance/features/erp/settings/financial_concept/store/financial_concept_store.dart';
@@ -23,10 +23,17 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
   static const int _totalSteps = 4;
 
   late MemberContributionFormStore _store;
+  final ScrollController _scrollController = ScrollController();
   MultipartFile? _receiptFile;
   int _currentStep = 1;
   bool _hasSelectedType = false;
   bool _showCustomAmountInput = false;
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -72,6 +79,7 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
                 ),
 
                 child: SingleChildScrollView(
+                  controller: _scrollController,
                   padding: const EdgeInsets.fromLTRB(10, 28, 10, 18),
                   child: Center(
                     child: ConstrainedBox(
@@ -82,7 +90,7 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
                 ),
               ),
               if (store.state.isSubmitting || store.state.isUploadingReceipt)
-                const Loading(),
+                const _SubmittingOverlay(),
             ],
           );
         },
@@ -105,6 +113,7 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
           totalSteps: _totalSteps,
           title: l10n.member_contribution_type_step_title,
           subtitle: l10n.member_contribution_type_step_subtitle,
+          onBackPressed: _handleBack,
           body: ContributionTypeStep(
             selectedType: _hasSelectedType ? store.state.selectedType : null,
             onTypeSelected: (type) {
@@ -112,6 +121,17 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
                 _hasSelectedType = true;
               });
               store.selectType(type);
+              if (type == MemberContributionType.offering) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (!mounted || !_scrollController.hasClients) return;
+                  final target = _scrollController.position.maxScrollExtent;
+                  _scrollController.animateTo(
+                    target,
+                    duration: const Duration(milliseconds: 350),
+                    curve: Curves.easeOutCubic,
+                  );
+                });
+              }
             },
             offeringConcepts: offeringConcepts,
             selectedConceptId: store.state.financialConceptId,
@@ -127,6 +147,7 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
           totalSteps: _totalSteps,
           title: l10n.member_contribution_amount_step_title,
           subtitle: l10n.member_contribution_amount_step_subtitle,
+          onBackPressed: _previousStep,
           selectedAmount: store.state.amount,
           body: ContributionAmountStep(
             selectedAmount: store.state.amount,
@@ -155,10 +176,14 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
           totalSteps: _totalSteps,
           title: l10n.member_contribution_date_step_title,
           subtitle: l10n.member_contribution_date_step_subtitle,
+          onBackPressed: _previousStep,
           selectedAmount: store.state.amount,
           body: ContributionDateStep(
             selectedDate: store.state.paidAt,
-            onDateSelected: store.setPaidAt,
+            onDateSelected: (date) {
+              store.setPaidAt(date);
+              _scrollToBottom();
+            },
           ),
           buttonText: l10n.member_contribution_continue_button,
           buttonIcon: Icons.arrow_forward,
@@ -170,6 +195,7 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
           totalSteps: _totalSteps,
           title: l10n.member_contribution_receipt_step_title,
           subtitle: l10n.member_contribution_receipt_step_subtitle,
+          onBackPressed: _previousStep,
           selectedAmount: store.state.amount,
           body: ContributionReceiptStep(
             fileName: store.state.receiptFileName,
@@ -178,6 +204,7 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
                 _receiptFile = file;
               });
               store.setReceiptFile(file, file.filename ?? 'receipt.jpg');
+              _scrollToBottom();
             },
             onFileRemoved: () {
               setState(() {
@@ -222,6 +249,50 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
     });
   }
 
+  void _previousStep() {
+    if (_currentStep <= 1) return;
+    setState(() {
+      _currentStep -= 1;
+    });
+    _scrollToTop();
+  }
+
+  void _handleBack() {
+    if (_currentStep == 1) {
+      if (context.canPop()) {
+        context.pop();
+      } else {
+        context.go('/dashboard');
+      }
+      return;
+    }
+
+    _previousStep();
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_scrollController.hasClients) return;
+      final target = _scrollController.position.maxScrollExtent;
+      _scrollController.animateTo(
+        target,
+        duration: const Duration(milliseconds: 350),
+        curve: Curves.easeOutCubic,
+      );
+    });
+  }
+
+  void _scrollToTop() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_scrollController.hasClients) return;
+      _scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 280),
+        curve: Curves.easeOutCubic,
+      );
+    });
+  }
+
   Future<void> _handleSubmit(MemberContributionFormStore store) async {
     final result = await store.submitContribution(context.l10n, _receiptFile);
 
@@ -257,11 +328,51 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
   }
 }
 
+class _SubmittingOverlay extends StatelessWidget {
+  const _SubmittingOverlay();
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fill(
+      child: IgnorePointer(
+        child: Container(
+          color: Colors.black.withValues(alpha: 0.12),
+          alignment: Alignment.center,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 18),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(color: const Color(0xFFE8E5EF)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.12),
+                  blurRadius: 18,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
+            child: const SizedBox(
+              width: 28,
+              height: 28,
+              child: CircularProgressIndicator(
+                strokeWidth: 3,
+                color: AppColors.purple,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _StepLayout extends StatelessWidget {
   final int currentStep;
   final int totalSteps;
   final String title;
   final String subtitle;
+  final VoidCallback onBackPressed;
   final double? selectedAmount;
   final Widget body;
   final String buttonText;
@@ -273,6 +384,7 @@ class _StepLayout extends StatelessWidget {
     required this.totalSteps,
     required this.title,
     required this.subtitle,
+    required this.onBackPressed,
     this.selectedAmount,
     required this.body,
     required this.buttonText,
@@ -285,9 +397,35 @@ class _StepLayout extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ContributionStepProgress(
-          currentStep: currentStep,
-          totalSteps: totalSteps,
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 50,
+              height: 50,
+              child: Padding(
+                padding: EdgeInsetsGeometry.only(top: 10),
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: onBackPressed,
+                  icon: const Icon(Icons.arrow_back_ios_new),
+                  color: AppColors.purple,
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    shape: const CircleBorder(),
+                    side: const BorderSide(color: Color(0xFFE8E5EF)),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: ContributionStepProgress(
+                currentStep: currentStep,
+                totalSteps: totalSteps,
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 30),
         ContributionStepHeader(title: title, subtitle: subtitle),
