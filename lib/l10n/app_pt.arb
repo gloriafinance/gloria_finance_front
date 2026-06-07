@@ -1151,6 +1151,32 @@
   "member_contribution_receipt_help_text": "Esse comprovante será analisado pela tesouraria da sua igreja. É obrigatório anexar.",
   "member_contribution_message_label": "Mensagem (opcional)",
   "member_contribution_continue_button": "Continuar",
+  "member_contribution_step_label": "Passo {current} de {total}",
+  "@member_contribution_step_label": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "member_contribution_type_step_title": "Que tipo de contribuição\ndeseja fazer?",
+  "member_contribution_type_step_subtitle": "Selecione uma opção para continuar.",
+  "member_contribution_amount_step_title": "Qual foi o valor ofertado?",
+  "member_contribution_amount_step_subtitle": "Selecione o valor da sua oferta.",
+  "member_contribution_selected_value_label": "Valor selecionado",
+  "member_contribution_date_step_title": "Quando realizou\na transferência?",
+  "member_contribution_date_step_subtitle": "Selecione a data da transferência.",
+  "member_contribution_date_today": "Hoje",
+  "member_contribution_date_yesterday": "Ontem",
+  "member_contribution_date_choose": "Escolher data",
+  "member_contribution_receipt_step_title": "Anexe o comprovante\nda transferência",
+  "member_contribution_receipt_step_subtitle": "Envie a foto do comprovante para verificação.",
+  "member_contribution_receipt_select_photo": "Selecionar foto",
+  "member_contribution_receipt_formats": "Formatos aceitos: JPG, PNG.",
+  "member_contribution_send_button": "Enviar contribuição",
   "member_contribution_payment_method_question": "Como você quer registrar o pagamento?",
   "member_contribution_payment_method_boleto_title": "Gerar boleto para pagar depois",
   "member_contribution_payment_method_manual_title": "Já contribui, quero enviar o comprovante",
@@ -1186,6 +1212,10 @@
   "member_contribution_boleto_pdf_error": "Não foi possível abrir o PDF",
   "member_contribution_result_success_title": "Contribuição realizada\ncom sucesso!",
   "member_contribution_result_success_subtitle": "Obrigado pela sua generosidade.",
+  "member_contribution_result_sent_title": "Contribuição enviada!",
+  "member_contribution_result_receipt_received": "Seu comprovante foi recebido\ncorretamente.",
+  "member_contribution_result_blessing_title": "Deus abençoe sua generosidade\ne multiplique sua vida.",
+  "member_contribution_result_blessing_subtitle": "Obrigado por contribuir com alegria.",
   "member_contribution_result_date": "Data: {date}",
   "@member_contribution_result_date": {
     "placeholders": {

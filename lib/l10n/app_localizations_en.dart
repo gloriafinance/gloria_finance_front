@@ -123,7 +123,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get auth_login_error_required_password => 'Enter your password';
 
   @override
-  String get auth_error_generic => 'An internal system error occurred, please contact your system administrator';
+  String get auth_error_generic =>
+      'An internal system error occurred, please contact your system administrator';
 
   @override
   String get auth_login_social_title => 'Sign in with your social account';
@@ -138,10 +139,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get auth_login_social_outlook_soon => 'Coming soon';
 
   @override
-  String get app_error_unexpected_retry => 'An unexpected error occurred. Please try again.';
+  String get app_error_unexpected_retry =>
+      'An unexpected error occurred. Please try again.';
 
   @override
-  String get auth_recovery_request_title => 'Enter the email associated with your account and we will send you a temporary password.';
+  String get auth_recovery_request_title =>
+      'Enter the email associated with your account and we will send you a temporary password.';
 
   @override
   String get auth_recovery_request_loading => 'Requesting temporary password';
@@ -156,7 +159,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get auth_recovery_change_title => 'Set a new password';
 
   @override
-  String get auth_recovery_change_description => 'Create a new password. Make sure it is different from previous ones for security';
+  String get auth_recovery_change_description =>
+      'Create a new password. Make sure it is different from previous ones for security';
 
   @override
   String get auth_recovery_old_password_label => 'Current password';
@@ -165,22 +169,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get auth_recovery_new_password_label => 'New password';
 
   @override
-  String get auth_recovery_change_error_old_password_required => 'Enter your current password';
+  String get auth_recovery_change_error_old_password_required =>
+      'Enter your current password';
 
   @override
-  String get auth_recovery_change_error_new_password_required => 'Enter a new password';
+  String get auth_recovery_change_error_new_password_required =>
+      'Enter a new password';
 
   @override
-  String get auth_recovery_change_error_min_length => 'The password must be at least 8 characters long';
+  String get auth_recovery_change_error_min_length =>
+      'The password must be at least 8 characters long';
 
   @override
-  String get auth_recovery_change_error_lowercase => 'The password must contain at least one lowercase letter';
+  String get auth_recovery_change_error_lowercase =>
+      'The password must contain at least one lowercase letter';
 
   @override
-  String get auth_recovery_change_error_uppercase => 'The password must contain at least one uppercase letter';
+  String get auth_recovery_change_error_uppercase =>
+      'The password must contain at least one uppercase letter';
 
   @override
-  String get auth_recovery_change_error_number => 'The password must contain at least one number';
+  String get auth_recovery_change_error_number =>
+      'The password must contain at least one number';
 
   @override
   String get auth_recovery_success_title => 'Check your email';
@@ -194,25 +204,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get auth_recovery_success_continue => 'Continue';
 
   @override
-  String get auth_recovery_success_resend => 'Haven\'t received the email yet? Resend email';
+  String get auth_recovery_success_resend =>
+      'Haven\'t received the email yet? Resend email';
 
   @override
   String get auth_recovery_success_resend_ok => 'Email resent successfully';
 
   @override
-  String get auth_recovery_success_resend_error => 'Error while resending email';
+  String get auth_recovery_success_resend_error =>
+      'Error while resending email';
 
   @override
   String get auth_recovery_back_to_login => 'Back to login';
 
   @override
-  String get auth_policies_title => 'Before continuing, please review and accept Glória Finance policies';
+  String get auth_policies_title =>
+      'Before continuing, please review and accept Glória Finance policies';
 
   @override
   String get auth_policies_info_title => 'Important information:';
 
   @override
-  String get auth_policies_info_body => '• The church and Glória Finance process personal and sensitive data in order for the system to work.\n\n• In accordance with the Brazilian General Data Protection Law (LGPD), you must accept the policies below to continue using the platform.\n\n• Click the links to read the full text before accepting.';
+  String get auth_policies_info_body =>
+      '• The church and Glória Finance process personal and sensitive data in order for the system to work.\n\n• In accordance with the Brazilian General Data Protection Law (LGPD), you must accept the policies below to continue using the platform.\n\n• Click the links to read the full text before accepting.';
 
   @override
   String get auth_policies_privacy => 'Privacy Policy';
@@ -291,7 +305,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_church_profile_title => 'Church Profile';
 
   @override
-  String get settings_church_profile_subtitle => 'Manage your organization\'s main information and settings.';
+  String get settings_church_profile_subtitle =>
+      'Manage your organization\'s main information and settings.';
 
   @override
   String get settings_church_profile_general_info => 'General Information';
@@ -330,7 +345,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_church_profile_logo_title => 'Organization Logo';
 
   @override
-  String get settings_church_profile_logo_subtitle => 'Recommended: 500x500px, PNG or JPG. Max 2MB.';
+  String get settings_church_profile_logo_subtitle =>
+      'Recommended: 500x500px, PNG or JPG. Max 2MB.';
 
   @override
   String get settings_church_profile_upload_button => 'Upload New Image';
@@ -339,7 +355,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_church_profile_whatsapp_title => 'WhatsApp';
 
   @override
-  String get settings_church_profile_whatsapp_subtitle => 'Connect your WhatsApp Business account to send reports and receipts automatically.';
+  String get settings_church_profile_whatsapp_subtitle =>
+      'Connect your WhatsApp Business account to send reports and receipts automatically.';
 
   @override
   String get settings_church_profile_whatsapp_connect => 'Connect Business';
@@ -363,25 +380,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_church_profile_doctrinal_important => 'Important';
 
   @override
-  String get settings_church_profile_doctrinal_banner_text => 'Register and maintain the church\'s doctrinal bases for institutional use. This information may appear in official reports and documents.';
+  String get settings_church_profile_doctrinal_banner_text =>
+      'Register and maintain the church\'s doctrinal bases for institutional use. This information may appear in official reports and documents.';
 
   @override
-  String get settings_church_profile_doctrinal_empty => 'No doctrinal bases registered. Add the first base to get started.';
+  String get settings_church_profile_doctrinal_empty =>
+      'No doctrinal bases registered. Add the first base to get started.';
 
   @override
   String get settings_church_profile_doctrinal_title_label => 'Doctrine Title';
 
   @override
-  String get settings_church_profile_doctrinal_scripture_label => 'Biblical References';
+  String get settings_church_profile_doctrinal_scripture_label =>
+      'Biblical References';
 
   @override
-  String get settings_church_profile_doctrinal_scripture_empty => 'No references registered.';
+  String get settings_church_profile_doctrinal_scripture_empty =>
+      'No references registered.';
 
   @override
-  String get settings_church_profile_doctrinal_base_fundamental => 'FUNDAMENTAL BASE';
+  String get settings_church_profile_doctrinal_base_fundamental =>
+      'FUNDAMENTAL BASE';
 
   @override
-  String get settings_church_profile_doctrinal_base_theological => 'THEOLOGICAL BASE';
+  String get settings_church_profile_doctrinal_base_theological =>
+      'THEOLOGICAL BASE';
 
   @override
   String settings_church_profile_doctrinal_base_ordinal(int index) {
@@ -395,37 +418,46 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_church_profile_doctrinal_delete_tooltip => 'Remove base';
 
   @override
-  String get settings_church_profile_doctrinal_add_title => 'Add doctrinal base';
+  String get settings_church_profile_doctrinal_add_title =>
+      'Add doctrinal base';
 
   @override
-  String get settings_church_profile_doctrinal_edit_title => 'Edit doctrinal base';
+  String get settings_church_profile_doctrinal_edit_title =>
+      'Edit doctrinal base';
 
   @override
   String get settings_church_profile_doctrinal_form_title => 'Doctrine title';
 
   @override
-  String get settings_church_profile_doctrinal_form_title_hint => 'Describe the belief or fundamental principle.';
+  String get settings_church_profile_doctrinal_form_title_hint =>
+      'Describe the belief or fundamental principle.';
 
   @override
-  String get settings_church_profile_doctrinal_form_title_error => 'Enter the doctrine title';
+  String get settings_church_profile_doctrinal_form_title_error =>
+      'Enter the doctrine title';
 
   @override
-  String get settings_church_profile_doctrinal_form_scripture => 'Biblical references';
+  String get settings_church_profile_doctrinal_form_scripture =>
+      'Biblical references';
 
   @override
-  String get settings_church_profile_doctrinal_form_scripture_hint => 'Enter a reference and press Enter to add as a tag.';
+  String get settings_church_profile_doctrinal_form_scripture_hint =>
+      'Enter a reference and press Enter to add as a tag.';
 
   @override
-  String get settings_church_profile_doctrinal_form_scripture_error => 'Add at least one biblical reference.';
+  String get settings_church_profile_doctrinal_form_scripture_error =>
+      'Add at least one biblical reference.';
 
   @override
   String get settings_church_profile_toast_success => 'Church data updated';
 
   @override
-  String get settings_church_profile_toast_invalid_date => 'Invalid opening date';
+  String get settings_church_profile_toast_invalid_date =>
+      'Invalid opening date';
 
   @override
-  String get settings_church_profile_toast_meta_error => 'Could not launch Meta Signup';
+  String get settings_church_profile_toast_meta_error =>
+      'Could not launch Meta Signup';
 
   @override
   String get settings_church_profile_status_active => 'Active';
@@ -440,10 +472,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_integrations_whatsapp_title => 'WhatsApp Business';
 
   @override
-  String get settings_integrations_whatsapp_description => 'Connect your WhatsApp Business account to send automatic messages to your members.';
+  String get settings_integrations_whatsapp_description =>
+      'Connect your WhatsApp Business account to send automatic messages to your members.';
 
   @override
-  String get settings_integrations_whatsapp_button_connect => 'Connect my WhatsApp Business';
+  String get settings_integrations_whatsapp_button_connect =>
+      'Connect my WhatsApp Business';
 
   @override
   String get settings_integrations_whatsapp_connected => 'Connected';
@@ -452,28 +486,35 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_integrations_whatsapp_disconnect => 'Disconnect';
 
   @override
-  String get settings_integrations_whatsapp_waba_id => 'WhatsApp Business Account ID';
+  String get settings_integrations_whatsapp_waba_id =>
+      'WhatsApp Business Account ID';
 
   @override
   String get settings_integrations_whatsapp_phone_id => 'Phone Number ID';
 
   @override
-  String get settings_integrations_whatsapp_success => 'WhatsApp connected successfully!';
+  String get settings_integrations_whatsapp_success =>
+      'WhatsApp connected successfully!';
 
   @override
-  String get settings_integrations_whatsapp_error_invalid => 'Invalid WhatsApp credentials received.';
+  String get settings_integrations_whatsapp_error_invalid =>
+      'Invalid WhatsApp credentials received.';
 
   @override
-  String get settings_integrations_whatsapp_callback_loading => 'Connecting your WhatsApp Business account...';
+  String get settings_integrations_whatsapp_callback_loading =>
+      'Connecting your WhatsApp Business account...';
 
   @override
-  String get settings_integrations_whatsapp_callback_error_generic => 'Failed to save credentials.';
+  String get settings_integrations_whatsapp_callback_error_generic =>
+      'Failed to save credentials.';
 
   @override
-  String get settings_integrations_whatsapp_callback_error_missing => 'Missing credentials from Meta. Please try again.';
+  String get settings_integrations_whatsapp_callback_error_missing =>
+      'Missing credentials from Meta. Please try again.';
 
   @override
-  String get settings_integrations_whatsapp_callback_button_back => 'Back to Settings';
+  String get settings_integrations_whatsapp_callback_button_back =>
+      'Back to Settings';
 
   @override
   String get erp_menu_finance => 'Finance';
@@ -557,10 +598,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get patrimony_assets_filter_category => 'Category';
 
   @override
-  String get patrimony_assets_table_error_loading => 'Could not load assets. Please try again.';
+  String get patrimony_assets_table_error_loading =>
+      'Could not load assets. Please try again.';
 
   @override
-  String get patrimony_assets_table_empty => 'No assets found for the selected filters.';
+  String get patrimony_assets_table_empty =>
+      'No assets found for the selected filters.';
 
   @override
   String get patrimony_assets_table_header_code => 'Code';
@@ -589,10 +632,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get patrimony_inventory_import_description_title => 'Upload the completed physical checklist to update the assets.';
+  String get patrimony_inventory_import_description_title =>
+      'Upload the completed physical checklist to update the assets.';
 
   @override
-  String get patrimony_inventory_import_description_body => 'Make sure the columns \"Asset ID\", \"Inventory code\" and \"Inventory quantity\" are filled in. Optional fields such as status and notes will also be processed when provided.';
+  String get patrimony_inventory_import_description_body =>
+      'Make sure the columns \"Asset ID\", \"Inventory code\" and \"Inventory quantity\" are filled in. Optional fields such as status and notes will also be processed when provided.';
 
   @override
   String get patrimony_inventory_import_button_loading => 'Importing...';
@@ -601,13 +646,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get patrimony_inventory_import_button_submit => 'Import checklist';
 
   @override
-  String get patrimony_inventory_import_error_no_file => 'Select the exported file before importing.';
+  String get patrimony_inventory_import_error_no_file =>
+      'Select the exported file before importing.';
 
   @override
-  String get patrimony_inventory_import_error_read_file => 'Could not read the selected file.';
+  String get patrimony_inventory_import_error_read_file =>
+      'Could not read the selected file.';
 
   @override
-  String get patrimony_inventory_import_error_generic => 'Could not import the checklist. Please try again.';
+  String get patrimony_inventory_import_error_generic =>
+      'Could not import the checklist. Please try again.';
 
   @override
   String get patrimony_asset_detail_tab_details => 'Details';
@@ -653,10 +701,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get patrimony_asset_detail_inventory_update => 'Update inventory';
 
   @override
-  String get patrimony_asset_detail_inventory_modal_title => 'Register physical inventory';
+  String get patrimony_asset_detail_inventory_modal_title =>
+      'Register physical inventory';
 
   @override
-  String get patrimony_asset_detail_inventory_success => 'Inventory registered successfully.';
+  String get patrimony_asset_detail_inventory_success =>
+      'Inventory registered successfully.';
 
   @override
   String get patrimony_asset_detail_disposal_register => 'Register disposal';
@@ -668,7 +718,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get patrimony_asset_detail_disposal_success => 'Disposal registered';
 
   @override
-  String get patrimony_asset_detail_disposal_error => 'Error while registering disposal';
+  String get patrimony_asset_detail_disposal_error =>
+      'Error while registering disposal';
 
   @override
   String get patrimony_asset_detail_disposal_status => 'Status';
@@ -698,7 +749,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get patrimony_asset_detail_inventory_title => 'Physical inventory';
 
   @override
-  String get patrimony_asset_detail_attachments_empty => 'No attachments available.';
+  String get patrimony_asset_detail_attachments_empty =>
+      'No attachments available.';
 
   @override
   String get patrimony_asset_detail_attachments_title => 'Attachments';
@@ -716,7 +768,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get patrimony_asset_detail_history_title => 'Movement history';
 
   @override
-  String get patrimony_asset_detail_history_changes_title => 'Registered changes';
+  String get patrimony_asset_detail_history_changes_title =>
+      'Registered changes';
 
   @override
   String get patrimony_asset_detail_yes => 'Yes';
@@ -731,16 +784,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get erp_header_logout => 'Logout';
 
   @override
-  String get auth_policies_submit_error_null => 'Could not register your acceptance. Please try again.';
+  String get auth_policies_submit_error_null =>
+      'Could not register your acceptance. Please try again.';
 
   @override
-  String get auth_policies_submit_error_generic => 'An error occurred while registering your acceptance. Please try again.';
+  String get auth_policies_submit_error_generic =>
+      'An error occurred while registering your acceptance. Please try again.';
 
   @override
   String get auth_recovery_step_title_request => 'Send temporary password';
 
   @override
-  String get auth_recovery_step_title_confirm => 'Confirm receipt of temporary password';
+  String get auth_recovery_step_title_confirm =>
+      'Confirm receipt of temporary password';
 
   @override
   String get auth_recovery_step_title_new_password => 'Set new password';
@@ -749,10 +805,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get erp_home_welcome_member => 'Welcome to Church Finance!\\n\\n';
 
   @override
-  String get erp_home_no_availability_accounts => 'No availability accounts found';
+  String get erp_home_no_availability_accounts =>
+      'No availability accounts found';
 
   @override
-  String get erp_home_availability_summary_title => 'Availability accounts summary';
+  String get erp_home_availability_summary_title =>
+      'Availability accounts summary';
 
   @override
   String get erp_home_availability_swipe_hint => 'Swipe to see all accounts';
@@ -809,7 +867,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_banks_error_invalid_number => 'Enter a valid number';
 
   @override
-  String get settings_banks_error_select_account_type => 'Select an account type';
+  String get settings_banks_error_select_account_type =>
+      'Select an account type';
 
   @override
   String get settings_banks_save => 'Save';
@@ -824,7 +883,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_availability_new_account => 'Availability account';
 
   @override
-  String get settings_availability_form_title => 'Register availability account';
+  String get settings_availability_form_title =>
+      'Register availability account';
 
   @override
   String get settings_availability_save => 'Save';
@@ -907,7 +967,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_cost_center_field_active => 'Active';
 
   @override
-  String get settings_cost_center_category_special_project => 'Special projects';
+  String get settings_cost_center_category_special_project =>
+      'Special projects';
 
   @override
   String get settings_cost_center_category_ministries => 'Ministries';
@@ -922,7 +983,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_cost_center_error_select_category => 'Select a category';
 
   @override
-  String get settings_cost_center_error_select_responsible => 'Select a responsible member';
+  String get settings_cost_center_error_select_responsible =>
+      'Select a responsible member';
 
   @override
   String settings_cost_center_help_code(int maxLength) {
@@ -930,7 +992,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get settings_cost_center_help_description => 'Describe briefly how this cost center will be used.';
+  String get settings_cost_center_help_description =>
+      'Describe briefly how this cost center will be used.';
 
   @override
   String get settings_cost_center_save => 'Save';
@@ -942,16 +1005,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_cost_center_toast_saved => 'Record saved successfully';
 
   @override
-  String get settings_cost_center_toast_updated => 'Record updated successfully';
+  String get settings_cost_center_toast_updated =>
+      'Record updated successfully';
 
   @override
   String get settings_financial_concept_title => 'Financial concepts';
 
   @override
-  String get settings_financial_concept_form_title_create => 'Register financial concept';
+  String get settings_financial_concept_form_title_create =>
+      'Register financial concept';
 
   @override
-  String get settings_financial_concept_form_title_edit => 'Edit financial concept';
+  String get settings_financial_concept_form_title_edit =>
+      'Edit financial concept';
 
   @override
   String get settings_financial_concept_new => 'New concept';
@@ -960,10 +1026,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_financial_concept_filter_all => 'All';
 
   @override
-  String get settings_financial_concept_filter_by_type => 'Filter by concept type';
+  String get settings_financial_concept_filter_by_type =>
+      'Filter by concept type';
 
   @override
-  String get settings_financial_concept_filter_by_statement_category => 'Filter by statement category';
+  String get settings_financial_concept_filter_by_statement_category =>
+      'Filter by statement category';
 
   @override
   String get settings_financial_concept_field_name => 'Name';
@@ -975,25 +1043,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_financial_concept_field_type => 'Concept type';
 
   @override
-  String get settings_financial_concept_field_statement_category => 'Statement category';
+  String get settings_financial_concept_field_statement_category =>
+      'Statement category';
 
   @override
   String get settings_financial_concept_field_active => 'Active';
 
   @override
-  String get settings_financial_concept_indicators_title => 'Accounting indicators';
+  String get settings_financial_concept_indicators_title =>
+      'Accounting indicators';
 
   @override
-  String get settings_financial_concept_indicator_cash_flow => 'Impacts cash flow';
+  String get settings_financial_concept_indicator_cash_flow =>
+      'Impacts cash flow';
 
   @override
-  String get settings_financial_concept_indicator_result => 'Impacts result (P&L)';
+  String get settings_financial_concept_indicator_result =>
+      'Impacts result (P&L)';
 
   @override
-  String get settings_financial_concept_indicator_balance => 'Impacts balance sheet';
+  String get settings_financial_concept_indicator_balance =>
+      'Impacts balance sheet';
 
   @override
-  String get settings_financial_concept_indicator_operational => 'Recurring operational event';
+  String get settings_financial_concept_indicator_operational =>
+      'Recurring operational event';
 
   @override
   String get settings_financial_concept_error_required => 'Required field';
@@ -1002,58 +1076,74 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_financial_concept_error_select_type => 'Select a type';
 
   @override
-  String get settings_financial_concept_error_select_category => 'Select a category';
+  String get settings_financial_concept_error_select_category =>
+      'Select a category';
 
   @override
-  String get settings_financial_concept_help_statement_categories => 'Understand the categories';
+  String get settings_financial_concept_help_statement_categories =>
+      'Understand the categories';
 
   @override
-  String get settings_financial_concept_help_indicators => 'Understand the indicators';
+  String get settings_financial_concept_help_indicators =>
+      'Understand the indicators';
 
   @override
   String get settings_financial_concept_save => 'Save';
 
   @override
-  String get settings_financial_concept_toast_saved => 'Record saved successfully';
+  String get settings_financial_concept_toast_saved =>
+      'Record saved successfully';
 
   @override
-  String get settings_financial_concept_help_statement_title => 'Statement categories';
+  String get settings_financial_concept_help_statement_title =>
+      'Statement categories';
 
   @override
-  String get settings_financial_concept_help_indicator_intro => 'These indicators determine how the concept will be reflected in financial reports. They can be adjusted as needed for specific cases.';
+  String get settings_financial_concept_help_indicator_intro =>
+      'These indicators determine how the concept will be reflected in financial reports. They can be adjusted as needed for specific cases.';
 
   @override
-  String get settings_financial_concept_help_indicator_cash_flow_title => 'Impacts cash flow';
+  String get settings_financial_concept_help_indicator_cash_flow_title =>
+      'Impacts cash flow';
 
   @override
-  String get settings_financial_concept_help_indicator_cash_flow_desc => 'Check when the entry changes the available balance after payment or receipt.';
+  String get settings_financial_concept_help_indicator_cash_flow_desc =>
+      'Check when the entry changes the available balance after payment or receipt.';
 
   @override
-  String get settings_financial_concept_help_indicator_result_title => 'Impacts result (P&L)';
+  String get settings_financial_concept_help_indicator_result_title =>
+      'Impacts result (P&L)';
 
   @override
-  String get settings_financial_concept_help_indicator_result_desc => 'Use when the amount should be part of the income statement, affecting profit or loss.';
+  String get settings_financial_concept_help_indicator_result_desc =>
+      'Use when the amount should be part of the income statement, affecting profit or loss.';
 
   @override
-  String get settings_financial_concept_help_indicator_balance_title => 'Impacts balance sheet';
+  String get settings_financial_concept_help_indicator_balance_title =>
+      'Impacts balance sheet';
 
   @override
-  String get settings_financial_concept_help_indicator_balance_desc => 'Select for events that create or settle assets and liabilities directly in the balance sheet.';
+  String get settings_financial_concept_help_indicator_balance_desc =>
+      'Select for events that create or settle assets and liabilities directly in the balance sheet.';
 
   @override
-  String get settings_financial_concept_help_indicator_operational_title => 'Recurring operational event';
+  String get settings_financial_concept_help_indicator_operational_title =>
+      'Recurring operational event';
 
   @override
-  String get settings_financial_concept_help_indicator_operational_desc => 'Enable for routine commitments in the church\'s day-to-day operations, related to core activities.';
+  String get settings_financial_concept_help_indicator_operational_desc =>
+      'Enable for routine commitments in the church\'s day-to-day operations, related to core activities.';
 
   @override
   String get settings_financial_concept_help_understood => 'Got it';
 
   @override
-  String get settings_financial_concept_ai_title => 'AI assistant for financial concepts';
+  String get settings_financial_concept_ai_title =>
+      'AI assistant for financial concepts';
 
   @override
-  String get settings_financial_concept_ai_description => 'Describe the scenario and the assistant will suggest an existing concept or auto-fill the form fields.';
+  String get settings_financial_concept_ai_description =>
+      'Describe the scenario and the assistant will suggest an existing concept or auto-fill the form fields.';
 
   @override
   String get settings_financial_concept_ai_button => 'Use AI assistant';
@@ -1062,7 +1152,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_financial_concept_ai_modal_title => 'Ask AI for guidance';
 
   @override
-  String get settings_financial_concept_ai_modal_description => 'Describe your scenario with enough detail. Example: payment to an invited musician for a one-time event.';
+  String get settings_financial_concept_ai_modal_description =>
+      'Describe your scenario with enough detail. Example: payment to an invited musician for a one-time event.';
 
   @override
   String get settings_financial_concept_ai_modal_context_label => 'Scenario';
@@ -1074,7 +1165,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_financial_concept_ai_modal_cancel => 'Cancel';
 
   @override
-  String get settings_financial_concept_ai_error_required => 'Describe the scenario to continue.';
+  String get settings_financial_concept_ai_error_required =>
+      'Describe the scenario to continue.';
 
   @override
   String settings_financial_concept_ai_error_max_chars(int max) {
@@ -1082,21 +1174,29 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get settings_financial_concept_ai_result_applied => 'Suggestion applied. Review and save if everything is correct.';
+  String get settings_financial_concept_ai_result_applied =>
+      'Suggestion applied. Review and save if everything is correct.';
 
   @override
-  String settings_financial_concept_ai_result_applied_summary(String type, String category) {
+  String settings_financial_concept_ai_result_applied_summary(
+    String type,
+    String category,
+  ) {
     return 'Suggestion applied: $type · $category. Review indicators and then save.';
   }
 
   @override
-  String get settings_financial_concept_ai_result_assistant_tone => 'I filled the fields based on your description. Adjust if needed, then save.';
+  String get settings_financial_concept_ai_result_assistant_tone =>
+      'I filled the fields based on your description. Adjust if needed, then save.';
 
   @override
-  String get settings_financial_concept_ai_result_existing => 'An existing concept already covers this scenario. Creating a new one is blocked.';
+  String get settings_financial_concept_ai_result_existing =>
+      'An existing concept already covers this scenario. Creating a new one is blocked.';
 
   @override
-  String settings_financial_concept_ai_result_existing_summary(String conceptName) {
+  String settings_financial_concept_ai_result_existing_summary(
+    String conceptName,
+  ) {
     return 'Use the concept \"$conceptName\" for this scenario. Search by this exact name in the list.';
   }
 
@@ -1104,31 +1204,39 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_financial_concept_ai_details_action => 'View details';
 
   @override
-  String get settings_financial_concept_ai_details_hide_action => 'Hide details';
+  String get settings_financial_concept_ai_details_hide_action =>
+      'Hide details';
 
   @override
-  String get settings_financial_concept_ai_existing_concept_label => 'Concept name to search';
+  String get settings_financial_concept_ai_existing_concept_label =>
+      'Concept name to search';
 
   @override
-  String get settings_financial_concept_ai_existing_action => 'Go to concept list';
+  String get settings_financial_concept_ai_existing_action =>
+      'Go to concept list';
 
   @override
-  String get settings_financial_concept_ai_save_blocked => 'This scenario already has an existing concept. Use it instead of creating a new one.';
+  String get settings_financial_concept_ai_save_blocked =>
+      'This scenario already has an existing concept. Use it instead of creating a new one.';
 
   @override
-  String get settings_financial_concept_ai_toast_applied => 'AI suggestion applied to the form.';
+  String get settings_financial_concept_ai_toast_applied =>
+      'AI suggestion applied to the form.';
 
   @override
-  String get settings_financial_concept_ai_toast_existing => 'An existing concept was found. New save was blocked.';
+  String get settings_financial_concept_ai_toast_existing =>
+      'An existing concept was found. New save was blocked.';
 
   @override
-  String get settings_financial_concept_ai_toast_error => 'Could not get assistance right now. Try again.';
+  String get settings_financial_concept_ai_toast_error =>
+      'Could not get assistance right now. Try again.';
 
   @override
   String get bankStatements_empty_title => 'No statements imported yet.';
 
   @override
-  String get bankStatements_empty_subtitle => 'Import a CSV file to start bank reconciliation.';
+  String get bankStatements_empty_subtitle =>
+      'Import a CSV file to start bank reconciliation.';
 
   @override
   String get bankStatements_header_date => 'Date';
@@ -1161,7 +1269,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bankStatements_action_linking => 'Linking...';
 
   @override
-  String get bankStatements_toast_auto_reconciled => 'Statement reconciled automatically.';
+  String get bankStatements_toast_auto_reconciled =>
+      'Statement reconciled automatically.';
 
   @override
   String get bankStatements_toast_no_match => 'No matching transaction found.';
@@ -1170,7 +1279,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bankStatements_details_title => 'Bank statement details';
 
   @override
-  String get bankStatements_toast_link_success => 'Statement linked successfully.';
+  String get bankStatements_toast_link_success =>
+      'Statement linked successfully.';
 
   @override
   String get settings_financial_months_empty => 'No financial months found.';
@@ -1218,7 +1328,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountsReceivable_table_header_type => 'Type';
 
   @override
-  String get accountsReceivable_table_header_installments => 'No. of installments';
+  String get accountsReceivable_table_header_installments =>
+      'No. of installments';
 
   @override
   String get accountsReceivable_table_header_received => 'Received';
@@ -1242,7 +1353,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountsReceivable_view_title => 'Account receivable detail';
 
   @override
-  String get accountsReceivable_form_field_financial_concept => 'Financial concept';
+  String get accountsReceivable_form_field_financial_concept =>
+      'Financial concept';
 
   @override
   String get accountsReceivable_form_field_debtor_dni => 'Debtor tax ID';
@@ -1266,55 +1378,71 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountsReceivable_form_field_single_due_date => 'Due date';
 
   @override
-  String get accountsReceivable_form_field_automatic_installments => 'Number of installments';
+  String get accountsReceivable_form_field_automatic_installments =>
+      'Number of installments';
 
   @override
-  String get accountsReceivable_form_field_automatic_amount => 'Amount per installment';
+  String get accountsReceivable_form_field_automatic_amount =>
+      'Amount per installment';
 
   @override
   String get accountsReceivable_form_error_member_required => 'Select a member';
 
   @override
-  String get accountsReceivable_form_error_description_required => 'Description is required';
+  String get accountsReceivable_form_error_description_required =>
+      'Description is required';
 
   @override
-  String get accountsReceivable_form_error_financial_concept_required => 'Select a financial concept';
+  String get accountsReceivable_form_error_financial_concept_required =>
+      'Select a financial concept';
 
   @override
-  String get accountsReceivable_form_error_debtor_name_required => 'Debtor name is required';
+  String get accountsReceivable_form_error_debtor_name_required =>
+      'Debtor name is required';
 
   @override
-  String get accountsReceivable_form_error_debtor_dni_required => 'Debtor identifier is required';
+  String get accountsReceivable_form_error_debtor_dni_required =>
+      'Debtor identifier is required';
 
   @override
-  String get accountsReceivable_form_error_debtor_phone_required => 'Debtor phone is required';
+  String get accountsReceivable_form_error_debtor_phone_required =>
+      'Debtor phone is required';
 
   @override
-  String get accountsReceivable_form_error_debtor_email_required => 'Debtor email is required';
+  String get accountsReceivable_form_error_debtor_email_required =>
+      'Debtor email is required';
 
   @override
-  String get accountsReceivable_form_error_total_amount_required => 'Enter the total amount';
+  String get accountsReceivable_form_error_total_amount_required =>
+      'Enter the total amount';
 
   @override
-  String get accountsReceivable_form_error_single_due_date_required => 'Enter the due date';
+  String get accountsReceivable_form_error_single_due_date_required =>
+      'Enter the due date';
 
   @override
-  String get accountsReceivable_form_error_installments_required => 'Generate the installments to continue';
+  String get accountsReceivable_form_error_installments_required =>
+      'Generate the installments to continue';
 
   @override
-  String get accountsReceivable_form_error_installments_invalid => 'Fill in amount and due date for each installment';
+  String get accountsReceivable_form_error_installments_invalid =>
+      'Fill in amount and due date for each installment';
 
   @override
-  String get accountsReceivable_form_error_automatic_installments_required => 'Enter the number of installments';
+  String get accountsReceivable_form_error_automatic_installments_required =>
+      'Enter the number of installments';
 
   @override
-  String get accountsReceivable_form_error_automatic_amount_required => 'Enter the amount per installment';
+  String get accountsReceivable_form_error_automatic_amount_required =>
+      'Enter the amount per installment';
 
   @override
-  String get accountsReceivable_form_error_automatic_first_due_date_required => 'Enter the date of the first installment';
+  String get accountsReceivable_form_error_automatic_first_due_date_required =>
+      'Enter the date of the first installment';
 
   @override
-  String get accountsReceivable_form_error_installments_count_mismatch => 'The number of generated installments must match the total informed';
+  String get accountsReceivable_form_error_installments_count_mismatch =>
+      'The number of generated installments must match the total informed';
 
   @override
   String get accountsReceivable_form_debtor_type_title => 'Debtor type';
@@ -1326,13 +1454,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountsReceivable_form_debtor_type_external => 'External';
 
   @override
-  String get accountsReceivable_form_installments_single_empty_message => 'Enter the amount and due date to see the summary.';
+  String get accountsReceivable_form_installments_single_empty_message =>
+      'Enter the amount and due date to see the summary.';
 
   @override
-  String get accountsReceivable_form_installments_automatic_empty_message => 'Enter the data and click \"Generate installments\" to see the schedule.';
+  String get accountsReceivable_form_installments_automatic_empty_message =>
+      'Enter the data and click \"Generate installments\" to see the schedule.';
 
   @override
-  String get accountsReceivable_form_installments_summary_title => 'Installments summary';
+  String get accountsReceivable_form_installments_summary_title =>
+      'Installments summary';
 
   @override
   String accountsReceivable_form_installment_item_title(int index) {
@@ -1353,10 +1484,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountsReceivable_form_save => 'Save';
 
   @override
-  String get accountsReceivable_form_toast_saved_success => 'Account receivable registered successfully';
+  String get accountsReceivable_form_toast_saved_success =>
+      'Account receivable registered successfully';
 
   @override
-  String get accountsReceivable_form_toast_saved_error => 'Error while registering account receivable';
+  String get accountsReceivable_form_toast_saved_error =>
+      'Error while registering account receivable';
 
   @override
   String get accountsReceivable_view_debtor_section => 'Debtor information';
@@ -1401,7 +1534,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountsReceivable_view_general_pending => 'Amount pending';
 
   @override
-  String get accountsReceivable_payment_total_label => 'Total amount to be paid';
+  String get accountsReceivable_payment_total_label =>
+      'Total amount to be paid';
 
   @override
   String get accountsReceivable_payment_submit => 'Submit payment';
@@ -1410,31 +1544,39 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountsReceivable_payment_receipt_label => 'Transfer receipt';
 
   @override
-  String get accountsReceivable_payment_availability_account_label => 'Availability account';
+  String get accountsReceivable_payment_availability_account_label =>
+      'Availability account';
 
   @override
   String get accountsReceivable_payment_amount_label => 'Payment amount';
 
   @override
-  String get accountsReceivable_payment_toast_success => 'Payment registered successfully';
+  String get accountsReceivable_payment_toast_success =>
+      'Payment registered successfully';
 
   @override
-  String get accountsReceivable_payment_error_amount_required => 'Enter the payment amount';
+  String get accountsReceivable_payment_error_amount_required =>
+      'Enter the payment amount';
 
   @override
-  String get accountsReceivable_payment_error_availability_account_required => 'Select an availability account';
+  String get accountsReceivable_payment_error_availability_account_required =>
+      'Select an availability account';
 
   @override
-  String get accountsReceivable_form_field_automatic_first_due_date => 'First installment date';
+  String get accountsReceivable_form_field_automatic_first_due_date =>
+      'First installment date';
 
   @override
-  String get accountsReceivable_form_generate_installments => 'Generate installments';
+  String get accountsReceivable_form_generate_installments =>
+      'Generate installments';
 
   @override
-  String get accountsReceivable_form_error_generate_installments_fill_data => 'Fill in the data to generate the installments.';
+  String get accountsReceivable_form_error_generate_installments_fill_data =>
+      'Fill in the data to generate the installments.';
 
   @override
-  String get accountsReceivable_form_toast_generate_installments_success => 'Installments generated automatically.';
+  String get accountsReceivable_form_toast_generate_installments_success =>
+      'Installments generated automatically.';
 
   @override
   String get accountsPayable_list_title => 'Accounts payable';
@@ -1533,37 +1675,44 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountsPayable_payment_cost_center_label => 'Cost center';
 
   @override
-  String get accountsPayable_payment_availability_account_label => 'Availability account';
+  String get accountsPayable_payment_availability_account_label =>
+      'Availability account';
 
   @override
   String get accountsPayable_payment_amount_label => 'Payment amount';
 
   @override
-  String get accountsPayable_payment_toast_success => 'Payment registered successfully';
+  String get accountsPayable_payment_toast_success =>
+      'Payment registered successfully';
 
   @override
   String get accountsPayable_form_section_basic_title => 'Basic information';
 
   @override
-  String get accountsPayable_form_section_basic_subtitle => 'Choose the supplier and describe the account payable.';
+  String get accountsPayable_form_section_basic_subtitle =>
+      'Choose the supplier and describe the account payable.';
 
   @override
   String get accountsPayable_form_section_document_title => 'Fiscal document';
 
   @override
-  String get accountsPayable_form_section_document_subtitle => 'Provide the fiscal document associated with the payment.';
+  String get accountsPayable_form_section_document_subtitle =>
+      'Provide the fiscal document associated with the payment.';
 
   @override
   String get accountsPayable_form_section_tax_title => 'Invoice taxation';
 
   @override
-  String get accountsPayable_form_section_tax_subtitle => 'Classify the invoice and enter the highlighted taxes.';
+  String get accountsPayable_form_section_tax_subtitle =>
+      'Classify the invoice and enter the highlighted taxes.';
 
   @override
-  String get accountsPayable_form_section_payment_title => 'Payment configuration';
+  String get accountsPayable_form_section_payment_title =>
+      'Payment configuration';
 
   @override
-  String get accountsPayable_form_section_payment_subtitle => 'Define how this account will be settled and review the installments schedule.';
+  String get accountsPayable_form_section_payment_subtitle =>
+      'Define how this account will be settled and review the installments schedule.';
 
   @override
   String get accountsPayable_form_field_supplier => 'Supplier';
@@ -1581,10 +1730,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountsPayable_form_field_document_date => 'Document date';
 
   @override
-  String get accountsPayable_form_field_tax_exempt_switch => 'Invoice exempt from taxes';
+  String get accountsPayable_form_field_tax_exempt_switch =>
+      'Invoice exempt from taxes';
 
   @override
-  String get accountsPayable_form_field_tax_exemption_reason => 'Exemption reason';
+  String get accountsPayable_form_field_tax_exemption_reason =>
+      'Exemption reason';
 
   @override
   String get accountsPayable_form_field_tax_observation => 'Observations';
@@ -1596,73 +1747,96 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountsPayable_form_field_tax_cfop => 'CFOP';
 
   @override
-  String get accountsPayable_form_section_payment_mode_help_cst => 'Quick help about CST';
+  String get accountsPayable_form_section_payment_mode_help_cst =>
+      'Quick help about CST';
 
   @override
-  String get accountsPayable_form_section_payment_mode_help_cfop => 'Quick help about CFOP';
+  String get accountsPayable_form_section_payment_mode_help_cfop =>
+      'Quick help about CFOP';
 
   @override
-  String get accountsPayable_form_error_supplier_required => 'Supplier is required';
+  String get accountsPayable_form_error_supplier_required =>
+      'Supplier is required';
 
   @override
-  String get accountsPayable_form_error_description_required => 'Description is required';
+  String get accountsPayable_form_error_description_required =>
+      'Description is required';
 
   @override
-  String get accountsPayable_form_error_document_type_required => 'Select the document type';
+  String get accountsPayable_form_error_document_type_required =>
+      'Select the document type';
 
   @override
-  String get accountsPayable_form_error_document_number_required => 'Enter the document number';
+  String get accountsPayable_form_error_document_number_required =>
+      'Enter the document number';
 
   @override
-  String get accountsPayable_form_error_document_date_required => 'Enter the document date';
+  String get accountsPayable_form_error_document_date_required =>
+      'Enter the document date';
 
   @override
-  String get accountsPayable_form_error_total_amount_required => 'Enter an amount greater than zero';
+  String get accountsPayable_form_error_total_amount_required =>
+      'Enter an amount greater than zero';
 
   @override
-  String get accountsPayable_form_error_single_due_date_required => 'Enter the due date';
+  String get accountsPayable_form_error_single_due_date_required =>
+      'Enter the due date';
 
   @override
-  String get accountsPayable_form_error_installments_required => 'Generate or add at least one installment';
+  String get accountsPayable_form_error_installments_required =>
+      'Generate or add at least one installment';
 
   @override
-  String get accountsPayable_form_error_installments_contents => 'Fill in amount and due date for each installment';
+  String get accountsPayable_form_error_installments_contents =>
+      'Fill in amount and due date for each installment';
 
   @override
-  String get accountsPayable_form_error_automatic_installments_required => 'Enter the number of installments';
+  String get accountsPayable_form_error_automatic_installments_required =>
+      'Enter the number of installments';
 
   @override
-  String get accountsPayable_form_error_automatic_amount_required => 'Enter the amount per installment';
+  String get accountsPayable_form_error_automatic_amount_required =>
+      'Enter the amount per installment';
 
   @override
-  String get accountsPayable_form_error_automatic_first_due_date_required => 'Enter the date of the first installment';
+  String get accountsPayable_form_error_automatic_first_due_date_required =>
+      'Enter the date of the first installment';
 
   @override
-  String get accountsPayable_form_error_installments_count_mismatch => 'The number of generated installments must match the total informed';
+  String get accountsPayable_form_error_installments_count_mismatch =>
+      'The number of generated installments must match the total informed';
 
   @override
-  String get accountsPayable_form_error_taxes_required => 'Add withheld taxes when the invoice is not exempt';
+  String get accountsPayable_form_error_taxes_required =>
+      'Add withheld taxes when the invoice is not exempt';
 
   @override
-  String get accountsPayable_form_error_taxes_invalid => 'Enter type, percentage and amount for each tax';
+  String get accountsPayable_form_error_taxes_invalid =>
+      'Enter type, percentage and amount for each tax';
 
   @override
-  String get accountsPayable_form_error_tax_exemption_reason_required => 'Enter the invoice exemption reason';
+  String get accountsPayable_form_error_tax_exemption_reason_required =>
+      'Enter the invoice exemption reason';
 
   @override
-  String get accountsPayable_form_error_installments_add_one => 'Add at least one installment';
+  String get accountsPayable_form_error_installments_add_one =>
+      'Add at least one installment';
 
   @override
-  String get accountsPayable_form_error_tax_exempt_must_not_have_taxes => 'Exempt invoices must not have withheld taxes';
+  String get accountsPayable_form_error_tax_exempt_must_not_have_taxes =>
+      'Exempt invoices must not have withheld taxes';
 
   @override
-  String get accountsPayable_form_error_tax_status_mismatch => 'Update the tax status according to the highlighted taxes';
+  String get accountsPayable_form_error_tax_status_mismatch =>
+      'Update the tax status according to the highlighted taxes';
 
   @override
-  String get accountsPayable_form_installments_single_empty_message => 'Enter the amount and due date to see the summary.';
+  String get accountsPayable_form_installments_single_empty_message =>
+      'Enter the amount and due date to see the summary.';
 
   @override
-  String get accountsPayable_form_installments_automatic_empty_message => 'Enter the data and click \"Generate installments\" to see the schedule.';
+  String get accountsPayable_form_installments_automatic_empty_message =>
+      'Enter the data and click \"Generate installments\" to see the schedule.';
 
   @override
   String get accountsPayable_form_field_total_amount => 'Total amount';
@@ -1671,25 +1845,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountsPayable_form_field_single_due_date => 'Due date';
 
   @override
-  String get accountsPayable_form_field_automatic_installments => 'Number of installments';
+  String get accountsPayable_form_field_automatic_installments =>
+      'Number of installments';
 
   @override
-  String get accountsPayable_form_field_automatic_amount => 'Amount per installment';
+  String get accountsPayable_form_field_automatic_amount =>
+      'Amount per installment';
 
   @override
-  String get accountsPayable_form_field_automatic_first_due_date => 'First installment date';
+  String get accountsPayable_form_field_automatic_first_due_date =>
+      'First installment date';
 
   @override
-  String get accountsPayable_form_generate_installments => 'Generate installments';
+  String get accountsPayable_form_generate_installments =>
+      'Generate installments';
 
   @override
-  String get accountsPayable_form_error_generate_installments_fill_data => 'Fill in the data to generate the installments.';
+  String get accountsPayable_form_error_generate_installments_fill_data =>
+      'Fill in the data to generate the installments.';
 
   @override
-  String get accountsPayable_form_toast_generate_installments_success => 'Installments generated successfully.';
+  String get accountsPayable_form_toast_generate_installments_success =>
+      'Installments generated successfully.';
 
   @override
-  String get accountsPayable_form_installments_summary_title => 'Installments summary';
+  String get accountsPayable_form_installments_summary_title =>
+      'Installments summary';
 
   @override
   String accountsPayable_form_installment_item_title(int index) {
@@ -1707,10 +1888,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get accountsPayable_form_toast_saved_success => 'Account payable registered successfully';
+  String get accountsPayable_form_toast_saved_success =>
+      'Account payable registered successfully';
 
   @override
-  String get accountsPayable_form_toast_saved_error => 'Error while registering account payable';
+  String get accountsPayable_form_toast_saved_error =>
+      'Error while registering account payable';
 
   @override
   String get accountsPayable_form_save => 'Save';
@@ -1722,100 +1905,123 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reports_income_download_success => 'PDF downloaded successfully';
 
   @override
-  String get reports_income_download_email_arriving => 'Income statement is arriving in your email';
+  String get reports_income_download_email_arriving =>
+      'Income statement is arriving in your email';
 
   @override
   String get reports_income_download_error => 'Could not download the PDF';
 
   @override
-  String get reports_income_download_error_generic => 'Error while downloading the PDF';
+  String get reports_income_download_error_generic =>
+      'Error while downloading the PDF';
 
   @override
-  String get reports_income_statement_monthly_title => 'Monthly financial report';
+  String get reports_income_statement_monthly_title =>
+      'Monthly financial report';
 
   @override
   String get reports_income_summary_net_revenue_title => 'Net revenue';
 
   @override
-  String get reports_income_summary_net_revenue_desc => 'Income from regular activities.';
+  String get reports_income_summary_net_revenue_desc =>
+      'Income from regular activities.';
 
   @override
-  String get reports_income_summary_operating_expenses_title => 'Operating expenses';
+  String get reports_income_summary_operating_expenses_title =>
+      'Operating expenses';
 
   @override
-  String get reports_income_summary_operating_expenses_desc => 'Costs required to keep the church running.';
+  String get reports_income_summary_operating_expenses_desc =>
+      'Costs required to keep the church running.';
 
   @override
-  String get reports_income_summary_operating_income_title => 'Operating income';
+  String get reports_income_summary_operating_income_title =>
+      'Operating income';
 
   @override
-  String get reports_income_summary_operating_income_desc => 'Revenue minus operating expenses.';
+  String get reports_income_summary_operating_income_desc =>
+      'Revenue minus operating expenses.';
 
   @override
   String get reports_income_summary_net_income_title => 'Net result';
 
   @override
-  String get reports_income_summary_net_income_desc => 'Final balance after extraordinary items.';
+  String get reports_income_summary_net_income_desc =>
+      'Final balance after extraordinary items.';
 
   @override
   String get reports_income_category_revenue_title => 'Revenue';
 
   @override
-  String get reports_income_category_revenue_desc => 'Operating income and recurring donations.';
+  String get reports_income_category_revenue_desc =>
+      'Operating income and recurring donations.';
 
   @override
   String get reports_income_category_cogs_title => 'Direct costs';
 
   @override
-  String get reports_income_category_cogs_desc => 'Direct costs to deliver services or projects.';
+  String get reports_income_category_cogs_desc =>
+      'Direct costs to deliver services or projects.';
 
   @override
   String get reports_income_category_opex_title => 'Operating expenses';
 
   @override
-  String get reports_income_category_opex_desc => 'Expenses needed to keep the church active.';
+  String get reports_income_category_opex_desc =>
+      'Expenses needed to keep the church active.';
 
   @override
   String get reports_income_category_capex_title => 'Capital investments';
 
   @override
-  String get reports_income_category_capex_desc => 'Long-term capital investments and spending.';
+  String get reports_income_category_capex_desc =>
+      'Long-term capital investments and spending.';
 
   @override
   String get reports_income_category_other_title => 'Other income/expenses';
 
   @override
-  String get reports_income_category_other_desc => 'Extraordinary income or expenses.';
+  String get reports_income_category_other_desc =>
+      'Extraordinary income or expenses.';
 
   @override
-  String get reports_income_category_ministry_transfers_title => 'Ministry transfers and contributions';
+  String get reports_income_category_ministry_transfers_title =>
+      'Ministry transfers and contributions';
 
   @override
-  String get reports_income_category_ministry_transfers_desc => 'Transfers to ministries or leadership departments.';
+  String get reports_income_category_ministry_transfers_desc =>
+      'Transfers to ministries or leadership departments.';
 
   @override
   String get reports_income_category_unknown_title => 'Category';
 
   @override
-  String get reports_income_category_help_revenue_body => 'This shows money the church received during the period, such as tithes, offerings, and donations.\n\nIn simple terms: money coming in.\n\nExample: monthly member contributions.';
+  String get reports_income_category_help_revenue_body =>
+      'This shows money the church received during the period, such as tithes, offerings, and donations.\n\nIn simple terms: money coming in.\n\nExample: monthly member contributions.';
 
   @override
-  String get reports_income_category_help_cogs_body => 'These are costs directly tied to a specific activity, project, or event.\n\nIn simple terms: without this expense, that activity cannot happen.\n\nExample: buying materials for a social outreach event.';
+  String get reports_income_category_help_cogs_body =>
+      'These are costs directly tied to a specific activity, project, or event.\n\nIn simple terms: without this expense, that activity cannot happen.\n\nExample: buying materials for a social outreach event.';
 
   @override
-  String get reports_income_category_help_opex_body => 'These are day-to-day costs required to run the church.\n\nIn simple terms: regular operating costs.\n\nExample: utilities, internet, cleaning, and administrative team costs.';
+  String get reports_income_category_help_opex_body =>
+      'These are day-to-day costs required to run the church.\n\nIn simple terms: regular operating costs.\n\nExample: utilities, internet, cleaning, and administrative team costs.';
 
   @override
-  String get reports_income_category_help_ministry_transfers_body => 'These are amounts allocated to ministries, departments, or internal work areas.\n\nIn simple terms: money going out to support internal ministry work.\n\nExample: monthly allocation to children ministry or music ministry.';
+  String get reports_income_category_help_ministry_transfers_body =>
+      'These are amounts allocated to ministries, departments, or internal work areas.\n\nIn simple terms: money going out to support internal ministry work.\n\nExample: monthly allocation to children ministry or music ministry.';
 
   @override
-  String get reports_income_category_help_capex_body => 'These are expenses to buy or improve long-term assets.\n\nIn simple terms: long-term investment, not routine day-to-day spending.\n\nExample: renovation, projector purchase, or sound system upgrade.';
+  String get reports_income_category_help_capex_body =>
+      'These are expenses to buy or improve long-term assets.\n\nIn simple terms: long-term investment, not routine day-to-day spending.\n\nExample: renovation, projector purchase, or sound system upgrade.';
 
   @override
-  String get reports_income_category_help_other_body => 'This includes occasional movements outside the main routine that do not fit other categories.\n\nIn simple terms: one-off cases.\n\nExample: sale of old equipment or an insurance reimbursement.';
+  String get reports_income_category_help_other_body =>
+      'This includes occasional movements outside the main routine that do not fit other categories.\n\nIn simple terms: one-off cases.\n\nExample: sale of old equipment or an insurance reimbursement.';
 
   @override
-  String get reports_income_category_help_unknown_body => 'This line represents a transaction without detailed category classification.\n\nIn simple terms: there is financial movement, but the exact category was not identified.';
+  String get reports_income_category_help_unknown_body =>
+      'This line represents a transaction without detailed category classification.\n\nIn simple terms: there is financial movement, but the exact category was not identified.';
 
   @override
   String get reports_dre_download_pdf => 'Download PDF';
@@ -1824,19 +2030,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reports_dre_download_success => 'PDF downloaded successfully';
 
   @override
-  String get reports_dre_download_email_arriving => 'Income statement is arriving in your email';
+  String get reports_dre_download_email_arriving =>
+      'Income statement is arriving in your email';
 
   @override
   String get reports_dre_download_error => 'Could not download the PDF';
 
   @override
-  String get reports_dre_download_error_generic => 'Error while downloading the PDF';
+  String get reports_dre_download_error_generic =>
+      'Error while downloading the PDF';
 
   @override
-  String get reports_income_breakdown_title => 'Income and expenses by category';
+  String get reports_income_breakdown_title =>
+      'Income and expenses by category';
 
   @override
-  String get reports_income_breakdown_empty => 'No income and expense data for the selected period.';
+  String get reports_income_breakdown_empty =>
+      'No income and expense data for the selected period.';
 
   @override
   String get reports_income_breakdown_header_category => 'Category';
@@ -1862,21 +2072,29 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get reports_income_multi_currency_disclaimer => 'Values are shown by currency. Totals are not summed across currencies.';
+  String get reports_income_multi_currency_disclaimer =>
+      'Values are shown by currency. Totals are not summed across currencies.';
 
   @override
-  String get reports_income_empty_selected_period => 'No data for the selected period.';
+  String get reports_income_empty_selected_period =>
+      'No data for the selected period.';
 
   @override
-  String get reports_income_cashflow_title => 'Cash flow by availability account';
+  String get reports_income_cashflow_title =>
+      'Cash flow by availability account';
 
   @override
-  String reports_income_cashflow_summary(String income, String expenses, String total) {
+  String reports_income_cashflow_summary(
+    String income,
+    String expenses,
+    String total,
+  ) {
     return 'Total income: $income | Total expenses: $expenses | Consolidated balance: $total';
   }
 
   @override
-  String get reports_income_cashflow_empty => 'No availability account movements in this period.';
+  String get reports_income_cashflow_empty =>
+      'No availability account movements in this period.';
 
   @override
   String get reports_income_cashflow_header_account => 'Account';
@@ -1918,16 +2136,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reports_cash_flow_kpi_running_balance => 'Running balance';
 
   @override
-  String get reports_cash_flow_chart_title => 'Entries, exits and running balance';
+  String get reports_cash_flow_chart_title =>
+      'Entries, exits and running balance';
 
   @override
-  String get reports_cash_flow_chart_subtitle => 'Bars for realized flow and a line for balance evolution.';
+  String get reports_cash_flow_chart_subtitle =>
+      'Bars for realized flow and a line for balance evolution.';
 
   @override
   String get reports_cash_flow_table_title => 'Detail by period';
 
   @override
-  String get reports_cash_flow_table_subtitle => 'Click a bucket to inspect the underlying movements.';
+  String get reports_cash_flow_table_subtitle =>
+      'Click a bucket to inspect the underlying movements.';
 
   @override
   String get reports_cash_flow_projection_entries => 'Projected entries';
@@ -1942,22 +2163,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reports_cash_flow_projection_balance => 'Projected balance';
 
   @override
-  String get reports_cash_flow_projection_disclaimer => 'This projection is a simple reference based on recent behavior. It does not consider future events, scheduled commitments, or budget.';
+  String get reports_cash_flow_projection_disclaimer =>
+      'This projection is a simple reference based on recent behavior. It does not consider future events, scheduled commitments, or budget.';
 
   @override
-  String get reports_cash_flow_projection_empty => 'There are no projected buckets to display.';
+  String get reports_cash_flow_projection_empty =>
+      'There are no projected buckets to display.';
 
   @override
   String get reports_cash_flow_projection_disabled => 'Disabled';
 
   @override
-  String get reports_cash_flow_projection_help_title => 'Help: future periods to estimate';
+  String get reports_cash_flow_projection_help_title =>
+      'Help: future periods to estimate';
 
   @override
-  String get reports_cash_flow_projection_help_tooltip => 'What does this field mean?';
+  String get reports_cash_flow_projection_help_tooltip =>
+      'What does this field mean?';
 
   @override
-  String get reports_cash_flow_projection_help_body => 'It defines how many future periods you want to see in the base projection. For example, if you choose 3 and group by month, the report will estimate the next 3 months using recent behavior. It is a simple reference and does not replace financial planning.';
+  String get reports_cash_flow_projection_help_body =>
+      'It defines how many future periods you want to see in the base projection. For example, if you choose 3 and group by month, the report will estimate the next 3 months using recent behavior. It is a simple reference and does not replace financial planning.';
 
   @override
   String get reports_cash_flow_filter_group_by => 'Grouping';
@@ -1975,16 +2201,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reports_cash_flow_filter_cost_center => 'Cost center';
 
   @override
-  String get reports_cash_flow_filter_availability_accounts => 'Availability accounts';
+  String get reports_cash_flow_filter_availability_accounts =>
+      'Availability accounts';
 
   @override
-  String get reports_cash_flow_filter_include_projection => 'Include base projection';
+  String get reports_cash_flow_filter_include_projection =>
+      'Include base projection';
 
   @override
-  String get reports_cash_flow_filter_projection_buckets => 'Buckets to project';
+  String get reports_cash_flow_filter_projection_buckets =>
+      'Buckets to project';
 
   @override
-  String get reports_cash_flow_filter_projection_horizon => 'Future periods to estimate';
+  String get reports_cash_flow_filter_projection_horizon =>
+      'Future periods to estimate';
 
   @override
   String get reports_cash_flow_filter_all_accounts => 'All accounts';
@@ -1995,7 +2225,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get reports_cash_flow_header_subtitle => 'Realized operating liquidity grouped by day, week, or month, with optional simple projection.';
+  String get reports_cash_flow_header_subtitle =>
+      'Realized operating liquidity grouped by day, week, or month, with optional simple projection.';
 
   @override
   String reports_cash_flow_meta_range(String value) {
@@ -2018,7 +2249,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get reports_cash_flow_empty => 'There is no data for the selected filters.';
+  String get reports_cash_flow_empty =>
+      'There is no data for the selected filters.';
 
   @override
   String get reports_cash_flow_details_title => 'Movement details';
@@ -2034,7 +2266,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get reports_cash_flow_details_empty => 'There are no movements for this bucket.';
+  String get reports_cash_flow_details_empty =>
+      'There are no movements for this bucket.';
 
   @override
   String get reports_cash_flow_details_action => 'View detail';
@@ -2049,7 +2282,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reports_cash_flow_export_pdf => 'Export PDF';
 
   @override
-  String get reports_cash_flow_export_success => 'Report exported successfully.';
+  String get reports_cash_flow_export_success =>
+      'Report exported successfully.';
 
   @override
   String get reports_cash_flow_export_error => 'Could not export the report.';
@@ -2069,7 +2303,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get reports_income_cost_centers_empty => 'No cost centers with movements in this period.';
+  String get reports_income_cost_centers_empty =>
+      'No cost centers with movements in this period.';
 
   @override
   String get reports_income_cost_centers_header_name => 'Cost center';
@@ -2081,10 +2316,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reports_income_cost_centers_header_last_move => 'Last movement';
 
   @override
-  String get trends_header_title => 'Composition of income, expenses and result';
+  String get trends_header_title =>
+      'Composition of income, expenses and result';
 
   @override
-  String trends_header_comparison(String currentMonthYear, String previousMonthYear) {
+  String trends_header_comparison(
+    String currentMonthYear,
+    String previousMonthYear,
+  ) {
     return 'Comparison: $currentMonthYear vs $previousMonthYear';
   }
 
@@ -2119,16 +2358,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trends_summary_net_income => 'Result';
 
   @override
-  String get reports_dre_screen_title => 'DRE - Statement of Income for the Year';
+  String get reports_dre_screen_title =>
+      'DRE - Statement of Income for the Year';
 
   @override
   String get reports_dre_header_title => 'Statement of Income for the Year';
 
   @override
-  String get reports_dre_header_subtitle => 'Understand how your church received and used resources in the period';
+  String get reports_dre_header_subtitle =>
+      'Understand how your church received and used resources in the period';
 
   @override
-  String get reports_dre_footer_note => 'Note: This report considers only confirmed and reconciled entries that affect the accounting result.';
+  String get reports_dre_footer_note =>
+      'Note: This report considers only confirmed and reconciled entries that affect the accounting result.';
 
   @override
   String get reports_dre_summary_by_currency_title => 'Summary by currency';
@@ -2152,7 +2394,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get reports_dre_section_subtitle => 'Summary of the result in this currency.';
+  String get reports_dre_section_subtitle =>
+      'Summary of the result in this currency.';
 
   @override
   String get reports_dre_main_indicators_title => 'Key indicators';
@@ -2161,19 +2404,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reports_dre_card_gross_revenue_title => 'Gross revenue';
 
   @override
-  String get reports_dre_card_gross_revenue_description => 'Total tithes, offerings and donations received';
+  String get reports_dre_card_gross_revenue_description =>
+      'Total tithes, offerings and donations received';
 
   @override
   String get reports_dre_card_operational_result_title => 'Operating result';
 
   @override
-  String get reports_dre_card_operational_result_description => 'Gross result minus operating expenses';
+  String get reports_dre_card_operational_result_description =>
+      'Gross result minus operating expenses';
 
   @override
   String get reports_dre_card_net_result_title => 'Net result';
 
   @override
-  String get reports_dre_card_net_result_description => 'Final result for the period (surplus or deficit)';
+  String get reports_dre_card_net_result_description =>
+      'Final result for the period (surplus or deficit)';
 
   @override
   String get reports_dre_detail_section_title => 'Detail';
@@ -2197,43 +2443,51 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reports_dre_item_net_revenue_title => 'Net revenue';
 
   @override
-  String get reports_dre_item_net_revenue_description => 'Gross revenue minus returns and adjustments';
+  String get reports_dre_item_net_revenue_description =>
+      'Gross revenue minus returns and adjustments';
 
   @override
   String get reports_dre_item_direct_costs_title => 'Direct costs';
 
   @override
-  String get reports_dre_item_direct_costs_description => 'Event costs, materials and specific activities';
+  String get reports_dre_item_direct_costs_description =>
+      'Event costs, materials and specific activities';
 
   @override
   String get reports_dre_item_gross_profit_title => 'Gross profit';
 
   @override
-  String get reports_dre_item_gross_profit_description => 'Net revenue minus direct costs';
+  String get reports_dre_item_gross_profit_description =>
+      'Net revenue minus direct costs';
 
   @override
-  String get reports_dre_item_operational_expenses_title => 'Operating expenses';
+  String get reports_dre_item_operational_expenses_title =>
+      'Operating expenses';
 
   @override
-  String get reports_dre_item_operational_expenses_description => 'Day-to-day expenses: electricity, water, salaries, cleaning';
+  String get reports_dre_item_operational_expenses_description =>
+      'Day-to-day expenses: electricity, water, salaries, cleaning';
 
   @override
   String get reports_dre_item_ministry_transfers_title => 'Ministry transfers';
 
   @override
-  String get reports_dre_item_ministry_transfers_description => 'Transfers to ministries, missions or to the board';
+  String get reports_dre_item_ministry_transfers_description =>
+      'Transfers to ministries, missions or to the board';
 
   @override
   String get reports_dre_item_capex_title => 'CAPEX investments';
 
   @override
-  String get reports_dre_item_capex_description => 'Acquisition or improvement of assets and infrastructure';
+  String get reports_dre_item_capex_description =>
+      'Acquisition or improvement of assets and infrastructure';
 
   @override
   String get reports_dre_item_extraordinary_title => 'Extraordinary results';
 
   @override
-  String get reports_dre_item_extraordinary_description => 'Occasional income or expenses outside the routine';
+  String get reports_dre_item_extraordinary_description =>
+      'Occasional income or expenses outside the routine';
 
   @override
   String reports_dre_help_dialog_title(String title) {
@@ -2250,64 +2504,84 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reports_dre_help_understood => 'Understood';
 
   @override
-  String get reports_dre_help_gross_revenue_meaning => 'Total incoming resources in the period, such as tithes, offerings, and donations.';
+  String get reports_dre_help_gross_revenue_meaning =>
+      'Total incoming resources in the period, such as tithes, offerings, and donations.';
 
   @override
-  String get reports_dre_help_gross_revenue_example => 'If the church received 5,000 this month, this line shows 5,000.';
+  String get reports_dre_help_gross_revenue_example =>
+      'If the church received 5,000 this month, this line shows 5,000.';
 
   @override
-  String get reports_dre_help_net_revenue_meaning => 'Gross revenue after returns and adjustments. In many cases it matches gross revenue.';
+  String get reports_dre_help_net_revenue_meaning =>
+      'Gross revenue after returns and adjustments. In many cases it matches gross revenue.';
 
   @override
-  String get reports_dre_help_net_revenue_example => 'Without returns, net revenue = gross revenue.';
+  String get reports_dre_help_net_revenue_example =>
+      'Without returns, net revenue = gross revenue.';
 
   @override
-  String get reports_dre_help_direct_costs_meaning => 'Costs directly tied to specific activities or projects.';
+  String get reports_dre_help_direct_costs_meaning =>
+      'Costs directly tied to specific activities or projects.';
 
   @override
-  String get reports_dre_help_direct_costs_example => 'Buying materials for a social outreach event.';
+  String get reports_dre_help_direct_costs_example =>
+      'Buying materials for a social outreach event.';
 
   @override
-  String get reports_dre_help_gross_profit_meaning => 'Amount left after subtracting direct costs from net revenue.';
+  String get reports_dre_help_gross_profit_meaning =>
+      'Amount left after subtracting direct costs from net revenue.';
 
   @override
-  String get reports_dre_help_gross_profit_example => 'Net revenue 10,000 and direct costs 2,000 result in 8,000.';
+  String get reports_dre_help_gross_profit_example =>
+      'Net revenue 10,000 and direct costs 2,000 result in 8,000.';
 
   @override
-  String get reports_dre_help_operational_expenses_meaning => 'Day-to-day costs needed to keep church operations running.';
+  String get reports_dre_help_operational_expenses_meaning =>
+      'Day-to-day costs needed to keep church operations running.';
 
   @override
-  String get reports_dre_help_operational_expenses_example => 'Utilities, cleaning, and administrative team costs.';
+  String get reports_dre_help_operational_expenses_example =>
+      'Utilities, cleaning, and administrative team costs.';
 
   @override
-  String get reports_dre_help_ministry_transfers_meaning => 'Amounts transferred to ministries, missions, or specific fronts.';
+  String get reports_dre_help_ministry_transfers_meaning =>
+      'Amounts transferred to ministries, missions, or specific fronts.';
 
   @override
-  String get reports_dre_help_ministry_transfers_example => 'Monthly allocation to children or music ministry.';
+  String get reports_dre_help_ministry_transfers_example =>
+      'Monthly allocation to children or music ministry.';
 
   @override
-  String get reports_dre_help_capex_meaning => 'Investments in long-term assets and infrastructure.';
+  String get reports_dre_help_capex_meaning =>
+      'Investments in long-term assets and infrastructure.';
 
   @override
-  String get reports_dre_help_capex_example => 'Buying audio equipment or structural renovation.';
+  String get reports_dre_help_capex_example =>
+      'Buying audio equipment or structural renovation.';
 
   @override
-  String get reports_dre_help_extraordinary_meaning => 'Income or expenses outside normal routine.';
+  String get reports_dre_help_extraordinary_meaning =>
+      'Income or expenses outside normal routine.';
 
   @override
-  String get reports_dre_help_extraordinary_example => 'Sale of old equipment or a reimbursement.';
+  String get reports_dre_help_extraordinary_example =>
+      'Sale of old equipment or a reimbursement.';
 
   @override
-  String get reports_dre_help_operational_result_meaning => 'Result from normal operations after direct costs, operating expenses, and transfers.';
+  String get reports_dre_help_operational_result_meaning =>
+      'Result from normal operations after direct costs, operating expenses, and transfers.';
 
   @override
-  String get reports_dre_help_operational_result_example => 'Shows whether operations closed with surplus or deficit.';
+  String get reports_dre_help_operational_result_example =>
+      'Shows whether operations closed with surplus or deficit.';
 
   @override
-  String get reports_dre_help_net_result_meaning => 'Final result for the period after all DRE components.';
+  String get reports_dre_help_net_result_meaning =>
+      'Final result for the period after all DRE components.';
 
   @override
-  String get reports_dre_help_net_result_example => 'Positive means surplus; negative means deficit.';
+  String get reports_dre_help_net_result_example =>
+      'Positive means surplus; negative means deficit.';
 
   @override
   String reports_dre_currency_badge(String symbols, String count) {
@@ -2315,10 +2589,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get reports_dre_multi_currency_disclaimer => 'Values are shown per currency. Totals are not summed across currencies.';
+  String get reports_dre_multi_currency_disclaimer =>
+      'Values are shown per currency. Totals are not summed across currencies.';
 
   @override
-  String get reports_dre_empty_selected_period => 'No data for the selected period.';
+  String get reports_dre_empty_selected_period =>
+      'No data for the selected period.';
 
   @override
   String get reports_monthly_tithes_title => 'Monthly tithes report';
@@ -2350,10 +2626,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get reports_monthly_tithes_multi_currency_disclaimer => 'Values are shown per currency. Totals are not summed across currencies.';
+  String get reports_monthly_tithes_multi_currency_disclaimer =>
+      'Values are shown per currency. Totals are not summed across currencies.';
 
   @override
-  String get reports_monthly_tithes_empty_selected_period => 'No data for the selected period.';
+  String get reports_monthly_tithes_empty_selected_period =>
+      'No data for the selected period.';
 
   @override
   String get reports_monthly_tithes_tithes_of_tithes => 'Tithes of tithes';
@@ -2365,7 +2643,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get finance_records_filter_concept => 'Concept';
 
   @override
-  String get finance_records_filter_availability_account => 'Availability account';
+  String get finance_records_filter_availability_account =>
+      'Availability account';
 
   @override
   String get finance_records_table_empty => 'No financial records to show';
@@ -2406,7 +2685,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get auth_login_social_privacy => 'Privacy Policy';
 
   @override
-  String get auth_login_error_social_failed => 'Social login failed. Please try again.';
+  String get auth_login_error_social_failed =>
+      'Social login failed. Please try again.';
 
   @override
   String auth_login_error_social_device_issue(String provider) {
@@ -2432,7 +2712,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get finance_records_table_header_concept => 'Concept';
 
   @override
-  String get finance_records_table_header_availability_account => 'Availability account';
+  String get finance_records_table_header_availability_account =>
+      'Availability account';
 
   @override
   String get finance_records_table_header_status => 'Status';
@@ -2453,7 +2734,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get finance_records_table_action_void => 'Void';
 
   @override
-  String get finance_records_table_confirm_void => 'Do you want to void this financial movement?';
+  String get finance_records_table_confirm_void =>
+      'Do you want to void this financial movement?';
 
   @override
   String get finance_records_table_modal_title => 'Financial movement';
@@ -2477,10 +2759,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get finance_records_form_save => 'Save';
 
   @override
-  String get finance_records_form_toast_purchase_in_construction => 'Purchase records are under construction';
+  String get finance_records_form_toast_purchase_in_construction =>
+      'Purchase records are under construction';
 
   @override
-  String get finance_records_form_toast_saved_success => 'Record saved successfully';
+  String get finance_records_form_toast_saved_success =>
+      'Record saved successfully';
 
   @override
   String get finance_records_list_title => 'Financial movements';
@@ -2507,7 +2791,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get finance_records_transfer_field_to_account => 'Destination account';
 
   @override
-  String get finance_records_transfer_concept_internal => 'Internal transfer between accounts';
+  String get finance_records_transfer_concept_internal =>
+      'Internal transfer between accounts';
 
   @override
   String get finance_records_transfer_action_create => 'Register transfer';
@@ -2516,16 +2801,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get finance_records_transfer_action_reverse => 'Reverse';
 
   @override
-  String get finance_records_transfer_confirm_reverse => 'Do you want to reverse this internal transfer?';
+  String get finance_records_transfer_confirm_reverse =>
+      'Do you want to reverse this internal transfer?';
 
   @override
-  String get finance_records_transfer_error_required_fields => 'Fill source, destination, date and amount to continue.';
+  String get finance_records_transfer_error_required_fields =>
+      'Fill source, destination, date and amount to continue.';
 
   @override
-  String get finance_records_transfer_error_same_account => 'Source and destination accounts must be different.';
+  String get finance_records_transfer_error_same_account =>
+      'Source and destination accounts must be different.';
 
   @override
-  String get finance_records_transfer_success_created => 'Internal transfer registered successfully.';
+  String get finance_records_transfer_success_created =>
+      'Internal transfer registered successfully.';
 
   @override
   String get common_view => 'View';
@@ -2534,7 +2823,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contributions_status_processed => 'Processed';
 
   @override
-  String get contributions_status_pending_verification => 'Pending verification';
+  String get contributions_status_pending_verification =>
+      'Pending verification';
 
   @override
   String get contributions_status_rejected => 'Rejected';
@@ -2584,7 +2874,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contributions_view_section_member => 'Member';
 
   @override
-  String get contributions_view_section_financial_concept => 'Financial concept';
+  String get contributions_view_section_financial_concept =>
+      'Financial concept';
 
   @override
   String get contributions_view_section_receipt => 'Transfer receipt';
@@ -2596,82 +2887,101 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contributions_view_action_reject => 'Reject';
 
   @override
-  String get accountsReceivable_form_section_payment_title => 'Payment configuration';
+  String get accountsReceivable_form_section_payment_title =>
+      'Payment configuration';
 
   @override
-  String get accountsReceivable_form_section_payment_subtitle => 'Define how this receivable will be charged and review the installments schedule.';
+  String get accountsReceivable_form_section_payment_subtitle =>
+      'Define how this receivable will be charged and review the installments schedule.';
 
   @override
   String get accountsReceivable_form_field_type => 'Account type';
 
   @override
-  String get accountsReceivable_type_help_title => 'How to classify the account type';
+  String get accountsReceivable_type_help_title =>
+      'How to classify the account type';
 
   @override
-  String get accountsReceivable_type_help_intro => 'Choose the type that best describes the origin of the receivable amount.';
+  String get accountsReceivable_type_help_intro =>
+      'Choose the type that best describes the origin of the receivable amount.';
 
   @override
   String get accountsReceivable_type_contribution_title => 'Contribution';
 
   @override
-  String get accountsReceivable_type_contribution_description => 'Voluntary commitments made by members or groups.';
+  String get accountsReceivable_type_contribution_description =>
+      'Voluntary commitments made by members or groups.';
 
   @override
-  String get accountsReceivable_type_contribution_example => 'E.g.: missions campaigns, recurring offerings, special donations.';
+  String get accountsReceivable_type_contribution_example =>
+      'E.g.: missions campaigns, recurring offerings, special donations.';
 
   @override
   String get accountsReceivable_type_service_title => 'Service';
 
   @override
-  String get accountsReceivable_type_service_description => 'Charges for activities or services provided by the church.';
+  String get accountsReceivable_type_service_description =>
+      'Charges for activities or services provided by the church.';
 
   @override
-  String get accountsReceivable_type_service_example => 'E.g.: music courses, conferences, event catering rental.';
+  String get accountsReceivable_type_service_example =>
+      'E.g.: music courses, conferences, event catering rental.';
 
   @override
-  String get accountsReceivable_type_interinstitutional_title => 'Interinstitutional';
+  String get accountsReceivable_type_interinstitutional_title =>
+      'Interinstitutional';
 
   @override
-  String get accountsReceivable_type_interinstitutional_description => 'Amounts arising from partnerships with other institutions.';
+  String get accountsReceivable_type_interinstitutional_description =>
+      'Amounts arising from partnerships with other institutions.';
 
   @override
-  String get accountsReceivable_type_interinstitutional_example => 'E.g.: support for joint events, agreements with another church.';
+  String get accountsReceivable_type_interinstitutional_example =>
+      'E.g.: support for joint events, agreements with another church.';
 
   @override
   String get accountsReceivable_type_rental_title => 'Rental';
 
   @override
-  String get accountsReceivable_type_rental_description => 'Paid use of spaces, vehicles or equipment.';
+  String get accountsReceivable_type_rental_description =>
+      'Paid use of spaces, vehicles or equipment.';
 
   @override
-  String get accountsReceivable_type_rental_example => 'E.g.: auditorium rental, instruments or chair rental.';
+  String get accountsReceivable_type_rental_example =>
+      'E.g.: auditorium rental, instruments or chair rental.';
 
   @override
   String get accountsReceivable_type_loan_title => 'Loan';
 
   @override
-  String get accountsReceivable_type_loan_description => 'Resources granted by the church that must be repaid.';
+  String get accountsReceivable_type_loan_description =>
+      'Resources granted by the church that must be repaid.';
 
   @override
-  String get accountsReceivable_type_loan_example => 'E.g.: advances to ministries, temporary financial support.';
+  String get accountsReceivable_type_loan_example =>
+      'E.g.: advances to ministries, temporary financial support.';
 
   @override
   String get accountsReceivable_type_financial_title => 'Financial';
 
   @override
-  String get accountsReceivable_type_financial_description => 'Bank movements that are still pending settlement.';
+  String get accountsReceivable_type_financial_description =>
+      'Bank movements that are still pending settlement.';
 
   @override
-  String get accountsReceivable_type_financial_example => 'E.g.: checks in process, card acquiring, refunds.';
+  String get accountsReceivable_type_financial_example =>
+      'E.g.: checks in process, card acquiring, refunds.';
 
   @override
   String get accountsReceivable_type_legal_title => 'Legal';
 
   @override
-  String get accountsReceivable_type_legal_description => 'Charges related to legal actions, insurance or indemnities.';
+  String get accountsReceivable_type_legal_description =>
+      'Charges related to legal actions, insurance or indemnities.';
 
   @override
-  String get accountsReceivable_type_legal_example => 'E.g.: enforcement of judgment, claims covered by insurer.';
+  String get accountsReceivable_type_legal_example =>
+      'E.g.: enforcement of judgment, claims covered by insurer.';
 
   @override
   String get common_see_all => 'See all';
@@ -2689,7 +2999,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_home_generosity_month_label => 'Contributed this month';
 
   @override
-  String get member_home_generosity_commitments_label => 'Commitments in progress';
+  String get member_home_generosity_commitments_label =>
+      'Commitments in progress';
 
   @override
   String get member_home_generosity_commitments_hint => 'Tap to view details';
@@ -2698,7 +3009,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_home_upcoming_events_title => 'Upcoming events';
 
   @override
-  String get member_home_upcoming_events_empty => 'No upcoming events in the next few days.';
+  String get member_home_upcoming_events_empty =>
+      'No upcoming events in the next few days.';
 
   @override
   String get member_schedule_detail_information_title => 'Information';
@@ -2710,7 +3022,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_schedule_detail_optional_label => '(optional)';
 
   @override
-  String get member_schedule_detail_no_extra_info => 'No additional details available.';
+  String get member_schedule_detail_no_extra_info =>
+      'No additional details available.';
 
   @override
   String get member_contribution_history_title => 'Contribution history';
@@ -2731,7 +3044,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_contribution_type_offering => 'Offering';
 
   @override
-  String get member_contribution_destination_label => 'Contribution destination';
+  String get member_contribution_destination_label =>
+      'Contribution destination';
 
   @override
   String get member_contribution_search_account_hint => 'Search account...';
@@ -2755,7 +3069,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_contribution_receipt_payment_date_label => 'Payment date';
 
   @override
-  String get member_contribution_receipt_help_text => 'Your church treasury will review this receipt. Attaching it is mandatory.';
+  String get member_contribution_receipt_help_text =>
+      'Your church treasury will review this receipt. Attaching it is mandatory.';
 
   @override
   String get member_contribution_message_label => 'Message (optional)';
@@ -2764,34 +3079,102 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_contribution_continue_button => 'Continue';
 
   @override
-  String get member_contribution_payment_method_question => 'How do you want to record the payment?';
+  String member_contribution_step_label(int current, int total) {
+    return 'Step $current of $total';
+  }
 
   @override
-  String get member_contribution_payment_method_boleto_title => 'Generate a boleto to pay later';
+  String get member_contribution_type_step_title =>
+      'What type of contribution\nwould you like to make?';
 
   @override
-  String get member_contribution_payment_method_manual_title => 'I already contributed, I want to upload the receipt';
+  String get member_contribution_type_step_subtitle =>
+      'Select an option to continue.';
 
   @override
-  String get member_contribution_payment_method_pix_description => 'Pay now via PIX. Generate the QR code or copy-and-paste code to pay in your banking app.';
+  String get member_contribution_amount_step_title =>
+      'What amount did you give?';
 
   @override
-  String get member_contribution_payment_method_boleto_description => 'Generate a boleto to pay later through online banking or your app.';
+  String get member_contribution_amount_step_subtitle =>
+      'Select the amount of your contribution.';
 
   @override
-  String get member_contribution_payment_method_manual_description => 'Deposit, transfer, or use another method, then upload the receipt here.';
+  String get member_contribution_selected_value_label => 'Selected amount';
 
   @override
-  String get member_contribution_history_empty_title => 'You do not have any contributions yet';
+  String get member_contribution_date_step_title =>
+      'When did you make\nthe transfer?';
 
   @override
-  String get member_contribution_history_empty_subtitle => 'Once you make a contribution, it will appear here.';
+  String get member_contribution_date_step_subtitle =>
+      'Select the transfer date.';
+
+  @override
+  String get member_contribution_date_today => 'Today';
+
+  @override
+  String get member_contribution_date_yesterday => 'Yesterday';
+
+  @override
+  String get member_contribution_date_choose => 'Choose date';
+
+  @override
+  String get member_contribution_receipt_step_title =>
+      'Attach the transfer\nreceipt';
+
+  @override
+  String get member_contribution_receipt_step_subtitle =>
+      'Upload the receipt photo for verification.';
+
+  @override
+  String get member_contribution_receipt_select_photo => 'Select photo';
+
+  @override
+  String get member_contribution_receipt_formats =>
+      'Accepted formats: JPG, PNG.';
+
+  @override
+  String get member_contribution_send_button => 'Send contribution';
+
+  @override
+  String get member_contribution_payment_method_question =>
+      'How do you want to record the payment?';
+
+  @override
+  String get member_contribution_payment_method_boleto_title =>
+      'Generate a boleto to pay later';
+
+  @override
+  String get member_contribution_payment_method_manual_title =>
+      'I already contributed, I want to upload the receipt';
+
+  @override
+  String get member_contribution_payment_method_pix_description =>
+      'Pay now via PIX. Generate the QR code or copy-and-paste code to pay in your banking app.';
+
+  @override
+  String get member_contribution_payment_method_boleto_description =>
+      'Generate a boleto to pay later through online banking or your app.';
+
+  @override
+  String get member_contribution_payment_method_manual_description =>
+      'Deposit, transfer, or use another method, then upload the receipt here.';
+
+  @override
+  String get member_contribution_history_empty_title =>
+      'You do not have any contributions yet';
+
+  @override
+  String get member_contribution_history_empty_subtitle =>
+      'Once you make a contribution, it will appear here.';
 
   @override
   String get member_contribution_history_item_default_title => 'Contribution';
 
   @override
-  String get member_contribution_history_item_receipt_submitted => 'Receipt submitted';
+  String get member_contribution_history_item_receipt_submitted =>
+      'Receipt submitted';
 
   @override
   String get member_contribution_pix_title => 'Pay with PIX';
@@ -2802,7 +3185,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get member_contribution_pix_qr_hint => 'Scan this QR code in your banking app.';
+  String get member_contribution_pix_qr_hint =>
+      'Scan this QR code in your banking app.';
 
   @override
   String get member_contribution_pix_code_label => 'PIX copy and paste code';
@@ -2811,7 +3195,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_contribution_copy_code => 'Copy code';
 
   @override
-  String get member_contribution_pix_footer => 'After paying, you can track the confirmation in your contribution history.';
+  String get member_contribution_pix_footer =>
+      'After paying, you can track the confirmation in your contribution history.';
 
   @override
   String get member_contribution_back_to_home => 'Back to home';
@@ -2826,7 +3211,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_contribution_boleto_due_date_label => 'Due date:';
 
   @override
-  String get member_contribution_boleto_instruction => 'Use the code below to pay in your online banking or app.';
+  String get member_contribution_boleto_instruction =>
+      'Use the code below to pay in your online banking or app.';
 
   @override
   String get member_contribution_boleto_line_label => 'Digitable line';
@@ -2835,19 +3221,38 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_contribution_boleto_download_pdf => 'Download boleto PDF';
 
   @override
-  String get member_contribution_boleto_footer => 'After paying, the confirmation will appear in your contribution history. Keep the receipt.';
+  String get member_contribution_boleto_footer =>
+      'After paying, the confirmation will appear in your contribution history. Keep the receipt.';
 
   @override
-  String get member_contribution_boleto_copy_success => 'Digitable line copied!';
+  String get member_contribution_boleto_copy_success =>
+      'Digitable line copied!';
 
   @override
   String get member_contribution_boleto_pdf_error => 'Could not open the PDF';
 
   @override
-  String get member_contribution_result_success_title => 'Contribution completed\nsuccessfully!';
+  String get member_contribution_result_success_title =>
+      'Contribution completed\nsuccessfully!';
 
   @override
-  String get member_contribution_result_success_subtitle => 'Thank you for your generosity.';
+  String get member_contribution_result_success_subtitle =>
+      'Thank you for your generosity.';
+
+  @override
+  String get member_contribution_result_sent_title => 'Contribution sent!';
+
+  @override
+  String get member_contribution_result_receipt_received =>
+      'Your receipt was received\nsuccessfully.';
+
+  @override
+  String get member_contribution_result_blessing_title =>
+      'May God bless your generosity\nand multiply your life.';
+
+  @override
+  String get member_contribution_result_blessing_subtitle =>
+      'Thank you for contributing with joy.';
 
   @override
   String member_contribution_result_date(String date) {
@@ -2855,25 +3260,30 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get member_contribution_result_info => 'The treasury team will review your receipt.';
+  String get member_contribution_result_info =>
+      'The treasury team will review your receipt.';
 
   @override
   String get member_contribution_view_history => 'View history';
 
   @override
-  String get member_contribution_result_error_title => 'We could not process\nthe payment';
+  String get member_contribution_result_error_title =>
+      'We could not process\nthe payment';
 
   @override
-  String get member_contribution_result_error_message => 'Check the payment details or try another method.';
+  String get member_contribution_result_error_message =>
+      'Check the payment details or try another method.';
 
   @override
   String get member_contribution_try_again => 'Try again';
 
   @override
-  String get member_contribution_form_required_fields_error => 'Please fill in all required fields';
+  String get member_contribution_form_required_fields_error =>
+      'Please fill in all required fields';
 
   @override
-  String get member_contribution_form_receipt_required_error => 'The receipt is required.';
+  String get member_contribution_form_receipt_required_error =>
+      'The receipt is required.';
 
   @override
   String member_contribution_form_submission_error(String error) {
@@ -2881,13 +3291,16 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get member_contribution_validator_amount_required => 'Enter the amount';
+  String get member_contribution_validator_amount_required =>
+      'Enter the amount';
 
   @override
-  String get member_contribution_validator_financial_concept_required => 'Select a financial concept';
+  String get member_contribution_validator_financial_concept_required =>
+      'Select a financial concept';
 
   @override
-  String get member_contribution_validator_account_required => 'Select the availability account';
+  String get member_contribution_validator_account_required =>
+      'Select the availability account';
 
   @override
   String get member_contribution_validator_month_required => 'Select a month';
@@ -2949,10 +3362,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_commitments_title => 'My commitments';
 
   @override
-  String get member_commitments_empty_title => 'You don\'t have contribution commitments yet';
+  String get member_commitments_empty_title =>
+      'You don\'t have contribution commitments yet';
 
   @override
-  String get member_commitments_empty_subtitle => 'When the treasury assigns one to you, it will appear here.';
+  String get member_commitments_empty_subtitle =>
+      'When the treasury assigns one to you, it will appear here.';
 
   @override
   String get member_commitments_total_label => 'Total amount';
@@ -2976,7 +3391,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_commitments_status_paid => 'Completed';
 
   @override
-  String get member_commitments_status_pending_acceptance => 'Pending acceptance';
+  String get member_commitments_status_pending_acceptance =>
+      'Pending acceptance';
 
   @override
   String get member_commitments_status_denied => 'Denied';
@@ -2985,7 +3401,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_commitments_detail_title => 'Commitment details';
 
   @override
-  String get member_commitments_detail_subtitle => 'Track your progress and choose how to pay your installments.';
+  String get member_commitments_detail_subtitle =>
+      'Track your progress and choose how to pay your installments.';
 
   @override
   String get member_commitments_detail_next_installment => 'Next installment';
@@ -3020,16 +3437,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_profile_change_password_title => 'Change password';
 
   @override
-  String get member_profile_change_password_subtitle => 'Update your access password';
+  String get member_profile_change_password_subtitle =>
+      'Update your access password';
 
   @override
-  String get member_profile_notifications_settings_title => 'Notification settings';
+  String get member_profile_notifications_settings_title =>
+      'Notification settings';
 
   @override
-  String get member_profile_notifications_settings_subtitle => 'Choose how you want to be notified by the church';
+  String get member_profile_notifications_settings_subtitle =>
+      'Choose how you want to be notified by the church';
 
   @override
-  String get member_profile_photo_source_title => 'Choose how to update the photo';
+  String get member_profile_photo_source_title =>
+      'Choose how to update the photo';
 
   @override
   String get member_profile_photo_source_camera => 'Take photo';
@@ -3038,19 +3459,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_profile_photo_source_gallery => 'Choose from gallery';
 
   @override
-  String get member_profile_photo_invalid_format => 'Choose a JPG, PNG, or WEBP image.';
+  String get member_profile_photo_invalid_format =>
+      'Choose a JPG, PNG, or WEBP image.';
 
   @override
-  String get member_profile_photo_updated => 'Profile photo updated successfully.';
+  String get member_profile_photo_updated =>
+      'Profile photo updated successfully.';
 
   @override
-  String get member_profile_photo_update_error => 'We could not update your photo. Please try again.';
+  String get member_profile_photo_update_error =>
+      'We could not update your photo. Please try again.';
 
   @override
   String get member_change_password_header_title => 'Keep your account safe';
 
   @override
-  String get member_change_password_header_subtitle => 'Use a strong password and do not share your access data.';
+  String get member_change_password_header_subtitle =>
+      'Use a strong password and do not share your access data.';
 
   @override
   String get member_change_password_current_label => 'Current password';
@@ -3071,7 +3496,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_change_password_rule_number => '1 number';
 
   @override
-  String get member_change_password_error_current => 'Incorrect current password.';
+  String get member_change_password_error_current =>
+      'Incorrect current password.';
 
   @override
   String get member_change_password_error_match => 'Passwords do not match.';
@@ -3080,7 +3506,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_change_password_success_title => 'Success!';
 
   @override
-  String get member_change_password_success_message => 'Your password has been changed successfully.';
+  String get member_change_password_success_message =>
+      'Your password has been changed successfully.';
 
   @override
   String get member_change_password_btn_save => 'Save new password';
@@ -3122,13 +3549,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_commitments_payment_submit => 'Send receipt';
 
   @override
-  String get member_commitments_payment_success => 'Payment registered! The treasury will review the receipt.';
+  String get member_commitments_payment_success =>
+      'Payment registered! The treasury will review the receipt.';
 
   @override
-  String get member_commitments_payment_required_fields_error => 'Select the installment, enter amount/date, and attach the receipt.';
+  String get member_commitments_payment_required_fields_error =>
+      'Select the installment, enter amount/date, and attach the receipt.';
 
   @override
-  String get member_commitments_payment_methods_title => 'How do you want to pay?';
+  String get member_commitments_payment_methods_title =>
+      'How do you want to pay?';
 
   @override
   String get member_commitments_payment_methods_pix => 'Pay with PIX';
@@ -3137,10 +3567,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_commitments_payment_methods_boleto => 'Generate boleto';
 
   @override
-  String get member_commitments_payment_methods_manual => 'I already paid, send receipt';
+  String get member_commitments_payment_methods_manual =>
+      'I already paid, send receipt';
 
   @override
-  String get member_commitments_payment_methods_manual_hint => 'Use this option when you transferred and must send the receipt.';
+  String get member_commitments_payment_methods_manual_hint =>
+      'Use this option when you transferred and must send the receipt.';
 
   @override
   String member_commitments_installment_paid_on(String date) {
@@ -3166,10 +3598,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_commitments_action_pay_installment => 'Pay installment';
 
   @override
-  String get member_commitments_action_pay_this_installment => 'Pay this installment';
+  String get member_commitments_action_pay_this_installment =>
+      'Pay this installment';
 
   @override
-  String get member_commitments_payment_missing_account => 'Availability account not informed. Please contact your church.';
+  String get member_commitments_payment_missing_account =>
+      'Availability account not informed. Please contact your church.';
 
   @override
   String get member_register_name_label => 'Full name';
@@ -3229,13 +3663,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_registration_link_title => 'Member registration';
 
   @override
-  String get member_registration_link_description => 'Share this link with church members so they can register or update their information.';
+  String get member_registration_link_description =>
+      'Share this link with church members so they can register or update their information.';
 
   @override
   String get member_registration_link_church_label => 'Church';
 
   @override
-  String get member_registration_link_review_note => 'Submitted records will remain pending review by the church administration.';
+  String get member_registration_link_review_note =>
+      'Submitted records will remain pending review by the church administration.';
 
   @override
   String get member_registration_link_copy_button => 'Copy link';
@@ -3250,10 +3686,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_registration_link_copied => 'Link copied';
 
   @override
-  String get member_registration_link_error_permission => 'You do not have permission to generate the registration link.';
+  String get member_registration_link_error_permission =>
+      'You do not have permission to generate the registration link.';
 
   @override
-  String get member_registration_link_error_generic => 'Could not generate the link. Please try again.';
+  String get member_registration_link_error_generic =>
+      'Could not generate the link. Please try again.';
 
   @override
   String get member_registration_link_loading => 'Loading...';
@@ -3303,7 +3741,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_pending_review_back => 'Back to members';
 
   @override
-  String get member_pending_review_empty => 'There are no members pending review.';
+  String get member_pending_review_empty =>
+      'There are no members pending review.';
 
   @override
   String get member_pending_review_header_created_at => 'Submitted at';
@@ -3318,7 +3757,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_pending_review_detail_card_title => 'Pending member review';
 
   @override
-  String get member_pending_review_detail_subtitle => 'Review the data submitted by the member before approving or rejecting the registration.';
+  String get member_pending_review_detail_subtitle =>
+      'Review the data submitted by the member before approving or rejecting the registration.';
 
   @override
   String get member_pending_review_not_found => 'Pending member not found.';
@@ -3327,7 +3767,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_pending_review_section_personal => 'Personal information';
 
   @override
-  String get member_pending_review_section_registration => 'Registration details';
+  String get member_pending_review_section_registration =>
+      'Registration details';
 
   @override
   String get member_pending_review_field_gender => 'Gender';
@@ -3339,7 +3780,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_pending_review_field_lgpd => 'LGPD consent';
 
   @override
-  String get member_pending_review_field_lgpd_accepted_at => 'Consent accepted at';
+  String get member_pending_review_field_lgpd_accepted_at =>
+      'Consent accepted at';
 
   @override
   String get member_pending_review_lgpd_yes => 'Accepted';
@@ -3374,10 +3816,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_pending_review_action_reject => 'Reject';
 
   @override
-  String get member_pending_review_approve_success => 'Member approved successfully.';
+  String get member_pending_review_approve_success =>
+      'Member approved successfully.';
 
   @override
-  String get member_pending_review_reject_success => 'Member rejected successfully.';
+  String get member_pending_review_reject_success =>
+      'Member rejected successfully.';
 
   @override
   String get member_pending_review_approve_confirm_title => 'Approve member';
@@ -3417,13 +3861,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_settings_title => 'Settings';
 
   @override
-  String get member_settings_subtitle => 'Personalize your experience at Glória Finance - Members.';
+  String get member_settings_subtitle =>
+      'Personalize your experience at Glória Finance - Members.';
 
   @override
   String get member_settings_language_title => 'Interface Language';
 
   @override
-  String get member_settings_language_description => 'Choose the language you prefer to use in the app.';
+  String get member_settings_language_description =>
+      'Choose the language you prefer to use in the app.';
 
   @override
   String get member_settings_language_default_tag => 'Default';
@@ -3432,28 +3878,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_settings_notifications_title => 'Notifications';
 
   @override
-  String get member_settings_notifications_description => 'Choose what you want to receive as alerts.';
+  String get member_settings_notifications_description =>
+      'Choose what you want to receive as alerts.';
 
   @override
-  String get member_settings_notification_church_events_title => 'New Church Events';
+  String get member_settings_notification_church_events_title =>
+      'New Church Events';
 
   @override
-  String get member_settings_notification_church_events_desc => 'Receive reminders for services, conferences, and special activities.';
+  String get member_settings_notification_church_events_desc =>
+      'Receive reminders for services, conferences, and special activities.';
 
   @override
-  String get member_settings_notification_payments_title => 'Payment Commitments';
+  String get member_settings_notification_payments_title =>
+      'Payment Commitments';
 
   @override
-  String get member_settings_notification_payments_desc => 'Alerts about installments and due dates of your commitments.';
+  String get member_settings_notification_payments_desc =>
+      'Alerts about installments and due dates of your commitments.';
 
   @override
-  String get member_settings_notification_contributions_status_title => 'Contribution Status';
+  String get member_settings_notification_contributions_status_title =>
+      'Contribution Status';
 
   @override
-  String get member_settings_notification_contributions_status_desc => 'Notifications when a tithe or offering changes status (registered, confirmed, etc.).';
+  String get member_settings_notification_contributions_status_desc =>
+      'Notifications when a tithe or offering changes status (registered, confirmed, etc.).';
 
   @override
-  String get member_settings_footer_coming_soon => 'Coming soon: more options to personalize your experience.';
+  String get member_settings_footer_coming_soon =>
+      'Coming soon: more options to personalize your experience.';
 
   @override
   String get schedule_type_service => 'Service';
@@ -3564,13 +4018,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get schedule_suspend_confirm_title => 'Confirm suspension';
 
   @override
-  String get schedule_suspend_confirm_message => 'Are you sure you want to suspend this event?';
+  String get schedule_suspend_confirm_message =>
+      'Are you sure you want to suspend this event?';
 
   @override
   String get schedule_reactivate_confirm_title => 'Confirm reactivation';
 
   @override
-  String get schedule_reactivate_confirm_message => 'Are you sure you want to reactivate this event?';
+  String get schedule_reactivate_confirm_message =>
+      'Are you sure you want to reactivate this event?';
 
   @override
   String get common_confirm => 'Confirm';
@@ -3798,16 +4254,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get schedule_form_error_title_required => 'Title is required';
 
   @override
-  String get schedule_form_error_location_name_required => 'Location name is required';
+  String get schedule_form_error_location_name_required =>
+      'Location name is required';
 
   @override
   String get schedule_form_error_director_required => 'Leader is required';
 
   @override
-  String get schedule_form_error_duration_invalid => 'Duration must be greater than zero';
+  String get schedule_form_error_duration_invalid =>
+      'Duration must be greater than zero';
 
   @override
-  String get schedule_form_error_end_date_before_start => 'End date must be after start date';
+  String get schedule_form_error_end_date_before_start =>
+      'End date must be after start date';
 
   @override
   String get schedule_form_toast_saved_success => 'Event saved successfully!';
@@ -3836,7 +4295,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get schedule_duplicate_summary_title => 'Original event summary';
 
   @override
-  String get schedule_duplicate_adjustments_title => 'Adjustments before creating';
+  String get schedule_duplicate_adjustments_title =>
+      'Adjustments before creating';
 
   @override
   String get schedule_duplicate_open_edit => 'Open full edit after creating';
@@ -3845,7 +4305,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get schedule_duplicate_action_create => 'Create copy';
 
   @override
-  String get schedule_duplicate_toast_success => 'Event duplicated successfully!';
+  String get schedule_duplicate_toast_success =>
+      'Event duplicated successfully!';
 
   @override
   String get schedule_duplicate_toast_error => 'Error duplicating event';
@@ -3854,7 +4315,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountsPayable_help_cst_title => 'Tax Situation Code (CST)';
 
   @override
-  String get accountsPayable_help_cst_description => 'CST shows how the tax applies to the operation.';
+  String get accountsPayable_help_cst_description =>
+      'CST shows how the tax applies to the operation.';
 
   @override
   String get accountsPayable_help_cst_00 => 'Full taxation (Normal ICMS)';
@@ -3878,10 +4340,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountsPayable_help_cfop_title => 'Fiscal Operations Code (CFOP)';
 
   @override
-  String get accountsPayable_help_cfop_description => 'CFOP describes the operation type (purchase, sale, service).';
+  String get accountsPayable_help_cfop_description =>
+      'CFOP describes the operation type (purchase, sale, service).';
 
   @override
-  String get accountsPayable_help_cfop_digit_info => 'First digit indicates origin/destination:';
+  String get accountsPayable_help_cfop_digit_info =>
+      'First digit indicates origin/destination:';
 
   @override
   String get accountsPayable_help_cfop_1xxx => 'In-state entries';
@@ -3905,13 +4369,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountsPayable_help_cfop_1101 => 'Purchase for industrialization';
 
   @override
-  String get accountsPayable_help_cfop_1556 => 'Purchase for internal use/consumption';
+  String get accountsPayable_help_cfop_1556 =>
+      'Purchase for internal use/consumption';
 
   @override
-  String get accountsPayable_help_cfop_5405 => 'Sale subject to tax substitution';
+  String get accountsPayable_help_cfop_5405 =>
+      'Sale subject to tax substitution';
 
   @override
-  String get accountsPayable_help_cfop_6102 => 'Sale for commercialization out-of-state';
+  String get accountsPayable_help_cfop_6102 =>
+      'Sale for commercialization out-of-state';
 
   @override
   String get common_understood => 'Understood';
@@ -3923,16 +4390,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bankStatements_link_dialog_id_label => 'Financial Record ID';
 
   @override
-  String get bankStatements_link_dialog_id_error => 'Please enter the record identifier.';
+  String get bankStatements_link_dialog_id_error =>
+      'Please enter the record identifier.';
 
   @override
-  String get bankStatements_link_dialog_suggestions_title => 'Automatic Suggestions';
+  String get bankStatements_link_dialog_suggestions_title =>
+      'Automatic Suggestions';
 
   @override
-  String get bankStatements_link_dialog_suggestions_error => 'Could not load suggestions. Please try again later.';
+  String get bankStatements_link_dialog_suggestions_error =>
+      'Could not load suggestions. Please try again later.';
 
   @override
-  String get bankStatements_link_dialog_suggestions_empty => 'No record matches the amount and date.';
+  String get bankStatements_link_dialog_suggestions_empty =>
+      'No record matches the amount and date.';
 
   @override
   String get bankStatements_link_dialog_use_id => 'Use ID';
@@ -3947,7 +4418,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bankStatements_link_dialog_link_button => 'Link';
 
   @override
-  String get bankStatements_link_dialog_link_error => 'Could not link. Check the provided identifier.';
+  String get bankStatements_link_dialog_link_error =>
+      'Could not link. Check the provided identifier.';
 
   @override
   String get tax_form_title_add => 'Add Tax';
@@ -3992,7 +4464,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devotional_title => 'Devotionals';
 
   @override
-  String get devotional_subtitle => 'Weekly planning, review, delivery and history.';
+  String get devotional_subtitle =>
+      'Weekly planning, review, delivery and history.';
 
   @override
   String get devotional_tab_configure => 'Configure';
@@ -4007,7 +4480,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devotional_service_status_title => 'Activate this week';
 
   @override
-  String get devotional_service_status_subtitle => 'Turn this week\'s devotional flow on or off';
+  String get devotional_service_status_subtitle =>
+      'Turn this week\'s devotional flow on or off';
 
   @override
   String get devotional_theme_week => 'Week theme';
@@ -4045,25 +4519,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devotional_mode_automatic_title => 'Automatic';
 
   @override
-  String get devotional_mode_automatic_subtitle => 'Generate and send right away';
+  String get devotional_mode_automatic_subtitle =>
+      'Generate and send right away';
 
   @override
   String get devotional_mode_review_title => 'With pastoral review';
 
   @override
-  String get devotional_mode_review_subtitle => 'Generate and wait for your approval';
+  String get devotional_mode_review_subtitle =>
+      'Generate and wait for your approval';
 
   @override
   String get devotional_channel_push => 'Mobile app notification';
 
   @override
-  String get devotional_channel_push_subtitle => 'Delivered inside the app for the member experience.';
+  String get devotional_channel_push_subtitle =>
+      'Delivered inside the app for the member experience.';
 
   @override
   String get devotional_channel_whatsapp => 'WhatsApp message';
 
   @override
-  String get devotional_channel_whatsapp_subtitle => 'Delivered by WhatsApp to members with consent.';
+  String get devotional_channel_whatsapp_subtitle =>
+      'Delivered by WhatsApp to members with consent.';
 
   @override
   String get devotional_days_of_week => 'Days of week';
@@ -4090,13 +4568,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devotional_copy_previous_week => 'Copy previous week';
 
   @override
-  String get devotional_copy_no_previous => 'No previous week configuration found.';
+  String get devotional_copy_no_previous =>
+      'No previous week configuration found.';
 
   @override
-  String get devotional_copy_success => 'Configuration copied from previous week.';
+  String get devotional_copy_success =>
+      'Configuration copied from previous week.';
 
   @override
-  String get devotional_copy_error => 'Could not copy previous week configuration.';
+  String get devotional_copy_error =>
+      'Could not copy previous week configuration.';
 
   @override
   String get devotional_save_configuration => 'Save configuration';
@@ -4113,15 +4594,22 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String devotional_summary_line(int count, String audience, String time, String timezone) {
+  String devotional_summary_line(
+    int count,
+    String audience,
+    String time,
+    String timezone,
+  ) {
     return '$count devotionals will be sent to $audience at $time ($timezone)';
   }
 
   @override
-  String get devotional_quick_guide => 'Enable weekly plan: turns this week\'s devotional flow on or off.\nDelivery method: Automatic sends without approval; Review requires pastoral approval.';
+  String get devotional_quick_guide =>
+      'Enable weekly plan: turns this week\'s devotional flow on or off.\nDelivery method: Automatic sends without approval; Review requires pastoral approval.';
 
   @override
-  String get devotional_review_mode_hint => 'Devotionals are not sent until approved.';
+  String get devotional_review_mode_hint =>
+      'Devotionals are not sent until approved.';
 
   @override
   String get devotional_validation_theme_required => 'Week theme is required.';
@@ -4130,13 +4618,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devotional_validation_days_required => 'Select at least one day.';
 
   @override
-  String get devotional_validation_time_invalid => 'Invalid time. Use the time picker.';
+  String get devotional_validation_time_invalid =>
+      'Invalid time. Use the time picker.';
 
   @override
   String get devotional_validation_audience_required => 'Select audience.';
 
   @override
-  String get devotional_validation_channel_required => 'Enable at least one delivery channel.';
+  String get devotional_validation_channel_required =>
+      'Enable at least one delivery channel.';
 
   @override
   String devotional_validation_day_missing(String day) {
@@ -4157,7 +4647,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devotional_loader_generating => 'Generating new content...';
 
   @override
-  String get devotional_loader_subtitle => 'AI is drafting a pastoral reflection based on the theme.';
+  String get devotional_loader_subtitle =>
+      'AI is drafting a pastoral reflection based on the theme.';
 
   @override
   String get devotional_content_updated => 'Content updated.';
@@ -4223,7 +4714,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_home_devotional_moment_title => 'Devotional moment';
 
   @override
-  String get member_home_devotional_moment_empty => 'No devotional is available for today yet.';
+  String get member_home_devotional_moment_empty =>
+      'No devotional is available for today yet.';
 
   @override
   String get member_home_devotional_moment_today_badge => 'Today';
@@ -4232,10 +4724,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_home_devotional_moment_cta => 'Read';
 
   @override
-  String get member_home_devotional_moment_subtitle => 'A pause to hear the Word and walk in communion.';
+  String get member_home_devotional_moment_subtitle =>
+      'A pause to hear the Word and walk in communion.';
 
   @override
-  String get member_home_devotional_moment_preview_fallback => 'Take a few minutes to receive direction, peace, and hope for today.';
+  String get member_home_devotional_moment_preview_fallback =>
+      'Take a few minutes to receive direction, peace, and hope for today.';
 
   @override
   String get member_home_devotional_moment_read_now => 'Read now';
@@ -4247,7 +4741,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_home_devotional_moment_comments => 'comments';
 
   @override
-  String get member_devotional_detail_unavailable => 'This devotional is not available right now.';
+  String get member_devotional_detail_unavailable =>
+      'This devotional is not available right now.';
 
   @override
   String get member_devotional_detail_breadcrumb => 'Today\'s reading';
@@ -4259,22 +4754,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_devotional_detail_scriptures_title => 'Scriptures';
 
   @override
-  String get member_devotional_detail_hero_kicker => 'Today\'s devotional moment';
+  String get member_devotional_detail_hero_kicker =>
+      'Today\'s devotional moment';
 
   @override
   String get member_devotional_detail_quote_label => 'Word to keep';
 
   @override
-  String get member_devotional_detail_reactions_title => 'How did this Word touch you?';
+  String get member_devotional_detail_reactions_title =>
+      'How did this Word touch you?';
 
   @override
-  String get member_devotional_detail_reactions_hint => 'Choose the response that best expresses what God ministered to your heart.';
+  String get member_devotional_detail_reactions_hint =>
+      'Choose the response that best expresses what God ministered to your heart.';
 
   @override
   String get member_devotional_detail_reactions_cta => 'React';
 
   @override
-  String get member_devotional_detail_reactions_cta_hint => 'Tap to react and press to see all options.';
+  String get member_devotional_detail_reactions_cta_hint =>
+      'Tap to react and press to see all options.';
 
   @override
   String member_devotional_detail_reactions_selected_hint(String reaction) {
@@ -4282,7 +4781,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get member_devotional_detail_reactions_picker_title => 'Choose your reaction';
+  String get member_devotional_detail_reactions_picker_title =>
+      'Choose your reaction';
 
   @override
   String get member_devotional_detail_reactions_remove => 'Remove reaction';
@@ -4291,7 +4791,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_devotional_detail_comments_title => 'Community in prayer';
 
   @override
-  String get member_devotional_detail_comments_subtitle => 'See how the church is being ministered to by this Word and join in with reverence.';
+  String get member_devotional_detail_comments_subtitle =>
+      'See how the church is being ministered to by this Word and join in with reverence.';
 
   @override
   String member_devotional_detail_comments_presence(int count) {
@@ -4299,10 +4800,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get member_devotional_detail_comments_presence_empty => 'Make room for this Word to keep echoing through the church.';
+  String get member_devotional_detail_comments_presence_empty =>
+      'Make room for this Word to keep echoing through the church.';
 
   @override
-  String get member_devotional_detail_comment_highlight => 'Community reflection';
+  String get member_devotional_detail_comment_highlight =>
+      'Community reflection';
 
   @override
   String get member_devotional_detail_comments_view_all => 'View comments';
@@ -4314,7 +4817,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_devotional_detail_comments_edit => 'Edit comment';
 
   @override
-  String get member_devotional_detail_comments_editing => 'Editing your comment';
+  String get member_devotional_detail_comments_editing =>
+      'Editing your comment';
 
   @override
   String get member_devotional_detail_comments_update => 'Save changes';
@@ -4326,19 +4830,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_devotional_detail_comments_edited => 'Edited';
 
   @override
-  String get member_devotional_detail_comments_input_hint => 'Write with warmth and reverence';
+  String get member_devotional_detail_comments_input_hint =>
+      'Write with warmth and reverence';
 
   @override
   String get member_devotional_detail_comments_send => 'Send comment';
 
   @override
-  String get member_devotional_detail_comments_empty => 'Be the first to share your reflection.';
+  String get member_devotional_detail_comments_empty =>
+      'Be the first to share your reflection.';
 
   @override
   String get member_devotional_detail_share_title => 'Carry this Word forward';
 
   @override
-  String get member_devotional_detail_share_subtitle => 'Share this message with someone who needs direction and hope today.';
+  String get member_devotional_detail_share_subtitle =>
+      'Share this message with someone who needs direction and hope today.';
 
   @override
   String get member_devotional_detail_share_action => 'Share';
@@ -4359,10 +4866,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_devotional_detail_share_system => 'More options';
 
   @override
-  String get member_devotional_detail_share_text_copied => 'Text copied successfully.';
+  String get member_devotional_detail_share_text_copied =>
+      'Text copied successfully.';
 
   @override
-  String get member_devotional_detail_share_instagram_hint => 'Choose Instagram from the share menu.';
+  String get member_devotional_detail_share_instagram_hint =>
+      'Choose Instagram from the share menu.';
 
   @override
   String get member_devotional_reaction_edified => 'Built me up';
@@ -4380,13 +4889,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_devotional_reaction_reflect => 'Made me reflect';
 
   @override
-  String get member_devotional_comment_seed_1 => 'Today\'s Word brought peace to my heart early this morning.';
+  String get member_devotional_comment_seed_1 =>
+      'Today\'s Word brought peace to my heart early this morning.';
 
   @override
-  String get member_devotional_comment_seed_2 => 'I needed this reminder to keep praying with firmness.';
+  String get member_devotional_comment_seed_2 =>
+      'I needed this reminder to keep praying with firmness.';
 
   @override
-  String get member_devotional_comment_seed_3 => 'I\'m going to share this with my cell group. It was deeply uplifting.';
+  String get member_devotional_comment_seed_3 =>
+      'I\'m going to share this with my cell group. It was deeply uplifting.';
 
   @override
   String member_devotional_detail_share_message(String title, String content) {
@@ -4414,12 +4926,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devotional_item_no_title => 'No title';
 
   @override
-  String devotional_item_channel_line(String audience, String push, String whatsapp) {
+  String devotional_item_channel_line(
+    String audience,
+    String push,
+    String whatsapp,
+  ) {
     return 'Audience: $audience | Push: $push | WhatsApp: $whatsapp';
   }
 
   @override
-  String get devotional_item_urgent_approval => 'Requires approval before scheduled time.';
+  String get devotional_item_urgent_approval =>
+      'Requires approval before scheduled time.';
 
   @override
   String get devotional_view_detail => 'View details';
@@ -4437,7 +4954,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devotional_engagement_title => 'Reactions and comments';
 
   @override
-  String get devotional_engagement_subtitle => 'See how the church engaged with this message without cluttering the agenda.';
+  String get devotional_engagement_subtitle =>
+      'See how the church engaged with this message without cluttering the agenda.';
 
   @override
   String get devotional_engagement_reactions => 'Reactions';
@@ -4446,10 +4964,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devotional_engagement_comments => 'Comments';
 
   @override
-  String get devotional_engagement_empty => 'There are no reactions or comments for this devotional yet.';
+  String get devotional_engagement_empty =>
+      'There are no reactions or comments for this devotional yet.';
 
   @override
-  String get devotional_engagement_comments_empty => 'There are no visible comments for this devotional yet.';
+  String get devotional_engagement_comments_empty =>
+      'There are no visible comments for this devotional yet.';
 
   @override
   String get devotional_metric_total => 'Total';
@@ -4470,7 +4990,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devotional_review_title => 'Devotional Review';
 
   @override
-  String devotional_review_header_line(String day, String date, String audience) {
+  String devotional_review_header_line(
+    String day,
+    String date,
+    String audience,
+  ) {
     return '$day - $date | Audience: $audience';
   }
 
@@ -4487,7 +5011,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devotional_review_label_push_body => 'Push message';
 
   @override
-  String get devotional_review_label_scriptures => 'Scriptures (one per line: Reference | Text)';
+  String get devotional_review_label_scriptures =>
+      'Scriptures (one per line: Reference | Text)';
 
   @override
   String get devotional_review_save_changes => 'Save changes';
@@ -4502,7 +5027,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devotional_review_confirm_title => 'Confirm delivery';
 
   @override
-  String get devotional_review_confirm_message => 'Do you want to approve and send this devotional now?';
+  String get devotional_review_confirm_message =>
+      'Do you want to approve and send this devotional now?';
 
   @override
   String get devotional_review_confirm_yes => 'Yes, send';
@@ -4511,7 +5037,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devotional_review_fields_required => 'All fields are required.';
 
   @override
-  String get devotional_review_scripture_required => 'Add at least one scripture (Reference | Text).';
+  String get devotional_review_scripture_required =>
+      'Add at least one scripture (Reference | Text).';
 
   @override
   String get devotional_review_updated => 'Devotional updated.';
@@ -4520,7 +5047,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get devotional_review_loader_approving => 'Approving and sending...';
 
   @override
-  String get devotional_review_loader_approving_subtitle => 'Processing delivery through configured channels.';
+  String get devotional_review_loader_approving_subtitle =>
+      'Processing delivery through configured channels.';
 
   @override
   String get devotional_review_retry_done => 'Send retry executed.';
@@ -4529,22 +5057,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get support_assistant_title => 'Gloria Assistance';
 
   @override
-  String get support_assistant_header_compact => 'Gloria Assistance helps you with screens, flows, concepts and images when you need guidance for a registration.';
+  String get support_assistant_header_compact =>
+      'Gloria Assistance helps you with screens, flows, concepts and images when you need guidance for a registration.';
 
   @override
-  String get support_assistant_header_wide => 'Gloria Assistance is your technical assistant for resolving system questions, guiding registrations and analyzing receipts, invoices and images.';
+  String get support_assistant_header_wide =>
+      'Gloria Assistance is your technical assistant for resolving system questions, guiding registrations and analyzing receipts, invoices and images.';
 
   @override
-  String get support_assistant_empty_intro => 'I am Gloria Assistance. I can help with navigation, configuration, accounting concepts and initial document reading.';
+  String get support_assistant_empty_intro =>
+      'I am Gloria Assistance. I can help with navigation, configuration, accounting concepts and initial document reading.';
 
   @override
-  String get support_assistant_empty_suggestions => 'You can start with one of these questions:';
+  String get support_assistant_empty_suggestions =>
+      'You can start with one of these questions:';
 
   @override
   String get support_assistant_loading_title => 'Analyzing your request';
 
   @override
-  String get support_assistant_loading_description => 'I am reviewing the system context to prepare a useful response.';
+  String get support_assistant_loading_description =>
+      'I am reviewing the system context to prepare a useful response.';
 
   @override
   String get support_assistant_show_more => 'Show more';
@@ -4553,55 +5086,71 @@ class AppLocalizationsEn extends AppLocalizations {
   String get support_assistant_show_less => 'Show less';
 
   @override
-  String get support_assistant_suggestion_overview => 'What can I do in Gloria Finance?';
+  String get support_assistant_suggestion_overview =>
+      'What can I do in Gloria Finance?';
 
   @override
-  String get support_assistant_suggestion_paid_expense => 'How do I register an already paid expense?';
+  String get support_assistant_suggestion_paid_expense =>
+      'How do I register an already paid expense?';
 
   @override
-  String get support_assistant_suggestion_accounts_payable => 'Which screen should I use for accounts payable?';
+  String get support_assistant_suggestion_accounts_payable =>
+      'Which screen should I use for accounts payable?';
 
   @override
-  String get support_assistant_suggestion_analyze_image => 'Analyze this image and tell me how to register it';
+  String get support_assistant_suggestion_analyze_image =>
+      'Analyze this image and tell me how to register it';
 
   @override
   String get support_assistant_context_action => 'Ask Gloria Assistance';
 
   @override
-  String get support_assistant_context_financial_record_question => 'Help me register a movement correctly on this screen.';
+  String get support_assistant_context_financial_record_question =>
+      'Help me register a movement correctly on this screen.';
 
   @override
-  String get support_assistant_context_financial_concept_question => 'Help me configure a financial concept correctly on this screen.';
+  String get support_assistant_context_financial_concept_question =>
+      'Help me configure a financial concept correctly on this screen.';
 
   @override
-  String get support_assistant_context_purchase_question => 'Help me register a purchase correctly on this screen.';
+  String get support_assistant_context_purchase_question =>
+      'Help me register a purchase correctly on this screen.';
 
   @override
-  String get support_assistant_context_accounts_payable_question => 'Help me register an account payable correctly on this screen.';
+  String get support_assistant_context_accounts_payable_question =>
+      'Help me register an account payable correctly on this screen.';
 
   @override
-  String get support_assistant_context_accounts_receivable_question => 'Help me register an account receivable correctly on this screen.';
+  String get support_assistant_context_accounts_receivable_question =>
+      'Help me register an account receivable correctly on this screen.';
 
   @override
-  String get support_assistant_context_internal_transfer_question => 'Help me register an internal transfer correctly on this screen.';
+  String get support_assistant_context_internal_transfer_question =>
+      'Help me register an internal transfer correctly on this screen.';
 
   @override
-  String get support_assistant_context_supplier_question => 'Help me register a supplier correctly on this screen.';
+  String get support_assistant_context_supplier_question =>
+      'Help me register a supplier correctly on this screen.';
 
   @override
-  String get support_assistant_context_bank_question => 'Help me configure a bank correctly on this screen.';
+  String get support_assistant_context_bank_question =>
+      'Help me configure a bank correctly on this screen.';
 
   @override
-  String get support_assistant_context_availability_account_question => 'Help me configure an availability account correctly on this screen.';
+  String get support_assistant_context_availability_account_question =>
+      'Help me configure an availability account correctly on this screen.';
 
   @override
-  String get support_assistant_context_cost_center_question => 'Help me configure a cost center correctly on this screen.';
+  String get support_assistant_context_cost_center_question =>
+      'Help me configure a cost center correctly on this screen.';
 
   @override
-  String get support_assistant_context_patrimony_question => 'Help me register a patrimony asset correctly on this screen.';
+  String get support_assistant_context_patrimony_question =>
+      'Help me register a patrimony asset correctly on this screen.';
 
   @override
-  String get support_assistant_context_bank_statements_question => 'Help me understand and use bank reconciliation correctly on this screen.';
+  String get support_assistant_context_bank_statements_question =>
+      'Help me understand and use bank reconciliation correctly on this screen.';
 
   @override
   String get support_assistant_new_conversation => 'New conversation';
@@ -4613,16 +5162,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get support_assistant_delete_conversation => 'Delete conversation';
 
   @override
-  String get support_assistant_delete_conversation_title => 'Delete conversation?';
+  String get support_assistant_delete_conversation_title =>
+      'Delete conversation?';
 
   @override
-  String get support_assistant_delete_conversation_body => 'This conversation and its history will be deleted. This action cannot be undone.';
+  String get support_assistant_delete_conversation_body =>
+      'This conversation and its history will be deleted. This action cannot be undone.';
 
   @override
   String get support_assistant_action_analyze_report => 'Analyze report';
 
   @override
-  String get support_assistant_input_hint => 'Ask about flows, screens, concepts or attach an image...';
+  String get support_assistant_input_hint =>
+      'Ask about flows, screens, concepts or attach an image...';
 
   @override
   String get support_assistant_action_attach => 'Attach';
@@ -4637,7 +5189,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get support_assistant_dialog_title => 'Analyze report';
 
   @override
-  String get support_assistant_dialog_description => 'Provide the report title and the data you want the assistant to interpret.';
+  String get support_assistant_dialog_description =>
+      'Provide the report title and the data you want the assistant to interpret.';
 
   @override
   String get support_assistant_dialog_report_title => 'Report title';
@@ -4646,13 +5199,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get support_assistant_dialog_report_data => 'Report data';
 
   @override
-  String get support_assistant_dialog_report_data_hint => 'Paste JSON, summarized text or tabular report data.';
+  String get support_assistant_dialog_report_data_hint =>
+      'Paste JSON, summarized text or tabular report data.';
 
   @override
   String get support_assistant_dialog_submit => 'Analyze';
 
   @override
-  String get support_assistant_analysis_question => 'Analyze this report and explain the main points.';
+  String get support_assistant_analysis_question =>
+      'Analyze this report and explain the main points.';
 
   @override
   String get support_assistant_confidence_label => 'Confidence';
@@ -4715,7 +5270,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get support_assistant_intent_navigation_help => 'Navigation help';
 
   @override
-  String get support_assistant_intent_register_financial_movement => 'Financial registration';
+  String get support_assistant_intent_register_financial_movement =>
+      'Financial registration';
 
   @override
   String get support_assistant_intent_report_analysis => 'Report analysis';
@@ -4724,7 +5280,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get support_assistant_intent_document_guidance => 'Document guidance';
 
   @override
-  String get support_assistant_intent_configuration_help => 'Configuration help';
+  String get support_assistant_intent_configuration_help =>
+      'Configuration help';
 
   @override
   String get support_assistant_intent_general_support => 'General support';
@@ -4733,7 +5290,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_registration_title => 'Member registration';
 
   @override
-  String get member_registration_description => 'Fill in your details so the church administration can review your registration.';
+  String get member_registration_description =>
+      'Fill in your details so the church administration can review your registration.';
 
   @override
   String get member_registration_add_photo => 'Add photo';
@@ -4745,10 +5303,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_registration_photo_required => 'Profile photo is required.';
 
   @override
-  String get member_registration_photo_too_large => 'Photo must be at most 3 MB.';
+  String get member_registration_photo_too_large =>
+      'Photo must be at most 3 MB.';
 
   @override
-  String get member_registration_photo_hint => 'The photo helps the church identify you.';
+  String get member_registration_photo_hint =>
+      'The photo helps the church identify you.';
 
   @override
   String get member_registration_full_name => 'Full name *';
@@ -4811,25 +5371,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_registration_address_zip_code => 'Zip code';
 
   @override
-  String get member_registration_lgpd_label => 'I authorize the church to store my data and photo for internal administrative purposes related to member management.';
+  String get member_registration_lgpd_label =>
+      'I authorize the church to store my data and photo for internal administrative purposes related to member management.';
 
   @override
-  String get member_registration_lgpd_required => 'You must agree to the data processing.';
+  String get member_registration_lgpd_required =>
+      'You must agree to the data processing.';
 
   @override
   String get member_registration_submit => 'Submit registration';
 
   @override
-  String get member_registration_submit_error => 'Could not submit registration. Please try again.';
+  String get member_registration_submit_error =>
+      'Could not submit registration. Please try again.';
 
   @override
   String get member_registration_success_title => 'Registration submitted';
 
   @override
-  String get member_registration_success_message => 'Your information has been received and will remain pending review by the church administration.';
+  String get member_registration_success_message =>
+      'Your information has been received and will remain pending review by the church administration.';
 
   @override
-  String get member_registration_invalid_token => 'The registration link is invalid or has expired.';
+  String get member_registration_invalid_token =>
+      'The registration link is invalid or has expired.';
 
   @override
   String get member_view_action => 'View';
@@ -4838,7 +5403,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_view_title => 'View member';
 
   @override
-  String get member_view_description => 'Check the information registered for this member.';
+  String get member_view_description =>
+      'Check the information registered for this member.';
 
   @override
   String get member_view_back => 'Back';

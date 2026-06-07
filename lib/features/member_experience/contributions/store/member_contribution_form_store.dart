@@ -46,7 +46,10 @@ class MemberContributionFormStore extends ChangeNotifier {
 
   // Selection methods
   void selectType(MemberContributionType type) {
-    _state = _state.copyWith(selectedType: type);
+    _state = _state.copyWith(
+      selectedType: type,
+      clearFinancialConceptId: type == MemberContributionType.tithe,
+    );
     notifyListeners();
   }
 
@@ -71,9 +74,9 @@ class MemberContributionFormStore extends ChangeNotifier {
     // If switching to manual receipt, reset paidAt if switching away from manual
     if (channel != MemberPaymentChannel.externalWithReceipt) {
       _state = _state.copyWith(
-        paidAt: null,
-        receiptLocalPath: null,
-        receiptFileName: null,
+        clearPaidAt: true,
+        clearReceiptLocalPath: true,
+        clearReceiptFileName: true,
       );
     }
     notifyListeners();
@@ -99,7 +102,10 @@ class MemberContributionFormStore extends ChangeNotifier {
   }
 
   void clearReceipt() {
-    _state = _state.copyWith(receiptLocalPath: null, receiptFileName: null);
+    _state = _state.copyWith(
+      clearReceiptLocalPath: true,
+      clearReceiptFileName: true,
+    );
     notifyListeners();
   }
 

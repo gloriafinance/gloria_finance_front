@@ -1202,6 +1202,32 @@
   "member_contribution_receipt_help_text": "Your church treasury will review this receipt. Attaching it is mandatory.",
   "member_contribution_message_label": "Message (optional)",
   "member_contribution_continue_button": "Continue",
+  "member_contribution_step_label": "Step {current} of {total}",
+  "@member_contribution_step_label": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "member_contribution_type_step_title": "What type of contribution\nwould you like to make?",
+  "member_contribution_type_step_subtitle": "Select an option to continue.",
+  "member_contribution_amount_step_title": "What amount did you give?",
+  "member_contribution_amount_step_subtitle": "Select the amount of your contribution.",
+  "member_contribution_selected_value_label": "Selected amount",
+  "member_contribution_date_step_title": "When did you make\nthe transfer?",
+  "member_contribution_date_step_subtitle": "Select the transfer date.",
+  "member_contribution_date_today": "Today",
+  "member_contribution_date_yesterday": "Yesterday",
+  "member_contribution_date_choose": "Choose date",
+  "member_contribution_receipt_step_title": "Attach the transfer\nreceipt",
+  "member_contribution_receipt_step_subtitle": "Upload the receipt photo for verification.",
+  "member_contribution_receipt_select_photo": "Select photo",
+  "member_contribution_receipt_formats": "Accepted formats: JPG, PNG.",
+  "member_contribution_send_button": "Send contribution",
   "member_contribution_payment_method_question": "How do you want to record the payment?",
   "member_contribution_payment_method_boleto_title": "Generate a boleto to pay later",
   "member_contribution_payment_method_manual_title": "I already contributed, I want to upload the receipt",
@@ -1237,6 +1263,10 @@
   "member_contribution_boleto_pdf_error": "Could not open the PDF",
   "member_contribution_result_success_title": "Contribution completed\nsuccessfully!",
   "member_contribution_result_success_subtitle": "Thank you for your generosity.",
+  "member_contribution_result_sent_title": "Contribution sent!",
+  "member_contribution_result_receipt_received": "Your receipt was received\nsuccessfully.",
+  "member_contribution_result_blessing_title": "May God bless your generosity\nand multiply your life.",
+  "member_contribution_result_blessing_subtitle": "Thank you for contributing with joy.",
   "member_contribution_result_date": "Date: {date}",
   "@member_contribution_result_date": {
     "placeholders": {

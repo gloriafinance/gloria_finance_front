@@ -63,7 +63,8 @@ import 'app_localizations_pt.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -71,7 +72,8 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -83,18 +85,19 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('es'),
-    Locale('pt')
+    Locale('pt'),
   ];
 
   /// No description provided for @month_january.
@@ -2213,7 +2216,10 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Suggestion applied: {type} · {category}. Review indicators and then save.'**
-  String settings_financial_concept_ai_result_applied_summary(String type, String category);
+  String settings_financial_concept_ai_result_applied_summary(
+    String type,
+    String category,
+  );
 
   /// No description provided for @settings_financial_concept_ai_result_assistant_tone.
   ///
@@ -2231,7 +2237,9 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Use the concept \"{conceptName}\" for this scenario. Search by this exact name in the list.'**
-  String settings_financial_concept_ai_result_existing_summary(String conceptName);
+  String settings_financial_concept_ai_result_existing_summary(
+    String conceptName,
+  );
 
   /// No description provided for @settings_financial_concept_ai_details_action.
   ///
@@ -3749,7 +3757,11 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Total income: {income} | Total expenses: {expenses} | Consolidated balance: {total}'**
-  String reports_income_cashflow_summary(String income, String expenses, String total);
+  String reports_income_cashflow_summary(
+    String income,
+    String expenses,
+    String total,
+  );
 
   /// No description provided for @reports_income_cashflow_empty.
   ///
@@ -4139,7 +4151,10 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Comparison: {currentMonthYear} vs {previousMonthYear}'**
-  String trends_header_comparison(String currentMonthYear, String previousMonthYear);
+  String trends_header_comparison(
+    String currentMonthYear,
+    String previousMonthYear,
+  );
 
   /// No description provided for @trends_list_revenue.
   ///
@@ -5443,6 +5458,102 @@ abstract class AppLocalizations {
   /// **'Continue'**
   String get member_contribution_continue_button;
 
+  /// No description provided for @member_contribution_step_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current} of {total}'**
+  String member_contribution_step_label(int current, int total);
+
+  /// No description provided for @member_contribution_type_step_title.
+  ///
+  /// In en, this message translates to:
+  /// **'What type of contribution\nwould you like to make?'**
+  String get member_contribution_type_step_title;
+
+  /// No description provided for @member_contribution_type_step_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select an option to continue.'**
+  String get member_contribution_type_step_subtitle;
+
+  /// No description provided for @member_contribution_amount_step_title.
+  ///
+  /// In en, this message translates to:
+  /// **'What amount did you give?'**
+  String get member_contribution_amount_step_title;
+
+  /// No description provided for @member_contribution_amount_step_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the amount of your contribution.'**
+  String get member_contribution_amount_step_subtitle;
+
+  /// No description provided for @member_contribution_selected_value_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected amount'**
+  String get member_contribution_selected_value_label;
+
+  /// No description provided for @member_contribution_date_step_title.
+  ///
+  /// In en, this message translates to:
+  /// **'When did you make\nthe transfer?'**
+  String get member_contribution_date_step_title;
+
+  /// No description provided for @member_contribution_date_step_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the transfer date.'**
+  String get member_contribution_date_step_subtitle;
+
+  /// No description provided for @member_contribution_date_today.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get member_contribution_date_today;
+
+  /// No description provided for @member_contribution_date_yesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get member_contribution_date_yesterday;
+
+  /// No description provided for @member_contribution_date_choose.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose date'**
+  String get member_contribution_date_choose;
+
+  /// No description provided for @member_contribution_receipt_step_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach the transfer\nreceipt'**
+  String get member_contribution_receipt_step_title;
+
+  /// No description provided for @member_contribution_receipt_step_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload the receipt photo for verification.'**
+  String get member_contribution_receipt_step_subtitle;
+
+  /// No description provided for @member_contribution_receipt_select_photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Select photo'**
+  String get member_contribution_receipt_select_photo;
+
+  /// No description provided for @member_contribution_receipt_formats.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted formats: JPG, PNG.'**
+  String get member_contribution_receipt_formats;
+
+  /// No description provided for @member_contribution_send_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Send contribution'**
+  String get member_contribution_send_button;
+
   /// No description provided for @member_contribution_payment_method_question.
   ///
   /// In en, this message translates to:
@@ -5610,6 +5721,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Thank you for your generosity.'**
   String get member_contribution_result_success_subtitle;
+
+  /// No description provided for @member_contribution_result_sent_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Contribution sent!'**
+  String get member_contribution_result_sent_title;
+
+  /// No description provided for @member_contribution_result_receipt_received.
+  ///
+  /// In en, this message translates to:
+  /// **'Your receipt was received\nsuccessfully.'**
+  String get member_contribution_result_receipt_received;
+
+  /// No description provided for @member_contribution_result_blessing_title.
+  ///
+  /// In en, this message translates to:
+  /// **'May God bless your generosity\nand multiply your life.'**
+  String get member_contribution_result_blessing_title;
+
+  /// No description provided for @member_contribution_result_blessing_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for contributing with joy.'**
+  String get member_contribution_result_blessing_subtitle;
 
   /// No description provided for @member_contribution_result_date.
   ///
@@ -8093,7 +8228,12 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{count} devotionals will be sent to {audience} at {time} ({timezone})'**
-  String devotional_summary_line(int count, String audience, String time, String timezone);
+  String devotional_summary_line(
+    int count,
+    String audience,
+    String time,
+    String timezone,
+  );
 
   /// No description provided for @devotional_quick_guide.
   ///
@@ -8663,7 +8803,11 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Audience: {audience} | Push: {push} | WhatsApp: {whatsapp}'**
-  String devotional_item_channel_line(String audience, String push, String whatsapp);
+  String devotional_item_channel_line(
+    String audience,
+    String push,
+    String whatsapp,
+  );
 
   /// No description provided for @devotional_item_urgent_approval.
   ///
@@ -8771,7 +8915,11 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{day} - {date} | Audience: {audience}'**
-  String devotional_review_header_line(String day, String date, String audience);
+  String devotional_review_header_line(
+    String day,
+    String date,
+    String audience,
+  );
 
   /// No description provided for @devotional_review_label_title.
   ///
@@ -9578,7 +9726,8 @@ abstract class AppLocalizations {
   String get member_view_load_error;
 }
 
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -9587,26 +9736,28 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'es', 'pt'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'es', 'pt'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
-
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return AppLocalizationsEn();
-    case 'es': return AppLocalizationsEs();
-    case 'pt': return AppLocalizationsPt();
+    case 'en':
+      return AppLocalizationsEn();
+    case 'es':
+      return AppLocalizationsEs();
+    case 'pt':
+      return AppLocalizationsPt();
   }
 
   throw FlutterError(
     'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
     'an issue with the localizations generation tool. Please file an issue '
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
+    'that was used.',
   );
 }

@@ -27,7 +27,7 @@ class MemberContributionFormState {
     this.selectedDestinationId,
     this.financialConceptId,
     this.amount,
-    this.quickAmounts = const [20.0, 100.0, 150.0, 200.0],
+    this.quickAmounts = const [20.0, 50.0, 100.0],
     this.selectedChannel = MemberPaymentChannel.externalWithReceipt,
     this.paidAt,
     this.receiptLocalPath,
@@ -42,32 +42,46 @@ class MemberContributionFormState {
     MemberContributionType? selectedType,
     String? selectedDestinationId,
     String? financialConceptId,
+    bool clearFinancialConceptId = false,
     double? amount,
     List<double>? quickAmounts,
     MemberPaymentChannel? selectedChannel,
     DateTime? paidAt,
+    bool clearPaidAt = false,
     String? receiptLocalPath,
+    bool clearReceiptLocalPath = false,
     String? receiptFileName,
+    bool clearReceiptFileName = false,
     bool? isUploadingReceipt,
     String? message,
+    bool clearMessage = false,
     bool? isSubmitting,
     String? errorMessage,
+    bool clearErrorMessage = false,
   }) {
     return MemberContributionFormState(
       selectedType: selectedType ?? this.selectedType,
       selectedDestinationId:
           selectedDestinationId ?? this.selectedDestinationId,
-      financialConceptId: financialConceptId ?? this.financialConceptId,
+      financialConceptId:
+          clearFinancialConceptId
+              ? null
+              : financialConceptId ?? this.financialConceptId,
       amount: amount ?? this.amount,
       quickAmounts: quickAmounts ?? this.quickAmounts,
       selectedChannel: selectedChannel ?? this.selectedChannel,
-      paidAt: paidAt ?? this.paidAt,
-      receiptLocalPath: receiptLocalPath ?? this.receiptLocalPath,
-      receiptFileName: receiptFileName ?? this.receiptFileName,
+      paidAt: clearPaidAt ? null : paidAt ?? this.paidAt,
+      receiptLocalPath:
+          clearReceiptLocalPath
+              ? null
+              : receiptLocalPath ?? this.receiptLocalPath,
+      receiptFileName:
+          clearReceiptFileName ? null : receiptFileName ?? this.receiptFileName,
       isUploadingReceipt: isUploadingReceipt ?? this.isUploadingReceipt,
-      message: message ?? this.message,
+      message: clearMessage ? null : message ?? this.message,
       isSubmitting: isSubmitting ?? this.isSubmitting,
-      errorMessage: errorMessage ?? this.errorMessage,
+      errorMessage:
+          clearErrorMessage ? null : errorMessage ?? this.errorMessage,
     );
   }
 
