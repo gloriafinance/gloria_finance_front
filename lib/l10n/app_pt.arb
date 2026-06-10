@@ -1136,6 +1136,18 @@
   "member_schedule_detail_no_extra_info": "Nenhum detalhe adicional disponível.",
   "member_contribution_history_title": "Histórico de contribuições",
   "member_contribution_new_button": "Nova contribuição",
+  "member_contribution_step_label": "Passo {current} de {total}",
+  "@member_contribution_step_label": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "member_contribution_selected_value_label": "Valor selecionado",
   "member_contribution_filter_type_label": "Tipo",
   "member_contribution_filter_type_all": "Todas",
   "member_contribution_type_tithe": "Dízimo",
@@ -1146,6 +1158,15 @@
   "member_contribution_search_concept_hint": "Buscar conceito...",
   "member_contribution_value_label": "Valor da contribuição",
   "member_contribution_amount_other": "Outro valor",
+  "member_contribution_offering_type_title": "Escolha a oferta",
+  "member_contribution_offering_type_subtitle": "Selecione o conceito financeiro correspondente à sua oferta.",
+  "member_contribution_offering_type_hint": "Toque em uma opção para continuar.",
+  "member_contribution_offering_type_selected_hint": "Oferta selecionada. Você pode continuar com o próximo passo.",
+  "member_contribution_date_today": "Hoje",
+  "member_contribution_date_yesterday": "Ontem",
+  "member_contribution_date_choose": "Escolher outra data",
+  "member_contribution_receipt_select_photo": "Selecionar foto do comprovante",
+  "member_contribution_receipt_formats": "Use JPG, PNG ou WEBP.",
   "member_contribution_receipt_label": "Envie o comprovante do pagamento",
   "member_contribution_receipt_payment_date_label": "Data do pagamento",
   "member_contribution_receipt_help_text": "Esse comprovante será analisado pela tesouraria da sua igreja. É obrigatório anexar.",

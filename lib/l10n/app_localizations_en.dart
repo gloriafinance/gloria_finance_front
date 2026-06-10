@@ -2719,6 +2719,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_contribution_new_button => 'New contribution';
 
   @override
+  String member_contribution_step_label(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String get member_contribution_selected_value_label => 'Selected value';
+
+  @override
   String get member_contribution_filter_type_label => 'Type';
 
   @override
@@ -2747,6 +2755,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get member_contribution_amount_other => 'Other amount';
+
+  @override
+  String get member_contribution_offering_type_title => 'Choose the offering';
+
+  @override
+  String get member_contribution_offering_type_subtitle =>
+      'Select the financial concept that matches your offering.';
+
+  @override
+  String get member_contribution_offering_type_hint =>
+      'Tap an option to continue.';
+
+  @override
+  String get member_contribution_offering_type_selected_hint =>
+      'Offering selected. You can continue to the next step.';
+
+  @override
+  String get member_contribution_date_today => 'Today';
+
+  @override
+  String get member_contribution_date_yesterday => 'Yesterday';
+
+  @override
+  String get member_contribution_date_choose => 'Choose another date';
+
+  @override
+  String get member_contribution_receipt_select_photo =>
+      'Select receipt photo';
+
+  @override
+  String get member_contribution_receipt_formats => 'Use JPG, PNG, or WEBP.';
 
   @override
   String get member_contribution_receipt_label => 'Upload the payment receipt';

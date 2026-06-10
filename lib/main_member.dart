@@ -17,6 +17,7 @@ import 'firebase_options.dart';
 // 1) Background handler (top-level function)
 Future<void> _firebaseBackgroundHandler(RemoteMessage message) async {
   if (kIsWeb) {
+    await DefaultFirebaseOptions.ensureWebConfigLoaded();
     await Firebase.initializeApp(options: DefaultFirebaseOptions.web);
   } else {
     await Firebase.initializeApp();
@@ -30,6 +31,7 @@ Future<void> main() async {
 
   // 2) Firebase init
   if (kIsWeb) {
+    await DefaultFirebaseOptions.ensureWebConfigLoaded();
     DefaultFirebaseOptions.validateWeb();
     await Firebase.initializeApp(options: DefaultFirebaseOptions.web);
   } else {

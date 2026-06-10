@@ -5353,6 +5353,18 @@ abstract class AppLocalizations {
   /// **'New contribution'**
   String get member_contribution_new_button;
 
+  /// No description provided for @member_contribution_step_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current} of {total}'**
+  String member_contribution_step_label(int current, int total);
+
+  /// No description provided for @member_contribution_selected_value_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected value'**
+  String get member_contribution_selected_value_label;
+
   /// No description provided for @member_contribution_filter_type_label.
   ///
   /// In en, this message translates to:
@@ -5412,6 +5424,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Other amount'**
   String get member_contribution_amount_other;
+
+  /// No description provided for @member_contribution_offering_type_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the offering'**
+  String get member_contribution_offering_type_title;
+
+  /// No description provided for @member_contribution_offering_type_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the financial concept that matches your offering.'**
+  String get member_contribution_offering_type_subtitle;
+
+  /// No description provided for @member_contribution_offering_type_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap an option to continue.'**
+  String get member_contribution_offering_type_hint;
+
+  /// No description provided for @member_contribution_offering_type_selected_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Offering selected. You can continue to the next step.'**
+  String get member_contribution_offering_type_selected_hint;
+
+  /// No description provided for @member_contribution_date_today.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get member_contribution_date_today;
+
+  /// No description provided for @member_contribution_date_yesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get member_contribution_date_yesterday;
+
+  /// No description provided for @member_contribution_date_choose.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose another date'**
+  String get member_contribution_date_choose;
+
+  /// No description provided for @member_contribution_receipt_select_photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Select receipt photo'**
+  String get member_contribution_receipt_select_photo;
+
+  /// No description provided for @member_contribution_receipt_formats.
+  ///
+  /// In en, this message translates to:
+  /// **'Use JPG, PNG, or WEBP.'**
+  String get member_contribution_receipt_formats;
 
   /// No description provided for @member_contribution_receipt_label.
   ///
