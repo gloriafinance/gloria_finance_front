@@ -1,6 +1,7 @@
+import 'dart:html' as html;
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DefaultFirebaseOptions {
   static const String webApiKey = String.fromEnvironment(
@@ -25,20 +26,42 @@ class DefaultFirebaseOptions {
 
   static bool get isLocal => !kReleaseMode;
 
-  static bool _dotenvLoaded = false;
+  static bool _localConfigLoaded = false;
+  static final Map<String, String> _localValues = <String, String>{};
 
   static Future<void> ensureWebConfigLoaded() async {
-    if (!isLocal || _dotenvLoaded) {
+    if (!isLocal || _localConfigLoaded) {
       return;
     }
 
-    await dotenv.load(fileName: '.env');
-    _dotenvLoaded = true;
+    final envText = await html.HttpRequest.getString('/.env');
+    _localValues.addAll(_parseEnvFile(envText));
+    _localConfigLoaded = true;
+  }
+
+  static Map<String, String> _parseEnvFile(String content) {
+    final result = <String, String>{};
+    for (final rawLine in content.split('\n')) {
+      final line = rawLine.trim();
+      if (line.isEmpty || line.startsWith('#')) {
+        continue;
+      }
+
+      final index = line.indexOf('=');
+      if (index <= 0) {
+        continue;
+      }
+
+      final key = line.substring(0, index).trim();
+      final value = line.substring(index + 1).trim();
+      result[key] = value;
+    }
+    return result;
   }
 
   static String _readValue(String key) {
     if (isLocal) {
-      final localValue = dotenv.env[key];
+      final localValue = _localValues[key];
       if (localValue != null && localValue.isNotEmpty) {
         return localValue;
       }
@@ -48,22 +71,20 @@ class DefaultFirebaseOptions {
   }
 
   static String? _readOptionalValue(String key) {
-    final localValue = dotenv.env[key];
-    final value = isLocal
-        ? (localValue ?? String.fromEnvironment(key))
-        : String.fromEnvironment(key);
+    final localValue = isLocal ? _localValues[key] : null;
+    final value = localValue ?? String.fromEnvironment(key);
     return value.isEmpty ? null : value;
   }
 
   static FirebaseOptions get web => FirebaseOptions(
-    apiKey: _readValue('FIREBASE_WEB_API_KEY'),
-    authDomain: _readValue('FIREBASE_WEB_AUTH_DOMAIN'),
-    projectId: _readValue('FIREBASE_WEB_PROJECT_ID'),
-    storageBucket: _readValue('FIREBASE_WEB_STORAGE_BUCKET'),
-    messagingSenderId: _readValue('FIREBASE_WEB_MESSAGING_SENDER_ID'),
-    appId: _readValue('FIREBASE_WEB_APP_ID'),
-    measurementId: _readOptionalValue('FIREBASE_WEB_MEASUREMENT_ID'),
-  );
+        apiKey: _readValue('FIREBASE_WEB_API_KEY'),
+        authDomain: _readValue('FIREBASE_WEB_AUTH_DOMAIN'),
+        projectId: _readValue('FIREBASE_WEB_PROJECT_ID'),
+        storageBucket: _readValue('FIREBASE_WEB_STORAGE_BUCKET'),
+        messagingSenderId: _readValue('FIREBASE_WEB_MESSAGING_SENDER_ID'),
+        appId: _readValue('FIREBASE_WEB_APP_ID'),
+        measurementId: _readOptionalValue('FIREBASE_WEB_MEASUREMENT_ID'),
+      );
 
   static void validateWeb() {
     final missing = <String>[
@@ -78,7 +99,7 @@ class DefaultFirebaseOptions {
     if (missing.isNotEmpty) {
       throw StateError(
         'Missing Firebase web configuration: ${missing.join(', ')}. '
-        'Provide them through .env for local runs or --dart-define for production.',
+        'Provide them through /.env for local runs or --dart-define for production.',
       );
     }
   }

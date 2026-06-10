@@ -43,11 +43,8 @@ jobs:
 
       # 4. Construir el proyecto para web
       - name: Build Flutter Web
-        #run: flutter build web
-        #run: flutter build web --dart-define=ENV=prod
         run: >
           flutter build web -t lib/main_erp.dart --release
-          --dart-define=ENV=prod
           --dart-define=FIREBASE_WEB_API_KEY=$FIREBASE_WEB_API_KEY
           --dart-define=FIREBASE_WEB_AUTH_DOMAIN=$FIREBASE_WEB_AUTH_DOMAIN
           --dart-define=FIREBASE_WEB_PROJECT_ID=$FIREBASE_WEB_PROJECT_ID

@@ -49,4 +49,4 @@ android/app/jaspe.keystore
 
 # Environment variables
 .env
-
+web/.env
