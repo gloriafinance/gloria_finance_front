@@ -30,6 +30,7 @@ Future<void> main() async {
 
   // 2) Firebase init
   if (kIsWeb) {
+    DefaultFirebaseOptions.validateWeb();
     await Firebase.initializeApp(options: DefaultFirebaseOptions.web);
   } else {
     await Firebase.initializeApp();
