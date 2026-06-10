@@ -192,7 +192,7 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
             vertical: 16,
           ),
         ),
-        initialValue:
+        value:
             store.state.selectedDestinationId != null
                 ? accounts
                     .firstWhere(
@@ -270,7 +270,7 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
             vertical: 16,
           ),
         ),
-        initialValue: store.state.financialConceptId,
+        value: store.state.financialConceptId,
         items:
             concepts.map((concept) {
               return DropdownMenuItem<String>(
