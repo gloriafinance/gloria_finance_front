@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:gloria_finance/core/layout/modal_page_layout.dart';
 import 'package:gloria_finance/core/paginate/custom_table.dart';
 import 'package:gloria_finance/core/theme/app_color.dart';
@@ -5,7 +6,6 @@ import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/index.dart';
 import 'package:gloria_finance/core/widgets/index.dart';
 import 'package:gloria_finance/features/erp/contributions/models/contribution_model.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../helpers/contribution.helper.dart';
@@ -36,9 +36,7 @@ class _ContributionTableState extends State<ContributionTable> {
     }
 
     if (state.paginate.results.isEmpty) {
-      return Center(
-        child: Text(context.l10n.contributions_table_empty),
-      );
+      return Center(child: Text(context.l10n.contributions_table_empty));
     }
 
     return Container(
@@ -90,8 +88,8 @@ class _ContributionTableState extends State<ContributionTable> {
           isMobile(context)
               ? ""
               : context.l10n.contributions_table_modal_title(
-                  contribution.contributionId,
-                ),
+                contribution.contributionId,
+              ),
       body: ViewContribution(
         contribution: contribution,
         contributionPaginationStore:

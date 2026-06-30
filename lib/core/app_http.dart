@@ -82,8 +82,8 @@ class AppHttp {
 
   _urlServer() async {
     final apiProd = 'https://api.gloriafinance.com.br/api/';
-    final apiDev = 'https://api.gloriafinance.com.br/api/';
-    //final apiDev = 'http://0.0.0.0:5200/api/';
+    //final apiDev = 'https://api.gloriafinance.com.br/api/';
+    final apiDev = 'http://0.0.0.0:5200/api/';
 
     if (kReleaseMode) {
       return apiProd;
