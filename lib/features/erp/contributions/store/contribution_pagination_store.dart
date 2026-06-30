@@ -11,10 +11,7 @@ class ContributionPaginationStore extends ChangeNotifier {
   ContributionPaginationState state = ContributionPaginationState.empty();
 
   void setStatus(ContributionStatus status) {
-    state = state.copyWith(
-      status: status.toString().split('.').last,
-      page: 1,
-    );
+    state = state.copyWith(status: status.toString().split('.').last, page: 1);
     notifyListeners();
   }
 
@@ -73,14 +70,18 @@ class ContributionPaginationStore extends ChangeNotifier {
     searchContributions();
   }
 
-  _updateStatusContributionModel(
+  void _updateStatusContributionModel(
     String contributionId,
     ContributionStatus status,
+    ContributionAvailabilityAccount? account,
   ) {
     final List<ContributionModel> contributions =
         state.paginate.results.map<ContributionModel>((ContributionModel e) {
           if (e.contributionId == contributionId) {
-            return e.copyWith(status: status.toString().split('.').last);
+            return e.copyWith(
+              status: status.toString().split('.').last,
+              account: account,
+            );
           }
           return e;
         }).toList();
@@ -92,18 +93,26 @@ class ContributionPaginationStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateStatusContribution(
+  Future<bool> updateStatusContribution(
     String contributionId,
     ContributionStatus status,
+    String availabilityAccountId,
+    ContributionAvailabilityAccount? account,
   ) async {
     try {
-      await service.updateContributionStatus(contributionId, status);
-      _updateStatusContributionModel(contributionId, status);
+      await service.updateContributionStatus(
+        contributionId,
+        status,
+        availabilityAccountId,
+      );
+      _updateStatusContributionModel(contributionId, status, account);
+      return true;
     } catch (e) {
       Toast.showMessage(
         "Erro ao atualizar o status da contribuição",
         ToastType.error,
       );
+      return false;
     }
   }
 

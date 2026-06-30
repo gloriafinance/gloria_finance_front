@@ -1,13 +1,6 @@
-enum ContributionType {
-  OFFERING,
-  TITHE,
-}
+enum ContributionType { OFFERING, TITHE }
 
-enum ContributionStatus {
-  PROCESSED,
-  PENDING_VERIFICATION,
-  REJECTED,
-}
+enum ContributionStatus { PROCESSED, PENDING_VERIFICATION, REJECTED }
 
 extension ContributionStatusExtension on ContributionStatus {
   String get friendlyName {
@@ -28,7 +21,7 @@ class ContributionModel {
   final DateTime createdAt;
   final String bankTransferReceipt;
   final ContributionFinancialConcept financeConcept;
-  final ContributionAvailabilityAccount account;
+  final ContributionAvailabilityAccount? account;
   final ContributionMember member;
   final String contributionId;
 
@@ -40,7 +33,7 @@ class ContributionModel {
     required this.bankTransferReceipt,
     required this.financeConcept,
     required this.member,
-    required this.account,
+    this.account,
   });
 
   factory ContributionModel.fromJson(Map<String, dynamic> json) {
@@ -48,7 +41,7 @@ class ContributionModel {
     final financeConceptJson =
         (json['financeConcept'] as Map?)?.cast<String, dynamic>() ?? {};
     final availabilityAccountJson =
-        (json['availabilityAccount'] as Map?)?.cast<String, dynamic>() ?? {};
+        (json['availabilityAccount'] as Map?)?.cast<String, dynamic>();
 
     return ContributionModel(
       contributionId: (json['contributionId'] ?? '').toString(),
@@ -60,7 +53,12 @@ class ContributionModel {
       bankTransferReceipt: (json['bankTransferReceipt'] ?? '').toString(),
       financeConcept: ContributionFinancialConcept.fromJson(financeConceptJson),
       member: ContributionMember.fromJson(memberJson),
-      account: ContributionAvailabilityAccount.fromJson(availabilityAccountJson),
+      account:
+          availabilityAccountJson == null
+              ? null
+              : ContributionAvailabilityAccount.fromJson(
+                availabilityAccountJson,
+              ),
     );
   }
 
@@ -72,7 +70,7 @@ class ContributionModel {
     ContributionFinancialConcept? financeConcept,
     ContributionMember? member,
     String? contributionId,
-    ContributionAvailabilityAccount? availableContribution,
+    ContributionAvailabilityAccount? account,
   }) {
     return ContributionModel(
       amount: amount ?? this.amount,
@@ -82,7 +80,7 @@ class ContributionModel {
       financeConcept: financeConcept ?? this.financeConcept,
       member: member ?? this.member,
       contributionId: contributionId ?? this.contributionId,
-      account: availableContribution ?? this.account,
+      account: account ?? this.account,
     );
   }
 
@@ -120,11 +118,7 @@ class ContributionMember {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'memberId': memberId,
-      'name': name,
-      'churchId': churchId,
-    };
+    return {'memberId': memberId, 'name': name, 'churchId': churchId};
   }
 }
 
@@ -145,10 +139,7 @@ class ContributionFinancialConcept {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'financialConceptId': financialConceptId,
-      'name': name,
-    };
+    return {'financialConceptId': financialConceptId, 'name': name};
   }
 }
 
@@ -156,8 +147,10 @@ class ContributionAvailabilityAccount {
   final String symbol;
   final String accountName;
 
-  ContributionAvailabilityAccount(
-      {required this.symbol, required this.accountName});
+  ContributionAvailabilityAccount({
+    required this.symbol,
+    required this.accountName,
+  });
 
   factory ContributionAvailabilityAccount.fromJson(Map<String, dynamic> json) {
     return ContributionAvailabilityAccount(
@@ -167,9 +160,6 @@ class ContributionAvailabilityAccount {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'symbol': symbol,
-      'accountName': accountName,
-    };
+    return {'symbol': symbol, 'accountName': accountName};
   }
 }

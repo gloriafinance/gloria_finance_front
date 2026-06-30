@@ -1,7 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:gloria_finance/core/app_http.dart';
 import 'package:gloria_finance/core/paginate/paginate_response.dart';
 import 'package:gloria_finance/features/auth/auth_persistence.dart';
-import 'package:dio/dio.dart';
 
 import 'models/contribution_filter_model.dart';
 import 'models/contribution_model.dart';
@@ -36,6 +36,7 @@ class ContributionService extends AppHttp {
   Future<void> updateContributionStatus(
     String contributionId,
     ContributionStatus status,
+    String availabilityAccountId,
   ) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
@@ -43,7 +44,12 @@ class ContributionService extends AppHttp {
     try {
       final s = status.toString().split('.').last;
       await http.patch(
-        '${await getUrlApi()}finance/contributions/$contributionId/status/$s',
+        '${await getUrlApi()}finance/contributions',
+        data: {
+          'availabilityAccountId': availabilityAccountId,
+          'contributionId': contributionId,
+          'status': s,
+        },
         options: Options(headers: bearerToken()),
       );
     } on DioException catch (e) {
