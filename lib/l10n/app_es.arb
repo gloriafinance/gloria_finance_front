@@ -2094,5 +2094,16 @@
   "member_view_status_inactive": "Inactivo",
   "member_view_status_pending_review": "En revisión",
   "member_view_photo_not_available": "Foto no disponible",
-  "member_view_load_error": "No fue posible cargar los datos del miembro."
+  "member_view_load_error": "No fue posible cargar los datos del miembro.",
+  "member_delete_action": "Eliminar miembro",
+  "member_delete_confirm_title": "¿Eliminar miembro?",
+  "member_delete_confirm_message": "{memberName} se eliminará permanentemente. También se eliminarán su perfil, foto y acceso vinculado. Esta acción no se puede deshacer.",
+  "@member_delete_confirm_message": {
+    "placeholders": {
+      "memberName": {}
+    }
+  },
+  "member_delete_confirm_action": "Eliminar",
+  "member_delete_success": "Miembro eliminado correctamente.",
+  "member_delete_error": "No fue posible eliminar al miembro. Inténtalo de nuevo."
 }

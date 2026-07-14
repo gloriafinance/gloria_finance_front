@@ -2072,5 +2072,16 @@
   "member_view_status_inactive": "Inactive",
   "member_view_status_pending_review": "Under review",
   "member_view_photo_not_available": "Photo not available",
-  "member_view_load_error": "Could not load the member data."
+  "member_view_load_error": "Could not load the member data.",
+  "member_delete_action": "Delete member",
+  "member_delete_confirm_title": "Delete member?",
+  "member_delete_confirm_message": "{memberName} will be permanently deleted. Their profile, photo, and linked access will also be removed. This action cannot be undone.",
+  "@member_delete_confirm_message": {
+    "placeholders": {
+      "memberName": {}
+    }
+  },
+  "member_delete_confirm_action": "Delete",
+  "member_delete_success": "Member deleted successfully.",
+  "member_delete_error": "Could not delete the member. Please try again."
 }

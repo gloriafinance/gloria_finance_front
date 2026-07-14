@@ -10,6 +10,7 @@ import 'package:gloria_finance/l10n/app_localizations.dart';
 import '../../../models/member_model.dart';
 import '../../../models/member_status.dart';
 import '../../../store/member_paginate_store.dart';
+import '../../../widgets/member_delete_confirmation_dialog.dart';
 
 class MemberTable extends StatefulWidget {
   const MemberTable({super.key});
@@ -68,6 +69,12 @@ class _MemberTableState extends State<MemberTable> {
           onPressed: () => _goToEdit(context, member as MemberModel),
           icon: Icons.edit_outlined,
         ),
+        (member) => ButtonActionTable(
+          color: Colors.red,
+          text: AppLocalizations.of(context)!.member_delete_action,
+          onPressed: () => _deleteMember(context, store, member as MemberModel),
+          icon: Icons.delete_outline,
+        ),
       ],
       paginate: PaginationData(
         totalRecords: state.paginate.count,
@@ -115,5 +122,31 @@ class _MemberTableState extends State<MemberTable> {
 
   void _goToView(BuildContext context, MemberModel member) {
     GoRouter.of(context).go('/member/view/${member.memberId}', extra: member);
+  }
+
+  Future<void> _deleteMember(
+    BuildContext context,
+    MemberPaginateStore store,
+    MemberModel member,
+  ) async {
+    final confirmed = await showMemberDeleteConfirmationDialog(
+      context,
+      memberName: member.name,
+    );
+    if (confirmed != true || !context.mounted) return;
+
+    final success = await store.deleteMember(member.memberId);
+    if (!context.mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          success
+              ? AppLocalizations.of(context)!.member_delete_success
+              : store.state.deleteError ??
+                  AppLocalizations.of(context)!.member_delete_error,
+        ),
+      ),
+    );
   }
 }

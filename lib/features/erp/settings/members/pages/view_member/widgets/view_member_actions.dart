@@ -5,19 +5,30 @@ import 'package:gloria_finance/l10n/app_localizations.dart';
 
 class ViewMemberActions extends StatelessWidget {
   final bool mobile;
+  final bool deleting;
   final VoidCallback onBack;
   final VoidCallback onEdit;
+  final VoidCallback onDelete;
 
   const ViewMemberActions({
     super.key,
     required this.mobile,
+    this.deleting = false,
     required this.onBack,
     required this.onEdit,
+    required this.onDelete,
   });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+
+    if (deleting) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 20),
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
 
     if (mobile) {
       return Column(
@@ -26,6 +37,8 @@ class ViewMemberActions extends StatelessWidget {
           _backButton(l10n),
           const SizedBox(height: 12),
           _editButton(l10n),
+          const SizedBox(height: 12),
+          _deleteButton(l10n),
         ],
       );
     }
@@ -33,9 +46,11 @@ class ViewMemberActions extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        SizedBox(width: 220, child: _backButton(l10n)),
+        SizedBox(width: 180, child: _backButton(l10n)),
         const SizedBox(width: 12),
-        SizedBox(width: 220, child: _editButton(l10n)),
+        SizedBox(width: 180, child: _editButton(l10n)),
+        const SizedBox(width: 12),
+        SizedBox(width: 180, child: _deleteButton(l10n)),
       ],
     );
   }
@@ -58,6 +73,16 @@ class ViewMemberActions extends StatelessWidget {
       textColor: Colors.white,
       icon: Icons.edit_outlined,
       onPressed: onEdit,
+    );
+  }
+
+  Widget _deleteButton(AppLocalizations l10n) {
+    return CustomButton(
+      text: l10n.member_delete_action,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      icon: Icons.delete_outline,
+      onPressed: onDelete,
     );
   }
 }
