@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/toast.dart';
 import 'package:gloria_finance/core/utils/index.dart';
 import 'package:gloria_finance/core/widgets/custom_button.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +13,7 @@ import '../../models/member_model.dart';
 import '../../store/member_detail_store.dart';
 import '../../widgets/detail/member_detail_layout.dart';
 import '../../widgets/detail/member_detail_support.dart';
+import '../../widgets/member_delete_confirmation_dialog.dart';
 import 'widgets/view_member_actions.dart';
 import 'widgets/view_member_header.dart';
 
@@ -43,6 +45,8 @@ class _ViewMemberView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Toast.init(context);
+
     final store = context.watch<MemberDetailStore>();
     final state = store.state;
     final l10n = AppLocalizations.of(context)!;
@@ -87,7 +91,15 @@ class _ViewMemberView extends StatelessWidget {
                   onRetry: store.load,
                 )
               else if (member != null)
-                _detailCard(context, member, mobile, l10n, statusBadge!)
+                _detailCard(
+                  context,
+                  store,
+                  state.deleting,
+                  member,
+                  mobile,
+                  l10n,
+                  statusBadge!,
+                )
               else
                 const SizedBox.shrink(),
             ],
@@ -99,6 +111,8 @@ class _ViewMemberView extends StatelessWidget {
 
   Widget _detailCard(
     BuildContext context,
+    MemberDetailStore store,
+    bool deleting,
     MemberModel member,
     bool mobile,
     AppLocalizations l10n,
@@ -135,12 +149,14 @@ class _ViewMemberView extends StatelessWidget {
             const SizedBox(height: 20),
             ViewMemberActions(
               mobile: mobile,
+              deleting: deleting,
               onBack: () => context.go('/members'),
               onEdit:
                   () => context.go(
                     '/member/edit/${member.memberId}',
                     extra: member,
                   ),
+              onDelete: () => _delete(context, store, member, l10n),
             ),
           ],
         ),
@@ -173,6 +189,36 @@ class _ViewMemberView extends StatelessWidget {
       lgpdNotInformedLabel: l10n.member_pending_review_lgpd_not_informed,
       lgpdSourceLabel: l10n.member_pending_review_lgpd_source_label,
       lgpdAcceptedMessage: l10n.member_pending_review_lgpd_accepted_message,
+    );
+  }
+
+  Future<void> _delete(
+    BuildContext context,
+    MemberDetailStore store,
+    MemberModel member,
+    AppLocalizations l10n,
+  ) async {
+    final confirmed = await showMemberDeleteConfirmationDialog(
+      context,
+      memberName: member.name,
+    );
+    if (confirmed != true || !context.mounted) return;
+
+    final success = await store.delete();
+    if (!context.mounted) return;
+
+    if (success) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.member_delete_success)));
+      context.go('/members');
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(store.state.deleteError ?? l10n.member_delete_error),
+      ),
     );
   }
 
