@@ -20,12 +20,21 @@ class MemberDetailStore extends ChangeNotifier {
        state = MemberDetailState.empty(memberId, member: initialMember);
 
   Future<void> load() async {
-    state = state.copyWith(loading: true, clearError: true);
+    state = state.copyWith(
+      loading: true,
+      clearError: true,
+      clearDeleteError: true,
+    );
     notifyListeners();
 
     try {
       final member = await service.getMember(state.memberId);
-      state = state.copyWith(member: member, loading: false, clearError: true);
+      state = state.copyWith(
+        member: member,
+        loading: false,
+        clearError: true,
+        clearDeleteError: true,
+      );
       notifyListeners();
     } catch (e) {
       state = state.copyWith(loading: false, error: e.toString());
@@ -41,11 +50,11 @@ class MemberDetailStore extends ChangeNotifier {
 
     try {
       await deletionService.deleteMember(state.memberId);
-      state = state.copyWith(deleting: false);
+      state = state.copyWith(deleting: false, clearDeleteError: true);
       notifyListeners();
       return true;
     } catch (e) {
-      state = state.copyWith(deleting: false, error: e.toString());
+      state = state.copyWith(deleting: false, deleteError: e.toString());
       notifyListeners();
       return false;
     }

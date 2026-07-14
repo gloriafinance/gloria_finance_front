@@ -71,6 +71,11 @@ class MemberPaginateStore extends ChangeNotifier {
       state = state.copyWith(deleting: false, clearDeletingMemberId: true);
       notifyListeners();
       await searchMemberList();
+      if (state.filter.page > 1 && state.paginate.results.isEmpty) {
+        state = state.copyWith(page: state.filter.page - 1);
+        notifyListeners();
+        await searchMemberList();
+      }
       return true;
     } catch (e) {
       state = state.copyWith(

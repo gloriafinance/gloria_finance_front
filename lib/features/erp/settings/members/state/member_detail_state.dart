@@ -6,6 +6,7 @@ class MemberDetailState {
   final bool loading;
   final bool deleting;
   final String? error;
+  final String? deleteError;
 
   MemberDetailState({
     required this.memberId,
@@ -13,6 +14,7 @@ class MemberDetailState {
     required this.loading,
     required this.deleting,
     required this.error,
+    required this.deleteError,
   });
 
   factory MemberDetailState.empty(String memberId, {MemberModel? member}) {
@@ -22,6 +24,7 @@ class MemberDetailState {
       loading: false,
       deleting: false,
       error: null,
+      deleteError: null,
     );
   }
 
@@ -30,7 +33,9 @@ class MemberDetailState {
     bool? loading,
     bool? deleting,
     String? error,
+    String? deleteError,
     bool clearError = false,
+    bool clearDeleteError = false,
   }) {
     return MemberDetailState(
       memberId: memberId,
@@ -38,6 +43,7 @@ class MemberDetailState {
       loading: loading ?? this.loading,
       deleting: deleting ?? this.deleting,
       error: clearError ? null : error ?? this.error,
+      deleteError: clearDeleteError ? null : deleteError ?? this.deleteError,
     );
   }
 }

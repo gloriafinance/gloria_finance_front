@@ -216,7 +216,9 @@ class _ViewMemberView extends StatelessWidget {
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(store.state.error ?? l10n.member_delete_error)),
+      SnackBar(
+        content: Text(store.state.deleteError ?? l10n.member_delete_error),
+      ),
     );
   }
 
