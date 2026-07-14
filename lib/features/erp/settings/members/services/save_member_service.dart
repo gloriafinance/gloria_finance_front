@@ -10,8 +10,18 @@ class SaveMemberService extends AppHttp {
 
     tokenAPI = session.token;
     jsonForm['churchId'] = session.churchId;
+    final memberId = jsonForm['memberId']?.toString().trim();
 
     try {
+      if (memberId != null && memberId.isNotEmpty) {
+        await http.put(
+          '${await getUrlApi()}church/member/$memberId',
+          data: jsonForm,
+          options: Options(headers: bearerToken()),
+        );
+        return;
+      }
+
       await http.post(
         '${await getUrlApi()}church/member',
         data: jsonForm,
