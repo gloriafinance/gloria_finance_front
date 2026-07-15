@@ -29,12 +29,15 @@ class EditAvailabilityAccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Toast.init(context);
 
-    final store = context.read<AvailabilityAccountsListStore>();
+    final store = context.watch<AvailabilityAccountsListStore>();
     final account =
         initialAccount ??
         store.findByAvailabilityAccountId(availabilityAccountId);
 
     if (account == null) {
+      if (store.state.makeRequest) {
+        return _loading(context);
+      }
       return _notFound(context);
     }
 
@@ -80,6 +83,14 @@ class EditAvailabilityAccountScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
       ),
       child: Text(context.l10n.common_no_results_found),
+    );
+  }
+
+  Widget _loading(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(24),
+      child: const Center(child: Loading()),
     );
   }
 }
