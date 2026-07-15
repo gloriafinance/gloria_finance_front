@@ -105,6 +105,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get common_edit => 'Edit';
 
   @override
+  String get common_delete => 'Delete';
+
+  @override
   String get auth_login_email_label => 'Email';
 
   @override
@@ -827,10 +830,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_availability_form_title => 'Register availability account';
 
   @override
+  String get settings_availability_form_title_edit => 'Edit availability account';
+
+  @override
   String get settings_availability_save => 'Save';
 
   @override
+  String get settings_availability_update => 'Update';
+
+  @override
   String get settings_availability_toast_saved => 'Record saved successfully';
+
+  @override
+  String get settings_availability_toast_updated => 'Record updated successfully';
 
   @override
   String get settings_availability_table_header_name => 'Account name';
@@ -871,6 +883,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_availability_bank_details_title => 'Bank details';
 
   @override
+  String get settings_availability_form_edit_section_title => 'Editable data';
+
+  @override
   String get settings_availability_account_type_bank => 'Bank';
 
   @override
@@ -881,6 +896,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_availability_account_type_investment => 'Investment';
+
+  @override
+  String get settings_availability_delete_confirm_title => 'Delete availability account';
+
+  @override
+  String settings_availability_delete_confirm_message(String accountName) {
+    return 'Are you sure you want to delete availability account $accountName?';
+  }
+
+  @override
+  String get settings_availability_delete_confirm_action => 'Delete';
+
+  @override
+  String get settings_availability_delete_toast_success => 'Availability account deleted successfully';
 
   @override
   String get settings_cost_center_title => 'Cost centers';
@@ -2719,6 +2748,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get member_contribution_new_button => 'New contribution';
 
   @override
+  String member_contribution_step_label(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String get member_contribution_selected_value_label => 'Selected amount';
+
+  @override
   String get member_contribution_filter_type_label => 'Type';
 
   @override
@@ -2747,6 +2784,33 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get member_contribution_amount_other => 'Other amount';
+
+  @override
+  String get member_contribution_offering_type_title => 'Choose the offering';
+
+  @override
+  String get member_contribution_offering_type_subtitle => 'Select the financial concept that matches your offering.';
+
+  @override
+  String get member_contribution_offering_type_hint => 'Tap an option to continue.';
+
+  @override
+  String get member_contribution_offering_type_selected_hint => 'Offering selected. You can continue to the next step.';
+
+  @override
+  String get member_contribution_date_today => 'Today';
+
+  @override
+  String get member_contribution_date_yesterday => 'Yesterday';
+
+  @override
+  String get member_contribution_date_choose => 'Choose another date';
+
+  @override
+  String get member_contribution_receipt_select_photo => 'Select receipt photo';
+
+  @override
+  String get member_contribution_receipt_formats => 'Use JPG, PNG, or WEBP.';
 
   @override
   String get member_contribution_receipt_label => 'Upload the payment receipt';

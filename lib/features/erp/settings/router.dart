@@ -3,7 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'availability_accounts/pages/availability_accounts/availability_accounts_screen.dart';
+import 'availability_accounts/pages/edit_availability_account/edit_availability_account_screen.dart';
 import 'availability_accounts/pages/list_availability_accounts/availability_accounts_list_screen.dart';
+import 'availability_accounts/models/availability_account_model.dart';
 import 'banks/models/bank_model.dart';
 import 'banks/pages/bank_form/bank_form_screen.dart';
 import 'banks/pages/bank_list/bank_list_screen.dart';
@@ -99,6 +101,22 @@ settingsRouter() {
       path: '/availability-accounts/add',
       pageBuilder: (context, state) {
         return transitionCustom(AvailabilityAccountsScreen());
+      },
+    ),
+    GoRoute(
+      path: '/availability-accounts/edit/:availabilityAccountId',
+      pageBuilder: (context, state) {
+        final accountId = state.pathParameters['availabilityAccountId']!;
+        final initialAccount =
+            state.extra is AvailabilityAccountModel
+                ? state.extra as AvailabilityAccountModel
+                : null;
+        return transitionCustom(
+          EditAvailabilityAccountScreen(
+            availabilityAccountId: accountId,
+            initialAccount: initialAccount,
+          ),
+        );
       },
     ),
     GoRoute(

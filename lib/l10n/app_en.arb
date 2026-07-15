@@ -32,6 +32,7 @@
   "common_search_hint": "Search...",
   "common_actions": "Actions",
   "common_edit": "Edit",
+  "common_delete": "Delete",
   "auth_login_email_label": "Email",
   "auth_login_password_label": "Password",
   "auth_login_forgot_password": "Forgot your password?",
@@ -317,8 +318,11 @@
   "settings_availability_list_title": "Accounts list",
   "settings_availability_new_account": "Availability account",
   "settings_availability_form_title": "Register availability account",
+  "settings_availability_form_title_edit": "Edit availability account",
   "settings_availability_save": "Save",
+  "settings_availability_update": "Update",
   "settings_availability_toast_saved": "Record saved successfully",
+  "settings_availability_toast_updated": "Record updated successfully",
   "settings_availability_table_header_name": "Account name",
   "settings_availability_table_header_type": "Account type",
   "settings_availability_table_header_balance": "Balance",
@@ -338,10 +342,22 @@
   "settings_availability_field_bank": "Bank",
   "settings_availability_field_currency": "Currency",
   "settings_availability_bank_details_title": "Bank details",
+  "settings_availability_form_edit_section_title": "Editable data",
   "settings_availability_account_type_bank": "Bank",
   "settings_availability_account_type_cash": "Cash",
   "settings_availability_account_type_wallet": "Digital wallet",
   "settings_availability_account_type_investment": "Investment",
+  "settings_availability_delete_confirm_title": "Delete availability account",
+  "settings_availability_delete_confirm_message": "Are you sure you want to delete availability account {accountName}?",
+  "@settings_availability_delete_confirm_message": {
+    "placeholders": {
+      "accountName": {
+        "type": "String"
+      }
+    }
+  },
+  "settings_availability_delete_confirm_action": "Delete",
+  "settings_availability_delete_toast_success": "Availability account deleted successfully",
   "settings_cost_center_title": "Cost centers",
   "settings_cost_center_new": "New cost center",
   "settings_cost_center_field_code": "Code",
@@ -1187,6 +1203,18 @@
   "member_schedule_detail_no_extra_info": "No additional details available.",
   "member_contribution_history_title": "Contribution history",
   "member_contribution_new_button": "New contribution",
+  "member_contribution_step_label": "Step {current} of {total}",
+  "@member_contribution_step_label": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "member_contribution_selected_value_label": "Selected amount",
   "member_contribution_filter_type_label": "Type",
   "member_contribution_filter_type_all": "All",
   "member_contribution_type_tithe": "Tithe",
@@ -1197,6 +1225,15 @@
   "member_contribution_search_concept_hint": "Search concept...",
   "member_contribution_value_label": "Contribution amount",
   "member_contribution_amount_other": "Other amount",
+  "member_contribution_offering_type_title": "Choose the offering",
+  "member_contribution_offering_type_subtitle": "Select the financial concept that matches your offering.",
+  "member_contribution_offering_type_hint": "Tap an option to continue.",
+  "member_contribution_offering_type_selected_hint": "Offering selected. You can continue to the next step.",
+  "member_contribution_date_today": "Today",
+  "member_contribution_date_yesterday": "Yesterday",
+  "member_contribution_date_choose": "Choose another date",
+  "member_contribution_receipt_select_photo": "Select receipt photo",
+  "member_contribution_receipt_formats": "Use JPG, PNG, or WEBP.",
   "member_contribution_receipt_label": "Upload the payment receipt",
   "member_contribution_receipt_payment_date_label": "Payment date",
   "member_contribution_receipt_help_text": "Your church treasury will review this receipt. Attaching it is mandatory.",

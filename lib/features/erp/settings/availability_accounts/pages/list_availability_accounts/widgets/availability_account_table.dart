@@ -5,11 +5,14 @@ import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/index.dart';
 import 'package:gloria_finance/core/widgets/button_acton_table.dart';
 import 'package:gloria_finance/features/erp/settings/availability_accounts/models/availability_account_model.dart';
+import 'package:gloria_finance/features/erp/settings/availability_accounts/widgets/availability_account_delete_confirmation_dialog.dart';
 import 'package:gloria_finance/features/erp/settings/availability_accounts/pages/list_availability_accounts/widgets/view_availabilityAccount_account.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../store/availability_accounts_list_store.dart';
+import 'package:gloria_finance/core/toast.dart';
 
 class AvailabilityAccountTable extends StatefulWidget {
   const AvailabilityAccountTable({super.key});
@@ -60,6 +63,22 @@ class _AvailabilityAccountTable extends State<AvailabilityAccountTable> {
           },
           icon: Icons.remove_red_eye_sharp,
         ),
+        (account) => ButtonActionTable(
+          color: AppColors.green,
+          text: context.l10n.common_edit,
+          onPressed: () {
+            _goToEdit(context, account);
+          },
+          icon: Icons.edit_outlined,
+        ),
+        (account) => ButtonActionTable(
+          color: Colors.red,
+          text: context.l10n.common_delete,
+          onPressed: () {
+            _deleteAccount(context, store, account);
+          },
+          icon: Icons.delete_outline,
+        ),
       ],
     );
   }
@@ -90,5 +109,43 @@ class _AvailabilityAccountTable extends State<AvailabilityAccountTable> {
       CurrencyFormatter.formatCurrency(account.balance, symbol: account.symbol),
       statusLabel,
     ];
+  }
+
+  void _goToEdit(BuildContext context, AvailabilityAccountModel account) {
+    GoRouter.of(context).go(
+      '/availability-accounts/edit/${account.availabilityAccountId}',
+      extra: account,
+    );
+  }
+
+  Future<void> _deleteAccount(
+    BuildContext context,
+    AvailabilityAccountsListStore store,
+    AvailabilityAccountModel account,
+  ) async {
+    final confirmed = await showAvailabilityAccountDeleteConfirmationDialog(
+      context,
+      accountName: account.accountName,
+    );
+
+    if (confirmed != true || !context.mounted) {
+      return;
+    }
+
+    final deleted = await store.deleteAvailabilityAccount(
+      account.availabilityAccountId,
+    );
+
+    if (!context.mounted) {
+      return;
+    }
+
+    if (deleted) {
+      Toast.showMessage(
+        context.l10n.settings_availability_delete_toast_success,
+        ToastType.info,
+      );
+      return;
+    }
   }
 }

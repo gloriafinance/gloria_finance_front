@@ -1,14 +1,24 @@
 import 'package:gloria_finance/core/layout/view_detail_widgets.dart';
+import 'package:gloria_finance/core/toast.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/index.dart';
+import 'package:gloria_finance/core/widgets/button_acton_table.dart';
 import 'package:gloria_finance/features/erp/settings/availability_accounts/models/availability_account_model.dart';
+import 'package:gloria_finance/features/erp/settings/availability_accounts/widgets/availability_account_delete_confirmation_dialog.dart';
+import 'package:gloria_finance/features/erp/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:gloria_finance/features/erp/settings/banks/models/bank_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ViewAvailabilityAccount extends StatelessWidget {
   final AvailabilityAccountModel account;
+  final bool showActions;
 
-  const ViewAvailabilityAccount({super.key, required this.account});
+  const ViewAvailabilityAccount({
+    super.key,
+    required this.account,
+    this.showActions = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +26,9 @@ class ViewAvailabilityAccount extends StatelessWidget {
     final l10n = context.l10n;
     final accountType = AccountTypeExtension.fromApiValue(account.accountType);
     final activeLabel =
-        account.active ? l10n.settings_church_profile_status_active : l10n.settings_church_profile_status_inactive;
+        account.active
+            ? l10n.settings_church_profile_status_active
+            : l10n.settings_church_profile_status_inactive;
 
     return Card(
       color: Colors.white,
@@ -61,10 +73,54 @@ class ViewAvailabilityAccount extends StatelessWidget {
             if (account.source != null &&
                 account.accountType == AccountType.BANK.apiValue)
               _sourceBank(context, account.getSource()),
+            if (showActions) ...[
+              const SizedBox(height: 20),
+              const Divider(),
+              const SizedBox(height: 16),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  ButtonActionTable(
+                    color: Colors.red,
+                    text: l10n.common_delete,
+                    onPressed: () => _delete(context),
+                    icon: Icons.delete_outline,
+                  ),
+                ],
+              ),
+            ],
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _delete(BuildContext context) async {
+    final confirmed = await showAvailabilityAccountDeleteConfirmationDialog(
+      context,
+      accountName: account.accountName,
+    );
+
+    if (confirmed != true || !context.mounted) {
+      return;
+    }
+
+    final deleted = await context
+        .read<AvailabilityAccountsListStore>()
+        .deleteAvailabilityAccount(account.availabilityAccountId);
+
+    if (!context.mounted) {
+      return;
+    }
+
+    if (deleted) {
+      Navigator.of(context).pop();
+      Toast.showMessage(
+        context.l10n.settings_availability_delete_toast_success,
+        ToastType.info,
+      );
+    }
   }
 
   Widget _sourceBank(BuildContext context, BankModel bank) {
