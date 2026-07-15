@@ -289,6 +289,12 @@ abstract class AppLocalizations {
   /// **'Edit'**
   String get common_edit;
 
+  /// No description provided for @common_delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get common_delete;
+
   /// No description provided for @auth_login_email_label.
   ///
   /// In en, this message translates to:
@@ -1705,17 +1711,35 @@ abstract class AppLocalizations {
   /// **'Register availability account'**
   String get settings_availability_form_title;
 
+  /// No description provided for @settings_availability_form_title_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit availability account'**
+  String get settings_availability_form_title_edit;
+
   /// No description provided for @settings_availability_save.
   ///
   /// In en, this message translates to:
   /// **'Save'**
   String get settings_availability_save;
 
+  /// No description provided for @settings_availability_update.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get settings_availability_update;
+
   /// No description provided for @settings_availability_toast_saved.
   ///
   /// In en, this message translates to:
   /// **'Record saved successfully'**
   String get settings_availability_toast_saved;
+
+  /// No description provided for @settings_availability_toast_updated.
+  ///
+  /// In en, this message translates to:
+  /// **'Record updated successfully'**
+  String get settings_availability_toast_updated;
 
   /// No description provided for @settings_availability_table_header_name.
   ///
@@ -1789,6 +1813,12 @@ abstract class AppLocalizations {
   /// **'Bank details'**
   String get settings_availability_bank_details_title;
 
+  /// No description provided for @settings_availability_form_edit_section_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Editable data'**
+  String get settings_availability_form_edit_section_title;
+
   /// No description provided for @settings_availability_account_type_bank.
   ///
   /// In en, this message translates to:
@@ -1812,6 +1842,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Investment'**
   String get settings_availability_account_type_investment;
+
+  /// No description provided for @settings_availability_delete_confirm_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete availability account'**
+  String get settings_availability_delete_confirm_title;
+
+  /// No description provided for @settings_availability_delete_confirm_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete availability account {accountName}?'**
+  String settings_availability_delete_confirm_message(String accountName);
+
+  /// No description provided for @settings_availability_delete_confirm_action.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get settings_availability_delete_confirm_action;
+
+  /// No description provided for @settings_availability_delete_toast_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Availability account deleted successfully'**
+  String get settings_availability_delete_toast_success;
 
   /// No description provided for @settings_cost_center_title.
   ///
@@ -5353,6 +5407,18 @@ abstract class AppLocalizations {
   /// **'New contribution'**
   String get member_contribution_new_button;
 
+  /// No description provided for @member_contribution_step_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current} of {total}'**
+  String member_contribution_step_label(int current, int total);
+
+  /// No description provided for @member_contribution_selected_value_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected amount'**
+  String get member_contribution_selected_value_label;
+
   /// No description provided for @member_contribution_filter_type_label.
   ///
   /// In en, this message translates to:
@@ -5412,6 +5478,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Other amount'**
   String get member_contribution_amount_other;
+
+  /// No description provided for @member_contribution_offering_type_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the offering'**
+  String get member_contribution_offering_type_title;
+
+  /// No description provided for @member_contribution_offering_type_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the financial concept that matches your offering.'**
+  String get member_contribution_offering_type_subtitle;
+
+  /// No description provided for @member_contribution_offering_type_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap an option to continue.'**
+  String get member_contribution_offering_type_hint;
+
+  /// No description provided for @member_contribution_offering_type_selected_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Offering selected. You can continue to the next step.'**
+  String get member_contribution_offering_type_selected_hint;
+
+  /// No description provided for @member_contribution_date_today.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get member_contribution_date_today;
+
+  /// No description provided for @member_contribution_date_yesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get member_contribution_date_yesterday;
+
+  /// No description provided for @member_contribution_date_choose.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose another date'**
+  String get member_contribution_date_choose;
+
+  /// No description provided for @member_contribution_receipt_select_photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Select receipt photo'**
+  String get member_contribution_receipt_select_photo;
+
+  /// No description provided for @member_contribution_receipt_formats.
+  ///
+  /// In en, this message translates to:
+  /// **'Use JPG, PNG, or WEBP.'**
+  String get member_contribution_receipt_formats;
 
   /// No description provided for @member_contribution_receipt_label.
   ///

@@ -105,6 +105,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get common_edit => 'Editar';
 
   @override
+  String get common_delete => 'Eliminar';
+
+  @override
   String get auth_login_email_label => 'Correo electrónico';
 
   @override
@@ -827,10 +830,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settings_availability_form_title => 'Registro de cuenta de disponibilidad';
 
   @override
+  String get settings_availability_form_title_edit => 'Editar cuenta de disponibilidad';
+
+  @override
   String get settings_availability_save => 'Guardar';
 
   @override
+  String get settings_availability_update => 'Actualizar';
+
+  @override
   String get settings_availability_toast_saved => 'Registro guardado con éxito';
+
+  @override
+  String get settings_availability_toast_updated => 'Registro actualizado con éxito';
 
   @override
   String get settings_availability_table_header_name => 'Nombre de la cuenta';
@@ -871,6 +883,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settings_availability_bank_details_title => 'Datos del banco';
 
   @override
+  String get settings_availability_form_edit_section_title => 'Datos editables';
+
+  @override
   String get settings_availability_account_type_bank => 'Banco';
 
   @override
@@ -881,6 +896,20 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settings_availability_account_type_investment => 'Inversión';
+
+  @override
+  String get settings_availability_delete_confirm_title => 'Eliminar cuenta de disponibilidad';
+
+  @override
+  String settings_availability_delete_confirm_message(String accountName) {
+    return '¿Seguro que deseas eliminar la cuenta de disponibilidad $accountName?';
+  }
+
+  @override
+  String get settings_availability_delete_confirm_action => 'Eliminar';
+
+  @override
+  String get settings_availability_delete_toast_success => 'Cuenta de disponibilidad eliminada con éxito';
 
   @override
   String get settings_cost_center_title => 'Centros de costo';
@@ -2719,6 +2748,14 @@ class AppLocalizationsEs extends AppLocalizations {
   String get member_contribution_new_button => 'Nueva contribución';
 
   @override
+  String member_contribution_step_label(int current, int total) {
+    return 'Paso $current de $total';
+  }
+
+  @override
+  String get member_contribution_selected_value_label => 'Valor seleccionado';
+
+  @override
   String get member_contribution_filter_type_label => 'Tipo';
 
   @override
@@ -2747,6 +2784,33 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get member_contribution_amount_other => 'Otro monto';
+
+  @override
+  String get member_contribution_offering_type_title => 'Elige la ofrenda';
+
+  @override
+  String get member_contribution_offering_type_subtitle => 'Selecciona el concepto financiero correspondiente a tu ofrenda.';
+
+  @override
+  String get member_contribution_offering_type_hint => 'Toca una opción para continuar.';
+
+  @override
+  String get member_contribution_offering_type_selected_hint => 'Ofrenda seleccionada. Puedes continuar con el siguiente paso.';
+
+  @override
+  String get member_contribution_date_today => 'Hoy';
+
+  @override
+  String get member_contribution_date_yesterday => 'Ayer';
+
+  @override
+  String get member_contribution_date_choose => 'Elegir otra fecha';
+
+  @override
+  String get member_contribution_receipt_select_photo => 'Seleccionar foto del comprobante';
+
+  @override
+  String get member_contribution_receipt_formats => 'Usa JPG, PNG o WEBP.';
 
   @override
   String get member_contribution_receipt_label => 'Envía el comprobante del pago';

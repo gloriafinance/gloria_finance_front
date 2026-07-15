@@ -32,6 +32,7 @@
   "common_search_hint": "Buscar...",
   "common_actions": "Ações",
   "common_edit": "Editar",
+  "common_delete": "Excluir",
   "auth_login_email_label": "E-mail",
   "auth_login_password_label": "Senha",
   "auth_login_forgot_password": "Esqueceu a senha?",
@@ -317,8 +318,11 @@
   "settings_availability_list_title": "Listagem de contas",
   "settings_availability_new_account": "Conta disponiblidade",
   "settings_availability_form_title": "Cadastro de conta de desponibilidade",
+  "settings_availability_form_title_edit": "Editar conta de disponibilidade",
   "settings_availability_save": "Salvar",
+  "settings_availability_update": "Atualizar",
   "settings_availability_toast_saved": "Registro salvo com sucesso",
+  "settings_availability_toast_updated": "Registro atualizado com sucesso",
   "settings_availability_table_header_name": "Nome da conta",
   "settings_availability_table_header_type": "Tipo de conta",
   "settings_availability_table_header_balance": "Saldo",
@@ -338,10 +342,22 @@
   "settings_availability_field_bank": "Banco",
   "settings_availability_field_currency": "Moeda",
   "settings_availability_bank_details_title": "Dados do banco",
+  "settings_availability_form_edit_section_title": "Dados editáveis",
   "settings_availability_account_type_bank": "Banco",
   "settings_availability_account_type_cash": "Dinheiro",
   "settings_availability_account_type_wallet": "Carteira digital",
   "settings_availability_account_type_investment": "Investimento",
+  "settings_availability_delete_confirm_title": "Excluir conta de disponibilidade",
+  "settings_availability_delete_confirm_message": "Tem certeza de que deseja excluir a conta de disponibilidade {accountName}?",
+  "@settings_availability_delete_confirm_message": {
+    "placeholders": {
+      "accountName": {
+        "type": "String"
+      }
+    }
+  },
+  "settings_availability_delete_confirm_action": "Excluir",
+  "settings_availability_delete_toast_success": "Conta de disponibilidade excluída com sucesso",
   "settings_cost_center_title": "Centros de custo",
   "settings_cost_center_new": "Novo centro de custo",
   "settings_cost_center_field_code": "Código",

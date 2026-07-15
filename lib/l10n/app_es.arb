@@ -32,6 +32,7 @@
   "common_search_hint": "Buscar...",
   "common_actions": "Acciones",
   "common_edit": "Editar",
+  "common_delete": "Eliminar",
   "auth_login_email_label": "Correo electrónico",
   "auth_login_password_label": "Contraseña",
   "auth_login_forgot_password": "¿Olvidaste tu contraseña?",
@@ -317,8 +318,11 @@
   "settings_availability_list_title": "Listado de cuentas",
   "settings_availability_new_account": "Cuenta de disponibilidad",
   "settings_availability_form_title": "Registro de cuenta de disponibilidad",
+  "settings_availability_form_title_edit": "Editar cuenta de disponibilidad",
   "settings_availability_save": "Guardar",
+  "settings_availability_update": "Actualizar",
   "settings_availability_toast_saved": "Registro guardado con éxito",
+  "settings_availability_toast_updated": "Registro actualizado con éxito",
   "settings_availability_table_header_name": "Nombre de la cuenta",
   "settings_availability_table_header_type": "Tipo de cuenta",
   "settings_availability_table_header_balance": "Saldo",
@@ -338,10 +342,22 @@
   "settings_availability_field_bank": "Banco",
   "settings_availability_field_currency": "Moneda",
   "settings_availability_bank_details_title": "Datos del banco",
+  "settings_availability_form_edit_section_title": "Datos editables",
   "settings_availability_account_type_bank": "Banco",
   "settings_availability_account_type_cash": "Efectivo",
   "settings_availability_account_type_wallet": "Billetera digital",
   "settings_availability_account_type_investment": "Inversión",
+  "settings_availability_delete_confirm_title": "Eliminar cuenta de disponibilidad",
+  "settings_availability_delete_confirm_message": "¿Seguro que deseas eliminar la cuenta de disponibilidad {accountName}?",
+  "@settings_availability_delete_confirm_message": {
+    "placeholders": {
+      "accountName": {
+        "type": "String"
+      }
+    }
+  },
+  "settings_availability_delete_confirm_action": "Eliminar",
+  "settings_availability_delete_toast_success": "Cuenta de disponibilidad eliminada con éxito",
   "settings_cost_center_title": "Centros de costo",
   "settings_cost_center_new": "Nuevo centro de costo",
   "settings_cost_center_field_code": "Código",

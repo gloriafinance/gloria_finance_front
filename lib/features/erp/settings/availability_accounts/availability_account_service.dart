@@ -39,4 +39,38 @@ class AvailabilityAccountService extends AppHttp {
       rethrow;
     }
   }
+
+  Future<void> updateAvailabilityAccount({
+    required String availabilityAccountId,
+    required Map<String, dynamic> payload,
+  }) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      await http.put(
+        '${await getUrlApi()}finance/configuration/availability-account/$availabilityAccountId',
+        data: payload,
+        options: Options(headers: bearerToken()),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<void> deleteAvailabilityAccount(String availabilityAccountId) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      await http.delete(
+        '${await getUrlApi()}finance/configuration/availability-account/$availabilityAccountId',
+        options: Options(headers: bearerToken()),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
 }
