@@ -20,7 +20,6 @@ class FormChangePassword extends StatefulWidget {
 class _FormChangePasswordState extends State<FormChangePassword> {
   final formKey = GlobalKey<FormState>();
   bool isFormValid = false;
-  late final ChangePasswordValidator validator;
 
   void _validateForm() {
     setState(() {
@@ -32,7 +31,7 @@ class _FormChangePasswordState extends State<FormChangePassword> {
 
   @override
   Widget build(BuildContext context) {
-    validator = ChangePasswordValidator(
+    final validator = ChangePasswordValidator(
       oldPasswordRequiredMessage:
           context.l10n.auth_recovery_change_error_old_password_required,
       newPasswordRequiredMessage:
