@@ -345,7 +345,7 @@ class ScheduleItemConfig {
 
   factory ScheduleItemConfig.fromJson(Map<String, dynamic> json) {
     return ScheduleItemConfig(
-      scheduleItemId: json['scheduleItemId'] as String,
+      scheduleItemId: json['scheduleEventId'] as String,
       churchId: json['churchId'] as String,
       type: ScheduleItemTypeExtension.fromApiValue(json['type'] as String),
       title: json['title'] as String,
