@@ -317,11 +317,15 @@ class _MemberRegistrationScreenState extends State<MemberRegistrationScreen> {
           CircleAvatar(
             radius: _isWide ? 56 : 48,
             backgroundColor: const Color(0xFFF3F4F6),
-            child: Icon(
-              Icons.camera_alt_outlined,
-              size: _isWide ? 40 : 32,
-              color: AppColors.grey,
-            ),
+            backgroundImage: _photo == null ? null : NetworkImage(_photo!.path),
+            child:
+                _photo == null
+                    ? Icon(
+                      Icons.camera_alt_outlined,
+                      size: _isWide ? 40 : 32,
+                      color: AppColors.grey,
+                    )
+                    : null,
           ),
           const SizedBox(height: 12),
           CustomButton(
