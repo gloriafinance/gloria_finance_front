@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:gloria_finance/core/app_http.dart';
+import 'package:gloria_finance/core/uploads/raw_photo_upload.dart';
 import 'package:gloria_finance/features/auth/auth_persistence.dart';
 import 'package:gloria_finance/features/member_experience/profile/models/member_profile_model.dart';
 import 'package:gloria_finance/features/member_experience/profile/models/member_profile_photo_update_error.dart';
 import 'package:gloria_finance/features/member_experience/profile/models/member_profile_photo_update_result.dart';
-import 'package:flutter/foundation.dart';
+import 'package:image_picker/image_picker.dart';
 
 class MemberProfileService extends AppHttp {
   MemberProfileService({super.tokenAPI});
@@ -27,29 +29,28 @@ class MemberProfileService extends AppHttp {
   }
 
   Future<MemberProfilePhotoUpdateResult> updateProfilePhoto({
-    required Uint8List photoBytes,
-    required String fileName,
+    required XFile photo,
     required String mimeType,
   }) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
     try {
-      final formData = FormData.fromMap({
-        'profilePhoto': MultipartFile.fromBytes(
-          photoBytes,
-          filename: fileName,
-          contentType: DioMediaType.parse(mimeType),
-        ),
-      });
-
-      final response = await http.patch(
-        '${await getUrlApi()}member/profile/photo',
-        data: formData,
-        options: Options(headers: bearerToken()),
-      );
-
-      final data = response.data;
+      final uploadUrl = '${await getUrlApi()}member/profile/photo';
+      final data =
+          kIsWeb
+              ? await uploadRawPhotoOnWeb(
+                photo: photo,
+                url: Uri.parse(uploadUrl),
+                method: 'PATCH',
+                mimeType: mimeType,
+                headers: bearerToken(),
+              )
+              : (await http.patch(
+                uploadUrl,
+                data: photo.openRead(),
+                options: Options(contentType: mimeType, headers: bearerToken()),
+              )).data;
       if (data is Map<String, dynamic>) {
         return MemberProfilePhotoUpdateResult.fromJson(data);
       }

@@ -1,6 +1,5 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../models/member_registration_models.dart';
 import '../service/member_registration_service.dart';
@@ -16,7 +15,7 @@ class MemberRegistrationStore extends ChangeNotifier {
   MemberRegistrationFormState formState = MemberRegistrationFormState.init();
 
   MemberRegistrationStore({MemberRegistrationService? service})
-      : _service = service ?? MemberRegistrationService();
+    : _service = service ?? MemberRegistrationService();
 
   Future<void> loadChurchInfo(String token) async {
     loading = true;
@@ -35,12 +34,7 @@ class MemberRegistrationStore extends ChangeNotifier {
     }
   }
 
-  Future<bool> submit(
-    String token,
-    Uint8List photoBytes,
-    String photoName,
-    String photoMimeType,
-  ) async {
+  Future<bool> submit(String token, XFile photo, String photoMimeType) async {
     formState = formState.copyWith(makeRequest: true);
     error = null;
     notifyListeners();
@@ -49,8 +43,7 @@ class MemberRegistrationStore extends ChangeNotifier {
       await _service.submitRegistration(
         token: token,
         fields: formState.toJson(),
-        photoBytes: photoBytes,
-        photoName: photoName,
+        photo: photo,
         photoMimeType: photoMimeType,
       );
       formState = formState.copyWith(makeRequest: false);

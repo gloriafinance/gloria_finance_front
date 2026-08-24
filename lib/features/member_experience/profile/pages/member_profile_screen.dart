@@ -22,11 +22,7 @@ class MemberProfileScreen extends StatefulWidget {
 }
 
 class _MemberProfileScreenState extends State<MemberProfileScreen> {
-  static const _maxPhotoBytes = 3 * 1024 * 1024;
-
   final ImagePicker _picker = ImagePicker();
-
-  Uint8List? _previewPhotoBytes;
 
   Future<void> _refreshProfile(BuildContext context) async {
     await context.read<MemberProfileStore>().loadProfile(refresh: true);
@@ -47,28 +43,15 @@ class _MemberProfileScreenState extends State<MemberProfileScreen> {
   ) async {
     final messenger = ScaffoldMessenger.of(context);
     final l10n = context.l10n;
-    final tooLargeLabel = context.l10n.member_registration_photo_too_large;
     final invalidFormatLabel = l10n.member_profile_photo_invalid_format;
     final successLabel = l10n.member_profile_photo_updated;
     final errorLabel = l10n.member_profile_photo_update_error;
     final profileStore = context.read<MemberProfileStore>();
 
     try {
-      final picked = await _picker.pickImage(
-        source: source,
-        maxWidth: 1024,
-        maxHeight: 1024,
-        imageQuality: 90,
-      );
+      final picked = await _picker.pickImage(source: source);
 
       if (picked == null) {
-        return;
-      }
-
-      final bytes = await picked.readAsBytes();
-      if (bytes.length > _maxPhotoBytes) {
-        if (!mounted) return;
-        messenger.showSnackBar(SnackBar(content: Text(tooLargeLabel)));
         return;
       }
 
@@ -79,24 +62,14 @@ class _MemberProfileScreenState extends State<MemberProfileScreen> {
         return;
       }
 
-      if (!mounted) return;
-      setState(() {
-        _previewPhotoBytes = bytes;
-      });
-
       final success = await profileStore.updateProfilePhoto(
-        photoBytes: bytes,
-        fileName: picked.name,
+        photo: picked,
         mimeType: mimeType,
       );
 
       if (!mounted) {
         return;
       }
-
-      setState(() {
-        _previewPhotoBytes = null;
-      });
 
       if (success) {
         messenger.showSnackBar(SnackBar(content: Text(successLabel)));
@@ -112,9 +85,6 @@ class _MemberProfileScreenState extends State<MemberProfileScreen> {
       }
     } catch (_) {
       if (!mounted) return;
-      setState(() {
-        _previewPhotoBytes = null;
-      });
       messenger.showSnackBar(SnackBar(content: Text(errorLabel)));
     }
   }
@@ -196,10 +166,7 @@ class _MemberProfileScreenState extends State<MemberProfileScreen> {
     );
   }
 
-  String? _photoUpdateErrorLabel(
-    AppLocalizations l10n,
-    String? code,
-  ) {
+  String? _photoUpdateErrorLabel(AppLocalizations l10n, String? code) {
     switch (code) {
       case 'INVALID_PROFILE_PHOTO':
         return l10n.member_profile_photo_invalid_format;
@@ -273,10 +240,10 @@ class _MemberProfileScreenState extends State<MemberProfileScreen> {
                   memberSinceLabel: l10n.member_profile_member_since(
                     memberSince,
                   ),
+                  previewPhotoBytes: null,
                   changePhotoLabel: l10n.member_registration_change_photo,
                   photoHintLabel: l10n.member_registration_photo_hint,
                   photoUrl: profile?.profilePhotoUrl,
-                  previewPhotoBytes: _previewPhotoBytes,
                   isLoading: profileStore.isLoading,
                   isUploadingPhoto: profileStore.isUploadingPhoto,
                   onChangePhoto: () => _showPhotoSourceSheet(context),
@@ -284,11 +251,7 @@ class _MemberProfileScreenState extends State<MemberProfileScreen> {
                 const SizedBox(height: 24),
                 _buildSection(
                   title: l10n.member_profile_personal_data_title,
-                  child: _buildPersonalDataCard(
-                    session,
-                    profileStore,
-                    l10n,
-                  ),
+                  child: _buildPersonalDataCard(session, profileStore, l10n),
                 ),
                 const SizedBox(height: 24),
                 _buildSection(

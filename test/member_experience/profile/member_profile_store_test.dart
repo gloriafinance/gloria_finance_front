@@ -7,6 +7,7 @@ import 'package:gloria_finance/features/member_experience/profile/models/member_
 import 'package:gloria_finance/features/member_experience/profile/models/member_profile_photo_update_result.dart';
 import 'package:gloria_finance/features/member_experience/profile/service/member_profile_service.dart';
 import 'package:gloria_finance/features/member_experience/profile/store/member_profile_store.dart';
+import 'package:image_picker/image_picker.dart';
 
 class _StubMemberProfileService extends MemberProfileService {
   MemberProfileModel? profile;
@@ -24,8 +25,7 @@ class _StubMemberProfileService extends MemberProfileService {
 
   @override
   Future<MemberProfilePhotoUpdateResult> updateProfilePhoto({
-    required Uint8List photoBytes,
-    required String fileName,
+    required XFile photo,
     required String mimeType,
   }) async {
     updateCalled = true;
@@ -60,19 +60,19 @@ MemberProfileModel _buildProfile({
 void main() {
   group('MemberProfileStore', () {
     test('updates the local profile photo after a successful upload', () async {
-      final service = _StubMemberProfileService()
-        ..profile = _buildProfile()
-        ..updateResult = const MemberProfilePhotoUpdateResult(
-          profilePhoto: '2026/6/new-photo.jpg',
-          profilePhotoUrl: 'https://cdn.example.com/new-photo.jpg',
-        );
+      final service =
+          _StubMemberProfileService()
+            ..profile = _buildProfile()
+            ..updateResult = const MemberProfilePhotoUpdateResult(
+              profilePhoto: '2026/6/new-photo.jpg',
+              profilePhotoUrl: 'https://cdn.example.com/new-photo.jpg',
+            );
 
       final store = MemberProfileStore(service: service);
       store.profile = _buildProfile();
 
       final success = await store.updateProfilePhoto(
-        photoBytes: Uint8List.fromList([1, 2, 3]),
-        fileName: 'photo.jpg',
+        photo: XFile.fromData(Uint8List.fromList([1, 2, 3]), name: 'photo.jpg'),
         mimeType: 'image/jpeg',
       );
 
@@ -86,19 +86,19 @@ void main() {
     });
 
     test('captures the backend code when the upload fails', () async {
-      final service = _StubMemberProfileService()
-        ..profile = _buildProfile()
-        ..updateError = const MemberProfilePhotoUpdateError(
-          code: 'PROFILE_PHOTO_TOO_LARGE',
-          message: 'Profile photo must be at most 3 MB',
-        );
+      final service =
+          _StubMemberProfileService()
+            ..profile = _buildProfile()
+            ..updateError = const MemberProfilePhotoUpdateError(
+              code: 'PROFILE_PHOTO_TOO_LARGE',
+              message: 'Profile photo must be at most 3 MB',
+            );
 
       final store = MemberProfileStore(service: service);
       store.profile = _buildProfile();
 
       final success = await store.updateProfilePhoto(
-        photoBytes: Uint8List.fromList([1, 2, 3]),
-        fileName: 'photo.jpg',
+        photo: XFile.fromData(Uint8List.fromList([1, 2, 3]), name: 'photo.jpg'),
         mimeType: 'image/jpeg',
       );
 

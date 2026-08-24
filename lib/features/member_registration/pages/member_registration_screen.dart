@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -28,8 +26,7 @@ class MemberRegistrationScreen extends StatefulWidget {
 class _MemberRegistrationScreenState extends State<MemberRegistrationScreen> {
   final _formKey = GlobalKey<FormState>();
   final _picker = ImagePicker();
-  Uint8List? _photoBytes;
-  String? _photoName;
+  XFile? _photo;
   String? _photoMimeType;
 
   static const Color _bgColor = Color(0xFFF5F5F7);
@@ -46,35 +43,23 @@ class _MemberRegistrationScreenState extends State<MemberRegistrationScreen> {
 
   Future<void> _pickImage(ImageSource source) async {
     try {
-      final picked = await _picker.pickImage(
-        source: source,
-        maxWidth: 1024,
-        maxHeight: 1024,
-        imageQuality: 85,
-      );
+      final picked = await _picker.pickImage(source: source);
       if (picked == null) return;
 
-      final bytes = await picked.readAsBytes();
-      if (bytes.length > 3 * 1024 * 1024) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(context.l10n.member_registration_photo_too_large),
-            ),
-          );
-        }
-        return;
-      }
-
-      final mimeType = _inferMimeType(picked.name);
+      final mimeType = picked.mimeType ?? _inferMimeType(picked.name);
 
       setState(() {
-        _photoBytes = bytes;
-        _photoName = picked.name;
+        _photo = picked;
         _photoMimeType = mimeType;
       });
-    } catch (e) {
-      // Ignore
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(context.l10n.member_registration_submit_error),
+          ),
+        );
+      }
     }
   }
 
@@ -95,7 +80,7 @@ class _MemberRegistrationScreenState extends State<MemberRegistrationScreen> {
 
   void _submit(MemberRegistrationStore store) async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
-    if (_photoBytes == null) {
+    if (_photo == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(context.l10n.member_registration_photo_required),
@@ -106,15 +91,12 @@ class _MemberRegistrationScreenState extends State<MemberRegistrationScreen> {
 
     final success = await store.submit(
       widget.token,
-      _photoBytes!,
-      _photoName ?? 'photo.jpg',
+      _photo!,
       _photoMimeType ?? 'image/jpeg',
     );
     if (!success && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(context.l10n.member_registration_submit_error),
-        ),
+        SnackBar(content: Text(context.l10n.member_registration_submit_error)),
       );
     }
   }
@@ -288,9 +270,7 @@ class _MemberRegistrationScreenState extends State<MemberRegistrationScreen> {
     return Card(
       elevation: 2,
       color: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
         padding: EdgeInsets.all(_isWide ? 32 : 20),
         child: Column(
@@ -303,10 +283,7 @@ class _MemberRegistrationScreenState extends State<MemberRegistrationScreen> {
               _buildPhone(l10n, store, validator),
               _buildEmail(l10n, store, validator),
             ]),
-            _buildRow([
-              _buildDni(l10n, store),
-              _buildBirthdate(l10n, store),
-            ]),
+            _buildRow([_buildDni(l10n, store), _buildBirthdate(l10n, store)]),
             _buildGender(l10n, store),
             const SizedBox(height: 8),
             _buildAddressExpansion(l10n, store),
@@ -316,15 +293,16 @@ class _MemberRegistrationScreenState extends State<MemberRegistrationScreen> {
             SizedBox(
               width: double.infinity,
               height: 48,
-              child: store.formState.makeRequest
-                  ? const Loading()
-                  : CustomButton(
-                      backgroundColor: AppColors.green,
-                      text: l10n.member_registration_submit,
-                      onPressed: () => _submit(store),
-                      typeButton: CustomButton.basic,
-                      textColor: Colors.white,
-                    ),
+              child:
+                  store.formState.makeRequest
+                      ? const Loading()
+                      : CustomButton(
+                        backgroundColor: AppColors.green,
+                        text: l10n.member_registration_submit,
+                        onPressed: () => _submit(store),
+                        typeButton: CustomButton.basic,
+                        textColor: Colors.white,
+                      ),
             ),
           ],
         ),
@@ -336,30 +314,26 @@ class _MemberRegistrationScreenState extends State<MemberRegistrationScreen> {
     return Center(
       child: Column(
         children: [
-          if (_photoBytes != null)
-            CircleAvatar(
-              radius: _isWide ? 56 : 48,
-              backgroundImage: MemoryImage(_photoBytes!),
-            )
-          else
-            CircleAvatar(
-              radius: _isWide ? 56 : 48,
-              backgroundColor: const Color(0xFFF3F4F6),
-              child: Icon(
-                Icons.camera_alt_outlined,
-                size: _isWide ? 40 : 32,
-                color: AppColors.grey,
-              ),
+          CircleAvatar(
+            radius: _isWide ? 56 : 48,
+            backgroundColor: const Color(0xFFF3F4F6),
+            child: Icon(
+              Icons.camera_alt_outlined,
+              size: _isWide ? 40 : 32,
+              color: AppColors.grey,
             ),
+          ),
           const SizedBox(height: 12),
           CustomButton(
             backgroundColor: AppColors.purple,
-            text: _photoBytes == null
-                ? l10n.member_registration_add_photo
-                : l10n.member_registration_change_photo,
-            onPressed: () => _pickImage(
-              _photoBytes == null ? ImageSource.camera : ImageSource.gallery,
-            ),
+            text:
+                _photo == null
+                    ? l10n.member_registration_add_photo
+                    : l10n.member_registration_change_photo,
+            onPressed:
+                () => _pickImage(
+                  _photo == null ? ImageSource.camera : ImageSource.gallery,
+                ),
             typeButton: CustomButton.basic,
             textColor: Colors.white,
           ),
@@ -419,10 +393,7 @@ class _MemberRegistrationScreenState extends State<MemberRegistrationScreen> {
     );
   }
 
-  Widget _buildDni(
-    AppLocalizations l10n,
-    MemberRegistrationStore store,
-  ) {
+  Widget _buildDni(AppLocalizations l10n, MemberRegistrationStore store) {
     return Input(
       label: l10n.member_registration_dni_optional,
       icon: Icons.badge_outlined,
@@ -430,23 +401,19 @@ class _MemberRegistrationScreenState extends State<MemberRegistrationScreen> {
     );
   }
 
-  Widget _buildBirthdate(
-    AppLocalizations l10n,
-    MemberRegistrationStore store,
-  ) {
+  Widget _buildBirthdate(AppLocalizations l10n, MemberRegistrationStore store) {
     return Input(
       label: l10n.member_registration_birthdate_optional,
       icon: Icons.calendar_today_outlined,
       readOnly: true,
-      initialValue: store.formState.birthdate != null
-          ? '${store.formState.birthdate!.day.toString().padLeft(2, '0')}/${store.formState.birthdate!.month.toString().padLeft(2, '0')}/${store.formState.birthdate!.year}'
-          : '',
+      initialValue:
+          store.formState.birthdate != null
+              ? '${store.formState.birthdate!.day.toString().padLeft(2, '0')}/${store.formState.birthdate!.month.toString().padLeft(2, '0')}/${store.formState.birthdate!.year}'
+              : '',
       onTap: () async {
         final picked = await showDatePicker(
           context: context,
-          initialDate: DateTime.now().subtract(
-            const Duration(days: 365 * 18),
-          ),
+          initialDate: DateTime.now().subtract(const Duration(days: 365 * 18)),
           firstDate: DateTime(1900),
           lastDate: DateTime.now(),
         );
@@ -458,10 +425,7 @@ class _MemberRegistrationScreenState extends State<MemberRegistrationScreen> {
     );
   }
 
-  Widget _buildGender(
-    AppLocalizations l10n,
-    MemberRegistrationStore store,
-  ) {
+  Widget _buildGender(AppLocalizations l10n, MemberRegistrationStore store) {
     return Dropdown(
       label: l10n.member_registration_gender_optional,
       items: [
@@ -483,16 +447,17 @@ class _MemberRegistrationScreenState extends State<MemberRegistrationScreen> {
     }
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: children
-          .map(
-            (child) => Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: child,
-              ),
-            ),
-          )
-          .toList(),
+      children:
+          children
+              .map(
+                (child) => Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: child,
+                  ),
+                ),
+              )
+              .toList(),
     );
   }
 
@@ -501,9 +466,7 @@ class _MemberRegistrationScreenState extends State<MemberRegistrationScreen> {
     MemberRegistrationStore store,
   ) {
     return Theme(
-      data: Theme.of(context).copyWith(
-        dividerColor: Colors.transparent,
-      ),
+      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
         tilePadding: EdgeInsets.zero,
         childrenPadding: EdgeInsets.zero,
@@ -561,10 +524,7 @@ class _MemberRegistrationScreenState extends State<MemberRegistrationScreen> {
   }
 
   Widget _buildAddressInput(String label, void Function(String) onChanged) {
-    return Input(
-      label: label,
-      onChanged: onChanged,
-    );
+    return Input(label: label, onChanged: onChanged);
   }
 
   Widget _buildLgpdCheckbox(
