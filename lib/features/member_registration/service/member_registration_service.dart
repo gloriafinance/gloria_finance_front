@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../core/app_http.dart';
+import '../../../core/uploads/raw_photo_upload.dart';
 import '../models/member_registration_models.dart';
 
 class MemberRegistrationService extends AppHttp {
@@ -22,23 +24,36 @@ class MemberRegistrationService extends AppHttp {
   Future<MemberRegistrationResponse> submitRegistration({
     required String token,
     required Map<String, dynamic> fields,
-    required Uint8List photoBytes,
-    required String photoName,
+    required XFile photo,
     required String photoMimeType,
   }) async {
     try {
-      final formData = FormData.fromMap({
-        ...fields,
-        'profilePhoto': MultipartFile.fromBytes(
-          photoBytes,
-          filename: photoName,
-          contentType: DioMediaType.parse(photoMimeType),
-        ),
-      });
+      final uploadUrl =
+          '${await getUrlApi()}public/member-registration/$token/photo';
+      final uploadPayload =
+          kIsWeb
+              ? await uploadRawPhotoOnWeb(
+                photo: photo,
+                url: Uri.parse(uploadUrl),
+                method: 'POST',
+                mimeType: photoMimeType,
+              )
+              : Map<String, dynamic>.from(
+                (await http.post(
+                      uploadUrl,
+                      data: photo.openRead(),
+                      options: Options(contentType: photoMimeType),
+                    )).data
+                    as Map,
+              );
+      final receipt = uploadPayload['profilePhotoUploadReceipt'] as String?;
+      if (receipt == null || receipt.isEmpty) {
+        throw StateError('Missing profile photo upload receipt.');
+      }
 
       final response = await http.post(
         '${await getUrlApi()}public/member-registration/$token',
-        data: formData,
+        data: {...fields, 'profilePhotoUploadReceipt': receipt},
       );
       return MemberRegistrationResponse.fromJson(response.data);
     } on DioException catch (e) {

@@ -1,6 +1,5 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:gloria_finance/features/member_experience/profile/models/member_profile_model.dart';
 import 'package:gloria_finance/features/member_experience/profile/models/member_profile_photo_update_error.dart';
 import 'package:gloria_finance/features/member_experience/profile/service/member_profile_service.dart';
@@ -45,8 +44,7 @@ class MemberProfileStore extends ChangeNotifier {
   }
 
   Future<bool> updateProfilePhoto({
-    required Uint8List photoBytes,
-    required String fileName,
+    required XFile photo,
     required String mimeType,
   }) async {
     if (isUploadingPhoto || _disposed) return false;
@@ -58,8 +56,7 @@ class MemberProfileStore extends ChangeNotifier {
 
     try {
       final result = await _service.updateProfilePhoto(
-        photoBytes: photoBytes,
-        fileName: fileName,
+        photo: photo,
         mimeType: mimeType,
       );
 
