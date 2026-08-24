@@ -43,7 +43,12 @@ class _MemberRegistrationScreenState extends State<MemberRegistrationScreen> {
 
   Future<void> _pickImage(ImageSource source) async {
     try {
-      final picked = await _picker.pickImage(source: source);
+      final picked = await _picker.pickImage(
+        source: source,
+        maxWidth: 1024,
+        maxHeight: 1024,
+        imageQuality: 85,
+      );
       if (picked == null) return;
 
       final mimeType = picked.mimeType ?? _inferMimeType(picked.name);

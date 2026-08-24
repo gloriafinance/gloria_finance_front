@@ -49,7 +49,12 @@ class _MemberProfileScreenState extends State<MemberProfileScreen> {
     final profileStore = context.read<MemberProfileStore>();
 
     try {
-      final picked = await _picker.pickImage(source: source);
+      final picked = await _picker.pickImage(
+        source: source,
+        maxWidth: 1024,
+        maxHeight: 1024,
+        imageQuality: 85,
+      );
 
       if (picked == null) {
         return;

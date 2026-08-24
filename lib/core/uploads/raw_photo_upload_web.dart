@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:js_interop';
 
+import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:web/web.dart' as web;
 
@@ -26,18 +27,41 @@ Future<Map<String, dynamic>> uploadRawPhotoOnWeb({
     final payload = request.responseText;
     if (request.status >= 200 && request.status < 300) {
       completion.complete(
-        Map<String, dynamic>.from(jsonDecode(payload) as Map),
+        Map<String, dynamic>.from(_decodePayload(payload) as Map),
       );
       return;
     }
     completion.completeError(
-      StateError(payload.isEmpty ? 'Photo upload failed.' : payload),
+      DioException(
+        requestOptions: RequestOptions(path: url.toString(), method: method),
+        response: Response(
+          requestOptions: RequestOptions(path: url.toString(), method: method),
+          statusCode: request.status,
+          data: _decodePayload(payload),
+        ),
+        type: DioExceptionType.badResponse,
+      ),
     );
   });
-  request.onError.first.then(
-    (_) => completion.completeError(StateError('Photo upload failed.')),
-  );
+  request.onError.first.then((_) {
+    completion.completeError(
+      DioException(
+        requestOptions: RequestOptions(path: url.toString(), method: method),
+        type: DioExceptionType.connectionError,
+      ),
+    );
+  });
   request.send(file);
 
   return completion.future;
+}
+
+dynamic _decodePayload(String payload) {
+  if (payload.isEmpty) return null;
+
+  try {
+    return jsonDecode(payload);
+  } on FormatException {
+    return payload;
+  }
 }
