@@ -107,7 +107,7 @@ class _ChurchProfileContentState extends State<_ChurchProfileContent>
       'client_id': "25820028151023925",
       'redirect_uri':
           kReleaseMode
-              ? "https://devpto-dev--preview-chore-webhook-whatsaap-1k94yli1.web.app/integrations/whatsapp/callback"
+              ? "https://app.gloriafinance.com.br/integrations/whatsapp/callback"
               : "http://localhost:3000/integrations/whatsapp/callback",
       'response_type': 'code',
       'scope': 'whatsapp_business_management,whatsapp_business_messaging',
