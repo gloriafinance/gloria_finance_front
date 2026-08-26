@@ -35,4 +35,19 @@ class IntegrationsService extends AppHttp {
       rethrow;
     }
   }
+
+  Future<void> sendWhatsappTestMessage({required String to}) async {
+    final url = await getUrlApi();
+
+    try {
+      await http.post(
+        '${url}integrations/whatsapp/test-message',
+        data: {'to': to},
+        options: Options(headers: bearerToken()),
+      );
+    } catch (e) {
+      transformResponse(e is DioException ? e.response?.data : e);
+      rethrow;
+    }
+  }
 }

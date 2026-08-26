@@ -12,6 +12,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../models/church_model.dart';
 import '../services/church_service.dart';
 import '../store/church_store.dart';
+import '../../integrations/services/integrations_service.dart';
+import '../../integrations/store/whatsapp_test_message_store.dart';
 import 'widgets/church_profile_address_card.dart';
 import 'widgets/church_profile_doctrinal_bases_card.dart';
 import 'widgets/church_profile_general_info_card.dart';
@@ -29,10 +31,21 @@ class ChurchProfileScreen extends StatelessWidget {
     final token = authStore.state.session.token;
     final churchId = authStore.state.session.churchId;
 
-    return ChangeNotifierProvider(
-      create:
-          (_) =>
-              ChurchStore(ChurchService(tokenAPI: token))..loadChurch(churchId),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create:
+              (_) =>
+                  ChurchStore(ChurchService(tokenAPI: token))
+                    ..loadChurch(churchId),
+        ),
+        ChangeNotifierProvider(
+          create:
+              (_) => WhatsappTestMessageStore(
+                IntegrationsService(tokenAPI: token),
+              ),
+        ),
+      ],
       child: const _ChurchProfileContent(),
     );
   }

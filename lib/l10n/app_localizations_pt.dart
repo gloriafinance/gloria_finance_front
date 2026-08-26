@@ -351,6 +351,33 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settings_church_profile_whatsapp_connected => 'WhatsApp Conectado';
 
   @override
+  String get settings_church_profile_whatsapp_test_title => 'Enviar mensagem de teste';
+
+  @override
+  String get settings_church_profile_whatsapp_test_subtitle => 'Envie uma mensagem para confirmar que sua conexão está funcionando.';
+
+  @override
+  String get settings_church_profile_whatsapp_test_recipient => 'Número do destinatário';
+
+  @override
+  String get settings_church_profile_whatsapp_test_recipient_hint => '+55 11 99999-9999';
+
+  @override
+  String get settings_church_profile_whatsapp_test_recipient_required => 'Informe o número que receberá a mensagem de teste.';
+
+  @override
+  String get settings_church_profile_whatsapp_test_send => 'Enviar mensagem de teste';
+
+  @override
+  String get settings_church_profile_whatsapp_test_sending => 'Enviando mensagem de teste';
+
+  @override
+  String get settings_church_profile_whatsapp_test_success => 'Mensagem de teste enviada com sucesso.';
+
+  @override
+  String get settings_church_profile_whatsapp_test_error => 'Não foi possível enviar a mensagem de teste.';
+
+  @override
   String get settings_church_profile_whatsapp_disconnect => 'Desconectar';
 
   @override

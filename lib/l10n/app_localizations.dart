@@ -769,6 +769,60 @@ abstract class AppLocalizations {
   /// **'WhatsApp Connected'**
   String get settings_church_profile_whatsapp_connected;
 
+  /// No description provided for @settings_church_profile_whatsapp_test_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Send test message'**
+  String get settings_church_profile_whatsapp_test_title;
+
+  /// No description provided for @settings_church_profile_whatsapp_test_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a message to confirm your connection is working.'**
+  String get settings_church_profile_whatsapp_test_subtitle;
+
+  /// No description provided for @settings_church_profile_whatsapp_test_recipient.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipient number'**
+  String get settings_church_profile_whatsapp_test_recipient;
+
+  /// No description provided for @settings_church_profile_whatsapp_test_recipient_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'+55 11 99999-9999'**
+  String get settings_church_profile_whatsapp_test_recipient_hint;
+
+  /// No description provided for @settings_church_profile_whatsapp_test_recipient_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the number that will receive the test message.'**
+  String get settings_church_profile_whatsapp_test_recipient_required;
+
+  /// No description provided for @settings_church_profile_whatsapp_test_send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send test message'**
+  String get settings_church_profile_whatsapp_test_send;
+
+  /// No description provided for @settings_church_profile_whatsapp_test_sending.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending test message'**
+  String get settings_church_profile_whatsapp_test_sending;
+
+  /// No description provided for @settings_church_profile_whatsapp_test_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Test message sent successfully.'**
+  String get settings_church_profile_whatsapp_test_success;
+
+  /// No description provided for @settings_church_profile_whatsapp_test_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to send the test message.'**
+  String get settings_church_profile_whatsapp_test_error;
+
   /// No description provided for @settings_church_profile_whatsapp_disconnect.
   ///
   /// In en, this message translates to:
