@@ -2515,6 +2515,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get finance_records_table_modal_title => 'Movimiento financiero';
 
   @override
+  String get finance_records_table_error_load_record => 'No se pudo cargar el registro financiero. Por favor, intente de nuevo.';
+
+  @override
   String get finance_records_form_title => 'Registro financiero';
 
   @override

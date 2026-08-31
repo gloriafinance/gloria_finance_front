@@ -4945,6 +4945,12 @@ abstract class AppLocalizations {
   /// **'Financial movement'**
   String get finance_records_table_modal_title;
 
+  /// No description provided for @finance_records_table_error_load_record.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the financial record. Please try again.'**
+  String get finance_records_table_error_load_record;
+
   /// No description provided for @finance_records_form_title.
   ///
   /// In en, this message translates to:
