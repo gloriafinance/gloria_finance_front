@@ -5167,6 +5167,12 @@ abstract class AppLocalizations {
   /// **'Contribution #{id}'**
   String contributions_table_modal_title(String id);
 
+  /// No description provided for @contributions_table_error_load_contribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the contribution. Please try again.'**
+  String get contributions_table_error_load_contribution;
+
   /// No description provided for @contributions_view_field_amount.
   ///
   /// In en, this message translates to:

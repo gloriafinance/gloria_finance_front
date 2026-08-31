@@ -7,11 +7,16 @@ class ContributionPaginationState {
   final PaginateResponse<ContributionModel> paginate;
   final bool makeRequest;
   final ContributionFilterModel filter;
+  final ContributionModel? viewedContribution;
+  final bool viewContributionLoading;
 
-  ContributionPaginationState(
-      {required this.makeRequest,
-      required this.paginate,
-      required this.filter});
+  ContributionPaginationState({
+    required this.makeRequest,
+    required this.paginate,
+    required this.filter,
+    this.viewedContribution,
+    this.viewContributionLoading = false,
+  });
 
   factory ContributionPaginationState.empty() {
     return ContributionPaginationState(
@@ -34,17 +39,23 @@ class ContributionPaginationState {
     String? endDate,
     String? status,
     String? memberId,
+    ContributionModel? viewedContribution,
+    bool? viewContributionLoading,
   }) {
     return ContributionPaginationState(
-        makeRequest: makeRequest ?? this.makeRequest,
-        paginate: paginate ?? this.paginate,
-        filter: filter.copyWith(
-          perPage: perPage,
-          page: page,
-          startDate: startDate,
-          endDate: endDate,
-          status: status,
-          memberId: memberId,
-        ));
+      makeRequest: makeRequest ?? this.makeRequest,
+      paginate: paginate ?? this.paginate,
+      viewedContribution: viewedContribution ?? this.viewedContribution,
+      viewContributionLoading:
+          viewContributionLoading ?? this.viewContributionLoading,
+      filter: filter.copyWith(
+        perPage: perPage,
+        page: page,
+        startDate: startDate,
+        endDate: endDate,
+        status: status,
+        memberId: memberId,
+      ),
+    );
   }
 }

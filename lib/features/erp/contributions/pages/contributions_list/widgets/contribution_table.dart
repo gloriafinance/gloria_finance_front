@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gloria_finance/core/layout/modal_page_layout.dart';
 import 'package:gloria_finance/core/paginate/custom_table.dart';
 import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/toast.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/index.dart';
 import 'package:gloria_finance/core/widgets/index.dart';
@@ -71,31 +72,58 @@ class _ContributionTableState extends State<ContributionTable> {
         actionBuilders: [
           (contribution) => ButtonActionTable(
             color: AppColors.blue,
-            text: context.l10n.common_view,
+            text:
+                state.viewContributionLoading
+                    ? context.l10n.common_loading
+                    : context.l10n.common_view,
             onPressed: () {
-              _openModal(context, contribution);
+              if (!state.viewContributionLoading) {
+                _openModal(context, contribution);
+              }
             },
-            icon: Icons.remove_red_eye_sharp,
+            icon:
+                state.viewContributionLoading
+                    ? Icons.hourglass_bottom
+                    : Icons.remove_red_eye_sharp,
           ),
         ],
       ),
     );
   }
 
-  void _openModal(BuildContext context, ContributionModel contribution) {
-    ModalPage(
-      title:
-          isMobile(context)
-              ? ""
-              : context.l10n.contributions_table_modal_title(
-                contribution.contributionId,
-              ),
-      body: ViewContribution(
-        contribution: contribution,
-        contributionPaginationStore:
-            context.read<ContributionPaginationStore>(),
-      ),
-    ).show(context);
+  Future<void> _openModal(
+    BuildContext context,
+    ContributionModel contribution,
+  ) async {
+    final store = context.read<ContributionPaginationStore>();
+
+    if (store.state.viewContributionLoading) return;
+
+    final fetchedContribution = await store.viewContribution(
+      contribution.contributionId,
+    );
+
+    if (!context.mounted) return;
+
+    if (fetchedContribution != null) {
+      ModalPage(
+        title:
+            isMobile(context)
+                ? ''
+                : context.l10n.contributions_table_modal_title(
+                  fetchedContribution.contributionId,
+                ),
+        body: ViewContribution(
+          contribution: fetchedContribution,
+          contributionPaginationStore: store,
+        ),
+      ).show(context);
+    } else {
+      Toast.showMessage(
+        context.l10n.contributions_table_error_load_contribution,
+        ToastType.error,
+      );
+    }
   }
 
   List<dynamic> contributionDTO(dynamic contribution) {

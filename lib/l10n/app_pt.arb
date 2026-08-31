@@ -1112,6 +1112,7 @@
       }
     }
   },
+  "contributions_table_error_load_contribution": "Não foi possível carregar a contribuição. Por favor, tente novamente.",
   "contributions_view_field_amount": "Valor",
   "contributions_view_field_status": "Status",
   "contributions_view_field_date": "Data",

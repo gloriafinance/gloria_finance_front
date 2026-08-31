@@ -2628,6 +2628,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get contributions_table_error_load_contribution => 'Could not load the contribution. Please try again.';
+
+  @override
   String get contributions_view_field_amount => 'Amount';
 
   @override

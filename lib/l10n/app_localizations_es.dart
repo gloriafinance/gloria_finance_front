@@ -2628,6 +2628,9 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get contributions_table_error_load_contribution => 'No se pudo cargar la contribución. Por favor, intente de nuevo.';
+
+  @override
   String get contributions_view_field_amount => 'Importe';
 
   @override
