@@ -956,6 +956,7 @@
   "finance_records_table_action_void": "Anular",
   "finance_records_table_confirm_void": "¿Deseas anular este movimiento financiero?",
   "finance_records_table_modal_title": "Movimiento financiero",
+  "finance_records_table_error_load_record": "No se pudo cargar el registro financiero. Por favor, intente de nuevo.",
   "finance_records_form_title": "Registro financiero",
   "finance_records_form_field_description": "Descripción",
   "finance_records_form_field_date": "Fecha",

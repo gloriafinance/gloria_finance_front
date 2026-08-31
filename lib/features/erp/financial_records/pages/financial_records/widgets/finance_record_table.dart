@@ -1,6 +1,7 @@
 import 'package:gloria_finance/core/layout/modal_page_layout.dart';
 import 'package:gloria_finance/core/paginate/custom_table.dart';
 import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/toast.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/index.dart';
 import 'package:gloria_finance/core/widgets/button_acton_table.dart';
@@ -168,6 +169,8 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
   ) async {
     final store = context.read<FinanceRecordPaginateStore>();
 
+    if (store.state.viewRecordLoading) return;
+
     final fetchedRecord = await store.viewFinanceRecord(
       financeRecord.financialRecordId,
     );
@@ -179,6 +182,11 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
         title: context.l10n.finance_records_table_modal_title,
         body: ViewFinanceRecord(financeRecord: fetchedRecord),
       ).show(context);
+    } else {
+      Toast.showMessage(
+        context.l10n.finance_records_table_error_load_record,
+        ToastType.error,
+      );
     }
   }
 

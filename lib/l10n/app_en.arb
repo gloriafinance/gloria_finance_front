@@ -1119,6 +1119,7 @@
   "finance_records_table_action_void": "Void",
   "finance_records_table_confirm_void": "Do you want to void this financial movement?",
   "finance_records_table_modal_title": "Financial movement",
+  "finance_records_table_error_load_record": "Could not load the financial record. Please try again.",
   "finance_records_form_title": "Financial record",
   "finance_records_form_field_description": "Description",
   "finance_records_form_field_date": "Date",
