@@ -162,11 +162,24 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
     );
   }
 
-  void _openModal(BuildContext context, FinanceRecordListModel financeRecord) {
-    ModalPage(
-      title: context.l10n.finance_records_table_modal_title,
-      body: ViewFinanceRecord(financeRecord: financeRecord),
-    ).show(context);
+  void _openModal(
+    BuildContext context,
+    FinanceRecordListModel financeRecord,
+  ) async {
+    final store = context.read<FinanceRecordPaginateStore>();
+
+    final fetchedRecord = await store.viewFinanceRecord(
+      financeRecord.financialRecordId,
+    );
+
+    if (!context.mounted) return;
+
+    if (fetchedRecord != null) {
+      ModalPage(
+        title: context.l10n.finance_records_table_modal_title,
+        body: ViewFinanceRecord(financeRecord: fetchedRecord),
+      ).show(context);
+    }
   }
 
   List<dynamic> financeRecordDTO(dynamic financeRecord) {

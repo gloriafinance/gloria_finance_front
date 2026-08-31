@@ -153,4 +153,21 @@ class FinanceRecordService extends AppHttp {
       rethrow;
     }
   }
+
+  Future<FinanceRecordListModel> getFinanceRecord(String id) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.get(
+        '${await getUrlApi()}finance/financial-record/$id',
+        options: Options(headers: bearerToken()),
+      );
+
+      return FinanceRecordListModel.fromJson(response.data);
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
 }

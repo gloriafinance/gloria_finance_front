@@ -7,11 +7,15 @@ class FinanceRecordPaginateState {
   final PaginateResponse<FinanceRecordListModel> paginate;
   final bool makeRequest;
   final FinanceRecordFilterModel filter;
+  final FinanceRecordListModel? viewedRecord;
+  final bool viewRecordLoading;
 
   FinanceRecordPaginateState({
     required this.filter,
     required this.paginate,
     required this.makeRequest,
+    this.viewedRecord,
+    this.viewRecordLoading = false,
   });
 
   factory FinanceRecordPaginateState.empty() {
@@ -39,10 +43,14 @@ class FinanceRecordPaginateState {
     String? conceptType,
     String? referenceType,
     String? referenceEntityId,
+    FinanceRecordListModel? viewedRecord,
+    bool? viewRecordLoading,
   }) {
     return FinanceRecordPaginateState(
       makeRequest: makeRequest ?? this.makeRequest,
       paginate: paginate ?? this.paginate,
+      viewedRecord: viewedRecord ?? this.viewedRecord,
+      viewRecordLoading: viewRecordLoading ?? this.viewRecordLoading,
       filter: filter.copyWith(
         perPage: perPage,
         page: page,

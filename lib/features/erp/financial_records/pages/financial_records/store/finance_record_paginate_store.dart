@@ -3,6 +3,7 @@ import 'package:gloria_finance/features/erp/financial_records/finance_record_ser
 import 'package:gloria_finance/features/erp/financial_records/models/finance_record_export_format.dart';
 import 'package:flutter/material.dart';
 
+import '../../../models/finance_record_list_model.dart';
 import '../state/finance_record_paginate_state.dart';
 
 class FinanceRecordPaginateStore extends ChangeNotifier {
@@ -157,6 +158,25 @@ class FinanceRecordPaginateStore extends ChangeNotifier {
       state = state.copyWith(makeRequest: false);
       notifyListeners();
       return false;
+    }
+  }
+
+  Future<FinanceRecordListModel?> viewFinanceRecord(String id) async {
+    try {
+      state = state.copyWith(viewRecordLoading: true);
+      notifyListeners();
+
+      final record = await service.getFinanceRecord(id);
+
+      state = state.copyWith(viewRecordLoading: false, viewedRecord: record);
+      notifyListeners();
+
+      return record;
+    } catch (e) {
+      print("ERROR AL OBTENER REGISTRO FINANCIERO: $e");
+      state = state.copyWith(viewRecordLoading: false);
+      notifyListeners();
+      return null;
     }
   }
 }
