@@ -92,11 +92,19 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
       actionBuilders: [
         (fianceRecord) => ButtonActionTable(
           color: AppColors.blue,
-          text: context.l10n.common_view,
+          text:
+              state.viewRecordLoading
+                  ? context.l10n.common_loading
+                  : context.l10n.common_view,
           onPressed: () {
-            _openModal(context, fianceRecord);
+            if (!state.viewRecordLoading) {
+              _openModal(context, fianceRecord);
+            }
           },
-          icon: Icons.remove_red_eye_sharp,
+          icon:
+              state.viewRecordLoading
+                  ? Icons.hourglass_bottom
+                  : Icons.remove_red_eye_sharp,
         ),
         (fianceRecord) {
           if (widget.internalTransferMode) {
