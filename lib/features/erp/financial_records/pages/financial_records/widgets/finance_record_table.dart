@@ -1,6 +1,7 @@
 import 'package:gloria_finance/core/layout/modal_page_layout.dart';
 import 'package:gloria_finance/core/paginate/custom_table.dart';
 import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/toast.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/index.dart';
 import 'package:gloria_finance/core/widgets/button_acton_table.dart';
@@ -91,11 +92,19 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
       actionBuilders: [
         (fianceRecord) => ButtonActionTable(
           color: AppColors.blue,
-          text: context.l10n.common_view,
+          text:
+              state.viewRecordLoading
+                  ? context.l10n.common_loading
+                  : context.l10n.common_view,
           onPressed: () {
-            _openModal(context, fianceRecord);
+            if (!state.viewRecordLoading) {
+              _openModal(context, fianceRecord);
+            }
           },
-          icon: Icons.remove_red_eye_sharp,
+          icon:
+              state.viewRecordLoading
+                  ? Icons.hourglass_bottom
+                  : Icons.remove_red_eye_sharp,
         ),
         (fianceRecord) {
           if (widget.internalTransferMode) {
@@ -162,11 +171,31 @@ class _FinanceRecordTableState extends State<FinanceRecordTable> {
     );
   }
 
-  void _openModal(BuildContext context, FinanceRecordListModel financeRecord) {
-    ModalPage(
-      title: context.l10n.finance_records_table_modal_title,
-      body: ViewFinanceRecord(financeRecord: financeRecord),
-    ).show(context);
+  void _openModal(
+    BuildContext context,
+    FinanceRecordListModel financeRecord,
+  ) async {
+    final store = context.read<FinanceRecordPaginateStore>();
+
+    if (store.state.viewRecordLoading) return;
+
+    final fetchedRecord = await store.viewFinanceRecord(
+      financeRecord.financialRecordId,
+    );
+
+    if (!context.mounted) return;
+
+    if (fetchedRecord != null) {
+      ModalPage(
+        title: context.l10n.finance_records_table_modal_title,
+        body: ViewFinanceRecord(financeRecord: fetchedRecord),
+      ).show(context);
+    } else {
+      Toast.showMessage(
+        context.l10n.finance_records_table_error_load_record,
+        ToastType.error,
+      );
+    }
   }
 
   List<dynamic> financeRecordDTO(dynamic financeRecord) {
