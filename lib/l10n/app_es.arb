@@ -1163,6 +1163,7 @@
       }
     }
   },
+  "contributions_table_error_load_contribution": "No se pudo cargar la contribución. Por favor, intente de nuevo.",
   "contributions_view_field_amount": "Importe",
   "contributions_view_field_status": "Estado",
   "contributions_view_field_date": "Fecha",

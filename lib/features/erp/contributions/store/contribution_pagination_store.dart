@@ -139,4 +139,25 @@ class ContributionPaginationStore extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<ContributionModel?> viewContribution(String contributionId) async {
+    try {
+      state = state.copyWith(viewContributionLoading: true);
+      notifyListeners();
+
+      final contribution = await service.getContribution(contributionId);
+
+      state = state.copyWith(
+        viewContributionLoading: false,
+        viewedContribution: contribution,
+      );
+      notifyListeners();
+
+      return contribution;
+    } catch (_) {
+      state = state.copyWith(viewContributionLoading: false);
+      notifyListeners();
+      return null;
+    }
+  }
 }

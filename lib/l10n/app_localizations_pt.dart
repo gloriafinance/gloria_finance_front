@@ -2628,6 +2628,9 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
+  String get contributions_table_error_load_contribution => 'Não foi possível carregar a contribuição. Por favor, tente novamente.';
+
+  @override
   String get contributions_view_field_amount => 'Valor';
 
   @override

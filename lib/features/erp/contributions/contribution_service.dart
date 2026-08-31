@@ -33,6 +33,23 @@ class ContributionService extends AppHttp {
     }
   }
 
+  Future<ContributionModel> getContribution(String contributionId) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.get(
+        '${await getUrlApi()}finance/contributions/$contributionId',
+        options: Options(headers: bearerToken()),
+      );
+
+      return ContributionModel.fromJson(response.data);
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
   Future<void> updateContributionStatus(
     String contributionId,
     ContributionStatus status,
