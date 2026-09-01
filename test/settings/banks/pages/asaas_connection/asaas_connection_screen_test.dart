@@ -41,7 +41,7 @@ void main() {
       await tester.pumpWidget(app());
       await tester.pumpAndSettle();
 
-      expect(tester.takeException(), isNull);
+      expect(tester.takeException(), isNull, reason: 'viewport: $size');
     }
 
     await tester.binding.setSurfaceSize(null);

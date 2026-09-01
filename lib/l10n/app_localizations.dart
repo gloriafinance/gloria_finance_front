@@ -10248,6 +10248,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back to banks'**
   String get settings_banks_asaas_connect_finish;
+
+  /// No description provided for @settings_banks_asaas_connect_breadcrumb_settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings_banks_asaas_connect_breadcrumb_settings;
+
+  /// No description provided for @settings_banks_asaas_connect_breadcrumb_integrations.
+  ///
+  /// In en, this message translates to:
+  /// **'Integrations'**
+  String get settings_banks_asaas_connect_breadcrumb_integrations;
+
+  /// No description provided for @settings_banks_asaas_connect_breadcrumb_asaas.
+  ///
+  /// In en, this message translates to:
+  /// **'Asaas'**
+  String get settings_banks_asaas_connect_breadcrumb_asaas;
+
+  /// No description provided for @settings_banks_asaas_connect_progress_instructions.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Instructions'**
+  String get settings_banks_asaas_connect_progress_instructions;
+
+  /// No description provided for @settings_banks_asaas_connect_progress_api_key.
+  ///
+  /// In en, this message translates to:
+  /// **'2. API Key'**
+  String get settings_banks_asaas_connect_progress_api_key;
+
+  /// No description provided for @settings_banks_asaas_connect_progress_confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'3. Confirmation'**
+  String get settings_banks_asaas_connect_progress_confirmation;
+
+  /// No description provided for @settings_banks_asaas_connect_help_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Need help?'**
+  String get settings_banks_asaas_connect_help_title;
+
+  /// No description provided for @settings_banks_asaas_connect_help_description.
+  ///
+  /// In en, this message translates to:
+  /// **'If you have questions about your API Key or the Asaas integration, visit the Asaas Help Center.'**
+  String get settings_banks_asaas_connect_help_description;
+
+  /// No description provided for @settings_banks_asaas_connect_help_action.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Asaas'**
+  String get settings_banks_asaas_connect_help_action;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

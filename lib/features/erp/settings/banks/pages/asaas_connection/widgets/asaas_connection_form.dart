@@ -5,6 +5,7 @@ import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/widgets/custom_button.dart';
 import 'package:gloria_finance/features/erp/settings/banks/pages/asaas_connection/store/asaas_connection_store.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AsaasConnectionForm extends StatefulWidget {
   final VoidCallback onBack;
@@ -45,7 +46,7 @@ class _AsaasConnectionFormState extends State<AsaasConnectionForm> {
           onBack: widget.onBack,
           onSubmit: () => _submit(store),
         );
-        const guidance = _ConnectionGuidance();
+        const guidance = _ConnectionSidebar();
 
         if (!isWide) {
           return Column(
@@ -111,27 +112,34 @@ class _FormCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    l10n.settings_banks_asaas_connect_form_title,
-                    style: const TextStyle(
-                      fontFamily: AppFonts.fontTitle,
-                      fontSize: 24,
-                      color: Colors.black,
-                    ),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final title = Text(
+                  l10n.settings_banks_asaas_connect_form_title,
+                  style: const TextStyle(
+                    fontFamily: AppFonts.fontTitle,
+                    fontSize: 24,
+                    color: Colors.black,
                   ),
-                ),
-                const Text(
+                );
+                const logo = Text(
                   'ASAAS',
                   style: TextStyle(
                     color: Color(0xFF0A43D8),
                     fontFamily: AppFonts.fontTitle,
                     fontSize: 24,
                   ),
-                ),
-              ],
+                );
+
+                if (constraints.maxWidth < 440) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [title, const SizedBox(height: 10), logo],
+                  );
+                }
+
+                return Row(children: [Expanded(child: title), logo]);
+              },
             ),
             const SizedBox(height: 10),
             Text(
@@ -391,6 +399,91 @@ class _ConnectionGuidance extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ConnectionSidebar extends StatelessWidget {
+  const _ConnectionSidebar();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [_ConnectionGuidance(), SizedBox(height: 20), _HelpCard()],
+    );
+  }
+}
+
+class _HelpCard extends StatelessWidget {
+  const _HelpCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: AppColors.purple.withValues(alpha: 0.04),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.purple.withValues(alpha: 0.22)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.help_outline, color: AppColors.purple, size: 34),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  l10n.settings_banks_asaas_connect_help_title,
+                  style: const TextStyle(
+                    fontFamily: AppFonts.fontTitle,
+                    fontSize: 18,
+                    color: AppColors.purple,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Text(
+            l10n.settings_banks_asaas_connect_help_description,
+            style: const TextStyle(
+              fontFamily: AppFonts.fontSubTitle,
+              fontSize: 14,
+              color: Colors.black54,
+              height: 1.45,
+            ),
+          ),
+          const SizedBox(height: 18),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              onPressed:
+                  () => launchUrl(
+                    Uri.parse('https://www.asaas.com/'),
+                    mode: LaunchMode.externalApplication,
+                  ),
+              icon: const Icon(Icons.open_in_new, size: 18),
+              label: Text(
+                l10n.settings_banks_asaas_connect_help_action.toUpperCase(),
+                style: const TextStyle(fontFamily: AppFonts.fontTitle),
+              ),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: AppColors.purple,
+                side: const BorderSide(color: AppColors.purple),
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
             ),
           ),

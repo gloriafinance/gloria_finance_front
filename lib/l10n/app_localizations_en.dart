@@ -5217,4 +5217,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_banks_asaas_connect_finish => 'Back to banks';
+
+  @override
+  String get settings_banks_asaas_connect_breadcrumb_settings => 'Settings';
+
+  @override
+  String get settings_banks_asaas_connect_breadcrumb_integrations => 'Integrations';
+
+  @override
+  String get settings_banks_asaas_connect_breadcrumb_asaas => 'Asaas';
+
+  @override
+  String get settings_banks_asaas_connect_progress_instructions => '1. Instructions';
+
+  @override
+  String get settings_banks_asaas_connect_progress_api_key => '2. API Key';
+
+  @override
+  String get settings_banks_asaas_connect_progress_confirmation => '3. Confirmation';
+
+  @override
+  String get settings_banks_asaas_connect_help_title => 'Need help?';
+
+  @override
+  String get settings_banks_asaas_connect_help_description => 'If you have questions about your API Key or the Asaas integration, visit the Asaas Help Center.';
+
+  @override
+  String get settings_banks_asaas_connect_help_action => 'Open Asaas';
 }
