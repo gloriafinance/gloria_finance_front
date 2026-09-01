@@ -26,6 +26,15 @@ void main() {
       expect(find.textContaining('como principal'), findsNothing);
       expect(find.byType(Checkbox), findsNothing);
       expect(find.byType(TextFormField), findsOneWidget);
+      expect(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is Image &&
+              widget.image ==
+                  const AssetImage('images/integrations/asaas_wordmark.png'),
+        ),
+        findsOneWidget,
+      );
     },
   );
 

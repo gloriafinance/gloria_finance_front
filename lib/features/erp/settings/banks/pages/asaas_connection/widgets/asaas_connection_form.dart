@@ -122,13 +122,10 @@ class _FormCard extends StatelessWidget {
                     color: Colors.black,
                   ),
                 );
-                const logo = Text(
-                  'ASAAS',
-                  style: TextStyle(
-                    color: Color(0xFF0A43D8),
-                    fontFamily: AppFonts.fontTitle,
-                    fontSize: 24,
-                  ),
+                const logo = Image(
+                  image: AssetImage('images/integrations/asaas_wordmark.png'),
+                  width: 150,
+                  fit: BoxFit.contain,
                 );
 
                 if (constraints.maxWidth < 440) {
