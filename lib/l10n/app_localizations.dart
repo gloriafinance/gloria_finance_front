@@ -1786,7 +1786,7 @@ abstract class AppLocalizations {
   /// No description provided for @settings_banks_asaas_step_sync_description.
   ///
   /// In en, this message translates to:
-  /// **'Balance, transactions, and account details are synchronized.'**
+  /// **'Synchronize your balance, transactions, and account details.'**
   String get settings_banks_asaas_step_sync_description;
 
   /// No description provided for @settings_banks_asaas_step_pix_title.
@@ -1798,7 +1798,7 @@ abstract class AppLocalizations {
   /// No description provided for @settings_banks_asaas_step_pix_description.
   ///
   /// In en, this message translates to:
-  /// **'Create charges and present PIX Copy and Paste to the member.'**
+  /// **'Create charges and share PIX Copy and Paste.'**
   String get settings_banks_asaas_step_pix_description;
 
   /// No description provided for @settings_banks_asaas_step_reconcile_title.
@@ -1810,7 +1810,7 @@ abstract class AppLocalizations {
   /// No description provided for @settings_banks_asaas_step_reconcile_description.
   ///
   /// In en, this message translates to:
-  /// **'When payment is confirmed, finances are updated automatically.'**
+  /// **'Confirmed payments update your finances automatically.'**
   String get settings_banks_asaas_step_reconcile_description;
 
   /// No description provided for @settings_banks_asaas_capabilities_title.
@@ -1846,7 +1846,7 @@ abstract class AppLocalizations {
   /// No description provided for @settings_banks_asaas_capability_webhooks.
   ///
   /// In en, this message translates to:
-  /// **'Receive events automatically via webhook'**
+  /// **'Receive events via webhook'**
   String get settings_banks_asaas_capability_webhooks;
 
   /// No description provided for @settings_banks_asaas_security_title.
@@ -1858,7 +1858,7 @@ abstract class AppLocalizations {
   /// No description provided for @settings_banks_asaas_security_description.
   ///
   /// In en, this message translates to:
-  /// **'The integration executes and synchronizes authorized operations securely.'**
+  /// **'The integration securely executes and synchronizes authorized operations only.'**
   String get settings_banks_asaas_security_description;
 
   /// No description provided for @settings_banks_asaas_close.

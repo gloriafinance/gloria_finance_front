@@ -866,19 +866,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settings_banks_asaas_step_sync_title => 'Sincroniza tus datos';
 
   @override
-  String get settings_banks_asaas_step_sync_description => 'El saldo, los movimientos y los datos de la cuenta se sincronizan.';
+  String get settings_banks_asaas_step_sync_description => 'Sincroniza el saldo, los movimientos y los datos de la cuenta.';
 
   @override
   String get settings_banks_asaas_step_pix_title => 'Crea cargos PIX';
 
   @override
-  String get settings_banks_asaas_step_pix_description => 'Crea cargos y presenta PIX Copia y Pega al miembro.';
+  String get settings_banks_asaas_step_pix_description => 'Crea cargos y comparte PIX Copia y Pega.';
 
   @override
   String get settings_banks_asaas_step_reconcile_title => 'Recibe y concilia';
 
   @override
-  String get settings_banks_asaas_step_reconcile_description => 'Cuando se confirma el pago, las finanzas se actualizan automáticamente.';
+  String get settings_banks_asaas_step_reconcile_description => 'Los pagos confirmados actualizan tus finanzas automáticamente.';
 
   @override
   String get settings_banks_asaas_capabilities_title => 'Lo que podrás hacer';
@@ -896,13 +896,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settings_banks_asaas_capability_reconcile => 'Conciliar cobros';
 
   @override
-  String get settings_banks_asaas_capability_webhooks => 'Recibir eventos automáticamente mediante webhook';
+  String get settings_banks_asaas_capability_webhooks => 'Recibir eventos mediante webhook';
 
   @override
   String get settings_banks_asaas_security_title => 'Tu cuenta sigue siendo de Asaas.';
 
   @override
-  String get settings_banks_asaas_security_description => 'La integración se usa para ejecutar y sincronizar operaciones autorizadas de forma segura.';
+  String get settings_banks_asaas_security_description => 'La integración ejecuta y sincroniza solo operaciones autorizadas, de forma segura.';
 
   @override
   String get settings_banks_asaas_close => 'Cerrar';

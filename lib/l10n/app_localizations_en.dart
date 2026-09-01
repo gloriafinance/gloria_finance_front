@@ -866,19 +866,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_banks_asaas_step_sync_title => 'Synchronize your data';
 
   @override
-  String get settings_banks_asaas_step_sync_description => 'Balance, transactions, and account details are synchronized.';
+  String get settings_banks_asaas_step_sync_description => 'Synchronize your balance, transactions, and account details.';
 
   @override
   String get settings_banks_asaas_step_pix_title => 'Create PIX charges';
 
   @override
-  String get settings_banks_asaas_step_pix_description => 'Create charges and present PIX Copy and Paste to the member.';
+  String get settings_banks_asaas_step_pix_description => 'Create charges and share PIX Copy and Paste.';
 
   @override
   String get settings_banks_asaas_step_reconcile_title => 'Receive and reconcile';
 
   @override
-  String get settings_banks_asaas_step_reconcile_description => 'When payment is confirmed, finances are updated automatically.';
+  String get settings_banks_asaas_step_reconcile_description => 'Confirmed payments update your finances automatically.';
 
   @override
   String get settings_banks_asaas_capabilities_title => 'What you can do';
@@ -896,13 +896,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_banks_asaas_capability_reconcile => 'Reconcile collections';
 
   @override
-  String get settings_banks_asaas_capability_webhooks => 'Receive events automatically via webhook';
+  String get settings_banks_asaas_capability_webhooks => 'Receive events via webhook';
 
   @override
   String get settings_banks_asaas_security_title => 'Your account remains with Asaas.';
 
   @override
-  String get settings_banks_asaas_security_description => 'The integration executes and synchronizes authorized operations securely.';
+  String get settings_banks_asaas_security_description => 'The integration securely executes and synchronizes authorized operations only.';
 
   @override
   String get settings_banks_asaas_close => 'Close';

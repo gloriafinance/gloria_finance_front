@@ -31,13 +31,25 @@ class AsaasHowItWorksDialog extends StatelessWidget {
                 title: l10n.settings_banks_asaas_dialog_title,
                 subtitle: l10n.settings_banks_asaas_dialog_subtitle,
               ),
-              const SizedBox(height: 28),
-              const _IntegrationSteps(),
-              const SizedBox(height: 24),
-              const _CapabilitiesSection(),
-              const SizedBox(height: 20),
-              const _SecuritySection(),
-              const SizedBox(height: 24),
+              Container(
+                margin: const EdgeInsets.only(top: 16),
+                padding: const EdgeInsets.fromLTRB(16, 20, 16, 16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: AppColors.greyMiddle),
+                ),
+                child: Column(
+                  children: [
+                    const _IntegrationSteps(),
+                    const SizedBox(height: 28),
+                    const _CapabilitiesSection(),
+                    const SizedBox(height: 16),
+                    const _SecuritySection(),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
               Align(
                 alignment: Alignment.centerRight,
                 child: Wrap(
@@ -119,7 +131,7 @@ class _DialogHeader extends StatelessWidget {
                 style: const TextStyle(
                   fontFamily: AppFonts.fontSubTitle,
                   fontSize: 14,
-                  color: AppColors.grey,
+                  color: Colors.black54,
                   height: 1.4,
                 ),
               ),
@@ -172,12 +184,15 @@ class _IntegrationSteps extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(steps.length * 2 - 1, (index) {
               if (index.isOdd) {
-                return const Padding(
-                  padding: EdgeInsets.only(top: 60),
-                  child: Icon(
-                    Icons.arrow_forward,
-                    size: 18,
-                    color: AppColors.grey,
+                return const SizedBox(
+                  width: 32,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 60),
+                    child: Icon(
+                      Icons.arrow_forward,
+                      size: 18,
+                      color: AppColors.grey,
+                    ),
                   ),
                 );
               }
@@ -255,8 +270,9 @@ class _IntegrationStep extends StatelessWidget {
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontFamily: AppFonts.fontTitle,
-            fontSize: 13,
+            fontSize: 14,
             color: Colors.black,
+            height: 1.25,
           ),
         ),
         const SizedBox(height: 5),
@@ -265,9 +281,9 @@ class _IntegrationStep extends StatelessWidget {
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontFamily: AppFonts.fontSubTitle,
-            fontSize: 11,
-            color: AppColors.grey,
-            height: 1.35,
+            fontSize: 12,
+            color: Colors.black54,
+            height: 1.4,
           ),
         ),
       ],
@@ -308,12 +324,35 @@ class _CapabilitiesSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 14),
-          Wrap(
-            spacing: 18,
-            runSpacing: 12,
-            children: capabilities
-                .map((capability) => _CapabilityItem(text: capability))
-                .toList(growable: false),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              if (constraints.maxWidth >= 640) {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: capabilities
+                      .map(
+                        (capability) => Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: _CapabilityItem(
+                              text: capability,
+                              expandText: true,
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(growable: false),
+                );
+              }
+
+              return Wrap(
+                spacing: 18,
+                runSpacing: 12,
+                children: capabilities
+                    .map((capability) => _CapabilityItem(text: capability))
+                    .toList(growable: false),
+              );
+            },
           ),
         ],
       ),
@@ -323,28 +362,43 @@ class _CapabilitiesSection extends StatelessWidget {
 
 class _CapabilityItem extends StatelessWidget {
   final String text;
+  final bool expandText;
 
-  const _CapabilityItem({required this.text});
+  const _CapabilityItem({required this.text, this.expandText = false});
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: expandText ? MainAxisSize.max : MainAxisSize.min,
       children: [
         const Icon(Icons.check_circle, size: 17, color: AppColors.green),
         const SizedBox(width: 7),
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 180),
-          child: Text(
-            text,
-            style: const TextStyle(
-              fontFamily: AppFonts.fontSubTitle,
-              fontSize: 12,
-              color: AppColors.grey,
-              height: 1.35,
+        if (expandText)
+          Expanded(
+            child: Text(
+              text,
+              style: const TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+                fontSize: 12,
+                color: Colors.black54,
+                height: 1.4,
+              ),
+            ),
+          )
+        else
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 180),
+            child: Text(
+              text,
+              style: const TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+                fontSize: 12,
+                color: Colors.black54,
+                height: 1.4,
+              ),
             ),
           ),
-        ),
       ],
     );
   }
@@ -388,8 +442,8 @@ class _SecuritySection extends StatelessWidget {
                   style: const TextStyle(
                     fontFamily: AppFonts.fontSubTitle,
                     fontSize: 12,
-                    color: AppColors.grey,
-                    height: 1.35,
+                    color: Colors.black54,
+                    height: 1.4,
                   ),
                 ),
               ],

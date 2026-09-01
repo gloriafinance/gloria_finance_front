@@ -866,19 +866,19 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settings_banks_asaas_step_sync_title => 'Sincronize seus dados';
 
   @override
-  String get settings_banks_asaas_step_sync_description => 'Saldo, movimentações e dados da conta são sincronizados.';
+  String get settings_banks_asaas_step_sync_description => 'Sincronize saldo, movimentações e dados da conta.';
 
   @override
   String get settings_banks_asaas_step_pix_title => 'Crie cobranças PIX';
 
   @override
-  String get settings_banks_asaas_step_pix_description => 'Gere cobranças e apresente o PIX Copia e Cola para o membro.';
+  String get settings_banks_asaas_step_pix_description => 'Gere cobranças e compartilhe o PIX Copia e Cola.';
 
   @override
   String get settings_banks_asaas_step_reconcile_title => 'Receba e concilie';
 
   @override
-  String get settings_banks_asaas_step_reconcile_description => 'Quando o pagamento for confirmado, o financeiro é atualizado automaticamente.';
+  String get settings_banks_asaas_step_reconcile_description => 'Pagamentos confirmados atualizam seu financeiro automaticamente.';
 
   @override
   String get settings_banks_asaas_capabilities_title => 'O que você poderá fazer';
@@ -896,13 +896,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settings_banks_asaas_capability_reconcile => 'Conciliar recebimentos';
 
   @override
-  String get settings_banks_asaas_capability_webhooks => 'Receber eventos automaticamente via webhook';
+  String get settings_banks_asaas_capability_webhooks => 'Receber eventos via webhook';
 
   @override
   String get settings_banks_asaas_security_title => 'Sua conta continua sendo do Asaas.';
 
   @override
-  String get settings_banks_asaas_security_description => 'A integração é utilizada para executar e sincronizar operações autorizadas com segurança.';
+  String get settings_banks_asaas_security_description => 'A integração executa e sincroniza apenas operações autorizadas, com segurança.';
 
   @override
   String get settings_banks_asaas_close => 'Fechar';
