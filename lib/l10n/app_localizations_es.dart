@@ -791,10 +791,124 @@ class AppLocalizationsEs extends AppLocalizations {
   String get erp_home_header_title => 'Dashboard';
 
   @override
-  String get settings_banks_title => 'Bancos';
+  String get settings_banks_title => 'Bancos y cuentas';
 
   @override
-  String get settings_banks_new_bank => 'Nuevo banco';
+  String get settings_banks_subtitle => 'Administra las cuentas bancarias y conecta Asaas para automatizar tus finanzas.';
+
+  @override
+  String get settings_banks_new_bank => 'Agregar cuenta';
+
+  @override
+  String get settings_banks_connected_accounts_title => 'Tus cuentas conectadas';
+
+  @override
+  String get settings_banks_connected_accounts_subtitle => 'Lista de cuentas bancarias e integraciones activas.';
+
+  @override
+  String get settings_banks_asaas_recommended => 'RECOMENDADO';
+
+  @override
+  String get settings_banks_asaas_provider_name => 'Asaas';
+
+  @override
+  String get settings_banks_asaas_hero_title_prefix => 'Conecta tu cuenta ';
+
+  @override
+  String get settings_banks_asaas_hero_description => 'Centraliza tus cuentas bancarias, automatiza los cobros y ten control total de tu flujo de caja.';
+
+  @override
+  String get settings_banks_asaas_benefit_pix_title => 'Cobros y cargos PIX';
+
+  @override
+  String get settings_banks_asaas_benefit_pix_description => 'Crea cargos, genera enlaces y códigos QR PIX automáticamente.';
+
+  @override
+  String get settings_banks_asaas_benefit_sync_title => 'Sincronización de saldo en tiempo real';
+
+  @override
+  String get settings_banks_asaas_benefit_sync_description => 'Sigue los saldos y extractos siempre actualizados.';
+
+  @override
+  String get settings_banks_asaas_benefit_import_title => 'Importación automática de movimientos';
+
+  @override
+  String get settings_banks_asaas_benefit_import_description => 'Movimientos conciliados y listos para el análisis.';
+
+  @override
+  String get settings_banks_asaas_benefit_webhooks_title => 'Webhooks y conciliación inteligente';
+
+  @override
+  String get settings_banks_asaas_benefit_webhooks_description => 'Eventos en tiempo real para mayor control y seguridad.';
+
+  @override
+  String get settings_banks_asaas_connect_now => 'Conectar Asaas ahora';
+
+  @override
+  String get settings_banks_asaas_how_it_works => 'Conoce cómo funciona';
+
+  @override
+  String get settings_banks_asaas_security_footer => 'Integración 100% segura con Asaas. Tus datos permanecen protegidos.';
+
+  @override
+  String get settings_banks_asaas_dialog_title => 'Cómo funciona la integración con Asaas';
+
+  @override
+  String get settings_banks_asaas_dialog_subtitle => 'Conoce en pocos pasos cómo conectar tu cuenta y automatizar tus cobros.';
+
+  @override
+  String get settings_banks_asaas_step_connect_title => 'Conecta tu cuenta Asaas';
+
+  @override
+  String get settings_banks_asaas_step_connect_description => 'Ingresa tu API Key de forma segura en Glória Finance.';
+
+  @override
+  String get settings_banks_asaas_step_sync_title => 'Sincroniza tus datos';
+
+  @override
+  String get settings_banks_asaas_step_sync_description => 'El saldo, los movimientos y los datos de la cuenta se sincronizan.';
+
+  @override
+  String get settings_banks_asaas_step_pix_title => 'Crea cargos PIX';
+
+  @override
+  String get settings_banks_asaas_step_pix_description => 'Crea cargos y presenta PIX Copia y Pega al miembro.';
+
+  @override
+  String get settings_banks_asaas_step_reconcile_title => 'Recibe y concilia';
+
+  @override
+  String get settings_banks_asaas_step_reconcile_description => 'Cuando se confirma el pago, las finanzas se actualizan automáticamente.';
+
+  @override
+  String get settings_banks_asaas_capabilities_title => 'Lo que podrás hacer';
+
+  @override
+  String get settings_banks_asaas_capability_balance => 'Consultar saldo y movimientos';
+
+  @override
+  String get settings_banks_asaas_capability_pix => 'Crear cargos PIX';
+
+  @override
+  String get settings_banks_asaas_capability_payments => 'Identificar pagos recibidos';
+
+  @override
+  String get settings_banks_asaas_capability_reconcile => 'Conciliar cobros';
+
+  @override
+  String get settings_banks_asaas_capability_webhooks => 'Recibir eventos automáticamente mediante webhook';
+
+  @override
+  String get settings_banks_asaas_security_title => 'Tu cuenta sigue siendo de Asaas.';
+
+  @override
+  String get settings_banks_asaas_security_description => 'La integración se usa para ejecutar y sincronizar operaciones autorizadas de forma segura.';
+
+  @override
+  String get settings_banks_asaas_close => 'Cerrar';
+
+  @override
+  String get settings_banks_asaas_connect_account => 'Conectar mi cuenta Asaas';
 
   @override
   String get settings_banks_form_title_create => 'Nuevo banco';
