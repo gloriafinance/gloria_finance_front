@@ -10111,6 +10111,18 @@ abstract class AppLocalizations {
   /// **'API Key'**
   String get settings_banks_asaas_connect_api_key_label;
 
+  /// No description provided for @settings_banks_asaas_connect_connection_name_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection name'**
+  String get settings_banks_asaas_connect_connection_name_label;
+
+  /// No description provided for @settings_banks_asaas_connect_connection_name_default.
+  ///
+  /// In en, this message translates to:
+  /// **'Asaas account'**
+  String get settings_banks_asaas_connect_connection_name_default;
+
   /// No description provided for @settings_banks_asaas_connect_api_key_hint.
   ///
   /// In en, this message translates to:

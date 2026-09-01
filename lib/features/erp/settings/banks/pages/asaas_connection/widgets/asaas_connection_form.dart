@@ -3,6 +3,7 @@ import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/widgets/custom_button.dart';
+import 'package:gloria_finance/core/widgets/form_controls.dart';
 import 'package:gloria_finance/features/erp/settings/banks/pages/asaas_connection/store/asaas_connection_store.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -18,14 +19,7 @@ class AsaasConnectionForm extends StatefulWidget {
 
 class _AsaasConnectionFormState extends State<AsaasConnectionForm> {
   final _formKey = GlobalKey<FormState>();
-  final _apiKeyController = TextEditingController();
   bool _isApiKeyVisible = false;
-
-  @override
-  void dispose() {
-    _apiKeyController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +30,11 @@ class _AsaasConnectionFormState extends State<AsaasConnectionForm> {
         final isWide = constraints.maxWidth >= 960;
         final form = _FormCard(
           formKey: _formKey,
-          apiKeyController: _apiKeyController,
+          connectionName: store.state.connectionName,
+          apiKey: store.state.apiKey,
           isApiKeyVisible: _isApiKeyVisible,
           isSubmitting: store.state.makeRequest,
+          onConnectionNameChanged: store.setConnectionName,
           onApiKeyChanged: store.setApiKey,
           onToggleVisibility: () {
             setState(() => _isApiKeyVisible = !_isApiKeyVisible);
@@ -77,9 +73,11 @@ class _AsaasConnectionFormState extends State<AsaasConnectionForm> {
 
 class _FormCard extends StatelessWidget {
   final GlobalKey<FormState> formKey;
-  final TextEditingController apiKeyController;
+  final String connectionName;
+  final String apiKey;
   final bool isApiKeyVisible;
   final bool isSubmitting;
+  final ValueChanged<String> onConnectionNameChanged;
   final ValueChanged<String> onApiKeyChanged;
   final VoidCallback onToggleVisibility;
   final VoidCallback onBack;
@@ -87,9 +85,11 @@ class _FormCard extends StatelessWidget {
 
   const _FormCard({
     required this.formKey,
-    required this.apiKeyController,
+    required this.connectionName,
+    required this.apiKey,
     required this.isApiKeyVisible,
     required this.isSubmitting,
+    required this.onConnectionNameChanged,
     required this.onApiKeyChanged,
     required this.onToggleVisibility,
     required this.onBack,
@@ -152,59 +152,33 @@ class _FormCard extends StatelessWidget {
             _InstructionNotice(
               text: l10n.settings_banks_asaas_connect_key_location,
             ),
-            const SizedBox(height: 24),
-            Text(
-              l10n.settings_banks_asaas_connect_api_key_label,
-              style: const TextStyle(
-                fontFamily: AppFonts.fontTitle,
-                fontSize: 14,
-                color: Colors.black,
-              ),
+            Input(
+              label: l10n.settings_banks_asaas_connect_connection_name_label,
+              initialValue:
+                  connectionName.isEmpty
+                      ? l10n
+                          .settings_banks_asaas_connect_connection_name_default
+                      : connectionName,
+              onChanged: onConnectionNameChanged,
             ),
-            const SizedBox(height: 8),
-            TextFormField(
-              controller: apiKeyController,
+            Input(
+              label: l10n.settings_banks_asaas_connect_api_key_label,
+              initialValue: apiKey,
               onChanged: onApiKeyChanged,
-              obscureText: !isApiKeyVisible,
-              autocorrect: false,
-              enableSuggestions: false,
-              textInputAction: TextInputAction.done,
-              onFieldSubmitted: (_) => onSubmit(),
-              validator: (value) {
+              isPass: !isApiKeyVisible,
+              iconRight: Icon(
+                isApiKeyVisible
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility_outlined,
+                color: AppColors.purple,
+              ),
+              onIconTap: onToggleVisibility,
+              onValidator: (value) {
                 if (value == null || value.trim().isEmpty) {
                   return l10n.settings_banks_asaas_connect_api_key_required;
                 }
                 return null;
               },
-              decoration: InputDecoration(
-                hintText: l10n.settings_banks_asaas_connect_api_key_hint,
-                isDense: true,
-                suffixIcon: IconButton(
-                  tooltip:
-                      isApiKeyVisible
-                          ? l10n.settings_banks_asaas_connect_hide_key
-                          : l10n.settings_banks_asaas_connect_show_key,
-                  onPressed: onToggleVisibility,
-                  icon: Icon(
-                    isApiKeyVisible
-                        ? Icons.visibility_off_outlined
-                        : Icons.visibility_outlined,
-                    color: AppColors.purple,
-                  ),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: AppColors.greyMiddle),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: AppColors.greyMiddle),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: AppColors.purple),
-                ),
-              ),
             ),
             const SizedBox(height: 20),
             _SecurityNotice(text: l10n.settings_banks_asaas_connect_security),

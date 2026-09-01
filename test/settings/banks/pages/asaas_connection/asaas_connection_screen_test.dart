@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gloria_finance/core/widgets/form_controls.dart';
 import 'package:gloria_finance/features/erp/settings/banks/pages/asaas_connection/asaas_connection_screen.dart';
 import 'package:gloria_finance/l10n/app_localizations.dart';
 
@@ -22,10 +23,11 @@ void main() {
 
       expect(find.text('Conectar conta Asaas'), findsOneWidget);
       expect(find.text('Informe sua API Key do Asaas'), findsOneWidget);
+      expect(find.text('Nome da conexão'), findsOneWidget);
       expect(find.text('Ambiente'), findsNothing);
       expect(find.textContaining('como principal'), findsNothing);
       expect(find.byType(Checkbox), findsNothing);
-      expect(find.byType(TextFormField), findsOneWidget);
+      expect(find.byType(Input), findsNWidgets(2));
       expect(
         find.byWidgetPredicate(
           (widget) =>

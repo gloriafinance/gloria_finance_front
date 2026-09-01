@@ -16,6 +16,11 @@ class AsaasConnectionStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setConnectionName(String value) {
+    state = state.copyWith(connectionName: value);
+    notifyListeners();
+  }
+
   Future<bool> connect() async {
     final apiKey = state.apiKey.trim();
     if (apiKey.isEmpty || state.makeRequest) {

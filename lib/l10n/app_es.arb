@@ -2185,6 +2185,8 @@
   "settings_banks_asaas_connect_form_subtitle": "Copia tu clave de API en Asaas y pégala en el campo de abajo para establecer la integración de forma segura.",
   "settings_banks_asaas_connect_key_location": "En Asaas, accede a Integraciones > Claves de API.",
   "settings_banks_asaas_connect_api_key_label": "API Key",
+  "settings_banks_asaas_connect_connection_name_label": "Nombre de la conexión",
+  "settings_banks_asaas_connect_connection_name_default": "Cuenta Asaas",
   "settings_banks_asaas_connect_api_key_hint": "Pega tu API Key aquí",
   "settings_banks_asaas_connect_api_key_required": "Ingresa tu API Key para continuar.",
   "settings_banks_asaas_connect_show_key": "Mostrar API Key",

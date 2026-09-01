@@ -5150,6 +5150,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_banks_asaas_connect_api_key_label => 'API Key';
 
   @override
+  String get settings_banks_asaas_connect_connection_name_label => 'Connection name';
+
+  @override
+  String get settings_banks_asaas_connect_connection_name_default => 'Asaas account';
+
+  @override
   String get settings_banks_asaas_connect_api_key_hint => 'Paste your API Key here';
 
   @override
