@@ -40,7 +40,13 @@ class _AsaasConnectionFormState extends State<AsaasConnectionForm> {
             setState(() => _isApiKeyVisible = !_isApiKeyVisible);
           },
           onBack: widget.onBack,
-          onSubmit: () => _submit(store),
+          onSubmit:
+              () => _submit(
+                store,
+                context
+                    .l10n
+                    .settings_banks_asaas_connect_connection_name_default,
+              ),
         );
         const guidance = _ConnectionSidebar();
 
@@ -63,10 +69,18 @@ class _AsaasConnectionFormState extends State<AsaasConnectionForm> {
     );
   }
 
-  Future<void> _submit(AsaasConnectionStore store) async {
+  Future<void> _submit(
+    AsaasConnectionStore store,
+    String defaultConnectionName,
+  ) async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+
+    if (store.state.connectionName.trim().isEmpty) {
+      store.setConnectionName(defaultConnectionName);
+    }
+
     await store.connect();
   }
 }
@@ -160,6 +174,13 @@ class _FormCard extends StatelessWidget {
                           .settings_banks_asaas_connect_connection_name_default
                       : connectionName,
               onChanged: onConnectionNameChanged,
+              onValidator: (value) {
+                if (value == null || value.trim().length < 4) {
+                  return l10n
+                      .settings_banks_asaas_connect_connection_name_required;
+                }
+                return null;
+              },
             ),
             Input(
               label: l10n.settings_banks_asaas_connect_api_key_label,

@@ -23,7 +23,8 @@ class AsaasConnectionStore extends ChangeNotifier {
 
   Future<bool> connect() async {
     final apiKey = state.apiKey.trim();
-    if (apiKey.isEmpty || state.makeRequest) {
+    final connectionName = state.connectionName.trim();
+    if (apiKey.isEmpty || connectionName.length < 4 || state.makeRequest) {
       return false;
     }
 
@@ -31,7 +32,10 @@ class AsaasConnectionStore extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final connection = await service.connectAsaasAccount(apiKey: apiKey);
+      final connection = await service.connectAsaasAccount(
+        apiKey: apiKey,
+        connectionName: connectionName,
+      );
       state = state.copyWith(
         step: AsaasConnectionStep.confirmation,
         apiKey: '',

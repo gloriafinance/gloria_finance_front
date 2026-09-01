@@ -6,16 +6,19 @@ import 'package:gloria_finance/features/erp/settings/banks/pages/asaas_connectio
 
 void main() {
   test(
-    'submits only the API Key and clears it after a successful connection',
+    'submits the API Key and connection name after a successful connection',
     () async {
       final service = _FakeBankService();
-      final store = AsaasConnectionStore(service: service)
-        ..setApiKey(' key-123 ');
+      final store =
+          AsaasConnectionStore(service: service)
+            ..setConnectionName('Conta Asaas principal')
+            ..setApiKey(' key-123 ');
 
       final connected = await store.connect();
 
       expect(connected, isTrue);
       expect(service.submittedApiKey, 'key-123');
+      expect(service.submittedConnectionName, 'Conta Asaas principal');
       expect(store.state.step, AsaasConnectionStep.confirmation);
       expect(store.state.apiKey, isEmpty);
       expect(store.state.connection?.status, 'ACTIVE');
@@ -24,7 +27,19 @@ void main() {
 
   test('does not submit an empty API Key', () async {
     final service = _FakeBankService();
-    final store = AsaasConnectionStore(service: service);
+    final store = AsaasConnectionStore(service: service)
+      ..setConnectionName('Conta Asaas');
+
+    final connected = await store.connect();
+
+    expect(connected, isFalse);
+    expect(service.submittedApiKey, isNull);
+    expect(store.state.step, AsaasConnectionStep.form);
+  });
+
+  test('does not submit without a valid connection name', () async {
+    final service = _FakeBankService();
+    final store = AsaasConnectionStore(service: service)..setApiKey('key-123');
 
     final connected = await store.connect();
 
@@ -36,12 +51,15 @@ void main() {
 
 class _FakeBankService extends BankService {
   String? submittedApiKey;
+  String? submittedConnectionName;
 
   @override
   Future<AsaasConnectionModel> connectAsaasAccount({
     required String apiKey,
+    required String connectionName,
   }) async {
     submittedApiKey = apiKey;
+    submittedConnectionName = connectionName;
     return const AsaasConnectionModel(
       accountId: 'account-id',
       externalAccountId: 'external-account-id',

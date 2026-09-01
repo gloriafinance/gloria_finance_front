@@ -10123,6 +10123,12 @@ abstract class AppLocalizations {
   /// **'Asaas account'**
   String get settings_banks_asaas_connect_connection_name_default;
 
+  /// No description provided for @settings_banks_asaas_connect_connection_name_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a connection name with at least 4 characters.'**
+  String get settings_banks_asaas_connect_connection_name_required;
+
   /// No description provided for @settings_banks_asaas_connect_api_key_hint.
   ///
   /// In en, this message translates to:

@@ -5156,6 +5156,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settings_banks_asaas_connect_connection_name_default => 'Cuenta Asaas';
 
   @override
+  String get settings_banks_asaas_connect_connection_name_required => 'Ingresa un nombre de conexión de al menos 4 caracteres.';
+
+  @override
   String get settings_banks_asaas_connect_api_key_hint => 'Pega tu API Key aquí';
 
   @override

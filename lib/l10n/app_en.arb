@@ -2186,6 +2186,7 @@
   "settings_banks_asaas_connect_api_key_label": "API Key",
   "settings_banks_asaas_connect_connection_name_label": "Connection name",
   "settings_banks_asaas_connect_connection_name_default": "Asaas account",
+  "settings_banks_asaas_connect_connection_name_required": "Enter a connection name with at least 4 characters.",
   "settings_banks_asaas_connect_api_key_hint": "Paste your API Key here",
   "settings_banks_asaas_connect_api_key_required": "Enter your API Key to continue.",
   "settings_banks_asaas_connect_show_key": "Show API Key",

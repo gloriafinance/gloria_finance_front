@@ -41,6 +41,7 @@ class BankService extends AppHttp {
 
   Future<AsaasConnectionModel> connectAsaasAccount({
     required String apiKey,
+    required String connectionName,
   }) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
@@ -48,7 +49,7 @@ class BankService extends AppHttp {
     try {
       final response = await http.post(
         '${await getUrlApi()}bank/asaas/connect',
-        data: {'apiKey': apiKey},
+        data: {'apiKey': apiKey, 'connectionName': connectionName},
         options: Options(headers: bearerToken()),
       );
 
