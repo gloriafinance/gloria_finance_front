@@ -5133,4 +5133,88 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get member_delete_error => 'Não foi possível excluir o membro. Tente novamente.';
+
+  @override
+  String get settings_banks_asaas_connect_title => 'Conectar conta Asaas';
+
+  @override
+  String get settings_banks_asaas_connect_form_title => 'Informe sua API Key do Asaas';
+
+  @override
+  String get settings_banks_asaas_connect_form_subtitle => 'Copie sua chave de API no Asaas e cole no campo abaixo para estabelecer a integração com segurança.';
+
+  @override
+  String get settings_banks_asaas_connect_key_location => 'No Asaas, acesse Integrações > Chaves de API.';
+
+  @override
+  String get settings_banks_asaas_connect_api_key_label => 'API Key';
+
+  @override
+  String get settings_banks_asaas_connect_api_key_hint => 'Cole sua API Key aqui';
+
+  @override
+  String get settings_banks_asaas_connect_api_key_required => 'Informe sua API Key para continuar.';
+
+  @override
+  String get settings_banks_asaas_connect_show_key => 'Mostrar API Key';
+
+  @override
+  String get settings_banks_asaas_connect_hide_key => 'Ocultar API Key';
+
+  @override
+  String get settings_banks_asaas_connect_security => 'Sua chave será armazenada com segurança e utilizada apenas para autenticação da integração.';
+
+  @override
+  String get settings_banks_asaas_connect_back => 'Voltar';
+
+  @override
+  String get settings_banks_asaas_connect_submit => 'Conectar agora';
+
+  @override
+  String get settings_banks_asaas_connect_connecting => 'Conectando';
+
+  @override
+  String get settings_banks_asaas_connect_guidance_title => 'Antes de conectar';
+
+  @override
+  String get settings_banks_asaas_connect_guidance_enabled => 'Verifique se a chave está habilitada';
+
+  @override
+  String get settings_banks_asaas_connect_guidance_permissions => 'Confirme as permissões da sua chave';
+
+  @override
+  String get settings_banks_asaas_connect_guidance_private => 'Não compartilhe sua chave com terceiros';
+
+  @override
+  String get settings_banks_asaas_connect_guidance_revoke => 'Você poderá revogar a chave no Asaas depois';
+
+  @override
+  String get settings_banks_asaas_connect_success_title => 'Conta Asaas conectada com sucesso!';
+
+  @override
+  String get settings_banks_asaas_connect_success_description => 'A integração foi concluída e sua conta está pronta para sincronizar informações no Glória Finance.';
+
+  @override
+  String get settings_banks_asaas_connect_status_active => 'Status da conexão';
+
+  @override
+  String get settings_banks_asaas_connect_status_value_active => 'Ativa';
+
+  @override
+  String get settings_banks_asaas_connect_success_notice => 'A API Key foi validada com sucesso e a conexão está ativa.';
+
+  @override
+  String get settings_banks_asaas_connect_next_title => 'O que você pode fazer agora';
+
+  @override
+  String get settings_banks_asaas_connect_next_sync => 'Sincronizar saldo e movimentações';
+
+  @override
+  String get settings_banks_asaas_connect_next_webhooks => 'Configurar webhooks';
+
+  @override
+  String get settings_banks_asaas_connect_next_receipts => 'Importar recebimentos';
+
+  @override
+  String get settings_banks_asaas_connect_finish => 'Voltar para bancos';
 }

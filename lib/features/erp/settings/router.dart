@@ -9,6 +9,7 @@ import 'availability_accounts/models/availability_account_model.dart';
 import 'banks/models/bank_model.dart';
 import 'banks/pages/bank_form/bank_form_screen.dart';
 import 'banks/pages/bank_list/bank_list_screen.dart';
+import 'banks/pages/asaas_connection/asaas_connection_screen.dart';
 import 'banks/store/bank_store.dart';
 import 'cost_center/models/cost_center_model.dart';
 import 'cost_center/pages/cost_center_form/cost_center_form_screen.dart';
@@ -144,7 +145,17 @@ settingsRouter() {
     GoRoute(
       path: '/banks',
       pageBuilder: (context, state) {
-        return transitionCustom(const BankListScreen());
+        return transitionCustom(
+          BankListScreen(
+            onConnectAsaas: () => context.go('/banks/asaas/connect'),
+          ),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/banks/asaas/connect',
+      pageBuilder: (context, state) {
+        return transitionCustom(const AsaasConnectionScreen());
       },
     ),
     GoRoute(
