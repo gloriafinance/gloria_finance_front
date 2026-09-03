@@ -20,7 +20,7 @@ class AsaasHowItWorksDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       child: ConstrainedBox(
         constraints: BoxConstraints(
-          maxWidth: 1120,
+          maxWidth: 1360,
           maxHeight: MediaQuery.sizeOf(context).height * 0.92,
         ),
         child: SingleChildScrollView(
@@ -444,17 +444,24 @@ class _CapabilitiesSection extends StatelessWidget {
           const SizedBox(height: 26),
           LayoutBuilder(
             builder: (context, constraints) {
-              if (constraints.maxWidth < 760) {
+              if (constraints.maxWidth < 1180) {
+                final columns =
+                    constraints.maxWidth < 620
+                        ? 1
+                        : constraints.maxWidth < 900
+                        ? 2
+                        : 3;
+                final itemWidth =
+                    (constraints.maxWidth - (columns - 1) * 20) / columns;
+
                 return Wrap(
-                  spacing: 18,
-                  runSpacing: 18,
+                  alignment: WrapAlignment.spaceBetween,
+                  spacing: 20,
+                  runSpacing: 22,
                   children: capabilities
                       .map(
                         (capability) => SizedBox(
-                          width:
-                              constraints.maxWidth < 480
-                                  ? constraints.maxWidth
-                                  : (constraints.maxWidth - 18) / 2,
+                          width: itemWidth,
                           child: _CapabilityItem(data: capability),
                         ),
                       )
