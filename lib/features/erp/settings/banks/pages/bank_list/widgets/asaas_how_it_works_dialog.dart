@@ -248,8 +248,8 @@ class _IntegrationSteps extends StatelessWidget {
                         index == steps.length - 1
                             ? 0
                             : isCompact
-                            ? 24
-                            : 28,
+                            ? 20
+                            : 24,
                   ),
                   child: _IntegrationStep(
                     number: index + 1,
@@ -331,8 +331,8 @@ class _IntegrationStep extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: isCompact ? 34 : 36,
-          height: isCompact ? 34 : 36,
+          width: isCompact ? 24 : 26,
+          height: isCompact ? 24 : 26,
           alignment: Alignment.center,
           decoration: const BoxDecoration(
             color: AppColors.purple,
@@ -398,8 +398,8 @@ class _StepIcon extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Container(
-          width: isCompact ? 104 : 108,
-          height: isCompact ? 104 : 108,
+          width: isCompact ? 94 : 88,
+          height: isCompact ? 94 : 88,
           decoration: BoxDecoration(
             color:
                 data.completed
@@ -436,8 +436,8 @@ class _ContributionFlowGraphic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: isCompact ? 280 : 288,
-      height: isCompact ? 116 : 118,
+      width: isCompact ? 240 : 248,
+      height: isCompact ? 110 : 108,
       padding: EdgeInsets.symmetric(horizontal: isCompact ? 22 : 24),
       decoration: BoxDecoration(
         color: AppColors.green.withValues(alpha: 0.08),
@@ -611,8 +611,9 @@ class _CapabilityItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: isCompact ? 56 : 72,
-              height: isCompact ? 56 : 72,
+              //padding: EdgeInsets.only(right: 10),
+              width: isCompact ? 36 : 52,
+              height: isCompact ? 26 : 42,
               decoration: BoxDecoration(
                 color: AppColors.purple.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(isCompact ? 12 : 14),
@@ -620,34 +621,37 @@ class _CapabilityItem extends StatelessWidget {
               child: Icon(
                 data.icon,
                 color: AppColors.purple,
-                size: isCompact ? 30 : 36,
+                size: isCompact ? 20 : 26,
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 26),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    data.title,
-                    style: TextStyle(
-                      fontFamily: AppFonts.fontTitle,
-                      fontSize: isCompact ? 15 : 14,
-                      color: Colors.black,
-                      height: 1.35,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      data.title,
+                      style: TextStyle(
+                        fontFamily: AppFonts.fontTitle,
+                        fontSize: isCompact ? 15 : 14,
+                        color: Colors.black,
+                        height: 1.35,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    data.description,
-                    style: TextStyle(
-                      fontFamily: AppFonts.fontSubTitle,
-                      fontSize: isCompact ? 14 : 13,
-                      color: AppColors.grey,
-                      height: 1.4,
+                    const SizedBox(height: 6),
+                    Text(
+                      data.description,
+                      style: TextStyle(
+                        fontFamily: AppFonts.fontSubTitle,
+                        fontSize: isCompact ? 14 : 13,
+                        color: AppColors.grey,
+                        height: 1.4,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],
