@@ -13,9 +13,14 @@ import 'widgets/asaas_connection_hero.dart';
 import 'widgets/asaas_how_it_works_dialog.dart';
 
 class BankListScreen extends StatefulWidget {
+  final bool showAsaasConnection;
   final VoidCallback? onConnectAsaas;
 
-  const BankListScreen({super.key, this.onConnectAsaas});
+  const BankListScreen({
+    super.key,
+    required this.showAsaasConnection,
+    this.onConnectAsaas,
+  });
 
   @override
   State<BankListScreen> createState() => _BankListScreenState();
@@ -40,11 +45,13 @@ class _BankListScreenState extends State<BankListScreen> {
       children: [
         _pageHeader(context),
         const SizedBox(height: 24),
-        AsaasConnectionHero(
-          onShowHowItWorks: () => _showHowItWorks(context),
-          onConnectAsaas: widget.onConnectAsaas,
-        ),
-        const SizedBox(height: 24),
+        if (widget.showAsaasConnection) ...[
+          AsaasConnectionHero(
+            onShowHowItWorks: () => _showHowItWorks(context),
+            onConnectAsaas: widget.onConnectAsaas,
+          ),
+          const SizedBox(height: 24),
+        ],
         _connectedAccountsHeader(context),
         const SizedBox(height: 16),
         const BankTable(),

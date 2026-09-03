@@ -40,7 +40,9 @@ void main() {
   testWidgets('keeps the bank table and traditional add-account action', (
     tester,
   ) async {
-    await tester.pumpWidget(app(const BankListScreen()));
+    await tester.pumpWidget(
+      app(const BankListScreen(showAsaasConnection: true)),
+    );
 
     expect(find.text('Bancos e contas'), findsOneWidget);
     expect(find.text('Suas contas conectadas'), findsOneWidget);
@@ -69,6 +71,18 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(AsaasHowItWorksDialog), findsNothing);
+  });
+
+  testWidgets('hides the Asaas hero when the session is not eligible', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      app(const BankListScreen(showAsaasConnection: false)),
+    );
+
+    expect(find.byType(AsaasConnectionHero), findsNothing);
+    expect(find.byType(BankTable), findsOneWidget);
+    expect(find.text('Adicionar conta'), findsOneWidget);
   });
 
   testWidgets('uses one injected callback for both connection CTAs', (

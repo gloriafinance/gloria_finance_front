@@ -1,3 +1,4 @@
+import 'package:gloria_finance/app/store_manager.dart';
 import 'package:gloria_finance/core/theme/transition_custom.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -145,15 +146,27 @@ settingsRouter() {
     GoRoute(
       path: '/banks',
       pageBuilder: (context, state) {
+        final canConnectAsaas =
+            StoreManager().authSessionStore.state.session.canConnectAsaas;
+
         return transitionCustom(
           BankListScreen(
-            onConnectAsaas: () => context.go('/banks/asaas/connect'),
+            showAsaasConnection: canConnectAsaas,
+            onConnectAsaas:
+                canConnectAsaas
+                    ? () => context.go('/banks/asaas/connect')
+                    : null,
           ),
         );
       },
     ),
     GoRoute(
       path: '/banks/asaas/connect',
+      redirect: (context, state) {
+        return StoreManager().authSessionStore.state.session.canConnectAsaas
+            ? null
+            : '/banks';
+      },
       pageBuilder: (context, state) {
         return transitionCustom(const AsaasConnectionScreen());
       },

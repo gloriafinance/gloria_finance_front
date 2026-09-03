@@ -18,6 +18,7 @@ class AuthSessionModel {
   final String lang;
   final String? lastLogin;
   final bool isSuperUser;
+  final bool asaasConnect;
   PolicyAcceptanceModel policies;
 
   AuthSessionModel({
@@ -37,6 +38,7 @@ class AuthSessionModel {
     this.memberId,
     this.lastLogin,
     this.isSuperUser = false,
+    this.asaasConnect = false,
     PolicyAcceptanceModel? policies,
   }) : policies = policies ?? PolicyAcceptanceModel.empty();
 
@@ -75,6 +77,7 @@ class AuthSessionModel {
     String? lang,
     String? lastLogin,
     bool? isSuperUser,
+    bool? asaasConnect,
     List<String>? roles,
     PolicyAcceptanceModel? policies,
   }) {
@@ -94,6 +97,7 @@ class AuthSessionModel {
       symbolFormatMoney: symbolFormatMoney ?? this.symbolFormatMoney,
       lastLogin: lastLogin ?? this.lastLogin,
       isSuperUser: isSuperUser ?? this.isSuperUser,
+      asaasConnect: asaasConnect ?? this.asaasConnect,
       roles: roles ?? this.roles,
       policies: policies ?? this.policies,
     );
@@ -150,6 +154,7 @@ class AuthSessionModel {
       symbolFormatMoney: symbolFormatMoney,
       lastLogin: json['lastLogin'],
       isSuperUser: json['isSuperUser'] ?? false,
+      asaasConnect: json['asaasConnect'] as bool,
       policies: PolicyAcceptanceModel.fromJson(
         json['policies'] as Map<String, dynamic>?,
       ),
@@ -175,12 +180,17 @@ class AuthSessionModel {
       'memberId': memberId,
       'lastLogin': lastLogin,
       'isSuperUser': isSuperUser,
+      'asaasConnect': asaasConnect,
       'policies': policies.toJson(),
     };
   }
 
   bool isSessionStarted() {
     return token != "";
+  }
+
+  bool get canConnectAsaas {
+    return country.toUpperCase() == 'BR' && !asaasConnect;
   }
 
   String getName() {
