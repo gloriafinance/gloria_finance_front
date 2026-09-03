@@ -12,44 +12,57 @@ class AsaasHowItWorksDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-
-    return Dialog(
-      insetPadding: EdgeInsets.zero,
-      backgroundColor: Colors.white,
-      surfaceTintColor: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxWidth: 1360,
-          maxHeight: MediaQuery.sizeOf(context).height,
-        ),
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(32),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _DialogHeader(
-                title: l10n.settings_banks_asaas_dialog_title,
-                subtitle: l10n.settings_banks_asaas_dialog_subtitle,
-                onClose: () => Navigator.of(context).pop(),
-              ),
-              const SizedBox(height: 28),
-              const _IntegrationSteps(),
-              const SizedBox(height: 20),
-              const _CapabilitiesSection(),
-              const SizedBox(height: 20),
-              const _SecuritySection(),
-              const SizedBox(height: 28),
-              _DialogActions(
-                onClose: () => Navigator.of(context).pop(),
-                onConnect:
-                    onConnectAsaas == null ? null : () => _connect(context),
-              ),
-            ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isCompact = constraints.maxWidth < 600;
+        return Dialog(
+          insetPadding:
+              isCompact
+                  ? const EdgeInsets.symmetric(horizontal: 12, vertical: 24)
+                  : EdgeInsets.zero,
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
           ),
-        ),
-      ),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: 1360,
+              maxHeight:
+                  isCompact
+                      ? MediaQuery.sizeOf(context).height * 0.92
+                      : MediaQuery.sizeOf(context).height,
+            ),
+            child: SingleChildScrollView(
+              padding: EdgeInsets.all(isCompact ? 20 : 32),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _DialogHeader(
+                    title: l10n.settings_banks_asaas_dialog_title,
+                    subtitle: l10n.settings_banks_asaas_dialog_subtitle,
+                    onClose: () => Navigator.of(context).pop(),
+                    isCompact: isCompact,
+                  ),
+                  SizedBox(height: isCompact ? 20 : 28),
+                  const _IntegrationSteps(),
+                  const SizedBox(height: 20),
+                  const _CapabilitiesSection(),
+                  const SizedBox(height: 20),
+                  const _SecuritySection(),
+                  const SizedBox(height: 28),
+                  _DialogActions(
+                    onClose: () => Navigator.of(context).pop(),
+                    onConnect:
+                        onConnectAsaas == null ? null : () => _connect(context),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -63,15 +76,77 @@ class _DialogHeader extends StatelessWidget {
   final String title;
   final String subtitle;
   final VoidCallback onClose;
+  final bool isCompact;
 
   const _DialogHeader({
     required this.title,
     required this.subtitle,
     required this.onClose,
+    required this.isCompact,
   });
 
   @override
   Widget build(BuildContext context) {
+    if (isCompact) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 56,
+                height: 56,
+                decoration: BoxDecoration(
+                  color: AppColors.purple.withValues(alpha: 0.12),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.menu_book_outlined,
+                  color: AppColors.purple,
+                  size: 30,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 3),
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      fontFamily: AppFonts.fontTitle,
+                      fontSize: 24,
+                      color: Colors.black,
+                      height: 1.15,
+                    ),
+                  ),
+                ),
+              ),
+              IconButton(
+                onPressed: onClose,
+                visualDensity: VisualDensity.compact,
+                padding: const EdgeInsets.all(6),
+                icon: const Icon(Icons.close, color: AppColors.grey, size: 26),
+                tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 68, top: 4),
+            child: Text(
+              subtitle,
+              style: const TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+                fontSize: 14,
+                color: AppColors.grey,
+                height: 1.4,
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -163,16 +238,23 @@ class _IntegrationSteps extends StatelessWidget {
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
+          final isCompact = constraints.maxWidth < 600;
           if (constraints.maxWidth < 1100) {
             return Column(
               children: List.generate(steps.length, (index) {
                 return Padding(
                   padding: EdgeInsets.only(
-                    bottom: index == steps.length - 1 ? 0 : 28,
+                    bottom:
+                        index == steps.length - 1
+                            ? 0
+                            : isCompact
+                            ? 24
+                            : 28,
                   ),
                   child: _IntegrationStep(
                     number: index + 1,
                     data: steps[index],
+                    isCompact: isCompact,
                   ),
                 );
               }),
@@ -236,16 +318,21 @@ class _StepConnector extends StatelessWidget {
 class _IntegrationStep extends StatelessWidget {
   final int number;
   final _StepData data;
+  final bool isCompact;
 
-  const _IntegrationStep({required this.number, required this.data});
+  const _IntegrationStep({
+    required this.number,
+    required this.data,
+    this.isCompact = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          width: 40,
-          height: 40,
+          width: isCompact ? 34 : 40,
+          height: isCompact ? 34 : 40,
           alignment: Alignment.center,
           decoration: const BoxDecoration(
             color: AppColors.purple,
@@ -253,33 +340,33 @@ class _IntegrationStep extends StatelessWidget {
           ),
           child: Text(
             '$number',
-            style: const TextStyle(
+            style: TextStyle(
               fontFamily: AppFonts.fontTitle,
-              fontSize: 18,
+              fontSize: isCompact ? 16 : 18,
               color: Colors.white,
             ),
           ),
         ),
-        const SizedBox(height: 28),
-        _StepIcon(data: data),
-        const SizedBox(height: 28),
+        SizedBox(height: isCompact ? 18 : 28),
+        _StepIcon(data: data, isCompact: isCompact),
+        SizedBox(height: isCompact ? 18 : 28),
         Text(
           data.title,
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: AppFonts.fontTitle,
-            fontSize: 22,
+            fontSize: isCompact ? 20 : 22,
             color: Colors.black,
             height: 1.25,
           ),
         ),
-        const SizedBox(height: 14),
+        SizedBox(height: isCompact ? 10 : 14),
         Text(
           data.description,
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: AppFonts.fontSubTitle,
-            fontSize: 15,
+            fontSize: isCompact ? 14 : 15,
             color: AppColors.grey,
             height: 1.45,
           ),
@@ -291,17 +378,18 @@ class _IntegrationStep extends StatelessWidget {
 
 class _StepIcon extends StatelessWidget {
   final _StepData data;
+  final bool isCompact;
 
-  const _StepIcon({required this.data});
+  const _StepIcon({required this.data, required this.isCompact});
 
   @override
   Widget build(BuildContext context) {
     if (data.contributionFlow) {
-      return const SizedBox(
+      return SizedBox(
         width: double.infinity,
         child: FittedBox(
           fit: BoxFit.scaleDown,
-          child: _ContributionFlowGraphic(),
+          child: _ContributionFlowGraphic(isCompact: isCompact),
         ),
       );
     }
@@ -310,8 +398,8 @@ class _StepIcon extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Container(
-          width: 132,
-          height: 132,
+          width: isCompact ? 104 : 132,
+          height: isCompact ? 104 : 132,
           decoration: BoxDecoration(
             color:
                 data.completed
@@ -319,7 +407,11 @@ class _StepIcon extends StatelessWidget {
                     : AppColors.purple.withValues(alpha: 0.08),
             shape: BoxShape.circle,
           ),
-          child: Icon(data.icon, size: 58, color: AppColors.purple),
+          child: Icon(
+            data.icon,
+            size: isCompact ? 48 : 58,
+            color: AppColors.purple,
+          ),
         ),
         if (data.completed)
           const Positioned(
@@ -337,14 +429,16 @@ class _StepIcon extends StatelessWidget {
 }
 
 class _ContributionFlowGraphic extends StatelessWidget {
-  const _ContributionFlowGraphic();
+  final bool isCompact;
+
+  const _ContributionFlowGraphic({required this.isCompact});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 340,
-      height: 140,
-      padding: const EdgeInsets.symmetric(horizontal: 26),
+      width: isCompact ? 280 : 340,
+      height: isCompact ? 116 : 140,
+      padding: EdgeInsets.symmetric(horizontal: isCompact ? 22 : 26),
       decoration: BoxDecoration(
         color: AppColors.green.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(66),
@@ -451,8 +545,9 @@ class _CapabilitiesSection extends StatelessWidget {
           LayoutBuilder(
             builder: (context, constraints) {
               if (constraints.maxWidth < 1050) {
+                final isCompact = constraints.maxWidth < 620;
                 final columns =
-                    constraints.maxWidth < 620
+                    isCompact
                         ? 1
                         : constraints.maxWidth < 900
                         ? 2
@@ -468,7 +563,10 @@ class _CapabilitiesSection extends StatelessWidget {
                       .map(
                         (capability) => SizedBox(
                           width: itemWidth,
-                          child: _CapabilityItem(data: capability),
+                          child: _CapabilityItem(
+                            data: capability,
+                            isCompact: isCompact,
+                          ),
                         ),
                       )
                       .toList(growable: false),
@@ -497,8 +595,13 @@ class _CapabilitiesSection extends StatelessWidget {
 class _CapabilityItem extends StatelessWidget {
   final _CapabilityData data;
   final bool showDivider;
+  final bool isCompact;
 
-  const _CapabilityItem({required this.data, this.showDivider = false});
+  const _CapabilityItem({
+    required this.data,
+    this.showDivider = false,
+    this.isCompact = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -508,13 +611,17 @@ class _CapabilityItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: 72,
-              height: 72,
+              width: isCompact ? 56 : 72,
+              height: isCompact ? 56 : 72,
               decoration: BoxDecoration(
                 color: AppColors.purple.withValues(alpha: 0.08),
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(isCompact ? 12 : 14),
               ),
-              child: Icon(data.icon, color: AppColors.purple, size: 36),
+              child: Icon(
+                data.icon,
+                color: AppColors.purple,
+                size: isCompact ? 30 : 36,
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -523,9 +630,9 @@ class _CapabilityItem extends StatelessWidget {
                 children: [
                   Text(
                     data.title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontFamily: AppFonts.fontTitle,
-                      fontSize: 14,
+                      fontSize: isCompact ? 15 : 14,
                       color: Colors.black,
                       height: 1.35,
                     ),
@@ -533,9 +640,9 @@ class _CapabilityItem extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(
                     data.description,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontFamily: AppFonts.fontSubTitle,
-                      fontSize: 13,
+                      fontSize: isCompact ? 14 : 13,
                       color: AppColors.grey,
                       height: 1.4,
                     ),
@@ -564,62 +671,72 @@ class _SecuritySection extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
-      decoration: BoxDecoration(
-        color: AppColors.purple.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.purple.withValues(alpha: 0.16)),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 72,
-            height: 72,
-            decoration: BoxDecoration(
-              color: AppColors.purple,
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: const Icon(
-              Icons.shield_outlined,
-              color: Colors.white,
-              size: 38,
-            ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isCompact = constraints.maxWidth < 600;
+        return Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: isCompact ? 16 : 24,
+            vertical: isCompact ? 16 : 22,
           ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  l10n.settings_banks_asaas_security_title,
-                  style: const TextStyle(
-                    fontFamily: AppFonts.fontTitle,
-                    fontSize: 18,
-                    color: Colors.black,
-                  ),
+          decoration: BoxDecoration(
+            color: AppColors.purple.withValues(alpha: 0.06),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColors.purple.withValues(alpha: 0.16)),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: isCompact ? 56 : 72,
+                height: isCompact ? 56 : 72,
+                decoration: BoxDecoration(
+                  color: AppColors.purple,
+                  borderRadius: BorderRadius.circular(isCompact ? 12 : 14),
                 ),
-                const SizedBox(height: 5),
-                Text(
-                  l10n.settings_banks_asaas_security_description,
-                  style: const TextStyle(
-                    fontFamily: AppFonts.fontSubTitle,
-                    fontSize: 16,
-                    color: AppColors.grey,
-                    height: 1.4,
-                  ),
+                child: Icon(
+                  Icons.shield_outlined,
+                  color: Colors.white,
+                  size: isCompact ? 30 : 38,
+                ),
+              ),
+              SizedBox(width: isCompact ? 12 : 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.settings_banks_asaas_security_title,
+                      style: TextStyle(
+                        fontFamily: AppFonts.fontTitle,
+                        fontSize: isCompact ? 16 : 18,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      l10n.settings_banks_asaas_security_description,
+                      style: TextStyle(
+                        fontFamily: AppFonts.fontSubTitle,
+                        fontSize: isCompact ? 14 : 16,
+                        color: AppColors.grey,
+                        height: 1.4,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (!isCompact) ...[
+                const SizedBox(width: 16),
+                Icon(
+                  Icons.lock_outline,
+                  color: AppColors.purple.withValues(alpha: 0.22),
+                  size: 72,
                 ),
               ],
-            ),
+            ],
           ),
-          const SizedBox(width: 16),
-          Icon(
-            Icons.lock_outline,
-            color: AppColors.purple.withValues(alpha: 0.22),
-            size: 72,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -632,27 +749,41 @@ class _DialogActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      alignment: WrapAlignment.end,
-      spacing: 14,
-      runSpacing: 12,
-      children: [
-        CustomButton(
-          text: context.l10n.settings_banks_asaas_close,
-          backgroundColor: AppColors.purple,
-          typeButton: CustomButton.outline,
-          textColor: AppColors.purple,
-          onPressed: onClose,
-        ),
-        if (onConnect != null)
-          CustomButton(
-            text: context.l10n.settings_banks_asaas_connect_account,
-            backgroundColor: AppColors.purple,
-            textColor: Colors.white,
-            icon: Icons.arrow_forward,
-            onPressed: onConnect,
-          ),
-      ],
+    final closeButton = CustomButton(
+      text: context.l10n.settings_banks_asaas_close,
+      backgroundColor: AppColors.purple,
+      typeButton: CustomButton.outline,
+      textColor: AppColors.purple,
+      onPressed: onClose,
+    );
+    final connectButton = CustomButton(
+      text: context.l10n.settings_banks_asaas_connect_account,
+      backgroundColor: AppColors.purple,
+      textColor: Colors.white,
+      icon: Icons.arrow_forward,
+      onPressed: onConnect,
+    );
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth < 600) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (onConnect != null) connectButton,
+              if (onConnect != null) const SizedBox(height: 12),
+              closeButton,
+            ],
+          );
+        }
+
+        return Wrap(
+          alignment: WrapAlignment.end,
+          spacing: 14,
+          runSpacing: 12,
+          children: [closeButton, if (onConnect != null) connectButton],
+        );
+      },
     );
   }
 }

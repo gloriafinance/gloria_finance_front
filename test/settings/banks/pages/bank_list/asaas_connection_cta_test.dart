@@ -156,6 +156,39 @@ void main() {
 
     await tester.binding.setSurfaceSize(null);
   });
+
+  testWidgets('uses the dedicated mobile dialog composition', (tester) async {
+    await tester.binding.setSurfaceSize(const Size(390, 844));
+    await tester.pumpWidget(app(_heroWithDialog(onConnectAsaas: () {})));
+
+    await tester.tap(find.text('SAIBA COMO FUNCIONA'));
+    await tester.pumpAndSettle();
+
+    final title = tester.widget<Text>(
+      find.text('Como funciona a integração com o Asaas'),
+    );
+    expect(title.style?.fontSize, 24);
+    expect(find.byIcon(Icons.lock_outline), findsNothing);
+
+    await tester.ensureVisible(find.text('CONECTAR MINHA CONTA ASAAS'));
+    final connectRect = tester.getRect(
+      find.ancestor(
+        of: find.text('CONECTAR MINHA CONTA ASAAS'),
+        matching: find.byType(ElevatedButton),
+      ),
+    );
+    final closeRect = tester.getRect(
+      find.ancestor(
+        of: find.text('FECHAR'),
+        matching: find.byType(ElevatedButton),
+      ),
+    );
+    expect(connectRect.top, lessThan(closeRect.top));
+    expect((connectRect.width - closeRect.width).abs(), lessThan(2));
+    expect(tester.takeException(), isNull);
+
+    await tester.binding.setSurfaceSize(null);
+  });
 }
 
 Widget _heroWithDialog({VoidCallback? onConnectAsaas}) {
