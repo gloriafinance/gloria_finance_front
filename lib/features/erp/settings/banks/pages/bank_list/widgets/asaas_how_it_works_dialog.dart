@@ -15,65 +15,34 @@ class AsaasHowItWorksDialog extends StatelessWidget {
 
     return Dialog(
       insetPadding: const EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       child: ConstrainedBox(
         constraints: BoxConstraints(
-          maxWidth: 800,
-          maxHeight: MediaQuery.sizeOf(context).height * 0.9,
+          maxWidth: 1120,
+          maxHeight: MediaQuery.sizeOf(context).height * 0.92,
         ),
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.all(32),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               _DialogHeader(
                 title: l10n.settings_banks_asaas_dialog_title,
                 subtitle: l10n.settings_banks_asaas_dialog_subtitle,
+                onClose: () => Navigator.of(context).pop(),
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 16),
-                padding: const EdgeInsets.fromLTRB(16, 20, 16, 16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: AppColors.greyMiddle),
-                ),
-                child: Column(
-                  children: [
-                    const _IntegrationSteps(),
-                    const SizedBox(height: 28),
-                    const _CapabilitiesSection(),
-                    const SizedBox(height: 16),
-                    const _SecuritySection(),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Wrap(
-                  spacing: 12,
-                  runSpacing: 12,
-                  alignment: WrapAlignment.end,
-                  children: [
-                    CustomButton(
-                      text: l10n.settings_banks_asaas_close,
-                      backgroundColor: AppColors.purple,
-                      typeButton: CustomButton.outline,
-                      textColor: AppColors.purple,
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
-                    if (onConnectAsaas != null)
-                      CustomButton(
-                        text: l10n.settings_banks_asaas_connect_account,
-                        backgroundColor: AppColors.purple,
-                        textColor: Colors.white,
-                        onPressed: () => _connect(context),
-                        icon: Icons.arrow_forward,
-                      ),
-                  ],
-                ),
+              const SizedBox(height: 28),
+              const _IntegrationSteps(),
+              const SizedBox(height: 20),
+              const _CapabilitiesSection(),
+              const SizedBox(height: 20),
+              const _SecuritySection(),
+              const SizedBox(height: 28),
+              _DialogActions(
+                onClose: () => Navigator.of(context).pop(),
+                onConnect:
+                    onConnectAsaas == null ? null : () => _connect(context),
               ),
             ],
           ),
@@ -91,8 +60,13 @@ class AsaasHowItWorksDialog extends StatelessWidget {
 class _DialogHeader extends StatelessWidget {
   final String title;
   final String subtitle;
+  final VoidCallback onClose;
 
-  const _DialogHeader({required this.title, required this.subtitle});
+  const _DialogHeader({
+    required this.title,
+    required this.subtitle,
+    required this.onClose,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -100,8 +74,8 @@ class _DialogHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: 56,
-          height: 56,
+          width: 64,
+          height: 64,
           decoration: BoxDecoration(
             color: AppColors.purple.withValues(alpha: 0.12),
             shape: BoxShape.circle,
@@ -109,38 +83,43 @@ class _DialogHeader extends StatelessWidget {
           child: const Icon(
             Icons.menu_book_outlined,
             color: AppColors.purple,
-            size: 28,
+            size: 32,
           ),
         ),
-        const SizedBox(width: 14),
+        const SizedBox(width: 18),
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontFamily: AppFonts.fontTitle,
-                  fontSize: 22,
-                  color: Colors.black,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontFamily: AppFonts.fontTitle,
+                    fontSize: 28,
+                    color: Colors.black,
+                    height: 1.15,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                subtitle,
-                style: const TextStyle(
-                  fontFamily: AppFonts.fontSubTitle,
-                  fontSize: 14,
-                  color: Colors.black54,
-                  height: 1.4,
+                const SizedBox(height: 8),
+                Text(
+                  subtitle,
+                  style: const TextStyle(
+                    fontFamily: AppFonts.fontSubTitle,
+                    fontSize: 16,
+                    color: AppColors.grey,
+                    height: 1.4,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
+        const SizedBox(width: 12),
         IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(Icons.close, color: AppColors.grey),
+          onPressed: onClose,
+          icon: const Icon(Icons.close, color: AppColors.grey, size: 30),
           tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
         ),
       ],
@@ -156,72 +135,97 @@ class _IntegrationSteps extends StatelessWidget {
     final l10n = context.l10n;
     final steps = [
       _StepData(
-        Icons.key_outlined,
-        l10n.settings_banks_asaas_step_connect_title,
-        l10n.settings_banks_asaas_step_connect_description,
+        icon: Icons.key_outlined,
+        title: l10n.settings_banks_asaas_step_connect_title,
+        description: l10n.settings_banks_asaas_step_connect_description,
       ),
       _StepData(
-        Icons.sync_outlined,
-        l10n.settings_banks_asaas_step_sync_title,
-        l10n.settings_banks_asaas_step_sync_description,
+        icon: Icons.volunteer_activism_outlined,
+        title: l10n.settings_banks_asaas_step_contribution_title,
+        description: l10n.settings_banks_asaas_step_contribution_description,
       ),
       _StepData(
-        Icons.qr_code_2_outlined,
-        l10n.settings_banks_asaas_step_pix_title,
-        l10n.settings_banks_asaas_step_pix_description,
-      ),
-      _StepData(
-        Icons.check_circle_outline,
-        l10n.settings_banks_asaas_step_reconcile_title,
-        l10n.settings_banks_asaas_step_reconcile_description,
+        icon: Icons.receipt_long_outlined,
+        title: l10n.settings_banks_asaas_step_reconcile_title,
+        description: l10n.settings_banks_asaas_step_reconcile_description,
+        completed: true,
       ),
     ];
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (constraints.maxWidth >= 700) {
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: List.generate(steps.length * 2 - 1, (index) {
-              if (index.isOdd) {
-                return const SizedBox(
-                  width: 32,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 60),
-                    child: Icon(
-                      Icons.arrow_forward,
-                      size: 18,
-                      color: AppColors.grey,
-                    ),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: AppColors.greyMiddle),
+      ),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth < 700) {
+            return Column(
+              children: List.generate(steps.length, (index) {
+                return Padding(
+                  padding: EdgeInsets.only(
+                    bottom: index == steps.length - 1 ? 0 : 28,
+                  ),
+                  child: _IntegrationStep(
+                    number: index + 1,
+                    data: steps[index],
                   ),
                 );
-              }
-              final stepIndex = index ~/ 2;
-              return Expanded(
-                child: _IntegrationStep(
-                  number: stepIndex + 1,
-                  data: steps[stepIndex],
-                ),
-              );
-            }),
-          );
-        }
+              }),
+            );
+          }
 
-        final twoColumns = constraints.maxWidth >= 480;
-        final width =
-            twoColumns ? (constraints.maxWidth - 16) / 2 : constraints.maxWidth;
-        return Wrap(
-          spacing: 16,
-          runSpacing: 20,
-          children: List.generate(
-            steps.length,
-            (index) => SizedBox(
-              width: width,
-              child: _IntegrationStep(number: index + 1, data: steps[index]),
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(child: _IntegrationStep(number: 1, data: steps[0])),
+              const _StepConnector(),
+              Expanded(child: _IntegrationStep(number: 2, data: steps[1])),
+              const _StepConnector(),
+              Expanded(child: _IntegrationStep(number: 3, data: steps[2])),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _StepConnector extends StatelessWidget {
+  const _StepConnector();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 76,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 92),
+        child: Row(
+          children: [
+            const Expanded(
+              child: Divider(color: Color(0xFFD9C8F5), thickness: 2),
             ),
-          ),
-        );
-      },
+            Container(
+              width: 34,
+              height: 34,
+              margin: const EdgeInsets.symmetric(horizontal: 8),
+              decoration: BoxDecoration(
+                border: Border.all(color: const Color(0xFFE5D9F7)),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.chevron_right,
+                color: AppColors.purple,
+                size: 24,
+              ),
+            ),
+            const Expanded(
+              child: Divider(color: Color(0xFFD9C8F5), thickness: 2),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -237,8 +241,8 @@ class _IntegrationStep extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 28,
-          height: 28,
+          width: 40,
+          height: 40,
           alignment: Alignment.center,
           decoration: const BoxDecoration(
             color: AppColors.purple,
@@ -248,44 +252,73 @@ class _IntegrationStep extends StatelessWidget {
             '$number',
             style: const TextStyle(
               fontFamily: AppFonts.fontTitle,
-              fontSize: 13,
+              fontSize: 18,
               color: Colors.white,
             ),
           ),
         ),
-        const SizedBox(height: 10),
-        Container(
-          width: 56,
-          height: 56,
-          decoration: BoxDecoration(
-            color: AppColors.purple.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.purple.withValues(alpha: 0.2)),
-          ),
-          child: Icon(data.icon, color: AppColors.purple, size: 28),
-        ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 22),
+        _StepIcon(icon: data.icon, completed: data.completed),
+        const SizedBox(height: 18),
         Text(
           data.title,
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontFamily: AppFonts.fontTitle,
-            fontSize: 14,
+            fontSize: 20,
             color: Colors.black,
             height: 1.25,
           ),
         ),
-        const SizedBox(height: 5),
+        const SizedBox(height: 12),
         Text(
           data.description,
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontFamily: AppFonts.fontSubTitle,
-            fontSize: 12,
-            color: Colors.black54,
-            height: 1.4,
+            fontSize: 14,
+            color: AppColors.grey,
+            height: 1.45,
           ),
         ),
+      ],
+    );
+  }
+}
+
+class _StepIcon extends StatelessWidget {
+  final IconData icon;
+  final bool completed;
+
+  const _StepIcon({required this.icon, required this.completed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          width: 116,
+          height: 116,
+          decoration: BoxDecoration(
+            color:
+                completed
+                    ? AppColors.green.withValues(alpha: 0.1)
+                    : AppColors.purple.withValues(alpha: 0.08),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(icon, size: 52, color: AppColors.purple),
+        ),
+        if (completed)
+          const Positioned(
+            right: 2,
+            bottom: 5,
+            child: CircleAvatar(
+              radius: 17,
+              backgroundColor: AppColors.green,
+              child: Icon(Icons.check, size: 22, color: Colors.white),
+            ),
+          ),
       ],
     );
   }
@@ -298,18 +331,37 @@ class _CapabilitiesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final capabilities = [
-      l10n.settings_banks_asaas_capability_balance,
-      l10n.settings_banks_asaas_capability_pix,
-      l10n.settings_banks_asaas_capability_payments,
-      l10n.settings_banks_asaas_capability_reconcile,
-      l10n.settings_banks_asaas_capability_webhooks,
+      _CapabilityData(
+        Icons.show_chart_outlined,
+        l10n.settings_banks_asaas_capability_balance,
+        l10n.settings_banks_asaas_capability_balance_description,
+      ),
+      _CapabilityData(
+        Icons.qr_code_2_outlined,
+        l10n.settings_banks_asaas_capability_pix,
+        l10n.settings_banks_asaas_capability_pix_description,
+      ),
+      _CapabilityData(
+        Icons.person_outline,
+        l10n.settings_banks_asaas_capability_payments,
+        l10n.settings_banks_asaas_capability_payments_description,
+      ),
+      _CapabilityData(
+        Icons.check_circle_outline,
+        l10n.settings_banks_asaas_capability_reconcile,
+        l10n.settings_banks_asaas_capability_reconcile_description,
+      ),
+      _CapabilityData(
+        Icons.webhook_outlined,
+        l10n.settings_banks_asaas_capability_webhooks,
+        l10n.settings_banks_asaas_capability_webhooks_description,
+      ),
     ];
 
     return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(color: AppColors.greyMiddle),
       ),
       child: Column(
@@ -319,38 +371,47 @@ class _CapabilitiesSection extends StatelessWidget {
             l10n.settings_banks_asaas_capabilities_title,
             style: const TextStyle(
               fontFamily: AppFonts.fontTitle,
-              fontSize: 16,
-              color: Colors.black,
+              fontSize: 20,
+              color: AppColors.purple,
             ),
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 22),
           LayoutBuilder(
             builder: (context, constraints) {
-              if (constraints.maxWidth >= 640) {
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              if (constraints.maxWidth < 760) {
+                return Wrap(
+                  spacing: 18,
+                  runSpacing: 18,
                   children: capabilities
                       .map(
-                        (capability) => Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: _CapabilityItem(
-                              text: capability,
-                              expandText: true,
-                            ),
-                          ),
+                        (capability) => SizedBox(
+                          width:
+                              constraints.maxWidth < 480
+                                  ? constraints.maxWidth
+                                  : (constraints.maxWidth - 18) / 2,
+                          child: _CapabilityItem(data: capability),
                         ),
                       )
                       .toList(growable: false),
                 );
               }
 
-              return Wrap(
-                spacing: 18,
-                runSpacing: 12,
-                children: capabilities
-                    .map((capability) => _CapabilityItem(text: capability))
-                    .toList(growable: false),
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: List.generate(capabilities.length, (index) {
+                  return Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: index == 0 ? 0 : 14,
+                        right: index == capabilities.length - 1 ? 0 : 14,
+                      ),
+                      child: _CapabilityItem(
+                        data: capabilities[index],
+                        showDivider: index != capabilities.length - 1,
+                      ),
+                    ),
+                  );
+                }),
               );
             },
           ),
@@ -361,43 +422,62 @@ class _CapabilitiesSection extends StatelessWidget {
 }
 
 class _CapabilityItem extends StatelessWidget {
-  final String text;
-  final bool expandText;
+  final _CapabilityData data;
+  final bool showDivider;
 
-  const _CapabilityItem({required this.text, this.expandText = false});
+  const _CapabilityItem({required this.data, this.showDivider = false});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: expandText ? MainAxisSize.max : MainAxisSize.min,
+    return Stack(
       children: [
-        const Icon(Icons.check_circle, size: 17, color: AppColors.green),
-        const SizedBox(width: 7),
-        if (expandText)
-          Expanded(
-            child: Text(
-              text,
-              style: const TextStyle(
-                fontFamily: AppFonts.fontSubTitle,
-                fontSize: 12,
-                color: Colors.black54,
-                height: 1.4,
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 52,
+              height: 52,
+              decoration: BoxDecoration(
+                color: AppColors.purple.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Icon(data.icon, color: AppColors.purple, size: 28),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data.title,
+                    style: const TextStyle(
+                      fontFamily: AppFonts.fontTitle,
+                      fontSize: 13,
+                      color: Colors.black,
+                      height: 1.35,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    data.description,
+                    style: const TextStyle(
+                      fontFamily: AppFonts.fontSubTitle,
+                      fontSize: 12,
+                      color: AppColors.grey,
+                      height: 1.4,
+                    ),
+                  ),
+                ],
               ),
             ),
-          )
-        else
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 180),
-            child: Text(
-              text,
-              style: const TextStyle(
-                fontFamily: AppFonts.fontSubTitle,
-                fontSize: 12,
-                color: Colors.black54,
-                height: 1.4,
-              ),
-            ),
+          ],
+        ),
+        if (showDivider)
+          const Positioned(
+            right: 0,
+            top: 0,
+            bottom: 0,
+            child: VerticalDivider(color: AppColors.greyMiddle),
           ),
       ],
     );
@@ -412,18 +492,28 @@ class _SecuritySection extends StatelessWidget {
     final l10n = context.l10n;
 
     return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 18),
       decoration: BoxDecoration(
         color: AppColors.purple.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.purple.withValues(alpha: 0.16)),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.shield_outlined, color: AppColors.purple),
-          const SizedBox(width: 10),
+          Container(
+            width: 56,
+            height: 56,
+            decoration: BoxDecoration(
+              color: AppColors.purple,
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: const Icon(
+              Icons.shield_outlined,
+              color: Colors.white,
+              size: 30,
+            ),
+          ),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -432,25 +522,64 @@ class _SecuritySection extends StatelessWidget {
                   l10n.settings_banks_asaas_security_title,
                   style: const TextStyle(
                     fontFamily: AppFonts.fontTitle,
-                    fontSize: 13,
+                    fontSize: 16,
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 3),
+                const SizedBox(height: 5),
                 Text(
                   l10n.settings_banks_asaas_security_description,
                   style: const TextStyle(
                     fontFamily: AppFonts.fontSubTitle,
-                    fontSize: 12,
-                    color: Colors.black54,
+                    fontSize: 14,
+                    color: AppColors.grey,
                     height: 1.4,
                   ),
                 ),
               ],
             ),
           ),
+          const SizedBox(width: 16),
+          Icon(
+            Icons.lock_outline,
+            color: AppColors.purple.withValues(alpha: 0.22),
+            size: 54,
+          ),
         ],
       ),
+    );
+  }
+}
+
+class _DialogActions extends StatelessWidget {
+  final VoidCallback onClose;
+  final VoidCallback? onConnect;
+
+  const _DialogActions({required this.onClose, this.onConnect});
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      alignment: WrapAlignment.end,
+      spacing: 14,
+      runSpacing: 12,
+      children: [
+        CustomButton(
+          text: context.l10n.settings_banks_asaas_close,
+          backgroundColor: AppColors.purple,
+          typeButton: CustomButton.outline,
+          textColor: AppColors.purple,
+          onPressed: onClose,
+        ),
+        if (onConnect != null)
+          CustomButton(
+            text: context.l10n.settings_banks_asaas_connect_account,
+            backgroundColor: AppColors.purple,
+            textColor: Colors.white,
+            icon: Icons.arrow_forward,
+            onPressed: onConnect,
+          ),
+      ],
     );
   }
 }
@@ -459,6 +588,20 @@ class _StepData {
   final IconData icon;
   final String title;
   final String description;
+  final bool completed;
 
-  const _StepData(this.icon, this.title, this.description);
+  const _StepData({
+    required this.icon,
+    required this.title,
+    required this.description,
+    this.completed = false,
+  });
+}
+
+class _CapabilityData {
+  final IconData icon;
+  final String title;
+  final String description;
+
+  const _CapabilityData(this.icon, this.title, this.description);
 }

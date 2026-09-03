@@ -854,7 +854,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settings_banks_asaas_dialog_title => 'Como funciona a integração com o Asaas';
 
   @override
-  String get settings_banks_asaas_dialog_subtitle => 'Entenda em poucos passos como conectar sua conta e automatizar seus recebimentos.';
+  String get settings_banks_asaas_dialog_subtitle => 'Conecte sua conta e automatize o recebimento e a conciliação das contribuições da sua igreja.';
 
   @override
   String get settings_banks_asaas_step_connect_title => 'Conecte sua conta Asaas';
@@ -875,10 +875,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settings_banks_asaas_step_pix_description => 'Gere cobranças e compartilhe o PIX Copia e Cola.';
 
   @override
-  String get settings_banks_asaas_step_reconcile_title => 'Receba e concilie';
+  String get settings_banks_asaas_step_contribution_title => 'Membro contribui ou oferta';
 
   @override
-  String get settings_banks_asaas_step_reconcile_description => 'Pagamentos confirmados atualizam seu financeiro automaticamente.';
+  String get settings_banks_asaas_step_contribution_description => 'O membro contribui ou oferta via PIX pelos canais da sua igreja.';
+
+  @override
+  String get settings_banks_asaas_step_reconcile_title => 'Conciliação automática';
+
+  @override
+  String get settings_banks_asaas_step_reconcile_description => 'Assim que o pagamento é confirmado, o Glória Finance identifica e concilia a contribuição automaticamente.';
 
   @override
   String get settings_banks_asaas_capabilities_title => 'O que você poderá fazer';
@@ -887,16 +893,31 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settings_banks_asaas_capability_balance => 'Consultar saldo e movimentações';
 
   @override
+  String get settings_banks_asaas_capability_balance_description => 'Acompanhe tudo em tempo real.';
+
+  @override
   String get settings_banks_asaas_capability_pix => 'Criar cobranças PIX';
+
+  @override
+  String get settings_banks_asaas_capability_pix_description => 'Receba pelos canais da sua igreja.';
 
   @override
   String get settings_banks_asaas_capability_payments => 'Identificar pagamentos recebidos';
 
   @override
+  String get settings_banks_asaas_capability_payments_description => 'O sistema identifica a origem do pagamento.';
+
+  @override
   String get settings_banks_asaas_capability_reconcile => 'Conciliar recebimentos';
 
   @override
+  String get settings_banks_asaas_capability_reconcile_description => 'Conciliação automática com precisão.';
+
+  @override
   String get settings_banks_asaas_capability_webhooks => 'Receber eventos via webhook';
+
+  @override
+  String get settings_banks_asaas_capability_webhooks_description => 'Integração segura e automática.';
 
   @override
   String get settings_banks_asaas_security_title => 'Sua conta continua sendo do Asaas.';

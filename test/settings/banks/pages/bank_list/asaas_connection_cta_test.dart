@@ -131,6 +131,31 @@ void main() {
 
     await tester.binding.setSurfaceSize(null);
   });
+
+  testWidgets('redesigned dialog has three steps without responsive overflow', (
+    tester,
+  ) async {
+    for (final size in [
+      const Size(1440, 900),
+      const Size(720, 900),
+      const Size(390, 844),
+    ]) {
+      await tester.binding.setSurfaceSize(size);
+      await tester.pumpWidget(app(_heroWithDialog()));
+      await tester.ensureVisible(find.text('SAIBA COMO FUNCIONA'));
+      await tester.tap(find.text('SAIBA COMO FUNCIONA'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Membro contribui ou oferta'), findsOneWidget);
+      expect(find.text('Conciliação automática'), findsOneWidget);
+      expect(tester.takeException(), isNull, reason: 'viewport: $size');
+
+      await tester.tap(find.byIcon(Icons.close));
+      await tester.pumpAndSettle();
+    }
+
+    await tester.binding.setSurfaceSize(null);
+  });
 }
 
 Widget _heroWithDialog({VoidCallback? onConnectAsaas}) {

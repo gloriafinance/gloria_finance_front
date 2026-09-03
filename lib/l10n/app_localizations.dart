@@ -1762,7 +1762,7 @@ abstract class AppLocalizations {
   /// No description provided for @settings_banks_asaas_dialog_subtitle.
   ///
   /// In en, this message translates to:
-  /// **'Learn in a few steps how to connect your account and automate your collections.'**
+  /// **'Connect your account and automate receiving and reconciling your church\'s contributions.'**
   String get settings_banks_asaas_dialog_subtitle;
 
   /// No description provided for @settings_banks_asaas_step_connect_title.
@@ -1801,16 +1801,28 @@ abstract class AppLocalizations {
   /// **'Create charges and share PIX Copy and Paste.'**
   String get settings_banks_asaas_step_pix_description;
 
+  /// No description provided for @settings_banks_asaas_step_contribution_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Member contributes or gives'**
+  String get settings_banks_asaas_step_contribution_title;
+
+  /// No description provided for @settings_banks_asaas_step_contribution_description.
+  ///
+  /// In en, this message translates to:
+  /// **'The member contributes or gives through PIX using your church channels.'**
+  String get settings_banks_asaas_step_contribution_description;
+
   /// No description provided for @settings_banks_asaas_step_reconcile_title.
   ///
   /// In en, this message translates to:
-  /// **'Receive and reconcile'**
+  /// **'Automatic reconciliation'**
   String get settings_banks_asaas_step_reconcile_title;
 
   /// No description provided for @settings_banks_asaas_step_reconcile_description.
   ///
   /// In en, this message translates to:
-  /// **'Confirmed payments update your finances automatically.'**
+  /// **'As soon as the payment is confirmed, Glória Finance identifies and reconciles the contribution automatically.'**
   String get settings_banks_asaas_step_reconcile_description;
 
   /// No description provided for @settings_banks_asaas_capabilities_title.
@@ -1825,11 +1837,23 @@ abstract class AppLocalizations {
   /// **'View balance and transactions'**
   String get settings_banks_asaas_capability_balance;
 
+  /// No description provided for @settings_banks_asaas_capability_balance_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow everything in real time.'**
+  String get settings_banks_asaas_capability_balance_description;
+
   /// No description provided for @settings_banks_asaas_capability_pix.
   ///
   /// In en, this message translates to:
   /// **'Create PIX charges'**
   String get settings_banks_asaas_capability_pix;
+
+  /// No description provided for @settings_banks_asaas_capability_pix_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive through your church channels.'**
+  String get settings_banks_asaas_capability_pix_description;
 
   /// No description provided for @settings_banks_asaas_capability_payments.
   ///
@@ -1837,17 +1861,35 @@ abstract class AppLocalizations {
   /// **'Identify received payments'**
   String get settings_banks_asaas_capability_payments;
 
+  /// No description provided for @settings_banks_asaas_capability_payments_description.
+  ///
+  /// In en, this message translates to:
+  /// **'The system identifies the payment source.'**
+  String get settings_banks_asaas_capability_payments_description;
+
   /// No description provided for @settings_banks_asaas_capability_reconcile.
   ///
   /// In en, this message translates to:
   /// **'Reconcile collections'**
   String get settings_banks_asaas_capability_reconcile;
 
+  /// No description provided for @settings_banks_asaas_capability_reconcile_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic reconciliation with precision.'**
+  String get settings_banks_asaas_capability_reconcile_description;
+
   /// No description provided for @settings_banks_asaas_capability_webhooks.
   ///
   /// In en, this message translates to:
   /// **'Receive events via webhook'**
   String get settings_banks_asaas_capability_webhooks;
+
+  /// No description provided for @settings_banks_asaas_capability_webhooks_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure and automatic integration.'**
+  String get settings_banks_asaas_capability_webhooks_description;
 
   /// No description provided for @settings_banks_asaas_security_title.
   ///
