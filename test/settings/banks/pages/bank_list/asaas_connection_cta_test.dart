@@ -51,7 +51,11 @@ void main() {
       ),
       findsNothing,
     );
-    expect(find.text('Suas contas conectadas'), findsOneWidget);
+    expect(find.text('Suas contas conectadas'), findsNothing);
+    expect(
+      find.text('Lista de contas bancárias e integrações ativas.'),
+      findsNothing,
+    );
     expect(find.byType(AsaasConnectionHero), findsOneWidget);
     expect(find.byType(BankTable), findsOneWidget);
     expect(find.textContaining('CONECTAR ASAAS'), findsNothing);

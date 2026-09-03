@@ -1,7 +1,6 @@
 import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
-import 'package:gloria_finance/core/utils/general.dart';
 import 'package:gloria_finance/core/widgets/button_acton_table.dart';
 import 'package:gloria_finance/features/erp/settings/banks/store/bank_store.dart';
 import 'package:flutter/material.dart';
@@ -83,40 +82,7 @@ class _BankListScreenState extends State<BankListScreen> {
       icon: Icons.add_box_outlined,
     );
 
-    if (!widget.showAsaasConnection) {
-      return Align(alignment: Alignment.centerRight, child: addBankButton);
-    }
-
-    final header = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          context.l10n.settings_banks_connected_accounts_title,
-          style: const TextStyle(
-            fontFamily: AppFonts.fontTitle,
-            fontSize: 18,
-            color: Colors.black,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          context.l10n.settings_banks_connected_accounts_subtitle,
-          style: const TextStyle(
-            fontFamily: AppFonts.fontSubTitle,
-            fontSize: 14,
-            color: AppColors.grey,
-          ),
-        ),
-      ],
-    );
-    if (isMobile(context)) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [header, const SizedBox(height: 12), addBankButton],
-      );
-    }
-
-    return Row(children: [Expanded(child: header), addBankButton]);
+    return Align(alignment: Alignment.centerRight, child: addBankButton);
   }
 
   void _showHowItWorks(BuildContext context) {
