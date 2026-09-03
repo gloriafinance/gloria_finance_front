@@ -334,7 +334,7 @@
   "settings_banks_asaas_step_pix_title": "Crie cobranças PIX",
   "settings_banks_asaas_step_pix_description": "Gere cobranças e compartilhe o PIX Copia e Cola.",
   "settings_banks_asaas_step_contribution_title": "Membro contribui ou oferta",
-  "settings_banks_asaas_step_contribution_description": "O membro contribui ou oferta via PIX pelos canais da sua igreja.",
+  "settings_banks_asaas_step_contribution_description": "O membro contribui ou oferta via PIX pelos canais da sua igreja (QR Code, PIX Copia e Cola ou link de contribuição).",
   "settings_banks_asaas_step_reconcile_title": "Conciliação automática",
   "settings_banks_asaas_step_reconcile_description": "Assim que o pagamento é confirmado, o Glória Finance identifica e concilia a contribuição automaticamente.",
   "settings_banks_asaas_capabilities_title": "O que você poderá fazer",

@@ -1810,7 +1810,7 @@ abstract class AppLocalizations {
   /// No description provided for @settings_banks_asaas_step_contribution_description.
   ///
   /// In en, this message translates to:
-  /// **'The member contributes or gives through PIX using your church channels.'**
+  /// **'The member contributes or gives through PIX using your church channels (QR Code, PIX Copy and Paste, or a contribution link).'**
   String get settings_banks_asaas_step_contribution_description;
 
   /// No description provided for @settings_banks_asaas_step_reconcile_title.

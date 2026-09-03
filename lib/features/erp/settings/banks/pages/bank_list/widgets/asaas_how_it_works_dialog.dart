@@ -15,6 +15,8 @@ class AsaasHowItWorksDialog extends StatelessWidget {
 
     return Dialog(
       insetPadding: const EdgeInsets.all(16),
+      backgroundColor: Colors.white,
+      surfaceTintColor: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       child: ConstrainedBox(
         constraints: BoxConstraints(
@@ -22,7 +24,7 @@ class AsaasHowItWorksDialog extends StatelessWidget {
           maxHeight: MediaQuery.sizeOf(context).height * 0.92,
         ),
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(32),
+          padding: const EdgeInsets.all(36),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -97,7 +99,7 @@ class _DialogHeader extends StatelessWidget {
                   title,
                   style: const TextStyle(
                     fontFamily: AppFonts.fontTitle,
-                    fontSize: 28,
+                    fontSize: 32,
                     color: Colors.black,
                     height: 1.15,
                   ),
@@ -107,7 +109,7 @@ class _DialogHeader extends StatelessWidget {
                   subtitle,
                   style: const TextStyle(
                     fontFamily: AppFonts.fontSubTitle,
-                    fontSize: 16,
+                    fontSize: 18,
                     color: AppColors.grey,
                     height: 1.4,
                   ),
@@ -143,6 +145,7 @@ class _IntegrationSteps extends StatelessWidget {
         icon: Icons.volunteer_activism_outlined,
         title: l10n.settings_banks_asaas_step_contribution_title,
         description: l10n.settings_banks_asaas_step_contribution_description,
+        contributionFlow: true,
       ),
       _StepData(
         icon: Icons.receipt_long_outlined,
@@ -153,14 +156,14 @@ class _IntegrationSteps extends StatelessWidget {
     ];
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
+      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 34),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: AppColors.greyMiddle),
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          if (constraints.maxWidth < 700) {
+          if (constraints.maxWidth < 840) {
             return Column(
               children: List.generate(steps.length, (index) {
                 return Padding(
@@ -200,7 +203,7 @@ class _StepConnector extends StatelessWidget {
     return SizedBox(
       width: 76,
       child: Padding(
-        padding: const EdgeInsets.only(top: 92),
+        padding: const EdgeInsets.only(top: 111),
         child: Row(
           children: [
             const Expanded(
@@ -258,25 +261,25 @@ class _IntegrationStep extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 22),
-        _StepIcon(icon: data.icon, completed: data.completed),
-        const SizedBox(height: 18),
+        _StepIcon(data: data),
+        const SizedBox(height: 24),
         Text(
           data.title,
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontFamily: AppFonts.fontTitle,
-            fontSize: 20,
+            fontSize: 22,
             color: Colors.black,
             height: 1.25,
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 14),
         Text(
           data.description,
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontFamily: AppFonts.fontSubTitle,
-            fontSize: 14,
+            fontSize: 15,
             color: AppColors.grey,
             height: 1.45,
           ),
@@ -287,29 +290,32 @@ class _IntegrationStep extends StatelessWidget {
 }
 
 class _StepIcon extends StatelessWidget {
-  final IconData icon;
-  final bool completed;
+  final _StepData data;
 
-  const _StepIcon({required this.icon, required this.completed});
+  const _StepIcon({required this.data});
 
   @override
   Widget build(BuildContext context) {
+    if (data.contributionFlow) {
+      return const _ContributionFlowGraphic();
+    }
+
     return Stack(
       clipBehavior: Clip.none,
       children: [
         Container(
-          width: 116,
-          height: 116,
+          width: 132,
+          height: 132,
           decoration: BoxDecoration(
             color:
-                completed
+                data.completed
                     ? AppColors.green.withValues(alpha: 0.1)
                     : AppColors.purple.withValues(alpha: 0.08),
             shape: BoxShape.circle,
           ),
-          child: Icon(icon, size: 52, color: AppColors.purple),
+          child: Icon(data.icon, size: 58, color: AppColors.purple),
         ),
-        if (completed)
+        if (data.completed)
           const Positioned(
             right: 2,
             bottom: 5,
@@ -320,6 +326,66 @@ class _StepIcon extends StatelessWidget {
             ),
           ),
       ],
+    );
+  }
+}
+
+class _ContributionFlowGraphic extends StatelessWidget {
+  const _ContributionFlowGraphic();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 240,
+      height: 132,
+      padding: const EdgeInsets.symmetric(horizontal: 18),
+      decoration: BoxDecoration(
+        color: AppColors.green.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(66),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              const Icon(
+                Icons.person_outline,
+                size: 52,
+                color: AppColors.purple,
+              ),
+              const Positioned(
+                right: -4,
+                bottom: 0,
+                child: CircleAvatar(
+                  radius: 13,
+                  backgroundColor: AppColors.green,
+                  child: Icon(Icons.check, size: 17, color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.qr_code_2_outlined,
+                size: 34,
+                color: AppColors.green,
+              ),
+              Text(
+                'pix',
+                style: TextStyle(
+                  fontFamily: AppFonts.fontSubTitle,
+                  fontSize: 24,
+                  color: AppColors.grey.withValues(alpha: 0.7),
+                ),
+              ),
+            ],
+          ),
+          const Icon(Icons.church_outlined, size: 54, color: AppColors.purple),
+        ],
+      ),
     );
   }
 }
@@ -359,7 +425,7 @@ class _CapabilitiesSection extends StatelessWidget {
     ];
 
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(28),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: AppColors.greyMiddle),
@@ -371,11 +437,11 @@ class _CapabilitiesSection extends StatelessWidget {
             l10n.settings_banks_asaas_capabilities_title,
             style: const TextStyle(
               fontFamily: AppFonts.fontTitle,
-              fontSize: 20,
+              fontSize: 22,
               color: AppColors.purple,
             ),
           ),
-          const SizedBox(height: 22),
+          const SizedBox(height: 26),
           LayoutBuilder(
             builder: (context, constraints) {
               if (constraints.maxWidth < 760) {
@@ -435,13 +501,13 @@ class _CapabilityItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: 52,
-              height: 52,
+              width: 58,
+              height: 58,
               decoration: BoxDecoration(
                 color: AppColors.purple.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(14),
               ),
-              child: Icon(data.icon, color: AppColors.purple, size: 28),
+              child: Icon(data.icon, color: AppColors.purple, size: 31),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -452,7 +518,7 @@ class _CapabilityItem extends StatelessWidget {
                     data.title,
                     style: const TextStyle(
                       fontFamily: AppFonts.fontTitle,
-                      fontSize: 13,
+                      fontSize: 14,
                       color: Colors.black,
                       height: 1.35,
                     ),
@@ -462,7 +528,7 @@ class _CapabilityItem extends StatelessWidget {
                     data.description,
                     style: const TextStyle(
                       fontFamily: AppFonts.fontSubTitle,
-                      fontSize: 12,
+                      fontSize: 13,
                       color: AppColors.grey,
                       height: 1.4,
                     ),
@@ -492,7 +558,7 @@ class _SecuritySection extends StatelessWidget {
     final l10n = context.l10n;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 18),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
       decoration: BoxDecoration(
         color: AppColors.purple.withValues(alpha: 0.06),
         borderRadius: BorderRadius.circular(16),
@@ -501,8 +567,8 @@ class _SecuritySection extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 56,
-            height: 56,
+            width: 62,
+            height: 62,
             decoration: BoxDecoration(
               color: AppColors.purple,
               borderRadius: BorderRadius.circular(14),
@@ -510,7 +576,7 @@ class _SecuritySection extends StatelessWidget {
             child: const Icon(
               Icons.shield_outlined,
               color: Colors.white,
-              size: 30,
+              size: 34,
             ),
           ),
           const SizedBox(width: 16),
@@ -522,7 +588,7 @@ class _SecuritySection extends StatelessWidget {
                   l10n.settings_banks_asaas_security_title,
                   style: const TextStyle(
                     fontFamily: AppFonts.fontTitle,
-                    fontSize: 16,
+                    fontSize: 18,
                     color: Colors.black,
                   ),
                 ),
@@ -531,7 +597,7 @@ class _SecuritySection extends StatelessWidget {
                   l10n.settings_banks_asaas_security_description,
                   style: const TextStyle(
                     fontFamily: AppFonts.fontSubTitle,
-                    fontSize: 14,
+                    fontSize: 16,
                     color: AppColors.grey,
                     height: 1.4,
                   ),
@@ -543,7 +609,7 @@ class _SecuritySection extends StatelessWidget {
           Icon(
             Icons.lock_outline,
             color: AppColors.purple.withValues(alpha: 0.22),
-            size: 54,
+            size: 62,
           ),
         ],
       ),
@@ -589,12 +655,14 @@ class _StepData {
   final String title;
   final String description;
   final bool completed;
+  final bool contributionFlow;
 
   const _StepData({
     required this.icon,
     required this.title,
     required this.description,
     this.completed = false,
+    this.contributionFlow = false,
   });
 }
 

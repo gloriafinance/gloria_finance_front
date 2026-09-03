@@ -878,7 +878,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settings_banks_asaas_step_contribution_title => 'Membro contribui ou oferta';
 
   @override
-  String get settings_banks_asaas_step_contribution_description => 'O membro contribui ou oferta via PIX pelos canais da sua igreja.';
+  String get settings_banks_asaas_step_contribution_description => 'O membro contribui ou oferta via PIX pelos canais da sua igreja (QR Code, PIX Copia e Cola ou link de contribuição).';
 
   @override
   String get settings_banks_asaas_step_reconcile_title => 'Conciliação automática';

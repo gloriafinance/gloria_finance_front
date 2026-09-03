@@ -334,7 +334,7 @@
   "settings_banks_asaas_step_pix_title": "Crea cargos PIX",
   "settings_banks_asaas_step_pix_description": "Crea cargos y comparte PIX Copia y Pega.",
   "settings_banks_asaas_step_contribution_title": "El miembro contribuye u ofrenda",
-  "settings_banks_asaas_step_contribution_description": "El miembro contribuye u ofrenda vía PIX por los canales de tu iglesia.",
+  "settings_banks_asaas_step_contribution_description": "El miembro contribuye u ofrenda vía PIX por los canales de tu iglesia (código QR, PIX Copia y Pega o enlace de contribución).",
   "settings_banks_asaas_step_reconcile_title": "Conciliación automática",
   "settings_banks_asaas_step_reconcile_description": "Cuando se confirma el pago, Glória Finance identifica y concilia la contribución automáticamente.",
   "settings_banks_asaas_capabilities_title": "Lo que podrás hacer",

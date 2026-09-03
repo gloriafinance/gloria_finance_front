@@ -878,7 +878,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_banks_asaas_step_contribution_title => 'Member contributes or gives';
 
   @override
-  String get settings_banks_asaas_step_contribution_description => 'The member contributes or gives through PIX using your church channels.';
+  String get settings_banks_asaas_step_contribution_description => 'The member contributes or gives through PIX using your church channels (QR Code, PIX Copy and Paste, or a contribution link).';
 
   @override
   String get settings_banks_asaas_step_reconcile_title => 'Automatic reconciliation';

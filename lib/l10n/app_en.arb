@@ -334,7 +334,7 @@
   "settings_banks_asaas_step_pix_title": "Create PIX charges",
   "settings_banks_asaas_step_pix_description": "Create charges and share PIX Copy and Paste.",
   "settings_banks_asaas_step_contribution_title": "Member contributes or gives",
-  "settings_banks_asaas_step_contribution_description": "The member contributes or gives through PIX using your church channels.",
+  "settings_banks_asaas_step_contribution_description": "The member contributes or gives through PIX using your church channels (QR Code, PIX Copy and Paste, or a contribution link).",
   "settings_banks_asaas_step_reconcile_title": "Automatic reconciliation",
   "settings_banks_asaas_step_reconcile_description": "As soon as the payment is confirmed, Glória Finance identifies and reconciles the contribution automatically.",
   "settings_banks_asaas_capabilities_title": "What you can do",
