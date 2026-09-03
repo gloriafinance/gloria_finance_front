@@ -231,7 +231,7 @@ class _IntegrationSteps extends StatelessWidget {
     ];
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 40),
+      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 28),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: AppColors.greyMiddle),
@@ -285,7 +285,7 @@ class _StepConnector extends StatelessWidget {
     return SizedBox(
       width: 76,
       child: Padding(
-        padding: const EdgeInsets.only(top: 111),
+        padding: const EdgeInsets.only(top: 98),
         child: Row(
           children: [
             const Expanded(
@@ -331,8 +331,8 @@ class _IntegrationStep extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: isCompact ? 34 : 40,
-          height: isCompact ? 34 : 40,
+          width: isCompact ? 34 : 36,
+          height: isCompact ? 34 : 36,
           alignment: Alignment.center,
           decoration: const BoxDecoration(
             color: AppColors.purple,
@@ -342,31 +342,31 @@ class _IntegrationStep extends StatelessWidget {
             '$number',
             style: TextStyle(
               fontFamily: AppFonts.fontTitle,
-              fontSize: isCompact ? 16 : 18,
+              fontSize: isCompact ? 16 : 17,
               color: Colors.white,
             ),
           ),
         ),
-        SizedBox(height: isCompact ? 18 : 28),
+        SizedBox(height: isCompact ? 18 : 20),
         _StepIcon(data: data, isCompact: isCompact),
-        SizedBox(height: isCompact ? 18 : 28),
+        SizedBox(height: isCompact ? 18 : 20),
         Text(
           data.title,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: AppFonts.fontTitle,
-            fontSize: isCompact ? 20 : 22,
+            fontSize: isCompact ? 20 : 20,
             color: Colors.black,
             height: 1.25,
           ),
         ),
-        SizedBox(height: isCompact ? 10 : 14),
+        SizedBox(height: isCompact ? 10 : 10),
         Text(
           data.description,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: AppFonts.fontSubTitle,
-            fontSize: isCompact ? 14 : 15,
+            fontSize: isCompact ? 14 : 14,
             color: AppColors.grey,
             height: 1.45,
           ),
@@ -398,8 +398,8 @@ class _StepIcon extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Container(
-          width: isCompact ? 104 : 132,
-          height: isCompact ? 104 : 132,
+          width: isCompact ? 104 : 108,
+          height: isCompact ? 104 : 108,
           decoration: BoxDecoration(
             color:
                 data.completed
@@ -409,18 +409,18 @@ class _StepIcon extends StatelessWidget {
           ),
           child: Icon(
             data.icon,
-            size: isCompact ? 48 : 58,
+            size: isCompact ? 48 : 48,
             color: AppColors.purple,
           ),
         ),
         if (data.completed)
-          const Positioned(
+          Positioned(
             right: 2,
-            bottom: 5,
+            bottom: 3,
             child: CircleAvatar(
-              radius: 17,
+              radius: 15,
               backgroundColor: AppColors.green,
-              child: Icon(Icons.check, size: 22, color: Colors.white),
+              child: const Icon(Icons.check, size: 20, color: Colors.white),
             ),
           ),
       ],
@@ -436,9 +436,9 @@ class _ContributionFlowGraphic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: isCompact ? 280 : 340,
-      height: isCompact ? 116 : 140,
-      padding: EdgeInsets.symmetric(horizontal: isCompact ? 22 : 26),
+      width: isCompact ? 280 : 288,
+      height: isCompact ? 116 : 118,
+      padding: EdgeInsets.symmetric(horizontal: isCompact ? 22 : 24),
       decoration: BoxDecoration(
         color: AppColors.green.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(66),
