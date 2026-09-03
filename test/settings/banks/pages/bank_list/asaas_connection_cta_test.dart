@@ -45,6 +45,12 @@ void main() {
     );
 
     expect(find.text('Bancos e contas'), findsOneWidget);
+    expect(
+      find.text(
+        'Gerencie as contas bancárias e conecte o Asaas para automatizar seu financeiro.',
+      ),
+      findsNothing,
+    );
     expect(find.text('Suas contas conectadas'), findsOneWidget);
     expect(find.byType(AsaasConnectionHero), findsOneWidget);
     expect(find.byType(BankTable), findsOneWidget);

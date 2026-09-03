@@ -71,15 +71,6 @@ class _BankListScreenState extends State<BankListScreen> {
             color: Colors.black,
           ),
         ),
-        const SizedBox(height: 4),
-        Text(
-          context.l10n.settings_banks_subtitle,
-          style: const TextStyle(
-            fontFamily: AppFonts.fontSubTitle,
-            fontSize: 14,
-            color: AppColors.grey,
-          ),
-        ),
       ],
     );
   }
