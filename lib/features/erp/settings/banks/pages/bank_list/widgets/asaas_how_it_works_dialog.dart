@@ -76,8 +76,8 @@ class _DialogHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: 64,
-          height: 64,
+          width: 96,
+          height: 96,
           decoration: BoxDecoration(
             color: AppColors.purple.withValues(alpha: 0.12),
             shape: BoxShape.circle,
@@ -85,10 +85,10 @@ class _DialogHeader extends StatelessWidget {
           child: const Icon(
             Icons.menu_book_outlined,
             color: AppColors.purple,
-            size: 32,
+            size: 46,
           ),
         ),
-        const SizedBox(width: 18),
+        const SizedBox(width: 22),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.only(top: 4),
@@ -99,7 +99,7 @@ class _DialogHeader extends StatelessWidget {
                   title,
                   style: const TextStyle(
                     fontFamily: AppFonts.fontTitle,
-                    fontSize: 32,
+                    fontSize: 36,
                     color: Colors.black,
                     height: 1.15,
                   ),
@@ -109,7 +109,7 @@ class _DialogHeader extends StatelessWidget {
                   subtitle,
                   style: const TextStyle(
                     fontFamily: AppFonts.fontSubTitle,
-                    fontSize: 18,
+                    fontSize: 17,
                     color: AppColors.grey,
                     height: 1.4,
                   ),
@@ -156,14 +156,14 @@ class _IntegrationSteps extends StatelessWidget {
     ];
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 34),
+      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 40),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: AppColors.greyMiddle),
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          if (constraints.maxWidth < 840) {
+          if (constraints.maxWidth < 1100) {
             return Column(
               children: List.generate(steps.length, (index) {
                 return Padding(
@@ -260,9 +260,9 @@ class _IntegrationStep extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 22),
+        const SizedBox(height: 28),
         _StepIcon(data: data),
-        const SizedBox(height: 24),
+        const SizedBox(height: 28),
         Text(
           data.title,
           textAlign: TextAlign.center,
@@ -297,7 +297,13 @@ class _StepIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (data.contributionFlow) {
-      return const _ContributionFlowGraphic();
+      return const SizedBox(
+        width: double.infinity,
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: _ContributionFlowGraphic(),
+        ),
+      );
     }
 
     return Stack(
@@ -336,9 +342,9 @@ class _ContributionFlowGraphic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 240,
-      height: 132,
-      padding: const EdgeInsets.symmetric(horizontal: 18),
+      width: 340,
+      height: 140,
+      padding: const EdgeInsets.symmetric(horizontal: 26),
       decoration: BoxDecoration(
         color: AppColors.green.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(66),
@@ -508,13 +514,13 @@ class _CapabilityItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: 58,
-              height: 58,
+              width: 72,
+              height: 72,
               decoration: BoxDecoration(
                 color: AppColors.purple.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(14),
               ),
-              child: Icon(data.icon, color: AppColors.purple, size: 31),
+              child: Icon(data.icon, color: AppColors.purple, size: 36),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -574,8 +580,8 @@ class _SecuritySection extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 62,
-            height: 62,
+            width: 72,
+            height: 72,
             decoration: BoxDecoration(
               color: AppColors.purple,
               borderRadius: BorderRadius.circular(14),
@@ -583,7 +589,7 @@ class _SecuritySection extends StatelessWidget {
             child: const Icon(
               Icons.shield_outlined,
               color: Colors.white,
-              size: 34,
+              size: 38,
             ),
           ),
           const SizedBox(width: 16),
@@ -616,7 +622,7 @@ class _SecuritySection extends StatelessWidget {
           Icon(
             Icons.lock_outline,
             color: AppColors.purple.withValues(alpha: 0.22),
-            size: 62,
+            size: 72,
           ),
         ],
       ),
