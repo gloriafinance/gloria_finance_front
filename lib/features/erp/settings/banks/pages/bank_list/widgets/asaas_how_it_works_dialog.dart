@@ -14,17 +14,17 @@ class AsaasHowItWorksDialog extends StatelessWidget {
     final l10n = context.l10n;
 
     return Dialog(
-      insetPadding: const EdgeInsets.all(16),
+      insetPadding: EdgeInsets.zero,
       backgroundColor: Colors.white,
       surfaceTintColor: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       child: ConstrainedBox(
         constraints: BoxConstraints(
           maxWidth: 1360,
-          maxHeight: MediaQuery.sizeOf(context).height * 0.92,
+          maxHeight: MediaQuery.sizeOf(context).height,
         ),
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(36),
+          padding: const EdgeInsets.all(32),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -450,7 +450,7 @@ class _CapabilitiesSection extends StatelessWidget {
           const SizedBox(height: 26),
           LayoutBuilder(
             builder: (context, constraints) {
-              if (constraints.maxWidth < 1180) {
+              if (constraints.maxWidth < 1050) {
                 final columns =
                     constraints.maxWidth < 620
                         ? 1
@@ -479,15 +479,9 @@ class _CapabilitiesSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: List.generate(capabilities.length, (index) {
                   return Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        left: index == 0 ? 0 : 14,
-                        right: index == capabilities.length - 1 ? 0 : 14,
-                      ),
-                      child: _CapabilityItem(
-                        data: capabilities[index],
-                        showDivider: index != capabilities.length - 1,
-                      ),
+                    child: _CapabilityItem(
+                      data: capabilities[index],
+                      showDivider: index != capabilities.length - 1,
                     ),
                   );
                 }),
