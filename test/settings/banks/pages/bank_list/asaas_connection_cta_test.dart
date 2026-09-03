@@ -83,6 +83,11 @@ void main() {
     expect(find.byType(AsaasConnectionHero), findsNothing);
     expect(find.byType(BankTable), findsOneWidget);
     expect(find.text('Adicionar conta'), findsOneWidget);
+    expect(find.text('Suas contas conectadas'), findsNothing);
+    expect(
+      find.text('Lista de contas bancárias e integrações ativas.'),
+      findsNothing,
+    );
   });
 
   testWidgets('uses one injected callback for both connection CTAs', (

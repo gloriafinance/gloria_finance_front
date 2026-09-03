@@ -52,7 +52,7 @@ class _BankListScreenState extends State<BankListScreen> {
           ),
           const SizedBox(height: 24),
         ],
-        _connectedAccountsHeader(context),
+        _bankTableHeader(context),
         const SizedBox(height: 16),
         const BankTable(),
       ],
@@ -84,7 +84,18 @@ class _BankListScreenState extends State<BankListScreen> {
     );
   }
 
-  Widget _connectedAccountsHeader(BuildContext context) {
+  Widget _bankTableHeader(BuildContext context) {
+    final addBankButton = ButtonActionTable(
+      color: AppColors.purple,
+      text: context.l10n.settings_banks_new_bank,
+      onPressed: () => GoRouter.of(context).go('/banks/add'),
+      icon: Icons.add_box_outlined,
+    );
+
+    if (!widget.showAsaasConnection) {
+      return Align(alignment: Alignment.centerRight, child: addBankButton);
+    }
+
     final header = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -107,13 +118,6 @@ class _BankListScreenState extends State<BankListScreen> {
         ),
       ],
     );
-    final addBankButton = ButtonActionTable(
-      color: AppColors.purple,
-      text: context.l10n.settings_banks_new_bank,
-      onPressed: () => GoRouter.of(context).go('/banks/add'),
-      icon: Icons.add_box_outlined,
-    );
-
     if (isMobile(context)) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
