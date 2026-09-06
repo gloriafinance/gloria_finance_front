@@ -2789,6 +2789,33 @@ class AppLocalizationsEs extends AppLocalizations {
   String get member_contribution_selected_value_label => 'Valor seleccionado';
 
   @override
+  String get member_contribution_type_step_title => '¿Qué tipo de contribución\ndesea hacer?';
+
+  @override
+  String get member_contribution_type_step_subtitle => 'Seleccione una opción para continuar.';
+
+  @override
+  String get member_contribution_amount_step_title => '¿Cuál fue el valor que ofrendó?';
+
+  @override
+  String get member_contribution_amount_step_subtitle => 'Seleccione el valor de su ofrenda.';
+
+  @override
+  String get member_contribution_date_step_title => '¿Cuándo realizó la\ntransferencia?';
+
+  @override
+  String get member_contribution_date_step_subtitle => 'Seleccione la fecha de la transferencia.';
+
+  @override
+  String get member_contribution_receipt_step_title => 'Adjunte el comprobante\nde la transferencia';
+
+  @override
+  String get member_contribution_receipt_step_subtitle => 'Suba la foto del comprobante para verificación.';
+
+  @override
+  String get member_contribution_send_button => 'Enviar contribución';
+
+  @override
   String get member_contribution_filter_type_label => 'Tipo';
 
   @override

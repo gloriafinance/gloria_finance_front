@@ -1,7 +1,7 @@
-import 'dart:html' as html;
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
+
+import 'firebase_web_config_loader.dart';
 
 class DefaultFirebaseOptions {
   static const String webApiKey = String.fromEnvironment(
@@ -34,8 +34,10 @@ class DefaultFirebaseOptions {
       return;
     }
 
-    final envText = await html.HttpRequest.getString('/.env');
-    _localValues.addAll(_parseEnvFile(envText));
+    final envText = await loadLocalFirebaseWebConfig();
+    if (envText != null) {
+      _localValues.addAll(_parseEnvFile(envText));
+    }
     _localConfigLoaded = true;
   }
 
@@ -77,14 +79,14 @@ class DefaultFirebaseOptions {
   }
 
   static FirebaseOptions get web => FirebaseOptions(
-        apiKey: _readValue('FIREBASE_WEB_API_KEY'),
-        authDomain: _readValue('FIREBASE_WEB_AUTH_DOMAIN'),
-        projectId: _readValue('FIREBASE_WEB_PROJECT_ID'),
-        storageBucket: _readValue('FIREBASE_WEB_STORAGE_BUCKET'),
-        messagingSenderId: _readValue('FIREBASE_WEB_MESSAGING_SENDER_ID'),
-        appId: _readValue('FIREBASE_WEB_APP_ID'),
-        measurementId: _readOptionalValue('FIREBASE_WEB_MEASUREMENT_ID'),
-      );
+    apiKey: _readValue('FIREBASE_WEB_API_KEY'),
+    authDomain: _readValue('FIREBASE_WEB_AUTH_DOMAIN'),
+    projectId: _readValue('FIREBASE_WEB_PROJECT_ID'),
+    storageBucket: _readValue('FIREBASE_WEB_STORAGE_BUCKET'),
+    messagingSenderId: _readValue('FIREBASE_WEB_MESSAGING_SENDER_ID'),
+    appId: _readValue('FIREBASE_WEB_APP_ID'),
+    measurementId: _readOptionalValue('FIREBASE_WEB_MEASUREMENT_ID'),
+  );
 
   static void validateWeb() {
     final missing = <String>[

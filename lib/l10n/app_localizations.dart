@@ -5485,6 +5485,60 @@ abstract class AppLocalizations {
   /// **'Selected amount'**
   String get member_contribution_selected_value_label;
 
+  /// No description provided for @member_contribution_type_step_title.
+  ///
+  /// In en, this message translates to:
+  /// **'What type of contribution\nwould you like to make?'**
+  String get member_contribution_type_step_title;
+
+  /// No description provided for @member_contribution_type_step_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select an option to continue.'**
+  String get member_contribution_type_step_subtitle;
+
+  /// No description provided for @member_contribution_amount_step_title.
+  ///
+  /// In en, this message translates to:
+  /// **'What amount did you give?'**
+  String get member_contribution_amount_step_title;
+
+  /// No description provided for @member_contribution_amount_step_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the amount of your contribution.'**
+  String get member_contribution_amount_step_subtitle;
+
+  /// No description provided for @member_contribution_date_step_title.
+  ///
+  /// In en, this message translates to:
+  /// **'When did you make\nthe transfer?'**
+  String get member_contribution_date_step_title;
+
+  /// No description provided for @member_contribution_date_step_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the transfer date.'**
+  String get member_contribution_date_step_subtitle;
+
+  /// No description provided for @member_contribution_receipt_step_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach the transfer\nreceipt'**
+  String get member_contribution_receipt_step_title;
+
+  /// No description provided for @member_contribution_receipt_step_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload the receipt photo for verification.'**
+  String get member_contribution_receipt_step_subtitle;
+
+  /// No description provided for @member_contribution_send_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Send contribution'**
+  String get member_contribution_send_button;
+
   /// No description provided for @member_contribution_filter_type_label.
   ///
   /// In en, this message translates to:
