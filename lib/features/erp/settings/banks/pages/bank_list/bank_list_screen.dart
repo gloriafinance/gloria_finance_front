@@ -8,9 +8,18 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'widgets/bank_table.dart';
+import 'widgets/asaas_connection_hero.dart';
+import 'widgets/asaas_how_it_works_dialog.dart';
 
 class BankListScreen extends StatefulWidget {
-  const BankListScreen({super.key});
+  final bool showAsaasConnection;
+  final VoidCallback? onConnectAsaas;
+
+  const BankListScreen({
+    super.key,
+    required this.showAsaasConnection,
+    this.onConnectAsaas,
+  });
 
   @override
   State<BankListScreen> createState() => _BankListScreenState();
@@ -32,34 +41,56 @@ class _BankListScreenState extends State<BankListScreen> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [_header(context), SizedBox(height: 24), BankTable()],
+      children: [
+        _pageHeader(context),
+        const SizedBox(height: 24),
+        if (widget.showAsaasConnection) ...[
+          AsaasConnectionHero(
+            onShowHowItWorks: () => _showHowItWorks(context),
+            onConnectAsaas: widget.onConnectAsaas,
+          ),
+          const SizedBox(height: 24),
+        ],
+        _bankTableHeader(context),
+        const SizedBox(height: 16),
+        const BankTable(),
+      ],
     );
   }
 
-  Widget _header(BuildContext context) {
-    return Row(
+  Widget _pageHeader(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Text(
-            context.l10n.settings_banks_title,
-            textAlign: TextAlign.left,
-            style: const TextStyle(
-              fontFamily: AppFonts.fontTitle,
-              fontSize: 24,
-              color: Colors.black,
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: ButtonActionTable(
-            color: AppColors.purple,
-            text: context.l10n.settings_banks_new_bank,
-            onPressed: () => GoRouter.of(context).go('/banks/add'),
-            icon: Icons.add_box_outlined,
+        Text(
+          context.l10n.settings_banks_title,
+          style: const TextStyle(
+            fontFamily: AppFonts.fontTitle,
+            fontSize: 24,
+            color: Colors.black,
           ),
         ),
       ],
+    );
+  }
+
+  Widget _bankTableHeader(BuildContext context) {
+    final addBankButton = ButtonActionTable(
+      color: AppColors.purple,
+      text: context.l10n.settings_banks_new_bank,
+      onPressed: () => GoRouter.of(context).go('/banks/add'),
+      icon: Icons.add_box_outlined,
+    );
+
+    return Align(alignment: Alignment.centerRight, child: addBankButton);
+  }
+
+  void _showHowItWorks(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder:
+          (dialogContext) =>
+              AsaasHowItWorksDialog(onConnectAsaas: widget.onConnectAsaas),
     );
   }
 }

@@ -1636,14 +1636,284 @@ abstract class AppLocalizations {
   /// No description provided for @settings_banks_title.
   ///
   /// In en, this message translates to:
-  /// **'Banks'**
+  /// **'Banks and accounts'**
   String get settings_banks_title;
+
+  /// No description provided for @settings_banks_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage bank accounts and connect Asaas to automate your finances.'**
+  String get settings_banks_subtitle;
 
   /// No description provided for @settings_banks_new_bank.
   ///
   /// In en, this message translates to:
-  /// **'New bank'**
+  /// **'Add account'**
   String get settings_banks_new_bank;
+
+  /// No description provided for @settings_banks_connected_accounts_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Your connected accounts'**
+  String get settings_banks_connected_accounts_title;
+
+  /// No description provided for @settings_banks_connected_accounts_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'List of bank accounts and active integrations.'**
+  String get settings_banks_connected_accounts_subtitle;
+
+  /// No description provided for @settings_banks_asaas_recommended.
+  ///
+  /// In en, this message translates to:
+  /// **'RECOMMENDED'**
+  String get settings_banks_asaas_recommended;
+
+  /// No description provided for @settings_banks_asaas_provider_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Asaas'**
+  String get settings_banks_asaas_provider_name;
+
+  /// No description provided for @settings_banks_asaas_hero_title_prefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect your '**
+  String get settings_banks_asaas_hero_title_prefix;
+
+  /// No description provided for @settings_banks_asaas_hero_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Centralize your bank accounts, automate collections, and gain full control of your cash flow.'**
+  String get settings_banks_asaas_hero_description;
+
+  /// No description provided for @settings_banks_asaas_benefit_pix_title.
+  ///
+  /// In en, this message translates to:
+  /// **'PIX collections and charges'**
+  String get settings_banks_asaas_benefit_pix_title;
+
+  /// No description provided for @settings_banks_asaas_benefit_pix_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Create charges, generate links, and PIX QR Codes automatically.'**
+  String get settings_banks_asaas_benefit_pix_description;
+
+  /// No description provided for @settings_banks_asaas_benefit_sync_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Real-time balance synchronization'**
+  String get settings_banks_asaas_benefit_sync_title;
+
+  /// No description provided for @settings_banks_asaas_benefit_sync_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep balances and statements up to date.'**
+  String get settings_banks_asaas_benefit_sync_description;
+
+  /// No description provided for @settings_banks_asaas_benefit_import_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic transaction imports'**
+  String get settings_banks_asaas_benefit_import_title;
+
+  /// No description provided for @settings_banks_asaas_benefit_import_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconciled transactions ready for analysis.'**
+  String get settings_banks_asaas_benefit_import_description;
+
+  /// No description provided for @settings_banks_asaas_benefit_webhooks_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Webhooks and smart reconciliation'**
+  String get settings_banks_asaas_benefit_webhooks_title;
+
+  /// No description provided for @settings_banks_asaas_benefit_webhooks_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Real-time events for greater control and security.'**
+  String get settings_banks_asaas_benefit_webhooks_description;
+
+  /// No description provided for @settings_banks_asaas_connect_now.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect Asaas now'**
+  String get settings_banks_asaas_connect_now;
+
+  /// No description provided for @settings_banks_asaas_how_it_works.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn how it works'**
+  String get settings_banks_asaas_how_it_works;
+
+  /// No description provided for @settings_banks_asaas_security_footer.
+  ///
+  /// In en, this message translates to:
+  /// **'100% secure integration with Asaas. Your data stays protected.'**
+  String get settings_banks_asaas_security_footer;
+
+  /// No description provided for @settings_banks_asaas_dialog_title.
+  ///
+  /// In en, this message translates to:
+  /// **'How the Asaas integration works'**
+  String get settings_banks_asaas_dialog_title;
+
+  /// No description provided for @settings_banks_asaas_dialog_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect your account and automate receiving and reconciling your church\'s contributions.'**
+  String get settings_banks_asaas_dialog_subtitle;
+
+  /// No description provided for @settings_banks_asaas_step_connect_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect your Asaas account'**
+  String get settings_banks_asaas_step_connect_title;
+
+  /// No description provided for @settings_banks_asaas_step_connect_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your API Key securely in Glória Finance.'**
+  String get settings_banks_asaas_step_connect_description;
+
+  /// No description provided for @settings_banks_asaas_step_sync_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Synchronize your data'**
+  String get settings_banks_asaas_step_sync_title;
+
+  /// No description provided for @settings_banks_asaas_step_sync_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Synchronize your balance, transactions, and account details.'**
+  String get settings_banks_asaas_step_sync_description;
+
+  /// No description provided for @settings_banks_asaas_step_pix_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Create PIX charges'**
+  String get settings_banks_asaas_step_pix_title;
+
+  /// No description provided for @settings_banks_asaas_step_pix_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Create charges and share PIX Copy and Paste.'**
+  String get settings_banks_asaas_step_pix_description;
+
+  /// No description provided for @settings_banks_asaas_step_contribution_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Member contributes or gives'**
+  String get settings_banks_asaas_step_contribution_title;
+
+  /// No description provided for @settings_banks_asaas_step_contribution_description.
+  ///
+  /// In en, this message translates to:
+  /// **'The member contributes or gives through PIX using your church channels (QR Code, PIX Copy and Paste, or a contribution link).'**
+  String get settings_banks_asaas_step_contribution_description;
+
+  /// No description provided for @settings_banks_asaas_step_reconcile_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic reconciliation'**
+  String get settings_banks_asaas_step_reconcile_title;
+
+  /// No description provided for @settings_banks_asaas_step_reconcile_description.
+  ///
+  /// In en, this message translates to:
+  /// **'As soon as the payment is confirmed, Glória Finance identifies and reconciles the contribution automatically.'**
+  String get settings_banks_asaas_step_reconcile_description;
+
+  /// No description provided for @settings_banks_asaas_capabilities_title.
+  ///
+  /// In en, this message translates to:
+  /// **'What you can do'**
+  String get settings_banks_asaas_capabilities_title;
+
+  /// No description provided for @settings_banks_asaas_capability_balance.
+  ///
+  /// In en, this message translates to:
+  /// **'View balance and transactions'**
+  String get settings_banks_asaas_capability_balance;
+
+  /// No description provided for @settings_banks_asaas_capability_balance_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow everything in real time.'**
+  String get settings_banks_asaas_capability_balance_description;
+
+  /// No description provided for @settings_banks_asaas_capability_pix.
+  ///
+  /// In en, this message translates to:
+  /// **'Create PIX charges'**
+  String get settings_banks_asaas_capability_pix;
+
+  /// No description provided for @settings_banks_asaas_capability_pix_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive through your church channels.'**
+  String get settings_banks_asaas_capability_pix_description;
+
+  /// No description provided for @settings_banks_asaas_capability_payments.
+  ///
+  /// In en, this message translates to:
+  /// **'Identify received payments'**
+  String get settings_banks_asaas_capability_payments;
+
+  /// No description provided for @settings_banks_asaas_capability_payments_description.
+  ///
+  /// In en, this message translates to:
+  /// **'The system identifies the payment source.'**
+  String get settings_banks_asaas_capability_payments_description;
+
+  /// No description provided for @settings_banks_asaas_capability_reconcile.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconcile collections'**
+  String get settings_banks_asaas_capability_reconcile;
+
+  /// No description provided for @settings_banks_asaas_capability_reconcile_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic reconciliation with precision.'**
+  String get settings_banks_asaas_capability_reconcile_description;
+
+  /// No description provided for @settings_banks_asaas_capability_webhooks.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive events via webhook'**
+  String get settings_banks_asaas_capability_webhooks;
+
+  /// No description provided for @settings_banks_asaas_capability_webhooks_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure and automatic integration.'**
+  String get settings_banks_asaas_capability_webhooks_description;
+
+  /// No description provided for @settings_banks_asaas_security_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account remains with Asaas.'**
+  String get settings_banks_asaas_security_title;
+
+  /// No description provided for @settings_banks_asaas_security_description.
+  ///
+  /// In en, this message translates to:
+  /// **'The integration securely executes and synchronizes authorized operations only.'**
+  String get settings_banks_asaas_security_description;
+
+  /// No description provided for @settings_banks_asaas_close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get settings_banks_asaas_close;
+
+  /// No description provided for @settings_banks_asaas_connect_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect my Asaas account'**
+  String get settings_banks_asaas_connect_account;
 
   /// No description provided for @settings_banks_form_title_create.
   ///
@@ -5484,6 +5754,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Selected amount'**
   String get member_contribution_selected_value_label;
+
+  /// No description provided for @member_contribution_type_step_title.
+  ///
+  /// In en, this message translates to:
+  /// **'What type of contribution\nwould you like to make?'**
+  String get member_contribution_type_step_title;
+
+  /// No description provided for @member_contribution_type_step_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select an option to continue.'**
+  String get member_contribution_type_step_subtitle;
+
+  /// No description provided for @member_contribution_amount_step_title.
+  ///
+  /// In en, this message translates to:
+  /// **'What amount did you give?'**
+  String get member_contribution_amount_step_title;
+
+  /// No description provided for @member_contribution_amount_step_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the amount of your contribution.'**
+  String get member_contribution_amount_step_subtitle;
+
+  /// No description provided for @member_contribution_date_step_title.
+  ///
+  /// In en, this message translates to:
+  /// **'When did you make\nthe transfer?'**
+  String get member_contribution_date_step_title;
+
+  /// No description provided for @member_contribution_date_step_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the transfer date.'**
+  String get member_contribution_date_step_subtitle;
+
+  /// No description provided for @member_contribution_receipt_step_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach the transfer\nreceipt'**
+  String get member_contribution_receipt_step_title;
+
+  /// No description provided for @member_contribution_receipt_step_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload the receipt photo for verification.'**
+  String get member_contribution_receipt_step_subtitle;
+
+  /// No description provided for @member_contribution_send_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Send contribution'**
+  String get member_contribution_send_button;
 
   /// No description provided for @member_contribution_filter_type_label.
   ///
@@ -9798,6 +10122,246 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not delete the member. Please try again.'**
   String get member_delete_error;
+
+  /// No description provided for @settings_banks_asaas_connect_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect Asaas account'**
+  String get settings_banks_asaas_connect_title;
+
+  /// No description provided for @settings_banks_asaas_connect_form_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your Asaas API Key'**
+  String get settings_banks_asaas_connect_form_title;
+
+  /// No description provided for @settings_banks_asaas_connect_form_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy your API key from Asaas and paste it below to establish the integration securely.'**
+  String get settings_banks_asaas_connect_form_subtitle;
+
+  /// No description provided for @settings_banks_asaas_connect_key_location.
+  ///
+  /// In en, this message translates to:
+  /// **'In Asaas, go to Integrations > API Keys.'**
+  String get settings_banks_asaas_connect_key_location;
+
+  /// No description provided for @settings_banks_asaas_connect_api_key_label.
+  ///
+  /// In en, this message translates to:
+  /// **'API Key'**
+  String get settings_banks_asaas_connect_api_key_label;
+
+  /// No description provided for @settings_banks_asaas_connect_connection_name_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection name'**
+  String get settings_banks_asaas_connect_connection_name_label;
+
+  /// No description provided for @settings_banks_asaas_connect_connection_name_default.
+  ///
+  /// In en, this message translates to:
+  /// **'Asaas account'**
+  String get settings_banks_asaas_connect_connection_name_default;
+
+  /// No description provided for @settings_banks_asaas_connect_connection_name_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a connection name with at least 4 characters.'**
+  String get settings_banks_asaas_connect_connection_name_required;
+
+  /// No description provided for @settings_banks_asaas_connect_api_key_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste your API Key here'**
+  String get settings_banks_asaas_connect_api_key_hint;
+
+  /// No description provided for @settings_banks_asaas_connect_api_key_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your API Key to continue.'**
+  String get settings_banks_asaas_connect_api_key_required;
+
+  /// No description provided for @settings_banks_asaas_connect_show_key.
+  ///
+  /// In en, this message translates to:
+  /// **'Show API Key'**
+  String get settings_banks_asaas_connect_show_key;
+
+  /// No description provided for @settings_banks_asaas_connect_hide_key.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide API Key'**
+  String get settings_banks_asaas_connect_hide_key;
+
+  /// No description provided for @settings_banks_asaas_connect_security.
+  ///
+  /// In en, this message translates to:
+  /// **'Your key will be stored securely and used only to authenticate the integration.'**
+  String get settings_banks_asaas_connect_security;
+
+  /// No description provided for @settings_banks_asaas_connect_back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get settings_banks_asaas_connect_back;
+
+  /// No description provided for @settings_banks_asaas_connect_submit.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect now'**
+  String get settings_banks_asaas_connect_submit;
+
+  /// No description provided for @settings_banks_asaas_connect_connecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting'**
+  String get settings_banks_asaas_connect_connecting;
+
+  /// No description provided for @settings_banks_asaas_connect_guidance_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Before connecting'**
+  String get settings_banks_asaas_connect_guidance_title;
+
+  /// No description provided for @settings_banks_asaas_connect_guidance_enabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Make sure your key is enabled'**
+  String get settings_banks_asaas_connect_guidance_enabled;
+
+  /// No description provided for @settings_banks_asaas_connect_guidance_permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your key permissions'**
+  String get settings_banks_asaas_connect_guidance_permissions;
+
+  /// No description provided for @settings_banks_asaas_connect_guidance_private.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not share your key with third parties'**
+  String get settings_banks_asaas_connect_guidance_private;
+
+  /// No description provided for @settings_banks_asaas_connect_guidance_revoke.
+  ///
+  /// In en, this message translates to:
+  /// **'You can revoke the key in Asaas later'**
+  String get settings_banks_asaas_connect_guidance_revoke;
+
+  /// No description provided for @settings_banks_asaas_connect_success_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Asaas account connected successfully!'**
+  String get settings_banks_asaas_connect_success_title;
+
+  /// No description provided for @settings_banks_asaas_connect_success_description.
+  ///
+  /// In en, this message translates to:
+  /// **'The integration is complete and your account is ready to synchronize information in Glória Finance.'**
+  String get settings_banks_asaas_connect_success_description;
+
+  /// No description provided for @settings_banks_asaas_connect_status_active.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection status'**
+  String get settings_banks_asaas_connect_status_active;
+
+  /// No description provided for @settings_banks_asaas_connect_status_value_active.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get settings_banks_asaas_connect_status_value_active;
+
+  /// No description provided for @settings_banks_asaas_connect_success_notice.
+  ///
+  /// In en, this message translates to:
+  /// **'The API Key was validated successfully and the connection is active.'**
+  String get settings_banks_asaas_connect_success_notice;
+
+  /// No description provided for @settings_banks_asaas_connect_next_title.
+  ///
+  /// In en, this message translates to:
+  /// **'What you can do now'**
+  String get settings_banks_asaas_connect_next_title;
+
+  /// No description provided for @settings_banks_asaas_connect_next_sync.
+  ///
+  /// In en, this message translates to:
+  /// **'Synchronize balance and transactions'**
+  String get settings_banks_asaas_connect_next_sync;
+
+  /// No description provided for @settings_banks_asaas_connect_next_webhooks.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure webhooks'**
+  String get settings_banks_asaas_connect_next_webhooks;
+
+  /// No description provided for @settings_banks_asaas_connect_next_receipts.
+  ///
+  /// In en, this message translates to:
+  /// **'Import collections'**
+  String get settings_banks_asaas_connect_next_receipts;
+
+  /// No description provided for @settings_banks_asaas_connect_finish.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to banks'**
+  String get settings_banks_asaas_connect_finish;
+
+  /// No description provided for @settings_banks_asaas_connect_breadcrumb_settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings_banks_asaas_connect_breadcrumb_settings;
+
+  /// No description provided for @settings_banks_asaas_connect_breadcrumb_integrations.
+  ///
+  /// In en, this message translates to:
+  /// **'Integrations'**
+  String get settings_banks_asaas_connect_breadcrumb_integrations;
+
+  /// No description provided for @settings_banks_asaas_connect_breadcrumb_asaas.
+  ///
+  /// In en, this message translates to:
+  /// **'Asaas'**
+  String get settings_banks_asaas_connect_breadcrumb_asaas;
+
+  /// No description provided for @settings_banks_asaas_connect_progress_instructions.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Instructions'**
+  String get settings_banks_asaas_connect_progress_instructions;
+
+  /// No description provided for @settings_banks_asaas_connect_progress_api_key.
+  ///
+  /// In en, this message translates to:
+  /// **'2. API Key'**
+  String get settings_banks_asaas_connect_progress_api_key;
+
+  /// No description provided for @settings_banks_asaas_connect_progress_confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'3. Confirmation'**
+  String get settings_banks_asaas_connect_progress_confirmation;
+
+  /// No description provided for @settings_banks_asaas_connect_help_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Need help?'**
+  String get settings_banks_asaas_connect_help_title;
+
+  /// No description provided for @settings_banks_asaas_connect_help_description.
+  ///
+  /// In en, this message translates to:
+  /// **'If you have questions about your API Key or the Asaas integration, visit the Asaas Help Center.'**
+  String get settings_banks_asaas_connect_help_description;
+
+  /// No description provided for @settings_banks_asaas_connect_help_action.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Asaas'**
+  String get settings_banks_asaas_connect_help_action;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

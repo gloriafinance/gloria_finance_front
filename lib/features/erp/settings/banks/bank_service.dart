@@ -3,6 +3,7 @@ import 'package:gloria_finance/features/auth/auth_persistence.dart';
 import 'package:dio/dio.dart';
 
 import 'models/bank_model.dart';
+import 'models/asaas_connection_model.dart';
 
 class BankService extends AppHttp {
   Future<List<BankModel>> searchBank() async {
@@ -31,6 +32,29 @@ class BankService extends AppHttp {
         '${await getUrlApi()}bank/',
         data: payload,
         options: Options(headers: bearerToken()),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<AsaasConnectionModel> connectAsaasAccount({
+    required String apiKey,
+    required String connectionName,
+  }) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.post(
+        '${await getUrlApi()}bank/asaas/connect',
+        data: {'apiKey': apiKey, 'connectionName': connectionName},
+        options: Options(headers: bearerToken()),
+      );
+
+      return AsaasConnectionModel.fromJson(
+        Map<String, dynamic>.from(response.data as Map),
       );
     } on DioException catch (e) {
       transformResponse(e.response?.data);

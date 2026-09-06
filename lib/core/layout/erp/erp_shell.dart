@@ -140,13 +140,14 @@ class _ErpShellState extends State<ErpShell> {
         children: [
           if (storeSidebar.isSidebarVisible)
             Expanded(
-              child: Container(
-                margin: const EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Material(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12.0),
+                  clipBehavior: Clip.antiAlias,
+                  child: Sidebar(menuItems: menuItems(roles)),
                 ),
-                child: Sidebar(menuItems: menuItems(roles)),
               ),
             ),
         ],
