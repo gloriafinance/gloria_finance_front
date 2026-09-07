@@ -37,6 +37,7 @@ void main() {
           },
         },
         "isSuperUser": false,
+        "asaasConnect": false,
         "church": {
           "churchId": "d6a20217-36a7-4520-99b3-f9a212191687",
           "name": "IPUB Santana de parnaiba",
@@ -56,6 +57,8 @@ void main() {
       expect(model.country, 'BR');
       expect(model.lastLogin, '2025-12-15T10:23:16.992Z');
       expect(model.isSuperUser, false);
+      expect(model.asaasConnect, false);
+      expect(model.canConnectAsaas, true);
       expect(model.memberId, '5b79c546-68c1-4454-8b4f-4fb013daf582');
       expect(model.roles, contains('MEMBER'));
       expect(model.policies.privacyPolicy.accepted, true);
@@ -69,6 +72,7 @@ void main() {
         'createdAt': '2024-01-15',
         'isActive': true,
         'userId': 'user-123',
+        'asaasConnect': false,
         'churchId': 'church-123', // Flat structure
         'roles': ['ADMIN'],
       };
@@ -87,6 +91,7 @@ void main() {
         'createdAt': '2024-01-15',
         'isActive': true,
         'userId': 'user-123',
+        'asaasConnect': false,
         'roles': ['MEMBER'],
         'church': {
           'churchId': 'church-123',
@@ -116,6 +121,7 @@ void main() {
         roles: ["ADMIN"],
         lastLogin: "today",
         isSuperUser: true,
+        asaasConnect: true,
         memberId: "member-1",
       );
 
@@ -126,6 +132,7 @@ void main() {
       expect(json['church']['country'], "VE");
       expect(json['lastLogin'], "today");
       expect(json['isSuperUser'], true);
+      expect(json['asaasConnect'], true);
       expect(json['memberId'], "member-1");
     });
 
@@ -192,6 +199,7 @@ void main() {
         roles: ['ADMIN'],
         lastLogin: 'yesterday',
         isSuperUser: true,
+        asaasConnect: false,
         memberId: 'm1',
       );
 
@@ -202,6 +210,7 @@ void main() {
       expect(copied.country, 'BR');
       expect(copied.lastLogin, 'yesterday');
       expect(copied.isSuperUser, true);
+      expect(copied.asaasConnect, false);
       expect(copied.memberId, 'm1');
     });
 
@@ -223,12 +232,33 @@ void main() {
         lastLogin: 'now',
         isSuperUser: true,
         country: 'VE',
+        asaasConnect: true,
       );
 
       expect(copied.churchName, 'New Church');
       expect(copied.lastLogin, 'now');
       expect(copied.isSuperUser, true);
       expect(copied.country, 'VE');
+      expect(copied.asaasConnect, true);
+      expect(copied.canConnectAsaas, false);
     });
+  });
+
+  test('does not allow Asaas connection for an already connected church', () {
+    final model = AuthSessionModel(
+      token: 'test-token',
+      refreshToken: 'refresh-token',
+      name: 'Test User',
+      email: 'test@example.com',
+      createdAt: '2024-01-15',
+      isActive: true,
+      userId: 'user-123',
+      churchId: 'church-123',
+      country: 'BR',
+      asaasConnect: true,
+      roles: ['ADMIN'],
+    );
+
+    expect(model.canConnectAsaas, isFalse);
   });
 }

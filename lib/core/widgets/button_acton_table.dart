@@ -7,6 +7,7 @@ class ButtonActionTable extends StatelessWidget {
   final String text;
   final void Function() onPressed;
   final IconData icon;
+  final bool isLoading;
 
   const ButtonActionTable({
     super.key,
@@ -14,6 +15,7 @@ class ButtonActionTable extends StatelessWidget {
     required this.text,
     required this.onPressed,
     required this.icon,
+    this.isLoading = false,
   });
 
   @override
@@ -21,8 +23,18 @@ class ButtonActionTable extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 5),
       child: OutlinedButton.icon(
-        onPressed: onPressed,
-        icon: Icon(icon, size: 18),
+        onPressed: isLoading ? null : onPressed,
+        icon:
+            isLoading
+                ? SizedBox(
+                  width: 18,
+                  height: 18,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: color,
+                  ),
+                )
+                : Icon(icon, size: 18),
         label: Text(
           text,
           style: TextStyle(
