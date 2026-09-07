@@ -98,4 +98,26 @@ class FinancialConceptStore extends ChangeNotifier {
       updateSelectedStatementCategory: true,
     );
   }
+
+  Future<FinancialConceptStaticPixResponse> createStaticPix(
+    String financialConceptId,
+  ) async {
+    state = state.copyWith(
+      creatingPixForConceptId: financialConceptId,
+      updateCreatingPixForConceptId: true,
+    );
+    notifyListeners();
+
+    try {
+      final session = await AuthPersistence().restore();
+      service.tokenAPI = session.token;
+      return await service.createStaticPix(financialConceptId);
+    } finally {
+      state = state.copyWith(
+        creatingPixForConceptId: null,
+        updateCreatingPixForConceptId: true,
+      );
+      notifyListeners();
+    }
+  }
 }

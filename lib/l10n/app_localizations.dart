@@ -2659,6 +2659,78 @@ abstract class AppLocalizations {
   /// **'Could not get assistance right now. Try again.'**
   String get settings_financial_concept_ai_toast_error;
 
+  /// No description provided for @settings_financial_concept_pix_configured.
+  ///
+  /// In en, this message translates to:
+  /// **'PIX configured'**
+  String get settings_financial_concept_pix_configured;
+
+  /// No description provided for @settings_financial_concept_pix_header.
+  ///
+  /// In en, this message translates to:
+  /// **'PIX'**
+  String get settings_financial_concept_pix_header;
+
+  /// No description provided for @settings_financial_concept_pix_not_configured.
+  ///
+  /// In en, this message translates to:
+  /// **'No PIX key'**
+  String get settings_financial_concept_pix_not_configured;
+
+  /// No description provided for @settings_financial_concept_pix_view_action.
+  ///
+  /// In en, this message translates to:
+  /// **'View PIX'**
+  String get settings_financial_concept_pix_view_action;
+
+  /// No description provided for @settings_financial_concept_pix_create_action.
+  ///
+  /// In en, this message translates to:
+  /// **'Create PIX key'**
+  String get settings_financial_concept_pix_create_action;
+
+  /// No description provided for @settings_financial_concept_pix_creating.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating PIX...'**
+  String get settings_financial_concept_pix_creating;
+
+  /// No description provided for @settings_financial_concept_pix_creation_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to create the PIX key.'**
+  String get settings_financial_concept_pix_creation_error;
+
+  /// No description provided for @settings_financial_concept_pix_dialog_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial concept PIX'**
+  String get settings_financial_concept_pix_dialog_title;
+
+  /// No description provided for @settings_financial_concept_pix_copy_paste_label.
+  ///
+  /// In en, this message translates to:
+  /// **'PIX copy and paste code'**
+  String get settings_financial_concept_pix_copy_paste_label;
+
+  /// No description provided for @settings_financial_concept_pix_copy_action.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy code'**
+  String get settings_financial_concept_pix_copy_action;
+
+  /// No description provided for @settings_financial_concept_pix_share_action.
+  ///
+  /// In en, this message translates to:
+  /// **'Share PIX'**
+  String get settings_financial_concept_pix_share_action;
+
+  /// No description provided for @settings_financial_concept_pix_copy_success.
+  ///
+  /// In en, this message translates to:
+  /// **'PIX code copied!'**
+  String get settings_financial_concept_pix_copy_success;
+
   /// No description provided for @bankStatements_empty_title.
   ///
   /// In en, this message translates to:

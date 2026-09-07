@@ -114,6 +114,7 @@ class FinancialConceptModel {
   final bool isOperational;
   final DateTime? createdAt;
   final String? churchId;
+  final FinancialConceptPixModel? pix;
 
   //final String churchId;
 
@@ -130,6 +131,7 @@ class FinancialConceptModel {
     required this.isOperational,
     required this.createdAt,
     required this.churchId,
+    this.pix,
     //required this.churchId,
   });
 
@@ -150,6 +152,12 @@ class FinancialConceptModel {
               ? DateTime.tryParse(json['createdAt'])
               : null,
       churchId: json['churchId'],
+      pix:
+          json['pix'] == null
+              ? null
+              : FinancialConceptPixModel.fromJson(
+                Map<String, dynamic>.from(json['pix'] as Map),
+              ),
       //churchId: json['churchId'],
     );
   }
@@ -168,6 +176,7 @@ class FinancialConceptModel {
       'isOperational': isOperational,
       'createdAt': createdAt?.toIso8601String(),
       'churchId': churchId,
+      'pix': pix?.toJson(),
       //'churchId': churchId,
     };
   }
@@ -185,6 +194,7 @@ class FinancialConceptModel {
     bool? affectsBalance,
     bool? isOperational,
     String? churchId,
+    FinancialConceptPixModel? pix,
     //String? churchId,
   }) {
     return FinancialConceptModel(
@@ -201,6 +211,54 @@ class FinancialConceptModel {
       //churchId: churchId ?? this.churchId,
       createdAt: createdAt ?? this.createdAt,
       churchId: churchId ?? this.churchId,
+      pix: pix ?? this.pix,
+    );
+  }
+}
+
+class FinancialConceptPixModel {
+  final String pixQrCodeId;
+  final String copyPaste;
+  final String encodedImage;
+
+  const FinancialConceptPixModel({
+    required this.pixQrCodeId,
+    required this.copyPaste,
+    required this.encodedImage,
+  });
+
+  factory FinancialConceptPixModel.fromJson(Map<String, dynamic> json) {
+    return FinancialConceptPixModel(
+      pixQrCodeId: json['pixQrCodeId'],
+      copyPaste: json['copyPaste'],
+      encodedImage: json['encodedImage'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'pixQrCodeId': pixQrCodeId,
+      'copyPaste': copyPaste,
+      'encodedImage': encodedImage,
+    };
+  }
+}
+
+class FinancialConceptStaticPixResponse {
+  final String copyPaste;
+  final String encodedImage;
+
+  const FinancialConceptStaticPixResponse({
+    required this.copyPaste,
+    required this.encodedImage,
+  });
+
+  factory FinancialConceptStaticPixResponse.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    return FinancialConceptStaticPixResponse(
+      copyPaste: json['copyPaste'],
+      encodedImage: json['encodedImage'],
     );
   }
 }

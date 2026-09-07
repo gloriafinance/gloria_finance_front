@@ -1316,6 +1316,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_financial_concept_ai_toast_error => 'Could not get assistance right now. Try again.';
 
   @override
+  String get settings_financial_concept_pix_configured => 'PIX configured';
+
+  @override
+  String get settings_financial_concept_pix_header => 'PIX';
+
+  @override
+  String get settings_financial_concept_pix_not_configured => 'No PIX key';
+
+  @override
+  String get settings_financial_concept_pix_view_action => 'View PIX';
+
+  @override
+  String get settings_financial_concept_pix_create_action => 'Create PIX key';
+
+  @override
+  String get settings_financial_concept_pix_creating => 'Creating PIX...';
+
+  @override
+  String get settings_financial_concept_pix_creation_error => 'Unable to create the PIX key.';
+
+  @override
+  String get settings_financial_concept_pix_dialog_title => 'Financial concept PIX';
+
+  @override
+  String get settings_financial_concept_pix_copy_paste_label => 'PIX copy and paste code';
+
+  @override
+  String get settings_financial_concept_pix_copy_action => 'Copy code';
+
+  @override
+  String get settings_financial_concept_pix_share_action => 'Share PIX';
+
+  @override
+  String get settings_financial_concept_pix_copy_success => 'PIX code copied!';
+
+  @override
   String get bankStatements_empty_title => 'No statements imported yet.';
 
   @override

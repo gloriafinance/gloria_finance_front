@@ -52,6 +52,25 @@ class FinancialConceptService extends AppHttp {
     }
   }
 
+  Future<FinancialConceptStaticPixResponse> createStaticPix(
+    String financialConceptId,
+  ) async {
+    try {
+      final response = await http.post(
+        '${await getUrlApi()}finance/configuration/financial-concepts/create-static-pix',
+        data: {'financialConceptId': financialConceptId},
+        options: Options(headers: bearerToken()),
+      );
+
+      return FinancialConceptStaticPixResponse.fromJson(
+        Map<String, dynamic>.from(response.data),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
   Future<FinancialConceptAssistanceModel> getFinancialConceptAssistance(
     String context,
   ) async {

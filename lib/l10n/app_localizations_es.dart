@@ -1316,6 +1316,42 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settings_financial_concept_ai_toast_error => 'No se pudo obtener ayuda ahora. Intenta de nuevo.';
 
   @override
+  String get settings_financial_concept_pix_configured => 'PIX configurado';
+
+  @override
+  String get settings_financial_concept_pix_header => 'PIX';
+
+  @override
+  String get settings_financial_concept_pix_not_configured => 'Sin clave PIX';
+
+  @override
+  String get settings_financial_concept_pix_view_action => 'Ver PIX';
+
+  @override
+  String get settings_financial_concept_pix_create_action => 'Crear clave PIX';
+
+  @override
+  String get settings_financial_concept_pix_creating => 'Creando PIX...';
+
+  @override
+  String get settings_financial_concept_pix_creation_error => 'No fue posible crear la clave PIX.';
+
+  @override
+  String get settings_financial_concept_pix_dialog_title => 'PIX del concepto financiero';
+
+  @override
+  String get settings_financial_concept_pix_copy_paste_label => 'Código PIX copiar y pegar';
+
+  @override
+  String get settings_financial_concept_pix_copy_action => 'Copiar código';
+
+  @override
+  String get settings_financial_concept_pix_share_action => 'Compartir PIX';
+
+  @override
+  String get settings_financial_concept_pix_copy_success => '¡Código PIX copiado!';
+
+  @override
   String get bankStatements_empty_title => 'Aún no hay extractos importados.';
 
   @override
