@@ -2671,6 +2671,18 @@ abstract class AppLocalizations {
   /// **'PIX'**
   String get settings_financial_concept_pix_header;
 
+  /// No description provided for @settings_financial_concept_action_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get settings_financial_concept_action_edit;
+
+  /// No description provided for @settings_financial_concept_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No financial concepts registered.'**
+  String get settings_financial_concept_empty;
+
   /// No description provided for @settings_financial_concept_pix_not_configured.
   ///
   /// In en, this message translates to:

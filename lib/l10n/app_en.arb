@@ -523,6 +523,8 @@
   "settings_financial_concept_ai_toast_error": "Could not get assistance right now. Try again.",
   "settings_financial_concept_pix_configured": "PIX configured",
   "settings_financial_concept_pix_header": "PIX",
+  "settings_financial_concept_action_edit": "Edit",
+  "settings_financial_concept_empty": "No financial concepts registered.",
   "settings_financial_concept_pix_not_configured": "No PIX key",
   "settings_financial_concept_pix_view_action": "View PIX",
   "settings_financial_concept_pix_create_action": "Create PIX key",

@@ -1322,6 +1322,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_financial_concept_pix_header => 'PIX';
 
   @override
+  String get settings_financial_concept_action_edit => 'Edit';
+
+  @override
+  String get settings_financial_concept_empty => 'No financial concepts registered.';
+
+  @override
   String get settings_financial_concept_pix_not_configured => 'No PIX key';
 
   @override

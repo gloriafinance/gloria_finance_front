@@ -3,10 +3,10 @@ import 'package:gloria_finance/core/paginate/custom_table.dart';
 import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
-import 'package:gloria_finance/core/widgets/button_acton_table.dart';
 import 'package:gloria_finance/core/widgets/tag_status.dart';
+import 'package:gloria_finance/features/auth/pages/login/store/auth_session_store.dart';
 import 'package:gloria_finance/features/erp/settings/financial_concept/models/financial_concept_model.dart';
-import 'package:gloria_finance/features/erp/settings/financial_concept/pages/financial_concept_list/widgets/financial_concept_pix_dialog.dart';
+import 'package:gloria_finance/features/erp/settings/financial_concept/pages/financial_concept_list/widgets/financial_concept_actions_menu.dart';
 import 'package:gloria_finance/features/erp/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +18,9 @@ class FinancialConceptTable extends StatelessWidget {
   Widget build(BuildContext context) {
     final store = context.watch<FinancialConceptStore>();
     final state = store.state;
+    final isBrazil =
+        context.watch<AuthSessionStore>().state.session.country.toUpperCase() ==
+        'BR';
 
     if (state.isLoading) {
       return Container(
@@ -30,10 +33,10 @@ class FinancialConceptTable extends StatelessWidget {
     if (state.financialConcepts.isEmpty) {
       return Container(
         margin: const EdgeInsets.only(top: 40.0),
-        child: const Center(
+        child: Center(
           child: Text(
-            'Nenhum conceito financeiro cadastrado.',
-            style: TextStyle(fontFamily: AppFonts.fontText),
+            context.l10n.settings_financial_concept_empty,
+            style: const TextStyle(fontFamily: AppFonts.fontText),
           ),
         ),
       );
@@ -52,15 +55,17 @@ class FinancialConceptTable extends StatelessWidget {
         dataBuilder: (concept) => _mapToRow(context, concept),
       ),
       actionBuilders: [
-        (concept) =>
-            _buildPixAction(context, concept as FinancialConceptModel, store),
-        (concept) => ButtonActionTable(
-          color: AppColors.blue,
-          text: 'Editar',
-          onPressed: () {
-            _navigateToEdit(context, concept as FinancialConceptModel);
+        (concept) => FinancialConceptActionsMenu(
+          concept: concept as FinancialConceptModel,
+          store: store,
+          showPixAction: isBrazil,
+          onEdit: () {
+            final selectedConcept = concept;
+            GoRouter.of(context).go(
+              '/financial-concepts/edit/${selectedConcept.financialConceptId}',
+              extra: selectedConcept,
+            );
           },
-          icon: Icons.edit_outlined,
         ),
       ],
     );
@@ -72,8 +77,14 @@ class FinancialConceptTable extends StatelessWidget {
       getFriendlyNameFinancialConceptType(concept.type),
       getFriendlyNameStatementCategory(concept.statementCategory),
       concept.active
-          ? tagStatus(AppColors.green, 'Ativo')
-          : tagStatus(Colors.red, 'Inativo'),
+          ? tagStatus(
+            AppColors.green,
+            context.l10n.settings_church_profile_status_active,
+          )
+          : tagStatus(
+            Colors.red,
+            context.l10n.settings_church_profile_status_inactive,
+          ),
       concept.pix == null
           ? Text(
             context.l10n.settings_financial_concept_pix_not_configured,
@@ -84,75 +95,5 @@ class FinancialConceptTable extends StatelessWidget {
             context.l10n.settings_financial_concept_pix_configured,
           ),
     ];
-  }
-
-  Widget _buildPixAction(
-    BuildContext context,
-    FinancialConceptModel concept,
-    FinancialConceptStore store,
-  ) {
-    final pix = concept.pix;
-    if (pix != null) {
-      return ButtonActionTable(
-        color: AppColors.purple,
-        text: context.l10n.settings_financial_concept_pix_view_action,
-        icon: Icons.qr_code_2_outlined,
-        onPressed:
-            () => FinancialConceptPixDialog.show(
-              context,
-              conceptName: concept.name,
-              copyPaste: pix.copyPaste,
-              encodedImage: pix.encodedImage,
-            ),
-      );
-    }
-
-    final isCreating =
-        store.state.creatingPixForConceptId == concept.financialConceptId;
-    return ButtonActionTable(
-      color: AppColors.purple,
-      text:
-          isCreating
-              ? context.l10n.settings_financial_concept_pix_creating
-              : context.l10n.settings_financial_concept_pix_create_action,
-      icon: Icons.qr_code_2_outlined,
-      isLoading: isCreating,
-      onPressed: () => _createPix(context, concept, store),
-    );
-  }
-
-  Future<void> _createPix(
-    BuildContext context,
-    FinancialConceptModel concept,
-    FinancialConceptStore store,
-  ) async {
-    try {
-      final pix = await store.createStaticPix(concept.financialConceptId);
-      if (!context.mounted) return;
-      await FinancialConceptPixDialog.show(
-        context,
-        conceptName: concept.name,
-        copyPaste: pix.copyPaste,
-        encodedImage: pix.encodedImage,
-      );
-      if (!context.mounted) return;
-      await store.searchFinancialConcepts();
-    } catch (_) {
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            context.l10n.settings_financial_concept_pix_creation_error,
-          ),
-        ),
-      );
-    }
-  }
-
-  void _navigateToEdit(BuildContext context, FinancialConceptModel concept) {
-    GoRouter.of(context).go(
-      '/financial-concepts/edit/${concept.financialConceptId}',
-      extra: concept,
-    );
   }
 }

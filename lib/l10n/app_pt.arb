@@ -523,6 +523,8 @@
   "settings_financial_concept_ai_toast_error": "Não foi possível obter ajuda agora. Tente novamente.",
   "settings_financial_concept_pix_configured": "PIX configurado",
   "settings_financial_concept_pix_header": "PIX",
+  "settings_financial_concept_action_edit": "Editar",
+  "settings_financial_concept_empty": "Nenhum conceito financeiro cadastrado.",
   "settings_financial_concept_pix_not_configured": "Sem chave PIX",
   "settings_financial_concept_pix_view_action": "Ver PIX",
   "settings_financial_concept_pix_create_action": "Criar chave PIX",
