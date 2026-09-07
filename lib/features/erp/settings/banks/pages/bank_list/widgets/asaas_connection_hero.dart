@@ -23,7 +23,7 @@ class AsaasConnectionHero extends StatelessWidget {
           onShowHowItWorks: onShowHowItWorks,
           onConnectAsaas: onConnectAsaas,
         );
-        final illustration = const AspectRatio(
+        const illustration = AspectRatio(
           aspectRatio: 3 / 2,
           child: Image(
             image: AssetImage('images/integrations/asaas_connection_hero.png'),

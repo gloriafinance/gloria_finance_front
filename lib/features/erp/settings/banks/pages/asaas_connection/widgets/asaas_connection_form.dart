@@ -168,11 +168,6 @@ class _FormCard extends StatelessWidget {
             ),
             Input(
               label: l10n.settings_banks_asaas_connect_connection_name_label,
-              initialValue:
-                  connectionName.isEmpty
-                      ? l10n
-                          .settings_banks_asaas_connect_connection_name_default
-                      : connectionName,
               onChanged: onConnectionNameChanged,
               onValidator: (value) {
                 if (value == null || value.trim().length < 4) {
