@@ -129,7 +129,7 @@ class MemberContributionFormStore extends ChangeNotifier {
     try {
       final request = MemberContributionRequest(
         type: _state.selectedType,
-        destinationId: _state.selectedDestinationId!,
+        destinationId: _state.selectedDestinationId,
         financialConceptId: _state.financialConceptId,
         amount: _state.amount!,
         channel: _state.selectedChannel!,

@@ -108,7 +108,6 @@ class ContributionService extends AppHttp {
       final formData = FormData.fromMap({
         'memberId': session.memberId,
         'amount': request.amount,
-        'availabilityAccountId': request.destinationId,
         'contributionType': request.type.apiValue,
         if (request.financialConceptId != null)
           'financialConceptId': request.financialConceptId,

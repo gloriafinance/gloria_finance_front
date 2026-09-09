@@ -72,7 +72,7 @@ class ContributionDestination {
 
 class MemberContributionRequest {
   final MemberContributionType type;
-  final String destinationId;
+  final String? destinationId;
   final String? financialConceptId; // For offerings
   final double amount;
   final MemberPaymentChannel channel;
@@ -82,7 +82,7 @@ class MemberContributionRequest {
 
   MemberContributionRequest({
     required this.type,
-    required this.destinationId,
+    this.destinationId,
     this.financialConceptId,
     required this.amount,
     required this.channel,
@@ -94,7 +94,7 @@ class MemberContributionRequest {
   Map<String, dynamic> toJson() {
     return {
       'type': type == MemberContributionType.tithe ? 'TITHE' : 'OFFERING',
-      'destinationId': destinationId,
+      if (destinationId != null) 'destinationId': destinationId,
       if (financialConceptId != null) 'financialConceptId': financialConceptId,
       'amount': amount,
       'channel': _channelToString(channel),
