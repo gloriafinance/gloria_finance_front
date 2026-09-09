@@ -1,10 +1,10 @@
-import 'package:gloria_finance/core/theme/app_fonts.dart';
-import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gloria_finance/core/theme/app_fonts.dart';
+import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../store/auth_session_store.dart';
@@ -112,9 +112,10 @@ class _FormLogin extends State<FormLogin> {
       backgroundColor: Color(0xD5E5E5E5),
       borderColor: const Color.fromRGBO(131, 131, 131, 0.2),
       iconPath: 'images/icons/google.svg',
-      isLoading:
-          _isGoogleLoading, // Only show spinner if THIS button was pressed
-      isDisabled: isLoading, // Disable if ANY loading is happening
+      isLoading: _isGoogleLoading,
+      // Only show spinner if THIS button was pressed
+      isDisabled: isLoading,
+      // Disable if ANY loading is happening
       onPressed: () => _handleLogin(authStore, LoginProvider.google),
     );
   }

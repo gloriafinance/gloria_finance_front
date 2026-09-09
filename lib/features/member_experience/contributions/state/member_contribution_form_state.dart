@@ -87,7 +87,6 @@ class MemberContributionFormState {
 
   bool get isValid {
     if (amount == null || amount! <= 0) return false;
-    if (selectedDestinationId == null) return false;
     if (selectedChannel == null) return false;
 
     // For offerings, financial concept is required
