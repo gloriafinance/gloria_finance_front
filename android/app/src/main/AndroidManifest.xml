@@ -6,8 +6,6 @@
         android:icon="@mipmap/ic_launcher"
         android:label="Glória Finance"
         android:usesCleartextTraffic="true"
-        android:requestLegacyExternalStorage="true"
-        android:preserveLegacyExternalStorage="true"
         android:hasFragileUserData="true">
         <activity
             android:name=".MainActivity"
@@ -88,20 +86,12 @@
                 android:resource="@xml/file_paths" />
         </provider>
     </application>
-    
-    <!-- Permisos de almacenamiento para todas las versiones de Android -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" 
-                     tools:ignore="ScopedStorage" />
-    
-    <!-- Permiso específico para Android 11+ -->
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" 
-                     tools:ignore="ScopedStorage" />
-    
-    <!-- Permisos para Android 10+ -->
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
+    <!--
+      No se solicitan permisos de almacenamiento de ámbito amplio.
+      Las imágenes elegidas por el usuario usan el selector del sistema y los
+      reportes exportados se guardan en almacenamiento específico de la app.
+    -->
     
     <!-- Permisos para notificaciones -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
