@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gloria_finance/core/toast.dart';
@@ -12,6 +14,8 @@ import 'package:gloria_finance/features/member_experience/contributions/state/me
 import 'package:gloria_finance/l10n/app_localizations.dart';
 
 class MemberContributionFormStore extends ChangeNotifier {
+  static const Duration _pixPaymentFallbackDelay = Duration(seconds: 60);
+
   MemberContributionFormState _state = MemberContributionFormState();
   final ContributionService _service = ContributionService();
   final AvailabilityAccountsListStore _accountsStore;
@@ -19,6 +23,8 @@ class MemberContributionFormStore extends ChangeNotifier {
   final WebSocketService _webSocketService = WebSocketService();
 
   MultipartFile? _receiptFile;
+  Timer? _pixPaymentFallbackTimer;
+  bool _canConfirmPixPaymentManually = false;
   late final void Function(dynamic data) _paidPixListener;
 
   MemberContributionFormStore(this._accountsStore, this._conceptStore) {
@@ -27,6 +33,8 @@ class MemberContributionFormStore extends ChangeNotifier {
   }
 
   MemberContributionFormState get state => _state;
+
+  bool get canConfirmPixPaymentManually => _canConfirmPixPaymentManually;
 
   List<AvailabilityAccountModel> get availabilityAccounts =>
       _accountsStore.state.availabilityAccounts;
@@ -98,6 +106,7 @@ class MemberContributionFormStore extends ChangeNotifier {
   void selectType(MemberContributionType type) {
     final tithe = type == MemberContributionType.tithe ? titheConcept : null;
 
+    _cancelPixPaymentFallback();
     _receiptFile = null;
     _state = _state.copyWith(
       selectedType: type,
@@ -122,6 +131,7 @@ class MemberContributionFormStore extends ChangeNotifier {
   }
 
   void setFinancialConceptId(String conceptId) {
+    _cancelPixPaymentFallback();
     _receiptFile = null;
     _state = _state.copyWith(
       financialConceptId: conceptId,
@@ -149,6 +159,8 @@ class MemberContributionFormStore extends ChangeNotifier {
     if (channel == MemberPaymentChannel.pix && !canPayWithPix) {
       return;
     }
+
+    _cancelPixPaymentFallback();
 
     if (channel == MemberPaymentChannel.pix) {
       _receiptFile = null;
@@ -191,9 +203,16 @@ class MemberContributionFormStore extends ChangeNotifier {
           isWaitingPixPayment: channel == MemberPaymentChannel.pix,
           pixPaymentFinished: false,
         );
+
+        if (channel == MemberPaymentChannel.pix) {
+          _startPixPaymentFallback();
+        } else {
+          _cancelPixPaymentFallback();
+        }
         break;
       case 4:
-        if (_state.selectedChannel != MemberPaymentChannel.externalWithReceipt ||
+        if (_state.selectedChannel !=
+                MemberPaymentChannel.externalWithReceipt ||
             _state.paidAt == null) {
           return;
         }
@@ -212,10 +231,27 @@ class MemberContributionFormStore extends ChangeNotifier {
       return;
     }
 
+    _cancelPixPaymentFallback();
     _state = _state.copyWith(
       currentStep: 3,
       isWaitingPixPayment: false,
       pixPaymentFinished: false,
+    );
+    notifyListeners();
+  }
+
+  void confirmPixPaymentManually() {
+    if (!_canConfirmPixPaymentManually ||
+        !_state.isWaitingPixPayment ||
+        _state.selectedChannel != MemberPaymentChannel.pix ||
+        _state.currentStep != 4) {
+      return;
+    }
+
+    _cancelPixPaymentFallback();
+    _state = _state.copyWith(
+      isWaitingPixPayment: false,
+      pixPaymentFinished: true,
     );
     notifyListeners();
   }
@@ -278,10 +314,7 @@ class MemberContributionFormStore extends ChangeNotifier {
 
       await _service.registerManualContribution(request, _receiptFile);
 
-      _state = _state.copyWith(
-        isSubmitting: false,
-        isUploadingReceipt: false,
-      );
+      _state = _state.copyWith(isSubmitting: false, isUploadingReceipt: false);
       notifyListeners();
       return true;
     } catch (e) {
@@ -307,6 +340,7 @@ class MemberContributionFormStore extends ChangeNotifier {
   }
 
   void reset() {
+    _cancelPixPaymentFallback();
     _receiptFile = null;
     _state = MemberContributionFormState(
       selectedDestinationId:
@@ -327,6 +361,26 @@ class MemberContributionFormStore extends ChangeNotifier {
     return null;
   }
 
+  void _startPixPaymentFallback() {
+    _cancelPixPaymentFallback();
+    _pixPaymentFallbackTimer = Timer(_pixPaymentFallbackDelay, () {
+      if (!_state.isWaitingPixPayment ||
+          _state.selectedChannel != MemberPaymentChannel.pix ||
+          _state.currentStep != 4) {
+        return;
+      }
+
+      _canConfirmPixPaymentManually = true;
+      notifyListeners();
+    });
+  }
+
+  void _cancelPixPaymentFallback() {
+    _pixPaymentFallbackTimer?.cancel();
+    _pixPaymentFallbackTimer = null;
+    _canConfirmPixPaymentManually = false;
+  }
+
   void _handlePaidPix(dynamic data) {
     if (!_state.isWaitingPixPayment ||
         _state.selectedChannel != MemberPaymentChannel.pix ||
@@ -338,6 +392,7 @@ class MemberContributionFormStore extends ChangeNotifier {
       return;
     }
 
+    _cancelPixPaymentFallback();
     _state = _state.copyWith(
       isWaitingPixPayment: false,
       pixPaymentFinished: true,
@@ -347,6 +402,7 @@ class MemberContributionFormStore extends ChangeNotifier {
 
   @override
   void dispose() {
+    _cancelPixPaymentFallback();
     _webSocketService.offPaidPix(_paidPixListener);
     super.dispose();
   }

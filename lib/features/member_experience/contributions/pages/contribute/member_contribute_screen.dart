@@ -228,6 +228,14 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
                   amount: state.amount!,
                   description: concept?.name ?? '',
                 ),
+                if (store.canConfirmPixPaymentManually) ...[
+                  const SizedBox(height: 24),
+                  ContributionPrimaryButton(
+                    text: _pixAlreadyPaidButtonLabel(context),
+                    icon: Icons.check_circle_outline,
+                    onPressed: store.confirmPixPaymentManually,
+                  ),
+                ],
                 const SizedBox(height: 20),
                 TextButton.icon(
                   onPressed: store.backToPaymentMethod,
@@ -281,6 +289,17 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
                   ? () => _handleSubmit(store)
                   : null,
         );
+    }
+  }
+
+  String _pixAlreadyPaidButtonLabel(BuildContext context) {
+    switch (Localizations.localeOf(context).languageCode) {
+      case 'es':
+        return '¿Ya realizaste el pago?';
+      case 'en':
+        return 'Have you already made the payment?';
+      default:
+        return 'Já realizou o pagamento?';
     }
   }
 
