@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/features/member_experience/contributions/models/member_contribution_models.dart';
-import 'package:flutter/material.dart';
 
 class ContributionPaymentMethodCards extends StatelessWidget {
   final MemberPaymentChannel? selectedChannel;
@@ -14,9 +14,8 @@ class ContributionPaymentMethodCards extends StatelessWidget {
     required this.selectedChannel,
     required this.onChannelSelected,
     this.enabledChannels = const [
-      MemberPaymentChannel.pix,
-      MemberPaymentChannel.boleto,
       MemberPaymentChannel.externalWithReceipt,
+      MemberPaymentChannel.pix,
     ],
   });
 
@@ -27,45 +26,23 @@ class ContributionPaymentMethodCards extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          l10n.member_contribution_payment_method_question,
-          style: const TextStyle(
-            fontFamily: AppFonts.fontTitle,
-            fontSize: 16,
-            color: AppColors.black,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(height: 12),
-        if (enabledChannels.contains(MemberPaymentChannel.pix)) ...[
-          _buildMethodCard(
-            context,
-            MemberPaymentChannel.pix,
-            Icons.qr_code_2,
-            'PIX',
-            l10n.member_contribution_payment_method_pix_description,
-          ),
-          const SizedBox(height: 10),
-        ],
-        if (enabledChannels.contains(MemberPaymentChannel.boleto)) ...[
-          _buildMethodCard(
-            context,
-            MemberPaymentChannel.boleto,
-            Icons.receipt_long,
-            l10n.member_contribution_payment_method_boleto_title,
-            l10n.member_contribution_payment_method_boleto_description,
-          ),
-          const SizedBox(height: 10),
-        ],
         if (enabledChannels.contains(
           MemberPaymentChannel.externalWithReceipt,
         )) ...[
           _buildMethodCard(
-            context,
             MemberPaymentChannel.externalWithReceipt,
             Icons.upload_file,
             l10n.member_contribution_payment_method_manual_title,
             l10n.member_contribution_payment_method_manual_description,
+          ),
+        ],
+        if (enabledChannels.contains(MemberPaymentChannel.pix)) ...[
+          const SizedBox(height: 10),
+          _buildMethodCard(
+            MemberPaymentChannel.pix,
+            Icons.qr_code_2,
+            'PIX',
+            l10n.member_contribution_payment_method_pix_description,
           ),
         ],
       ],
@@ -73,7 +50,6 @@ class ContributionPaymentMethodCards extends StatelessWidget {
   }
 
   Widget _buildMethodCard(
-    BuildContext context,
     MemberPaymentChannel channel,
     IconData icon,
     String title,
@@ -125,7 +101,7 @@ class ContributionPaymentMethodCards extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: AppFonts.fontTitle,
                         fontSize: 14,
                         color: AppColors.black,

@@ -7,23 +7,49 @@ void main() {
     test('manual contribution is valid without a destination', () {
       final state = MemberContributionFormState(
         amount: 60,
+        selectedChannel: MemberPaymentChannel.externalWithReceipt,
         paidAt: DateTime(2026, 9, 9),
         receiptLocalPath: 'receipt.jpg',
       );
 
       expect(state.selectedDestinationId, isNull);
       expect(state.isValid, isTrue);
+      expect(state.totalSteps, 5);
     });
 
     test('offering still requires a financial concept', () {
       final state = MemberContributionFormState(
         selectedType: MemberContributionType.offering,
         amount: 60,
+        selectedChannel: MemberPaymentChannel.externalWithReceipt,
         paidAt: DateTime(2026, 9, 9),
         receiptLocalPath: 'receipt.jpg',
       );
 
       expect(state.isValid, isFalse);
+    });
+
+    test('PIX contribution does not require date or receipt', () {
+      final state = MemberContributionFormState(
+        amount: 60,
+        selectedChannel: MemberPaymentChannel.pix,
+      );
+
+      expect(state.isValid, isTrue);
+      expect(state.totalSteps, 4);
+    });
+
+    test('type step requires an explicit member selection', () {
+      final state = MemberContributionFormState();
+
+      expect(state.canContinueTypeStep, isFalse);
+
+      final selected = state.copyWith(
+        hasSelectedType: true,
+        selectedType: MemberContributionType.tithe,
+      );
+
+      expect(selected.canContinueTypeStep, isTrue);
     });
   });
 
