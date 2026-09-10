@@ -2154,6 +2154,8 @@
   "member_registration_email_optional": "Email",
   "member_registration_email_invalid": "Invalid email.",
   "member_registration_dni_optional": "ID / Document",
+  "member_registration_cpf_optional": "CPF",
+  "member_registration_document_optional": "Document",
   "member_registration_birthdate_optional": "Date of birth",
   "member_registration_gender_optional": "Gender",
   "member_registration_gender_male": "Male",

@@ -5073,6 +5073,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get member_registration_dni_optional => 'CPF / Documento';
 
   @override
+  String get member_registration_cpf_optional => 'CPF';
+
+  @override
+  String get member_registration_document_optional => 'Documento';
+
+  @override
   String get member_registration_birthdate_optional => 'Data de nascimento';
 
   @override

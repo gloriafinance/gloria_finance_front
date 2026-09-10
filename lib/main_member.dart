@@ -3,14 +3,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:provider/provider.dart';
 
 import 'app/member_router.dart';
 import 'app/my_app.dart';
 import 'app/store_manager.dart';
 import 'core/app_http.dart';
+import 'core/websocket_connector.dart';
 import 'features/member_experience/notifications/push_notification_manager.dart';
 import 'firebase_options.dart';
 
@@ -75,7 +75,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => storeManager.localeStore),
         Provider(create: (_) => PushNotificationManager()),
       ],
-      child: MyApp(router: memberRouter),
+      child: WebSocketConnector(child: MyApp(router: memberRouter)),
     ),
   );
 }

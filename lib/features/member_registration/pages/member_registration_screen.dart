@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -403,9 +404,16 @@ class _MemberRegistrationScreenState extends State<MemberRegistrationScreen> {
   }
 
   Widget _buildDni(AppLocalizations l10n, MemberRegistrationStore store) {
+    final isBrazil = store.churchInfo?.country.toUpperCase() == 'BR';
+
     return Input(
-      label: l10n.member_registration_dni_optional,
+      label:
+          isBrazil
+              ? l10n.member_registration_cpf_optional
+              : l10n.member_registration_document_optional,
       icon: Icons.badge_outlined,
+      keyboardType: isBrazil ? TextInputType.number : TextInputType.text,
+      inputFormatters: isBrazil ? [MaskedInputFormatter('###.###.###-##')] : [],
       onChanged: store.setDni,
     );
   }

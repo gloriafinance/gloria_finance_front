@@ -2,7 +2,7 @@ name: gloria_finance
 description: "administrative system for the financial management of churches."
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.25.4+126
+version: 1.26.0+127
 
 environment:
   sdk: ^3.7.2
@@ -50,6 +50,7 @@ dependencies:
   timezone: ^0.10.1
   image_picker: ^1.1.2
   web: ^1.1.1
+  socket_io_client: ^3.1.6
 
 dev_dependencies:
   flutter_test:

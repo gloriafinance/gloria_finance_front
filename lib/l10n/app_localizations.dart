@@ -9961,6 +9961,18 @@ abstract class AppLocalizations {
   /// **'ID / Document'**
   String get member_registration_dni_optional;
 
+  /// No description provided for @member_registration_cpf_optional.
+  ///
+  /// In en, this message translates to:
+  /// **'CPF'**
+  String get member_registration_cpf_optional;
+
+  /// No description provided for @member_registration_document_optional.
+  ///
+  /// In en, this message translates to:
+  /// **'Document'**
+  String get member_registration_document_optional;
+
   /// No description provided for @member_registration_birthdate_optional.
   ///
   /// In en, this message translates to:
