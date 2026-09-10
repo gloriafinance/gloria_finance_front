@@ -1,15 +1,15 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/widgets/loading.dart';
 import 'package:gloria_finance/features/erp/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
-import 'package:gloria_finance/features/erp/settings/financial_concept/models/financial_concept_model.dart';
 import 'package:gloria_finance/features/erp/settings/financial_concept/store/financial_concept_store.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/member_contribution_models.dart';
 import '../../store/member_contribution_form_store.dart';
+import 'member_contribute_pix_screen.dart';
+import 'widgets/contribution_payment_method_cards.dart';
 import 'widgets/member_contribution_wizard_steps.dart';
 
 class MemberContributeScreen extends StatefulWidget {
@@ -20,17 +20,14 @@ class MemberContributeScreen extends StatefulWidget {
 }
 
 class _MemberContributeScreenState extends State<MemberContributeScreen> {
-  static const int _totalSteps = 4;
-
-  late MemberContributionFormStore _store;
-  MultipartFile? _receiptFile;
-  int _currentStep = 1;
-  bool _hasSelectedType = false;
-  bool _showCustomAmountInput = false;
+  MemberContributionFormStore? _store;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (_store != null) return;
+
     final accountsStore = Provider.of<AvailabilityAccountsListStore>(
       context,
       listen: false,
@@ -39,19 +36,51 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
       context,
       listen: false,
     );
+
     _store = MemberContributionFormStore(accountsStore, conceptStore);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _store.initialize();
-    });
+    _store!.addListener(_handleStoreChanged);
+    _store!.initialize();
+  }
+
+  @override
+  void dispose() {
+    _store?.removeListener(_handleStoreChanged);
+    _store?.dispose();
+    super.dispose();
+  }
+
+  void _handleStoreChanged() {
+    final store = _store;
+    if (store == null || !mounted || !store.state.pixPaymentFinished) {
+      return;
+    }
+
+    final type = store.state.selectedType;
+    final amount = store.state.amount;
+    store.consumePixPaymentFinished();
+
+    context.go(
+      '/member/contribute/result',
+      extra: {
+        'success': true,
+        'type': type,
+        'amount': amount,
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final store = _store;
+    if (store == null) {
+      return const Loading();
+    }
+
     return ChangeNotifierProvider.value(
-      value: _store,
-      child: Consumer2<MemberContributionFormStore, FinancialConceptStore>(
-        builder: (context, store, conceptStore, child) {
-          final content = _buildStep(context, store, conceptStore);
+      value: store,
+      child: Consumer<MemberContributionFormStore>(
+        builder: (context, contributionStore, child) {
+          final content = _buildStep(context, contributionStore);
 
           return Stack(
             children: [
@@ -70,7 +99,6 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
                     ),
                   ],
                 ),
-
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.fromLTRB(10, 28, 10, 18),
                   child: Center(
@@ -81,7 +109,8 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
                   ),
                 ),
               ),
-              if (store.state.isSubmitting || store.state.isUploadingReceipt)
+              if (contributionStore.state.isSubmitting ||
+                  contributionStore.state.isUploadingReceipt)
                 const Loading(),
             ],
           );
@@ -93,167 +122,182 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
   Widget _buildStep(
     BuildContext context,
     MemberContributionFormStore store,
-    FinancialConceptStore conceptStore,
   ) {
     final l10n = context.l10n;
-    final offeringConcepts = _offeringConcepts(conceptStore);
+    final state = store.state;
 
-    switch (_currentStep) {
+    switch (state.currentStep) {
       case 1:
         return _StepLayout(
-          currentStep: _currentStep,
-          totalSteps: _totalSteps,
+          currentStep: state.currentStep,
+          totalSteps: state.totalSteps,
           title: l10n.member_contribution_type_step_title,
           subtitle: l10n.member_contribution_type_step_subtitle,
           body: ContributionTypeStep(
-            selectedType: _hasSelectedType ? store.state.selectedType : null,
-            onTypeSelected: (type) {
-              setState(() {
-                _hasSelectedType = true;
-              });
-              store.selectType(type);
-            },
-            offeringConcepts: offeringConcepts,
-            selectedConceptId: store.state.financialConceptId,
+            selectedType: state.hasSelectedType ? state.selectedType : null,
+            onTypeSelected: store.selectType,
+            offeringConcepts: store.offeringConcepts,
+            selectedConceptId: state.financialConceptId,
             onConceptSelected: store.setFinancialConceptId,
           ),
           buttonText: l10n.member_contribution_continue_button,
           buttonIcon: Icons.arrow_forward,
-          onPressed: _canContinueTypeStep(store) ? _nextStep : null,
+          onPressed: state.canContinueTypeStep ? store.nextStep : null,
         );
+
       case 2:
         return _StepLayout(
-          currentStep: _currentStep,
-          totalSteps: _totalSteps,
+          currentStep: state.currentStep,
+          totalSteps: state.totalSteps,
           title: l10n.member_contribution_amount_step_title,
           subtitle: l10n.member_contribution_amount_step_subtitle,
-          selectedAmount: store.state.amount,
+          selectedAmount: state.amount,
           body: ContributionAmountStep(
-            selectedAmount: store.state.amount,
-            quickAmounts: store.state.quickAmounts,
-            isCustomAmountSelected: _showCustomAmountInput,
+            selectedAmount: state.amount,
+            quickAmounts: state.quickAmounts,
+            isCustomAmountSelected: state.showCustomAmountInput,
             onQuickAmountSelected: (amount) {
-              setState(() {
-                _showCustomAmountInput = false;
-              });
+              store.setCustomAmountInput(false);
               store.selectAmount(amount);
             },
             onCustomAmountChanged: store.selectAmount,
-            onCustomAmountSelected: () {
-              setState(() {
-                _showCustomAmountInput = true;
-              });
-            },
+            onCustomAmountSelected: () => store.setCustomAmountInput(true),
           ),
           buttonText: l10n.member_contribution_continue_button,
           buttonIcon: Icons.arrow_forward,
-          onPressed: _hasValidAmount(store) ? _nextStep : null,
+          onPressed: state.hasValidAmount ? store.nextStep : null,
         );
+
       case 3:
         return _StepLayout(
-          currentStep: _currentStep,
-          totalSteps: _totalSteps,
+          currentStep: state.currentStep,
+          totalSteps: state.totalSteps,
+          title: l10n.member_contribution_payment_method_question,
+          subtitle:
+              store.canPayWithPix
+                  ? l10n.member_contribution_payment_method_pix_description
+                  : l10n.member_contribution_payment_method_manual_description,
+          selectedAmount: state.amount,
+          body: ContributionPaymentMethodCards(
+            selectedChannel: state.selectedChannel,
+            onChannelSelected: store.selectPaymentChannel,
+            enabledChannels: [
+              MemberPaymentChannel.externalWithReceipt,
+              if (store.canPayWithPix) MemberPaymentChannel.pix,
+            ],
+          ),
+          buttonText: l10n.member_contribution_continue_button,
+          buttonIcon: Icons.arrow_forward,
+          onPressed: state.selectedChannel != null ? store.nextStep : null,
+        );
+
+      case 4:
+        if (state.selectedChannel == MemberPaymentChannel.pix) {
+          final pix = store.selectedPix;
+          final concept = store.selectedFinancialConcept;
+
+          if (pix == null) {
+            return _StepLayout(
+              currentStep: state.currentStep,
+              totalSteps: state.totalSteps,
+              title: l10n.member_contribution_pix_title,
+              subtitle: l10n.member_contribution_payment_method_manual_description,
+              body: ContributionPaymentMethodCards(
+                selectedChannel: null,
+                onChannelSelected: store.selectPaymentChannel,
+                enabledChannels: const [
+                  MemberPaymentChannel.externalWithReceipt,
+                ],
+              ),
+              buttonText: l10n.member_contribution_continue_button,
+              buttonIcon: Icons.arrow_forward,
+              onPressed: null,
+            );
+          }
+
+          return _StepLayout(
+            currentStep: state.currentStep,
+            totalSteps: state.totalSteps,
+            title: l10n.member_contribution_pix_title,
+            subtitle: l10n.member_contribution_payment_method_pix_description,
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                MemberContributePixScreen(
+                  pix: pix,
+                  amount: state.amount!,
+                  description: concept?.name ?? '',
+                ),
+                const SizedBox(height: 20),
+                TextButton.icon(
+                  onPressed: store.backToPaymentMethod,
+                  icon: const Icon(Icons.arrow_back),
+                  label: Text(
+                    MaterialLocalizations.of(context).backButtonTooltip,
+                  ),
+                ),
+              ],
+            ),
+            buttonText: '',
+            buttonIcon: Icons.check,
+            onPressed: null,
+            showAction: false,
+          );
+        }
+
+        return _StepLayout(
+          currentStep: state.currentStep,
+          totalSteps: state.totalSteps,
           title: l10n.member_contribution_date_step_title,
           subtitle: l10n.member_contribution_date_step_subtitle,
-          selectedAmount: store.state.amount,
+          selectedAmount: state.amount,
           body: ContributionDateStep(
-            selectedDate: store.state.paidAt,
+            selectedDate: state.paidAt,
             onDateSelected: store.setPaidAt,
           ),
           buttonText: l10n.member_contribution_continue_button,
           buttonIcon: Icons.arrow_forward,
-          onPressed: store.state.paidAt != null ? _nextStep : null,
+          onPressed: state.paidAt != null ? store.nextStep : null,
         );
+
       default:
         return _StepLayout(
-          currentStep: _currentStep,
-          totalSteps: _totalSteps,
+          currentStep: state.currentStep,
+          totalSteps: state.totalSteps,
           title: l10n.member_contribution_receipt_step_title,
           subtitle: l10n.member_contribution_receipt_step_subtitle,
-          selectedAmount: store.state.amount,
+          selectedAmount: state.amount,
           body: ContributionReceiptStep(
-            fileName: store.state.receiptFileName,
+            fileName: state.receiptFileName,
             onFileSelected: (file) {
-              setState(() {
-                _receiptFile = file;
-              });
               store.setReceiptFile(file, file.filename ?? 'receipt.jpg');
             },
-            onFileRemoved: () {
-              setState(() {
-                _receiptFile = null;
-              });
-              store.clearReceipt();
-            },
+            onFileRemoved: store.clearReceipt,
           ),
           buttonText: l10n.member_contribution_send_button,
           buttonIcon: Icons.send,
           onPressed:
-              store.state.isValid && !store.state.isSubmitting
+              state.isValid && !state.isSubmitting
                   ? () => _handleSubmit(store)
                   : null,
         );
     }
   }
 
-  List<FinancialConceptModel> _offeringConcepts(
-    FinancialConceptStore conceptStore,
-  ) {
-    return conceptStore.state.financialConcepts
-        .where((concept) => concept.name.startsWith('Oferta'))
-        .toList();
-  }
-
-  bool _canContinueTypeStep(MemberContributionFormStore store) {
-    if (!_hasSelectedType) return false;
-    if (store.state.selectedType == MemberContributionType.tithe) return true;
-    return store.state.financialConceptId != null &&
-        store.state.financialConceptId!.isNotEmpty;
-  }
-
-  bool _hasValidAmount(MemberContributionFormStore store) {
-    return store.state.amount != null && store.state.amount! > 0;
-  }
-
-  void _nextStep() {
-    if (_currentStep >= _totalSteps) return;
-    setState(() {
-      _currentStep += 1;
-    });
-  }
-
   Future<void> _handleSubmit(MemberContributionFormStore store) async {
-    final result = await store.submitContribution(context.l10n, _receiptFile);
+    final success = await store.submitContribution(context.l10n);
 
-    if (result == null || !mounted) return;
+    if (!success || !mounted) return;
 
-    switch (result.channel) {
-      case MemberPaymentChannel.pix:
-        context.push(
-          '/member/contribute/pix/${result.contributionId}',
-          extra: result.pixPayload,
-        );
-        break;
-
-      case MemberPaymentChannel.boleto:
-        context.push(
-          '/member/contribute/boleto/${result.contributionId}',
-          extra: result.boletoPayload,
-        );
-        break;
-
-      case MemberPaymentChannel.externalWithReceipt:
-        context.push(
-          '/member/contribute/result',
-          extra: {
-            'success': true,
-            'type': store.state.selectedType,
-            'amount': store.state.amount,
-            'paidAt': store.state.paidAt,
-          },
-        );
-        break;
-    }
+    context.push(
+      '/member/contribute/result',
+      extra: {
+        'success': true,
+        'type': store.state.selectedType,
+        'amount': store.state.amount,
+        'paidAt': store.state.paidAt,
+      },
+    );
   }
 }
 
@@ -267,6 +311,7 @@ class _StepLayout extends StatelessWidget {
   final String buttonText;
   final IconData buttonIcon;
   final VoidCallback? onPressed;
+  final bool showAction;
 
   const _StepLayout({
     required this.currentStep,
@@ -278,6 +323,7 @@ class _StepLayout extends StatelessWidget {
     required this.buttonText,
     required this.buttonIcon,
     required this.onPressed,
+    this.showAction = true,
   });
 
   @override
@@ -297,13 +343,15 @@ class _StepLayout extends StatelessWidget {
           const SizedBox(height: 28),
         ],
         body,
-        const SizedBox(height: 38),
-        ContributionPrimaryButton(
-          text: buttonText,
-          icon: buttonIcon,
-          onPressed: onPressed,
-        ),
-        const SizedBox(height: 6),
+        if (showAction) ...[
+          const SizedBox(height: 38),
+          ContributionPrimaryButton(
+            text: buttonText,
+            icon: buttonIcon,
+            onPressed: onPressed,
+          ),
+          const SizedBox(height: 6),
+        ],
       ],
     );
   }
