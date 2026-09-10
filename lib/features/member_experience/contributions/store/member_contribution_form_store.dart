@@ -206,6 +206,20 @@ class MemberContributionFormStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  void backToPaymentMethod() {
+    if (_state.currentStep != 4 ||
+        _state.selectedChannel != MemberPaymentChannel.pix) {
+      return;
+    }
+
+    _state = _state.copyWith(
+      currentStep: 3,
+      isWaitingPixPayment: false,
+      pixPaymentFinished: false,
+    );
+    notifyListeners();
+  }
+
   void setMessage(String? message) {
     _state = _state.copyWith(message: message);
     notifyListeners();

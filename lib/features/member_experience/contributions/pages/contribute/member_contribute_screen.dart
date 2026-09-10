@@ -220,10 +220,23 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
             totalSteps: state.totalSteps,
             title: l10n.member_contribution_pix_title,
             subtitle: l10n.member_contribution_payment_method_pix_description,
-            body: MemberContributePixScreen(
-              pix: pix,
-              amount: state.amount!,
-              description: concept?.name ?? '',
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                MemberContributePixScreen(
+                  pix: pix,
+                  amount: state.amount!,
+                  description: concept?.name ?? '',
+                ),
+                const SizedBox(height: 20),
+                TextButton.icon(
+                  onPressed: store.backToPaymentMethod,
+                  icon: const Icon(Icons.arrow_back),
+                  label: Text(
+                    MaterialLocalizations.of(context).backButtonTooltip,
+                  ),
+                ),
+              ],
             ),
             buttonText: '',
             buttonIcon: Icons.check,

@@ -59,7 +59,9 @@ class WebSocketService {
 
   String _getServerUrl() {
     final apiProd = 'https://api.gloriafinance.com.br';
-    final apiDev = 'http://0.0.0.0:5200';
+
+    final apiDev = 'https://api.gloriafinance.com.br';
+    //final apiDev = 'http://0.0.0.0:5200/api/';
 
     if (kReleaseMode) {
       return apiProd;
