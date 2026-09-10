@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:gloria_finance/features/erp/settings/financial_concept/models/financial_concept_model.dart';
 
 void main() {
-  test('hydrates the optional static PIX payload when returned by the API', () {
+  test('hydrates tag and optional static PIX payload returned by the API', () {
     final concept = FinancialConceptModel.fromJson({
       'financialConceptId': 'concept-1',
       'name': 'Dízimos de Membros',
@@ -11,6 +11,7 @@ void main() {
       'type': 'INCOME',
       'statementCategory': 'REVENUE',
       'churchId': 'church-1',
+      'tag': 'Tithes',
       'createdAt': '2025-01-25T23:57:42.619Z',
       'affectsCashFlow': true,
       'affectsResult': true,
@@ -23,6 +24,7 @@ void main() {
       },
     });
 
+    expect(concept.tag, 'Tithes');
     expect(concept.pix?.pixQrCodeId, 'qr-1');
     expect(concept.pix?.copyPaste, '000201...');
     expect(concept.pix?.encodedImage, 'iVBORw0KGgo=');
@@ -37,6 +39,7 @@ void main() {
       'type': 'INCOME',
       'statementCategory': 'REVENUE',
       'churchId': 'church-1',
+      'tag': 'Offering',
       'createdAt': '2025-01-25T23:57:42.619Z',
       'affectsCashFlow': true,
       'affectsResult': true,
@@ -44,6 +47,7 @@ void main() {
       'isOperational': true,
     });
 
+    expect(concept.tag, 'Offering');
     expect(concept.pix, isNull);
   });
 }

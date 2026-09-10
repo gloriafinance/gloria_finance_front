@@ -3,8 +3,6 @@ import 'package:gloria_finance/features/member_experience/commitments/models/mem
 import 'package:gloria_finance/features/member_experience/commitments/pages/member_commitment_detail_screen.dart';
 import 'package:gloria_finance/features/member_experience/commitments/pages/member_commitments_screen.dart';
 import 'package:gloria_finance/features/member_experience/contributions/models/member_contribution_models.dart';
-import 'package:gloria_finance/features/member_experience/contributions/pages/contribute/member_contribute_boleto_screen.dart';
-import 'package:gloria_finance/features/member_experience/contributions/pages/contribute/member_contribute_pix_screen.dart';
 import 'package:gloria_finance/features/member_experience/contributions/pages/contribute/member_contribute_result_screen.dart';
 import 'package:gloria_finance/features/member_experience/contributions/pages/contribute/member_contribute_screen.dart';
 import 'package:gloria_finance/features/member_experience/contributions/pages/history/member_contribution_history_screen.dart';
@@ -88,7 +86,6 @@ memberExperienceRouter() {
         );
       },
     ),
-    // Contribution History (Main Entry)
     GoRoute(
       path: '/member/contribute',
       pageBuilder: (context, state) {
@@ -97,7 +94,6 @@ memberExperienceRouter() {
         );
       },
       routes: [
-        // New Contribution Form
         GoRoute(
           path: 'new',
           pageBuilder: (context, state) {
@@ -106,27 +102,6 @@ memberExperienceRouter() {
         ),
       ],
     ),
-    // PIX payment screen
-    GoRoute(
-      path: '/member/contribute/pix/:id',
-      pageBuilder: (context, state) {
-        final pixPayload = state.extra as PixChargeResponse;
-        return transitionCustom(
-          MemberContributePixScreen(pixPayload: pixPayload),
-        );
-      },
-    ),
-    // Boleto payment screen
-    GoRoute(
-      path: '/member/contribute/boleto/:id',
-      pageBuilder: (context, state) {
-        final boletoPayload = state.extra as BoletoChargeResponse;
-        return transitionCustom(
-          MemberContributeBoletoScreen(boletoPayload: boletoPayload),
-        );
-      },
-    ),
-    // Result screen
     GoRoute(
       path: '/member/contribute/result',
       pageBuilder: (context, state) {

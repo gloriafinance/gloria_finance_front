@@ -1,4 +1,9 @@
+import 'dart:async';
+
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:gloria_finance/core/toast.dart';
+import 'package:gloria_finance/core/websocket_service.dart';
 import 'package:gloria_finance/features/erp/settings/availability_accounts/models/availability_account_model.dart';
 import 'package:gloria_finance/features/erp/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:gloria_finance/features/erp/settings/financial_concept/models/financial_concept_model.dart';
@@ -7,48 +12,115 @@ import 'package:gloria_finance/features/member_experience/contributions/contribu
 import 'package:gloria_finance/features/member_experience/contributions/models/member_contribution_models.dart';
 import 'package:gloria_finance/features/member_experience/contributions/state/member_contribution_form_state.dart';
 import 'package:gloria_finance/l10n/app_localizations.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 
 class MemberContributionFormStore extends ChangeNotifier {
+  static const Duration _pixPaymentFallbackDelay = Duration(seconds: 40);
+
   MemberContributionFormState _state = MemberContributionFormState();
   final ContributionService _service = ContributionService();
   final AvailabilityAccountsListStore _accountsStore;
   final FinancialConceptStore _conceptStore;
+  final WebSocketService _webSocketService = WebSocketService();
 
-  MemberContributionFormStore(this._accountsStore, this._conceptStore);
+  MultipartFile? _receiptFile;
+  Timer? _pixPaymentFallbackTimer;
+  bool _canConfirmPixPaymentManually = false;
+  late final void Function(dynamic data) _paidPixListener;
+
+  MemberContributionFormStore(this._accountsStore, this._conceptStore) {
+    _paidPixListener = _handlePaidPix;
+    _webSocketService.onPaidPix(_paidPixListener);
+  }
 
   MemberContributionFormState get state => _state;
+
+  bool get canConfirmPixPaymentManually => _canConfirmPixPaymentManually;
+
   List<AvailabilityAccountModel> get availabilityAccounts =>
       _accountsStore.state.availabilityAccounts;
 
-  // Initialize and load accounts
+  List<FinancialConceptModel> get offeringConcepts {
+    return _conceptStore.state.financialConcepts
+        .where((concept) => concept.active && concept.tag == 'Offering')
+        .toList();
+  }
+
+  FinancialConceptModel? get titheConcept => _findConceptByTag('Tithes');
+
+  FinancialConceptModel? get selectedFinancialConcept {
+    if (_state.selectedType == MemberContributionType.tithe) {
+      return titheConcept;
+    }
+
+    final conceptId = _state.financialConceptId;
+    if (conceptId == null) return null;
+
+    for (final concept in _conceptStore.state.financialConcepts) {
+      if (concept.financialConceptId == conceptId) {
+        return concept;
+      }
+    }
+
+    return null;
+  }
+
+  FinancialConceptPixModel? get selectedPix => selectedFinancialConcept?.pix;
+
+  bool get canPayWithPix => selectedPix != null;
+
   Future<void> initialize() async {
     if (_accountsStore.state.availabilityAccounts.isEmpty) {
       await _accountsStore.searchAvailabilityAccounts();
     }
-    // Load financial concepts for offerings if not loaded
+
     if (_conceptStore.state.financialConcepts.isEmpty) {
       await _conceptStore.searchFinancialConcepts(
         type: FinancialConceptType.INCOME,
         updateSelectedType: true,
       );
     }
-    // Auto-select first account if available
+
+    var nextState = _state;
+
     if (availabilityAccounts.isNotEmpty &&
-        _state.selectedDestinationId == null) {
-      _state = _state.copyWith(
+        nextState.selectedDestinationId == null) {
+      nextState = nextState.copyWith(
         selectedDestinationId: availabilityAccounts.first.availabilityAccountId,
       );
-      notifyListeners();
     }
+
+    if (nextState.hasSelectedType &&
+        nextState.selectedType == MemberContributionType.tithe) {
+      final concept = titheConcept;
+      if (concept != null) {
+        nextState = nextState.copyWith(
+          financialConceptId: concept.financialConceptId,
+        );
+      }
+    }
+
+    _state = nextState;
+    notifyListeners();
   }
 
-  // Selection methods
   void selectType(MemberContributionType type) {
+    final tithe = type == MemberContributionType.tithe ? titheConcept : null;
+
+    _cancelPixPaymentFallback();
+    _receiptFile = null;
     _state = _state.copyWith(
       selectedType: type,
-      clearFinancialConceptId: type == MemberContributionType.tithe,
+      hasSelectedType: true,
+      financialConceptId: tithe?.financialConceptId,
+      clearFinancialConceptId:
+          type == MemberContributionType.offering || tithe == null,
+      clearSelectedChannel: true,
+      clearPaidAt: true,
+      clearReceiptLocalPath: true,
+      clearReceiptFileName: true,
+      currentStep: 1,
+      isWaitingPixPayment: false,
+      pixPaymentFinished: false,
     );
     notifyListeners();
   }
@@ -59,7 +131,17 @@ class MemberContributionFormStore extends ChangeNotifier {
   }
 
   void setFinancialConceptId(String conceptId) {
-    _state = _state.copyWith(financialConceptId: conceptId);
+    _cancelPixPaymentFallback();
+    _receiptFile = null;
+    _state = _state.copyWith(
+      financialConceptId: conceptId,
+      clearSelectedChannel: true,
+      clearPaidAt: true,
+      clearReceiptLocalPath: true,
+      clearReceiptFileName: true,
+      isWaitingPixPayment: false,
+      pixPaymentFinished: false,
+    );
     notifyListeners();
   }
 
@@ -68,17 +150,108 @@ class MemberContributionFormStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  void selectPaymentChannel(MemberPaymentChannel channel) {
-    _state = _state.copyWith(selectedChannel: channel);
+  void setCustomAmountInput(bool value) {
+    _state = _state.copyWith(showCustomAmountInput: value);
+    notifyListeners();
+  }
 
-    // If switching to manual receipt, reset paidAt if switching away from manual
-    if (channel != MemberPaymentChannel.externalWithReceipt) {
+  void selectPaymentChannel(MemberPaymentChannel channel) {
+    if (channel == MemberPaymentChannel.pix && !canPayWithPix) {
+      return;
+    }
+
+    _cancelPixPaymentFallback();
+
+    if (channel == MemberPaymentChannel.pix) {
+      _receiptFile = null;
       _state = _state.copyWith(
+        selectedChannel: channel,
         clearPaidAt: true,
         clearReceiptLocalPath: true,
         clearReceiptFileName: true,
+        isWaitingPixPayment: false,
+        pixPaymentFinished: false,
+      );
+    } else {
+      _state = _state.copyWith(
+        selectedChannel: channel,
+        isWaitingPixPayment: false,
+        pixPaymentFinished: false,
       );
     }
+
+    notifyListeners();
+  }
+
+  void nextStep() {
+    switch (_state.currentStep) {
+      case 1:
+        if (!_state.canContinueTypeStep) return;
+        _state = _state.copyWith(currentStep: 2);
+        break;
+      case 2:
+        if (!_state.hasValidAmount) return;
+        _state = _state.copyWith(currentStep: 3);
+        break;
+      case 3:
+        final channel = _state.selectedChannel;
+        if (channel == null) return;
+        if (channel == MemberPaymentChannel.pix && !canPayWithPix) return;
+
+        _state = _state.copyWith(
+          currentStep: 4,
+          isWaitingPixPayment: channel == MemberPaymentChannel.pix,
+          pixPaymentFinished: false,
+        );
+
+        if (channel == MemberPaymentChannel.pix) {
+          _startPixPaymentFallback();
+        } else {
+          _cancelPixPaymentFallback();
+        }
+        break;
+      case 4:
+        if (_state.selectedChannel != MemberPaymentChannel.externalWithReceipt ||
+            _state.paidAt == null) {
+          return;
+        }
+        _state = _state.copyWith(currentStep: 5);
+        break;
+      default:
+        return;
+    }
+
+    notifyListeners();
+  }
+
+  void backToPaymentMethod() {
+    if (_state.currentStep != 4 ||
+        _state.selectedChannel != MemberPaymentChannel.pix) {
+      return;
+    }
+
+    _cancelPixPaymentFallback();
+    _state = _state.copyWith(
+      currentStep: 3,
+      isWaitingPixPayment: false,
+      pixPaymentFinished: false,
+    );
+    notifyListeners();
+  }
+
+  void confirmPixPaymentManually() {
+    if (!_canConfirmPixPaymentManually ||
+        !_state.isWaitingPixPayment ||
+        _state.selectedChannel != MemberPaymentChannel.pix ||
+        _state.currentStep != 4) {
+      return;
+    }
+
+    _cancelPixPaymentFallback();
+    _state = _state.copyWith(
+      isWaitingPixPayment: false,
+      pixPaymentFinished: true,
+    );
     notifyListeners();
   }
 
@@ -87,13 +260,13 @@ class MemberContributionFormStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Receipt management (for externalWithReceipt)
   void setPaidAt(DateTime date) {
     _state = _state.copyWith(paidAt: date);
     notifyListeners();
   }
 
   void setReceiptFile(MultipartFile file, String fileName) {
+    _receiptFile = file;
     _state = _state.copyWith(
       receiptLocalPath: fileName,
       receiptFileName: fileName,
@@ -102,6 +275,7 @@ class MemberContributionFormStore extends ChangeNotifier {
   }
 
   void clearReceipt() {
+    _receiptFile = null;
     _state = _state.copyWith(
       clearReceiptLocalPath: true,
       clearReceiptFileName: true,
@@ -109,21 +283,18 @@ class MemberContributionFormStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Main submission logic
-  Future<ContributionResult?> submitContribution(
-    AppLocalizations l10n,
-    MultipartFile? receiptFile,
-  ) async {
-    // Validate
-    if (!_state.isValid) {
+  Future<bool> submitContribution(AppLocalizations l10n) async {
+    if (_state.selectedChannel != MemberPaymentChannel.externalWithReceipt ||
+        !_state.isValid ||
+        _receiptFile == null) {
       Toast.showMessage(
         l10n.member_contribution_form_required_fields_error,
         ToastType.warning,
       );
-      return null;
+      return false;
     }
 
-    _state = _state.copyWith(isSubmitting: true, errorMessage: null);
+    _state = _state.copyWith(isSubmitting: true, clearErrorMessage: true);
     notifyListeners();
 
     try {
@@ -132,66 +303,22 @@ class MemberContributionFormStore extends ChangeNotifier {
         destinationId: _state.selectedDestinationId,
         financialConceptId: _state.financialConceptId,
         amount: _state.amount!,
-        channel: _state.selectedChannel!,
+        channel: MemberPaymentChannel.externalWithReceipt,
         message: _state.message,
         paidAt: _state.paidAt,
       );
 
-      ContributionResult result;
-
-      switch (_state.selectedChannel!) {
-        case MemberPaymentChannel.pix:
-          final pixResponse = await _service.createPixCharge(request);
-          result = ContributionResult(
-            status: MemberContributionStatus.pending,
-            channel: MemberPaymentChannel.pix,
-            contributionId: pixResponse.contributionId,
-            pixPayload: pixResponse,
-          );
-          break;
-
-        case MemberPaymentChannel.boleto:
-          final boletoResponse = await _service.createBoletoCharge(request);
-          result = ContributionResult(
-            status: MemberContributionStatus.pending,
-            channel: MemberPaymentChannel.boleto,
-            contributionId: boletoResponse.contributionId,
-            boletoPayload: boletoResponse,
-          );
-          break;
-
-        case MemberPaymentChannel.externalWithReceipt:
-          if (receiptFile == null) {
-            _state = _state.copyWith(isSubmitting: false);
-            notifyListeners();
-            Toast.showMessage(
-              l10n.member_contribution_form_receipt_required_error,
-              ToastType.warning,
-            );
-            return null;
-          }
-
-          _state = _state.copyWith(isUploadingReceipt: true);
-          notifyListeners();
-
-          // Register manual contribution with file
-          await _service.registerManualContribution(request, receiptFile);
-
-          _state = _state.copyWith(isUploadingReceipt: false);
-          notifyListeners();
-
-          result = ContributionResult(
-            status: MemberContributionStatus.pendingReview,
-            channel: MemberPaymentChannel.externalWithReceipt,
-            contributionId: null,
-          );
-          break;
-      }
-
-      _state = _state.copyWith(isSubmitting: false);
+      _state = _state.copyWith(isUploadingReceipt: true);
       notifyListeners();
 
-      return result;
+      await _service.registerManualContribution(request, _receiptFile);
+
+      _state = _state.copyWith(
+        isSubmitting: false,
+        isUploadingReceipt: false,
+      );
+      notifyListeners();
+      return true;
     } catch (e) {
       _state = _state.copyWith(
         isSubmitting: false,
@@ -204,20 +331,81 @@ class MemberContributionFormStore extends ChangeNotifier {
         l10n.member_contribution_form_submission_error(e.toString()),
         ToastType.error,
       );
-      return null;
+      return false;
     }
   }
 
-  // Reset form
+  void consumePixPaymentFinished() {
+    if (!_state.pixPaymentFinished) return;
+    _state = _state.copyWith(pixPaymentFinished: false);
+    notifyListeners();
+  }
+
   void reset() {
+    _cancelPixPaymentFallback();
+    _receiptFile = null;
     _state = MemberContributionFormState(
-      selectedType: MemberContributionType.tithe,
       selectedDestinationId:
           availabilityAccounts.isNotEmpty
               ? availabilityAccounts.first.availabilityAccountId
               : null,
-      selectedChannel: MemberPaymentChannel.externalWithReceipt,
     );
     notifyListeners();
+  }
+
+  FinancialConceptModel? _findConceptByTag(String tag) {
+    for (final concept in _conceptStore.state.financialConcepts) {
+      if (concept.active && concept.tag == tag) {
+        return concept;
+      }
+    }
+
+    return null;
+  }
+
+  void _startPixPaymentFallback() {
+    _cancelPixPaymentFallback();
+    _pixPaymentFallbackTimer = Timer(_pixPaymentFallbackDelay, () {
+      if (!_state.isWaitingPixPayment ||
+          _state.selectedChannel != MemberPaymentChannel.pix ||
+          _state.currentStep != 4) {
+        return;
+      }
+
+      _canConfirmPixPaymentManually = true;
+      notifyListeners();
+    });
+  }
+
+  void _cancelPixPaymentFallback() {
+    _pixPaymentFallbackTimer?.cancel();
+    _pixPaymentFallbackTimer = null;
+    _canConfirmPixPaymentManually = false;
+  }
+
+  void _handlePaidPix(dynamic data) {
+    if (!_state.isWaitingPixPayment ||
+        _state.selectedChannel != MemberPaymentChannel.pix ||
+        _state.currentStep != 4) {
+      return;
+    }
+
+    if (data is! Map || data['payment'] != 'finish') {
+      return;
+    }
+
+    _cancelPixPaymentFallback();
+    _state = _state.copyWith(
+      isWaitingPixPayment: false,
+      pixPaymentFinished: true,
+    );
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _cancelPixPaymentFallback();
+    _webSocketService.offPaidPix(_paidPixListener);
+    super.dispose();
   }
 }

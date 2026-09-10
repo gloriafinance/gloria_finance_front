@@ -114,9 +114,8 @@ class FinancialConceptModel {
   final bool isOperational;
   final DateTime? createdAt;
   final String? churchId;
+  final String? tag;
   final FinancialConceptPixModel? pix;
-
-  //final String churchId;
 
   FinancialConceptModel({
     required this.financialConceptId,
@@ -131,8 +130,8 @@ class FinancialConceptModel {
     required this.isOperational,
     required this.createdAt,
     required this.churchId,
+    this.tag,
     this.pix,
-    //required this.churchId,
   });
 
   factory FinancialConceptModel.fromJson(Map<String, dynamic> json) {
@@ -152,13 +151,13 @@ class FinancialConceptModel {
               ? DateTime.tryParse(json['createdAt'])
               : null,
       churchId: json['churchId'],
+      tag: json['tag'],
       pix:
           json['pix'] == null
               ? null
               : FinancialConceptPixModel.fromJson(
                 Map<String, dynamic>.from(json['pix'] as Map),
               ),
-      //churchId: json['churchId'],
     );
   }
 
@@ -176,8 +175,8 @@ class FinancialConceptModel {
       'isOperational': isOperational,
       'createdAt': createdAt?.toIso8601String(),
       'churchId': churchId,
+      'tag': tag,
       'pix': pix?.toJson(),
-      //'churchId': churchId,
     };
   }
 
@@ -194,8 +193,8 @@ class FinancialConceptModel {
     bool? affectsBalance,
     bool? isOperational,
     String? churchId,
+    String? tag,
     FinancialConceptPixModel? pix,
-    //String? churchId,
   }) {
     return FinancialConceptModel(
       financialConceptId: financialConceptId ?? this.financialConceptId,
@@ -208,9 +207,9 @@ class FinancialConceptModel {
       affectsResult: affectsResult ?? this.affectsResult,
       affectsBalance: affectsBalance ?? this.affectsBalance,
       isOperational: isOperational ?? this.isOperational,
-      //churchId: churchId ?? this.churchId,
       createdAt: createdAt ?? this.createdAt,
       churchId: churchId ?? this.churchId,
+      tag: tag ?? this.tag,
       pix: pix ?? this.pix,
     );
   }
