@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 class ContributionService extends AppHttp {
   ContributionService({super.tokenAPI});
 
-  // Get contribution destinations (accounts/campaigns)
   Future<List<ContributionDestination>> getDestinations() async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
@@ -29,49 +28,6 @@ class ContributionService extends AppHttp {
     }
   }
 
-  // Create PIX charge
-  Future<PixChargeResponse> createPixCharge(
-    MemberContributionRequest request,
-  ) async {
-    final session = await AuthPersistence().restore();
-    tokenAPI = session.token;
-
-    try {
-      final response = await http.post(
-        '${await getUrlApi()}finance/contributions/pix',
-        data: {...request.toJson(), 'memberId': session.memberId},
-        options: Options(headers: bearerToken()),
-      );
-
-      return PixChargeResponse.fromJson(response.data);
-    } on DioException catch (e) {
-      transformResponse(e.response?.data);
-      rethrow;
-    }
-  }
-
-  // Create Boleto charge
-  Future<BoletoChargeResponse> createBoletoCharge(
-    MemberContributionRequest request,
-  ) async {
-    final session = await AuthPersistence().restore();
-    tokenAPI = session.token;
-
-    try {
-      final response = await http.post(
-        '${await getUrlApi()}finance/contributions/boleto',
-        data: {...request.toJson(), 'memberId': session.memberId},
-        options: Options(headers: bearerToken()),
-      );
-
-      return BoletoChargeResponse.fromJson(response.data);
-    } on DioException catch (e) {
-      transformResponse(e.response?.data);
-      rethrow;
-    }
-  }
-
-  // Upload receipt file
   Future<String> uploadReceipt(MultipartFile file) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
@@ -95,7 +51,6 @@ class ContributionService extends AppHttp {
     }
   }
 
-  // Register manual contribution with receipt
   Future<void> registerManualContribution(
     MemberContributionRequest request,
     MultipartFile? file,
@@ -104,7 +59,6 @@ class ContributionService extends AppHttp {
     tokenAPI = session.token;
 
     try {
-      // Build FormData according to backend spec
       final formData = FormData.fromMap({
         'memberId': session.memberId,
         'amount': request.amount,
@@ -130,7 +84,6 @@ class ContributionService extends AppHttp {
     }
   }
 
-  // Legacy method - keep for backward compatibility
   Future<bool> sendSaveContribution(Map<String, dynamic> form) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
@@ -154,7 +107,6 @@ class ContributionService extends AppHttp {
     }
   }
 
-  // Get contribution history
   Future<MemberContributionHistoryResponse> getContributions({
     int page = 1,
     int perPage = 10,

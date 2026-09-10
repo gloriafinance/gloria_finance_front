@@ -3,7 +3,7 @@ import 'package:socket_io_client/socket_io_client.dart' as io;
 
 /// Eventos que el servidor puede enviar al cliente
 enum RealTimeEventNotifications {
-  paidPix('PAID_PIX');
+  paidPix('PaidPix');
 
   const RealTimeEventNotifications(this.value);
 
@@ -21,10 +21,7 @@ class WebSocketService {
   io.Socket? _socket;
   bool _isConnected = false;
   String? _memberId;
-
-  // Callbacks para eventos
-  // Function(Wallet)? _onBalanceUpdate;
-  // Function(Transaction)? _onNewTransaction;
+  void Function(dynamic data)? _onPaidPix;
 
   WebSocketService._internal();
 
@@ -36,8 +33,8 @@ class WebSocketService {
       return;
     }
 
+    disconnect();
     _memberId = memberId;
-    disconnect(); // Desconectar conexión previa si existe
 
     final String serverUrl = _getServerUrl();
 
@@ -48,7 +45,7 @@ class WebSocketService {
             .setTransports(['websocket'])
             .enableAutoConnect()
             .setTimeout(5000)
-            .setQuery({'memberId': memberId})
+            .setQuery({'clientId': memberId})
             .build(),
       );
 
@@ -60,11 +57,11 @@ class WebSocketService {
     }
   }
 
-  /// Obtiene la URL del servidor según el entorno
   String _getServerUrl() {
     final apiProd = 'https://api.gloriafinance.com.br';
-    //final apiDev = 'https://api.gloriafinance.com.br';
-    final apiDev = 'http://0.0.0.0:5200';
+
+    final apiDev = 'https://api.gloriafinance.com.br';
+    //final apiDev = 'http://0.0.0.0:5200/api/';
 
     if (kReleaseMode) {
       return apiProd;
@@ -73,7 +70,6 @@ class WebSocketService {
     return apiDev;
   }
 
-  /// Configura los listeners de eventos del socket
   void _setupEventListeners() {
     if (_socket == null) {
       print('❌ ERROR: _socket es null en _setupEventListeners');
@@ -101,27 +97,20 @@ class WebSocketService {
       print('⚠️ ERROR GENERAL! $error');
     });
 
-    // Listener para actualizaciones de balance de wallet
-    // _socket!.on(RealTimeEventNotifications.balanceWallet.value, (data) {
-    //   print('📡 BALANCE_WALLET RECIBIDO! Datos: $data');
-    //   try {
-    //     final update = Wallet.fromJson(data);
-    //
-    //     if (_onBalanceUpdate != null) {
-    //       _onBalanceUpdate!(update);
-    //     }
-    //   } catch (e) {
-    //     print('❌ Error procesando actualización: $e');
-    //   }
-    // });
+    _socket!.on(RealTimeEventNotifications.paidPix.value, (data) {
+      _onPaidPix?.call(data);
+    });
   }
 
-  /// Registra callback para actualizaciones de balance
-  // void onBalanceUpdate(Function(Wallet) callback) {
-  //   print('🔗 Registrando callback para actualizaciones de balance');
-  //   _onBalanceUpdate = callback;
-  //   print('✅ Callback registrado exitosamente');
-  // }
+  void onPaidPix(void Function(dynamic data) callback) {
+    _onPaidPix = callback;
+  }
+
+  void offPaidPix(void Function(dynamic data) callback) {
+    if (identical(_onPaidPix, callback)) {
+      _onPaidPix = null;
+    }
+  }
 
   void disconnect() {
     if (_socket != null) {
@@ -139,8 +128,9 @@ class WebSocketService {
   String? get clientId => _memberId;
 
   void reconnect() {
-    if (_memberId != null) {
-      connect(_memberId!);
+    final memberId = _memberId;
+    if (memberId != null) {
+      connect(memberId);
     }
   }
 }
