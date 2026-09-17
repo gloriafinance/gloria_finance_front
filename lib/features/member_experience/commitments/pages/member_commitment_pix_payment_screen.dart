@@ -197,18 +197,46 @@ class _PaymentContent extends StatelessWidget {
           ),
         ],
         const SizedBox(height: 16),
-        Text(
-          switch (store.status) {
-            MemberCommitmentPixPaymentUiStatus.paid =>
-              l10n.member_commitments_pix_paid,
-            MemberCommitmentPixPaymentUiStatus.expired =>
-              l10n.member_commitments_pix_expired,
-            MemberCommitmentPixPaymentUiStatus.unknown => payment.status,
-            _ => l10n.member_commitments_pix_waiting,
-          },
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontWeight: FontWeight.w600),
-        ),
+        if (store.status == MemberCommitmentPixPaymentUiStatus.waiting)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(
+                width: 18,
+                height: 18,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.2,
+                  color: AppColors.purple,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Flexible(
+                child: Text(
+                  l10n.member_commitments_pix_waiting,
+                  style: TextStyle(
+                    fontFamily: AppFonts.fontText,
+                    fontSize: 13,
+                    color: Colors.grey.shade700,
+                    height: 1.4,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          )
+        else
+          Text(
+            switch (store.status) {
+              MemberCommitmentPixPaymentUiStatus.paid =>
+                l10n.member_commitments_pix_paid,
+              MemberCommitmentPixPaymentUiStatus.expired =>
+                l10n.member_commitments_pix_expired,
+              MemberCommitmentPixPaymentUiStatus.unknown => payment.status,
+              _ => l10n.member_commitments_pix_waiting,
+            },
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
       ],
     );
   }
