@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gloria_finance/core/websocket_service.dart';
 import 'package:gloria_finance/features/member_experience/commitments/models/member_commitment_model.dart';
 import 'package:gloria_finance/features/member_experience/commitments/service/member_commitment_service.dart';
 
@@ -14,7 +15,9 @@ enum MemberCommitmentPixPaymentUiStatus {
 
 class MemberCommitmentPixPaymentStore extends ChangeNotifier {
   final MemberCommitmentService _service;
+  final WebSocketService _webSocketService;
   final MemberCommitmentInstallment installment;
+  late final void Function(dynamic data) _paidPixListener;
 
   MemberCommitmentPixPayment? payment;
   MemberCommitmentPixPaymentUiStatus status =
@@ -24,7 +27,12 @@ class MemberCommitmentPixPaymentStore extends ChangeNotifier {
   MemberCommitmentPixPaymentStore(
     this.installment, {
     MemberCommitmentService? service,
-  }) : _service = service ?? MemberCommitmentService();
+    WebSocketService? webSocketService,
+  }) : _service = service ?? MemberCommitmentService(),
+       _webSocketService = webSocketService ?? WebSocketService() {
+    _paidPixListener = _handlePaidPix;
+    _webSocketService.onPaidPix(_paidPixListener);
+  }
 
   bool get isLoading => status == MemberCommitmentPixPaymentUiStatus.loading;
 
@@ -54,8 +62,20 @@ class MemberCommitmentPixPaymentStore extends ChangeNotifier {
     }
   }
 
-  void retry() {
-    createPayment();
+  void retry() => createPayment();
+
+  void _handlePaidPix(dynamic data) {
+    if (payment == null ||
+        status != MemberCommitmentPixPaymentUiStatus.waiting) {
+      return;
+    }
+
+    if (data is! Map || data['payment'] != 'finish') {
+      return;
+    }
+
+    status = MemberCommitmentPixPaymentUiStatus.paid;
+    notifyListeners();
   }
 
   MemberCommitmentPixPaymentUiStatus _statusFor(String value) {
@@ -72,5 +92,11 @@ class MemberCommitmentPixPaymentStore extends ChangeNotifier {
       default:
         return MemberCommitmentPixPaymentUiStatus.unknown;
     }
+  }
+
+  @override
+  void dispose() {
+    _webSocketService.offPaidPix(_paidPixListener);
+    super.dispose();
   }
 }

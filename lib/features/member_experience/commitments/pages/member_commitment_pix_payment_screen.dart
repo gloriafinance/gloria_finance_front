@@ -23,7 +23,7 @@ class MemberCommitmentPixRouteArgs {
   });
 }
 
-class MemberCommitmentPixPaymentScreen extends StatelessWidget {
+class MemberCommitmentPixPaymentScreen extends StatefulWidget {
   final MemberCommitmentInstallment installment;
   final int installmentIndex;
   final int totalInstallments;
@@ -36,10 +36,49 @@ class MemberCommitmentPixPaymentScreen extends StatelessWidget {
   });
 
   @override
+  State<MemberCommitmentPixPaymentScreen> createState() =>
+      _MemberCommitmentPixPaymentScreenState();
+}
+
+class _MemberCommitmentPixPaymentScreenState
+    extends State<MemberCommitmentPixPaymentScreen> {
+  late final MemberCommitmentPixPaymentStore _store;
+  bool _paymentHandled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _store = MemberCommitmentPixPaymentStore(widget.installment);
+    _store.addListener(_handleStoreChanged);
+    _store.createPayment();
+  }
+
+  @override
+  void dispose() {
+    _store
+      ..removeListener(_handleStoreChanged)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _handleStoreChanged() {
+    if (_paymentHandled ||
+        _store.status != MemberCommitmentPixPaymentUiStatus.paid) {
+      return;
+    }
+
+    _paymentHandled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        Navigator.of(context).pop(true);
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create:
-          (_) => MemberCommitmentPixPaymentStore(installment)..createPayment(),
+    return ChangeNotifierProvider.value(
+      value: _store,
       child: Consumer<MemberCommitmentPixPaymentStore>(
         builder: (context, store, _) {
           final l10n = context.l10n;
@@ -60,7 +99,7 @@ class MemberCommitmentPixPaymentScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                '${l10n.member_commitments_payment_installment_label} $installmentIndex / $totalInstallments',
+                '${l10n.member_commitments_payment_installment_label} ${widget.installmentIndex} / ${widget.totalInstallments}',
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 24),
@@ -88,30 +127,13 @@ class MemberCommitmentPixPaymentScreen extends StatelessWidget {
               ] else if (store.payment != null) ...[
                 _PaymentContent(store: store, currencySymbol: currencySymbol),
                 const SizedBox(height: 20),
-                if (store.status == MemberCommitmentPixPaymentUiStatus.paid)
-                  CustomButton(
-                    text: l10n.member_commitments_pix_paid,
-                    backgroundColor: AppColors.green,
-                    textColor: Colors.white,
-                    icon: Icons.check,
-                    onPressed: () => Navigator.of(context).pop(true),
-                  )
-                else if (store.status ==
-                    MemberCommitmentPixPaymentUiStatus.expired)
+                if (store.status == MemberCommitmentPixPaymentUiStatus.expired)
                   CustomButton(
                     text: l10n.member_commitments_pix_retry,
                     backgroundColor: AppColors.purple,
                     textColor: Colors.white,
                     icon: Icons.refresh,
                     onPressed: store.retry,
-                  )
-                else
-                  CustomButton(
-                    text: l10n.member_commitments_pix_verify,
-                    backgroundColor: AppColors.purple,
-                    textColor: Colors.white,
-                    icon: Icons.refresh,
-                    onPressed: () => Navigator.of(context).pop(true),
                   ),
               ],
             ],
