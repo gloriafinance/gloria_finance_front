@@ -3,11 +3,12 @@ import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/currency_formatter.dart';
-import 'package:gloria_finance/core/utils/date_formatter.dart';
 import 'package:gloria_finance/core/widgets/custom_button.dart';
+import 'package:gloria_finance/features/auth/pages/login/store/auth_session_store.dart';
 import 'package:gloria_finance/features/member_experience/commitments/models/member_commitment_model.dart';
 import 'package:gloria_finance/features/member_experience/commitments/store/member_commitment_pix_payment_store.dart';
 import 'package:gloria_finance/features/member_experience/contributions/pages/contribute/widgets/pix_payment_code_panel.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class MemberCommitmentPixRouteArgs {
@@ -42,6 +43,8 @@ class MemberCommitmentPixPaymentScreen extends StatelessWidget {
       child: Consumer<MemberCommitmentPixPaymentStore>(
         builder: (context, store, _) {
           final l10n = context.l10n;
+          final currencySymbol =
+              context.read<AuthSessionStore>().state.session.symbolFormatMoney;
           return ListView(
             padding: const EdgeInsets.all(20),
             children: [
@@ -83,7 +86,7 @@ class MemberCommitmentPixPaymentScreen extends StatelessWidget {
                   onPressed: store.retry,
                 ),
               ] else if (store.payment != null) ...[
-                _PaymentContent(store: store),
+                _PaymentContent(store: store, currencySymbol: currencySymbol),
                 const SizedBox(height: 20),
                 if (store.status == MemberCommitmentPixPaymentUiStatus.paid)
                   CustomButton(
@@ -121,8 +124,9 @@ class MemberCommitmentPixPaymentScreen extends StatelessWidget {
 
 class _PaymentContent extends StatelessWidget {
   final MemberCommitmentPixPaymentStore store;
+  final String currencySymbol;
 
-  const _PaymentContent({required this.store});
+  const _PaymentContent({required this.store, required this.currencySymbol});
 
   @override
   Widget build(BuildContext context) {
@@ -135,22 +139,27 @@ class _PaymentContent extends StatelessWidget {
         _AmountRow(
           l10n.member_commitments_pix_principal_amount,
           payment.principalAmount,
+          currencySymbol: currencySymbol,
         ),
         _AmountRow(
           l10n.member_commitments_pix_transaction_fee,
           payment.transactionFee,
+          currencySymbol: currencySymbol,
         ),
         const Divider(),
         _AmountRow(
           l10n.member_commitments_pix_total_amount,
           payment.chargeAmount,
           highlighted: true,
+          currencySymbol: currencySymbol,
         ),
         if (payment.expirationDate != null) ...[
           const SizedBox(height: 8),
           Text(
             l10n.member_commitments_pix_expiration(
-              formatDateToDDMMYYYY(payment.expirationDate!),
+              DateFormat(
+                'dd/MM/yyyy HH:mm',
+              ).format(payment.expirationDate!.toLocal()),
             ),
             textAlign: TextAlign.center,
           ),
@@ -187,8 +196,14 @@ class _AmountRow extends StatelessWidget {
   final String label;
   final double amount;
   final bool highlighted;
+  final String currencySymbol;
 
-  const _AmountRow(this.label, this.amount, {this.highlighted = false});
+  const _AmountRow(
+    this.label,
+    this.amount, {
+    this.highlighted = false,
+    required this.currencySymbol,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -199,7 +214,7 @@ class _AmountRow extends StatelessWidget {
         children: [
           Text(label),
           Text(
-            CurrencyFormatter.formatCurrency(amount),
+            CurrencyFormatter.formatCurrency(amount, symbol: currencySymbol),
             style: TextStyle(
               fontWeight: highlighted ? FontWeight.bold : FontWeight.w500,
               fontSize: highlighted ? 18 : 15,
