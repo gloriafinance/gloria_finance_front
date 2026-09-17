@@ -41,38 +41,41 @@ class MemberBottomNavigationBar extends StatelessWidget {
     final l10n = context.l10n;
     final int selectedIndex = _calculateSelectedIndex(context);
 
-    return Container(
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-        child: GNav(
-          gap: 8,
-          activeColor: AppColors.purple,
-          iconSize: 24,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          duration: const Duration(milliseconds: 400),
-          tabBackgroundColor: AppColors.purple.withValues(alpha: 0.1),
-          color: Colors.grey,
-          tabs: [
-            GButton(
-              icon: Icons.home_outlined,
-              text: l10n.member_shell_nav_home,
-            ),
-            GButton(
-              icon: Icons.volunteer_activism,
-              text: l10n.member_shell_nav_contribute,
-            ),
-            GButton(
-              icon: Icons.event_note,
-              text: l10n.member_shell_nav_commitments,
-            ),
-            GButton(
-              icon: Icons.person_pin_sharp,
-              text: l10n.member_drawer_profile,
-            ),
-          ],
-          selectedIndex: selectedIndex,
-          onTabChange: (index) => _onItemTapped(index, context),
+    return SafeArea(
+      top: false,
+      child: Container(
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+          child: GNav(
+            gap: 8,
+            activeColor: AppColors.purple,
+            iconSize: 24,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            duration: const Duration(milliseconds: 400),
+            tabBackgroundColor: AppColors.purple.withValues(alpha: 0.1),
+            color: Colors.grey,
+            tabs: [
+              GButton(
+                icon: Icons.home_outlined,
+                text: l10n.member_shell_nav_home,
+              ),
+              GButton(
+                icon: Icons.volunteer_activism,
+                text: l10n.member_shell_nav_contribute,
+              ),
+              GButton(
+                icon: Icons.event_note,
+                text: l10n.member_shell_nav_commitments,
+              ),
+              GButton(
+                icon: Icons.person_pin_sharp,
+                text: l10n.member_drawer_profile,
+              ),
+            ],
+            selectedIndex: selectedIndex,
+            onTabChange: (index) => _onItemTapped(index, context),
+          ),
         ),
       ),
     );
