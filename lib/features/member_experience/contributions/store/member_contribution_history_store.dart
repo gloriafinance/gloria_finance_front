@@ -11,7 +11,7 @@ class MemberContributionHistoryStore extends ChangeNotifier {
   int count = 0;
   int page = 1;
   int perPage = 10;
-  String? nextPag;
+  int? nextPag;
 
   // Filters
   String type = 'ALL'; // ALL, TITHE, OFFERING
@@ -90,9 +90,8 @@ class MemberContributionHistoryStore extends ChangeNotifier {
   // Helper to group contributions by month/year
   Map<String, List<MemberContributionHistoryModel>> get groupedContributions {
     final Map<String, List<MemberContributionHistoryModel>> grouped = {};
-    final locale = Intl.getCurrentLocale().isNotEmpty
-        ? Intl.getCurrentLocale()
-        : 'pt_BR';
+    final locale =
+        Intl.getCurrentLocale().isNotEmpty ? Intl.getCurrentLocale() : 'pt_BR';
     final dateFormat = DateFormat('MMMM yyyy', locale);
 
     for (var contribution in contributions) {

@@ -75,7 +75,7 @@ class MemberContributionHistoryScreen extends StatelessWidget {
       'OFFERING': l10n.member_contribution_type_offering,
     };
 
-    return Container(
+    return Material(
       color: Colors.white,
       child: ExpansionTile(
         title: Text(
