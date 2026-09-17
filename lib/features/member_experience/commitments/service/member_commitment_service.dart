@@ -1,7 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:gloria_finance/core/app_http.dart';
 import 'package:gloria_finance/features/auth/auth_persistence.dart';
 import 'package:gloria_finance/features/member_experience/commitments/models/member_commitment_model.dart';
-import 'package:dio/dio.dart';
 
 class MemberCommitmentService extends AppHttp {
   MemberCommitmentService({super.tokenAPI});
@@ -84,6 +84,7 @@ class MemberCommitmentService extends AppHttp {
         data: {'externalReference': installmentId, 'amount': amount},
         options: Options(headers: bearerToken()),
       );
+
       return MemberCommitmentPixPayment.fromJson(
         Map<String, dynamic>.from(response.data as Map),
       );

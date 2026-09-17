@@ -39,7 +39,11 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
 
     _store = MemberContributionFormStore(accountsStore, conceptStore);
     _store!.addListener(_handleStoreChanged);
-    _store!.initialize();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _store?.initialize();
+      }
+    });
   }
 
   @override
@@ -61,11 +65,7 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
 
     context.go(
       '/member/contribute/result',
-      extra: {
-        'success': true,
-        'type': type,
-        'amount': amount,
-      },
+      extra: {'success': true, 'type': type, 'amount': amount},
     );
   }
 
@@ -119,10 +119,7 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
     );
   }
 
-  Widget _buildStep(
-    BuildContext context,
-    MemberContributionFormStore store,
-  ) {
+  Widget _buildStep(BuildContext context, MemberContributionFormStore store) {
     final l10n = context.l10n;
     final state = store.state;
 
@@ -201,7 +198,8 @@ class _MemberContributeScreenState extends State<MemberContributeScreen> {
               currentStep: state.currentStep,
               totalSteps: state.totalSteps,
               title: l10n.member_contribution_pix_title,
-              subtitle: l10n.member_contribution_payment_method_manual_description,
+              subtitle:
+                  l10n.member_contribution_payment_method_manual_description,
               body: ContributionPaymentMethodCards(
                 selectedChannel: null,
                 onChannelSelected: store.selectPaymentChannel,
