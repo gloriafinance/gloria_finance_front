@@ -9,11 +9,13 @@ import 'package:flutter/material.dart';
 class MemberCommitmentInstallmentsTimeline extends StatelessWidget {
   final MemberCommitmentModel commitment;
   final ValueChanged<MemberCommitmentInstallment> onPayInstallment;
+  final bool isBrazil;
 
   const MemberCommitmentInstallmentsTimeline({
     super.key,
     required this.commitment,
     required this.onPayInstallment,
+    this.isBrazil = false,
   });
 
   @override
@@ -44,18 +46,17 @@ class MemberCommitmentInstallmentsTimeline extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          ...commitment.installments.asMap().entries.map(
-            (entry) {
-              final installment = entry.value;
-              final index = entry.key + 1;
-              return _InstallmentTile(
-                installment: installment,
-                index: index,
-                total: commitment.installments.length,
-                onPayInstallment: onPayInstallment,
-              );
-            },
-          ),
+          ...commitment.installments.asMap().entries.map((entry) {
+            final installment = entry.value;
+            final index = entry.key + 1;
+            return _InstallmentTile(
+              installment: installment,
+              index: index,
+              total: commitment.installments.length,
+              onPayInstallment: onPayInstallment,
+              isBrazil: isBrazil,
+            );
+          }),
         ],
       ),
     );
@@ -67,12 +68,14 @@ class _InstallmentTile extends StatelessWidget {
   final int index;
   final int total;
   final ValueChanged<MemberCommitmentInstallment> onPayInstallment;
+  final bool isBrazil;
 
   const _InstallmentTile({
     required this.installment,
     required this.index,
     required this.total,
     required this.onPayInstallment,
+    required this.isBrazil,
   });
 
   @override
@@ -155,7 +158,9 @@ class _InstallmentTile extends StatelessWidget {
               child: TextButton(
                 onPressed: () => onPayInstallment(installment),
                 child: Text(
-                  l10n.member_commitments_action_pay_installment,
+                  isBrazil
+                      ? l10n.member_commitments_pix_pay
+                      : l10n.member_commitments_action_pay_installment,
                   style: const TextStyle(
                     fontFamily: AppFonts.fontSubTitle,
                     color: AppColors.purple,
@@ -197,7 +202,8 @@ class _InstallmentTile extends StatelessWidget {
   }
 
   bool _isOverdue(MemberCommitmentInstallment installment) {
-    return installment.canBePaid && installment.dueDate.isBefore(DateTime.now());
+    return installment.canBePaid &&
+        installment.dueDate.isBefore(DateTime.now());
   }
 
   String _statusLabel(

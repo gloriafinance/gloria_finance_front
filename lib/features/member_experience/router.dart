@@ -1,6 +1,7 @@
 import 'package:gloria_finance/core/theme/transition_custom.dart';
 import 'package:gloria_finance/features/member_experience/commitments/models/member_commitment_model.dart';
 import 'package:gloria_finance/features/member_experience/commitments/pages/member_commitment_detail_screen.dart';
+import 'package:gloria_finance/features/member_experience/commitments/pages/member_commitment_pix_payment_screen.dart';
 import 'package:gloria_finance/features/member_experience/commitments/pages/member_commitments_screen.dart';
 import 'package:gloria_finance/features/member_experience/contributions/models/member_contribution_models.dart';
 import 'package:gloria_finance/features/member_experience/contributions/pages/contribute/member_contribute_result_screen.dart';
@@ -59,6 +60,21 @@ memberExperienceRouter() {
               MemberCommitmentDetailScreen(commitment: commitment),
             );
           },
+          routes: [
+            GoRoute(
+              path: 'pix',
+              pageBuilder: (context, state) {
+                final args = state.extra as MemberCommitmentPixRouteArgs;
+                return transitionCustom(
+                  MemberCommitmentPixPaymentScreen(
+                    installment: args.installment,
+                    installmentIndex: args.installmentIndex,
+                    totalInstallments: args.totalInstallments,
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ],
     ),

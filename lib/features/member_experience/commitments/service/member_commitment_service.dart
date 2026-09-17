@@ -70,4 +70,26 @@ class MemberCommitmentService extends AppHttp {
       rethrow;
     }
   }
+
+  Future<MemberCommitmentPixPayment> createPixPayment({
+    required String installmentId,
+    required double amount,
+  }) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.post(
+        '${await getUrlApi()}banking/payment/pix',
+        data: {'externalReference': installmentId, 'amount': amount},
+        options: Options(headers: bearerToken()),
+      );
+      return MemberCommitmentPixPayment.fromJson(
+        Map<String, dynamic>.from(response.data as Map),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
 }

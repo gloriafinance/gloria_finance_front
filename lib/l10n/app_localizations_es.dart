@@ -5322,4 +5322,54 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settings_banks_asaas_connect_help_action => 'Abrir Asaas';
+
+  @override
+  String get member_commitments_pix_title => 'Pagar compromiso';
+
+  @override
+  String get member_commitments_pix_principal_amount => 'Valor de la cuota';
+
+  @override
+  String get member_commitments_pix_transaction_fee => 'Tarifa transaccional';
+
+  @override
+  String get member_commitments_pix_total_amount => 'Total a pagar';
+
+  @override
+  String get member_commitments_pix_code_label => 'PIX copiar y pegar';
+
+  @override
+  String get member_commitments_pix_copy => 'Copiar código PIX';
+
+  @override
+  String get member_commitments_pix_copy_success => '¡Código PIX copiado!';
+
+  @override
+  String get member_commitments_pix_waiting => 'Esperando el pago';
+
+  @override
+  String get member_commitments_pix_verify => 'Verificar pago';
+
+  @override
+  String get member_commitments_pix_paid => 'Pago confirmado';
+
+  @override
+  String get member_commitments_pix_expired => 'Este PIX expiró.';
+
+  @override
+  String get member_commitments_pix_generating => 'Generando PIX...';
+
+  @override
+  String get member_commitments_pix_error => 'No fue posible generar el PIX.';
+
+  @override
+  String get member_commitments_pix_retry => 'Intentar nuevamente';
+
+  @override
+  String member_commitments_pix_expiration(Object date) {
+    return 'Válido hasta: $date';
+  }
+
+  @override
+  String get member_commitments_pix_pay => 'Pagar con PIX';
 }

@@ -1,12 +1,7 @@
 import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:flutter/material.dart';
 
-enum MemberCommitmentStatus {
-  pending,
-  paid,
-  pendingAcceptance,
-  denied,
-}
+enum MemberCommitmentStatus { pending, paid, pendingAcceptance, denied }
 
 extension MemberCommitmentStatusExt on MemberCommitmentStatus {
   Color get badgeColor {
@@ -47,16 +42,17 @@ class MemberCommitmentInstallment {
     return MemberCommitmentInstallment(
       installmentId: json['installmentId'] ?? '',
       amount: (json['amount'] ?? 0).toDouble(),
-      amountPaid: json['amountPaid'] != null
-          ? (json['amountPaid']).toDouble()
-          : null,
-      amountPending: json['amountPending'] != null
-          ? (json['amountPending']).toDouble()
-          : null,
+      amountPaid:
+          json['amountPaid'] != null ? (json['amountPaid']).toDouble() : null,
+      amountPending:
+          json['amountPending'] != null
+              ? (json['amountPending']).toDouble()
+              : null,
       dueDate: DateTime.parse(json['dueDate']),
-      paymentDate: json['paymentDate'] != null
-          ? DateTime.tryParse(json['paymentDate'])
-          : null,
+      paymentDate:
+          json['paymentDate'] != null
+              ? DateTime.tryParse(json['paymentDate'])
+              : null,
       status: json['status'] ?? 'PENDING',
     );
   }
@@ -69,6 +65,61 @@ class MemberCommitmentInstallment {
     if (amountPending != null) return amountPending!;
     if (amountPaid != null) return amount - amountPaid!;
     return amount;
+  }
+}
+
+class MemberCommitmentPixPayment {
+  final String paymentId;
+  final String status;
+  final int principalAmountInCents;
+  final int transactionFeeInCents;
+  final int platformFeeInCents;
+  final int chargeAmountInCents;
+  final String? copyPaste;
+  final String? encodedImage;
+  final DateTime? expirationDate;
+
+  const MemberCommitmentPixPayment({
+    required this.paymentId,
+    required this.status,
+    required this.principalAmountInCents,
+    required this.transactionFeeInCents,
+    required this.platformFeeInCents,
+    required this.chargeAmountInCents,
+    this.copyPaste,
+    this.encodedImage,
+    this.expirationDate,
+  });
+
+  factory MemberCommitmentPixPayment.fromJson(Map<String, dynamic> json) {
+    final pix =
+        json['pix'] is Map
+            ? Map<String, dynamic>.from(json['pix'] as Map)
+            : const <String, dynamic>{};
+    return MemberCommitmentPixPayment(
+      paymentId: json['paymentId']?.toString() ?? '',
+      status: json['status']?.toString() ?? 'unknown',
+      principalAmountInCents: _intValue(json['principalAmountInCents']),
+      transactionFeeInCents: _intValue(json['transactionFeeInCents']),
+      platformFeeInCents: _intValue(json['platformFeeInCents']),
+      chargeAmountInCents: _intValue(json['chargeAmountInCents']),
+      copyPaste: pix['copyPaste']?.toString(),
+      encodedImage: pix['encodedImage']?.toString(),
+      expirationDate:
+          pix['expirationDate'] == null
+              ? null
+              : DateTime.tryParse(pix['expirationDate'].toString()),
+    );
+  }
+
+  double get principalAmount => principalAmountInCents / 100;
+  double get transactionFee => transactionFeeInCents / 100;
+  double get chargeAmount => chargeAmountInCents / 100;
+
+  static int _intValue(dynamic value) {
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    return int.tryParse(value?.toString() ?? '') ?? 0;
   }
 }
 
@@ -96,10 +147,11 @@ class MemberCommitmentModel {
   factory MemberCommitmentModel.fromJson(Map<String, dynamic> json) {
     final installmentsJson =
         (json['installments'] as List<dynamic>? ?? [])
-            .map((e) =>
-                MemberCommitmentInstallment.fromJson(
-                  e as Map<String, dynamic>,
-                ))
+            .map(
+              (e) => MemberCommitmentInstallment.fromJson(
+                e as Map<String, dynamic>,
+              ),
+            )
             .toList();
 
     return MemberCommitmentModel(
@@ -137,10 +189,9 @@ class MemberCommitmentModel {
   bool get isCompleted => status == MemberCommitmentStatus.paid;
 
   MemberCommitmentInstallment? get nextInstallment {
-    final unpaid = installments
-        .where((installment) => installment.canBePaid)
-        .toList()
-      ..sort((a, b) => a.dueDate.compareTo(b.dueDate));
+    final unpaid =
+        installments.where((installment) => installment.canBePaid).toList()
+          ..sort((a, b) => a.dueDate.compareTo(b.dueDate));
     if (unpaid.isEmpty) return null;
     return unpaid.first;
   }
@@ -161,13 +212,13 @@ class MemberCommitmentListResponse {
     return MemberCommitmentListResponse(
       count: json['count'] ?? 0,
       nextPag: json['nextPag'],
-      results: (json['results'] as List<dynamic>? ?? [])
-          .map(
-            (e) => MemberCommitmentModel.fromJson(
-              e as Map<String, dynamic>,
-            ),
-          )
-          .toList(),
+      results:
+          (json['results'] as List<dynamic>? ?? [])
+              .map(
+                (e) =>
+                    MemberCommitmentModel.fromJson(e as Map<String, dynamic>),
+              )
+              .toList(),
     );
   }
 }

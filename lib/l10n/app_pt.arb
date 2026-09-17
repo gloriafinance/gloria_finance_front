@@ -2241,5 +2241,21 @@
   "settings_banks_asaas_connect_progress_confirmation": "3. Confirmação",
   "settings_banks_asaas_connect_help_title": "Precisa de ajuda?",
   "settings_banks_asaas_connect_help_description": "Em caso de dúvidas sobre sua API Key ou integração com o Asaas, acesse a Central de ajuda do Asaas.",
-  "settings_banks_asaas_connect_help_action": "Abrir Asaas"
+  "settings_banks_asaas_connect_help_action": "Abrir Asaas",
+  "member_commitments_pix_title": "Pagar compromisso",
+  "member_commitments_pix_principal_amount": "Valor da parcela",
+  "member_commitments_pix_transaction_fee": "Taxa transacional",
+  "member_commitments_pix_total_amount": "Total a pagar",
+  "member_commitments_pix_code_label": "PIX copia e cola",
+  "member_commitments_pix_copy": "Copiar código PIX",
+  "member_commitments_pix_copy_success": "Código PIX copiado!",
+  "member_commitments_pix_waiting": "Aguardando pagamento",
+  "member_commitments_pix_verify": "Verificar pagamento",
+  "member_commitments_pix_paid": "Pagamento confirmado",
+  "member_commitments_pix_expired": "Este PIX expirou.",
+  "member_commitments_pix_generating": "Gerando PIX...",
+  "member_commitments_pix_error": "Não foi possível gerar o PIX.",
+  "member_commitments_pix_retry": "Tentar novamente",
+  "member_commitments_pix_expiration": "Válido até: {date}",
+  "member_commitments_pix_pay": "Pagar com PIX"
 }

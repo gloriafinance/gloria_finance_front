@@ -2241,5 +2241,21 @@
   "settings_banks_asaas_connect_progress_confirmation": "3. Confirmation",
   "settings_banks_asaas_connect_help_title": "Need help?",
   "settings_banks_asaas_connect_help_description": "If you have questions about your API Key or the Asaas integration, visit the Asaas Help Center.",
-  "settings_banks_asaas_connect_help_action": "Open Asaas"
+  "settings_banks_asaas_connect_help_action": "Open Asaas",
+  "member_commitments_pix_title": "Pay commitment",
+  "member_commitments_pix_principal_amount": "Installment amount",
+  "member_commitments_pix_transaction_fee": "Transaction fee",
+  "member_commitments_pix_total_amount": "Total to pay",
+  "member_commitments_pix_code_label": "PIX copy and paste",
+  "member_commitments_pix_copy": "Copy PIX code",
+  "member_commitments_pix_copy_success": "PIX code copied!",
+  "member_commitments_pix_waiting": "Waiting for payment",
+  "member_commitments_pix_verify": "Verify payment",
+  "member_commitments_pix_paid": "Payment confirmed",
+  "member_commitments_pix_expired": "This PIX has expired.",
+  "member_commitments_pix_generating": "Generating PIX...",
+  "member_commitments_pix_error": "Could not generate PIX.",
+  "member_commitments_pix_retry": "Try again",
+  "member_commitments_pix_expiration": "Valid until: {date}",
+  "member_commitments_pix_pay": "Pay with PIX"
 }
