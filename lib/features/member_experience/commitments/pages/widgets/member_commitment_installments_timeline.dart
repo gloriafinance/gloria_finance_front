@@ -9,13 +9,13 @@ import 'package:flutter/material.dart';
 class MemberCommitmentInstallmentsTimeline extends StatelessWidget {
   final MemberCommitmentModel commitment;
   final ValueChanged<MemberCommitmentInstallment> onPayInstallment;
-  final bool isBrazil;
+  final bool usePix;
 
   const MemberCommitmentInstallmentsTimeline({
     super.key,
     required this.commitment,
     required this.onPayInstallment,
-    this.isBrazil = false,
+    this.usePix = false,
   });
 
   @override
@@ -54,7 +54,7 @@ class MemberCommitmentInstallmentsTimeline extends StatelessWidget {
               index: index,
               total: commitment.installments.length,
               onPayInstallment: onPayInstallment,
-              isBrazil: isBrazil,
+              usePix: usePix,
             );
           }),
         ],
@@ -68,14 +68,14 @@ class _InstallmentTile extends StatelessWidget {
   final int index;
   final int total;
   final ValueChanged<MemberCommitmentInstallment> onPayInstallment;
-  final bool isBrazil;
+  final bool usePix;
 
   const _InstallmentTile({
     required this.installment,
     required this.index,
     required this.total,
     required this.onPayInstallment,
-    required this.isBrazil,
+    required this.usePix,
   });
 
   @override
@@ -158,7 +158,7 @@ class _InstallmentTile extends StatelessWidget {
               child: TextButton(
                 onPressed: () => onPayInstallment(installment),
                 child: Text(
-                  isBrazil
+                  usePix
                       ? l10n.member_commitments_pix_pay
                       : l10n.member_commitments_action_pay_installment,
                   style: const TextStyle(

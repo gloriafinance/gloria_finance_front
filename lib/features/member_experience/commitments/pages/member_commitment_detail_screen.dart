@@ -28,14 +28,14 @@ class MemberCommitmentDetailScreen extends StatefulWidget {
 class _MemberCommitmentDetailScreenState
     extends State<MemberCommitmentDetailScreen> {
   AvailabilityAccountsListStore? _accountsStore;
-  late final bool _isBrazil;
+  late final bool _canUsePix;
 
   @override
   void initState() {
     super.initState();
     final session = context.read<AuthSessionStore>().state.session;
-    _isBrazil = session.country.toUpperCase() == 'BR';
-    if (!_isBrazil) {
+    _canUsePix = session.country.toUpperCase() == 'BR' && session.asaasConnect;
+    if (!_canUsePix) {
       _accountsStore =
           AvailabilityAccountsListStore()..addListener(_handleAccountsChanged);
       _accountsStore!.searchAvailabilityAccounts();
@@ -58,7 +58,7 @@ class _MemberCommitmentDetailScreenState
   Future<void> _openPaymentModal(
     MemberCommitmentInstallment installment,
   ) async {
-    if (_isBrazil) {
+    if (_canUsePix) {
       final index = widget.commitment.installments.indexOf(installment) + 1;
       final result = await context.push<bool>(
         '/member/commitments/detail/pix',
@@ -109,13 +109,13 @@ class _MemberCommitmentDetailScreenState
         MemberCommitmentNextInstallmentCard(
           commitment: commitment,
           onPayInstallment: _openPaymentModal,
-          isBrazil: _isBrazil,
+          usePix: _canUsePix,
         ),
         const SizedBox(height: 16),
         MemberCommitmentInstallmentsTimeline(
           commitment: commitment,
           onPayInstallment: _openPaymentModal,
-          isBrazil: _isBrazil,
+          usePix: _canUsePix,
         ),
         const SizedBox(height: 24),
       ],
