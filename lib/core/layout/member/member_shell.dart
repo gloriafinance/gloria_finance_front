@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../features/auth/pages/login/store/auth_session_store.dart';
+import '../../../features/member_experience/app_update/member_app_update.dart';
 import '../../../features/member_experience/profile/store/member_profile_store.dart';
 
 class MemberShell extends StatefulWidget {
@@ -26,6 +27,10 @@ class _MemberShellState extends State<MemberShell> {
   void initState() {
     super.initState();
     _memberProfileStore = MemberProfileStore()..loadProfile();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      MemberAppUpdate.check(context);
+    });
   }
 
   @override
