@@ -10458,6 +10458,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open Asaas'**
   String get settings_banks_asaas_connect_help_action;
+
+  /// No description provided for @member_commitments_pix_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay commitment'**
+  String get member_commitments_pix_title;
+
+  /// No description provided for @member_commitments_pix_principal_amount.
+  ///
+  /// In en, this message translates to:
+  /// **'Installment amount'**
+  String get member_commitments_pix_principal_amount;
+
+  /// No description provided for @member_commitments_pix_transaction_fee.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction fee'**
+  String get member_commitments_pix_transaction_fee;
+
+  /// No description provided for @member_commitments_pix_total_amount.
+  ///
+  /// In en, this message translates to:
+  /// **'Total to pay'**
+  String get member_commitments_pix_total_amount;
+
+  /// No description provided for @member_commitments_pix_code_label.
+  ///
+  /// In en, this message translates to:
+  /// **'PIX copy and paste'**
+  String get member_commitments_pix_code_label;
+
+  /// No description provided for @member_commitments_pix_copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy PIX code'**
+  String get member_commitments_pix_copy;
+
+  /// No description provided for @member_commitments_pix_copy_success.
+  ///
+  /// In en, this message translates to:
+  /// **'PIX code copied!'**
+  String get member_commitments_pix_copy_success;
+
+  /// No description provided for @member_commitments_pix_waiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for payment'**
+  String get member_commitments_pix_waiting;
+
+  /// No description provided for @member_commitments_pix_verify.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify payment'**
+  String get member_commitments_pix_verify;
+
+  /// No description provided for @member_commitments_pix_paid.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment confirmed'**
+  String get member_commitments_pix_paid;
+
+  /// No description provided for @member_commitments_pix_expired.
+  ///
+  /// In en, this message translates to:
+  /// **'This PIX has expired.'**
+  String get member_commitments_pix_expired;
+
+  /// No description provided for @member_commitments_pix_generating.
+  ///
+  /// In en, this message translates to:
+  /// **'Generating PIX...'**
+  String get member_commitments_pix_generating;
+
+  /// No description provided for @member_commitments_pix_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not generate PIX.'**
+  String get member_commitments_pix_error;
+
+  /// No description provided for @member_commitments_pix_retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get member_commitments_pix_retry;
+
+  /// No description provided for @member_commitments_pix_expiration.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid until: {date}'**
+  String member_commitments_pix_expiration(Object date);
+
+  /// No description provided for @member_commitments_pix_pay.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay with PIX'**
+  String get member_commitments_pix_pay;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

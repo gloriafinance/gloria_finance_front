@@ -72,7 +72,7 @@ class MemberContributionHistoryModel {
 
 class MemberContributionHistoryResponse {
   final int count;
-  final String? nextPag;
+  final int? nextPag;
   final List<MemberContributionHistoryModel> results;
 
   MemberContributionHistoryResponse({
@@ -86,7 +86,7 @@ class MemberContributionHistoryResponse {
   ) {
     return MemberContributionHistoryResponse(
       count: json['count'] ?? 0,
-      nextPag: json['nextPag'],
+      nextPag: (json['nextPag'] as num?)?.toInt(),
       results:
           (json['results'] as List<dynamic>?)
               ?.map((e) => MemberContributionHistoryModel.fromJson(e))

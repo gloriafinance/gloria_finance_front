@@ -92,11 +92,13 @@ class MemberCommitmentSummaryCard extends StatelessWidget {
 class MemberCommitmentNextInstallmentCard extends StatelessWidget {
   final MemberCommitmentModel commitment;
   final ValueChanged<MemberCommitmentInstallment> onPayInstallment;
+  final bool usePix;
 
   const MemberCommitmentNextInstallmentCard({
     super.key,
     required this.commitment,
     required this.onPayInstallment,
+    this.usePix = false,
   });
 
   @override
@@ -161,7 +163,10 @@ class MemberCommitmentNextInstallmentCard extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           CustomButton(
-            text: l10n.member_commitments_action_pay_this_installment,
+            text:
+                usePix
+                    ? l10n.member_commitments_pix_pay
+                    : l10n.member_commitments_action_pay_this_installment,
             backgroundColor: AppColors.purple,
             textColor: Colors.white,
             onPressed: () => onPayInstallment(nextInstallment),

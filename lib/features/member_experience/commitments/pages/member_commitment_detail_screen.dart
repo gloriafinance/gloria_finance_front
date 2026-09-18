@@ -3,14 +3,17 @@ import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/features/erp/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
+import 'package:gloria_finance/features/auth/pages/login/store/auth_session_store.dart';
 import 'package:gloria_finance/features/member_experience/commitments/models/member_commitment_model.dart';
 import 'package:gloria_finance/features/member_experience/commitments/store/member_commitment_payment_store.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'widgets/member_commitment_installments_timeline.dart';
 import 'widgets/member_commitment_payment_modal.dart';
 import 'widgets/member_commitment_summary_card.dart';
+import 'member_commitment_pix_payment_screen.dart';
 
 class MemberCommitmentDetailScreen extends StatefulWidget {
   final MemberCommitmentModel commitment;
@@ -24,20 +27,25 @@ class MemberCommitmentDetailScreen extends StatefulWidget {
 
 class _MemberCommitmentDetailScreenState
     extends State<MemberCommitmentDetailScreen> {
-  late final AvailabilityAccountsListStore _accountsStore;
+  AvailabilityAccountsListStore? _accountsStore;
+  late final bool _canUsePix;
 
   @override
   void initState() {
     super.initState();
-    _accountsStore =
-        AvailabilityAccountsListStore()..addListener(_handleAccountsChanged);
-    _accountsStore.searchAvailabilityAccounts();
+    final session = context.read<AuthSessionStore>().state.session;
+    _canUsePix = session.country.toUpperCase() == 'BR' && session.asaasConnect;
+    if (!_canUsePix) {
+      _accountsStore =
+          AvailabilityAccountsListStore()..addListener(_handleAccountsChanged);
+      _accountsStore!.searchAvailabilityAccounts();
+    }
   }
 
   @override
   void dispose() {
-    _accountsStore.removeListener(_handleAccountsChanged);
-    _accountsStore.dispose();
+    _accountsStore?.removeListener(_handleAccountsChanged);
+    _accountsStore?.dispose();
     super.dispose();
   }
 
@@ -50,7 +58,23 @@ class _MemberCommitmentDetailScreenState
   Future<void> _openPaymentModal(
     MemberCommitmentInstallment installment,
   ) async {
-    final accounts = _accountsStore.state.availabilityAccounts;
+    if (_canUsePix) {
+      final index = widget.commitment.installments.indexOf(installment) + 1;
+      final result = await context.push<bool>(
+        '/member/commitments/detail/pix',
+        extra: MemberCommitmentPixRouteArgs(
+          installment: installment,
+          installmentIndex: index,
+          totalInstallments: widget.commitment.installments.length,
+        ),
+      );
+      if (result == true && mounted) {
+        Navigator.of(context).pop(true);
+      }
+      return;
+    }
+
+    final accounts = _accountsStore!.state.availabilityAccounts;
     final paymentStore = MemberCommitmentPaymentStore(widget.commitment)
       ..setInstallment(installment);
 
@@ -85,11 +109,13 @@ class _MemberCommitmentDetailScreenState
         MemberCommitmentNextInstallmentCard(
           commitment: commitment,
           onPayInstallment: _openPaymentModal,
+          usePix: _canUsePix,
         ),
         const SizedBox(height: 16),
         MemberCommitmentInstallmentsTimeline(
           commitment: commitment,
           onPayInstallment: _openPaymentModal,
+          usePix: _canUsePix,
         ),
         const SizedBox(height: 24),
       ],

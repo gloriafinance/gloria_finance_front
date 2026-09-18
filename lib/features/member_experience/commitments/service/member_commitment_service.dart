@@ -1,7 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:gloria_finance/core/app_http.dart';
 import 'package:gloria_finance/features/auth/auth_persistence.dart';
 import 'package:gloria_finance/features/member_experience/commitments/models/member_commitment_model.dart';
-import 'package:dio/dio.dart';
 
 class MemberCommitmentService extends AppHttp {
   MemberCommitmentService({super.tokenAPI});
@@ -64,6 +64,29 @@ class MemberCommitmentService extends AppHttp {
         '${await getUrlApi()}account-receivable/member/payment-declaration',
         data: formData,
         options: Options(headers: bearerToken()),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  Future<MemberCommitmentPixPayment> createPixPayment({
+    required String installmentId,
+    required double amount,
+  }) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.post(
+        '${await getUrlApi()}banking/payment/pix',
+        data: {'externalReference': installmentId, 'amount': amount},
+        options: Options(headers: bearerToken()),
+      );
+
+      return MemberCommitmentPixPayment.fromJson(
+        Map<String, dynamic>.from(response.data as Map),
       );
     } on DioException catch (e) {
       transformResponse(e.response?.data);
