@@ -12,11 +12,16 @@ class RecurringPaymentListState {
   final RecurringPaymentFilterModel filters;
   final RecurringPaymentFilterModel appliedFilters;
 
+  /// Iglesia de la que se cargaron [payments]. Si cambia la sesión (otra iglesia
+  /// entra sin reiniciar la app), los datos dejan de ser válidos.
+  final String? loadedChurchId;
+
   const RecurringPaymentListState({
     required this.makeRequest,
     required this.payments,
     required this.filters,
     required this.appliedFilters,
+    required this.loadedChurchId,
   });
 
   factory RecurringPaymentListState.empty() {
@@ -25,6 +30,7 @@ class RecurringPaymentListState {
       payments: const [],
       filters: RecurringPaymentFilterModel.empty(),
       appliedFilters: RecurringPaymentFilterModel.empty(),
+      loadedChurchId: null,
     );
   }
 
@@ -33,12 +39,14 @@ class RecurringPaymentListState {
     List<RecurringPaymentModel>? payments,
     RecurringPaymentFilterModel? filters,
     RecurringPaymentFilterModel? appliedFilters,
+    String? loadedChurchId,
   }) {
     return RecurringPaymentListState(
       makeRequest: makeRequest ?? this.makeRequest,
       payments: payments ?? this.payments,
       filters: filters ?? this.filters,
       appliedFilters: appliedFilters ?? this.appliedFilters,
+      loadedChurchId: loadedChurchId ?? this.loadedChurchId,
     );
   }
 
@@ -51,8 +59,7 @@ class RecurringPaymentListState {
 
   int get totalCount => payments.length;
 
-  int get activeCount =>
-      payments.where((payment) => payment.status.isActive).length;
+  int get activeCount => payments.where((payment) => payment.isActive).length;
 
   int get inactiveCount => totalCount - activeCount;
 
@@ -60,7 +67,7 @@ class RecurringPaymentListState {
   /// responder "cuánto está comprometido por mes" en la configuración.
   double get activeFixedMonthlyTotal {
     return payments
-        .where((payment) => payment.status.isActive && payment.isFixed)
+        .where((payment) => payment.isActive && payment.isFixed)
         .fold<double>(0, (total, payment) => total + (payment.amount ?? 0));
   }
 

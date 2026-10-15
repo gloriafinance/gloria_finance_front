@@ -12,6 +12,7 @@ import '../../../models/recurring_payment_model.dart';
 import '../../../store/recurring_payment_options_store.dart';
 import '../../../utils/recurring_payment_lookup.dart';
 import 'recurring_payment_name_cell.dart';
+import 'recurring_payment_pill.dart';
 import 'recurring_payment_row_actions.dart';
 import 'recurring_payment_type_tag.dart';
 import 'recurring_payment_value.dart';
@@ -86,10 +87,16 @@ class RecurringPaymentTable extends StatelessWidget {
           fontSize: 13.5,
         ),
       ),
-      tagStatus(
-        payment.status.isActive ? AppColors.green : Colors.red,
-        payment.status.friendlyName(l10n),
-      ),
+      if (payment.status == null)
+        RecurringPaymentPill(
+          label: l10n.recurringPayments_status_unknown,
+          color: AppColors.grey,
+        )
+      else
+        tagStatus(
+          payment.status!.isActive ? AppColors.green : Colors.red,
+          payment.status!.friendlyName(l10n),
+        ),
       payment.hasPixDestination
           ? tagStatus(AppColors.blue, l10n.recurringPayments_pix_configured)
           : Text(

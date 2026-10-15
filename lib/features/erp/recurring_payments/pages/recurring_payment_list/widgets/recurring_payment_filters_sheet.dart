@@ -62,9 +62,7 @@ class RecurringPaymentFiltersSheet extends StatelessWidget {
               fontSize: 16,
             ),
           ),
-          RecurringPaymentSearchField(
-            initialValue: store.state.filters.searchTerm,
-          ),
+          const RecurringPaymentSearchField(),
           RecurringPaymentStatusField(),
           RecurringPaymentTypeField(),
           const SizedBox(height: 24),

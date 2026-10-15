@@ -8,11 +8,16 @@ enum RecurringPaymentValueType { FIXED, VARIABLE }
 extension RecurringPaymentValueTypeExtension on RecurringPaymentValueType {
   String get apiValue => toString().split('.').last;
 
-  static RecurringPaymentValueType fromApiValue(String? value) {
-    return RecurringPaymentValueType.values.firstWhere(
-      (element) => element.apiValue == value,
-      orElse: () => RecurringPaymentValueType.FIXED,
-    );
+  /// Devuelve `null` cuando el valor no pertenece al contrato.
+  ///
+  /// No se inventa un tipo por defecto: si la API introdujera un valor nuevo,
+  /// mostrar `FIXED` y volver a guardar sobrescribiría la configuración real.
+  /// El formulario, en ese caso, obliga a elegir un tipo.
+  static RecurringPaymentValueType? tryFromApiValue(String? value) {
+    for (final element in RecurringPaymentValueType.values) {
+      if (element.apiValue == value) return element;
+    }
+    return null;
   }
 
   String friendlyName(AppLocalizations l10n) {
@@ -32,11 +37,13 @@ enum RecurringPaymentStatus { ACTIVE, INACTIVE }
 extension RecurringPaymentStatusExtension on RecurringPaymentStatus {
   String get apiValue => toString().split('.').last;
 
-  static RecurringPaymentStatus fromApiValue(String? value) {
-    return RecurringPaymentStatus.values.firstWhere(
-      (element) => element.apiValue == value,
-      orElse: () => RecurringPaymentStatus.ACTIVE,
-    );
+  /// `null` cuando el valor no pertenece al contrato (ver
+  /// [RecurringPaymentValueTypeExtension.tryFromApiValue]).
+  static RecurringPaymentStatus? tryFromApiValue(String? value) {
+    for (final element in RecurringPaymentStatus.values) {
+      if (element.apiValue == value) return element;
+    }
+    return null;
   }
 
   bool get isActive => this == RecurringPaymentStatus.ACTIVE;
@@ -60,11 +67,12 @@ enum PixKeyType { CPF, CNPJ, EMAIL, PHONE, EVP }
 extension PixKeyTypeExtension on PixKeyType {
   String get apiValue => toString().split('.').last;
 
-  static PixKeyType fromApiValue(String? value) {
-    return PixKeyType.values.firstWhere(
-      (element) => element.apiValue == value,
-      orElse: () => PixKeyType.CPF,
-    );
+  /// `null` cuando el valor no pertenece al contrato.
+  static PixKeyType? tryFromApiValue(String? value) {
+    for (final element in PixKeyType.values) {
+      if (element.apiValue == value) return element;
+    }
+    return null;
   }
 
   static List<String> get listApiValues =>
@@ -77,17 +85,17 @@ extension PixKeyTypeExtension on PixKeyType {
 /// `pixDestination` puede ejecutarse como boleto y viceversa.
 class RecurringPixDestination {
   final String pixKey;
-  final PixKeyType pixKeyType;
 
-  const RecurringPixDestination({
-    required this.pixKey,
-    required this.pixKeyType,
-  });
+  /// `null` si la API devolvió un tipo de clave que este cliente no conoce: la
+  /// clave se muestra, pero el formulario exige elegir un tipo antes de guardar.
+  final PixKeyType? pixKeyType;
+
+  const RecurringPixDestination({required this.pixKey, this.pixKeyType});
 
   factory RecurringPixDestination.fromJson(Map<String, dynamic> json) {
     return RecurringPixDestination(
       pixKey: json['pixKey'] ?? '',
-      pixKeyType: PixKeyTypeExtension.fromApiValue(
+      pixKeyType: PixKeyTypeExtension.tryFromApiValue(
         json['pixKeyType'] as String?,
       ),
     );
@@ -95,7 +103,7 @@ class RecurringPixDestination {
 
   Map<String, dynamic> toJson() => {
     'pixKey': pixKey,
-    'pixKeyType': pixKeyType.apiValue,
+    'pixKeyType': pixKeyType?.apiValue,
   };
 }
 
@@ -110,10 +118,16 @@ class RecurringPaymentModel {
   final String name;
   final String financialConceptId;
   final String costCenterId;
-  final RecurringPaymentValueType type;
+
+  /// `null` cuando la API devolvió un tipo fuera del contrato conocido.
+  final RecurringPaymentValueType? type;
+
   final double? amount;
   final int dayOfMonth;
-  final RecurringPaymentStatus status;
+
+  /// `null` cuando la API devolvió un estado fuera del contrato conocido.
+  final RecurringPaymentStatus? status;
+
   final RecurringPixDestination? pixDestination;
 
   const RecurringPaymentModel({
@@ -138,13 +152,13 @@ class RecurringPaymentModel {
       name: json['name'] ?? '',
       financialConceptId: json['financialConceptId'] ?? '',
       costCenterId: json['costCenterId'] ?? '',
-      type: RecurringPaymentValueTypeExtension.fromApiValue(
+      type: RecurringPaymentValueTypeExtension.tryFromApiValue(
         json['type'] as String?,
       ),
       amount:
           json['amount'] == null ? null : (json['amount'] as num).toDouble(),
       dayOfMonth: json['dayOfMonth'] ?? 1,
-      status: RecurringPaymentStatusExtension.fromApiValue(
+      status: RecurringPaymentStatusExtension.tryFromApiValue(
         json['status'] as String?,
       ),
       pixDestination:
@@ -157,6 +171,8 @@ class RecurringPaymentModel {
   }
 
   bool get isFixed => type == RecurringPaymentValueType.FIXED;
+
+  bool get isActive => status == RecurringPaymentStatus.ACTIVE;
 
   bool get hasPixDestination => pixDestination != null;
 
@@ -188,12 +204,20 @@ class RecurringPaymentModel {
   }
 
   /// Payload de `POST /recurring-payments` y `PUT /recurring-payments/:id`.
-  Map<String, dynamic> toConfigurationJson() {
+  ///
+  /// Requiere un `type` conocido: el formulario obliga a elegirlo cuando la API
+  /// devolvió un valor desconocido.
+  Map<String, dynamic> toConfigurationJson({String? name}) {
+    final knownType = type;
+    if (knownType == null) {
+      throw StateError('RecurringPaymentModel has no known type');
+    }
+
     return RecurringPaymentConfigurationPayload.build(
-      name: name,
+      name: name ?? this.name,
       financialConceptId: financialConceptId,
       costCenterId: costCenterId,
-      type: type,
+      type: knownType,
       amount: amount,
       dayOfMonth: dayOfMonth,
       status: status,
@@ -205,7 +229,8 @@ class RecurringPaymentModel {
 /// Dueño único de la forma del payload de configuración.
 ///
 /// Existe para que el modelo leído de la API y el formulario armen exactamente el
-/// mismo contrato, sin duplicar las reglas de `amount` y `pixDestination`.
+/// mismo contrato, sin duplicar las reglas de `amount`, `status` y
+/// `pixDestination`.
 class RecurringPaymentConfigurationPayload {
   const RecurringPaymentConfigurationPayload._();
 
@@ -216,7 +241,7 @@ class RecurringPaymentConfigurationPayload {
     required RecurringPaymentValueType type,
     required double? amount,
     required int dayOfMonth,
-    required RecurringPaymentStatus status,
+    required RecurringPaymentStatus? status,
     required RecurringPixDestination? pixDestination,
   }) {
     final isFixed = type == RecurringPaymentValueType.FIXED;
@@ -229,8 +254,11 @@ class RecurringPaymentConfigurationPayload {
       // `amount` es obligatorio en FIXED y prohibido en VARIABLE en el dominio.
       if (isFixed && amount != null) 'amount': amount,
       'dayOfMonth': dayOfMonth,
-      'status': status.apiValue,
-      if (pixDestination != null) 'pixDestination': pixDestination.toJson(),
+      // `status` se omite cuando no se conoce: el backend conserva el actual
+      // (`request.status ?? existing.getStatus()`), así que no se inventa uno.
+      if (status != null) 'status': status.apiValue,
+      if (pixDestination != null && pixDestination.pixKeyType != null)
+        'pixDestination': pixDestination.toJson(),
     };
   }
 }

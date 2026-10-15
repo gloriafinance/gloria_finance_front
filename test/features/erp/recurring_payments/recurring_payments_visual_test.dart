@@ -17,6 +17,7 @@ import 'package:gloria_finance/features/erp/settings/cost_center/models/cost_cen
 import 'package:gloria_finance/features/erp/settings/financial_concept/models/financial_concept_model.dart';
 import 'package:gloria_finance/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const _symbol = 'R\$';
 
@@ -35,6 +36,8 @@ void main() {
 
   setUpAll(() async {
     TestWidgetsFlutterBinding.ensureInitialized();
+    // Las vistas consultan la iglesia de la sesión (`AuthPersistence`).
+    SharedPreferences.setMockInitialValues({});
     await _loadAppFonts();
   });
 
@@ -346,6 +349,9 @@ Widget _wrap({
           makeRequest: false,
           expenseConcepts: _concepts,
           costCenters: _costCenters,
+          // Coincide con la sesión simulada (vacía) para que la vista no intente
+          // recargar por red durante el render.
+          loadedChurchId: '',
         );
 
   return MultiProvider(

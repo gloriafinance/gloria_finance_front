@@ -13,14 +13,24 @@ import 'recurring_payment_pill.dart';
 class RecurringPaymentTypeTag extends StatelessWidget {
   const RecurringPaymentTypeTag({super.key, required this.type});
 
-  final RecurringPaymentValueType type;
+  final RecurringPaymentValueType? type;
 
   @override
   Widget build(BuildContext context) {
-    final isFixed = type == RecurringPaymentValueType.FIXED;
+    final valueType = type;
+
+    // Tipo fuera del contrato conocido: no se asume "Fixo".
+    if (valueType == null) {
+      return RecurringPaymentPill(
+        label: context.l10n.recurringPayments_type_unknown,
+        color: AppColors.grey,
+      );
+    }
+
+    final isFixed = valueType == RecurringPaymentValueType.FIXED;
 
     return RecurringPaymentPill(
-      label: type.friendlyName(context.l10n),
+      label: valueType.friendlyName(context.l10n),
       color: isFixed ? AppColors.purple : AppColors.mustard,
       textColor: isFixed ? AppColors.purple : const Color(0xFF8A5A00),
     );

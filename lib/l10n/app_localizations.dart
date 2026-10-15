@@ -11118,6 +11118,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The recurrence is created active. To pause it later, use Deactivate in the list.'**
   String get recurringPayments_status_create_note;
+
+  /// No description provided for @recurringPayments_type_unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unrecognized type'**
+  String get recurringPayments_type_unknown;
+
+  /// No description provided for @recurringPayments_status_unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unrecognized state'**
+  String get recurringPayments_status_unknown;
+
+  /// No description provided for @recurringPayments_status_unknown_note.
+  ///
+  /// In en, this message translates to:
+  /// **'The current state was not recognized by this app version. It will be kept as is when saving.'**
+  String get recurringPayments_status_unknown_note;
+
+  /// No description provided for @recurringPayments_error_type_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the value type.'**
+  String get recurringPayments_error_type_required;
+
+  /// No description provided for @recurringPayments_error_pix_key_type_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the key type.'**
+  String get recurringPayments_error_pix_key_type_required;
+
+  /// No description provided for @recurringPayments_not_found_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring payment not found'**
+  String get recurringPayments_not_found_title;
+
+  /// No description provided for @recurringPayments_not_found_description.
+  ///
+  /// In en, this message translates to:
+  /// **'It may have been removed or the link is wrong. Go back to the list and open it again.'**
+  String get recurringPayments_not_found_description;
+
+  /// No description provided for @recurringPayments_back_to_list_action.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to the list'**
+  String get recurringPayments_back_to_list_action;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

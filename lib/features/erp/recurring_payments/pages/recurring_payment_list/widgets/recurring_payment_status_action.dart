@@ -16,7 +16,12 @@ Future<void> toggleRecurringPaymentStatus(
 ) async {
   final l10n = context.l10n;
   final store = context.read<RecurringPaymentListStore>();
-  final willActivate = !payment.status.isActive;
+  final currentStatus = payment.status;
+
+  // Sin estado reconocido no se inventa el contrario.
+  if (currentStatus == null) return;
+
+  final willActivate = !currentStatus.isActive;
 
   final success = await store.toggleStatus(payment);
 

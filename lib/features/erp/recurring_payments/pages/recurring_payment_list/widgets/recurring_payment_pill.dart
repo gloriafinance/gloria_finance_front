@@ -46,6 +46,7 @@ class RecurringPaymentPill extends StatelessWidget {
     if (color == AppColors.blue) return const Color(0xFF1268AD);
     if (color == AppColors.purple) return AppColors.purple;
     if (color == AppColors.mustard) return const Color(0xFF8A5A00);
+    if (color == AppColors.grey) return const Color(0xFF5F5F5F);
     return const Color(0xFFA52A2E);
   }
 }

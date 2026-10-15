@@ -42,9 +42,42 @@ class RecurringPaymentConfigSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        RecurringPaymentTypeSelector(
-          selected: state.type,
-          onChanged: store.setType,
+        // Si la API devolvió un tipo que este cliente no conoce, nada queda
+        // seleccionado y el formulario exige elegir antes de guardar: nunca se
+        // sobrescribe la configuración con un tipo inventado.
+        FormField<RecurringPaymentValueType?>(
+          initialValue: state.type,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator:
+              (value) =>
+                  value == null
+                      ? l10n.recurringPayments_error_type_required
+                      : null,
+          builder:
+              (field) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  RecurringPaymentTypeSelector(
+                    selected: state.type,
+                    onChanged: (value) {
+                      store.setType(value);
+                      field.didChange(value);
+                    },
+                  ),
+                  if (field.hasError)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 7),
+                      child: Text(
+                        field.errorText ?? '',
+                        style: const TextStyle(
+                          fontFamily: AppFonts.fontSubTitle,
+                          fontSize: 12,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
         ),
         if (!isFixed) ...[
           const SizedBox(height: 18),
@@ -75,20 +108,33 @@ class RecurringPaymentConfigSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          RecurringPaymentSwitchRow(
-            value: state.status.isActive,
-            title: state.status.friendlyName(l10n),
-            description:
-                state.status.isActive
-                    ? l10n.recurringPayments_status_active_description
-                    : l10n.recurringPayments_status_inactive_description,
-            onChanged:
-                (isActive) => store.setStatus(
-                  isActive
-                      ? RecurringPaymentStatus.ACTIVE
-                      : RecurringPaymentStatus.INACTIVE,
-                ),
-          ),
+          // Estado desconocido: no se muestra un switch (no habría valor que
+          // alternar). El payload omite `status` y el backend conserva el actual.
+          if (!state.hasKnownStatus)
+            Text(
+              l10n.recurringPayments_status_unknown_note,
+              style: const TextStyle(
+                fontFamily: AppFonts.fontText,
+                fontSize: 12,
+                height: 1.6,
+                color: AppColors.grey,
+              ),
+            )
+          else
+            RecurringPaymentSwitchRow(
+              value: state.status!.isActive,
+              title: state.status!.friendlyName(l10n),
+              description:
+                  state.status!.isActive
+                      ? l10n.recurringPayments_status_active_description
+                      : l10n.recurringPayments_status_inactive_description,
+              onChanged:
+                  (isActive) => store.setStatus(
+                    isActive
+                        ? RecurringPaymentStatus.ACTIVE
+                        : RecurringPaymentStatus.INACTIVE,
+                  ),
+            ),
         ] else
           Padding(
             padding: const EdgeInsets.only(top: 14),

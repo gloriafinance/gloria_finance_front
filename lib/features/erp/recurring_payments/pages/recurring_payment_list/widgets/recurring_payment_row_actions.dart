@@ -16,7 +16,7 @@ class RecurringPaymentRowActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isActive = payment.status.isActive;
+    final status = payment.status;
     final l10n = context.l10n;
 
     return Row(
@@ -28,15 +28,18 @@ class RecurringPaymentRowActions extends StatelessWidget {
           icon: Icons.edit_outlined,
           onPressed: () => _goToEdit(context),
         ),
-        ButtonActionTable(
-          color: isActive ? Colors.red : AppColors.green,
-          text:
-              isActive
-                  ? l10n.recurringPayments_deactivate_action
-                  : l10n.recurringPayments_activate_action,
-          icon: Icons.power_settings_new,
-          onPressed: () => toggleRecurringPaymentStatus(context, payment),
-        ),
+        // Estado fuera del contrato conocido: activar/desactivar enviaría un
+        // valor inventado, así que la acción no se ofrece.
+        if (status != null)
+          ButtonActionTable(
+            color: status.isActive ? Colors.red : AppColors.green,
+            text:
+                status.isActive
+                    ? l10n.recurringPayments_deactivate_action
+                    : l10n.recurringPayments_activate_action,
+            icon: Icons.power_settings_new,
+            onPressed: () => toggleRecurringPaymentStatus(context, payment),
+          ),
         RecurringPaymentActionsMenu(payment: payment),
       ],
     );

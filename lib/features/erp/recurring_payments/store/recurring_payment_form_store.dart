@@ -13,6 +13,7 @@ class RecurringPaymentFormStore extends ChangeNotifier {
     RecurringPaymentService? service,
   }) : _recurringPaymentId =
            recurringPaymentId ?? recurringPayment?.recurringPaymentId ?? '',
+       _hydrated = recurringPayment != null,
        _symbolFormatMoney = symbolFormatMoney,
        service = service ?? RecurringPaymentService(),
        state =
@@ -23,10 +24,17 @@ class RecurringPaymentFormStore extends ChangeNotifier {
                )
                : RecurringPaymentFormState.init(
                  symbolFormatMoney: symbolFormatMoney,
+                 // Un deep link trae el id sin objeto: se conserva desde el
+                 // inicio para que el formulario nunca sea "creación".
+                 recurringPaymentId: recurringPaymentId ?? '',
                );
 
   final RecurringPaymentService service;
   final String _recurringPaymentId;
+
+  /// El formulario ya llegó con el objeto cargado desde la listagem.
+  final bool _hydrated;
+
   final String _symbolFormatMoney;
 
   RecurringPaymentFormState state;
@@ -34,7 +42,8 @@ class RecurringPaymentFormStore extends ChangeNotifier {
   /// Hidrata el formulario cuando la pantalla se abrió solo con el id (deep link).
   /// En modo edición con objeto en memoria, o en creación, no hace nada.
   Future<void> initialize() async {
-    if (state.isEdit || _recurringPaymentId.isEmpty) return;
+    // Ya hidratado desde la listagem, o es una creación: nada que buscar.
+    if (_hydrated || _recurringPaymentId.isEmpty) return;
 
     state = state.copyWith(makeRequest: true);
     notifyListeners();
@@ -49,7 +58,7 @@ class RecurringPaymentFormStore extends ChangeNotifier {
                 found,
                 symbolFormatMoney: _symbolFormatMoney,
               )
-              : state.copyWith(makeRequest: false);
+              : state.copyWith(makeRequest: false, isEditTargetMissing: true);
     } catch (e) {
       debugPrint('ERROR initialize: $e');
       state = state.copyWith(makeRequest: false);
@@ -116,6 +125,12 @@ class RecurringPaymentFormStore extends ChangeNotifier {
   }
 
   Future<bool> submit() async {
+    // Un id inexistente no se convierte en un POST silencioso: se reporta arriba.
+    if (state.isEditTargetMissing) {
+      debugPrint('ERROR submit: edit target not found');
+      return false;
+    }
+
     if (!state.isComplete) {
       debugPrint('ERROR submit: incomplete recurring payment configuration');
       return false;

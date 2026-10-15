@@ -12,17 +12,17 @@ import '../../../store/recurring_payment_list_store.dart';
 /// Campos de filtro compartidos por la barra (desktop/tablet) y el bottom
 /// sheet (mobile). Cada campo habla directo con el store de la listado.
 class RecurringPaymentSearchField extends StatelessWidget {
-  const RecurringPaymentSearchField({super.key, this.initialValue});
-
-  final String? initialValue;
+  const RecurringPaymentSearchField({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final store = context.read<RecurringPaymentListStore>();
+    final store = context.watch<RecurringPaymentListStore>();
 
     return Input(
       label: context.l10n.recurringPayments_filter_search_label,
-      initialValue: initialValue,
+      // Atado al filtro del store: cuando "Limpar filtros" vacía el término, el
+      // campo también se vacía (antes quedaba con el texto viejo visible).
+      initialValue: store.state.filters.searchTerm,
       onChanged: store.setSearchTerm,
       icon: Icons.search,
     );

@@ -20,17 +20,22 @@ class _RecurringPaymentListScreenState
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final store = context.read<RecurringPaymentListStore>();
-      if (!store.state.isLoading && !store.state.hasPayments) {
-        store.searchRecurringPayments();
-      }
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted) return;
 
+      // Todo se lee antes de cualquier await, para no usar el context después.
+      final churchId = context.read<AuthSessionStore>().state.session.churchId;
+      final store = context.read<RecurringPaymentListStore>();
       // La tabla y las tarjetas resuelven el nombre del concepto y del centro de
       // costo con estas opciones.
       final optionsStore = context.read<RecurringPaymentOptionsStore>();
-      if (!optionsStore.state.hasExpenseConcepts) {
-        optionsStore.searchOptions();
+
+      if (await store.needsLoad(churchId: churchId)) {
+        await store.searchRecurringPayments(churchId: churchId);
+      }
+
+      if (await optionsStore.needsLoad(churchId: churchId)) {
+        await optionsStore.searchOptions(churchId: churchId);
       }
     });
   }

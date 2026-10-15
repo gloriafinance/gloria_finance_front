@@ -2354,5 +2354,13 @@
   "recurringPayments_table_name_concept_cost_center": "Nome / Conceito / Centro de custo",
   "recurringPayments_empty_cta_short": "Criar primeiro pagamento",
   "recurringPayments_field_status": "Situação",
-  "recurringPayments_status_create_note": "A recorrência é criada ativa. Para pausá-la depois, use Desativar na listagem."
+  "recurringPayments_status_create_note": "A recorrência é criada ativa. Para pausá-la depois, use Desativar na listagem.",
+  "recurringPayments_type_unknown": "Tipo não reconhecido",
+  "recurringPayments_status_unknown": "Situação não reconhecida",
+  "recurringPayments_status_unknown_note": "A situação atual não foi reconhecida por esta versão do app. Ela será mantida como está ao salvar.",
+  "recurringPayments_error_type_required": "Selecione o tipo de valor.",
+  "recurringPayments_error_pix_key_type_required": "Selecione o tipo da chave.",
+  "recurringPayments_not_found_title": "Pagamento recorrente não encontrado",
+  "recurringPayments_not_found_description": "Ele pode ter sido removido ou o link está incorreto. Volte para a listagem e abra novamente.",
+  "recurringPayments_back_to_list_action": "Voltar para a listagem"
 }

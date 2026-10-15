@@ -93,6 +93,23 @@ void main() {
       expect(store.state.hasCostCenters, isTrue);
     });
 
+    test('não recarrega com a mesma igreja e sim com outra', () async {
+      final store = RecurringPaymentOptionsStore(
+        financialConceptService: _FakeFinancialConceptService([
+          _concept('outgo-active', 'Aluguel', type: 'OUTGO', active: true),
+        ]),
+        costCenterService: _FakeCostCenterService([
+          _costCenter('cc-1', 'Templo', active: true),
+        ]),
+      );
+
+      await store.searchOptions(churchId: 'church-a');
+
+      expect(await store.needsLoad(churchId: 'church-a'), isFalse);
+      // Otra igreja entra sem reiniciar o app: as opções anteriores não valem.
+      expect(await store.needsLoad(churchId: 'church-b'), isTrue);
+    });
+
     test('não quebra quando o serviço falha', () async {
       final store = RecurringPaymentOptionsStore(
         financialConceptService: _ThrowingFinancialConceptService(),

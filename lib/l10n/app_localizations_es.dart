@@ -5660,4 +5660,28 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get recurringPayments_status_create_note => 'La recurrencia se crea activa. Para pausarla después, usa Desactivar en el listado.';
+
+  @override
+  String get recurringPayments_type_unknown => 'Tipo no reconocido';
+
+  @override
+  String get recurringPayments_status_unknown => 'Situación no reconocida';
+
+  @override
+  String get recurringPayments_status_unknown_note => 'La situación actual no fue reconocida por esta versión de la app. Se mantendrá como está al guardar.';
+
+  @override
+  String get recurringPayments_error_type_required => 'Selecciona el tipo de valor.';
+
+  @override
+  String get recurringPayments_error_pix_key_type_required => 'Selecciona el tipo de la chave.';
+
+  @override
+  String get recurringPayments_not_found_title => 'Pago recurrente no encontrado';
+
+  @override
+  String get recurringPayments_not_found_description => 'Puede haber sido eliminado o el enlace es incorrecto. Vuelve al listado y ábrelo de nuevo.';
+
+  @override
+  String get recurringPayments_back_to_list_action => 'Volver al listado';
 }

@@ -96,13 +96,16 @@ lib/features/erp/recurring_payments/
         recurring_payment_pix_section.dart          # sección 3 (opcional)
         recurring_payment_type_selector.dart        # radio-cards Fixo / Variável
         recurring_payment_switch_row.dart           # fila de switch (estado y PIX)
+        recurring_payment_form_not_found.dart       # id de edición inexistente
         recurring_payment_form_actions.dart         # Cancelar / Salvar
         recurring_payment_form_validators.dart      # mensajes de validación
 
 test/features/erp/recurring_payments/
   recurring_payments_visual_test.dart               # smoke test + generador de capturas
-test/features/erp/recurring_payments/
-  recurring_payment_options_store_test.dart         # regra "só gastos" no dropdown
+  recurring_payment_model_test.dart                 # parsing estricto + payload
+  recurring_payment_store_test.dart                 # iglesia, estado conocido y deep link
+  recurring_payment_options_store_test.dart         # regla "só gastos" + recarga por iglesia
+  recurring_payment_pix_input_test.dart             # máscaras por tipo de chave
 test/core/layout/erp/
   menu_items_test.dart                              # regra "só Brasil" no menu
 docs/pagamentos-recorrentes/
@@ -569,7 +572,23 @@ Correr las pantallas (no solo el analyzer) atrapó tres defectos reales que el a
 También se ajustó el estado vacío para que ocupe el ancho completo y el CTA mobile para que no se
 trunque.
 
-## 13. Cómo revisar
+## 13. Correcciones de la revisión de código
+
+Comentarios automáticos de revisión sobre el PR y qué se hizo con cada uno:
+
+| Comentario | Qué pasaba | Cómo quedó |
+| --- | --- | --- |
+| **Buscador no atado al estado** (P2) | La barra construía el buscador sin `initialValue`, así que `clearFilters()` vaciaba el store pero el campo seguía mostrando la búsqueda vieja; el listado ya estaba sin filtrar y parecía que no | `RecurringPaymentSearchField` lee el término del store. Las capturas de "sem resultados" ahora muestran la búsqueda aplicada, que es la prueba visual del arreglo |
+| **Parsing de enums demasiado permisivo** (P2) | `fromApiValue` con `orElse` convertía en silencio un valor desconocido en `FIXED`/`ACTIVE`/`CPF`; al editar y guardar se sobrescribía la configuración real | `tryFromApiValue` devuelve `null`. La pantalla muestra estado neutro ("Tipo/Situación não reconhecido"), no ofrece activar/desactivar y el formulario **obliga a elegir** el tipo. En el payload, `status` se omite cuando es nulo: el backend conserva el actual (`request.status ?? existing.getStatus()`), así que no se inventa ningún valor |
+| **Destino de edición inexistente** (P2) | Un id viejo o inexistente dejaba el formulario en modo creación: al guardar hacía `POST` y creaba una recorrência nueva desde una ruta de edición | El id de la URL se conserva (`isEdit` queda en true), `initialize()` marca `isEditTargetMissing`, el formulario muestra "não encontrado" con vuelta al listado y `submit()` no hace `POST` |
+| **Cachés sin dueño de iglesia** (P1) | Los stores viven en `StoreManager` y sobreviven al logout: si entraba otra iglesia, la lista y las opciones seguían siendo las anteriores (fuga entre iglesias) | Ambos stores guardan `loadedChurchId` y exponen `needsLoad(churchId)`: recargan cuando cambia la iglesia, no solo cuando están vacíos |
+
+Cada arreglo quedó cubierto por tests: parsing estricto y reglas del payload
+(`recurring_payment_model_test.dart`), iglesia + activar/desactivar + deep link de edición
+(`recurring_payment_store_test.dart`) y la recarga de opciones por iglesia
+(`recurring_payment_options_store_test.dart`).
+
+## 14. Cómo revisar
 
 ```bash
 # El SDK de Flutter del equipo vive en /Volumes/SSD/SDK/flutter (SSD externo).
@@ -588,13 +607,17 @@ Resultado de la verificación:
 - `flutter analyze lib`: **0 errores**, 34 warnings y 285 infos, todos preexistentes en otros
   archivos; el feature nuevo aporta 10 infos (los mismos enums UPPER_CASE y `Switch.activeColor`
   que ya usa el resto del repo).
-- `flutter test`: **29/29** verde.
+- `flutter test`: **44/44** verde.
   - `recurring_payments_visual_test.dart` (11): render en 1440, 834 y 390; estados vazio y sin
     resultados; creación (fixo y variável + PIX) y edición; y la comprobación de que **no** hay
     switch de situación al crear y **sí** al editar, con el texto de pausa al desactivar.
+  - `recurring_payment_model_test.dart` (7): parsing estricto de los enums y reglas del payload
+    (omite `status` y `pixDestination` cuando no se conocen).
+  - `recurring_payment_store_test.dart` (7): invalidación por iglesia, activar/desactivar solo con
+    estado conocido, y el deep link de edición que no se convierte en creación.
   - `recurring_payment_pix_input_test.dart` (7): máscaras de CPF, CNPJ e telefone; e-mail e EVP sem
     máscara; teclado por tipo; e trocar o tipo limpa a chave.
-  - `recurring_payment_options_store_test.dart` (5): o dropdown recebe **só `OUTGO` ativo** mesmo
+  - `recurring_payment_options_store_test.dart` (6): o dropdown recebe **só `OUTGO` ativo** mesmo
     quando o serviço devolve entradas, compras, estornos e inativos; a query pede `OUTGO`; só
     centros de custo ativos; e uma falha de rede não quebra a tela.
   - `menu_items_test.dart` (6): o módulo aparece só para `BR` (`ve`, `us`, `bo`, `pt` ficam de
@@ -612,7 +635,7 @@ búsqueda sin coincidencias en la barra de filtros.
 
 ---
 
-## 14. Fuera de alcance (recordatorio)
+## 15. Fuera de alcance (recordatorio)
 
 Ejecutar pago · selección PIX/Boleto en la ejecución · línea digitável · cámara · webhook ·
 comprobantes · estados PROCESSING/BLOCKED/FAILED · detalle de competencia · modal de pagar ·

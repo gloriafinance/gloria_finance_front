@@ -26,7 +26,21 @@ class RecurringPaymentOptionsStore extends ChangeNotifier {
 
   RecurringPaymentOptionsState state = RecurringPaymentOptionsState.empty();
 
-  Future<void> searchOptions() async {
+  Future<String> _sessionChurchId() async {
+    final session = await AuthPersistence().restore();
+    return session.churchId;
+  }
+
+  /// `true` cuando hay que volver a pedir: no hay opciones o son de otra iglesia.
+  Future<bool> needsLoad({String? churchId}) async {
+    if (state.isLoading) return false;
+
+    final currentChurchId = churchId ?? await _sessionChurchId();
+    if (!state.hasExpenseConcepts) return true;
+    return state.loadedChurchId != currentChurchId;
+  }
+
+  Future<void> searchOptions({String? churchId}) async {
     state = state.copyWith(makeRequest: true);
     notifyListeners();
 
@@ -49,6 +63,7 @@ class RecurringPaymentOptionsStore extends ChangeNotifier {
         makeRequest: false,
         expenseConcepts: expenseFinancialConcepts(concepts),
         costCenters: selectableCostCenters(costCenters),
+        loadedChurchId: churchId ?? session.churchId,
       );
     } catch (e) {
       debugPrint('ERROR searchRecurringPaymentOptions: $e');

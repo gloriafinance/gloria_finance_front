@@ -24,6 +24,18 @@ class RecurringPaymentValue extends StatelessWidget {
   Widget build(BuildContext context) {
     final amount = payment.amount;
 
+    // Sin tipo reconocido no se puede afirmar si el valor es fijo o variable.
+    if (payment.type == null) {
+      return const Text(
+        '—',
+        style: TextStyle(
+          fontFamily: AppFonts.fontText,
+          fontSize: 13,
+          color: AppColors.grey,
+        ),
+      );
+    }
+
     if (!payment.isFixed || amount == null) {
       return Text(
         context.l10n.recurringPayments_amount_variable,

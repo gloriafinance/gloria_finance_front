@@ -10,6 +10,7 @@ import '../../../store/recurring_payment_list_store.dart';
 import 'recurring_payment_basic_section.dart';
 import 'recurring_payment_config_section.dart';
 import 'recurring_payment_form_actions.dart';
+import 'recurring_payment_form_not_found.dart';
 import 'recurring_payment_pix_section.dart';
 
 /// Cuerpo del formulario: valida, guarda y compone las tres secciones.
@@ -27,6 +28,12 @@ class _RecurringPaymentFormBodyState extends State<RecurringPaymentFormBody> {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<RecurringPaymentFormStore>().state;
+
+    // El id de la URL no existe: se informa en lugar de ofrecer un formulario
+    // vacío que al guardar crearía una recorrência nueva.
+    if (state.isEditTargetMissing) {
+      return const RecurringPaymentFormNotFound();
+    }
 
     // El formulario se abrió solo con el id (deep link) y todavía no tiene
     // datos: se muestra el cargando en lugar de un formulario vacío.

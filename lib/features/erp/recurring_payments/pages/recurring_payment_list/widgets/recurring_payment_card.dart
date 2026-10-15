@@ -35,7 +35,7 @@ class RecurringPaymentCard extends StatelessWidget {
     final options = context.watch<RecurringPaymentOptionsStore>().state;
     final concepts = options.expenseConcepts;
     final costCenters = options.costCenters;
-    final isActive = payment.status.isActive;
+    final isActive = payment.isActive;
 
     return Container(
       margin: const EdgeInsets.only(top: 12),
@@ -63,8 +63,13 @@ class RecurringPaymentCard extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               RecurringPaymentPill(
-                label: payment.status.friendlyName(l10n),
-                color: isActive ? AppColors.green : Colors.red,
+                label:
+                    payment.status?.friendlyName(l10n) ??
+                    l10n.recurringPayments_status_unknown,
+                color:
+                    payment.status == null
+                        ? AppColors.grey
+                        : (isActive ? AppColors.green : Colors.red),
               ),
               RecurringPaymentActionsMenu(payment: payment),
             ],

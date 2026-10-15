@@ -17,7 +17,9 @@ class RecurringPaymentTypeSelector extends StatelessWidget {
     required this.onChanged,
   });
 
-  final RecurringPaymentValueType selected;
+  /// `null` cuando la API devolvió un tipo desconocido: nada queda seleccionado y
+  /// el usuario debe elegir (el formulario lo valida).
+  final RecurringPaymentValueType? selected;
   final ValueChanged<RecurringPaymentValueType> onChanged;
 
   @override
@@ -57,7 +59,7 @@ class _TypeOption {
 
   Widget build(
     BuildContext context,
-    RecurringPaymentValueType selected,
+    RecurringPaymentValueType? selected,
     ValueChanged<RecurringPaymentValueType> onChanged,
   ) {
     final isSelected = type == selected;

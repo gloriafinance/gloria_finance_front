@@ -16,10 +16,15 @@ class RecurringPaymentOptionsState {
   /// Centros de costo activos.
   final List<CostCenterModel> costCenters;
 
+  /// Iglesia de la que se cargaron las opciones (ver
+  /// `RecurringPaymentListState.loadedChurchId`).
+  final String? loadedChurchId;
+
   const RecurringPaymentOptionsState({
     required this.makeRequest,
     required this.expenseConcepts,
     required this.costCenters,
+    required this.loadedChurchId,
   });
 
   factory RecurringPaymentOptionsState.empty() {
@@ -27,6 +32,7 @@ class RecurringPaymentOptionsState {
       makeRequest: false,
       expenseConcepts: [],
       costCenters: [],
+      loadedChurchId: null,
     );
   }
 
@@ -34,11 +40,13 @@ class RecurringPaymentOptionsState {
     bool? makeRequest,
     List<FinancialConceptModel>? expenseConcepts,
     List<CostCenterModel>? costCenters,
+    String? loadedChurchId,
   }) {
     return RecurringPaymentOptionsState(
       makeRequest: makeRequest ?? this.makeRequest,
       expenseConcepts: expenseConcepts ?? this.expenseConcepts,
       costCenters: costCenters ?? this.costCenters,
+      loadedChurchId: loadedChurchId ?? this.loadedChurchId,
     );
   }
 

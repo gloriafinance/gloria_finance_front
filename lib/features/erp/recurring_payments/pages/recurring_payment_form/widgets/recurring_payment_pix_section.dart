@@ -57,8 +57,14 @@ class RecurringPaymentPixSection extends StatelessWidget {
       label: l10n.recurringPayments_field_pix_key,
       initialValue: state.pixKey.isEmpty ? null : state.pixKey,
       icon: Icons.vpn_key_outlined,
-      keyboardType: pixKeyKeyboardType(state.pixKeyType),
-      inputFormatters: pixKeyInputFormatters(state.pixKeyType),
+      keyboardType:
+          state.pixKeyType == null
+              ? TextInputType.text
+              : pixKeyKeyboardType(state.pixKeyType!),
+      inputFormatters:
+          state.pixKeyType == null
+              ? const []
+              : pixKeyInputFormatters(state.pixKeyType!),
       onValidator: (value) => pixKeyValidator(context, value, isRequired: true),
       onChanged: store.setPixKey,
     );
@@ -69,11 +75,17 @@ class RecurringPaymentPixSection extends StatelessWidget {
         Dropdown(
           label: l10n.recurringPayments_field_pix_key_type,
           items: PixKeyTypeExtension.listApiValues,
-          initialValue: state.pixKeyType.apiValue,
-          searchHint: l10n.recurringPayments_field_pix_key_type,
-          onChanged:
+          initialValue: state.pixKeyType?.apiValue,
+          onValidator:
               (value) =>
-                  store.setPixKeyType(PixKeyTypeExtension.fromApiValue(value)),
+                  state.pixEnabled && state.pixKeyType == null
+                      ? l10n.recurringPayments_error_pix_key_type_required
+                      : null,
+          searchHint: l10n.recurringPayments_field_pix_key_type,
+          onChanged: (value) {
+            final keyType = PixKeyTypeExtension.tryFromApiValue(value);
+            if (keyType != null) store.setPixKeyType(keyType);
+          },
         ),
         Padding(
           padding: const EdgeInsets.only(left: 4, top: 6),

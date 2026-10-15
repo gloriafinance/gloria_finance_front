@@ -39,10 +39,10 @@ class _RecurringPaymentFormViewState extends State<RecurringPaymentFormView> {
     super.initState();
     // Con deep link el formulario se abre sin pasar por el listado: se asegura
     // aquí que los conceptos de gasto y los centros de costo estén cargados.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final optionsStore = context.read<RecurringPaymentOptionsStore>();
-      if (!optionsStore.state.hasExpenseConcepts) {
-        optionsStore.searchOptions();
+      if (await optionsStore.needsLoad()) {
+        await optionsStore.searchOptions();
       }
     });
   }

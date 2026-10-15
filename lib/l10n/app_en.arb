@@ -2354,5 +2354,13 @@
   "recurringPayments_table_name_concept_cost_center": "Name / Concept / Cost center",
   "recurringPayments_empty_cta_short": "Create first payment",
   "recurringPayments_field_status": "State",
-  "recurringPayments_status_create_note": "The recurrence is created active. To pause it later, use Deactivate in the list."
+  "recurringPayments_status_create_note": "The recurrence is created active. To pause it later, use Deactivate in the list.",
+  "recurringPayments_type_unknown": "Unrecognized type",
+  "recurringPayments_status_unknown": "Unrecognized state",
+  "recurringPayments_status_unknown_note": "The current state was not recognized by this app version. It will be kept as is when saving.",
+  "recurringPayments_error_type_required": "Select the value type.",
+  "recurringPayments_error_pix_key_type_required": "Select the key type.",
+  "recurringPayments_not_found_title": "Recurring payment not found",
+  "recurringPayments_not_found_description": "It may have been removed or the link is wrong. Go back to the list and open it again.",
+  "recurringPayments_back_to_list_action": "Back to the list"
 }
