@@ -5372,4 +5372,292 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get member_commitments_pix_pay => 'Pagar con PIX';
+
+  @override
+  String get recurringPayments_list_title => 'Pagos recurrentes';
+
+  @override
+  String get recurringPayments_new_action => 'Nuevo pago recurrente';
+
+  @override
+  String get recurringPayments_summary_total => 'Recurrencias';
+
+  @override
+  String get recurringPayments_summary_active => 'Activas';
+
+  @override
+  String get recurringPayments_summary_inactive => 'Inactivas';
+
+  @override
+  String get recurringPayments_summary_fixed_month => 'Fijo activo / mes';
+
+  @override
+  String get recurringPayments_filter_search_label => 'Buscar por nombre';
+
+  @override
+  String get recurringPayments_filter_status_label => 'Estado';
+
+  @override
+  String get recurringPayments_filter_type_label => 'Tipo de valor';
+
+  @override
+  String get recurringPayments_filter_all => 'Todos';
+
+  @override
+  String get recurringPayments_filter_open_action => 'Filtros';
+
+  @override
+  String get recurringPayments_filter_sheet_title => 'Filtros';
+
+  @override
+  String recurringPayments_filter_result_count(int visible, int total) {
+    return 'Mostrando $visible de $total recurrencias';
+  }
+
+  @override
+  String get recurringPayments_table_name => 'Nombre';
+
+  @override
+  String get recurringPayments_table_concept => 'Concepto financiero';
+
+  @override
+  String get recurringPayments_table_cost_center => 'Centro de costo';
+
+  @override
+  String get recurringPayments_table_type => 'Tipo';
+
+  @override
+  String get recurringPayments_table_amount => 'Valor';
+
+  @override
+  String get recurringPayments_table_due_day => 'Vencimiento';
+
+  @override
+  String get recurringPayments_table_pix => 'PIX';
+
+  @override
+  String get recurringPayments_table_name_concept => 'Nombre / Concepto';
+
+  @override
+  String get recurringPayments_table_type_amount => 'Tipo / Valor';
+
+  @override
+  String get recurringPayments_table_due_day_short => 'Venc.';
+
+  @override
+  String recurringPayments_due_day(int day) {
+    return 'Día $day';
+  }
+
+  @override
+  String get recurringPayments_type_fixed => 'Fijo';
+
+  @override
+  String get recurringPayments_type_variable => 'Variable';
+
+  @override
+  String get recurringPayments_type_fixed_hint => 'El valor es el mismo todos los meses. Ej.: alquiler, internet.';
+
+  @override
+  String get recurringPayments_type_variable_hint => 'El valor cambia cada mes. Ej.: agua, energía.';
+
+  @override
+  String get recurringPayments_amount_variable => 'Valor variable';
+
+  @override
+  String get recurringPayments_pix_configured => 'PIX configurado';
+
+  @override
+  String get recurringPayments_pix_not_configured => 'Sin PIX configurado';
+
+  @override
+  String get recurringPayments_pix_short_configured => 'PIX configurado';
+
+  @override
+  String get recurringPayments_pix_short_not_configured => 'Sin PIX';
+
+  @override
+  String get recurringPayments_empty_title => 'Ningún pago recurrente registrado';
+
+  @override
+  String get recurringPayments_empty_description => 'Todavía no tienes pagos recurrentes registrados. Registra compromisos mensuales como alquiler, energía, agua y otros gastos recurrentes.';
+
+  @override
+  String get recurringPayments_empty_cta => 'Crear primer pago recurrente';
+
+  @override
+  String get recurringPayments_no_results_title => 'Ningún resultado encontrado';
+
+  @override
+  String get recurringPayments_no_results_description => 'Ninguna recurrencia coincide con los filtros aplicados.';
+
+  @override
+  String get recurringPayments_activate_action => 'Activar';
+
+  @override
+  String get recurringPayments_deactivate_action => 'Desactivar';
+
+  @override
+  String get recurringPayments_more_actions => 'Más acciones';
+
+  @override
+  String get recurringPayments_menu_copy_pix_key => 'Copiar clave PIX';
+
+  @override
+  String get recurringPayments_pix_key_copied => '¡Clave PIX copiada!';
+
+  @override
+  String get recurringPayments_toast_activated => 'Pago recurrente activado.';
+
+  @override
+  String get recurringPayments_toast_deactivated => 'Pago recurrente desactivado.';
+
+  @override
+  String get recurringPayments_toast_saved => 'Pago recurrente guardado.';
+
+  @override
+  String get recurringPayments_toast_updated => 'Pago recurrente actualizado.';
+
+  @override
+  String get recurringPayments_toast_save_error => 'No se pudo guardar el pago recurrente.';
+
+  @override
+  String get recurringPayments_form_title_create => 'Nuevo pago recurrente';
+
+  @override
+  String get recurringPayments_form_title_edit => 'Editar pago recurrente';
+
+  @override
+  String get recurringPayments_section_basic_title => 'Información básica';
+
+  @override
+  String get recurringPayments_section_basic_subtitle => 'Cómo se identificará esta recurrencia en tu iglesia.';
+
+  @override
+  String get recurringPayments_section_config_title => 'Configuración de la recurrencia';
+
+  @override
+  String get recurringPayments_section_config_subtitle => 'Cuándo y cuánto ocurre este compromiso cada mes.';
+
+  @override
+  String get recurringPayments_section_pix_title => 'PIX reutilizable';
+
+  @override
+  String get recurringPayments_section_pix_subtitle => 'Una conveniencia para el futuro. No es obligatorio y no define la forma de pago.';
+
+  @override
+  String get recurringPayments_field_name => 'Nombre';
+
+  @override
+  String get recurringPayments_field_concept => 'Concepto financiero';
+
+  @override
+  String get recurringPayments_field_cost_center => 'Centro de costo';
+
+  @override
+  String get recurringPayments_field_type => 'Tipo de valor';
+
+  @override
+  String recurringPayments_field_amount_with_symbol(String symbol) {
+    return 'Valor mensual ($symbol)';
+  }
+
+  @override
+  String get recurringPayments_field_due_day => 'Día de vencimiento';
+
+  @override
+  String get recurringPayments_field_pix_key => 'Clave PIX';
+
+  @override
+  String get recurringPayments_field_pix_key_type => 'Tipo de clave';
+
+  @override
+  String get recurringPayments_helper_name => 'Usa un nombre que el tesorero reconozca de inmediato.';
+
+  @override
+  String get recurringPayments_helper_concept => 'Clasifica el gasto para reportes y DRE.';
+
+  @override
+  String get recurringPayments_helper_cost_center => 'Obligatorio: todo gasto se asigna a un centro de costo.';
+
+  @override
+  String get recurringPayments_helper_due_day => 'Si el mes no tiene este día, se considerará el último día válido.';
+
+  @override
+  String get recurringPayments_helper_pix_key_type => 'CPF, CNPJ, correo, teléfono o clave aleatoria (EVP).';
+
+  @override
+  String get recurringPayments_helper_pix => 'Esta clave podrá reutilizarse en pagos futuros cuando la iglesia use ejecución bancaria vía Asaas. No significa que esta recurrencia se pague por PIX.';
+
+  @override
+  String get recurringPayments_variable_amount_note => 'Valor variable: no se guarda ningún valor fijo en esta configuración. El valor se informará cada mes, al momento de registrar el pago.';
+
+  @override
+  String get recurringPayments_status_active_description => 'Activa: entra todos los meses como pago pendiente.';
+
+  @override
+  String get recurringPayments_status_inactive_description => 'Inactiva: pausa la recurrencia. Sigue registrada, pero deja de entrar en los próximos meses — úsala cuando el compromiso termine (ej.: fin del contrato de alquiler).';
+
+  @override
+  String get recurringPayments_optional_badge => 'Opcional';
+
+  @override
+  String get recurringPayments_pix_toggle_label => 'Guardar destino PIX para uso futuro';
+
+  @override
+  String get recurringPayments_pix_toggle_description => 'Si se activa, informa la clave que podrá reutilizarse cuando la iglesia ejecute pagos por el banco.';
+
+  @override
+  String get recurringPayments_pix_panel_title => 'Destino reutilizable (opcional)';
+
+  @override
+  String get recurringPayments_required_hint => 'Los campos con * son obligatorios';
+
+  @override
+  String get recurringPayments_save_action => 'Guardar recurrencia';
+
+  @override
+  String get recurringPayments_update_action => 'Guardar cambios';
+
+  @override
+  String get recurringPayments_error_name_required => 'Informa el nombre del pago.';
+
+  @override
+  String get recurringPayments_error_concept_required => 'Selecciona el concepto financiero.';
+
+  @override
+  String get recurringPayments_error_cost_center_required => 'Selecciona el centro de costo.';
+
+  @override
+  String get recurringPayments_error_amount_required => 'Informa el valor mensual para el tipo “Valor fijo”.';
+
+  @override
+  String get recurringPayments_error_due_day_required => 'Selecciona el día de vencimiento.';
+
+  @override
+  String get recurringPayments_error_pix_key_required => 'Informa la clave PIX.';
+
+  @override
+  String get recurringPayments_error_no_concepts => 'No hay conceptos financieros de salida registrados. Registra uno para continuar.';
+
+  @override
+  String get recurringPayments_error_no_cost_centers => 'No hay centros de costo activos registrados. Registra uno para continuar.';
+
+  @override
+  String get erp_menu_finance_recurring_payments => 'Pagos recurrentes';
+
+  @override
+  String get support_assistant_context_recurring_payment_question => 'Ayúdame a configurar correctamente un pago recurrente en esta pantalla.';
+
+  @override
+  String get recurringPayments_table_name_concept_cost_center => 'Nombre / Concepto / Centro de costo';
+
+  @override
+  String get recurringPayments_empty_cta_short => 'Crear primer pago';
+
+  @override
+  String get recurringPayments_field_status => 'Situación';
+
+  @override
+  String get recurringPayments_status_create_note => 'La recurrencia se crea activa. Para pausarla después, usa Desactivar en el listado.';
 }

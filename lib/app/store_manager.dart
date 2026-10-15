@@ -11,6 +11,8 @@ import '../features/erp/settings/cost_center/store/cost_center_list_store.dart';
 import '../features/erp/settings/financial_concept/store/financial_concept_store.dart';
 import '../features/erp/settings/members/store/member_all_store.dart';
 import '../features/member_experience/notifications/push_notification_manager.dart';
+import '../features/erp/recurring_payments/store/recurring_payment_list_store.dart';
+import '../features/erp/recurring_payments/store/recurring_payment_options_store.dart';
 import '../features/erp/trends/store/trend_store.dart';
 
 class StoreManager {
@@ -34,6 +36,8 @@ class StoreManager {
   final memberAllStore = MemberAllStore();
   final sidebarNotifier = SidebarNotifier();
   final trendStore = TrendStore();
+  final recurringPaymentListStore = RecurringPaymentListStore();
+  final recurringPaymentOptionsStore = RecurringPaymentOptionsStore();
 
   bool isMemberExperience = false;
 }

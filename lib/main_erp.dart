@@ -48,6 +48,12 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => storeManager.trendStore..fetchTrends(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => storeManager.recurringPaymentListStore,
+        ),
+        ChangeNotifierProvider(
+          create: (_) => storeManager.recurringPaymentOptionsStore,
+        ),
         ChangeNotifierProvider(create: (_) => storeManager.localeStore),
       ],
       child: MyApp(router: erpRouter),

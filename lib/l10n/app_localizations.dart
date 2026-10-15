@@ -10554,6 +10554,570 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pay with PIX'**
   String get member_commitments_pix_pay;
+
+  /// No description provided for @recurringPayments_list_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring payments'**
+  String get recurringPayments_list_title;
+
+  /// No description provided for @recurringPayments_new_action.
+  ///
+  /// In en, this message translates to:
+  /// **'New recurring payment'**
+  String get recurringPayments_new_action;
+
+  /// No description provided for @recurringPayments_summary_total.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurrences'**
+  String get recurringPayments_summary_total;
+
+  /// No description provided for @recurringPayments_summary_active.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get recurringPayments_summary_active;
+
+  /// No description provided for @recurringPayments_summary_inactive.
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive'**
+  String get recurringPayments_summary_inactive;
+
+  /// No description provided for @recurringPayments_summary_fixed_month.
+  ///
+  /// In en, this message translates to:
+  /// **'Active fixed / month'**
+  String get recurringPayments_summary_fixed_month;
+
+  /// No description provided for @recurringPayments_filter_search_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name'**
+  String get recurringPayments_filter_search_label;
+
+  /// No description provided for @recurringPayments_filter_status_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get recurringPayments_filter_status_label;
+
+  /// No description provided for @recurringPayments_filter_type_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Value type'**
+  String get recurringPayments_filter_type_label;
+
+  /// No description provided for @recurringPayments_filter_all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get recurringPayments_filter_all;
+
+  /// No description provided for @recurringPayments_filter_open_action.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get recurringPayments_filter_open_action;
+
+  /// No description provided for @recurringPayments_filter_sheet_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get recurringPayments_filter_sheet_title;
+
+  /// No description provided for @recurringPayments_filter_result_count.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing {visible} of {total} recurrences'**
+  String recurringPayments_filter_result_count(int visible, int total);
+
+  /// No description provided for @recurringPayments_table_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get recurringPayments_table_name;
+
+  /// No description provided for @recurringPayments_table_concept.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial concept'**
+  String get recurringPayments_table_concept;
+
+  /// No description provided for @recurringPayments_table_cost_center.
+  ///
+  /// In en, this message translates to:
+  /// **'Cost center'**
+  String get recurringPayments_table_cost_center;
+
+  /// No description provided for @recurringPayments_table_type.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get recurringPayments_table_type;
+
+  /// No description provided for @recurringPayments_table_amount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get recurringPayments_table_amount;
+
+  /// No description provided for @recurringPayments_table_due_day.
+  ///
+  /// In en, this message translates to:
+  /// **'Due date'**
+  String get recurringPayments_table_due_day;
+
+  /// No description provided for @recurringPayments_table_pix.
+  ///
+  /// In en, this message translates to:
+  /// **'PIX'**
+  String get recurringPayments_table_pix;
+
+  /// No description provided for @recurringPayments_table_name_concept.
+  ///
+  /// In en, this message translates to:
+  /// **'Name / Concept'**
+  String get recurringPayments_table_name_concept;
+
+  /// No description provided for @recurringPayments_table_type_amount.
+  ///
+  /// In en, this message translates to:
+  /// **'Type / Amount'**
+  String get recurringPayments_table_type_amount;
+
+  /// No description provided for @recurringPayments_table_due_day_short.
+  ///
+  /// In en, this message translates to:
+  /// **'Due'**
+  String get recurringPayments_table_due_day_short;
+
+  /// No description provided for @recurringPayments_due_day.
+  ///
+  /// In en, this message translates to:
+  /// **'Day {day}'**
+  String recurringPayments_due_day(int day);
+
+  /// No description provided for @recurringPayments_type_fixed.
+  ///
+  /// In en, this message translates to:
+  /// **'Fixed'**
+  String get recurringPayments_type_fixed;
+
+  /// No description provided for @recurringPayments_type_variable.
+  ///
+  /// In en, this message translates to:
+  /// **'Variable'**
+  String get recurringPayments_type_variable;
+
+  /// No description provided for @recurringPayments_type_fixed_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'The amount is the same every month. E.g.: rent, internet.'**
+  String get recurringPayments_type_fixed_hint;
+
+  /// No description provided for @recurringPayments_type_variable_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'The amount changes every month. E.g.: water, electricity.'**
+  String get recurringPayments_type_variable_hint;
+
+  /// No description provided for @recurringPayments_amount_variable.
+  ///
+  /// In en, this message translates to:
+  /// **'Variable amount'**
+  String get recurringPayments_amount_variable;
+
+  /// No description provided for @recurringPayments_pix_configured.
+  ///
+  /// In en, this message translates to:
+  /// **'PIX configured'**
+  String get recurringPayments_pix_configured;
+
+  /// No description provided for @recurringPayments_pix_not_configured.
+  ///
+  /// In en, this message translates to:
+  /// **'No PIX configured'**
+  String get recurringPayments_pix_not_configured;
+
+  /// No description provided for @recurringPayments_pix_short_configured.
+  ///
+  /// In en, this message translates to:
+  /// **'PIX configured'**
+  String get recurringPayments_pix_short_configured;
+
+  /// No description provided for @recurringPayments_pix_short_not_configured.
+  ///
+  /// In en, this message translates to:
+  /// **'No PIX'**
+  String get recurringPayments_pix_short_not_configured;
+
+  /// No description provided for @recurringPayments_empty_title.
+  ///
+  /// In en, this message translates to:
+  /// **'No recurring payments yet'**
+  String get recurringPayments_empty_title;
+
+  /// No description provided for @recurringPayments_empty_description.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have any recurring payments yet. Add monthly commitments such as rent, electricity, water and other recurring expenses.'**
+  String get recurringPayments_empty_description;
+
+  /// No description provided for @recurringPayments_empty_cta.
+  ///
+  /// In en, this message translates to:
+  /// **'Create first recurring payment'**
+  String get recurringPayments_empty_cta;
+
+  /// No description provided for @recurringPayments_no_results_title.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get recurringPayments_no_results_title;
+
+  /// No description provided for @recurringPayments_no_results_description.
+  ///
+  /// In en, this message translates to:
+  /// **'No recurrence matches the applied filters.'**
+  String get recurringPayments_no_results_description;
+
+  /// No description provided for @recurringPayments_activate_action.
+  ///
+  /// In en, this message translates to:
+  /// **'Activate'**
+  String get recurringPayments_activate_action;
+
+  /// No description provided for @recurringPayments_deactivate_action.
+  ///
+  /// In en, this message translates to:
+  /// **'Deactivate'**
+  String get recurringPayments_deactivate_action;
+
+  /// No description provided for @recurringPayments_more_actions.
+  ///
+  /// In en, this message translates to:
+  /// **'More actions'**
+  String get recurringPayments_more_actions;
+
+  /// No description provided for @recurringPayments_menu_copy_pix_key.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy PIX key'**
+  String get recurringPayments_menu_copy_pix_key;
+
+  /// No description provided for @recurringPayments_pix_key_copied.
+  ///
+  /// In en, this message translates to:
+  /// **'PIX key copied!'**
+  String get recurringPayments_pix_key_copied;
+
+  /// No description provided for @recurringPayments_toast_activated.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring payment activated.'**
+  String get recurringPayments_toast_activated;
+
+  /// No description provided for @recurringPayments_toast_deactivated.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring payment deactivated.'**
+  String get recurringPayments_toast_deactivated;
+
+  /// No description provided for @recurringPayments_toast_saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring payment saved.'**
+  String get recurringPayments_toast_saved;
+
+  /// No description provided for @recurringPayments_toast_updated.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring payment updated.'**
+  String get recurringPayments_toast_updated;
+
+  /// No description provided for @recurringPayments_toast_save_error.
+  ///
+  /// In en, this message translates to:
+  /// **'The recurring payment could not be saved.'**
+  String get recurringPayments_toast_save_error;
+
+  /// No description provided for @recurringPayments_form_title_create.
+  ///
+  /// In en, this message translates to:
+  /// **'New recurring payment'**
+  String get recurringPayments_form_title_create;
+
+  /// No description provided for @recurringPayments_form_title_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit recurring payment'**
+  String get recurringPayments_form_title_edit;
+
+  /// No description provided for @recurringPayments_section_basic_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic information'**
+  String get recurringPayments_section_basic_title;
+
+  /// No description provided for @recurringPayments_section_basic_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How this recurrence will be identified in your church.'**
+  String get recurringPayments_section_basic_subtitle;
+
+  /// No description provided for @recurringPayments_section_config_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurrence setup'**
+  String get recurringPayments_section_config_title;
+
+  /// No description provided for @recurringPayments_section_config_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'When and how much this commitment happens every month.'**
+  String get recurringPayments_section_config_subtitle;
+
+  /// No description provided for @recurringPayments_section_pix_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Reusable PIX'**
+  String get recurringPayments_section_pix_title;
+
+  /// No description provided for @recurringPayments_section_pix_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A convenience for the future. It is optional and does not define the payment method.'**
+  String get recurringPayments_section_pix_subtitle;
+
+  /// No description provided for @recurringPayments_field_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get recurringPayments_field_name;
+
+  /// No description provided for @recurringPayments_field_concept.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial concept'**
+  String get recurringPayments_field_concept;
+
+  /// No description provided for @recurringPayments_field_cost_center.
+  ///
+  /// In en, this message translates to:
+  /// **'Cost center'**
+  String get recurringPayments_field_cost_center;
+
+  /// No description provided for @recurringPayments_field_type.
+  ///
+  /// In en, this message translates to:
+  /// **'Value type'**
+  String get recurringPayments_field_type;
+
+  /// No description provided for @recurringPayments_field_amount_with_symbol.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly amount ({symbol})'**
+  String recurringPayments_field_amount_with_symbol(String symbol);
+
+  /// No description provided for @recurringPayments_field_due_day.
+  ///
+  /// In en, this message translates to:
+  /// **'Due day'**
+  String get recurringPayments_field_due_day;
+
+  /// No description provided for @recurringPayments_field_pix_key.
+  ///
+  /// In en, this message translates to:
+  /// **'PIX key'**
+  String get recurringPayments_field_pix_key;
+
+  /// No description provided for @recurringPayments_field_pix_key_type.
+  ///
+  /// In en, this message translates to:
+  /// **'Key type'**
+  String get recurringPayments_field_pix_key_type;
+
+  /// No description provided for @recurringPayments_helper_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a name the treasurer recognizes immediately.'**
+  String get recurringPayments_helper_name;
+
+  /// No description provided for @recurringPayments_helper_concept.
+  ///
+  /// In en, this message translates to:
+  /// **'Classifies the expense for reports and P&L.'**
+  String get recurringPayments_helper_concept;
+
+  /// No description provided for @recurringPayments_helper_cost_center.
+  ///
+  /// In en, this message translates to:
+  /// **'Required: every expense is allocated to a cost center.'**
+  String get recurringPayments_helper_cost_center;
+
+  /// No description provided for @recurringPayments_helper_due_day.
+  ///
+  /// In en, this message translates to:
+  /// **'If the month has no such day, the last valid day will be used.'**
+  String get recurringPayments_helper_due_day;
+
+  /// No description provided for @recurringPayments_helper_pix_key_type.
+  ///
+  /// In en, this message translates to:
+  /// **'CPF, CNPJ, email, phone or random key (EVP).'**
+  String get recurringPayments_helper_pix_key_type;
+
+  /// No description provided for @recurringPayments_helper_pix.
+  ///
+  /// In en, this message translates to:
+  /// **'This key may be reused in future payments when the church uses bank execution via Asaas. It does not mean this recurrence is paid by PIX.'**
+  String get recurringPayments_helper_pix;
+
+  /// No description provided for @recurringPayments_variable_amount_note.
+  ///
+  /// In en, this message translates to:
+  /// **'Variable amount: no fixed amount is stored in this configuration. The amount is informed every month, when the payment is registered.'**
+  String get recurringPayments_variable_amount_note;
+
+  /// No description provided for @recurringPayments_status_active_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Active: it is included every month as a payment to make.'**
+  String get recurringPayments_status_active_description;
+
+  /// No description provided for @recurringPayments_status_inactive_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive: pauses the recurrence. It stays registered but stops being included in the coming months — use it when the commitment ends (e.g.: the rent contract ends).'**
+  String get recurringPayments_status_inactive_description;
+
+  /// No description provided for @recurringPayments_optional_badge.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional'**
+  String get recurringPayments_optional_badge;
+
+  /// No description provided for @recurringPayments_pix_toggle_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Save PIX destination for future use'**
+  String get recurringPayments_pix_toggle_label;
+
+  /// No description provided for @recurringPayments_pix_toggle_description.
+  ///
+  /// In en, this message translates to:
+  /// **'If enabled, provide the key that may be reused when the church executes payments through the bank.'**
+  String get recurringPayments_pix_toggle_description;
+
+  /// No description provided for @recurringPayments_pix_panel_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Reusable destination (optional)'**
+  String get recurringPayments_pix_panel_title;
+
+  /// No description provided for @recurringPayments_required_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Fields with * are required'**
+  String get recurringPayments_required_hint;
+
+  /// No description provided for @recurringPayments_save_action.
+  ///
+  /// In en, this message translates to:
+  /// **'Save recurrence'**
+  String get recurringPayments_save_action;
+
+  /// No description provided for @recurringPayments_update_action.
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get recurringPayments_update_action;
+
+  /// No description provided for @recurringPayments_error_name_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the payment name.'**
+  String get recurringPayments_error_name_required;
+
+  /// No description provided for @recurringPayments_error_concept_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the financial concept.'**
+  String get recurringPayments_error_concept_required;
+
+  /// No description provided for @recurringPayments_error_cost_center_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the cost center.'**
+  String get recurringPayments_error_cost_center_required;
+
+  /// No description provided for @recurringPayments_error_amount_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the monthly amount for the “Fixed amount” type.'**
+  String get recurringPayments_error_amount_required;
+
+  /// No description provided for @recurringPayments_error_due_day_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the due day.'**
+  String get recurringPayments_error_due_day_required;
+
+  /// No description provided for @recurringPayments_error_pix_key_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the PIX key.'**
+  String get recurringPayments_error_pix_key_required;
+
+  /// No description provided for @recurringPayments_error_no_concepts.
+  ///
+  /// In en, this message translates to:
+  /// **'No outgoing financial concepts registered. Add one to continue.'**
+  String get recurringPayments_error_no_concepts;
+
+  /// No description provided for @recurringPayments_error_no_cost_centers.
+  ///
+  /// In en, this message translates to:
+  /// **'No active cost centers registered. Add one to continue.'**
+  String get recurringPayments_error_no_cost_centers;
+
+  /// No description provided for @erp_menu_finance_recurring_payments.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring payments'**
+  String get erp_menu_finance_recurring_payments;
+
+  /// No description provided for @support_assistant_context_recurring_payment_question.
+  ///
+  /// In en, this message translates to:
+  /// **'Help me correctly configure a recurring payment on this screen.'**
+  String get support_assistant_context_recurring_payment_question;
+
+  /// No description provided for @recurringPayments_table_name_concept_cost_center.
+  ///
+  /// In en, this message translates to:
+  /// **'Name / Concept / Cost center'**
+  String get recurringPayments_table_name_concept_cost_center;
+
+  /// No description provided for @recurringPayments_empty_cta_short.
+  ///
+  /// In en, this message translates to:
+  /// **'Create first payment'**
+  String get recurringPayments_empty_cta_short;
+
+  /// No description provided for @recurringPayments_field_status.
+  ///
+  /// In en, this message translates to:
+  /// **'State'**
+  String get recurringPayments_field_status;
+
+  /// No description provided for @recurringPayments_status_create_note.
+  ///
+  /// In en, this message translates to:
+  /// **'The recurrence is created active. To pause it later, use Deactivate in the list.'**
+  String get recurringPayments_status_create_note;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
