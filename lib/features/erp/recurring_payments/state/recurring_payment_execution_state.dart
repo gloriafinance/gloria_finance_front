@@ -151,11 +151,22 @@ class RecurringPaymentExecutionState {
 
   /// El importe se pide solo cuando el pagador tiene que declararlo: un valor
   /// fijo pertenece a la configuración y un boleto trae el suyo de la línea.
+  /// Whether the payer has to inform the amount.
+  ///
+  /// The instrument decides, not the recurrence type: a boleto defines the debt,
+  /// so a variable recurrence paid with one never asks (and a fixed one is
+  /// compared against the configuration as a protection). A PIX key identifies a
+  /// recipient, not an amount, so a variable recurrence paid by key does ask.
+  /// A PIX QR / copia e cola carrying its own amount joins [instrumentAmounts]
+  /// without touching the recurrence.
   bool get requiresAmount {
-    if (!isVariable) return false;
-    if (!hasBanking) return true;
-    return isPix;
+    if (!isVariable) return false; // monto de la configuración
+    if (!hasBanking) return true; // registro manual: lo informa el usuario
+    return !instrumentAmounts;
   }
+
+  /// Whether the chosen instrument brings the amount by itself.
+  bool get instrumentAmounts => method == RecurringPaymentMethodType.BILL;
 
   /// Sin destino guardado, la clave PIX pertenece a esta ejecución.
   bool get requiresPixKey =>
