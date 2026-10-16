@@ -98,7 +98,7 @@ class RecurringPaymentAmountMethodStep extends StatelessWidget {
             ),
           ],
         ),
-        if (state.hasBanking && state.savedPixKey != null) ...[
+        if (!state.isManualSource && state.savedPixKey != null) ...[
           const SizedBox(height: 14),
           RecurringPaymentExecutionField(
             label: l10n.recurringPaymentsExecution_pix_destination_label,

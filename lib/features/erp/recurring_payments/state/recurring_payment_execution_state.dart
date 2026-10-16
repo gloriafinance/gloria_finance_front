@@ -3,6 +3,7 @@ import '../models/recurring_payment_execution_model.dart';
 import '../models/recurring_payment_execution_payload.dart';
 import '../models/recurring_payment_model.dart';
 import '../models/recurring_payment_pay_result.dart';
+import '../models/recurring_payment_source_ui_model.dart';
 import '../utils/recurring_payment_boleto.dart';
 
 /// Casos de la matriz de ejecución, derivados de la configuración y de si la
@@ -40,7 +41,8 @@ extension RecurringPaymentExecutionCaseExtension
 /// de la configuración y se muestra como solo lectura.
 class RecurringPaymentExecutionState {
   final RecurringPaymentCompetenceModel item;
-  final bool hasBanking;
+  final bool asaasAvailable;
+  final RecurringPaymentSourceUiModel? selectedPaymentSource;
   final RecurringPaymentMethodType method;
   final String amountText;
   final String pixKey;
@@ -51,7 +53,8 @@ class RecurringPaymentExecutionState {
 
   const RecurringPaymentExecutionState({
     required this.item,
-    required this.hasBanking,
+    required this.asaasAvailable,
+    required this.selectedPaymentSource,
     required this.method,
     required this.amountText,
     required this.pixKey,
@@ -63,11 +66,12 @@ class RecurringPaymentExecutionState {
 
   factory RecurringPaymentExecutionState.start(
     RecurringPaymentCompetenceModel item, {
-    required bool hasBanking,
+    required bool asaasAvailable,
   }) {
     return RecurringPaymentExecutionState(
       item: item,
-      hasBanking: hasBanking,
+      asaasAvailable: asaasAvailable,
+      selectedPaymentSource: null,
       // PIX viene preseleccionado: con destino guardado es el camino directo y
       // sin él sigue siendo la opción más usada; el usuario puede cambiarlo.
       method: RecurringPaymentMethodType.PIX,
@@ -82,6 +86,7 @@ class RecurringPaymentExecutionState {
 
   RecurringPaymentExecutionState copyWith({
     RecurringPaymentMethodType? method,
+    RecurringPaymentSourceUiModel? selectedPaymentSource,
     String? amountText,
     String? pixKey,
     PixKeyType? pixKeyType,
@@ -92,7 +97,9 @@ class RecurringPaymentExecutionState {
   }) {
     return RecurringPaymentExecutionState(
       item: item,
-      hasBanking: hasBanking,
+      asaasAvailable: asaasAvailable,
+      selectedPaymentSource:
+          selectedPaymentSource ?? this.selectedPaymentSource,
       method: method ?? this.method,
       amountText: amountText ?? this.amountText,
       pixKey: pixKey ?? this.pixKey,
@@ -105,6 +112,12 @@ class RecurringPaymentExecutionState {
 
   RecurringPaymentModel get payment => item.recurringPayment;
 
+  bool get isManualSource =>
+      selectedPaymentSource != null
+          ? selectedPaymentSource!.capability ==
+              RecurringPaymentSourceCapability.manual
+          : !asaasAvailable;
+
   bool get isVariable => payment.type == RecurringPaymentValueType.VARIABLE;
 
   bool get isFixed => payment.type == RecurringPaymentValueType.FIXED;
@@ -114,7 +127,7 @@ class RecurringPaymentExecutionState {
   bool get isLoading => makeRequest;
 
   RecurringPaymentExecutionCase get executionCase {
-    if (!hasBanking) {
+    if (isManualSource) {
       return isVariable
           ? RecurringPaymentExecutionCase.manualVariable
           : RecurringPaymentExecutionCase.manualFixed;
@@ -151,18 +164,29 @@ class RecurringPaymentExecutionState {
 
   /// El importe se pide solo cuando el pagador tiene que declararlo: un valor
   /// fijo pertenece a la configuración y un boleto trae el suyo de la línea.
+  /// Whether the payer has to inform the amount.
+  ///
+  /// The instrument decides, not the recurrence type: a boleto defines the debt,
+  /// so a variable recurrence paid with one never asks (and a fixed one is
+  /// compared against the configuration as a protection). A PIX key identifies a
+  /// recipient, not an amount, so a variable recurrence paid by key does ask.
+  /// A PIX QR / copia e cola carrying its own amount joins [instrumentAmounts]
+  /// without touching the recurrence.
   bool get requiresAmount {
-    if (!isVariable) return false;
-    if (!hasBanking) return true;
-    return isPix;
+    if (!isVariable) return false; // monto de la configuración
+    if (isManualSource) return true; // registro manual: lo informa el usuario
+    return !instrumentAmounts;
   }
+
+  /// Whether the chosen instrument brings the amount by itself.
+  bool get instrumentAmounts => method == RecurringPaymentMethodType.BILL;
 
   /// Sin destino guardado, la clave PIX pertenece a esta ejecución.
   bool get requiresPixKey =>
-      hasBanking && isPix && (savedPixKey == null || savedPixKey!.isEmpty);
+      !isManualSource && isPix && (savedPixKey == null || savedPixKey!.isEmpty);
 
   bool get requiresBoletoLine =>
-      hasBanking && method == RecurringPaymentMethodType.BILL;
+      !isManualSource && method == RecurringPaymentMethodType.BILL;
 
   /// El paso de valor/método solo responde por lo suyo: la chave PIX y la línea
   /// del boleto se piden en su propio paso, así que exigirlas acá dejaría al
@@ -199,6 +223,7 @@ class RecurringPaymentExecutionState {
                 boletoLine,
               ),
             ),
+    availabilityAccountId: selectedPaymentSource?.availabilityAccountId,
   );
 
   /// Payload del registro manual: el importe solo viaja si es variable (en un

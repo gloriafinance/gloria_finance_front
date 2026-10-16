@@ -63,8 +63,7 @@ import 'app_localizations_pt.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale)
-    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -72,8 +71,7 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -85,19 +83,18 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
-        delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('es'),
-    Locale('pt'),
+    Locale('pt')
   ];
 
   /// No description provided for @month_january.
@@ -2594,10 +2591,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Suggestion applied: {type} · {category}. Review indicators and then save.'**
-  String settings_financial_concept_ai_result_applied_summary(
-    String type,
-    String category,
-  );
+  String settings_financial_concept_ai_result_applied_summary(String type, String category);
 
   /// No description provided for @settings_financial_concept_ai_result_assistant_tone.
   ///
@@ -2615,9 +2609,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Use the concept \"{conceptName}\" for this scenario. Search by this exact name in the list.'**
-  String settings_financial_concept_ai_result_existing_summary(
-    String conceptName,
-  );
+  String settings_financial_concept_ai_result_existing_summary(String conceptName);
 
   /// No description provided for @settings_financial_concept_ai_details_action.
   ///
@@ -4219,11 +4211,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Total income: {income} | Total expenses: {expenses} | Consolidated balance: {total}'**
-  String reports_income_cashflow_summary(
-    String income,
-    String expenses,
-    String total,
-  );
+  String reports_income_cashflow_summary(String income, String expenses, String total);
 
   /// No description provided for @reports_income_cashflow_empty.
   ///
@@ -4613,10 +4601,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Comparison: {currentMonthYear} vs {previousMonthYear}'**
-  String trends_header_comparison(
-    String currentMonthYear,
-    String previousMonthYear,
-  );
+  String trends_header_comparison(String currentMonthYear, String previousMonthYear);
 
   /// No description provided for @trends_list_revenue.
   ///
@@ -8702,12 +8687,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{count} devotionals will be sent to {audience} at {time} ({timezone})'**
-  String devotional_summary_line(
-    int count,
-    String audience,
-    String time,
-    String timezone,
-  );
+  String devotional_summary_line(int count, String audience, String time, String timezone);
 
   /// No description provided for @devotional_quick_guide.
   ///
@@ -9277,11 +9257,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Audience: {audience} | Push: {push} | WhatsApp: {whatsapp}'**
-  String devotional_item_channel_line(
-    String audience,
-    String push,
-    String whatsapp,
-  );
+  String devotional_item_channel_line(String audience, String push, String whatsapp);
 
   /// No description provided for @devotional_item_urgent_approval.
   ///
@@ -9389,11 +9365,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{day} - {date} | Audience: {audience}'**
-  String devotional_review_header_line(
-    String day,
-    String date,
-    String audience,
-  );
+  String devotional_review_header_line(String day, String date, String audience);
 
   /// No description provided for @devotional_review_label_title.
   ///
@@ -11888,7 +11860,7 @@ abstract class AppLocalizations {
   /// No description provided for @recurringPaymentsExecution_manual_subtitle.
   ///
   /// In en, this message translates to:
-  /// **'Tell us how this expense was paid outside Glória.'**
+  /// **'This payment was made outside Glória. Attach the receipt to record the transaction.'**
   String get recurringPaymentsExecution_manual_subtitle;
 
   /// No description provided for @recurringPaymentsExecution_manual_amount_label.
@@ -11908,6 +11880,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Payment date'**
   String get recurringPaymentsExecution_manual_date_label;
+
+  /// No description provided for @recurringPaymentsExecution_manual_date_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the payment date'**
+  String get recurringPaymentsExecution_manual_date_hint;
 
   /// No description provided for @recurringPaymentsExecution_manual_date_required.
   ///
@@ -11986,10 +11964,237 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'CLOSE'**
   String get recurringPaymentsExecution_common_close;
+
+  /// No description provided for @recurringPaymentsExecution_source_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Which account will the payment come from?'**
+  String get recurringPaymentsExecution_source_title;
+
+  /// No description provided for @recurringPaymentsExecution_source_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the account to use for this recurring payment.'**
+  String get recurringPaymentsExecution_source_description;
+
+  /// No description provided for @recurringPaymentsExecution_source_connected.
+  ///
+  /// In en, this message translates to:
+  /// **'CONNECTED'**
+  String get recurringPaymentsExecution_source_connected;
+
+  /// No description provided for @recurringPaymentsExecution_source_continue.
+  ///
+  /// In en, this message translates to:
+  /// **'CONTINUE'**
+  String get recurringPaymentsExecution_source_continue;
+
+  /// No description provided for @recurringPaymentsExecution_source_asaas.
+  ///
+  /// In en, this message translates to:
+  /// **'Asaas account'**
+  String get recurringPaymentsExecution_source_asaas;
+
+  /// No description provided for @recurringPaymentsExecution_source_asaas_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account connected to Glória'**
+  String get recurringPaymentsExecution_source_asaas_subtitle;
+
+  /// No description provided for @recurringPaymentsExecution_source_manual_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Local account · manual entry'**
+  String get recurringPaymentsExecution_source_manual_subtitle;
+
+  /// No description provided for @recurringPaymentsExecution_instrument_title.
+  ///
+  /// In en, this message translates to:
+  /// **'How would you like to pay?'**
+  String get recurringPaymentsExecution_instrument_title;
+
+  /// No description provided for @recurringPaymentsExecution_instrument_qr.
+  ///
+  /// In en, this message translates to:
+  /// **'PIX QR'**
+  String get recurringPaymentsExecution_instrument_qr;
+
+  /// No description provided for @recurringPaymentsExecution_instrument_qr_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan a QR Code or paste the Pix copy-and-paste code'**
+  String get recurringPaymentsExecution_instrument_qr_hint;
+
+  /// No description provided for @recurringPaymentsExecution_instrument_boleto.
+  ///
+  /// In en, this message translates to:
+  /// **'BOLETO'**
+  String get recurringPaymentsExecution_instrument_boleto;
+
+  /// No description provided for @recurringPaymentsExecution_instrument_boleto_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan the barcode or enter the boleto line'**
+  String get recurringPaymentsExecution_instrument_boleto_hint;
+
+  /// No description provided for @recurringPaymentsExecution_qr_entry_title.
+  ///
+  /// In en, this message translates to:
+  /// **'How would you like to provide the Pix?'**
+  String get recurringPaymentsExecution_qr_entry_title;
+
+  /// No description provided for @recurringPaymentsExecution_qr_camera.
+  ///
+  /// In en, this message translates to:
+  /// **'SCAN QR CODE'**
+  String get recurringPaymentsExecution_qr_camera;
+
+  /// No description provided for @recurringPaymentsExecution_qr_camera_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Point the camera at the QR Code'**
+  String get recurringPaymentsExecution_qr_camera_hint;
+
+  /// No description provided for @recurringPaymentsExecution_qr_paste.
+  ///
+  /// In en, this message translates to:
+  /// **'PASTE PIX CODE'**
+  String get recurringPaymentsExecution_qr_paste;
+
+  /// No description provided for @recurringPaymentsExecution_qr_paste_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste the Pix code you received'**
+  String get recurringPaymentsExecution_qr_paste_hint;
+
+  /// No description provided for @recurringPaymentsExecution_qr_scan_instruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Position the QR Code inside the marked area.'**
+  String get recurringPaymentsExecution_qr_scan_instruction;
+
+  /// No description provided for @recurringPaymentsExecution_qr_paste_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Pix copy-and-paste'**
+  String get recurringPaymentsExecution_qr_paste_label;
+
+  /// No description provided for @recurringPaymentsExecution_qr_paste_placeholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste the Pix code here'**
+  String get recurringPaymentsExecution_qr_paste_placeholder;
+
+  /// No description provided for @recurringPaymentsExecution_qr_reading.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading Pix...'**
+  String get recurringPaymentsExecution_qr_reading;
+
+  /// No description provided for @recurringPaymentsExecution_qr_found.
+  ///
+  /// In en, this message translates to:
+  /// **'PIX FOUND'**
+  String get recurringPaymentsExecution_qr_found;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_validating.
+  ///
+  /// In en, this message translates to:
+  /// **'Validating boleto...'**
+  String get recurringPaymentsExecution_boleto_validating;
+
+  /// No description provided for @recurringPaymentsExecution_preview_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment simulated for demonstration.'**
+  String get recurringPaymentsExecution_preview_mode;
+
+  /// No description provided for @recurringPaymentsExecution_preview_ready.
+  ///
+  /// In en, this message translates to:
+  /// **'PAYMENT READY TO SEND'**
+  String get recurringPaymentsExecution_preview_ready;
+
+  /// No description provided for @recurringPaymentsExecution_manual_selected_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Account used'**
+  String get recurringPaymentsExecution_manual_selected_account;
+
+  /// No description provided for @recurringPaymentsExecution_manual_no_voucher_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This payment was made outside Glória. Record the expense in the selected account.'**
+  String get recurringPaymentsExecution_manual_no_voucher_subtitle;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_line_counter.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} digits'**
+  String recurringPaymentsExecution_boleto_line_counter(String count);
+
+  /// No description provided for @recurringPaymentsExecution_boleto_beneficiary_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Beneficiary'**
+  String get recurringPaymentsExecution_boleto_beneficiary_label;
+
+  /// No description provided for @recurringPaymentsExecution_common_back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get recurringPaymentsExecution_common_back;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_due_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Due date'**
+  String get recurringPaymentsExecution_boleto_due_label;
+
+  /// No description provided for @recurringPaymentsExecution_qr_identifier_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Identifier'**
+  String get recurringPaymentsExecution_qr_identifier_label;
+
+  /// No description provided for @recurringPaymentsExecution_qr_amount_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Pix amount'**
+  String get recurringPaymentsExecution_qr_amount_label;
+
+  /// No description provided for @recurringPaymentsExecution_qr_mismatch_message.
+  ///
+  /// In en, this message translates to:
+  /// **'The Pix amount differs from the expected amount for this recurrence.'**
+  String get recurringPaymentsExecution_qr_mismatch_message;
+
+  /// No description provided for @recurringPaymentsExecution_qr_review_action.
+  ///
+  /// In en, this message translates to:
+  /// **'REVIEW PIX'**
+  String get recurringPaymentsExecution_qr_review_action;
+
+  /// No description provided for @recurringPaymentsExecution_review_details.
+  ///
+  /// In en, this message translates to:
+  /// **'Review the details before confirming.'**
+  String get recurringPaymentsExecution_review_details;
+
+  /// No description provided for @recurringPaymentsExecution_qr_camera_permission.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow camera access to scan the QR Code.'**
+  String get recurringPaymentsExecution_qr_camera_permission;
+
+  /// No description provided for @recurringPaymentsExecution_qr_camera_error.
+  ///
+  /// In en, this message translates to:
+  /// **'The camera could not be opened. Try again or paste the Pix code.'**
+  String get recurringPaymentsExecution_qr_camera_error;
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -11998,28 +12203,26 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en', 'es', 'pt'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en', 'es', 'pt'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
+
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en':
-      return AppLocalizationsEn();
-    case 'es':
-      return AppLocalizationsEs();
-    case 'pt':
-      return AppLocalizationsPt();
+    case 'en': return AppLocalizationsEn();
+    case 'es': return AppLocalizationsEs();
+    case 'pt': return AppLocalizationsPt();
   }
 
   throw FlutterError(
     'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
     'an issue with the localizations generation tool. Please file an issue '
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.',
+    'that was used.'
   );
 }

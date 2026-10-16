@@ -8,6 +8,8 @@ import '../utils/app_localizations_ext.dart';
 
 class Input extends StatefulWidget {
   final String label;
+  final String? hintText;
+  final TextStyle? hintStyle;
   final String? Function(String?)? onValidator;
   final Function(String) onChanged;
   final dynamic? initialValue;
@@ -29,6 +31,8 @@ class Input extends StatefulWidget {
     this.iconRight,
     this.isPass = false,
     required this.label,
+    this.hintText,
+    this.hintStyle,
     this.labelSuffix,
     required this.onChanged,
     this.onValidator,
@@ -90,7 +94,7 @@ class _InputState extends State<Input> {
               widget.icon,
               widget.iconRight,
               widget.onIconTap,
-            ),
+            ).copyWith(hintText: widget.hintText, hintStyle: widget.hintStyle),
             validator: widget.onValidator,
             onChanged: widget.onChanged,
             onTap: widget.onTap,

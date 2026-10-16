@@ -35,7 +35,6 @@ extension RecurringPaymentMethodTypeExtension on RecurringPaymentMethodType {
 /// contable ([RecurringPaymentSettlementModel]).
 class RecurringPaymentExecutionModel {
   final String competence;
-  final int attempt;
   final String externalReference;
 
   /// Importe del intento. Es nulo mientras un boleto no fue leído: el boleto
@@ -48,26 +47,23 @@ class RecurringPaymentExecutionModel {
   final RecurringPaymentMethodType? method;
   final String? identificationField;
   final RecurringPaymentExecutionStatus? status;
-  final String providerStatus;
-  final String? failureCode;
   final DateTime? paymentDate;
   final String? transactionReceiptUrl;
   final DateTime? updatedAt;
+  final String? failureCode;
 
   const RecurringPaymentExecutionModel({
     required this.competence,
-    required this.attempt,
     required this.externalReference,
     required this.amount,
     required this.providerValueInCents,
     required this.method,
     required this.identificationField,
     required this.status,
-    required this.providerStatus,
-    required this.failureCode,
     required this.paymentDate,
     required this.transactionReceiptUrl,
     required this.updatedAt,
+    required this.failureCode,
   });
 
   factory RecurringPaymentExecutionModel.fromJson(Map<String, dynamic> json) {
@@ -75,7 +71,6 @@ class RecurringPaymentExecutionModel {
 
     return RecurringPaymentExecutionModel(
       competence: json['competence'] ?? '',
-      attempt: json['attempt'] ?? 1,
       externalReference: json['externalReference'] ?? '',
       amount: rawAmount is num ? rawAmount.toDouble() : null,
       providerValueInCents:
@@ -89,10 +84,9 @@ class RecurringPaymentExecutionModel {
       status: RecurringPaymentExecutionStatusExtension.tryFromApiValue(
         json['status'] as String?,
       ),
-      providerStatus: json['providerStatus'] ?? '',
-      failureCode: json['failureCode'] as String?,
       paymentDate: parseIsoDate(json['paymentDate']),
       transactionReceiptUrl: json['transactionReceiptUrl'] as String?,
+      failureCode: json['failureCode'] as String?,
       updatedAt: parseIsoDate(json['updatedAt']),
     );
   }

@@ -2499,10 +2499,11 @@
   "recurringPaymentsExecution_boleto_value": "Boleto amount",
   "recurringPaymentsExecution_boleto_read_hint": "The bank reads the amount from the boleto line itself.",
   "recurringPaymentsExecution_manual_title": "Register payment",
-  "recurringPaymentsExecution_manual_subtitle": "Tell us how this expense was paid outside Glória.",
+  "recurringPaymentsExecution_manual_subtitle": "This payment was made outside Glória. Attach the receipt to record the transaction.",
   "recurringPaymentsExecution_manual_amount_label": "Amount paid",
   "recurringPaymentsExecution_manual_amount_required": "Enter the amount paid.",
   "recurringPaymentsExecution_manual_date_label": "Payment date",
+  "recurringPaymentsExecution_manual_date_hint": "Select the payment date",
   "recurringPaymentsExecution_manual_date_required": "Enter the payment date.",
   "recurringPaymentsExecution_manual_account_label": "Account used",
   "recurringPaymentsExecution_manual_account_required": "Select the account used.",
@@ -2539,5 +2540,50 @@
         "type": "int"
       }
     }
-  }
+  },
+  "recurringPaymentsExecution_source_title": "Which account will the payment come from?",
+  "recurringPaymentsExecution_source_description": "Choose the account to use for this recurring payment.",
+  "recurringPaymentsExecution_source_connected": "CONNECTED",
+  "recurringPaymentsExecution_source_continue": "CONTINUE",
+  "recurringPaymentsExecution_source_asaas": "Asaas account",
+  "recurringPaymentsExecution_source_asaas_subtitle": "Account connected to Glória",
+  "recurringPaymentsExecution_source_manual_subtitle": "Local account · manual entry",
+  "recurringPaymentsExecution_instrument_title": "How would you like to pay?",
+  "recurringPaymentsExecution_instrument_qr": "PIX QR",
+  "recurringPaymentsExecution_instrument_qr_hint": "Scan a QR Code or paste the Pix copy-and-paste code",
+  "recurringPaymentsExecution_instrument_boleto": "BOLETO",
+  "recurringPaymentsExecution_instrument_boleto_hint": "Scan the barcode or enter the boleto line",
+  "recurringPaymentsExecution_qr_entry_title": "How would you like to provide the Pix?",
+  "recurringPaymentsExecution_qr_camera": "SCAN QR CODE",
+  "recurringPaymentsExecution_qr_camera_hint": "Point the camera at the QR Code",
+  "recurringPaymentsExecution_qr_paste": "PASTE PIX CODE",
+  "recurringPaymentsExecution_qr_paste_hint": "Paste the Pix code you received",
+  "recurringPaymentsExecution_qr_scan_instruction": "Position the QR Code inside the marked area.",
+  "recurringPaymentsExecution_qr_paste_label": "Pix copy-and-paste",
+  "recurringPaymentsExecution_qr_paste_placeholder": "Paste the Pix code here",
+  "recurringPaymentsExecution_qr_reading": "Reading Pix...",
+  "recurringPaymentsExecution_qr_found": "PIX FOUND",
+  "recurringPaymentsExecution_boleto_validating": "Validating boleto...",
+  "recurringPaymentsExecution_preview_mode": "Payment simulated for demonstration.",
+  "recurringPaymentsExecution_preview_ready": "PAYMENT READY TO SEND",
+  "recurringPaymentsExecution_manual_selected_account": "Account used",
+  "recurringPaymentsExecution_manual_no_voucher_subtitle": "This payment was made outside Glória. Record the expense in the selected account.",
+  "recurringPaymentsExecution_boleto_line_counter": "{count} digits",
+  "@recurringPaymentsExecution_boleto_line_counter": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "recurringPaymentsExecution_boleto_beneficiary_label": "Beneficiary",
+  "recurringPaymentsExecution_common_back": "Back",
+  "recurringPaymentsExecution_boleto_due_label": "Due date",
+  "recurringPaymentsExecution_qr_identifier_label": "Identifier",
+  "recurringPaymentsExecution_qr_amount_label": "Pix amount",
+  "recurringPaymentsExecution_qr_mismatch_message": "The Pix amount differs from the expected amount for this recurrence.",
+  "recurringPaymentsExecution_qr_review_action": "REVIEW PIX",
+  "recurringPaymentsExecution_review_details": "Review the details before confirming.",
+  "recurringPaymentsExecution_qr_camera_permission": "Allow camera access to scan the QR Code.",
+  "recurringPaymentsExecution_qr_camera_error": "The camera could not be opened. Try again or paste the Pix code."
 }

@@ -31,6 +31,7 @@ class BankModel {
   final AccountBankType accountType;
   final bool active;
   final String bankId;
+  final String? provider;
   final String name;
   final String tag;
   final String addressInstancePayment;
@@ -42,6 +43,7 @@ class BankModel {
     required this.accountType,
     required this.active,
     required this.bankId,
+    this.provider,
     required this.name,
     required this.tag,
     required this.addressInstancePayment,
@@ -64,10 +66,12 @@ class BankModel {
 
     return BankModel(
       id: json['id'],
-      accountType:
-          AccountBankTypeExtension.fromApiValue(json['accountType'] ?? ''),
+      accountType: AccountBankTypeExtension.fromApiValue(
+        json['accountType'] ?? '',
+      ),
       active: json['active'] ?? false,
       bankId: json['bankId'] ?? '',
+      provider: json['provider'] as String?,
       name: json['name'] ?? '',
       tag: json['tag'] ?? '',
       addressInstancePayment: json['addressInstancePayment'] ?? '',
@@ -86,15 +90,16 @@ class BankModel {
   }
 
   Map<String, dynamic> toJson() => {
-        'accountType': accountType.apiValue,
-        'active': active,
-        'bankId': bankId,
-        'name': name,
-        'tag': tag,
-        'addressInstancePayment': addressInstancePayment,
-        'bankInstruction': bankInstruction.toJson(),
-        'churchId': churchId,
-      };
+    'accountType': accountType.apiValue,
+    'active': active,
+    'bankId': bankId,
+    if (provider != null) 'provider': provider,
+    'name': name,
+    'tag': tag,
+    'addressInstancePayment': addressInstancePayment,
+    'bankInstruction': bankInstruction.toJson(),
+    'churchId': churchId,
+  };
 }
 
 class BankInstruction {
@@ -117,10 +122,10 @@ class BankInstruction {
   }
 
   Map<String, dynamic> toJson() => {
-        'codeBank': codeBank,
-        'agency': agency,
-        'account': account,
-      };
+    'codeBank': codeBank,
+    'agency': agency,
+    'account': account,
+  };
 }
 
 class BankInstructionVenezuela {
@@ -143,8 +148,8 @@ class BankInstructionVenezuela {
   }
 
   Map<String, dynamic> toJson() => {
-        'name': holderName,
-        'dni': dni,
-        'accountNumber': accountNumber,
-      };
+    'name': holderName,
+    'dni': dni,
+    'accountNumber': accountNumber,
+  };
 }

@@ -68,16 +68,19 @@ class RecurringPaymentExecutionService extends AppHttp {
 
   /// `POST /recurring-payments/:id/register-payment` (multipart)
   ///
-  /// El comprovante es obligatorio: sin él no hay `FinancialRecord`.
+  /// Envia o comprovante quando o tipo da conta selecionada exigir.
   Future<void> registerManually({
     required String recurringPaymentId,
     required Map<String, dynamic> payload,
-    required MultipartFile voucher,
+    required MultipartFile? voucher,
   }) async {
     final session = await AuthPersistence().restore();
     tokenAPI = session.token;
 
-    final formData = FormData.fromMap({...payload, 'file': voucher});
+    final formData = FormData.fromMap({
+      ...payload,
+      if (voucher != null) 'file': voucher,
+    });
 
     try {
       await http.post(

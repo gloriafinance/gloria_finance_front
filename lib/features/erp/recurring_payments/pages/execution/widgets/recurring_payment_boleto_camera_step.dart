@@ -30,8 +30,13 @@ class _RecurringPaymentBoletoCameraStepState
     extends State<RecurringPaymentBoletoCameraStep> {
   late final MobileScannerController _controller = MobileScannerController(
     detectionSpeed: DetectionSpeed.noDuplicates,
-    // Boletos usam ITF (código de barras) e alguns bancos Code 128.
-    formats: const [BarcodeFormat.itf14, BarcodeFormat.code128],
+    // Boleto bancário e arrecadação/convênio usam formatos ITF; alguns bancos
+    // também entregam Code 128. A validação posterior aceita 44/47/48 dígitos.
+    formats: const [
+      BarcodeFormat.itf2of5,
+      BarcodeFormat.itf14,
+      BarcodeFormat.code128,
+    ],
   );
 
   bool _handled = false;

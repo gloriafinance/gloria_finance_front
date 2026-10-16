@@ -6,6 +6,7 @@ import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_
 import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_month.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_pay_result.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_settlement_model.dart';
+import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_source_ui_model.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/state/recurring_payment_execution_state.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/store/recurring_payment_execution_store.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/utils/recurring_payment_boleto.dart';
@@ -92,13 +93,11 @@ void main() {
         'competenceStatus': 'PAID',
         'currentPayment': {
           'competence': '2026-10',
-          'attempt': 1,
           'externalReference': 'urn:recurringPayment:rp-1:2026-10:1',
           'amount': 3500.0,
           'providerValueInCents': 375000,
           'paymentMethod': 'BILL',
           'status': 'FAILED',
-          'providerStatus': 'CREATION_FAILED',
           'failureCode': 'RECURRING_PAYMENT_BILL_AMOUNT_MISMATCH',
           'updatedAt': '2026-10-01T12:00:00.000Z',
         },
@@ -215,6 +214,33 @@ void main() {
       expect(state.isComplete, isTrue);
       expect(state.payPayload.containsKey('amount'), isFalse);
     });
+
+    test(
+      'conta Asaas identificada envia availabilityAccountId no pagamento',
+      () {
+        final store = RecurringPaymentExecutionStore(
+          item: _item(json: const {'type': 'VARIABLE'}),
+          asaasAvailable: true,
+        );
+        store.selectPaymentSource(
+          const RecurringPaymentSourceUiModel(
+            id: 'availability-asaas',
+            availabilityAccountId: 'availability-asaas',
+            name: 'Conta Principal / Asaas',
+            subtitle: 'Conta conectada à Glória',
+            capability: RecurringPaymentSourceCapability.asaas,
+            isConnected: true,
+          ),
+        );
+        store.setMethod(RecurringPaymentMethodType.BILL);
+        store.setBoletoLine('00190000090123456789012345678901234567890123');
+
+        expect(
+          store.state.payPayload['availabilityAccountId'],
+          'availability-asaas',
+        );
+      },
+    );
 
     test('um PIX variável exige valor e chave quando não há destino', () {
       final semValor = _state(const {'type': 'VARIABLE'});
@@ -373,7 +399,7 @@ RecurringPaymentExecutionState _state(
 }) {
   final store = RecurringPaymentExecutionStore(
     item: _item(json: config),
-    hasBanking: hasBanking,
+    asaasAvailable: hasBanking,
   );
   setup?.call(store);
   return store.state;

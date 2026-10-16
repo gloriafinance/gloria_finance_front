@@ -5,6 +5,7 @@ import '../models/recurring_payment_competence_model.dart';
 import '../models/recurring_payment_execution_model.dart';
 import '../models/recurring_payment_model.dart';
 import '../models/recurring_payment_pay_result.dart';
+import '../models/recurring_payment_source_ui_model.dart';
 import '../service/recurring_payment_execution_service.dart';
 import '../state/recurring_payment_execution_state.dart';
 
@@ -15,17 +16,28 @@ import '../state/recurring_payment_execution_state.dart';
 class RecurringPaymentExecutionStore extends ChangeNotifier {
   RecurringPaymentExecutionStore({
     required RecurringPaymentCompetenceModel item,
-    required bool hasBanking,
+    required bool asaasAvailable,
     RecurringPaymentExecutionService? service,
   }) : service = service ?? RecurringPaymentExecutionService(),
        state = RecurringPaymentExecutionState.start(
          item,
-         hasBanking: hasBanking,
+         asaasAvailable: asaasAvailable,
        );
 
   final RecurringPaymentExecutionService service;
 
   RecurringPaymentExecutionState state;
+
+  void selectPaymentSource(RecurringPaymentSourceUiModel source) {
+    state = state.copyWith(
+      selectedPaymentSource: source,
+      amountText: '',
+      boletoLine: '',
+      pixKey: '',
+      clearPixKeyType: true,
+    );
+    notifyListeners();
+  }
 
   void setMethod(RecurringPaymentMethodType method) {
     if (method == state.method) return;
@@ -85,7 +97,7 @@ class RecurringPaymentExecutionStore extends ChangeNotifier {
   Future<bool> submitManual({
     required String paymentDate,
     required String availabilityAccountId,
-    required MultipartFile voucher,
+    required MultipartFile? voucher,
   }) async {
     if (!state.isComplete) return false;
 

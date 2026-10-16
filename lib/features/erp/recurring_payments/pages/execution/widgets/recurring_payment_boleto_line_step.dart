@@ -44,11 +44,20 @@ class RecurringPaymentBoletoLineStep extends StatelessWidget {
               line.isEmpty ? null : RecurringPaymentBoleto.grouped(line),
           keyboardType: TextInputType.number,
           inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
+            _KeepBoletoDigitsOnly(),
             LengthLimitingTextInputFormatter(48),
           ],
           onChanged: store.setBoletoLine,
         ),
+        if (hasValue) ...[
+          const SizedBox(height: 5),
+          Text(
+            l10n.recurringPaymentsExecution_boleto_line_counter(
+              RecurringPaymentBoleto.onlyDigits(line).length.toString(),
+            ),
+            style: const TextStyle(fontSize: 10.5, color: Color(0xFF667085)),
+          ),
+        ],
         if (hasValue && !isValid) ...[
           const SizedBox(height: 10),
           RecurringPaymentExecutionNotice(
@@ -72,6 +81,21 @@ class RecurringPaymentBoletoLineStep extends StatelessWidget {
           onPressed: !isValid ? null : onContinue,
         ),
       ],
+    );
+  }
+}
+
+class _KeepBoletoDigitsOnly extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final digits = RecurringPaymentBoleto.onlyDigits(newValue.text);
+    final limited = digits.length > 48 ? digits.substring(0, 48) : digits;
+    return TextEditingValue(
+      text: limited,
+      selection: TextSelection.collapsed(offset: limited.length),
     );
   }
 }
