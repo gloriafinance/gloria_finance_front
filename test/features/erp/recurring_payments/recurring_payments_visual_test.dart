@@ -172,7 +172,7 @@ void main() {
       await captureIfNeeded(
         tester,
         generate,
-        'desktop-04-form-novo-variavel-pix.png',
+        'docs/pagamentos-recorrentes/desktop-04-form-novo-variavel-pix.png',
       );
       expect(find.textContaining('Valor mensal'), findsNothing);
       expect(find.text('Destino reutilizável (opcional)'), findsOneWidget);
