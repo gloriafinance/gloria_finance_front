@@ -88,7 +88,6 @@ class RecurringPaymentExecutionDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final payment = item.recurringPayment;
     final execution = item.execution;
     final settlement = item.settlement;
 
@@ -96,32 +95,19 @@ class RecurringPaymentExecutionDetail extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
+        // O nome já é o título do modal: aqui ficam só o período e o estado.
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    payment.name,
-                    style: const TextStyle(
-                      fontFamily: AppFonts.fontTitle,
-                      fontSize: 17,
-                      color: Colors.black,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '${l10n.recurringPaymentsExecution_period_label}: '
-                    '${item.month.slashLabel}',
-                    style: const TextStyle(
-                      fontFamily: AppFonts.fontText,
-                      fontSize: 12.5,
-                      color: Color(0xFF5F5F5F),
-                    ),
-                  ),
-                ],
+              child: Text(
+                '${l10n.recurringPaymentsExecution_period_label}: '
+                '${item.month.slashLabel}',
+                style: const TextStyle(
+                  fontFamily: AppFonts.fontText,
+                  fontSize: 13,
+                  color: Color(0xFF5F5F5F),
+                ),
               ),
             ),
             const SizedBox(width: 10),
@@ -252,13 +238,7 @@ class RecurringPaymentExecutionDetail extends StatelessWidget {
           settlement.date?.toIso8601String().substring(0, 10),
         ),
       ),
-      _DetailField(
-        label: l10n.recurringPaymentsExecution_field_origin,
-        value:
-            settlement.isManual
-                ? l10n.recurringPaymentsExecution_origin_manual
-                : l10n.recurringPaymentsExecution_origin_bank,
-      ),
+      // A origem já é a descrição da nota de estado: não se repete como campo.
       if (accountName != null)
         _DetailField(
           label: l10n.recurringPaymentsExecution_field_account,
