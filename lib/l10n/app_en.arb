@@ -2271,7 +2271,16 @@
   "recurringPayments_filter_open_action": "Filters",
   "recurringPayments_filter_sheet_title": "Filters",
   "recurringPayments_filter_result_count": "Showing {visible} of {total} recurrences",
-  "@recurringPayments_filter_result_count": {"placeholders": {"visible": {"type": "int"}, "total": {"type": "int"}}},
+  "@recurringPayments_filter_result_count": {
+    "placeholders": {
+      "visible": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "recurringPayments_table_name": "Name",
   "recurringPayments_table_concept": "Financial concept",
   "recurringPayments_table_cost_center": "Cost center",
@@ -2283,7 +2292,13 @@
   "recurringPayments_table_type_amount": "Type / Amount",
   "recurringPayments_table_due_day_short": "Due",
   "recurringPayments_due_day": "Day {day}",
-  "@recurringPayments_due_day": {"placeholders": {"day": {"type": "int"}}},
+  "@recurringPayments_due_day": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
   "recurringPayments_type_fixed": "Fixed",
   "recurringPayments_type_variable": "Variable",
   "recurringPayments_type_fixed_hint": "The amount is the same every month. E.g.: rent, internet.",
@@ -2321,7 +2336,13 @@
   "recurringPayments_field_cost_center": "Cost center",
   "recurringPayments_field_type": "Value type",
   "recurringPayments_field_amount_with_symbol": "Monthly amount ({symbol})",
-  "@recurringPayments_field_amount_with_symbol": {"placeholders": {"symbol": {"type": "String"}}},
+  "@recurringPayments_field_amount_with_symbol": {
+    "placeholders": {
+      "symbol": {
+        "type": "String"
+      }
+    }
+  },
   "recurringPayments_field_due_day": "Due day",
   "recurringPayments_field_pix_key": "PIX key",
   "recurringPayments_field_pix_key_type": "Key type",
@@ -2463,7 +2484,7 @@
   "recurringPaymentsExecution_boleto_camera_error": "The code could not be read. Try again or type the line.",
   "recurringPaymentsExecution_boleto_line_label": "Digitable line",
   "recurringPaymentsExecution_boleto_line_required": "Enter the digitable line.",
-  "recurringPaymentsExecution_boleto_line_invalid": "Check the digitable line: it must have 47 digits.",
+  "recurringPaymentsExecution_boleto_line_invalid": "Check the typed line: it must have 47, 44 or 48 digits.",
   "recurringPaymentsExecution_boleto_validate_action": "VALIDATE BOLETO",
   "recurringPaymentsExecution_boleto_confirm_title": "Confirm payment",
   "recurringPaymentsExecution_boleto_line_final": "Line ending",
@@ -2495,7 +2516,28 @@
   "recurringPaymentsExecution_manual_success": "Payment registered.",
   "recurringPaymentsExecution_common_cancel": "CANCEL",
   "recurringPaymentsExecution_common_close": "CLOSE",
-  "@recurringPaymentsExecution_summary_counts": {"placeholders": {"pending": {"type": "int"}, "paid": {"type": "int"}}},
-  "@recurringPaymentsExecution_summary_fixed_total": {"placeholders": {"amount": {"type": "String"}}},
-  "@recurringPaymentsExecution_summary_variable_pending": {"placeholders": {"count": {"type": "int"}}}
+  "@recurringPaymentsExecution_summary_counts": {
+    "placeholders": {
+      "pending": {
+        "type": "int"
+      },
+      "paid": {
+        "type": "int"
+      }
+    }
+  },
+  "@recurringPaymentsExecution_summary_fixed_total": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "@recurringPaymentsExecution_summary_variable_pending": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

@@ -2271,7 +2271,16 @@
   "recurringPayments_filter_open_action": "Filtros",
   "recurringPayments_filter_sheet_title": "Filtros",
   "recurringPayments_filter_result_count": "Exibindo {visible} de {total} recorrências",
-  "@recurringPayments_filter_result_count": {"placeholders": {"visible": {"type": "int"}, "total": {"type": "int"}}},
+  "@recurringPayments_filter_result_count": {
+    "placeholders": {
+      "visible": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "recurringPayments_table_name": "Nome",
   "recurringPayments_table_concept": "Conceito financeiro",
   "recurringPayments_table_cost_center": "Centro de custo",
@@ -2283,7 +2292,13 @@
   "recurringPayments_table_type_amount": "Tipo / Valor",
   "recurringPayments_table_due_day_short": "Venc.",
   "recurringPayments_due_day": "Dia {day}",
-  "@recurringPayments_due_day": {"placeholders": {"day": {"type": "int"}}},
+  "@recurringPayments_due_day": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
   "recurringPayments_type_fixed": "Fixo",
   "recurringPayments_type_variable": "Variável",
   "recurringPayments_type_fixed_hint": "O valor é o mesmo todos os meses. Ex.: aluguel, internet.",
@@ -2321,7 +2336,13 @@
   "recurringPayments_field_cost_center": "Centro de custo",
   "recurringPayments_field_type": "Tipo de valor",
   "recurringPayments_field_amount_with_symbol": "Valor mensal ({symbol})",
-  "@recurringPayments_field_amount_with_symbol": {"placeholders": {"symbol": {"type": "String"}}},
+  "@recurringPayments_field_amount_with_symbol": {
+    "placeholders": {
+      "symbol": {
+        "type": "String"
+      }
+    }
+  },
   "recurringPayments_field_due_day": "Dia de vencimento",
   "recurringPayments_field_pix_key": "Chave PIX",
   "recurringPayments_field_pix_key_type": "Tipo da chave",
@@ -2463,7 +2484,7 @@
   "recurringPaymentsExecution_boleto_camera_error": "Não foi possível ler o código. Tente novamente ou digite a linha.",
   "recurringPaymentsExecution_boleto_line_label": "Linha digitável",
   "recurringPaymentsExecution_boleto_line_required": "Informe a linha digitável.",
-  "recurringPaymentsExecution_boleto_line_invalid": "Confira a linha digitável: ela deve ter 47 números.",
+  "recurringPaymentsExecution_boleto_line_invalid": "Confira a linha digitável: ela deve ter 47, 44 ou 48 números.",
   "recurringPaymentsExecution_boleto_validate_action": "VALIDAR BOLETO",
   "recurringPaymentsExecution_boleto_confirm_title": "Confirmar pagamento",
   "recurringPaymentsExecution_boleto_line_final": "Linha final",

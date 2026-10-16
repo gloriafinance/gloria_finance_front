@@ -6,11 +6,15 @@
 class RecurringPaymentBoleto {
   const RecurringPaymentBoleto._();
 
-  /// Un boleto bancário tiene 47 dígitos digitados (o 44 en el código de
-  /// barras) y los carnês de arrecadação/convênio tienen 48. El banco rechaza
-  /// los de 48 porque ese layout no define una posición de valor, así que la
-  /// pantalla tampoco los acepta.
-  static const Set<int> supportedLengths = {44, 47};
+  /// Tres formas válidas: boleto bancário digitado (47) y su código de barras
+  /// (44), más la línea digitada de arrecadação/convênio (48), que es la de las
+  /// contas de consumo (água, energia, gás, telecom).
+  ///
+  /// Acá solo se valida la forma. El importe lo lee el banco desde la propia
+  /// línea, y decide si el documento trae un valor efectivo o solo uno de
+  /// referencia; un documento de referencia se rechaza en el servidor con un
+  /// mensaje propio, no acá.
+  static const Set<int> supportedLengths = {44, 47, 48};
 
   static String onlyDigits(String value) => value.replaceAll(RegExp(r'\D'), '');
 

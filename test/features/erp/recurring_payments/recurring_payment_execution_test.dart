@@ -289,7 +289,8 @@ void main() {
 
   group('linha digitável', () {
     test('aceita as duas representações e ignora ruído de formato', () {
-      // Linha digitada (47) e código de barras (44) valem igual.
+      // Boleto digitado (47), seu código de barras (44) e a linha de
+      // arrecadação/convênio (48) das contas de consumo valem igual.
       expect(
         RecurringPaymentBoleto.isValid(
           '00190.00009 01234.567890 12345.678901 8 99990000350000',
@@ -301,7 +302,7 @@ void main() {
     });
 
     test('recusa arrecadação de 48 dígitos e linhas curtas', () {
-      expect(RecurringPaymentBoleto.isValid('8' * 48), isFalse);
+      expect(RecurringPaymentBoleto.isValid('8' * 48), isTrue);
       expect(RecurringPaymentBoleto.isValid('123'), isFalse);
     });
 

@@ -63,7 +63,8 @@ import 'app_localizations_pt.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -71,7 +72,8 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -83,18 +85,19 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('es'),
-    Locale('pt')
+    Locale('pt'),
   ];
 
   /// No description provided for @month_january.
@@ -2591,7 +2594,10 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Suggestion applied: {type} · {category}. Review indicators and then save.'**
-  String settings_financial_concept_ai_result_applied_summary(String type, String category);
+  String settings_financial_concept_ai_result_applied_summary(
+    String type,
+    String category,
+  );
 
   /// No description provided for @settings_financial_concept_ai_result_assistant_tone.
   ///
@@ -2609,7 +2615,9 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Use the concept \"{conceptName}\" for this scenario. Search by this exact name in the list.'**
-  String settings_financial_concept_ai_result_existing_summary(String conceptName);
+  String settings_financial_concept_ai_result_existing_summary(
+    String conceptName,
+  );
 
   /// No description provided for @settings_financial_concept_ai_details_action.
   ///
@@ -4211,7 +4219,11 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Total income: {income} | Total expenses: {expenses} | Consolidated balance: {total}'**
-  String reports_income_cashflow_summary(String income, String expenses, String total);
+  String reports_income_cashflow_summary(
+    String income,
+    String expenses,
+    String total,
+  );
 
   /// No description provided for @reports_income_cashflow_empty.
   ///
@@ -4601,7 +4613,10 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Comparison: {currentMonthYear} vs {previousMonthYear}'**
-  String trends_header_comparison(String currentMonthYear, String previousMonthYear);
+  String trends_header_comparison(
+    String currentMonthYear,
+    String previousMonthYear,
+  );
 
   /// No description provided for @trends_list_revenue.
   ///
@@ -8687,7 +8702,12 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{count} devotionals will be sent to {audience} at {time} ({timezone})'**
-  String devotional_summary_line(int count, String audience, String time, String timezone);
+  String devotional_summary_line(
+    int count,
+    String audience,
+    String time,
+    String timezone,
+  );
 
   /// No description provided for @devotional_quick_guide.
   ///
@@ -9257,7 +9277,11 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Audience: {audience} | Push: {push} | WhatsApp: {whatsapp}'**
-  String devotional_item_channel_line(String audience, String push, String whatsapp);
+  String devotional_item_channel_line(
+    String audience,
+    String push,
+    String whatsapp,
+  );
 
   /// No description provided for @devotional_item_urgent_approval.
   ///
@@ -9365,7 +9389,11 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{day} - {date} | Audience: {audience}'**
-  String devotional_review_header_line(String day, String date, String audience);
+  String devotional_review_header_line(
+    String day,
+    String date,
+    String audience,
+  );
 
   /// No description provided for @devotional_review_label_title.
   ///
@@ -11770,7 +11798,7 @@ abstract class AppLocalizations {
   /// No description provided for @recurringPaymentsExecution_boleto_line_invalid.
   ///
   /// In en, this message translates to:
-  /// **'Check the digitable line: it must have 47 digits.'**
+  /// **'Check the typed line: it must have 47, 44 or 48 digits.'**
   String get recurringPaymentsExecution_boleto_line_invalid;
 
   /// No description provided for @recurringPaymentsExecution_boleto_validate_action.
@@ -11960,7 +11988,8 @@ abstract class AppLocalizations {
   String get recurringPaymentsExecution_common_close;
 }
 
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -11969,26 +11998,28 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'es', 'pt'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'es', 'pt'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
-
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return AppLocalizationsEn();
-    case 'es': return AppLocalizationsEs();
-    case 'pt': return AppLocalizationsPt();
+    case 'en':
+      return AppLocalizationsEn();
+    case 'es':
+      return AppLocalizationsEs();
+    case 'pt':
+      return AppLocalizationsPt();
   }
 
   throw FlutterError(
     'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
     'an issue with the localizations generation tool. Please file an issue '
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
+    'that was used.',
   );
 }
