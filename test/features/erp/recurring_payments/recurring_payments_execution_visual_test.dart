@@ -275,7 +275,6 @@ void main() {
       );
       await _capture(tester, generate, 'desktop-15-blocked.png');
       expect(find.text('Pagamento bloqueado'), findsOneWidget);
-      expect(find.text('TENTAR NOVAMENTE'), findsNothing);
     });
 
     testWidgets('falhou', (tester) async {
@@ -291,7 +290,6 @@ void main() {
       );
       await _capture(tester, generate, 'desktop-16-failed.png');
       expect(find.text('Pagamento não concluído'), findsOneWidget);
-      expect(find.text('TENTAR NOVAMENTE'), findsOneWidget);
     });
 
     testWidgets('pago por registro manual', (tester) async {
@@ -307,7 +305,7 @@ void main() {
         ),
       );
       await _capture(tester, generate, 'desktop-17-pago-manual.png');
-      expect(find.text('CANCELAR REGISTRO'), findsOneWidget);
+      expect(find.text('Registro manual'), findsWidgets);
     });
 
     testWidgets('pago por débito bancário', (tester) async {
@@ -323,7 +321,6 @@ void main() {
         ),
       );
       await _capture(tester, generate, 'desktop-18-pago-asaas.png');
-      expect(find.text('CANCELAR REGISTRO'), findsNothing);
       expect(
         find.text('Um débito bancário confirmado não pode ser cancelado.'),
         findsOneWidget,
@@ -367,6 +364,62 @@ void main() {
       await tester.pumpAndSettle();
       await _capture(tester, generate, 'desktop-20-boleto-confirmacao.png');
       expect(find.text('PAGAR BOLETO'), findsOneWidget);
+    });
+  });
+
+  group('ações do detalhe (cabeçalho do modal)', () {
+    testWidgets('bloqueado só consulta e nunca reintenta', (tester) async {
+      await _pumpDetailModal(
+        tester,
+        item: _item(
+          name: 'Internet',
+          type: 'FIXED',
+          amount: 299.9,
+          execution: 'BLOCKED',
+          status: 'BLOCKED',
+        ),
+      );
+      expect(find.text('ATUALIZAR STATUS'), findsOneWidget);
+      expect(find.text('TENTAR NOVAMENTE'), findsNothing);
+    });
+
+    testWidgets('falhou oferece uma execução nova', (tester) async {
+      await _pumpDetailModal(
+        tester,
+        item: _item(
+          name: 'Energia elétrica',
+          type: 'VARIABLE',
+          execution: 'FAILED',
+          status: 'FAILED',
+        ),
+      );
+      expect(find.text('TENTAR NOVAMENTE'), findsOneWidget);
+    });
+
+    testWidgets('pago manual permite cancelar; conciliado não', (tester) async {
+      await _pumpDetailModal(
+        tester,
+        item: _item(
+          name: 'Aluguel do templo',
+          type: 'FIXED',
+          amount: 3500,
+          status: 'PAID',
+          settlement: 'CLEARED',
+        ),
+      );
+      expect(find.text('CANCELAR REGISTRO'), findsOneWidget);
+
+      await _pumpDetailModal(
+        tester,
+        item: _item(
+          name: 'Internet',
+          type: 'FIXED',
+          amount: 299.9,
+          status: 'PAID',
+          settlement: 'RECONCILED',
+        ),
+      );
+      expect(find.text('CANCELAR REGISTRO'), findsNothing);
     });
   });
 
@@ -704,6 +757,9 @@ Future<void> _pumpResult(
   await tester.pumpAndSettle();
 }
 
+/// Captura o corpo do detalhe. O modal (`ModalPage`) abre em um overlay, fora do
+/// boundary de captura, então o enquadramento é o conteúdo; as ações do
+/// cabeçalho são verificadas em `_pumpDetailModal`.
 Future<void> _pumpDetail(
   WidgetTester tester, {
   required Size size,
@@ -719,6 +775,42 @@ Future<void> _pumpDetail(
     ),
   );
   await tester.pumpAndSettle();
+}
+
+/// Abre o modal de verdade para conferir as ações do cabeçalho.
+Future<void> _pumpDetailModal(
+  WidgetTester tester, {
+  required RecurringPaymentCompetenceModel item,
+}) async {
+  _setSurface(tester, const Size(1440, 900));
+
+  await tester.pumpWidget(
+    _wrap(
+      child: _DetailLauncher(item: item),
+      monthly: _monthlyStore(),
+      hasBanking: true,
+    ),
+  );
+  await tester.pumpAndSettle();
+  await tester.tap(find.text('ABRIR DETALHE'));
+  await tester.pumpAndSettle();
+}
+
+class _DetailLauncher extends StatelessWidget {
+  const _DetailLauncher({required this.item});
+
+  final RecurringPaymentCompetenceModel item;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: TextButton(
+        onPressed:
+            () => showRecurringPaymentExecutionDetail(context, item: item),
+        child: const Text('ABRIR DETALHE'),
+      ),
+    );
+  }
 }
 
 Widget _wrap({

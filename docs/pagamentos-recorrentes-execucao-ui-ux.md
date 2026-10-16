@@ -159,6 +159,11 @@ Como deseja informar o boleto?
 | FAILED | motivo comprensible; si fue diferencia de importe, los dos valores | **TENTAR NOVAMENTE** (ejecución nueva; el intento anterior terminó) |
 | PAID | valor, fecha, origen, cuenta y comprovante | **Cancelar registro** solo si es manual; en `RECONCILED` se explica que *"Um débito bancário confirmado não pode ser cancelado."* |
 
+El detalle se abre con el **`ModalPage` que ya existe en el ERP** (título, acciones en el
+encabezado y X para cerrar): las únicas acciones que aparecen son las reales de ese estado
+(`ATUALIZAR STATUS`, `TENTAR NOVAMENTE`, `CANCELAR REGISTRO`) y no hay botón de cierre en el pie.
+En la tabla y las tarjetas, `Ver detalhes` usa el azul de acciones secundarias.
+
 Cancelar un registro manual avisa: *"Este registro será anulado e o pagamento voltará a aparecer como
 pendente nesta competência. A recorrência continua ativa."* — el asiento pasa a `VOID` y la
 competencia vuelve a `PENDING`; la recurrencia **no** se desactiva (se reutiliza

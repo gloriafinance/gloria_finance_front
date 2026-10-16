@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gloria_finance/core/layout/modal_page_layout.dart';
 import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/toast.dart';
 import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/currency_formatter.dart';
 import 'package:gloria_finance/core/utils/date_formatter.dart';
-import 'package:gloria_finance/core/utils/general.dart';
-import 'package:gloria_finance/core/widgets/custom_button.dart';
 import 'package:gloria_finance/features/erp/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -20,37 +20,65 @@ import 'recurring_payment_status_chip.dart';
 
 /// Detalhe da competência: o que aconteceu com a operação ou como ela foi paga.
 ///
-/// Mobile usa bottom sheet; desktop e tablet usam modal central, porque uma
-/// folha colada embaixo em uma tela larga afasta o conteúdo da ação.
+/// Usa o `ModalPage` do ERP (título, ações no cabeçalho e X para fechar), sem
+/// rodapé de botão cinza: as únicas ações oferecidas são as reais.
 Future<void> showRecurringPaymentExecutionDetail(
   BuildContext context, {
   required RecurringPaymentCompetenceModel item,
 }) {
-  if (isMobile(context)) {
-    return showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) => RecurringPaymentExecutionDetail(item: item),
-    );
-  }
-
-  return showDialog<void>(
-    context: context,
-    builder:
-        (_) => Dialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(22),
-          ),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 520),
-            child: RecurringPaymentExecutionDetail(item: item),
-          ),
-        ),
-  );
+  return ModalPage(
+    title: item.recurringPayment.name,
+    width: 560,
+    actions: _detailActions(context, item),
+    body: RecurringPaymentExecutionDetail(item: item),
+  ).show<void>(context);
 }
 
+/// Ações do cabeçalho, por estado. Nada de "fechar" aqui: o X do modal fecha.
+List<Widget> _detailActions(
+  BuildContext context,
+  RecurringPaymentCompetenceModel item,
+) {
+  final l10n = context.l10n;
+  final store = context.read<RecurringPaymentMonthlyStore>();
+
+  if (item.isInFlight || item.isBlocked) {
+    return [
+      TextButton.icon(
+        onPressed: () {
+          Navigator.of(context).pop();
+          store.load(force: true);
+        },
+        icon: const Icon(Icons.sync, size: 18),
+        label: Text(l10n.recurringPaymentsExecution_blocked_refresh),
+        style: TextButton.styleFrom(foregroundColor: AppColors.blue),
+      ),
+    ];
+  }
+
+  if (item.canRetry) {
+    return [
+      TextButton.icon(
+        onPressed: () {
+          Navigator.of(context).pop();
+          openRecurringPaymentExecution(context, item: item);
+        },
+        icon: const Icon(Icons.refresh, size: 18),
+        label: Text(l10n.recurringPaymentsExecution_failed_retry),
+        style: TextButton.styleFrom(foregroundColor: AppColors.purple),
+      ),
+    ];
+  }
+
+  if (item.settlement?.canBeCancelled ?? false) {
+    return [_CancelRecordAction(item: item)];
+  }
+
+  return const [];
+}
+
+/// Detalhe da competência: o que aconteceu com a operação ou como ela foi paga.
+///
 /// Conteúdo do detalhe da competência (público para testes e capturas).
 class RecurringPaymentExecutionDetail extends StatelessWidget {
   const RecurringPaymentExecutionDetail({super.key, required this.item});
@@ -64,62 +92,51 @@ class RecurringPaymentExecutionDetail extends StatelessWidget {
     final execution = item.execution;
     final settlement = item.settlement;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(22),
-      ),
-      padding: const EdgeInsets.fromLTRB(22, 20, 22, 22),
-      child: SingleChildScrollView(
-        child: Column(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        payment.name,
-                        style: const TextStyle(
-                          fontFamily: AppFonts.fontTitle,
-                          fontSize: 17,
-                          color: Colors.black,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        '${l10n.recurringPaymentsExecution_period_label}: '
-                        '${item.month.slashLabel}',
-                        style: const TextStyle(
-                          fontFamily: AppFonts.fontText,
-                          fontSize: 12.5,
-                          color: Color(0xFF5F5F5F),
-                        ),
-                      ),
-                    ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    payment.name,
+                    style: const TextStyle(
+                      fontFamily: AppFonts.fontTitle,
+                      fontSize: 17,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 10),
-                RecurringPaymentStatusChip(
-                  status: item.status,
-                  executionStatus: execution?.status,
-                  label:
-                      item.status?.friendlyName(l10n) ??
-                      l10n.recurringPaymentsExecution_status_unknown,
-                ),
-              ],
+                  const SizedBox(height: 4),
+                  Text(
+                    '${l10n.recurringPaymentsExecution_period_label}: '
+                    '${item.month.slashLabel}',
+                    style: const TextStyle(
+                      fontFamily: AppFonts.fontText,
+                      fontSize: 12.5,
+                      color: Color(0xFF5F5F5F),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 18),
-            ..._body(context, execution, settlement),
-            const SizedBox(height: 20),
-            _actions(context),
+            const SizedBox(width: 10),
+            RecurringPaymentStatusChip(
+              status: item.status,
+              executionStatus: execution?.status,
+              label:
+                  item.status?.friendlyName(l10n) ??
+                  l10n.recurringPaymentsExecution_status_unknown,
+            ),
           ],
         ),
-      ),
+        const SizedBox(height: 18),
+        ..._body(context, execution, settlement),
+      ],
     );
   }
 
@@ -358,75 +375,45 @@ class RecurringPaymentExecutionDetail extends StatelessWidget {
     );
   }
 
-  Widget _actions(BuildContext context) {
+  String _valueLabel(BuildContext context) {
+    final payment = item.recurringPayment;
+    if (payment.isFixed && payment.amount != null) {
+      return CurrencyFormatter.formatCurrency(payment.amount!);
+    }
+    return context.l10n.recurringPaymentsExecution_value_variable;
+  }
+
+  static const TextStyle _noteStyle = TextStyle(
+    fontFamily: AppFonts.fontText,
+    fontSize: 12,
+    height: 1.6,
+    color: Color(0xFF5F5F5F),
+  );
+}
+
+/// Cancelar un registro manual: confirma no próprio modal antes de anular.
+class _CancelRecordAction extends StatelessWidget {
+  const _CancelRecordAction({required this.item});
+
+  final RecurringPaymentCompetenceModel item;
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final store = context.read<RecurringPaymentMonthlyStore>();
-    final settlement = item.settlement;
 
-    final buttons = <Widget>[];
-
-    if (item.isInFlight || item.isBlocked) {
-      buttons.add(
-        CustomButton(
-          text: l10n.recurringPaymentsExecution_blocked_refresh,
-          backgroundColor: AppColors.blue,
-          textColor: Colors.white,
-          icon: Icons.sync,
-          onPressed: () {
-            Navigator.of(context).pop();
-            store.load(force: true);
-          },
-        ),
-      );
-    }
-
-    if (item.canRetry) {
-      buttons.add(
-        CustomButton(
-          text: l10n.recurringPaymentsExecution_failed_retry,
-          backgroundColor: AppColors.purple,
-          textColor: Colors.white,
-          icon: Icons.refresh,
-          onPressed: () {
-            Navigator.of(context).pop();
-            openRecurringPaymentExecution(context, item: item);
-          },
-        ),
-      );
-    }
-
-    if (settlement?.canBeCancelled ?? false) {
-      buttons.add(
-        CustomButton(
-          text: l10n.recurringPaymentsExecution_cancel_record_action,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          icon: Icons.undo,
-          onPressed: () => _confirmCancellation(context, store, settlement!),
-        ),
-      );
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        for (final button in buttons) ...[button, const SizedBox(height: 8)],
-        CustomButton(
-          text: l10n.recurringPaymentsExecution_common_close,
-          backgroundColor: AppColors.greyMiddle,
-          textColor: Colors.black,
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ],
+    return TextButton.icon(
+      onPressed: () => _confirm(context),
+      icon: const Icon(Icons.undo, size: 18),
+      label: Text(l10n.recurringPaymentsExecution_cancel_record_action),
+      style: TextButton.styleFrom(foregroundColor: Colors.red),
     );
   }
 
-  Future<void> _confirmCancellation(
-    BuildContext context,
-    RecurringPaymentMonthlyStore store,
-    RecurringPaymentSettlementModel settlement,
-  ) async {
+  Future<void> _confirm(BuildContext context) async {
     final l10n = context.l10n;
+    final store = context.read<RecurringPaymentMonthlyStore>();
+    final settlement = item.settlement;
+    if (settlement == null) return;
 
     final confirmed = await showDialog<bool>(
       context: context,
@@ -449,24 +436,17 @@ class RecurringPaymentExecutionDetail extends StatelessWidget {
 
     if (confirmed != true || !context.mounted) return;
 
-    await store.cancelRecord(settlement.financialRecordId);
-    if (context.mounted) Navigator.of(context).pop();
-  }
+    final cancelled = await store.cancelRecord(settlement.financialRecordId);
+    if (!context.mounted) return;
 
-  String _valueLabel(BuildContext context) {
-    final payment = item.recurringPayment;
-    if (payment.isFixed && payment.amount != null) {
-      return CurrencyFormatter.formatCurrency(payment.amount!);
-    }
-    return context.l10n.recurringPaymentsExecution_value_variable;
+    Toast.showMessage(
+      cancelled
+          ? l10n.recurringPaymentsExecution_cancel_success
+          : l10n.recurringPaymentsExecution_cancel_error,
+      cancelled ? ToastType.success : ToastType.error,
+    );
+    if (cancelled) Navigator.of(context).pop();
   }
-
-  static const TextStyle _noteStyle = TextStyle(
-    fontFamily: AppFonts.fontText,
-    fontSize: 12,
-    height: 1.6,
-    color: Color(0xFF5F5F5F),
-  );
 }
 
 class _Note extends StatelessWidget {

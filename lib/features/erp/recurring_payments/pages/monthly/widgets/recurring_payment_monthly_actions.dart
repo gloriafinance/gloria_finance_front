@@ -112,7 +112,7 @@ class RecurringPaymentMonthlyActions extends StatelessWidget {
 
   Widget _detailsButton(BuildContext context, {bool expanded = false}) {
     final button = ButtonActionTable(
-      color: AppColors.grey,
+      color: AppColors.blue,
       text: context.l10n.recurringPaymentsExecution_details_action,
       icon: Icons.info_outline,
       onPressed: () => showRecurringPaymentExecutionDetail(context, item: item),
