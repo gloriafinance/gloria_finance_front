@@ -55,7 +55,7 @@ class _RecurringPaymentFormBodyState extends State<RecurringPaymentFormBody> {
           const SizedBox(height: 18),
           RecurringPaymentFormActions(
             onSave: _save,
-            onCancel: () => context.go('/recurring-payments'),
+            onCancel: () => context.go('/recurring-payments/configuration'),
           ),
         ],
       ),
@@ -94,6 +94,6 @@ class _RecurringPaymentFormBodyState extends State<RecurringPaymentFormBody> {
     await listStore.searchRecurringPayments();
 
     if (!mounted) return;
-    context.go('/recurring-payments');
+    context.go('/recurring-payments/configuration');
   }
 }

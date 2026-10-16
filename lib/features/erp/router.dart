@@ -26,7 +26,7 @@ import 'providers/router.dart';
 import 'purchase/pages/purchases/purchase_list_screen.dart';
 import 'recurring_payments/models/recurring_payment_model.dart';
 import 'recurring_payments/pages/recurring_payment_form/recurring_payment_form_screen.dart';
-import 'recurring_payments/pages/recurring_payment_list/recurring_payment_list_screen.dart';
+import 'recurring_payments/pages/recurring_payments_screen.dart';
 import 'purchase/pages/register_purchase/add_purchase_screen.dart';
 import 'reports/pages/dre/dre_screen.dart';
 import 'reports/pages/cash_flow/cash_flow_screen.dart';
@@ -164,7 +164,15 @@ erpListRouter() {
       path: '/recurring-payments',
       redirect: (context, state) => _brazilOnlyRedirect(),
       pageBuilder: (context, state) {
-        return transitionCustom(const RecurringPaymentListScreen());
+        // O mês é a aba padrão: é o trabalho do tesoureiro no dia a dia.
+        return transitionCustom(const RecurringPaymentsScreen());
+      },
+    ),
+    GoRoute(
+      path: '/recurring-payments/configuration',
+      redirect: (context, state) => _brazilOnlyRedirect(),
+      pageBuilder: (context, state) {
+        return transitionCustom(const RecurringPaymentsScreen(initialTab: 1));
       },
     ),
     GoRoute(

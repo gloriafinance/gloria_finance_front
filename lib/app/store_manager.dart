@@ -12,6 +12,7 @@ import '../features/erp/settings/financial_concept/store/financial_concept_store
 import '../features/erp/settings/members/store/member_all_store.dart';
 import '../features/member_experience/notifications/push_notification_manager.dart';
 import '../features/erp/recurring_payments/store/recurring_payment_list_store.dart';
+import '../features/erp/recurring_payments/store/recurring_payment_monthly_store.dart';
 import '../features/erp/recurring_payments/store/recurring_payment_options_store.dart';
 import '../features/erp/trends/store/trend_store.dart';
 
@@ -37,6 +38,10 @@ class StoreManager {
   final sidebarNotifier = SidebarNotifier();
   final trendStore = TrendStore();
   final recurringPaymentListStore = RecurringPaymentListStore();
+
+  /// Execução mensal (competências). A execução de UMA competência é criada
+  /// por folha, não vive aqui.
+  final recurringPaymentMonthlyStore = RecurringPaymentMonthlyStore();
   final recurringPaymentOptionsStore = RecurringPaymentOptionsStore();
 
   bool isMemberExperience = false;

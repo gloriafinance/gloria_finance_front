@@ -68,7 +68,7 @@ class RecurringPaymentFormNotFound extends StatelessWidget {
               backgroundColor: AppColors.purple,
               textColor: Colors.white,
               icon: Icons.arrow_back,
-              onPressed: () => context.go('/recurring-payments'),
+              onPressed: () => context.go('/recurring-payments/configuration'),
             ),
           ),
         ],
