@@ -154,7 +154,7 @@ Como deseja informar o boleto?
 
 | Estado | Contenido | Acciones |
 | --- | --- | --- |
-| PROCESSING | valor, método, referencia, última actualización + *"O pagamento foi enviado ao banco e estamos aguardando a confirmação."* | **ATUALIZAR STATUS**; ninguna operación nueva |
+| PROCESSING | valor, método, referencia, última actualización + *"O pagamento foi enviado ao banco e estamos aguardando a confirmação."*; si el banco no confirmó el rechazo y el importe difiere, también el bloque **VALORES DIFERENTES** | **ATUALIZAR STATUS**; ninguna operación nueva |
 | BLOCKED | los mismos datos + *"O banco ainda está processando ou aguardando resolução."* | **ATUALIZAR STATUS**. Sin *"Tentar novamente"* y sin nueva referencia |
 | FAILED | motivo comprensible; si fue diferencia de importe, los dos valores | **TENTAR NOVAMENTE** (ejecución nueva; el intento anterior terminó) |
 | PAID | valor, fecha, origen, cuenta y comprovante | **Cancelar registro** solo si es manual; en `RECONCILED` se explica que *"Um débito bancário confirmado não pode ser cancelado."* |
@@ -193,6 +193,12 @@ valor/método/referencia y PAID no podía mostrar fecha, cuenta ni comprovante.
 - Dependencia de arriba: [church-banking #105](https://github.com/gloriafinance/church-banking/pull/105)
   lee el importe de la línea y lo devuelve; su "fuera de alcance" asigna al API validar la
   coincidencia.
+
+**Sobre la reintentabilidad del mismatch**: un intento con importe distinto **no** se marca `FAILED`
+si el banco no confirmó el rechazo (`FAILED`/`CANCELLED`/`CREATION_FAILED`), porque la operación
+puede seguir viva: se queda en `PROCESSING` (no se ofrece un pago nuevo) y la pantalla explica la
+diferencia. Sin ese cuidado, el siguiente intento habría reservado el intento 2 y creado un segundo
+cobro en el banco.
 
 **Único dato aún no disponible**: el rechazo `BILL_PAYMENT_AMOUNT_MISMATCH` (422) no incluye el
 importe leído, así que cuando el banco rechaza por diferencia la pantalla muestra el *valor esperado*
@@ -285,7 +291,7 @@ despliega como web.
 
 ## 10. Capturas del entregable
 
-Generadas por comando (39 pantallas):
+Generadas por comando (40 pantallas):
 
 ```bash
 flutter test --dart-define=GENERATE_SCREENSHOTS=true \
@@ -304,6 +310,7 @@ flutter test --dart-define=GENERATE_SCREENSHOTS=true \
 | `desktop-10-boleto-entrada.png` / `desktop-11-boleto-digitar-linha.png` / `desktop-19-boleto-camera.png` | Entrada del boleto, línea digitável y cámara |
 | `desktop-12-boleto-validado.png` / `desktop-13-boleto-mismatch.png` | Boleto validado / valores diferentes |
 | `desktop-14-processing.png` … `desktop-16-failed.png` | PROCESSING, BLOCKED, FAILED |
+| `desktop-21-processing-mismatch.png` | PROCESSING con valores diferentes (la operación sigue viva y no se ofrece pago nuevo) |
 | `desktop-17-pago-manual.png` / `desktop-18-pago-asaas.png` | PAID `CLEARED` (con cancelar) / `RECONCILED` (sin cancelar) |
 | `desktop-20-boleto-confirmacao.png` | Confirmación final del boleto |
 | `tablet-01-mes.png` … `tablet-04-bloqueado.png` | Listado mensual, PIX, boleto y bloqueado en tablet |
@@ -312,7 +319,7 @@ flutter test --dart-define=GENERATE_SCREENSHOTS=true \
 ## 11. Verificación
 
 - `flutter test test/features/erp/recurring_payments test/core/layout/erp/menu_items_test.dart` →
-  **104/104** (40 capturas/smoke de ejecución, 20 de modelos de ejecución, 11 del listado, 7 de
+  **105/105** (41 capturas/smoke de ejecución, 20 de modelos de ejecución, 11 del listado, 7 de
   máscaras, 7 del parsing estricto, 7 de stores, 6 de opciones y 6 del menú).
 - `flutter analyze lib test` → **0 errores** (los warnings/infos son los preexistentes del repo).
 - `flutter build web -t lib/main_erp.dart --release` → OK con `mobile_scanner`.

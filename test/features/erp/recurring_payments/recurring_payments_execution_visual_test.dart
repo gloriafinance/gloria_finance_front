@@ -242,6 +242,25 @@ void main() {
       expect(find.text('Pagamento em processamento'), findsOneWidget);
     });
 
+    testWidgets('processando com valores diferentes', (tester) async {
+      await _pumpDetail(
+        tester,
+        size: _desktop,
+        item: _item(
+          name: 'Aluguel do templo',
+          type: 'FIXED',
+          amount: 3500,
+          execution: 'PROCESSING',
+          status: 'PROCESSING',
+          mismatch: true,
+        ),
+      );
+      await _capture(tester, generate, 'desktop-21-processing-mismatch.png');
+      expect(find.text('VALORES DIFERENTES'), findsOneWidget);
+      expect(find.text('Valor do boleto'), findsOneWidget);
+      expect(find.text('TENTAR NOVAMENTE'), findsNothing);
+    });
+
     testWidgets('bloqueado', (tester) async {
       await _pumpDetail(
         tester,
@@ -881,6 +900,7 @@ RecurringPaymentCompetenceModel _item({
   String status = 'PENDING',
   String? execution,
   String? settlement,
+  bool mismatch = false,
 }) {
   return RecurringPaymentCompetenceModel.fromJson({
     'recurringPaymentId': 'rp-$name',
@@ -904,6 +924,8 @@ RecurringPaymentCompetenceModel _item({
         'paymentMethod': pix ? 'PIX' : 'BILL',
         'status': execution,
         'providerStatus': execution == 'BLOCKED' ? 'BLOCKED' : 'PENDING',
+        if (mismatch) 'providerValueInCents': 375000,
+        if (mismatch) 'failureCode': 'RECURRING_PAYMENT_BILL_AMOUNT_MISMATCH',
         'updatedAt': '2026-10-01T12:00:00.000Z',
       },
     if (settlement != null)

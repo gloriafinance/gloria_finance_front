@@ -142,6 +142,10 @@ class RecurringPaymentExecutionDetail extends StatelessWidget {
           title: l10n.recurringPaymentsExecution_processing_title,
           description: l10n.recurringPaymentsExecution_processing_description,
         ),
+        // Un mismatch no siempre cierra el intento: si el banco no confirmó el
+        // rechazo, la operación puede seguir viva y el usuario tiene que ver por
+        // qué no se ofrece un pago nuevo.
+        if (execution?.isAmountMismatch ?? false) _mismatchBlock(context),
         if (execution != null) ..._executionFields(context, execution),
         const SizedBox(height: 10),
         Text(
