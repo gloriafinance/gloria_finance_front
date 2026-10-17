@@ -1,0 +1,93 @@
+import 'package:dio/dio.dart';
+import 'package:gloria_finance/core/app_http.dart';
+import 'package:gloria_finance/features/auth/auth_persistence.dart';
+
+import '../models/recurring_payment_competence_model.dart';
+import '../models/recurring_payment_pay_result.dart';
+
+/// Ejecución mensual de las recurrencias.
+///
+/// A diferencia de `RecurringPaymentService` (configuración), esta capa sí
+/// consume el estado de la competencia y las dos formas de pagar: bancaria
+/// (Asaas) y registro manual.
+class RecurringPaymentExecutionService extends AppHttp {
+  /// `GET /recurring-payments?competence=YYYY-MM`
+  ///
+  /// Devuelve la configuración de cada recurrencia **con** su estado en esa
+  /// competencia, el detalle de la operación bancaria en curso y el asiento que
+  /// la dejó pagada.
+  Future<List<RecurringPaymentCompetenceModel>> listCompetence(
+    String competence,
+  ) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.get(
+        '${await getUrlApi()}recurring-payments/',
+        queryParameters: {'competence': competence},
+        options: Options(headers: bearerToken()),
+      );
+
+      return (response.data as List)
+          .map(
+            (element) => RecurringPaymentCompetenceModel.fromJson(
+              Map<String, dynamic>.from(element),
+            ),
+          )
+          .toList();
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  /// `POST /recurring-payments/:id/pay`
+  Future<RecurringPaymentPayResult> pay(
+    String recurringPaymentId,
+    Map<String, dynamic> payload,
+  ) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.post(
+        '${await getUrlApi()}recurring-payments/$recurringPaymentId/pay',
+        data: payload,
+        options: Options(headers: bearerToken()),
+      );
+
+      return RecurringPaymentPayResult.fromJson(
+        Map<String, dynamic>.from(response.data),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  /// `POST /recurring-payments/:id/register-payment` (multipart)
+  ///
+  /// El comprovante es obligatorio: sin él no hay `FinancialRecord`.
+  Future<void> registerManually({
+    required String recurringPaymentId,
+    required Map<String, dynamic> payload,
+    required MultipartFile voucher,
+  }) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    final formData = FormData.fromMap({...payload, 'file': voucher});
+
+    try {
+      await http.post(
+        '${await getUrlApi()}recurring-payments/$recurringPaymentId/register-payment',
+        data: formData,
+        options: Options(headers: bearerToken()),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+}

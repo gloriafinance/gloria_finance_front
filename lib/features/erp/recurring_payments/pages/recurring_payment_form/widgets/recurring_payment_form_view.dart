@@ -72,7 +72,7 @@ class _RecurringPaymentFormViewState extends State<RecurringPaymentFormView> {
           Row(
             children: [
               GestureDetector(
-                onTap: () => context.go('/recurring-payments'),
+                onTap: () => context.go('/recurring-payments/configuration'),
                 child: const Icon(
                   Icons.arrow_back_ios,
                   color: AppColors.purple,
@@ -102,7 +102,7 @@ class _RecurringPaymentFormViewState extends State<RecurringPaymentFormView> {
             summary:
                 'Screen used to configure a permanent monthly commitment (rent, utilities, missions) without executing any payment.',
             relatedRoutes: const [
-              '/recurring-payments',
+              '/recurring-payments/configuration',
               '/accounts-payable/list',
               '/financial-concepts',
               '/cost-center',

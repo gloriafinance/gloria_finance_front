@@ -63,7 +63,8 @@ import 'app_localizations_pt.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -71,7 +72,8 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -83,18 +85,19 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('es'),
-    Locale('pt')
+    Locale('pt'),
   ];
 
   /// No description provided for @month_january.
@@ -2591,7 +2594,10 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Suggestion applied: {type} · {category}. Review indicators and then save.'**
-  String settings_financial_concept_ai_result_applied_summary(String type, String category);
+  String settings_financial_concept_ai_result_applied_summary(
+    String type,
+    String category,
+  );
 
   /// No description provided for @settings_financial_concept_ai_result_assistant_tone.
   ///
@@ -2609,7 +2615,9 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Use the concept \"{conceptName}\" for this scenario. Search by this exact name in the list.'**
-  String settings_financial_concept_ai_result_existing_summary(String conceptName);
+  String settings_financial_concept_ai_result_existing_summary(
+    String conceptName,
+  );
 
   /// No description provided for @settings_financial_concept_ai_details_action.
   ///
@@ -4211,7 +4219,11 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Total income: {income} | Total expenses: {expenses} | Consolidated balance: {total}'**
-  String reports_income_cashflow_summary(String income, String expenses, String total);
+  String reports_income_cashflow_summary(
+    String income,
+    String expenses,
+    String total,
+  );
 
   /// No description provided for @reports_income_cashflow_empty.
   ///
@@ -4601,7 +4613,10 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Comparison: {currentMonthYear} vs {previousMonthYear}'**
-  String trends_header_comparison(String currentMonthYear, String previousMonthYear);
+  String trends_header_comparison(
+    String currentMonthYear,
+    String previousMonthYear,
+  );
 
   /// No description provided for @trends_list_revenue.
   ///
@@ -8687,7 +8702,12 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{count} devotionals will be sent to {audience} at {time} ({timezone})'**
-  String devotional_summary_line(int count, String audience, String time, String timezone);
+  String devotional_summary_line(
+    int count,
+    String audience,
+    String time,
+    String timezone,
+  );
 
   /// No description provided for @devotional_quick_guide.
   ///
@@ -9257,7 +9277,11 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Audience: {audience} | Push: {push} | WhatsApp: {whatsapp}'**
-  String devotional_item_channel_line(String audience, String push, String whatsapp);
+  String devotional_item_channel_line(
+    String audience,
+    String push,
+    String whatsapp,
+  );
 
   /// No description provided for @devotional_item_urgent_approval.
   ///
@@ -9365,7 +9389,11 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{day} - {date} | Audience: {audience}'**
-  String devotional_review_header_line(String day, String date, String audience);
+  String devotional_review_header_line(
+    String day,
+    String date,
+    String audience,
+  );
 
   /// No description provided for @devotional_review_label_title.
   ///
@@ -11166,9 +11194,802 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back to the list'**
   String get recurringPayments_back_to_list_action;
+
+  /// No description provided for @recurringPaymentsExecution_tab_month.
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get recurringPaymentsExecution_tab_month;
+
+  /// No description provided for @recurringPaymentsExecution_tab_configuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Configuration'**
+  String get recurringPaymentsExecution_tab_configuration;
+
+  /// No description provided for @recurringPaymentsExecution_status_pending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get recurringPaymentsExecution_status_pending;
+
+  /// No description provided for @recurringPaymentsExecution_status_upcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get recurringPaymentsExecution_status_upcoming;
+
+  /// No description provided for @recurringPaymentsExecution_status_processing.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing'**
+  String get recurringPaymentsExecution_status_processing;
+
+  /// No description provided for @recurringPaymentsExecution_status_blocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked'**
+  String get recurringPaymentsExecution_status_blocked;
+
+  /// No description provided for @recurringPaymentsExecution_status_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get recurringPaymentsExecution_status_failed;
+
+  /// No description provided for @recurringPaymentsExecution_status_paid.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get recurringPaymentsExecution_status_paid;
+
+  /// No description provided for @recurringPaymentsExecution_status_inactive.
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive'**
+  String get recurringPaymentsExecution_status_inactive;
+
+  /// No description provided for @recurringPaymentsExecution_status_unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unrecognized state'**
+  String get recurringPaymentsExecution_status_unknown;
+
+  /// No description provided for @recurringPaymentsExecution_due_date_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Due date'**
+  String get recurringPaymentsExecution_due_date_label;
+
+  /// No description provided for @recurringPaymentsExecution_value_variable.
+  ///
+  /// In en, this message translates to:
+  /// **'Variable amount'**
+  String get recurringPaymentsExecution_value_variable;
+
+  /// No description provided for @recurringPaymentsExecution_value_from_configuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Set in the recurring payment configuration'**
+  String get recurringPaymentsExecution_value_from_configuration;
+
+  /// No description provided for @recurringPaymentsExecution_pay_action.
+  ///
+  /// In en, this message translates to:
+  /// **'PAY'**
+  String get recurringPaymentsExecution_pay_action;
+
+  /// No description provided for @recurringPaymentsExecution_register_action.
+  ///
+  /// In en, this message translates to:
+  /// **'REGISTER PAYMENT'**
+  String get recurringPaymentsExecution_register_action;
+
+  /// No description provided for @recurringPaymentsExecution_details_action.
+  ///
+  /// In en, this message translates to:
+  /// **'View details'**
+  String get recurringPaymentsExecution_details_action;
+
+  /// No description provided for @recurringPaymentsExecution_summary_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Commitments this month'**
+  String get recurringPaymentsExecution_summary_label;
+
+  /// No description provided for @recurringPaymentsExecution_summary_counts.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending: {pending} · Paid: {paid}'**
+  String recurringPaymentsExecution_summary_counts(int pending, int paid);
+
+  /// No description provided for @recurringPaymentsExecution_summary_fixed_total.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} in fixed amounts'**
+  String recurringPaymentsExecution_summary_fixed_total(String amount);
+
+  /// No description provided for @recurringPaymentsExecution_summary_variable_pending.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} with a variable amount'**
+  String recurringPaymentsExecution_summary_variable_pending(int count);
+
+  /// No description provided for @recurringPaymentsExecution_empty_title.
+  ///
+  /// In en, this message translates to:
+  /// **'No commitments this month'**
+  String get recurringPaymentsExecution_empty_title;
+
+  /// No description provided for @recurringPaymentsExecution_empty_description.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no active recurring payments for this competence. Create one or pick another month.'**
+  String get recurringPaymentsExecution_empty_description;
+
+  /// No description provided for @recurringPaymentsExecution_empty_action.
+  ///
+  /// In en, this message translates to:
+  /// **'GO TO CONFIGURATION'**
+  String get recurringPaymentsExecution_empty_action;
+
+  /// No description provided for @recurringPaymentsExecution_error_load.
+  ///
+  /// In en, this message translates to:
+  /// **'The payments for this month could not be loaded.'**
+  String get recurringPaymentsExecution_error_load;
+
+  /// No description provided for @recurringPaymentsExecution_paid_inactive_note.
+  ///
+  /// In en, this message translates to:
+  /// **'The recurrence is inactive, but this competence stays paid.'**
+  String get recurringPaymentsExecution_paid_inactive_note;
+
+  /// No description provided for @recurringPaymentsExecution_processing_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment processing'**
+  String get recurringPaymentsExecution_processing_title;
+
+  /// No description provided for @recurringPaymentsExecution_processing_description.
+  ///
+  /// In en, this message translates to:
+  /// **'The payment was sent to the bank and we are waiting for confirmation.'**
+  String get recurringPaymentsExecution_processing_description;
+
+  /// No description provided for @recurringPaymentsExecution_processing_blocked_note.
+  ///
+  /// In en, this message translates to:
+  /// **'No other payment can be started while this operation is running.'**
+  String get recurringPaymentsExecution_processing_blocked_note;
+
+  /// No description provided for @recurringPaymentsExecution_blocked_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment blocked'**
+  String get recurringPaymentsExecution_blocked_title;
+
+  /// No description provided for @recurringPaymentsExecution_blocked_description.
+  ///
+  /// In en, this message translates to:
+  /// **'The bank is still processing or waiting for resolution. A new payment cannot be created.'**
+  String get recurringPaymentsExecution_blocked_description;
+
+  /// No description provided for @recurringPaymentsExecution_blocked_refresh.
+  ///
+  /// In en, this message translates to:
+  /// **'REFRESH STATUS'**
+  String get recurringPaymentsExecution_blocked_refresh;
+
+  /// No description provided for @recurringPaymentsExecution_failed_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment not completed'**
+  String get recurringPaymentsExecution_failed_title;
+
+  /// No description provided for @recurringPaymentsExecution_failed_description.
+  ///
+  /// In en, this message translates to:
+  /// **'The bank did not confirm this payment. Nothing was debited.'**
+  String get recurringPaymentsExecution_failed_description;
+
+  /// No description provided for @recurringPaymentsExecution_failed_retry.
+  ///
+  /// In en, this message translates to:
+  /// **'TRY AGAIN'**
+  String get recurringPaymentsExecution_failed_retry;
+
+  /// No description provided for @recurringPaymentsExecution_paid_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get recurringPaymentsExecution_paid_title;
+
+  /// No description provided for @recurringPaymentsExecution_field_method.
+  ///
+  /// In en, this message translates to:
+  /// **'Method'**
+  String get recurringPaymentsExecution_field_method;
+
+  /// No description provided for @recurringPaymentsExecution_field_reference.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference'**
+  String get recurringPaymentsExecution_field_reference;
+
+  /// No description provided for @recurringPaymentsExecution_field_updated_at.
+  ///
+  /// In en, this message translates to:
+  /// **'Last update'**
+  String get recurringPaymentsExecution_field_updated_at;
+
+  /// No description provided for @recurringPaymentsExecution_field_payment_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment date'**
+  String get recurringPaymentsExecution_field_payment_date;
+
+  /// No description provided for @recurringPaymentsExecution_field_origin.
+  ///
+  /// In en, this message translates to:
+  /// **'Origin'**
+  String get recurringPaymentsExecution_field_origin;
+
+  /// No description provided for @recurringPaymentsExecution_field_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get recurringPaymentsExecution_field_account;
+
+  /// No description provided for @recurringPaymentsExecution_field_voucher.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt'**
+  String get recurringPaymentsExecution_field_voucher;
+
+  /// No description provided for @recurringPaymentsExecution_field_value.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get recurringPaymentsExecution_field_value;
+
+  /// No description provided for @recurringPaymentsExecution_origin_manual.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual record'**
+  String get recurringPaymentsExecution_origin_manual;
+
+  /// No description provided for @recurringPaymentsExecution_origin_bank.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank debit (Asaas)'**
+  String get recurringPaymentsExecution_origin_bank;
+
+  /// No description provided for @recurringPaymentsExecution_voucher_view.
+  ///
+  /// In en, this message translates to:
+  /// **'View receipt'**
+  String get recurringPaymentsExecution_voucher_view;
+
+  /// No description provided for @recurringPaymentsExecution_voucher_none.
+  ///
+  /// In en, this message translates to:
+  /// **'No receipt attached'**
+  String get recurringPaymentsExecution_voucher_none;
+
+  /// No description provided for @recurringPaymentsExecution_method_pix.
+  ///
+  /// In en, this message translates to:
+  /// **'PIX'**
+  String get recurringPaymentsExecution_method_pix;
+
+  /// No description provided for @recurringPaymentsExecution_method_bill.
+  ///
+  /// In en, this message translates to:
+  /// **'Boleto'**
+  String get recurringPaymentsExecution_method_bill;
+
+  /// No description provided for @recurringPaymentsExecution_mismatch_expected.
+  ///
+  /// In en, this message translates to:
+  /// **'Expected amount'**
+  String get recurringPaymentsExecution_mismatch_expected;
+
+  /// No description provided for @recurringPaymentsExecution_mismatch_actual.
+  ///
+  /// In en, this message translates to:
+  /// **'Boleto amount'**
+  String get recurringPaymentsExecution_mismatch_actual;
+
+  /// No description provided for @recurringPaymentsExecution_mismatch_message.
+  ///
+  /// In en, this message translates to:
+  /// **'The boleto amount differs from the amount expected for this payment. Nothing was debited.'**
+  String get recurringPaymentsExecution_mismatch_message;
+
+  /// No description provided for @recurringPaymentsExecution_cancel_record_action.
+  ///
+  /// In en, this message translates to:
+  /// **'CANCEL RECORD'**
+  String get recurringPaymentsExecution_cancel_record_action;
+
+  /// No description provided for @recurringPaymentsExecution_cancel_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel this record?'**
+  String get recurringPaymentsExecution_cancel_title;
+
+  /// No description provided for @recurringPaymentsExecution_cancel_message.
+  ///
+  /// In en, this message translates to:
+  /// **'This record will be voided and the payment will show as pending again in this competence. The recurrence stays active.'**
+  String get recurringPaymentsExecution_cancel_message;
+
+  /// No description provided for @recurringPaymentsExecution_cancel_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'CANCEL RECORD'**
+  String get recurringPaymentsExecution_cancel_confirm;
+
+  /// No description provided for @recurringPaymentsExecution_cancel_dismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get recurringPaymentsExecution_cancel_dismiss;
+
+  /// No description provided for @recurringPaymentsExecution_cancel_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Record cancelled. The competence is pending again.'**
+  String get recurringPaymentsExecution_cancel_success;
+
+  /// No description provided for @recurringPaymentsExecution_cancel_reconciled_note.
+  ///
+  /// In en, this message translates to:
+  /// **'A confirmed bank debit cannot be cancelled.'**
+  String get recurringPaymentsExecution_cancel_reconciled_note;
+
+  /// No description provided for @recurringPaymentsExecution_cancel_error.
+  ///
+  /// In en, this message translates to:
+  /// **'The record could not be cancelled.'**
+  String get recurringPaymentsExecution_cancel_error;
+
+  /// No description provided for @recurringPaymentsExecution_method_title.
+  ///
+  /// In en, this message translates to:
+  /// **'How would you like to pay?'**
+  String get recurringPaymentsExecution_method_title;
+
+  /// No description provided for @recurringPaymentsExecution_amount_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount to pay'**
+  String get recurringPaymentsExecution_amount_label;
+
+  /// No description provided for @recurringPaymentsExecution_amount_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the amount to pay.'**
+  String get recurringPaymentsExecution_amount_required;
+
+  /// No description provided for @recurringPaymentsExecution_amount_bill_note.
+  ///
+  /// In en, this message translates to:
+  /// **'The amount will be the boleto one.'**
+  String get recurringPaymentsExecution_amount_bill_note;
+
+  /// No description provided for @recurringPaymentsExecution_pix_destination_label.
+  ///
+  /// In en, this message translates to:
+  /// **'PIX destination'**
+  String get recurringPaymentsExecution_pix_destination_label;
+
+  /// No description provided for @recurringPaymentsExecution_pix_destination_note.
+  ///
+  /// In en, this message translates to:
+  /// **'Set in the recurring payment'**
+  String get recurringPaymentsExecution_pix_destination_note;
+
+  /// No description provided for @recurringPaymentsExecution_pix_key_label.
+  ///
+  /// In en, this message translates to:
+  /// **'PIX key'**
+  String get recurringPaymentsExecution_pix_key_label;
+
+  /// No description provided for @recurringPaymentsExecution_pix_key_type_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Key type'**
+  String get recurringPaymentsExecution_pix_key_type_label;
+
+  /// No description provided for @recurringPaymentsExecution_pix_key_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the PIX key.'**
+  String get recurringPaymentsExecution_pix_key_required;
+
+  /// No description provided for @recurringPaymentsExecution_pix_key_type_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the key type.'**
+  String get recurringPaymentsExecution_pix_key_type_required;
+
+  /// No description provided for @recurringPaymentsExecution_account_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get recurringPaymentsExecution_account_label;
+
+  /// No description provided for @recurringPaymentsExecution_account_asaas.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected Asaas account'**
+  String get recurringPaymentsExecution_account_asaas;
+
+  /// No description provided for @recurringPaymentsExecution_pix_confirm_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm PIX payment'**
+  String get recurringPaymentsExecution_pix_confirm_title;
+
+  /// No description provided for @recurringPaymentsExecution_pix_review_note.
+  ///
+  /// In en, this message translates to:
+  /// **'Review the data before confirming.'**
+  String get recurringPaymentsExecution_pix_review_note;
+
+  /// No description provided for @recurringPaymentsExecution_pix_send_note.
+  ///
+  /// In en, this message translates to:
+  /// **'After confirming, the payment is sent for bank processing.'**
+  String get recurringPaymentsExecution_pix_send_note;
+
+  /// No description provided for @recurringPaymentsExecution_pix_confirm_action.
+  ///
+  /// In en, this message translates to:
+  /// **'CONFIRM PIX'**
+  String get recurringPaymentsExecution_pix_confirm_action;
+
+  /// No description provided for @recurringPaymentsExecution_confirm_action.
+  ///
+  /// In en, this message translates to:
+  /// **'CONFIRM PAYMENT'**
+  String get recurringPaymentsExecution_confirm_action;
+
+  /// No description provided for @recurringPaymentsExecution_period_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Competence'**
+  String get recurringPaymentsExecution_period_label;
+
+  /// No description provided for @recurringPaymentsExecution_sent_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment sent'**
+  String get recurringPaymentsExecution_sent_title;
+
+  /// No description provided for @recurringPaymentsExecution_sent_description.
+  ///
+  /// In en, this message translates to:
+  /// **'The payment was sent to the bank and we are waiting for confirmation. It only counts as paid after the bank confirms it.'**
+  String get recurringPaymentsExecution_sent_description;
+
+  /// No description provided for @recurringPaymentsExecution_error_pay.
+  ///
+  /// In en, this message translates to:
+  /// **'The payment could not be sent.'**
+  String get recurringPaymentsExecution_error_pay;
+
+  /// No description provided for @recurringPaymentsExecution_error_register.
+  ///
+  /// In en, this message translates to:
+  /// **'The payment could not be registered.'**
+  String get recurringPaymentsExecution_error_register;
+
+  /// No description provided for @recurringPaymentsExecution_already_paid.
+  ///
+  /// In en, this message translates to:
+  /// **'This competence is already paid.'**
+  String get recurringPaymentsExecution_already_paid;
+
+  /// No description provided for @recurringPaymentsExecution_in_progress.
+  ///
+  /// In en, this message translates to:
+  /// **'There is already a payment in progress for this competence.'**
+  String get recurringPaymentsExecution_in_progress;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_entry_title.
+  ///
+  /// In en, this message translates to:
+  /// **'How would you like to enter the boleto?'**
+  String get recurringPaymentsExecution_boleto_entry_title;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_camera_action.
+  ///
+  /// In en, this message translates to:
+  /// **'SCAN WITH CAMERA'**
+  String get recurringPaymentsExecution_boleto_camera_action;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_camera_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Point the camera at the barcode'**
+  String get recurringPaymentsExecution_boleto_camera_hint;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_type_action.
+  ///
+  /// In en, this message translates to:
+  /// **'TYPE THE LINE'**
+  String get recurringPaymentsExecution_boleto_type_action;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_type_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the boleto digitable line'**
+  String get recurringPaymentsExecution_boleto_type_hint;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_scan_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan boleto'**
+  String get recurringPaymentsExecution_boleto_scan_title;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_scan_instruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Place the barcode inside the indicated area.'**
+  String get recurringPaymentsExecution_boleto_scan_instruction;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_scan_manual_action.
+  ///
+  /// In en, this message translates to:
+  /// **'Type the line manually'**
+  String get recurringPaymentsExecution_boleto_scan_manual_action;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_camera_permission_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow camera access'**
+  String get recurringPaymentsExecution_boleto_camera_permission_title;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_camera_permission_description.
+  ///
+  /// In en, this message translates to:
+  /// **'We need the camera to read the boleto barcode.'**
+  String get recurringPaymentsExecution_boleto_camera_permission_description;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_camera_permission_action.
+  ///
+  /// In en, this message translates to:
+  /// **'ALLOW ACCESS'**
+  String get recurringPaymentsExecution_boleto_camera_permission_action;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_camera_denied.
+  ///
+  /// In en, this message translates to:
+  /// **'The camera could not be accessed.'**
+  String get recurringPaymentsExecution_boleto_camera_denied;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_camera_denied_action.
+  ///
+  /// In en, this message translates to:
+  /// **'TYPE THE LINE MANUALLY'**
+  String get recurringPaymentsExecution_boleto_camera_denied_action;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_camera_error.
+  ///
+  /// In en, this message translates to:
+  /// **'The code could not be read. Try again or type the line.'**
+  String get recurringPaymentsExecution_boleto_camera_error;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_line_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Digitable line'**
+  String get recurringPaymentsExecution_boleto_line_label;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_line_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the digitable line.'**
+  String get recurringPaymentsExecution_boleto_line_required;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_line_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the typed line: it must have 47, 44 or 48 digits.'**
+  String get recurringPaymentsExecution_boleto_line_invalid;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_validate_action.
+  ///
+  /// In en, this message translates to:
+  /// **'VALIDATE BOLETO'**
+  String get recurringPaymentsExecution_boleto_validate_action;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_confirm_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm payment'**
+  String get recurringPaymentsExecution_boleto_confirm_title;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_line_final.
+  ///
+  /// In en, this message translates to:
+  /// **'Line ending'**
+  String get recurringPaymentsExecution_boleto_line_final;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_pay_action.
+  ///
+  /// In en, this message translates to:
+  /// **'PAY BOLETO'**
+  String get recurringPaymentsExecution_boleto_pay_action;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_send_note.
+  ///
+  /// In en, this message translates to:
+  /// **'After confirming, the boleto is sent for payment.'**
+  String get recurringPaymentsExecution_boleto_send_note;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_validated_title.
+  ///
+  /// In en, this message translates to:
+  /// **'BOLETO VALIDATED'**
+  String get recurringPaymentsExecution_boleto_validated_title;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_values_match.
+  ///
+  /// In en, this message translates to:
+  /// **'The amounts match.'**
+  String get recurringPaymentsExecution_boleto_values_match;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_mismatch_title.
+  ///
+  /// In en, this message translates to:
+  /// **'AMOUNTS DIFFER'**
+  String get recurringPaymentsExecution_boleto_mismatch_title;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_mismatch_back.
+  ///
+  /// In en, this message translates to:
+  /// **'BACK'**
+  String get recurringPaymentsExecution_boleto_mismatch_back;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_mismatch_review.
+  ///
+  /// In en, this message translates to:
+  /// **'REVIEW BOLETO'**
+  String get recurringPaymentsExecution_boleto_mismatch_review;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_expected_value.
+  ///
+  /// In en, this message translates to:
+  /// **'Expected amount'**
+  String get recurringPaymentsExecution_boleto_expected_value;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_value.
+  ///
+  /// In en, this message translates to:
+  /// **'Boleto amount'**
+  String get recurringPaymentsExecution_boleto_value;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_read_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'The bank reads the amount from the boleto line itself.'**
+  String get recurringPaymentsExecution_boleto_read_hint;
+
+  /// No description provided for @recurringPaymentsExecution_manual_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Register payment'**
+  String get recurringPaymentsExecution_manual_title;
+
+  /// No description provided for @recurringPaymentsExecution_manual_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us how this expense was paid outside Glória.'**
+  String get recurringPaymentsExecution_manual_subtitle;
+
+  /// No description provided for @recurringPaymentsExecution_manual_amount_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount paid'**
+  String get recurringPaymentsExecution_manual_amount_label;
+
+  /// No description provided for @recurringPaymentsExecution_manual_amount_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the amount paid.'**
+  String get recurringPaymentsExecution_manual_amount_required;
+
+  /// No description provided for @recurringPaymentsExecution_manual_date_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment date'**
+  String get recurringPaymentsExecution_manual_date_label;
+
+  /// No description provided for @recurringPaymentsExecution_manual_date_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the payment date.'**
+  String get recurringPaymentsExecution_manual_date_required;
+
+  /// No description provided for @recurringPaymentsExecution_manual_account_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Account used'**
+  String get recurringPaymentsExecution_manual_account_label;
+
+  /// No description provided for @recurringPaymentsExecution_manual_account_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the account used.'**
+  String get recurringPaymentsExecution_manual_account_required;
+
+  /// No description provided for @recurringPaymentsExecution_manual_account_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Where the money came from.'**
+  String get recurringPaymentsExecution_manual_account_hint;
+
+  /// No description provided for @recurringPaymentsExecution_manual_voucher_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt'**
+  String get recurringPaymentsExecution_manual_voucher_label;
+
+  /// No description provided for @recurringPaymentsExecution_manual_voucher_required.
+  ///
+  /// In en, this message translates to:
+  /// **'The receipt is mandatory.'**
+  String get recurringPaymentsExecution_manual_voucher_required;
+
+  /// No description provided for @recurringPaymentsExecution_manual_voucher_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach the payment receipt.'**
+  String get recurringPaymentsExecution_manual_voucher_hint;
+
+  /// No description provided for @recurringPaymentsExecution_manual_no_method_note.
+  ///
+  /// In en, this message translates to:
+  /// **'Glória does not execute this payment; it only records the expense.'**
+  String get recurringPaymentsExecution_manual_no_method_note;
+
+  /// No description provided for @recurringPaymentsExecution_manual_submit.
+  ///
+  /// In en, this message translates to:
+  /// **'REGISTER PAYMENT'**
+  String get recurringPaymentsExecution_manual_submit;
+
+  /// No description provided for @recurringPaymentsExecution_manual_submitting.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing record…'**
+  String get recurringPaymentsExecution_manual_submitting;
+
+  /// No description provided for @recurringPaymentsExecution_manual_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment registered.'**
+  String get recurringPaymentsExecution_manual_success;
+
+  /// No description provided for @recurringPaymentsExecution_common_cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'CANCEL'**
+  String get recurringPaymentsExecution_common_cancel;
+
+  /// No description provided for @recurringPaymentsExecution_common_close.
+  ///
+  /// In en, this message translates to:
+  /// **'CLOSE'**
+  String get recurringPaymentsExecution_common_close;
 }
 
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -11177,26 +11998,28 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'es', 'pt'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'es', 'pt'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
-
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return AppLocalizationsEn();
-    case 'es': return AppLocalizationsEs();
-    case 'pt': return AppLocalizationsPt();
+    case 'en':
+      return AppLocalizationsEn();
+    case 'es':
+      return AppLocalizationsEs();
+    case 'pt':
+      return AppLocalizationsPt();
   }
 
   throw FlutterError(
     'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
     'an issue with the localizations generation tool. Please file an issue '
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
+    'that was used.',
   );
 }

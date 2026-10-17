@@ -51,6 +51,9 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => storeManager.recurringPaymentListStore,
         ),
+        ChangeNotifierProvider.value(
+          value: storeManager.recurringPaymentMonthlyStore,
+        ),
         ChangeNotifierProvider(
           create: (_) => storeManager.recurringPaymentOptionsStore,
         ),

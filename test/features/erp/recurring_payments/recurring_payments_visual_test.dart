@@ -1,9 +1,4 @@
-import 'dart:io';
-import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_model.dart';
@@ -18,6 +13,8 @@ import 'package:gloria_finance/features/erp/settings/financial_concept/models/fi
 import 'package:gloria_finance/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'support/visual_harness.dart';
 
 const _symbol = 'R\$';
 
@@ -38,13 +35,17 @@ void main() {
     TestWidgetsFlutterBinding.ensureInitialized();
     // Las vistas consultan la iglesia de la sesión (`AuthPersistence`).
     SharedPreferences.setMockInitialValues({});
-    await _loadAppFonts();
+    await loadAppFonts();
   });
 
   group('listado', () {
     testWidgets('desktop 1440x900 con recurrencias', (tester) async {
       await _pumpList(tester, size: const Size(1440, 900), payments: _payments);
-      await _captureIfNeeded(tester, generate, 'desktop-01-listado.png');
+      await captureIfNeeded(
+        tester,
+        generate,
+        'docs/pagamentos-recorrentes/desktop-01-listado.png',
+      );
       expect(find.text('Pagamentos recorrentes'), findsOneWidget);
       expect(find.text('Aluguel do templo'), findsOneWidget);
       expect(find.text('Valor variável'), findsWidgets);
@@ -52,7 +53,11 @@ void main() {
 
     testWidgets('desktop 1440x900 vazio', (tester) async {
       await _pumpList(tester, size: const Size(1440, 900), payments: const []);
-      await _captureIfNeeded(tester, generate, 'desktop-02-vazio.png');
+      await captureIfNeeded(
+        tester,
+        generate,
+        'docs/pagamentos-recorrentes/desktop-02-vazio.png',
+      );
       expect(
         find.text('Nenhum pagamento recorrente cadastrado'),
         findsOneWidget,
@@ -61,13 +66,21 @@ void main() {
 
     testWidgets('tablet 834x1112', (tester) async {
       await _pumpList(tester, size: const Size(834, 1112), payments: _payments);
-      await _captureIfNeeded(tester, generate, 'tablet-01-listado.png');
+      await captureIfNeeded(
+        tester,
+        generate,
+        'docs/pagamentos-recorrentes/tablet-01-listado.png',
+      );
       expect(find.text('Dia 10'), findsOneWidget);
     });
 
     testWidgets('mobile 390x844 con tarjetas', (tester) async {
       await _pumpList(tester, size: const Size(390, 844), payments: _payments);
-      await _captureIfNeeded(tester, generate, 'mobile-01-cards.png');
+      await captureIfNeeded(
+        tester,
+        generate,
+        'docs/pagamentos-recorrentes/mobile-01-cards.png',
+      );
       expect(find.text('Dia 10'), findsOneWidget);
     });
 
@@ -78,7 +91,11 @@ void main() {
         payments: _payments,
         searchTerm: 'copa',
       );
-      await _captureIfNeeded(tester, generate, 'desktop-05-sem-resultados.png');
+      await captureIfNeeded(
+        tester,
+        generate,
+        'docs/pagamentos-recorrentes/desktop-05-sem-resultados.png',
+      );
       expect(find.text('Nenhum resultado encontrado'), findsOneWidget);
     });
 
@@ -89,13 +106,21 @@ void main() {
         payments: _payments,
         searchTerm: 'copa',
       );
-      await _captureIfNeeded(tester, generate, 'mobile-04-sem-resultados.png');
+      await captureIfNeeded(
+        tester,
+        generate,
+        'docs/pagamentos-recorrentes/mobile-04-sem-resultados.png',
+      );
       expect(find.text('Nenhum resultado encontrado'), findsOneWidget);
     });
 
     testWidgets('mobile 390x844 vazio', (tester) async {
       await _pumpList(tester, size: const Size(390, 844), payments: const []);
-      await _captureIfNeeded(tester, generate, 'mobile-02-vazio.png');
+      await captureIfNeeded(
+        tester,
+        generate,
+        'docs/pagamentos-recorrentes/mobile-02-vazio.png',
+      );
       expect(
         find.text('Criar primeiro pagamento'.toUpperCase()),
         findsOneWidget,
@@ -111,7 +136,11 @@ void main() {
         'Aluguel do templo',
       );
       await tester.pumpAndSettle();
-      await _captureIfNeeded(tester, generate, 'desktop-03-form-novo-fixo.png');
+      await captureIfNeeded(
+        tester,
+        generate,
+        'docs/pagamentos-recorrentes/desktop-03-form-novo-fixo.png',
+      );
 
       // Na criação não existe switch de situação: a recorrência nasce ativa.
       expect(find.text('SITUAÇÃO'), findsNothing);
@@ -140,10 +169,10 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('12.345.678/0001-90'), findsOneWidget);
 
-      await _captureIfNeeded(
+      await captureIfNeeded(
         tester,
         generate,
-        'desktop-04-form-novo-variavel-pix.png',
+        'docs/pagamentos-recorrentes/desktop-04-form-novo-variavel-pix.png',
       );
       expect(find.textContaining('Valor mensal'), findsNothing);
       expect(find.text('Destino reutilizável (opcional)'), findsOneWidget);
@@ -155,7 +184,11 @@ void main() {
         size: const Size(1440, 1500),
         payment: _fixedPayment,
       );
-      await _captureIfNeeded(tester, generate, 'desktop-06-form-editar.png');
+      await captureIfNeeded(
+        tester,
+        generate,
+        'docs/pagamentos-recorrentes/desktop-06-form-editar.png',
+      );
 
       // Editando, pausar/retomar existe e o texto explica quando usar.
       expect(find.text('SITUAÇÃO'), findsOneWidget);
@@ -187,7 +220,11 @@ void main() {
         lessThan(tester.getTopLeft(find.text('Chave PIX')).dy),
       );
 
-      await _captureIfNeeded(tester, generate, 'mobile-03-form.png');
+      await captureIfNeeded(
+        tester,
+        generate,
+        'docs/pagamentos-recorrentes/mobile-03-form.png',
+      );
       expect(find.text('Informações básicas'), findsOneWidget);
       expect(find.text('SITUAÇÃO'), findsNothing);
     });
@@ -471,57 +508,4 @@ void _setSurface(WidgetTester tester, Size size) {
   addTearDown(tester.view.reset);
 }
 
-Future<void> _captureIfNeeded(
-  WidgetTester tester,
-  bool generate,
-  String fileName,
-) async {
-  if (!generate) return;
-
-  final boundary = tester.renderObject<RenderRepaintBoundary>(
-    find.byKey(const ValueKey('recurring-payments-capture')),
-  );
-
-  await tester.runAsync(() async {
-    final image = await boundary.toImage(pixelRatio: 1);
-    final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
-    final file = File('docs/pagamentos-recorrentes/$fileName')
-      ..createSync(recursive: true);
-    file.writeAsBytesSync(bytes!.buffer.asUint8List());
-  });
-}
-
 /// Carga las Poppins reales: sin esto el motor de test dibuja cajas.
-Future<void> _loadAppFonts() async {
-  final fonts = {
-    'fontTitle': 'fonts/Poppins-SemiBold.ttf',
-    'fontSubTitle': 'fonts/Poppins-Regular.ttf',
-    'fontText': 'fonts/Poppins-Light.ttf',
-  };
-
-  for (final entry in fonts.entries) {
-    await _loadFont(entry.key, entry.value);
-  }
-
-  // Los textos sin `fontFamily` (por ejemplo el botón de ayuda contextual) usan
-  // la fuente por defecto de la plataforma; en test eso se dibuja como cajas.
-  // Se sustituye por Poppins para que la captura sea legible.
-  await _loadFont('Roboto', 'fonts/Poppins-Regular.ttf');
-
-  // Iconos: sin esto el motor de test dibuja cuadros vacíos.
-  final flutterRoot = Platform.environment['FLUTTER_ROOT'];
-  if (flutterRoot != null) {
-    final icons =
-        '$flutterRoot/bin/cache/artifacts/material_fonts/MaterialIcons-Regular.otf';
-    if (File(icons).existsSync()) {
-      await _loadFont('MaterialIcons', icons);
-    }
-  }
-}
-
-Future<void> _loadFont(String family, String path) async {
-  final bytes = File(path).readAsBytesSync();
-  final loader = FontLoader(family)
-    ..addFont(Future.value(ByteData.view(Uint8List.fromList(bytes).buffer)));
-  await loader.load();
-}
