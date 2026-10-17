@@ -43,10 +43,7 @@ class RecurringPaymentBoletoLineStep extends StatelessWidget {
           initialValue:
               line.isEmpty ? null : RecurringPaymentBoleto.grouped(line),
           keyboardType: TextInputType.number,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-            LengthLimitingTextInputFormatter(48),
-          ],
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           onChanged: store.setBoletoLine,
         ),
         if (state.billSimulationError != null) ...[
