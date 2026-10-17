@@ -111,6 +111,13 @@ final List<Map<String, dynamic>> items = [
         "to": "/accounts-payable/list",
       },
       {
+        "key": "erp_menu_finance_recurring_payments",
+        "icon": Icons.event_repeat,
+        "to": "/recurring-payments",
+        // Pagamentos recorrentes é um módulo exclusivo para igrejas do Brasil.
+        "countries": ["BR"],
+      },
+      {
         "key": "erp_menu_finance_purchases",
         "icon": Icons.sell_outlined,
         "to": "/purchase",
@@ -167,16 +174,56 @@ final List<Map<String, dynamic>> items = [
   },
 ];
 
-List<Map<String, dynamic>> menuItems(List<String> roles) {
+List<Map<String, dynamic>> menuItems(List<String> roles, String country) {
+  final visibleItems = _visibleForCountry(items, country);
+
   if (roles.contains('ADMIN')) {
-    return items;
+    return visibleItems;
   }
 
   if (roles.contains('PASTOR') || roles.contains('TREASURER')) {
-    return items
+    return visibleItems
         .where((element) => element['key'] != 'erp_menu_settings')
         .toList();
   }
 
   return [];
+}
+
+/// Deja solamente las secciones e ítems disponibles para el país de la iglesia.
+///
+/// Un ítem o sección sin clave `countries` está disponible en todos los países;
+/// con clave, solo en los listados. Así el menú no depende de condicionales
+/// escondidos por feature.
+List<Map<String, dynamic>> _visibleForCountry(
+  List<Map<String, dynamic>> sections,
+  String country,
+) {
+  final normalized = country.toUpperCase();
+  final result = <Map<String, dynamic>>[];
+
+  for (final section in sections) {
+    if (!_matchesCountry(section, normalized)) continue;
+
+    final sectionItems =
+        (section['items'] as List)
+            .whereType<Map<String, dynamic>>()
+            .where((item) => _matchesCountry(item, normalized))
+            .map<Map<String, dynamic>>(
+              (item) => Map<String, dynamic>.from(item),
+            )
+            .toList();
+
+    if (sectionItems.isEmpty) continue;
+
+    result.add({...section, 'items': sectionItems});
+  }
+
+  return result;
+}
+
+bool _matchesCountry(Map<String, dynamic> entry, String country) {
+  final countries = entry['countries'];
+  if (countries is! List) return true;
+  return countries.map((value) => '$value'.toUpperCase()).contains(country);
 }
