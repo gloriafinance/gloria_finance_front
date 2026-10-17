@@ -48,6 +48,7 @@ Future<void> openRecurringPaymentExecution(
     return showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
+      useSafeArea: true,
       backgroundColor: Colors.transparent,
       builder:
           (_) => RecurringPaymentExecutionSheet(
@@ -62,7 +63,7 @@ Future<void> openRecurringPaymentExecution(
     context: context,
     builder:
         (_) => Dialog(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(22),
           ),
@@ -137,10 +138,10 @@ class RecurringPaymentExecutionSheetState
       value: _store,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: const Color(0xFFF3EDF6),
           borderRadius: BorderRadius.circular(22),
         ),
-        padding: const EdgeInsets.fromLTRB(22, 18, 22, 22),
+        padding: const EdgeInsets.fromLTRB(24, 20, 24, 24),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -166,7 +167,7 @@ class RecurringPaymentExecutionSheetState
                           _title(l10n),
                           style: const TextStyle(
                             fontFamily: AppFonts.fontTitle,
-                            fontSize: 17,
+                            fontSize: 20,
                             color: Colors.black,
                           ),
                         ),
@@ -176,7 +177,7 @@ class RecurringPaymentExecutionSheetState
                           '${item.month.slashLabel}',
                           style: const TextStyle(
                             fontFamily: AppFonts.fontText,
-                            fontSize: 12.5,
+                            fontSize: 13.5,
                             color: Color(0xFF5F5F5F),
                           ),
                         ),
@@ -377,7 +378,10 @@ class RecurringPaymentExecutionSheetState
     }
   }
 
-  bool get _canGoBack => _step != RecurringPaymentExecutionStep.result;
+  bool get _canGoBack =>
+      _step != RecurringPaymentExecutionStep.result &&
+      (_step != _initialStep() ||
+          _step == RecurringPaymentExecutionStep.pixConfirmation);
 
   void _goBack() {
     if (_step == _initialStep() &&

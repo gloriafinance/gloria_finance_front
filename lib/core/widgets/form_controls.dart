@@ -136,6 +136,8 @@ InputDecoration _inputDecoration(
 ) {
   return InputDecoration(
     hintText: hintText,
+    filled: true,
+    fillColor: Colors.white,
     contentPadding: const EdgeInsets.all(16),
     errorBorder: const OutlineInputBorder(
       borderSide: BorderSide(color: Colors.red),

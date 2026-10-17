@@ -703,16 +703,34 @@ Future<void> _pumpSheet(
 }) async {
   _setSurface(tester, size);
 
+  final sheet = RecurringPaymentExecutionSheet(
+    item: item,
+    hasBanking: hasBanking,
+    symbolFormatMoney: _symbol,
+    service: service,
+  );
+  final isDesktop = size.width >= 768;
+  final modal =
+      isDesktop
+          ? Dialog(
+            backgroundColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(22),
+            ),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 560),
+              child: sheet,
+            ),
+          )
+          : sheet;
+
   await tester.pumpWidget(
     _wrap(
-      child: RecurringPaymentExecutionSheet(
-        item: item,
-        hasBanking: hasBanking,
-        symbolFormatMoney: _symbol,
-        service: service,
-      ),
+      child: modal,
       monthly: _monthlyStore(),
       hasBanking: hasBanking,
+      executionModal: true,
+      desktopModal: isDesktop,
     ),
   );
   await tester.pumpAndSettle();
@@ -814,6 +832,8 @@ Widget _wrap({
   required Widget child,
   required RecurringPaymentMonthlyStore monthly,
   required bool hasBanking,
+  bool executionModal = false,
+  bool desktopModal = false,
 }) {
   // `AuthSessionStore` recarga la sesión desde persistencia al construirse, así
   // que la sesión de prueba se siembra donde él la busca.
@@ -899,15 +919,31 @@ Widget _wrap({
                 backgroundColor: Colors.white,
                 body: RepaintBoundary(
                   key: const ValueKey('recurring-payments-capture'),
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 14,
-                      ),
-                      child: child,
-                    ),
-                  ),
+                  child:
+                      executionModal
+                          ? Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              const ColoredBox(color: Colors.white),
+                              const ColoredBox(color: Color(0x99000000)),
+                              if (desktopModal)
+                                Center(child: child)
+                              else
+                                Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: child,
+                                ),
+                            ],
+                          )
+                          : SingleChildScrollView(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                                vertical: 14,
+                              ),
+                              child: child,
+                            ),
+                          ),
                 ),
               ),
             ),
