@@ -2493,6 +2493,7 @@
   "recurringPaymentsExecution_boleto_pay_action": "PAGAR BOLETO",
   "recurringPaymentsExecution_boleto_send_note": "Confira os dados do boleto antes de confirmar o pagamento.",
   "recurringPaymentsExecution_boleto_value": "Valor do boleto",
+  "recurringPaymentsExecution_boleto_charges_section": "Valores e encargos",
   "recurringPaymentsExecution_boleto_read_hint": "Os dados e o valor do boleto serão consultados antes do pagamento.",
   "recurringPaymentsExecution_manual_title": "Registrar pagamento",
   "recurringPaymentsExecution_manual_subtitle": "Informe como este gasto foi pago fora do Glória.",

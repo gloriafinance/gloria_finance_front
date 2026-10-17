@@ -64,7 +64,7 @@ class RecurringPaymentAmountMethodStep extends StatelessWidget {
           RecurringPaymentExecutionNotice(
             text: l10n.recurringPaymentsExecution_amount_bill_note,
             icon: Icons.receipt_long,
-            color: AppColors.blue,
+            color: AppColors.grey,
           ),
           const SizedBox(height: 14),
         ],
@@ -95,8 +95,8 @@ class RecurringPaymentAmountMethodStep extends StatelessWidget {
         const SizedBox(height: 20),
         CustomButton(
           text: l10n.recurringPaymentsExecution_confirm_action,
-          backgroundColor: AppColors.green,
-          textColor: Colors.black,
+          backgroundColor: AppColors.purple,
+          textColor: Colors.white,
           icon: Icons.arrow_forward,
           onPressed: state.isAmountAndMethodComplete ? onContinue : null,
         ),
@@ -128,14 +128,11 @@ class _MethodOption extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color:
-              selected
-                  ? AppColors.purple.withValues(alpha: 0.06)
-                  : Colors.white,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: selected ? AppColors.purple : AppColors.greyMiddle,
-            width: selected ? 1.6 : 1,
+            color: selected ? AppColors.purple : const Color(0xFFE8E6E9),
+            width: selected ? 1.4 : 1,
           ),
         ),
         child: Row(
@@ -145,10 +142,14 @@ class _MethodOption extends StatelessWidget {
               height: 42,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: AppColors.purple.withValues(alpha: 0.08),
+                color: const Color(0xFFF4F2F5),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(icon, size: 20, color: AppColors.purple),
+              child: Icon(
+                icon,
+                size: 20,
+                color: selected ? AppColors.purple : AppColors.grey,
+              ),
             ),
             const SizedBox(width: 14),
             Expanded(

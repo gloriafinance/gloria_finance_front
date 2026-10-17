@@ -108,7 +108,7 @@ class RecurringPaymentConfirmationStep extends StatelessWidget {
                   ? l10n.recurringPaymentsExecution_pix_send_note
                   : l10n.recurringPaymentsExecution_boleto_send_note,
           icon: Icons.verified_user_outlined,
-          color: AppColors.blue,
+          color: AppColors.grey,
         ),
         if (isPix) ...[
           const SizedBox(height: 10),
@@ -122,8 +122,8 @@ class RecurringPaymentConfirmationStep extends StatelessWidget {
               isPix
                   ? l10n.recurringPaymentsExecution_pix_confirm_action
                   : l10n.recurringPaymentsExecution_boleto_pay_action,
-          backgroundColor: AppColors.green,
-          textColor: Colors.black,
+          backgroundColor: AppColors.purple,
+          textColor: Colors.white,
           icon: Icons.check,
           onPressed: !state.isComplete || state.isLoading ? null : onConfirm,
         ),
@@ -142,17 +142,34 @@ List<Widget> _billReviewFields(
 
   String dateLabel(String value) => value.split('-').reversed.join('/');
 
-  Widget money(String label, int? cents) {
-    if (cents == null) return const SizedBox.shrink();
-    return RecurringPaymentExecutionField(
-      label: label,
-      value: CurrencyFormatter.formatCurrency(
-        cents / 100,
-        symbol: symbolFormatMoney,
-      ),
-      dense: true,
-    );
-  }
+  Widget moneyMetric(String label, int cents) => SizedBox(
+    width: 150,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontFamily: AppFonts.fontText,
+            fontSize: 11.5,
+            color: AppColors.grey,
+          ),
+        ),
+        const SizedBox(height: 3),
+        Text(
+          CurrencyFormatter.formatCurrency(
+            cents / 100,
+            symbol: symbolFormatMoney,
+          ),
+          style: const TextStyle(
+            fontFamily: AppFonts.fontSubTitle,
+            fontSize: 13.5,
+            color: Color(0xFF242126),
+          ),
+        ),
+      ],
+    ),
+  );
 
   final details = <Widget>[
     if (bill.bank != null)
@@ -172,14 +189,22 @@ List<Widget> _billReviewFields(
         dense: true,
       ),
     if (bill.minValueInCents != null)
-      money(
-        l10n.recurringPaymentsExecution_boleto_min_value,
-        bill.minValueInCents,
+      RecurringPaymentExecutionField(
+        label: l10n.recurringPaymentsExecution_boleto_min_value,
+        value: CurrencyFormatter.formatCurrency(
+          bill.minValueInCents! / 100,
+          symbol: symbolFormatMoney,
+        ),
+        dense: true,
       ),
     if (bill.maxValueInCents != null)
-      money(
-        l10n.recurringPaymentsExecution_boleto_max_value,
-        bill.maxValueInCents,
+      RecurringPaymentExecutionField(
+        label: l10n.recurringPaymentsExecution_boleto_max_value,
+        value: CurrencyFormatter.formatCurrency(
+          bill.maxValueInCents! / 100,
+          symbol: symbolFormatMoney,
+        ),
+        dense: true,
       ),
     if (simulation.minimumScheduleDate != null)
       RecurringPaymentExecutionField(
@@ -199,9 +224,9 @@ List<Widget> _billReviewFields(
     Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.purple.withValues(alpha: 0.05),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.purple.withValues(alpha: 0.12)),
+        border: Border.all(color: const Color(0xFFE8E6E9)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -268,7 +293,7 @@ List<Widget> _billReviewFields(
                         style: const TextStyle(
                           fontFamily: AppFonts.fontTitle,
                           fontSize: 23,
-                          color: AppColors.purple,
+                          color: Color(0xFF242126),
                         ),
                       ),
                     ],
@@ -302,34 +327,78 @@ List<Widget> _billReviewFields(
         ],
       ),
     ),
-    if (bill.originalValueInCents != null)
-      money(
-        l10n.recurringPaymentsExecution_boleto_original_value,
-        bill.originalValueInCents,
-      ),
-    if (simulation.feeInCents != null)
-      money(l10n.recurringPaymentsExecution_boleto_fee, simulation.feeInCents),
-    if (bill.discountValueInCents != null)
-      money(
-        l10n.recurringPaymentsExecution_boleto_discount,
-        bill.discountValueInCents,
-      ),
-    if (bill.interestValueInCents != null)
-      money(
-        l10n.recurringPaymentsExecution_boleto_interest,
-        bill.interestValueInCents,
-      ),
-    if (bill.fineValueInCents != null)
-      money(l10n.recurringPaymentsExecution_boleto_fine, bill.fineValueInCents),
-    if (bill.totalDiscountValueInCents != null)
-      money(
-        l10n.recurringPaymentsExecution_boleto_total_discount,
-        bill.totalDiscountValueInCents,
-      ),
-    if (bill.totalAdditionalValueInCents != null)
-      money(
-        l10n.recurringPaymentsExecution_boleto_total_additional,
-        bill.totalAdditionalValueInCents,
+    if ([
+      bill.originalValueInCents,
+      simulation.feeInCents,
+      bill.discountValueInCents,
+      bill.interestValueInCents,
+      bill.fineValueInCents,
+      bill.totalDiscountValueInCents,
+      bill.totalAdditionalValueInCents,
+    ].any((value) => value != null))
+      Container(
+        margin: const EdgeInsets.only(top: 12),
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF7F6F7),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: const Color(0xFFE8E6E9)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              l10n.recurringPaymentsExecution_boleto_charges_section,
+              style: const TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+                fontSize: 13,
+                color: Color(0xFF39353B),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              children: [
+                if (bill.originalValueInCents != null)
+                  moneyMetric(
+                    l10n.recurringPaymentsExecution_boleto_original_value,
+                    bill.originalValueInCents!,
+                  ),
+                if (simulation.feeInCents != null)
+                  moneyMetric(
+                    l10n.recurringPaymentsExecution_boleto_fee,
+                    simulation.feeInCents!,
+                  ),
+                if (bill.discountValueInCents != null)
+                  moneyMetric(
+                    l10n.recurringPaymentsExecution_boleto_discount,
+                    bill.discountValueInCents!,
+                  ),
+                if (bill.interestValueInCents != null)
+                  moneyMetric(
+                    l10n.recurringPaymentsExecution_boleto_interest,
+                    bill.interestValueInCents!,
+                  ),
+                if (bill.fineValueInCents != null)
+                  moneyMetric(
+                    l10n.recurringPaymentsExecution_boleto_fine,
+                    bill.fineValueInCents!,
+                  ),
+                if (bill.totalDiscountValueInCents != null)
+                  moneyMetric(
+                    l10n.recurringPaymentsExecution_boleto_total_discount,
+                    bill.totalDiscountValueInCents!,
+                  ),
+                if (bill.totalAdditionalValueInCents != null)
+                  moneyMetric(
+                    l10n.recurringPaymentsExecution_boleto_total_additional,
+                    bill.totalAdditionalValueInCents!,
+                  ),
+              ],
+            ),
+          ],
+        ),
       ),
     if (bill.isOverdue == true)
       Padding(

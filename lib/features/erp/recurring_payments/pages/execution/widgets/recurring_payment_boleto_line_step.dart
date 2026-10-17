@@ -66,7 +66,11 @@ class RecurringPaymentBoletoLineStep extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Icon(Icons.info_outline, size: 16, color: AppColors.grey),
+            const Icon(
+              Icons.receipt_long_outlined,
+              size: 16,
+              color: AppColors.purple,
+            ),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
@@ -90,8 +94,8 @@ class RecurringPaymentBoletoLineStep extends StatelessWidget {
                       RecurringPaymentBillSimulationError.unavailable
                   ? l10n.recurringPaymentsExecution_failed_retry
                   : l10n.recurringPaymentsExecution_boleto_validate_action,
-          backgroundColor: AppColors.green,
-          textColor: Colors.black,
+          backgroundColor: AppColors.purple,
+          textColor: Colors.white,
           icon: Icons.arrow_forward,
           onPressed: !hasValue || state.isSimulatingBill ? null : onValidate,
         ),

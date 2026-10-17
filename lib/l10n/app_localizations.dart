@@ -11821,6 +11821,12 @@ abstract class AppLocalizations {
   /// **'Boleto amount'**
   String get recurringPaymentsExecution_boleto_value;
 
+  /// No description provided for @recurringPaymentsExecution_boleto_charges_section.
+  ///
+  /// In en, this message translates to:
+  /// **'Amounts and charges'**
+  String get recurringPaymentsExecution_boleto_charges_section;
+
   /// No description provided for @recurringPaymentsExecution_boleto_read_hint.
   ///
   /// In en, this message translates to:

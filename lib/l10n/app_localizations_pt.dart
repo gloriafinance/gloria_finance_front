@@ -6019,6 +6019,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get recurringPaymentsExecution_boleto_value => 'Valor do boleto';
 
   @override
+  String get recurringPaymentsExecution_boleto_charges_section => 'Valores e encargos';
+
+  @override
   String get recurringPaymentsExecution_boleto_read_hint => 'Os dados e o valor do boleto serão consultados antes do pagamento.';
 
   @override

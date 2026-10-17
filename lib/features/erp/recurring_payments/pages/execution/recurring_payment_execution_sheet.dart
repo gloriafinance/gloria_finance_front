@@ -138,7 +138,7 @@ class RecurringPaymentExecutionSheetState
       value: _store,
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFFF3EDF6),
+          color: const Color(0xFFFAFAFA),
           borderRadius: BorderRadius.circular(22),
         ),
         padding: const EdgeInsets.fromLTRB(24, 20, 24, 24),

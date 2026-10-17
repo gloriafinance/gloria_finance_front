@@ -6019,6 +6019,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get recurringPaymentsExecution_boleto_value => 'Valor del boleto';
 
   @override
+  String get recurringPaymentsExecution_boleto_charges_section => 'Importes y cargos';
+
+  @override
   String get recurringPaymentsExecution_boleto_read_hint => 'Los datos y el importe del boleto se consultarán antes del pago.';
 
   @override

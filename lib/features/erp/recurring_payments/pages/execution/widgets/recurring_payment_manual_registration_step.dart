@@ -158,14 +158,14 @@ class _RecurringPaymentManualRegistrationStepState
           RecurringPaymentExecutionNotice(
             text: l10n.recurringPaymentsExecution_manual_submitting,
             icon: Icons.hourglass_top,
-            color: AppColors.blue,
+            color: AppColors.grey,
           ),
         ],
         const SizedBox(height: 20),
         CustomButton(
           text: l10n.recurringPaymentsExecution_manual_submit,
-          backgroundColor: AppColors.green,
-          textColor: Colors.black,
+          backgroundColor: AppColors.purple,
+          textColor: Colors.white,
           icon: Icons.check,
           onPressed:
               state.isLoading || !_isComplete

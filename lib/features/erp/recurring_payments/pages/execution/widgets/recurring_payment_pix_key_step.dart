@@ -59,8 +59,8 @@ class RecurringPaymentPixKeyStep extends StatelessWidget {
         const SizedBox(height: 20),
         CustomButton(
           text: l10n.recurringPaymentsExecution_confirm_action,
-          backgroundColor: AppColors.green,
-          textColor: Colors.black,
+          backgroundColor: AppColors.purple,
+          textColor: Colors.white,
           icon: Icons.arrow_forward,
           onPressed:
               state.pixKey.trim().isEmpty || state.pixKeyType == null

@@ -2493,6 +2493,7 @@
   "recurringPaymentsExecution_boleto_pay_action": "PAY BOLETO",
   "recurringPaymentsExecution_boleto_send_note": "Review the boleto details before confirming payment.",
   "recurringPaymentsExecution_boleto_value": "Boleto amount",
+  "recurringPaymentsExecution_boleto_charges_section": "Amounts and charges",
   "recurringPaymentsExecution_boleto_read_hint": "The boleto details and amount are checked before payment.",
   "recurringPaymentsExecution_manual_title": "Register payment",
   "recurringPaymentsExecution_manual_subtitle": "Tell us how this expense was paid outside Glória.",
