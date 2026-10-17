@@ -5866,6 +5866,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get recurringPaymentsExecution_method_title => 'How would you like to pay?';
 
   @override
+  String get recurringPaymentsExecution_method_pix_hint => 'Use the saved PIX destination or enter a key for this payment.';
+
+  @override
+  String get recurringPaymentsExecution_method_bill_hint => 'Scan with the camera or enter the boleto line.';
+
+  @override
   String get recurringPaymentsExecution_amount_label => 'Amount to pay';
 
   @override
@@ -5882,6 +5888,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recurringPaymentsExecution_pix_key_label => 'PIX key';
+
+  @override
+  String get recurringPaymentsExecution_pix_key_hint => 'Enter or paste the PIX key';
+
+  @override
+  String get recurringPaymentsExecution_pix_key_step_title => 'Enter the PIX key';
 
   @override
   String get recurringPaymentsExecution_pix_key_type_label => 'Key type';
@@ -5980,10 +5992,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get recurringPaymentsExecution_boleto_line_label => 'Digitable line';
 
   @override
+  String get recurringPaymentsExecution_boleto_line_hint => 'Enter or paste the digitable line';
+
+  @override
+  String get recurringPaymentsExecution_boleto_line_step_title => 'Enter the digitable line';
+
+  @override
   String get recurringPaymentsExecution_boleto_line_required => 'Enter the digitable line.';
 
   @override
-  String get recurringPaymentsExecution_boleto_validate_action => 'VALIDATE BOLETO';
+  String get recurringPaymentsExecution_boleto_validate_action => 'LOOK UP BOLETO';
 
   @override
   String get recurringPaymentsExecution_boleto_confirm_title => 'Confirm payment';
@@ -6058,6 +6076,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get recurringPaymentsExecution_common_close => 'CLOSE';
 
   @override
+  String get recurringPaymentsExecution_common_back => 'BACK';
+
+  @override
   String get recurringPaymentsExecution_paid_confirmed => 'Payment confirmed.';
 
   @override
@@ -6119,6 +6140,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recurringPaymentsExecution_boleto_bank => 'Bank';
+
+  @override
+  String get recurringPaymentsExecution_boleto_more_details => 'More boleto details';
 
   @override
   String get recurringPaymentsExecution_boleto_status => 'Status';

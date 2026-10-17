@@ -149,6 +149,15 @@ class RecurringPaymentExecutionSheetState
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (_canGoBack) ...[
+                    IconButton(
+                      onPressed: _goBack,
+                      icon: const Icon(Icons.arrow_back, size: 20),
+                      color: AppColors.grey,
+                      tooltip: l10n.recurringPaymentsExecution_common_back,
+                    ),
+                    const SizedBox(width: 8),
+                  ],
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -349,19 +358,52 @@ class RecurringPaymentExecutionSheetState
     }
 
     switch (_step) {
+      case RecurringPaymentExecutionStep.amountAndMethod:
+        return l10n.recurringPaymentsExecution_method_title;
+      case RecurringPaymentExecutionStep.pixKey:
+        return l10n.recurringPaymentsExecution_pix_key_step_title;
       case RecurringPaymentExecutionStep.pixConfirmation:
         return l10n.recurringPaymentsExecution_pix_confirm_title;
+      case RecurringPaymentExecutionStep.boletoEntry:
+        return l10n.recurringPaymentsExecution_boleto_entry_title;
+      case RecurringPaymentExecutionStep.boletoLine:
+        return l10n.recurringPaymentsExecution_boleto_line_step_title;
       case RecurringPaymentExecutionStep.boletoCamera:
         return l10n.recurringPaymentsExecution_boleto_scan_title;
       case RecurringPaymentExecutionStep.boletoConfirmation:
-      case RecurringPaymentExecutionStep.boletoEntry:
-      case RecurringPaymentExecutionStep.boletoLine:
         return l10n.recurringPaymentsExecution_boleto_confirm_title;
       case RecurringPaymentExecutionStep.result:
         return l10n.recurringPaymentsExecution_sent_title;
-      case RecurringPaymentExecutionStep.amountAndMethod:
-      case RecurringPaymentExecutionStep.pixKey:
-        return l10n.recurringPaymentsExecution_pay_action;
     }
+  }
+
+  bool get _canGoBack => _step != RecurringPaymentExecutionStep.result;
+
+  void _goBack() {
+    if (_step == _initialStep() &&
+        _step != RecurringPaymentExecutionStep.pixConfirmation) {
+      Navigator.of(context).pop();
+      return;
+    }
+
+    setState(() {
+      _step = switch (_step) {
+        RecurringPaymentExecutionStep.pixKey ||
+        RecurringPaymentExecutionStep
+            .boletoEntry => RecurringPaymentExecutionStep.amountAndMethod,
+        RecurringPaymentExecutionStep.pixConfirmation =>
+          _store.state.requiresPixKey
+              ? RecurringPaymentExecutionStep.pixKey
+              : RecurringPaymentExecutionStep.amountAndMethod,
+        RecurringPaymentExecutionStep.boletoLine ||
+        RecurringPaymentExecutionStep
+            .boletoCamera => RecurringPaymentExecutionStep.boletoEntry,
+        RecurringPaymentExecutionStep.boletoConfirmation =>
+          RecurringPaymentExecutionStep.boletoLine,
+        RecurringPaymentExecutionStep.amountAndMethod ||
+        RecurringPaymentExecutionStep
+            .result => RecurringPaymentExecutionStep.amountAndMethod,
+      };
+    });
   }
 }

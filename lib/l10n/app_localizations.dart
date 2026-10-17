@@ -11515,6 +11515,18 @@ abstract class AppLocalizations {
   /// **'How would you like to pay?'**
   String get recurringPaymentsExecution_method_title;
 
+  /// No description provided for @recurringPaymentsExecution_method_pix_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the saved PIX destination or enter a key for this payment.'**
+  String get recurringPaymentsExecution_method_pix_hint;
+
+  /// No description provided for @recurringPaymentsExecution_method_bill_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan with the camera or enter the boleto line.'**
+  String get recurringPaymentsExecution_method_bill_hint;
+
   /// No description provided for @recurringPaymentsExecution_amount_label.
   ///
   /// In en, this message translates to:
@@ -11550,6 +11562,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'PIX key'**
   String get recurringPaymentsExecution_pix_key_label;
+
+  /// No description provided for @recurringPaymentsExecution_pix_key_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter or paste the PIX key'**
+  String get recurringPaymentsExecution_pix_key_hint;
+
+  /// No description provided for @recurringPaymentsExecution_pix_key_step_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the PIX key'**
+  String get recurringPaymentsExecution_pix_key_step_title;
 
   /// No description provided for @recurringPaymentsExecution_pix_key_type_label.
   ///
@@ -11743,6 +11767,18 @@ abstract class AppLocalizations {
   /// **'Digitable line'**
   String get recurringPaymentsExecution_boleto_line_label;
 
+  /// No description provided for @recurringPaymentsExecution_boleto_line_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter or paste the digitable line'**
+  String get recurringPaymentsExecution_boleto_line_hint;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_line_step_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the digitable line'**
+  String get recurringPaymentsExecution_boleto_line_step_title;
+
   /// No description provided for @recurringPaymentsExecution_boleto_line_required.
   ///
   /// In en, this message translates to:
@@ -11752,7 +11788,7 @@ abstract class AppLocalizations {
   /// No description provided for @recurringPaymentsExecution_boleto_validate_action.
   ///
   /// In en, this message translates to:
-  /// **'VALIDATE BOLETO'**
+  /// **'LOOK UP BOLETO'**
   String get recurringPaymentsExecution_boleto_validate_action;
 
   /// No description provided for @recurringPaymentsExecution_boleto_confirm_title.
@@ -11899,6 +11935,12 @@ abstract class AppLocalizations {
   /// **'CLOSE'**
   String get recurringPaymentsExecution_common_close;
 
+  /// No description provided for @recurringPaymentsExecution_common_back.
+  ///
+  /// In en, this message translates to:
+  /// **'BACK'**
+  String get recurringPaymentsExecution_common_back;
+
   /// No description provided for @recurringPaymentsExecution_paid_confirmed.
   ///
   /// In en, this message translates to:
@@ -12024,6 +12066,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Bank'**
   String get recurringPaymentsExecution_boleto_bank;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_more_details.
+  ///
+  /// In en, this message translates to:
+  /// **'More boleto details'**
+  String get recurringPaymentsExecution_boleto_more_details;
 
   /// No description provided for @recurringPaymentsExecution_boleto_status.
   ///

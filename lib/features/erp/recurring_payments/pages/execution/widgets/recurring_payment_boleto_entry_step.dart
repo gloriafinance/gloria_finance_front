@@ -24,15 +24,6 @@ class RecurringPaymentBoletoEntryStep extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          l10n.recurringPaymentsExecution_boleto_entry_title,
-          style: const TextStyle(
-            fontFamily: AppFonts.fontSubTitle,
-            fontSize: 14,
-            color: Colors.black,
-          ),
-        ),
-        const SizedBox(height: 14),
         _EntryOption(
           icon: Icons.photo_camera_outlined,
           title: l10n.recurringPaymentsExecution_boleto_camera_action,
