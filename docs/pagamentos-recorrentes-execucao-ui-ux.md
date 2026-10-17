@@ -165,7 +165,7 @@ El detalle se abre con el `ModalPage` existente en el ERP. Cancelar un registro 
 
 La respuesta de simulación conserva `minimumScheduleDate`, `feeInCents` y `bankSlip` como nullable/omitidos; dentro del boleto, los importes son integer cents y los datos opcionales permanecen nullable. No se reemplaza ausencia por `0` o `''`.
 
-**Dependencia de API:** al revisar el HEAD actual de [API PR #150](https://github.com/gloriafinance/gloria_finance_api/pull/150), el endpoint de simulación todavía no está presente. El frontend espera la ruta indicada arriba; el flujo end-to-end requiere que ese contrato llegue al API antes de desplegar esta rama.
+**Dependencia de API:** el contrato de simulación fue incorporado en [API PR #150](https://github.com/gloriafinance/gloria_finance_api/pull/150) y ya está en `main`. El flujo usa esa ruta para revisar el boleto antes de pagar.
 
 ## 8. Archivos
 

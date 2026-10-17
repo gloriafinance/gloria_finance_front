@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gloria_finance/core/theme/app_color.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/widgets/custom_button.dart';
@@ -41,14 +42,18 @@ class RecurringPaymentPixKeyStep extends StatelessWidget {
         const SizedBox(height: 16),
         Input(
           label: l10n.recurringPaymentsExecution_pix_key_label,
+          hintText: l10n.recurringPaymentsExecution_pix_key_hint,
           initialValue: state.pixKey.isEmpty ? null : state.pixKey,
           icon: Icons.vpn_key_outlined,
+          iconRight: const Icon(Icons.content_paste_outlined),
+          onIconTap: () => _pastePixKey(context),
           keyboardType:
               keyType == null
                   ? TextInputType.text
                   : pixKeyKeyboardType(keyType),
           inputFormatters:
               keyType == null ? const [] : pixKeyInputFormatters(keyType),
+          maxLines: state.pixKey.length > 55 ? 4 : 1,
           onChanged: store.setPixKey,
         ),
         const SizedBox(height: 20),
@@ -64,5 +69,13 @@ class RecurringPaymentPixKeyStep extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future<void> _pastePixKey(BuildContext context) async {
+    final store = context.read<RecurringPaymentExecutionStore>();
+    final value = await Clipboard.getData(Clipboard.kTextPlain);
+    final text = value?.text;
+    if (text == null || text.isEmpty) return;
+    store.setPixKey(text);
   }
 }

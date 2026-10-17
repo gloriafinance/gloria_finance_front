@@ -5866,6 +5866,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get recurringPaymentsExecution_method_title => 'Como deseja pagar?';
 
   @override
+  String get recurringPaymentsExecution_method_pix_hint => 'Use o destino PIX configurado ou informe uma chave para este pagamento.';
+
+  @override
+  String get recurringPaymentsExecution_method_bill_hint => 'Leia com a câmera ou informe a linha digitável do boleto.';
+
+  @override
   String get recurringPaymentsExecution_amount_label => 'Valor a pagar';
 
   @override
@@ -5882,6 +5888,12 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get recurringPaymentsExecution_pix_key_label => 'Chave PIX';
+
+  @override
+  String get recurringPaymentsExecution_pix_key_hint => 'Digite ou cole a chave PIX';
+
+  @override
+  String get recurringPaymentsExecution_pix_key_step_title => 'Informe a chave PIX';
 
   @override
   String get recurringPaymentsExecution_pix_key_type_label => 'Tipo da chave';
@@ -5980,10 +5992,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String get recurringPaymentsExecution_boleto_line_label => 'Linha digitável';
 
   @override
+  String get recurringPaymentsExecution_boleto_line_hint => 'Digite ou cole a linha digitável';
+
+  @override
+  String get recurringPaymentsExecution_boleto_line_step_title => 'Informe a linha digitável';
+
+  @override
   String get recurringPaymentsExecution_boleto_line_required => 'Informe a linha digitável.';
 
   @override
-  String get recurringPaymentsExecution_boleto_validate_action => 'VALIDAR BOLETO';
+  String get recurringPaymentsExecution_boleto_validate_action => 'CONSULTAR BOLETO';
 
   @override
   String get recurringPaymentsExecution_boleto_confirm_title => 'Confirmar pagamento';
@@ -5999,6 +6017,9 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get recurringPaymentsExecution_boleto_value => 'Valor do boleto';
+
+  @override
+  String get recurringPaymentsExecution_boleto_charges_section => 'Valores e encargos';
 
   @override
   String get recurringPaymentsExecution_boleto_read_hint => 'Os dados e o valor do boleto serão consultados antes do pagamento.';
@@ -6056,6 +6077,9 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get recurringPaymentsExecution_common_close => 'FECHAR';
+
+  @override
+  String get recurringPaymentsExecution_common_back => 'VOLTAR';
 
   @override
   String get recurringPaymentsExecution_paid_confirmed => 'Pagamento confirmado.';
@@ -6119,6 +6143,9 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get recurringPaymentsExecution_boleto_bank => 'Banco';
+
+  @override
+  String get recurringPaymentsExecution_boleto_more_details => 'Mais detalhes do boleto';
 
   @override
   String get recurringPaymentsExecution_boleto_status => 'Situação';

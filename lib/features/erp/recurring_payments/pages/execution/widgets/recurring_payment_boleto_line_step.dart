@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/widgets/custom_button.dart';
 import 'package:gloria_finance/core/widgets/form_controls.dart';
@@ -11,10 +12,7 @@ import '../../../store/recurring_payment_execution_store.dart';
 import '../../../utils/recurring_payment_boleto.dart';
 import 'recurring_payment_execution_field.dart';
 
-/// Digitação da linha digitável.
-///
-/// O campo é largo por natureza (47 dígitos), então usa fonte monoespaçada e
-/// agrupamento visual para não virar uma sopa de números.
+/// Digitação ou colagem da linha digitável.
 class RecurringPaymentBoletoLineStep extends StatelessWidget {
   const RecurringPaymentBoletoLineStep({
     super.key,
@@ -40,13 +38,13 @@ class RecurringPaymentBoletoLineStep extends StatelessWidget {
       children: [
         Input(
           label: l10n.recurringPaymentsExecution_boleto_line_label,
+          hintText: l10n.recurringPaymentsExecution_boleto_line_hint,
           initialValue:
               line.isEmpty ? null : RecurringPaymentBoleto.grouped(line),
           keyboardType: TextInputType.number,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-            LengthLimitingTextInputFormatter(48),
-          ],
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          iconRight: const Icon(Icons.content_paste_outlined),
+          onIconTap: () => _pasteLine(context),
           onChanged: store.setBoletoLine,
         ),
         if (state.billSimulationError != null) ...[
@@ -64,13 +62,30 @@ class RecurringPaymentBoletoLineStep extends StatelessWidget {
             color: Colors.red,
           ),
         ],
-        const SizedBox(height: 10),
-        RecurringPaymentExecutionNotice(
-          text: l10n.recurringPaymentsExecution_boleto_read_hint,
-          icon: Icons.receipt_long,
-          color: AppColors.blue,
+        const SizedBox(height: 12),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Icon(
+              Icons.receipt_long_outlined,
+              size: 16,
+              color: AppColors.purple,
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                l10n.recurringPaymentsExecution_boleto_read_hint,
+                style: const TextStyle(
+                  fontFamily: AppFonts.fontText,
+                  fontSize: 12,
+                  color: AppColors.grey,
+                  height: 1.4,
+                ),
+              ),
+            ),
+          ],
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 18),
         CustomButton(
           text:
               state.isSimulatingBill
@@ -86,5 +101,13 @@ class RecurringPaymentBoletoLineStep extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future<void> _pasteLine(BuildContext context) async {
+    final store = context.read<RecurringPaymentExecutionStore>();
+    final value = await Clipboard.getData(Clipboard.kTextPlain);
+    final text = value?.text;
+    if (text == null || text.isEmpty) return;
+    store.setBoletoLine(text);
   }
 }

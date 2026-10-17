@@ -135,6 +135,8 @@ void main() {
         'desktop-06-fixo-sem-destino-metodo.png',
       );
       expect(find.text('Como deseja pagar?'), findsOneWidget);
+      expect(find.textContaining('destino PIX configurado'), findsOneWidget);
+      expect(find.textContaining('linha digitável do boleto'), findsOneWidget);
     });
 
     testWidgets('variável com destino PIX', (tester) async {
@@ -173,6 +175,8 @@ void main() {
       await tester.pumpAndSettle();
       await _capture(tester, generate, 'desktop-09-pix-sem-chave.png');
       expect(find.text('Chave PIX'), findsWidgets);
+      expect(find.text('Informe a chave PIX'), findsOneWidget);
+      expect(find.text('Digite ou cole a chave PIX'), findsOneWidget);
     });
 
     testWidgets('boleto: escolha da entrada', (tester) async {
@@ -204,6 +208,8 @@ void main() {
       await tester.pumpAndSettle();
       await _capture(tester, generate, 'desktop-11-boleto-digitar-linha.png');
       expect(find.text('Linha digitável'), findsOneWidget);
+      expect(find.text('Informe a linha digitável'), findsOneWidget);
+      expect(find.text('Digite ou cole a linha digitável'), findsOneWidget);
     });
 
     testWidgets('resultado PAID imediato', (tester) async {
@@ -333,7 +339,7 @@ void main() {
         '00190000090123456789012345678901234567890123456',
       );
       await tester.pumpAndSettle();
-      await tester.tap(find.text('VALIDAR BOLETO'));
+      await tester.tap(find.text('CONSULTAR BOLETO'));
       await tester.pumpAndSettle();
       await _capture(tester, generate, 'desktop-20-boleto-confirmacao.png');
       expect(find.text('PAGAR BOLETO'), findsOneWidget);
@@ -341,6 +347,8 @@ void main() {
       expect(find.text('Valor do boleto'), findsOneWidget);
       expect(find.text('Vencimento'), findsOneWidget);
       expect(find.text('Boleto vencido'), findsWidgets);
+      expect(find.text('VALORES DIFERENTES'), findsNothing);
+      expect(find.textContaining('Nada foi debitado'), findsNothing);
     });
   });
 
@@ -539,6 +547,7 @@ void main() {
       await tester.pumpAndSettle();
       await _capture(tester, generate, 'mobile-08-boleto-digitar-linha.png');
       expect(find.text('Linha digitável'), findsOneWidget);
+      expect(find.text('Informe a linha digitável'), findsOneWidget);
     });
 
     testWidgets('boleto validado', (tester) async {
@@ -581,7 +590,7 @@ void main() {
         '00190000090123456789012345678901234567890123456',
       );
       await tester.pumpAndSettle();
-      await tester.tap(find.text('VALIDAR BOLETO'));
+      await tester.tap(find.text('CONSULTAR BOLETO'));
       await tester.pumpAndSettle();
       await _capture(tester, generate, 'mobile-10-boleto-confirmacao.png');
       expect(find.text('PAGAR BOLETO'), findsOneWidget);
@@ -694,16 +703,34 @@ Future<void> _pumpSheet(
 }) async {
   _setSurface(tester, size);
 
+  final sheet = RecurringPaymentExecutionSheet(
+    item: item,
+    hasBanking: hasBanking,
+    symbolFormatMoney: _symbol,
+    service: service,
+  );
+  final isDesktop = size.width >= 768;
+  final modal =
+      isDesktop
+          ? Dialog(
+            backgroundColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(22),
+            ),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 560),
+              child: sheet,
+            ),
+          )
+          : sheet;
+
   await tester.pumpWidget(
     _wrap(
-      child: RecurringPaymentExecutionSheet(
-        item: item,
-        hasBanking: hasBanking,
-        symbolFormatMoney: _symbol,
-        service: service,
-      ),
+      child: modal,
       monthly: _monthlyStore(),
       hasBanking: hasBanking,
+      executionModal: true,
+      desktopModal: isDesktop,
     ),
   );
   await tester.pumpAndSettle();
@@ -805,6 +832,8 @@ Widget _wrap({
   required Widget child,
   required RecurringPaymentMonthlyStore monthly,
   required bool hasBanking,
+  bool executionModal = false,
+  bool desktopModal = false,
 }) {
   // `AuthSessionStore` recarga la sesión desde persistencia al construirse, así
   // que la sesión de prueba se siembra donde él la busca.
@@ -890,15 +919,31 @@ Widget _wrap({
                 backgroundColor: Colors.white,
                 body: RepaintBoundary(
                   key: const ValueKey('recurring-payments-capture'),
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 14,
-                      ),
-                      child: child,
-                    ),
-                  ),
+                  child:
+                      executionModal
+                          ? Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              const ColoredBox(color: Colors.white),
+                              const ColoredBox(color: Color(0x99000000)),
+                              if (desktopModal)
+                                Center(child: child)
+                              else
+                                Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: child,
+                                ),
+                            ],
+                          )
+                          : SingleChildScrollView(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                                vertical: 14,
+                              ),
+                              child: child,
+                            ),
+                          ),
                 ),
               ),
             ),

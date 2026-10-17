@@ -64,39 +64,24 @@ class RecurringPaymentAmountMethodStep extends StatelessWidget {
           RecurringPaymentExecutionNotice(
             text: l10n.recurringPaymentsExecution_amount_bill_note,
             icon: Icons.receipt_long,
-            color: AppColors.blue,
+            color: AppColors.grey,
           ),
           const SizedBox(height: 14),
         ],
-        Text(
-          l10n.recurringPaymentsExecution_method_title,
-          style: const TextStyle(
-            fontFamily: AppFonts.fontSubTitle,
-            fontSize: 14,
-            color: Colors.black,
-          ),
+        _MethodOption(
+          icon: Icons.pix,
+          label: l10n.recurringPaymentsExecution_method_pix,
+          subtitle: l10n.recurringPaymentsExecution_method_pix_hint,
+          selected: state.isPix,
+          onTap: () => store.setMethod(RecurringPaymentMethodType.PIX),
         ),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            Expanded(
-              child: _MethodOption(
-                icon: Icons.pix,
-                label: l10n.recurringPaymentsExecution_method_pix,
-                selected: state.isPix,
-                onTap: () => store.setMethod(RecurringPaymentMethodType.PIX),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: _MethodOption(
-                icon: Icons.receipt_long,
-                label: l10n.recurringPaymentsExecution_method_bill,
-                selected: !state.isPix,
-                onTap: () => store.setMethod(RecurringPaymentMethodType.BILL),
-              ),
-            ),
-          ],
+        const SizedBox(height: 10),
+        _MethodOption(
+          icon: Icons.receipt_long,
+          label: l10n.recurringPaymentsExecution_method_bill,
+          subtitle: l10n.recurringPaymentsExecution_method_bill_hint,
+          selected: !state.isPix,
+          onTap: () => store.setMethod(RecurringPaymentMethodType.BILL),
         ),
         if (state.hasBanking && state.savedPixKey != null) ...[
           const SizedBox(height: 14),
@@ -124,12 +109,14 @@ class _MethodOption extends StatelessWidget {
   const _MethodOption({
     required this.icon,
     required this.label,
+    required this.subtitle,
     required this.selected,
     required this.onTap,
   });
 
   final IconData icon;
   final String label;
+  final String subtitle;
   final bool selected;
   final VoidCallback onTap;
 
@@ -139,34 +126,62 @@ class _MethodOption extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(14),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color:
-              selected
-                  ? AppColors.purple.withValues(alpha: 0.06)
-                  : Colors.white,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: selected ? AppColors.purple : AppColors.greyMiddle,
-            width: selected ? 1.6 : 1,
+            color: selected ? AppColors.purple : const Color(0xFFE8E6E9),
+            width: selected ? 1.4 : 1,
           ),
         ),
         child: Row(
           children: [
-            Icon(
-              icon,
-              size: 18,
-              color: selected ? AppColors.purple : AppColors.grey,
-            ),
-            const SizedBox(width: 8),
-            Text(
-              label,
-              style: TextStyle(
-                fontFamily: AppFonts.fontSubTitle,
-                fontSize: 13,
-                fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
-                color: selected ? AppColors.purple : Colors.black,
+            Container(
+              width: 42,
+              height: 42,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF4F2F5),
+                borderRadius: BorderRadius.circular(12),
               ),
+              child: Icon(
+                icon,
+                size: 20,
+                color: selected ? AppColors.purple : AppColors.grey,
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: TextStyle(
+                      fontFamily: AppFonts.fontSubTitle,
+                      fontSize: 14,
+                      fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+                      color: selected ? AppColors.purple : Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 3),
+                  Text(
+                    subtitle,
+                    style: const TextStyle(
+                      fontFamily: AppFonts.fontText,
+                      fontSize: 12,
+                      color: AppColors.grey,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12),
+            Icon(
+              selected ? Icons.check_circle : Icons.chevron_right,
+              size: 20,
+              color: selected ? AppColors.purple : AppColors.grey,
             ),
           ],
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gloria_finance/core/theme/app_color.dart';
+import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/currency_formatter.dart';
 import 'package:gloria_finance/core/widgets/custom_button.dart';
@@ -95,12 +96,6 @@ class RecurringPaymentConfirmationStep extends StatelessWidget {
               icon: Icons.info_outline,
               color: AppColors.mustard,
             ),
-          if (state.billSimulation!.bankSlip?.isOverdue == true)
-            RecurringPaymentExecutionNotice(
-              text: l10n.recurringPaymentsExecution_boleto_overdue,
-              icon: Icons.warning_amber_outlined,
-              color: Colors.red,
-            ),
         ],
         RecurringPaymentExecutionField(
           label: l10n.recurringPaymentsExecution_account_label,
@@ -113,7 +108,7 @@ class RecurringPaymentConfirmationStep extends StatelessWidget {
                   ? l10n.recurringPaymentsExecution_pix_send_note
                   : l10n.recurringPaymentsExecution_boleto_send_note,
           icon: Icons.verified_user_outlined,
-          color: AppColors.blue,
+          color: AppColors.grey,
         ),
         if (isPix) ...[
           const SizedBox(height: 10),
@@ -145,92 +140,42 @@ List<Widget> _billReviewFields(
   final l10n = context.l10n;
   final bill = simulation.bankSlip!;
 
-  Widget? money(String label, int? cents, {bool emphasized = false}) {
-    if (cents == null) return null;
-    return RecurringPaymentExecutionField(
-      label: label,
-      value: CurrencyFormatter.formatCurrency(
-        cents / 100,
-        symbol: symbolFormatMoney,
-      ),
-      emphasized: emphasized,
-      dense: true,
-    );
-  }
+  String dateLabel(String value) => value.split('-').reversed.join('/');
 
-  return [
-    if (bill.beneficiaryName != null)
-      RecurringPaymentExecutionField(
-        label: l10n.recurringPaymentsExecution_boleto_beneficiary,
-        value: bill.beneficiaryName!,
-        emphasized: true,
-      ),
-    if (bill.beneficiaryCpfCnpj != null)
-      RecurringPaymentExecutionField(
-        label: l10n.recurringPaymentsExecution_boleto_beneficiary_document,
-        value: bill.beneficiaryCpfCnpj!,
-        dense: true,
-      ),
-    if (bill.valueInCents != null)
-      RecurringPaymentExecutionField(
-        label: l10n.recurringPaymentsExecution_boleto_value,
-        value: CurrencyFormatter.formatCurrency(
-          bill.valueInCents! / 100,
-          symbol: symbolFormatMoney,
+  Widget moneyMetric(String label, int cents) => SizedBox(
+    width: 150,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontFamily: AppFonts.fontText,
+            fontSize: 11.5,
+            color: AppColors.grey,
+          ),
         ),
-        emphasized: true,
-      ),
-    if (bill.originalValueInCents != null)
-      RecurringPaymentExecutionField(
-        label: l10n.recurringPaymentsExecution_boleto_original_value,
-        value: CurrencyFormatter.formatCurrency(
-          bill.originalValueInCents! / 100,
-          symbol: symbolFormatMoney,
+        const SizedBox(height: 3),
+        Text(
+          CurrencyFormatter.formatCurrency(
+            cents / 100,
+            symbol: symbolFormatMoney,
+          ),
+          style: const TextStyle(
+            fontFamily: AppFonts.fontSubTitle,
+            fontSize: 13.5,
+            color: Color(0xFF242126),
+          ),
         ),
-        dense: true,
-      ),
-    if (bill.dueDate != null)
-      RecurringPaymentExecutionField(
-        label: l10n.recurringPaymentsExecution_due_date_label,
-        value: bill.dueDate!.split('-').reversed.join('/'),
-      ),
-    if (simulation.feeInCents != null)
-      money(l10n.recurringPaymentsExecution_boleto_fee, simulation.feeInCents)!,
-    if (bill.discountValueInCents != null)
-      money(
-        l10n.recurringPaymentsExecution_boleto_discount,
-        bill.discountValueInCents,
-      )!,
-    if (bill.interestValueInCents != null)
-      money(
-        l10n.recurringPaymentsExecution_boleto_interest,
-        bill.interestValueInCents,
-      )!,
-    if (bill.fineValueInCents != null)
-      money(
-        l10n.recurringPaymentsExecution_boleto_fine,
-        bill.fineValueInCents,
-      )!,
-    if (bill.totalDiscountValueInCents != null)
-      money(
-        l10n.recurringPaymentsExecution_boleto_total_discount,
-        bill.totalDiscountValueInCents,
-      )!,
-    if (bill.totalAdditionalValueInCents != null)
-      money(
-        l10n.recurringPaymentsExecution_boleto_total_additional,
-        bill.totalAdditionalValueInCents,
-      )!,
+      ],
+    ),
+  );
+
+  final details = <Widget>[
     if (bill.bank != null)
       RecurringPaymentExecutionField(
         label: l10n.recurringPaymentsExecution_boleto_bank,
         value: bill.bank!,
-        dense: true,
-      ),
-    if (bill.isOverdue == false)
-      RecurringPaymentExecutionField(
-        label: l10n.recurringPaymentsExecution_boleto_status,
-        value: l10n.recurringPaymentsExecution_boleto_not_overdue,
         dense: true,
       ),
     if (bill.allowChangeValue != null)
@@ -244,19 +189,27 @@ List<Widget> _billReviewFields(
         dense: true,
       ),
     if (bill.minValueInCents != null)
-      money(
-        l10n.recurringPaymentsExecution_boleto_min_value,
-        bill.minValueInCents,
-      )!,
+      RecurringPaymentExecutionField(
+        label: l10n.recurringPaymentsExecution_boleto_min_value,
+        value: CurrencyFormatter.formatCurrency(
+          bill.minValueInCents! / 100,
+          symbol: symbolFormatMoney,
+        ),
+        dense: true,
+      ),
     if (bill.maxValueInCents != null)
-      money(
-        l10n.recurringPaymentsExecution_boleto_max_value,
-        bill.maxValueInCents,
-      )!,
+      RecurringPaymentExecutionField(
+        label: l10n.recurringPaymentsExecution_boleto_max_value,
+        value: CurrencyFormatter.formatCurrency(
+          bill.maxValueInCents! / 100,
+          symbol: symbolFormatMoney,
+        ),
+        dense: true,
+      ),
     if (simulation.minimumScheduleDate != null)
       RecurringPaymentExecutionField(
         label: l10n.recurringPaymentsExecution_boleto_minimum_date,
-        value: simulation.minimumScheduleDate!.split('-').reversed.join('/'),
+        value: dateLabel(simulation.minimumScheduleDate!),
         dense: true,
       ),
     RecurringPaymentExecutionField(
@@ -265,5 +218,216 @@ List<Widget> _billReviewFields(
           '•••• ${RecurringPaymentBoleto.lastDigits(bill.identificationField!)}',
       dense: true,
     ),
+  ];
+
+  return [
+    Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFE8E6E9)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (bill.beneficiaryName != null)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.recurringPaymentsExecution_boleto_beneficiary,
+                  style: const TextStyle(
+                    fontFamily: AppFonts.fontText,
+                    fontSize: 11.5,
+                    color: AppColors.grey,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  bill.beneficiaryName!,
+                  style: const TextStyle(
+                    fontFamily: AppFonts.fontTitle,
+                    fontSize: 15,
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
+          if (bill.beneficiaryCpfCnpj != null) ...[
+            const SizedBox(height: 2),
+            Text(
+              '${l10n.recurringPaymentsExecution_boleto_beneficiary_document}: '
+              '${bill.beneficiaryCpfCnpj}',
+              style: const TextStyle(
+                fontFamily: AppFonts.fontText,
+                fontSize: 11.5,
+                color: AppColors.grey,
+              ),
+            ),
+          ],
+          if (bill.beneficiaryName != null || bill.beneficiaryCpfCnpj != null)
+            const SizedBox(height: 14),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              if (bill.valueInCents != null)
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.recurringPaymentsExecution_boleto_value,
+                        style: const TextStyle(
+                          fontFamily: AppFonts.fontText,
+                          fontSize: 11.5,
+                          color: AppColors.grey,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        CurrencyFormatter.formatCurrency(
+                          bill.valueInCents! / 100,
+                          symbol: symbolFormatMoney,
+                        ),
+                        style: const TextStyle(
+                          fontFamily: AppFonts.fontTitle,
+                          fontSize: 23,
+                          color: Color(0xFF242126),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              if (bill.dueDate != null)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.recurringPaymentsExecution_due_date_label,
+                      style: const TextStyle(
+                        fontFamily: AppFonts.fontText,
+                        fontSize: 11.5,
+                        color: AppColors.grey,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      dateLabel(bill.dueDate!),
+                      style: const TextStyle(
+                        fontFamily: AppFonts.fontSubTitle,
+                        fontSize: 14,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+            ],
+          ),
+        ],
+      ),
+    ),
+    if ([
+      bill.originalValueInCents,
+      simulation.feeInCents,
+      bill.discountValueInCents,
+      bill.interestValueInCents,
+      bill.fineValueInCents,
+      bill.totalDiscountValueInCents,
+      bill.totalAdditionalValueInCents,
+    ].any((value) => value != null))
+      Container(
+        margin: const EdgeInsets.only(top: 12),
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF7F6F7),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: const Color(0xFFE8E6E9)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              l10n.recurringPaymentsExecution_boleto_charges_section,
+              style: const TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+                fontSize: 13,
+                color: Color(0xFF39353B),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              children: [
+                if (bill.originalValueInCents != null)
+                  moneyMetric(
+                    l10n.recurringPaymentsExecution_boleto_original_value,
+                    bill.originalValueInCents!,
+                  ),
+                if (simulation.feeInCents != null)
+                  moneyMetric(
+                    l10n.recurringPaymentsExecution_boleto_fee,
+                    simulation.feeInCents!,
+                  ),
+                if (bill.discountValueInCents != null)
+                  moneyMetric(
+                    l10n.recurringPaymentsExecution_boleto_discount,
+                    bill.discountValueInCents!,
+                  ),
+                if (bill.interestValueInCents != null)
+                  moneyMetric(
+                    l10n.recurringPaymentsExecution_boleto_interest,
+                    bill.interestValueInCents!,
+                  ),
+                if (bill.fineValueInCents != null)
+                  moneyMetric(
+                    l10n.recurringPaymentsExecution_boleto_fine,
+                    bill.fineValueInCents!,
+                  ),
+                if (bill.totalDiscountValueInCents != null)
+                  moneyMetric(
+                    l10n.recurringPaymentsExecution_boleto_total_discount,
+                    bill.totalDiscountValueInCents!,
+                  ),
+                if (bill.totalAdditionalValueInCents != null)
+                  moneyMetric(
+                    l10n.recurringPaymentsExecution_boleto_total_additional,
+                    bill.totalAdditionalValueInCents!,
+                  ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    if (bill.isOverdue == true)
+      Padding(
+        padding: const EdgeInsets.only(top: 8),
+        child: RecurringPaymentExecutionNotice(
+          text: l10n.recurringPaymentsExecution_boleto_overdue,
+          icon: Icons.warning_amber_outlined,
+          color: Colors.red,
+        ),
+      ),
+    if (details.isNotEmpty)
+      Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: Material(
+          color: Colors.transparent,
+          child: ExpansionTile(
+            tilePadding: EdgeInsets.zero,
+            childrenPadding: const EdgeInsets.only(bottom: 8),
+            title: Text(
+              l10n.recurringPaymentsExecution_boleto_more_details,
+              style: const TextStyle(
+                fontFamily: AppFonts.fontSubTitle,
+                fontSize: 12.5,
+                color: AppColors.purple,
+              ),
+            ),
+            children: details,
+          ),
+        ),
+      ),
   ];
 }

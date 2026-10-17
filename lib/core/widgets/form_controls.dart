@@ -8,6 +8,7 @@ import '../utils/app_localizations_ext.dart';
 
 class Input extends StatefulWidget {
   final String label;
+  final String? hintText;
   final String? Function(String?)? onValidator;
   final Function(String) onChanged;
   final dynamic? initialValue;
@@ -29,6 +30,7 @@ class Input extends StatefulWidget {
     this.iconRight,
     this.isPass = false,
     required this.label,
+    this.hintText,
     this.labelSuffix,
     required this.onChanged,
     this.onValidator,
@@ -90,6 +92,7 @@ class _InputState extends State<Input> {
               widget.icon,
               widget.iconRight,
               widget.onIconTap,
+              widget.hintText,
             ),
             validator: widget.onValidator,
             onChanged: widget.onChanged,
@@ -129,8 +132,12 @@ InputDecoration _inputDecoration(
   IconData? icon,
   Icon? iconRight,
   GestureTapCallback? onIconTap,
+  String? hintText,
 ) {
   return InputDecoration(
+    hintText: hintText,
+    filled: true,
+    fillColor: Colors.white,
     contentPadding: const EdgeInsets.all(16),
     errorBorder: const OutlineInputBorder(
       borderSide: BorderSide(color: Colors.red),
@@ -148,7 +155,7 @@ InputDecoration _inputDecoration(
             ? GestureDetector(onTap: onIconTap ?? () {}, child: iconRight)
             : null,
     hintStyle: const TextStyle(
-      color: AppColors.greyMiddle,
+      color: AppColors.grey,
       fontFamily: AppFonts.fontSubTitle,
     ),
     enabledBorder: const OutlineInputBorder(
