@@ -122,8 +122,8 @@ class RecurringPaymentConfirmationStep extends StatelessWidget {
               isPix
                   ? l10n.recurringPaymentsExecution_pix_confirm_action
                   : l10n.recurringPaymentsExecution_boleto_pay_action,
-          backgroundColor: AppColors.purple,
-          textColor: Colors.white,
+          backgroundColor: AppColors.green,
+          textColor: Colors.black,
           icon: Icons.check,
           onPressed: !state.isComplete || state.isLoading ? null : onConfirm,
         ),

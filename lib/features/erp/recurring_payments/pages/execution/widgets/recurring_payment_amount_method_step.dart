@@ -95,8 +95,8 @@ class RecurringPaymentAmountMethodStep extends StatelessWidget {
         const SizedBox(height: 20),
         CustomButton(
           text: l10n.recurringPaymentsExecution_confirm_action,
-          backgroundColor: AppColors.purple,
-          textColor: Colors.white,
+          backgroundColor: AppColors.green,
+          textColor: Colors.black,
           icon: Icons.arrow_forward,
           onPressed: state.isAmountAndMethodComplete ? onContinue : null,
         ),

@@ -94,8 +94,8 @@ class RecurringPaymentBoletoLineStep extends StatelessWidget {
                       RecurringPaymentBillSimulationError.unavailable
                   ? l10n.recurringPaymentsExecution_failed_retry
                   : l10n.recurringPaymentsExecution_boleto_validate_action,
-          backgroundColor: AppColors.purple,
-          textColor: Colors.white,
+          backgroundColor: AppColors.green,
+          textColor: Colors.black,
           icon: Icons.arrow_forward,
           onPressed: !hasValue || state.isSimulatingBill ? null : onValidate,
         ),
