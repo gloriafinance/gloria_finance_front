@@ -4,7 +4,10 @@ import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/widgets/custom_button.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:provider/provider.dart';
 
+import '../../../models/recurring_payment_bill_simulation.dart';
+import '../../../store/recurring_payment_execution_store.dart';
 import '../../../utils/recurring_payment_boleto.dart';
 
 /// Leitura do código de barras com a câmera.
@@ -18,7 +21,7 @@ class RecurringPaymentBoletoCameraStep extends StatefulWidget {
     required this.onTypeManually,
   });
 
-  final void Function(String line) onDetected;
+  final Future<bool> Function(String barcode) onDetected;
   final VoidCallback onTypeManually;
 
   @override
@@ -30,11 +33,11 @@ class _RecurringPaymentBoletoCameraStepState
     extends State<RecurringPaymentBoletoCameraStep> {
   late final MobileScannerController _controller = MobileScannerController(
     detectionSpeed: DetectionSpeed.noDuplicates,
-    // Boletos usam ITF (código de barras) e alguns bancos Code 128.
-    formats: const [BarcodeFormat.itf14, BarcodeFormat.code128],
+    formats: const [BarcodeFormat.itf2of5],
   );
 
   bool _handled = false;
+  bool _isSubmitting = false;
 
   @override
   void dispose() {
@@ -49,12 +52,18 @@ class _RecurringPaymentBoletoCameraStepState
       final raw = barcode.rawValue;
       if (raw == null) continue;
 
-      final digits = RecurringPaymentBoleto.onlyDigits(raw);
-      if (!RecurringPaymentBoleto.isValid(digits)) continue;
-
       _handled = true;
+      _isSubmitting = true;
+      setState(() {});
       _controller.stop();
-      widget.onDetected(digits);
+      widget.onDetected(RecurringPaymentBoleto.onlyDigits(raw)).then((success) {
+        if (!mounted || success) return;
+        setState(() {
+          _handled = false;
+          _isSubmitting = false;
+        });
+        _controller.start();
+      });
       return;
     }
   }
@@ -62,12 +71,15 @@ class _RecurringPaymentBoletoCameraStepState
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final state = context.watch<RecurringPaymentExecutionStore>().state;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          l10n.recurringPaymentsExecution_boleto_scan_instruction,
+          (_isSubmitting || state.isSimulatingBill)
+              ? l10n.recurringPaymentsExecution_boleto_simulating
+              : l10n.recurringPaymentsExecution_boleto_scan_instruction,
           style: const TextStyle(
             fontFamily: AppFonts.fontText,
             fontSize: 12.5,
@@ -75,6 +87,23 @@ class _RecurringPaymentBoletoCameraStepState
           ),
         ),
         const SizedBox(height: 12),
+        if (state.billSimulationError != null) ...[
+          _CameraSimulationError(error: state.billSimulationError!),
+          if (state.billSimulationError ==
+              RecurringPaymentBillSimulationError.unavailable)
+            CustomButton(
+              text: l10n.recurringPaymentsExecution_failed_retry,
+              backgroundColor: AppColors.greyMiddle,
+              textColor: Colors.black,
+              onPressed: () {
+                context
+                    .read<RecurringPaymentExecutionStore>()
+                    .clearBillSimulation();
+                _controller.start();
+              },
+            ),
+          const SizedBox(height: 10),
+        ],
         ClipRRect(
           borderRadius: BorderRadius.circular(18),
           child: AspectRatio(
@@ -206,6 +235,34 @@ class _CameraProblem extends StatelessWidget {
               ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _CameraSimulationError extends StatelessWidget {
+  const _CameraSimulationError({required this.error});
+
+  final RecurringPaymentBillSimulationError error;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final text = switch (error) {
+      RecurringPaymentBillSimulationError.invalid =>
+        l10n.recurringPaymentsExecution_boleto_simulation_invalid,
+      RecurringPaymentBillSimulationError.unavailable =>
+        l10n.recurringPaymentsExecution_boleto_simulation_unavailable,
+      RecurringPaymentBillSimulationError.generic =>
+        l10n.recurringPaymentsExecution_boleto_simulation_generic,
+    };
+
+    return Text(
+      text,
+      style: const TextStyle(
+        fontFamily: AppFonts.fontText,
+        fontSize: 12.5,
+        color: Colors.red,
       ),
     );
   }

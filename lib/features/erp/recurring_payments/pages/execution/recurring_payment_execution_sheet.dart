@@ -10,6 +10,7 @@ import 'package:gloria_finance/features/auth/pages/login/store/auth_session_stor
 import 'package:provider/provider.dart';
 
 import '../../models/recurring_payment_competence_model.dart';
+import '../../service/recurring_payment_execution_service.dart';
 import '../../store/recurring_payment_execution_store.dart';
 import '../../store/recurring_payment_monthly_store.dart';
 import 'widgets/recurring_payment_amount_method_step.dart';
@@ -79,14 +80,17 @@ Future<void> openRecurringPaymentExecution(
 
 class RecurringPaymentExecutionSheet extends StatefulWidget {
   const RecurringPaymentExecutionSheet({
+    super.key,
     required this.item,
     required this.hasBanking,
     required this.symbolFormatMoney,
+    this.service,
   });
 
   final RecurringPaymentCompetenceModel item;
   final bool hasBanking;
   final String symbolFormatMoney;
+  final RecurringPaymentExecutionService? service;
 
   @override
   State<RecurringPaymentExecutionSheet> createState() =>
@@ -99,13 +103,15 @@ class RecurringPaymentExecutionSheetState
       RecurringPaymentExecutionStore(
         item: widget.item,
         hasBanking: widget.hasBanking,
+        service: widget.service,
       );
 
   late RecurringPaymentExecutionStep _step = _initialStep();
 
   RecurringPaymentExecutionStep _initialStep() {
-    if (!widget.hasBanking)
+    if (!widget.hasBanking) {
       return RecurringPaymentExecutionStep.amountAndMethod;
+    }
 
     // Fixo com destino guardado não tem nada a decidir: vai direto à confirmação.
     final hasDestination = widget.item.recurringPayment.hasPixDestination;
@@ -222,20 +228,10 @@ class RecurringPaymentExecutionSheetState
               ),
         );
       case RecurringPaymentExecutionStep.boletoLine:
-        return RecurringPaymentBoletoLineStep(
-          onContinue:
-              () => setState(
-                () => _step = RecurringPaymentExecutionStep.boletoConfirmation,
-              ),
-        );
+        return RecurringPaymentBoletoLineStep(onValidate: _simulateTypedBill);
       case RecurringPaymentExecutionStep.boletoCamera:
         return RecurringPaymentBoletoCameraStep(
-          onDetected: (line) {
-            _store.setBoletoLine(line);
-            setState(
-              () => _step = RecurringPaymentExecutionStep.boletoConfirmation,
-            );
-          },
+          onDetected: _simulateScannedBill,
           onTypeManually:
               () => setState(
                 () => _step = RecurringPaymentExecutionStep.boletoLine,
@@ -245,6 +241,10 @@ class RecurringPaymentExecutionSheetState
         return RecurringPaymentConfirmationStep(
           symbolFormatMoney: widget.symbolFormatMoney,
           onConfirm: () => _submitBanking(),
+          onEditBoleto:
+              () => setState(
+                () => _step = RecurringPaymentExecutionStep.boletoLine,
+              ),
         );
       case RecurringPaymentExecutionStep.result:
         return RecurringPaymentExecutionResultStep(
@@ -257,10 +257,6 @@ class RecurringPaymentExecutionSheetState
                 _store.setMethod(_store.state.method);
                 _step = _initialStep();
               }),
-          onReviewBoleto:
-              () => setState(
-                () => _step = RecurringPaymentExecutionStep.boletoLine,
-              ),
         );
     }
   }
@@ -277,6 +273,29 @@ class RecurringPaymentExecutionSheetState
     }
 
     setState(() => _step = RecurringPaymentExecutionStep.boletoEntry);
+  }
+
+  Future<bool> _simulateScannedBill(String barcode) async {
+    final success = await _store.simulateBill(
+      RecurringPaymentBillSimulationInput.barCode(barcode),
+      sourceValue: barcode,
+    );
+    if (success && mounted) {
+      setState(() => _step = RecurringPaymentExecutionStep.boletoConfirmation);
+    }
+    return success;
+  }
+
+  Future<void> _simulateTypedBill() async {
+    final digits = _store.state.boletoLine;
+    final input =
+        digits.length == 44
+            ? RecurringPaymentBillSimulationInput.barCode(digits)
+            : RecurringPaymentBillSimulationInput.identificationField(digits);
+    final success = await _store.simulateBill(input, sourceValue: digits);
+    if (success && mounted) {
+      setState(() => _step = RecurringPaymentExecutionStep.boletoConfirmation);
+    }
   }
 
   Future<void> _submitBanking() async {

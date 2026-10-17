@@ -63,8 +63,7 @@ import 'app_localizations_pt.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale)
-    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -72,8 +71,7 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -85,19 +83,18 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
-        delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('es'),
-    Locale('pt'),
+    Locale('pt')
   ];
 
   /// No description provided for @month_january.
@@ -2594,10 +2591,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Suggestion applied: {type} · {category}. Review indicators and then save.'**
-  String settings_financial_concept_ai_result_applied_summary(
-    String type,
-    String category,
-  );
+  String settings_financial_concept_ai_result_applied_summary(String type, String category);
 
   /// No description provided for @settings_financial_concept_ai_result_assistant_tone.
   ///
@@ -2615,9 +2609,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Use the concept \"{conceptName}\" for this scenario. Search by this exact name in the list.'**
-  String settings_financial_concept_ai_result_existing_summary(
-    String conceptName,
-  );
+  String settings_financial_concept_ai_result_existing_summary(String conceptName);
 
   /// No description provided for @settings_financial_concept_ai_details_action.
   ///
@@ -4219,11 +4211,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Total income: {income} | Total expenses: {expenses} | Consolidated balance: {total}'**
-  String reports_income_cashflow_summary(
-    String income,
-    String expenses,
-    String total,
-  );
+  String reports_income_cashflow_summary(String income, String expenses, String total);
 
   /// No description provided for @reports_income_cashflow_empty.
   ///
@@ -4613,10 +4601,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Comparison: {currentMonthYear} vs {previousMonthYear}'**
-  String trends_header_comparison(
-    String currentMonthYear,
-    String previousMonthYear,
-  );
+  String trends_header_comparison(String currentMonthYear, String previousMonthYear);
 
   /// No description provided for @trends_list_revenue.
   ///
@@ -8702,12 +8687,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{count} devotionals will be sent to {audience} at {time} ({timezone})'**
-  String devotional_summary_line(
-    int count,
-    String audience,
-    String time,
-    String timezone,
-  );
+  String devotional_summary_line(int count, String audience, String time, String timezone);
 
   /// No description provided for @devotional_quick_guide.
   ///
@@ -9277,11 +9257,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Audience: {audience} | Push: {push} | WhatsApp: {whatsapp}'**
-  String devotional_item_channel_line(
-    String audience,
-    String push,
-    String whatsapp,
-  );
+  String devotional_item_channel_line(String audience, String push, String whatsapp);
 
   /// No description provided for @devotional_item_urgent_approval.
   ///
@@ -9389,11 +9365,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{day} - {date} | Audience: {audience}'**
-  String devotional_review_header_line(
-    String day,
-    String date,
-    String audience,
-  );
+  String devotional_review_header_line(String day, String date, String audience);
 
   /// No description provided for @devotional_review_label_title.
   ///
@@ -11489,24 +11461,6 @@ abstract class AppLocalizations {
   /// **'Boleto'**
   String get recurringPaymentsExecution_method_bill;
 
-  /// No description provided for @recurringPaymentsExecution_mismatch_expected.
-  ///
-  /// In en, this message translates to:
-  /// **'Expected amount'**
-  String get recurringPaymentsExecution_mismatch_expected;
-
-  /// No description provided for @recurringPaymentsExecution_mismatch_actual.
-  ///
-  /// In en, this message translates to:
-  /// **'Boleto amount'**
-  String get recurringPaymentsExecution_mismatch_actual;
-
-  /// No description provided for @recurringPaymentsExecution_mismatch_message.
-  ///
-  /// In en, this message translates to:
-  /// **'The boleto amount differs from the amount expected for this payment. Nothing was debited.'**
-  String get recurringPaymentsExecution_mismatch_message;
-
   /// No description provided for @recurringPaymentsExecution_cancel_record_action.
   ///
   /// In en, this message translates to:
@@ -11795,12 +11749,6 @@ abstract class AppLocalizations {
   /// **'Enter the digitable line.'**
   String get recurringPaymentsExecution_boleto_line_required;
 
-  /// No description provided for @recurringPaymentsExecution_boleto_line_invalid.
-  ///
-  /// In en, this message translates to:
-  /// **'Check the typed line: it must have 47, 44 or 48 digits.'**
-  String get recurringPaymentsExecution_boleto_line_invalid;
-
   /// No description provided for @recurringPaymentsExecution_boleto_validate_action.
   ///
   /// In en, this message translates to:
@@ -11828,44 +11776,8 @@ abstract class AppLocalizations {
   /// No description provided for @recurringPaymentsExecution_boleto_send_note.
   ///
   /// In en, this message translates to:
-  /// **'After confirming, the boleto is sent for payment.'**
+  /// **'Review the boleto details before confirming payment.'**
   String get recurringPaymentsExecution_boleto_send_note;
-
-  /// No description provided for @recurringPaymentsExecution_boleto_validated_title.
-  ///
-  /// In en, this message translates to:
-  /// **'BOLETO VALIDATED'**
-  String get recurringPaymentsExecution_boleto_validated_title;
-
-  /// No description provided for @recurringPaymentsExecution_boleto_values_match.
-  ///
-  /// In en, this message translates to:
-  /// **'The amounts match.'**
-  String get recurringPaymentsExecution_boleto_values_match;
-
-  /// No description provided for @recurringPaymentsExecution_boleto_mismatch_title.
-  ///
-  /// In en, this message translates to:
-  /// **'AMOUNTS DIFFER'**
-  String get recurringPaymentsExecution_boleto_mismatch_title;
-
-  /// No description provided for @recurringPaymentsExecution_boleto_mismatch_back.
-  ///
-  /// In en, this message translates to:
-  /// **'BACK'**
-  String get recurringPaymentsExecution_boleto_mismatch_back;
-
-  /// No description provided for @recurringPaymentsExecution_boleto_mismatch_review.
-  ///
-  /// In en, this message translates to:
-  /// **'REVIEW BOLETO'**
-  String get recurringPaymentsExecution_boleto_mismatch_review;
-
-  /// No description provided for @recurringPaymentsExecution_boleto_expected_value.
-  ///
-  /// In en, this message translates to:
-  /// **'Expected amount'**
-  String get recurringPaymentsExecution_boleto_expected_value;
 
   /// No description provided for @recurringPaymentsExecution_boleto_value.
   ///
@@ -11876,7 +11788,7 @@ abstract class AppLocalizations {
   /// No description provided for @recurringPaymentsExecution_boleto_read_hint.
   ///
   /// In en, this message translates to:
-  /// **'The bank reads the amount from the boleto line itself.'**
+  /// **'The boleto details and amount are checked before payment.'**
   String get recurringPaymentsExecution_boleto_read_hint;
 
   /// No description provided for @recurringPaymentsExecution_manual_title.
@@ -11986,10 +11898,177 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'CLOSE'**
   String get recurringPaymentsExecution_common_close;
+
+  /// No description provided for @recurringPaymentsExecution_paid_confirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment confirmed.'**
+  String get recurringPaymentsExecution_paid_confirmed;
+
+  /// No description provided for @recurringPaymentsExecution_unknown_result_description.
+  ///
+  /// In en, this message translates to:
+  /// **'The API returned a status this version does not recognize. Check the status before trying again.'**
+  String get recurringPaymentsExecution_unknown_result_description;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_simulating.
+  ///
+  /// In en, this message translates to:
+  /// **'VALIDATING BOLETO...'**
+  String get recurringPaymentsExecution_boleto_simulating;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_simulation_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'This boleto could not be validated. Correct the line or scan it again.'**
+  String get recurringPaymentsExecution_boleto_simulation_invalid;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_simulation_unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The boleto could not be validated right now. Try again or type the line manually.'**
+  String get recurringPaymentsExecution_boleto_simulation_unavailable;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_simulation_generic.
+  ///
+  /// In en, this message translates to:
+  /// **'The boleto details could not be validated. Check the line and try again.'**
+  String get recurringPaymentsExecution_boleto_simulation_generic;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit boleto'**
+  String get recurringPaymentsExecution_boleto_edit;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_configured_value.
+  ///
+  /// In en, this message translates to:
+  /// **'Configured amount'**
+  String get recurringPaymentsExecution_boleto_configured_value;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_configured_difference.
+  ///
+  /// In en, this message translates to:
+  /// **'The boleto amount differs from the configured amount.'**
+  String get recurringPaymentsExecution_boleto_configured_difference;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_overdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue boleto'**
+  String get recurringPaymentsExecution_boleto_overdue;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_not_overdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Not overdue'**
+  String get recurringPaymentsExecution_boleto_not_overdue;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_beneficiary.
+  ///
+  /// In en, this message translates to:
+  /// **'Beneficiary'**
+  String get recurringPaymentsExecution_boleto_beneficiary;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_beneficiary_document.
+  ///
+  /// In en, this message translates to:
+  /// **'Beneficiary CPF/CNPJ'**
+  String get recurringPaymentsExecution_boleto_beneficiary_document;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_original_value.
+  ///
+  /// In en, this message translates to:
+  /// **'Original amount'**
+  String get recurringPaymentsExecution_boleto_original_value;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_fee.
+  ///
+  /// In en, this message translates to:
+  /// **'Fee'**
+  String get recurringPaymentsExecution_boleto_fee;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_discount.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount'**
+  String get recurringPaymentsExecution_boleto_discount;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_interest.
+  ///
+  /// In en, this message translates to:
+  /// **'Interest'**
+  String get recurringPaymentsExecution_boleto_interest;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_fine.
+  ///
+  /// In en, this message translates to:
+  /// **'Fine'**
+  String get recurringPaymentsExecution_boleto_fine;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_total_discount.
+  ///
+  /// In en, this message translates to:
+  /// **'Total discounts'**
+  String get recurringPaymentsExecution_boleto_total_discount;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_total_additional.
+  ///
+  /// In en, this message translates to:
+  /// **'Total additions'**
+  String get recurringPaymentsExecution_boleto_total_additional;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_bank.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank'**
+  String get recurringPaymentsExecution_boleto_bank;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get recurringPaymentsExecution_boleto_status;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_value_change.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount changes'**
+  String get recurringPaymentsExecution_boleto_value_change;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_value_change_allowed.
+  ///
+  /// In en, this message translates to:
+  /// **'The beneficiary may change the amount'**
+  String get recurringPaymentsExecution_boleto_value_change_allowed;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_value_change_not_allowed.
+  ///
+  /// In en, this message translates to:
+  /// **'The amount cannot be changed'**
+  String get recurringPaymentsExecution_boleto_value_change_not_allowed;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_min_value.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum amount'**
+  String get recurringPaymentsExecution_boleto_min_value;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_max_value.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum amount'**
+  String get recurringPaymentsExecution_boleto_max_value;
+
+  /// No description provided for @recurringPaymentsExecution_boleto_minimum_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Earliest payment date'**
+  String get recurringPaymentsExecution_boleto_minimum_date;
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -11998,28 +12077,26 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en', 'es', 'pt'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en', 'es', 'pt'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
+
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en':
-      return AppLocalizationsEn();
-    case 'es':
-      return AppLocalizationsEs();
-    case 'pt':
-      return AppLocalizationsPt();
+    case 'en': return AppLocalizationsEn();
+    case 'es': return AppLocalizationsEs();
+    case 'pt': return AppLocalizationsPt();
   }
 
   throw FlutterError(
     'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
     'an issue with the localizations generation tool. Please file an issue '
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.',
+    'that was used.'
   );
 }

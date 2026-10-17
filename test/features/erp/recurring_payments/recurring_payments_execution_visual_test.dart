@@ -6,10 +6,12 @@ import 'package:gloria_finance/features/auth/auth_session_model.dart';
 import 'package:gloria_finance/features/auth/pages/login/store/auth_session_store.dart';
 import 'package:gloria_finance/features/auth/pages/login/state/auth_session_state.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_competence_model.dart';
+import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_bill_simulation.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_execution_model.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_month.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_pay_result.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/pages/execution/recurring_payment_execution_sheet.dart';
+import 'package:gloria_finance/features/erp/recurring_payments/service/recurring_payment_execution_service.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/pages/execution/widgets/recurring_payment_execution_result_step.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/pages/monthly/recurring_payment_monthly_view.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/pages/monthly/widgets/recurring_payment_execution_detail_sheet.dart';
@@ -204,26 +206,15 @@ void main() {
       expect(find.text('Linha digitável'), findsOneWidget);
     });
 
-    testWidgets('boleto confirmado e validado', (tester) async {
+    testWidgets('resultado PAID imediato', (tester) async {
       await _pumpResult(
         tester,
         size: _desktop,
-        result: _accepted(providerValueInCents: 350000),
+        result: _paid(),
         method: RecurringPaymentMethodType.BILL,
       );
-      await _capture(tester, generate, 'desktop-12-boleto-validado.png');
-      expect(find.text('Os valores conferem.'), findsOneWidget);
-    });
-
-    testWidgets('boleto com valores diferentes', (tester) async {
-      await _pumpResult(
-        tester,
-        size: _desktop,
-        result: _mismatch(),
-        method: RecurringPaymentMethodType.BILL,
-      );
-      await _capture(tester, generate, 'desktop-13-boleto-mismatch.png');
-      expect(find.text('VALORES DIFERENTES'), findsOneWidget);
+      await _capture(tester, generate, 'desktop-12-pagamento-confirmado.png');
+      expect(find.text('Pagamento confirmado.'), findsOneWidget);
     });
 
     testWidgets('processando', (tester) async {
@@ -240,25 +231,6 @@ void main() {
       );
       await _capture(tester, generate, 'desktop-14-processing.png');
       expect(find.text('Pagamento em processamento'), findsOneWidget);
-    });
-
-    testWidgets('processando com valores diferentes', (tester) async {
-      await _pumpDetail(
-        tester,
-        size: _desktop,
-        item: _item(
-          name: 'Aluguel do templo',
-          type: 'FIXED',
-          amount: 3500,
-          execution: 'PROCESSING',
-          status: 'PROCESSING',
-          mismatch: true,
-        ),
-      );
-      await _capture(tester, generate, 'desktop-21-processing-mismatch.png');
-      expect(find.text('VALORES DIFERENTES'), findsOneWidget);
-      expect(find.text('Valor do boleto'), findsOneWidget);
-      expect(find.text('TENTAR NOVAMENTE'), findsNothing);
     });
 
     testWidgets('bloqueado', (tester) async {
@@ -348,6 +320,7 @@ void main() {
         tester,
         size: _desktop,
         item: _item(name: 'Aluguel do templo', type: 'FIXED', amount: 3500),
+        service: _VisualExecutionService(),
       );
       await tester.tap(find.text('Boleto'));
       await tester.pumpAndSettle();
@@ -364,6 +337,10 @@ void main() {
       await tester.pumpAndSettle();
       await _capture(tester, generate, 'desktop-20-boleto-confirmacao.png');
       expect(find.text('PAGAR BOLETO'), findsOneWidget);
+      expect(find.text('Beneficiário'), findsOneWidget);
+      expect(find.text('Valor do boleto'), findsOneWidget);
+      expect(find.text('Vencimento'), findsOneWidget);
+      expect(find.text('Boleto vencido'), findsWidgets);
     });
   });
 
@@ -568,26 +545,35 @@ void main() {
       await _pumpResult(
         tester,
         size: _mobile,
-        result: _accepted(providerValueInCents: 350000),
+        result: _accepted(),
         method: RecurringPaymentMethodType.BILL,
       );
-      await _capture(tester, generate, 'mobile-09-boleto-validado.png');
+      await _capture(tester, generate, 'mobile-09-pagamento-enviado.png');
       expect(find.text('Pagamento enviado'), findsOneWidget);
     });
 
-    testWidgets('mismatch de valor', (tester) async {
+    testWidgets('resultado PAID imediato', (tester) async {
       await _pumpResult(
         tester,
         size: _mobile,
-        result: _mismatch(),
+        result: _paid(),
         method: RecurringPaymentMethodType.BILL,
       );
-      await _capture(tester, generate, 'mobile-10-boleto-mismatch.png');
-      expect(find.text('Valor do boleto'), findsOneWidget);
+      await _capture(tester, generate, 'mobile-11-pagamento-confirmado.png');
+      expect(find.text('Pagamento confirmado.'), findsOneWidget);
     });
 
     testWidgets('confirmação final', (tester) async {
-      await _pumpBoletoEntry(tester);
+      await _pumpSheet(
+        tester,
+        size: _mobile,
+        item: _item(name: 'Aluguel do templo', type: 'FIXED', amount: 3500),
+        service: _VisualExecutionService(),
+      );
+      await tester.tap(find.text('Boleto'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('CONFIRMAR PAGAMENTO'));
+      await tester.pumpAndSettle();
       await tester.tap(find.text('DIGITAR LINHA'));
       await tester.pumpAndSettle();
       await tester.enterText(
@@ -597,8 +583,9 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.text('VALIDAR BOLETO'));
       await tester.pumpAndSettle();
-      await _capture(tester, generate, 'mobile-11-boleto-confirmacao.png');
+      await _capture(tester, generate, 'mobile-10-boleto-confirmacao.png');
       expect(find.text('PAGAR BOLETO'), findsOneWidget);
+      expect(find.text('Beneficiário'), findsOneWidget);
     });
 
     testWidgets('processando', (tester) async {
@@ -703,6 +690,7 @@ Future<void> _pumpSheet(
   required Size size,
   required RecurringPaymentCompetenceModel item,
   bool hasBanking = true,
+  RecurringPaymentExecutionService? service,
 }) async {
   _setSurface(tester, size);
 
@@ -712,6 +700,7 @@ Future<void> _pumpSheet(
         item: item,
         hasBanking: hasBanking,
         symbolFormatMoney: _symbol,
+        service: service,
       ),
       monthly: _monthlyStore(),
       hasBanking: hasBanking,
@@ -748,7 +737,6 @@ Future<void> _pumpResult(
         symbolFormatMoney: _symbol,
         onClose: () {},
         onRetry: () {},
-        onReviewBoleto: () {},
       ),
       monthly: _monthlyStore(),
       hasBanking: true,
@@ -932,24 +920,58 @@ RecurringPaymentMonthlyStore _monthlyStore() {
 
 const _month = RecurringPaymentMonth(year: 2026, month: 10);
 
-RecurringPaymentPayResult _accepted({int? providerValueInCents}) {
+RecurringPaymentPayResult _accepted() {
   return RecurringPaymentPayResult(
     outcome: RecurringPaymentPayOutcome.PROCESSING,
     competence: '2026-10',
-    amount: providerValueInCents == null ? null : providerValueInCents / 100,
-    providerValueInCents: providerValueInCents,
+    amount: 3500,
+    providerValueInCents: null,
     failureCode: null,
   );
 }
 
-RecurringPaymentPayResult _mismatch() {
-  return const RecurringPaymentPayResult(
-    outcome: RecurringPaymentPayOutcome.FAILED,
+RecurringPaymentPayResult _paid() {
+  return RecurringPaymentPayResult(
+    outcome: RecurringPaymentPayOutcome.PAID,
     competence: '2026-10',
     amount: 3500,
-    providerValueInCents: 375000,
-    failureCode: 'RECURRING_PAYMENT_BILL_AMOUNT_MISMATCH',
+    providerValueInCents: null,
+    failureCode: null,
   );
+}
+
+class _VisualExecutionService extends RecurringPaymentExecutionService {
+  _VisualExecutionService();
+
+  @override
+  Future<RecurringPaymentBillSimulation> simulateBill(
+    String recurringPaymentId,
+    RecurringPaymentBillSimulationInput input,
+  ) async {
+    return const RecurringPaymentBillSimulation(
+      minimumScheduleDate: '2026-10-17',
+      feeInCents: 250,
+      bankSlip: RecurringPaymentBankSlip(
+        identificationField: '00190000090123456789012345678901234567890123',
+        valueInCents: 375000,
+        originalValueInCents: 375000,
+        dueDate: '2026-10-10',
+        companyName: 'Energia da Cidade S.A.',
+        bank: 'Banco Exemplo',
+        beneficiaryCpfCnpj: '19.540.550/0001-21',
+        beneficiaryName: 'Energia da Cidade S.A.',
+        allowChangeValue: false,
+        minValueInCents: 100,
+        maxValueInCents: 500000,
+        discountValueInCents: 100,
+        interestValueInCents: 250,
+        fineValueInCents: 500,
+        totalDiscountValueInCents: 100,
+        totalAdditionalValueInCents: 750,
+        isOverdue: true,
+      ),
+    );
+  }
 }
 
 List<RecurringPaymentCompetenceModel> _items() => [
@@ -992,7 +1014,6 @@ RecurringPaymentCompetenceModel _item({
   String status = 'PENDING',
   String? execution,
   String? settlement,
-  bool mismatch = false,
 }) {
   return RecurringPaymentCompetenceModel.fromJson({
     'recurringPaymentId': 'rp-$name',
@@ -1016,8 +1037,6 @@ RecurringPaymentCompetenceModel _item({
         'paymentMethod': pix ? 'PIX' : 'BILL',
         'status': execution,
         'providerStatus': execution == 'BLOCKED' ? 'BLOCKED' : 'PENDING',
-        if (mismatch) 'providerValueInCents': 375000,
-        if (mismatch) 'failureCode': 'RECURRING_PAYMENT_BILL_AMOUNT_MISMATCH',
         'updatedAt': '2026-10-01T12:00:00.000Z',
       },
     if (settlement != null)

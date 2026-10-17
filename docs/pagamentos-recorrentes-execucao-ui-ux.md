@@ -125,90 +125,47 @@ que exista confirmación bancaria.
 
 ### C. Iglesia con Asaas — boleto
 
-Entrada con dos caminos, ambos visibles:
+La entrada por cámara y por línea digitável consulta el backend antes de mostrar la confirmación:
 
 ```text
-Como deseja informar o boleto?
-  [câmera]  LER COM A CÂMERA   "Aponte a câmera para o código de barras"
-  [teclado] DIGITAR LINHA      "Informe a linha digitável do boleto"
+scan → POST /:id/bill/simulate {barCode}
+line → POST /:id/bill/simulate {identificationField}
+→ revisar snapshot de Asaas → POST /:id/pay
 ```
 
-- **Cámara** (mobile primero): preview con guía, *"Posicione o código de barras dentro da área
-  indicada."*, y la alternativa *"Digitar linha manualmente"* **siempre** visible. Estados de
-  permiso: *"Permitir acesso à câmera"* → *"Não foi possível acessar a câmera."* con
-  `DIGITAR LINHA MANUALMENTE`.
-- **Linha digitável**: campo ancho, fuente legible y teclado numérico; acepta 44 (código de barras) o
-  47 dígitos (linha digitada) y rechaza los 48 de arrecadação/convênio.
-- **Valor**: en el flujo de boleto **el usuario no escribe el valor**, porque el boleto ya define
-  cuánto se paga. El valor lo lee el banco de la propia línea (`church-banking`) y lo devuelve en la
-  misma llamada.
-- **Resultado**:
-  - si los valores coinciden → *BOLETO VALIDADO* / *"Os valores conferem."* + **Valor do boleto** y
-    el pago queda en procesamiento;
-  - si no coinciden → **VALORES DIFERENTES** con *Valor esperado*, el *Valor do boleto* cuando el
-    banco lo informa, y el mensaje *"O valor do boleto é diferente do valor esperado para este
-    pagamento. Nada foi debitado."* con `[VOLTAR] [REVISAR BOLETO]`. **No existe "pagar mesmo
-    assim"**: church-banking rechaza la diferencia **antes** de debitar.
+La cámara usa `BarcodeFormat.itf`/`itf2of5`, pausa tras detectar un valor y reanuda si la simulación falla. La alternativa manual permanece visible. La línea manual quita puntuación y espacios, pero su longitud y checksum no determinan si el boleto es válido; el backend decide.
+
+La confirmación muestra los datos presentes en el snapshot: beneficiario y documento, valor y valor original, vencimiento, tasa, descuentos, juros, multa, banco, condiciones y fecha mínima. Los campos ausentes se omiten. En `FIXED`, se compara visualmente el valor configurado con el valor del boleto y se advierte si difieren, sin bloquear el CTA. En `VARIABLE`, el valor de simulación se envía como `amount` si el endpoint `/pay` lo requiere.
+
+El pago usa únicamente `bankSlip.identificationField` normalizado por el proveedor. No hay botón de pago antes de una simulación utilizable. Al editar o cambiar el instrumento, se descarta el snapshot anterior.
 
 ## 6. PROCESSING / BLOCKED / FAILED / PAID
 
 | Estado | Contenido | Acciones |
 | --- | --- | --- |
-| PROCESSING | valor, método, referencia, última actualización + *"O pagamento foi enviado ao banco e estamos aguardando a confirmação."*; si el banco no confirmó el rechazo y el importe difiere, también el bloque **VALORES DIFERENTES** | **ATUALIZAR STATUS**; ninguna operación nueva |
-| BLOCKED | los mismos datos + *"O banco ainda está processando ou aguardando resolução."* | **ATUALIZAR STATUS**. Sin *"Tentar novamente"* y sin nueva referencia |
-| FAILED | motivo comprensible; si fue diferencia de importe, los dos valores | **TENTAR NOVAMENTE** (ejecución nueva; el intento anterior terminó) |
-| PAID | valor, fecha, origen, cuenta y comprovante | **Cancelar registro** solo si es manual; en `RECONCILED` se explica que *"Um débito bancário confirmado não pode ser cancelado."* |
+| PROCESSING | Valor y método, con espera de confirmación bancaria | **ATUALIZAR STATUS**; ninguna operación nueva |
+| BLOCKED | Estado bloqueado y datos del intento | **ATUALIZAR STATUS**; sin retry |
+| FAILED | Rechazo confirmado | **TENTAR NOVAMENTE** si la competencia permite una ejecución nueva |
+| PAID | Pago confirmado | Actualizar competencia y mostrar el detalle |
+| ALREADY_PAID | Éxito idempotente | Actualizar competencia |
+| desconocido | Estado no reconocido | Consultar estado; no repetir el pago |
 
-El detalle se abre con el **`ModalPage` que ya existe en el ERP** (título, acciones en el
-encabezado y X para cerrar): las únicas acciones que aparecen son las reales de ese estado
-(`ATUALIZAR STATUS`, `TENTAR NOVAMENTE`, `CANCELAR REGISTRO`) y no hay botón de cierre en el pie.
-En la tabla y las tarjetas, `Ver detalhes` usa el azul de acciones secundarias.
-
-Cancelar un registro manual avisa: *"Este registro será anulado e o pagamento voltará a aparecer como
-pendente nesta competência. A recorrência continua ativa."* — el asiento pasa a `VOID` y la
-competencia vuelve a `PENDING`; la recurrencia **no** se desactiva (se reutiliza
-`PATCH /finance/financial-record/cancel/:id`, que ya existía).
+El detalle se abre con el `ModalPage` existente en el ERP. Cancelar un registro manual conserva el flujo actual.
 
 ## 7. Contrato de datos
 
-Sin recalcular nada en el cliente:
-
-| Necesidad de la pantalla | Origen |
+| Necesidad de la pantalla | Contrato |
 | --- | --- |
-| Compromisos de la competencia | `GET /api/v1/recurring-payments?competence=YYYY-MM` |
-| Estado de la competencia | `competenceStatus` (los 7 estados del backend) |
-| Detalle de la ejecución en curso | `currentPayment` (valor, método, referencia, `providerStatus`, `failureCode`, `updatedAt`) |
-| Cómo se pagó | `settlement` (valor, fecha, `CLEARED`/`RECONCILED`, cuenta, comprovante) |
-| Ejecución bancaria | `POST /:id/pay` con `{competence, amount?, payment: PIX|BILL, availabilityAccountId?}` |
+| Competencia y estado mensual | `GET /api/v1/recurring-payments?competence=YYYY-MM` |
+| Simular boleto | `POST /api/v1/recurring-payments/:id/bill/simulate` con exactamente `{barCode}` o `{identificationField}` |
+| Pagar | `POST /api/v1/recurring-payments/:id/pay` con `{competence, amount?, payment: PIX|BILL, availabilityAccountId?}` |
 | Registro manual | `POST /:id/register-payment` (multipart, `file` obligatorio) |
 | Cancelar registro manual | `PATCH /finance/financial-record/cancel/:financialRecordId` |
 | Banca conectada | `AuthSessionModel.asaasConnect` |
 
-### Cambio aditivo requerido en el API (PR propio)
+La respuesta de simulación conserva `minimumScheduleDate`, `feeInCents` y `bankSlip` como nullable/omitidos; dentro del boleto, los importes son integer cents y los datos opcionales permanecen nullable. No se reemplaza ausencia por `0` o `''`.
 
-`GET ?competence=` devolvía **solo** `competenceStatus`: `toConfiguration()` excluye `currentPayment`
-y de los asientos solo se usaban los ids. Sin eso, PROCESSING/BLOCKED/FAILED no podían explicar
-valor/método/referencia y PAID no podía mostrar fecha, cuenta ni comprovante.
-
-- PR del API ([#147](https://github.com/gloriafinance/gloria_finance_api/pull/147), apilado sobre
-  `chore/recurring-payments`): expone `currentPayment` de la competencia pedida y un resumen
-  `settlement`; un `BILL` **no pide importe** (lo adopta de `valueInCents`, que el banco lee de la
-  línea); y un mismatch se persiste como `FAILED` con ambos importes en lugar de lanzar un error que
-  dejaba la reserva en `PROCESSING` para siempre.
-- Dependencia de arriba: [church-banking #105](https://github.com/gloriafinance/church-banking/pull/105)
-  lee el importe de la línea y lo devuelve; su "fuera de alcance" asigna al API validar la
-  coincidencia.
-
-**Sobre la reintentabilidad del mismatch**: un intento con importe distinto **no** se marca `FAILED`
-si el banco no confirmó el rechazo (`FAILED`/`CANCELLED`/`CREATION_FAILED`), porque la operación
-puede seguir viva: se queda en `PROCESSING` (no se ofrece un pago nuevo) y la pantalla explica la
-diferencia. Sin ese cuidado, el siguiente intento habría reservado el intento 2 y creado un segundo
-cobro en el banco.
-
-**Único dato aún no disponible**: el rechazo `BILL_PAYMENT_AMOUNT_MISMATCH` (422) no incluye el
-importe leído, así que cuando el banco rechaza por diferencia la pantalla muestra el *valor esperado*
-y el motivo. La UI ya soporta el campo (`providerValueInCents`): el día que el rechazo lo traiga, el
-mismatch muestra también *Valor do boleto* sin cambios de UI.
+**Dependencia de API:** al revisar el HEAD actual de [API PR #150](https://github.com/gloriafinance/gloria_finance_api/pull/150), el endpoint de simulación todavía no está presente. El frontend espera la ruta indicada arriba; el flujo end-to-end requiere que ese contrato llegue al API antes de desplegar esta rama.
 
 ## 8. Archivos
 
@@ -219,7 +176,7 @@ lib/features/erp/recurring_payments/
     recurring_payment_competence_model.dart    # fila del mes: config + estado + ejecución + asiento
     recurring_payment_execution_model.dart     # currentPayment (método, intento, proveedor)
     recurring_payment_settlement_model.dart    # asiento: CLEARED (manual) vs RECONCILED (banco)
-    recurring_payment_pay_result.dart          # resultado del banco (incluye el mismatch)
+    recurring_payment_pay_result.dart          # resultado de la API (incluye PAID)
     recurring_payment_execution_payload.dart   # dueño único del payload de ejecución
     recurring_payment_month.dart               # competencia, etiquetas pt-BR y vencimiento
   service/recurring_payment_execution_service.dart
@@ -251,7 +208,7 @@ lib/features/erp/recurring_payments/
     execution/widgets/recurring_payment_manual_registration_step.dart
     execution/widgets/recurring_payment_execution_result_step.dart
     execution/widgets/recurring_payment_execution_field.dart
-  utils/recurring_payment_boleto.dart           # 44/47 dígitos, agrupación y final de la línea
+  utils/recurring_payment_boleto.dart           # limpieza visual y últimos dígitos
 ```
 
 Reutilizado del entregable 1: `RecurringPaymentModel` (configuración), `RecurringPaymentService`,
@@ -283,8 +240,8 @@ despliega como web.
 | `..._boleto_scan_instruction` | Posicione o código de barras dentro da área indicada. |
 | `..._boleto_scan_manual_action` | Digitar linha manualmente |
 | `..._boleto_camera_denied` / `..._amount_required` | Não foi possível acessar a câmera. / Informe o valor a pagar. |
-| `..._boleto_validated_title` / `..._boleto_values_match` | BOLETO VALIDADO / Os valores conferem. |
-| `..._boleto_mismatch_title` / `..._mismatch_message` | VALORES DIFERENTES / O valor do boleto é diferente do valor esperado para este pagamento. Nada foi debitado. |
+| `..._boleto_simulating` / `..._boleto_value` | VALIDANDO BOLETO... / Valor do boleto |
+| `..._boleto_simulation_invalid` / `..._boleto_simulation_unavailable` | Não foi possível validar este boleto. / Não foi possível validar o boleto agora. |
 | `..._sent_title` / `..._sent_description` | Pagamento enviado / O pagamento foi enviado ao banco e estamos aguardando a confirmação. |
 | `..._blocked_title` / `..._blocked_description` | Pagamento bloqueado / O banco ainda está processando ou aguardando resolução. |
 | `..._failed_title` / `..._failed_retry` | Pagamento não concluído / TENTAR NOVAMENTE |
@@ -296,7 +253,7 @@ despliega como web.
 
 ## 10. Capturas del entregable
 
-Generadas por comando (40 pantallas):
+Generadas por comando (38 pantallas):
 
 ```bash
 flutter test --dart-define=GENERATE_SCREENSHOTS=true \
@@ -313,42 +270,33 @@ flutter test --dart-define=GENERATE_SCREENSHOTS=true \
 | `desktop-07-variavel-com-destino.png` / `desktop-08-variavel-sem-destino.png` | Casos 3 y 4 |
 | `desktop-09-pix-sem-chave.png` | PIX sin destino guardado (chave + tipo) |
 | `desktop-10-boleto-entrada.png` / `desktop-11-boleto-digitar-linha.png` / `desktop-19-boleto-camera.png` | Entrada del boleto, línea digitável y cámara |
-| `desktop-12-boleto-validado.png` / `desktop-13-boleto-mismatch.png` | Boleto validado / valores diferentes |
+| `desktop-12-pagamento-confirmado.png` | Resultado inmediato `PAID` |
 | `desktop-14-processing.png` … `desktop-16-failed.png` | PROCESSING, BLOCKED, FAILED |
-| `desktop-21-processing-mismatch.png` | PROCESSING con valores diferentes (la operación sigue viva y no se ofrece pago nuevo) |
 | `desktop-17-pago-manual.png` / `desktop-18-pago-asaas.png` | PAID `CLEARED` (con cancelar) / `RECONCILED` (sin cancelar) |
-| `desktop-20-boleto-confirmacao.png` | Confirmación final del boleto |
+| `desktop-20-boleto-confirmacao.png` | Revisión de los datos reales devueltos por simulación |
 | `tablet-01-mes.png` … `tablet-04-bloqueado.png` | Listado mensual, PIX, boleto y bloqueado en tablet |
-| `mobile-01-mes.png` … `mobile-15-pago.png` | Las 15 pantallas pedidas para mobile |
+| `mobile-01-mes.png` … `mobile-08-boleto-digitar-linha.png` | Estados mensuales, PIX y entrada de boleto |
+| `mobile-09-pagamento-enviado.png` / `mobile-10-boleto-confirmacao.png` / `mobile-11-pagamento-confirmado.png` | PROCESSING, revisión del boleto y resultado `PAID` |
+| `mobile-12-processing.png` … `mobile-15-pago.png` | PROCESSING, BLOCKED, FAILED y PAID |
 
 ## 11. Verificación
 
 - `flutter test test/features/erp/recurring_payments test/core/layout/erp/menu_items_test.dart` →
-  **105/105** (41 capturas/smoke de ejecución, 20 de modelos de ejecución, 11 del listado, 7 de
-  máscaras, 7 del parsing estricto, 7 de stores, 6 de opciones y 6 del menú).
-- `flutter analyze lib test` → **0 errores** (los warnings/infos son los preexistentes del repo).
-- `flutter build web -t lib/main_erp.dart --release` → OK con `mobile_scanner`.
+  **116/116**.
+- `flutter analyze lib/features/erp/recurring_payments test/features/erp/recurring_payments` → **0 errores**.
+- `flutter build web -t lib/main_erp.dart --release` → OK con `mobile_scanner`; el dry run Wasm informa
+  una incompatibilidad en `socket_io_common`, sin impedir la compilación.
 - El test de capturas encontró y dejó corregidos **tres defectos reales**: el paso de valor/método
   bloqueaba el avance cuando la chave PIX se pedía en el paso siguiente; el encabezado del mes
   desbordaba en tablet; y la copy del resumen decía "1 pagos".
 
-## 12. Decisiones y desvíos respecto del brief
+## 12. Decisiones de implementación
 
-1. **El boleto no pide importe** (tu indicación): el boleto define cuánto se paga, así que en
-   `VARIABLE` + boleto no hay campo de valor; el valor llega del banco. Consecuencia: la pantalla
-   previa "BOLETO VALIDADO" con **dos** importes se muestra como **resultado** de la validación
-   síncrona del banco, no antes de enviar (no existe endpoint de consulta previa: la única ruta que
-   recibe la línea es `pay`).
-2. **VARIABLE elige método y valor en el mismo paso**: pedir el valor antes obligaría a descartarlo si
-   después se elige boleto.
-3. **El switch de situación no aparece aquí**: la competencia **no** se desactiva; lo que cambia es la
-   configuración, que se edita en la otra pestaña.
-4. **Sin "pagar mesmo assim"**: church-banking rechaza el importe distinto antes del débito, así que
-   ofrecerlo sería una acción que el backend niega.
-5. **Mientras hay una operación viva, las demás filas no ofrecen pago** (solo consulta): regla del
-   backend, no preferencia de UI.
-6. **No se inventó una entidad mensual editable**: la competencia es una lectura del mes más el
-   estado de la ejecución; el histórico sigue siendo el `FinancialRecord`.
+1. La simulación ocurre antes de la confirmación y entrega el valor authoritative de esa ejecución.
+2. `FIXED` conserva el importe configurado en `/pay`; `VARIABLE + BILL` obtiene el importe en centavos de la simulación y lo envía en la unidad que exige `/pay`.
+3. Una diferencia entre el importe configurado y el boleto es informativa en frontend; la API posee cualquier regla de negocio de aceptación.
+4. Después de `/pay`, el resultado `PAID` se muestra como confirmado, `PROCESSING` como pendiente de confirmación, y los demás estados conservan su significado contractual.
+5. La cámara y la entrada manual comparten el mismo camino de simulación; la cámara envía `barCode` y el pago usa el `identificationField` normalizado.
 
 ## 13. Fuera de alcance (recordatorio)
 

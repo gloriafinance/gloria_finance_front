@@ -1,7 +1,7 @@
 import 'package:gloria_finance/core/utils/date_formatter.dart';
 
 /// Estado de la operación bancaria en curso (`currentPayment.status`).
-enum RecurringPaymentExecutionStatus { PROCESSING, BLOCKED, FAILED }
+enum RecurringPaymentExecutionStatus { PROCESSING, BLOCKED, FAILED, PAID }
 
 extension RecurringPaymentExecutionStatusExtension
     on RecurringPaymentExecutionStatus {
@@ -71,17 +71,12 @@ class RecurringPaymentExecutionModel {
   });
 
   factory RecurringPaymentExecutionModel.fromJson(Map<String, dynamic> json) {
-    final rawAmount = json['amount'];
-
     return RecurringPaymentExecutionModel(
-      competence: json['competence'] ?? '',
-      attempt: json['attempt'] ?? 1,
-      externalReference: json['externalReference'] ?? '',
-      amount: rawAmount is num ? rawAmount.toDouble() : null,
-      providerValueInCents:
-          json['providerValueInCents'] is num
-              ? (json['providerValueInCents'] as num).toInt()
-              : null,
+      competence: json['competence'] as String,
+      attempt: json['attempt'] as int,
+      externalReference: json['externalReference'] as String,
+      amount: (json['amount'] as num?)?.toDouble(),
+      providerValueInCents: json['providerValueInCents'] as int?,
       method: RecurringPaymentMethodTypeExtension.tryFromApiValue(
         json['paymentMethod'] as String?,
       ),
@@ -89,7 +84,7 @@ class RecurringPaymentExecutionModel {
       status: RecurringPaymentExecutionStatusExtension.tryFromApiValue(
         json['status'] as String?,
       ),
-      providerStatus: json['providerStatus'] ?? '',
+      providerStatus: json['providerStatus'] as String,
       failureCode: json['failureCode'] as String?,
       paymentDate: parseIsoDate(json['paymentDate']),
       transactionReceiptUrl: json['transactionReceiptUrl'] as String?,
@@ -103,8 +98,4 @@ class RecurringPaymentExecutionModel {
     final providerValue = providerValueInCents;
     return providerValue == null ? null : providerValue / 100;
   }
-
-  /// El banco rechazó el intento por diferencia de importe.
-  bool get isAmountMismatch =>
-      failureCode == 'RECURRING_PAYMENT_BILL_AMOUNT_MISMATCH';
 }

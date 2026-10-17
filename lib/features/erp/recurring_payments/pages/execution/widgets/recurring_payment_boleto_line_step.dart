@@ -6,6 +6,7 @@ import 'package:gloria_finance/core/widgets/form_controls.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import '../../../models/recurring_payment_bill_simulation.dart';
 import '../../../store/recurring_payment_execution_store.dart';
 import '../../../utils/recurring_payment_boleto.dart';
 import 'recurring_payment_execution_field.dart';
@@ -17,11 +18,11 @@ import 'recurring_payment_execution_field.dart';
 class RecurringPaymentBoletoLineStep extends StatelessWidget {
   const RecurringPaymentBoletoLineStep({
     super.key,
-    required this.onContinue,
+    required this.onValidate,
     this.initialLine,
   });
 
-  final VoidCallback onContinue;
+  final Future<void> Function() onValidate;
 
   /// Linha já lida pela câmera, quando houver.
   final String? initialLine;
@@ -32,7 +33,6 @@ class RecurringPaymentBoletoLineStep extends StatelessWidget {
     final state = store.state;
     final l10n = context.l10n;
     final line = initialLine ?? state.boletoLine;
-    final isValid = RecurringPaymentBoleto.isValid(line);
     final hasValue = line.isNotEmpty;
 
     return Column(
@@ -49,10 +49,17 @@ class RecurringPaymentBoletoLineStep extends StatelessWidget {
           ],
           onChanged: store.setBoletoLine,
         ),
-        if (hasValue && !isValid) ...[
+        if (state.billSimulationError != null) ...[
           const SizedBox(height: 10),
           RecurringPaymentExecutionNotice(
-            text: l10n.recurringPaymentsExecution_boleto_line_invalid,
+            text: switch (state.billSimulationError!) {
+              RecurringPaymentBillSimulationError.invalid =>
+                l10n.recurringPaymentsExecution_boleto_simulation_invalid,
+              RecurringPaymentBillSimulationError.unavailable =>
+                l10n.recurringPaymentsExecution_boleto_simulation_unavailable,
+              RecurringPaymentBillSimulationError.generic =>
+                l10n.recurringPaymentsExecution_boleto_simulation_generic,
+            },
             icon: Icons.error_outline,
             color: Colors.red,
           ),
@@ -65,11 +72,17 @@ class RecurringPaymentBoletoLineStep extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         CustomButton(
-          text: l10n.recurringPaymentsExecution_boleto_validate_action,
+          text:
+              state.isSimulatingBill
+                  ? l10n.recurringPaymentsExecution_boleto_simulating
+                  : state.billSimulationError ==
+                      RecurringPaymentBillSimulationError.unavailable
+                  ? l10n.recurringPaymentsExecution_failed_retry
+                  : l10n.recurringPaymentsExecution_boleto_validate_action,
           backgroundColor: AppColors.green,
           textColor: Colors.black,
           icon: Icons.arrow_forward,
-          onPressed: !isValid ? null : onContinue,
+          onPressed: !hasValue || state.isSimulatingBill ? null : onValidate,
         ),
       ],
     );

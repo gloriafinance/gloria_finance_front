@@ -11,9 +11,7 @@ import 'recurring_payment_execution_field.dart';
 
 /// Resultado da execução bancária.
 ///
-/// Nunca diz "pago": o banco aceitou a operação, e a confirmação chega depois.
-/// Quando o boleto trouxe o próprio valor, ele aparece aqui — é a validação que
-/// o banco fez ao ler a linha.
+/// Apresenta o estado devolvido pela API sem inferir confirmação bancária.
 class RecurringPaymentExecutionResultStep extends StatelessWidget {
   const RecurringPaymentExecutionResultStep({
     super.key,
@@ -22,7 +20,6 @@ class RecurringPaymentExecutionResultStep extends StatelessWidget {
     required this.symbolFormatMoney,
     required this.onClose,
     required this.onRetry,
-    required this.onReviewBoleto,
   });
 
   final RecurringPaymentPayResult result;
@@ -30,7 +27,6 @@ class RecurringPaymentExecutionResultStep extends StatelessWidget {
   final String symbolFormatMoney;
   final VoidCallback onClose;
   final VoidCallback onRetry;
-  final VoidCallback onReviewBoleto;
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +44,15 @@ class RecurringPaymentExecutionResultStep extends StatelessWidget {
       );
     }
 
-    if (result.isAmountMismatch) {
-      return _mismatch(context);
+    if (outcome == RecurringPaymentPayOutcome.PAID) {
+      return _block(
+        context,
+        icon: Icons.check_circle_outline,
+        color: AppColors.green,
+        title: l10n.recurringPaymentsExecution_paid_title,
+        description: l10n.recurringPaymentsExecution_paid_confirmed,
+        onClose: onClose,
+      );
     }
 
     if (outcome == RecurringPaymentPayOutcome.BLOCKED) {
@@ -88,7 +91,7 @@ class RecurringPaymentExecutionResultStep extends StatelessWidget {
         icon: Icons.help_outline,
         color: AppColors.grey,
         title: l10n.recurringPaymentsExecution_status_unknown,
-        description: l10n.recurringPaymentsExecution_sent_description,
+        description: l10n.recurringPaymentsExecution_unknown_result_description,
         onClose: onClose,
       );
     }
@@ -98,30 +101,9 @@ class RecurringPaymentExecutionResultStep extends StatelessWidget {
 
   Widget _accepted(BuildContext context) {
     final l10n = context.l10n;
-    final providerAmount = result.providerAmount;
-    final isBill = method == RecurringPaymentMethodType.BILL;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (isBill && providerAmount != null) ...[
-          RecurringPaymentExecutionNotice(
-            text: l10n.recurringPaymentsExecution_boleto_values_match,
-            icon: Icons.verified_outlined,
-            color: AppColors.green,
-          ),
-          const SizedBox(height: 10),
-          RecurringPaymentExecutionField(
-            label: l10n.recurringPaymentsExecution_boleto_validated_title,
-            value: CurrencyFormatter.formatCurrency(
-              providerAmount,
-              symbol: symbolFormatMoney,
-            ),
-            note: l10n.recurringPaymentsExecution_boleto_value,
-            emphasized: true,
-          ),
-          const SizedBox(height: 8),
-        ],
         Text(
           l10n.recurringPaymentsExecution_sent_title,
           style: const TextStyle(
@@ -156,81 +138,6 @@ class RecurringPaymentExecutionResultStep extends StatelessWidget {
         const SizedBox(height: 18),
         CustomButton(
           text: l10n.recurringPaymentsExecution_common_close,
-          backgroundColor: AppColors.greyMiddle,
-          textColor: Colors.black,
-          onPressed: onClose,
-        ),
-      ],
-    );
-  }
-
-  Widget _mismatch(BuildContext context) {
-    final l10n = context.l10n;
-    final providerAmount = result.providerAmount;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(
-            color: Colors.red.withValues(alpha: 0.06),
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: Colors.red.withValues(alpha: 0.28)),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                l10n.recurringPaymentsExecution_boleto_mismatch_title,
-                style: const TextStyle(
-                  fontFamily: AppFonts.fontSubTitle,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFFA52A2E),
-                ),
-              ),
-              const SizedBox(height: 10),
-              if (result.amount != null)
-                RecurringPaymentExecutionField(
-                  label: l10n.recurringPaymentsExecution_boleto_expected_value,
-                  value: CurrencyFormatter.formatCurrency(
-                    result.amount!,
-                    symbol: symbolFormatMoney,
-                  ),
-                ),
-              if (providerAmount != null)
-                RecurringPaymentExecutionField(
-                  label: l10n.recurringPaymentsExecution_boleto_value,
-                  value: CurrencyFormatter.formatCurrency(
-                    providerAmount,
-                    symbol: symbolFormatMoney,
-                  ),
-                ),
-              const SizedBox(height: 8),
-              Text(
-                l10n.recurringPaymentsExecution_mismatch_message,
-                style: const TextStyle(
-                  fontFamily: AppFonts.fontText,
-                  fontSize: 12,
-                  height: 1.6,
-                  color: Color(0xFF5F5F5F),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 18),
-        CustomButton(
-          text: l10n.recurringPaymentsExecution_boleto_mismatch_review,
-          backgroundColor: AppColors.purple,
-          textColor: Colors.white,
-          icon: Icons.edit_outlined,
-          onPressed: onReviewBoleto,
-        ),
-        const SizedBox(height: 8),
-        CustomButton(
-          text: l10n.recurringPaymentsExecution_boleto_mismatch_back,
           backgroundColor: AppColors.greyMiddle,
           textColor: Colors.black,
           onPressed: onClose,

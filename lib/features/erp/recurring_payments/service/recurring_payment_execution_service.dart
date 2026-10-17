@@ -3,7 +3,27 @@ import 'package:gloria_finance/core/app_http.dart';
 import 'package:gloria_finance/features/auth/auth_persistence.dart';
 
 import '../models/recurring_payment_competence_model.dart';
+import '../models/recurring_payment_bill_simulation.dart';
 import '../models/recurring_payment_pay_result.dart';
+
+class RecurringPaymentBillSimulationInput {
+  const RecurringPaymentBillSimulationInput.barCode(String value)
+    : barCode = value,
+      identificationField = null;
+
+  const RecurringPaymentBillSimulationInput.identificationField(String value)
+    : barCode = null,
+      identificationField = value;
+
+  final String? barCode;
+  final String? identificationField;
+
+  Map<String, String> toJson() => {
+    if (barCode != null) 'barCode': barCode!,
+    if (identificationField != null)
+      'identificationField': identificationField!,
+  };
+}
 
 /// Ejecución mensual de las recurrencias.
 ///
@@ -58,6 +78,30 @@ class RecurringPaymentExecutionService extends AppHttp {
       );
 
       return RecurringPaymentPayResult.fromJson(
+        Map<String, dynamic>.from(response.data),
+      );
+    } on DioException catch (e) {
+      transformResponse(e.response?.data);
+      rethrow;
+    }
+  }
+
+  /// `POST /recurring-payments/:id/bill/simulate`
+  Future<RecurringPaymentBillSimulation> simulateBill(
+    String recurringPaymentId,
+    RecurringPaymentBillSimulationInput input,
+  ) async {
+    final session = await AuthPersistence().restore();
+    tokenAPI = session.token;
+
+    try {
+      final response = await http.post(
+        '${await getUrlApi()}recurring-payments/$recurringPaymentId/bill/simulate',
+        data: input.toJson(),
+        options: Options(headers: bearerToken()),
+      );
+
+      return RecurringPaymentBillSimulation.fromJson(
         Map<String, dynamic>.from(response.data),
       );
     } on DioException catch (e) {

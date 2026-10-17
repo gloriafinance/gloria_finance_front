@@ -1,9 +1,9 @@
 import '../models/recurring_payment_competence_model.dart';
+import '../models/recurring_payment_bill_simulation.dart';
 import '../models/recurring_payment_execution_model.dart';
 import '../models/recurring_payment_execution_payload.dart';
 import '../models/recurring_payment_model.dart';
 import '../models/recurring_payment_pay_result.dart';
-import '../utils/recurring_payment_boleto.dart';
 
 /// Casos de la matriz de ejecución, derivados de la configuración y de si la
 /// iglesia tiene banca conectada.
@@ -46,6 +46,9 @@ class RecurringPaymentExecutionState {
   final String pixKey;
   final PixKeyType? pixKeyType;
   final String boletoLine;
+  final RecurringPaymentBillSimulation? billSimulation;
+  final bool isSimulatingBill;
+  final RecurringPaymentBillSimulationError? billSimulationError;
   final bool makeRequest;
   final RecurringPaymentPayResult? result;
 
@@ -57,6 +60,9 @@ class RecurringPaymentExecutionState {
     required this.pixKey,
     required this.pixKeyType,
     required this.boletoLine,
+    required this.billSimulation,
+    required this.isSimulatingBill,
+    required this.billSimulationError,
     required this.makeRequest,
     required this.result,
   });
@@ -75,6 +81,9 @@ class RecurringPaymentExecutionState {
       pixKey: '',
       pixKeyType: null,
       boletoLine: '',
+      billSimulation: null,
+      isSimulatingBill: false,
+      billSimulationError: null,
       makeRequest: false,
       result: null,
     );
@@ -87,6 +96,11 @@ class RecurringPaymentExecutionState {
     PixKeyType? pixKeyType,
     bool clearPixKeyType = false,
     String? boletoLine,
+    RecurringPaymentBillSimulation? billSimulation,
+    bool clearBillSimulation = false,
+    bool? isSimulatingBill,
+    RecurringPaymentBillSimulationError? billSimulationError,
+    bool clearBillSimulationError = false,
     bool? makeRequest,
     RecurringPaymentPayResult? result,
   }) {
@@ -98,6 +112,13 @@ class RecurringPaymentExecutionState {
       pixKey: pixKey ?? this.pixKey,
       pixKeyType: clearPixKeyType ? null : (pixKeyType ?? this.pixKeyType),
       boletoLine: boletoLine ?? this.boletoLine,
+      billSimulation:
+          clearBillSimulation ? null : (billSimulation ?? this.billSimulation),
+      isSimulatingBill: isSimulatingBill ?? this.isSimulatingBill,
+      billSimulationError:
+          clearBillSimulationError
+              ? null
+              : (billSimulationError ?? this.billSimulationError),
       makeRequest: makeRequest ?? this.makeRequest,
       result: result ?? this.result,
     );
@@ -149,23 +170,15 @@ class RecurringPaymentExecutionState {
     return double.parse(normalized) / 100;
   }
 
-  /// El importe se pide solo cuando el pagador tiene que declararlo: un valor
-  /// fijo pertenece a la configuración y un boleto trae el suyo de la línea.
-  /// Whether the payer has to inform the amount.
-  ///
-  /// The instrument decides, not the recurrence type: a boleto defines the debt,
-  /// so a variable recurrence paid with one never asks (and a fixed one is
-  /// compared against the configuration as a protection). A PIX key identifies a
-  /// recipient, not an amount, so a variable recurrence paid by key does ask.
-  /// A PIX QR / copia e cola carrying its own amount joins [instrumentAmounts]
-  /// without touching the recurrence.
+  /// VARIABLE PIX and manual registration ask the payer for an amount. BILL
+  /// amount comes from the provider simulation; FIXED uses its configuration.
   bool get requiresAmount {
     if (!isVariable) return false; // monto de la configuración
     if (!hasBanking) return true; // registro manual: lo informa el usuario
     return !instrumentAmounts;
   }
 
-  /// Whether the chosen instrument brings the amount by itself.
+  /// Whether the chosen instrument supplies the amount after simulation.
   bool get instrumentAmounts => method == RecurringPaymentMethodType.BILL;
 
   /// Sin destino guardado, la clave PIX pertenece a esta ejecución.
@@ -189,7 +202,14 @@ class RecurringPaymentExecutionState {
         (pixKey.trim().isEmpty || effectivePixKeyType == null)) {
       return false;
     }
-    if (requiresBoletoLine && !RecurringPaymentBoleto.isValid(boletoLine)) {
+    if (requiresBoletoLine &&
+        billSimulation?.bankSlip?.identificationField?.isNotEmpty != true) {
+      return false;
+    }
+    if (requiresBoletoLine &&
+        isVariable &&
+        (billSimulation?.bankSlip?.valueInCents == null ||
+            billSimulation!.bankSlip!.valueInCents! <= 0)) {
       return false;
     }
     return true;
@@ -198,7 +218,10 @@ class RecurringPaymentExecutionState {
   Map<String, dynamic> get payPayload => RecurringPaymentExecutionPayload.build(
     competence: item.month.competence,
     type: payment.type,
-    amount: amount,
+    amount:
+        isVariable && method == RecurringPaymentMethodType.BILL
+            ? (billSimulation?.bankSlip?.valueInCents ?? 0) / 100
+            : amount,
     method:
         isPix
             ? RecurringPaymentPayMethod.pix(
@@ -206,9 +229,8 @@ class RecurringPaymentExecutionState {
               pixKeyType: effectivePixKeyType!,
             )
             : RecurringPaymentPayMethod.bill(
-              identificationField: RecurringPaymentBoleto.onlyDigits(
-                boletoLine,
-              ),
+              identificationField:
+                  billSimulation!.bankSlip!.identificationField!,
             ),
   );
 

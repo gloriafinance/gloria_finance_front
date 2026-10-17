@@ -1,5 +1,11 @@
 /// Resultado de `POST /recurring-payments/:id/pay`.
-enum RecurringPaymentPayOutcome { PROCESSING, BLOCKED, FAILED, ALREADY_PAID }
+enum RecurringPaymentPayOutcome {
+  PROCESSING,
+  BLOCKED,
+  FAILED,
+  PAID,
+  ALREADY_PAID,
+}
 
 extension RecurringPaymentPayOutcomeExtension on RecurringPaymentPayOutcome {
   String get apiValue => toString().split('.').last;
@@ -34,25 +40,16 @@ class RecurringPaymentPayResult {
   });
 
   factory RecurringPaymentPayResult.fromJson(Map<String, dynamic> json) {
-    final rawAmount = json['amount'];
-
     return RecurringPaymentPayResult(
       outcome: RecurringPaymentPayOutcomeExtension.tryFromApiValue(
         json['status'] as String?,
       ),
-      competence: json['competence'] ?? '',
-      amount: rawAmount is num ? rawAmount.toDouble() : null,
-      providerValueInCents:
-          json['providerValueInCents'] is num
-              ? (json['providerValueInCents'] as num).toInt()
-              : null,
+      competence: json['competence'] as String,
+      amount: (json['amount'] as num?)?.toDouble(),
+      providerValueInCents: json['providerValueInCents'] as int?,
       failureCode: json['failureCode'] as String?,
     );
   }
-
-  /// El banco rechazó el boleto porque cobra otro importe.
-  bool get isAmountMismatch =>
-      failureCode == 'RECURRING_PAYMENT_BILL_AMOUNT_MISMATCH';
 
   /// Importe a mostrar cuando el boleto fue el que definió el valor.
   double? get providerAmount {

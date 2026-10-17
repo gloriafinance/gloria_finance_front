@@ -42,6 +42,8 @@ class RecurringPaymentStatusChip extends StatelessWidget {
         return AppColors.mustard;
       case RecurringPaymentExecutionStatus.FAILED:
         return Colors.red;
+      case RecurringPaymentExecutionStatus.PAID:
+        return AppColors.green;
       case null:
         break;
     }

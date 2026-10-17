@@ -12,6 +12,7 @@ class RecurringPaymentExecutionField extends StatelessWidget {
     required this.value,
     this.note,
     this.emphasized = false,
+    this.dense = false,
   });
 
   final String label;
@@ -20,11 +21,12 @@ class RecurringPaymentExecutionField extends StatelessWidget {
   /// De onde vem o dado ("Configurado no pagamento recorrente").
   final String? note;
   final bool emphasized;
+  final bool dense;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 7),
+      padding: EdgeInsets.symmetric(vertical: dense ? 3 : 7),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

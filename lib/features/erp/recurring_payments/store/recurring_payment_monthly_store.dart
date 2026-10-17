@@ -1,12 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gloria_finance/features/auth/auth_persistence.dart';
 
 import 'package:gloria_finance/features/erp/financial_records/finance_record_service.dart';
 
-import '../models/recurring_payment_competence_model.dart';
 import '../models/recurring_payment_month.dart';
-import '../models/recurring_payment_pay_result.dart';
 import '../service/recurring_payment_execution_service.dart';
 import '../state/recurring_payment_monthly_state.dart';
 
@@ -87,53 +84,6 @@ class RecurringPaymentMonthlyStore extends ChangeNotifier {
       month: state.month.month,
     ).next,
   );
-
-  /// Ejecuta el pago bancario y recarga el mes.
-  ///
-  /// Devuelve el resultado del banco, o `null` si la llamada falló.
-  Future<RecurringPaymentPayResult?> pay(
-    RecurringPaymentCompetenceModel item,
-    Map<String, dynamic> payload,
-  ) async {
-    try {
-      state = state.copyWith(makeRequest: true);
-      notifyListeners();
-
-      final result = await service.pay(item.id, payload);
-      await load(force: true);
-      return result;
-    } catch (e) {
-      debugPrint('ERROR pay recurring payment: $e');
-      state = state.copyWith(makeRequest: false);
-      notifyListeners();
-      return null;
-    }
-  }
-
-  /// Registra un pago hecho fuera de Glória (iglesia sin Asaas) y recarga el mes.
-  Future<bool> registerManually(
-    RecurringPaymentCompetenceModel item, {
-    required Map<String, dynamic> payload,
-    required MultipartFile voucher,
-  }) async {
-    try {
-      state = state.copyWith(makeRequest: true);
-      notifyListeners();
-
-      await service.registerManually(
-        recurringPaymentId: item.id,
-        payload: payload,
-        voucher: voucher,
-      );
-      await load(force: true);
-      return true;
-    } catch (e) {
-      debugPrint('ERROR register recurring payment manually: $e');
-      state = state.copyWith(makeRequest: false);
-      notifyListeners();
-      return false;
-    }
-  }
 
   /// Anula el asiento manual y vuelve a leer el mes: la competencia queda
   /// PENDING otra vez porque el histórico sale del asiento, no de la

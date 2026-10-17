@@ -45,12 +45,9 @@ class RecurringPaymentExecutionPayload {
     required RecurringPaymentPayMethod method,
     String? availabilityAccountId,
   }) {
-    // El importe viaja solo cuando el pagador lo declara **y** el pago lo
-    // necesita: un FIXED pertenece a la configuración (el dominio prohíbe
-    // enviarlo) y un boleto trae el suyo de la línea, así que pedirlo sería
-    // repetir un dato que ya existe.
-    final declaresAmount =
-        type == RecurringPaymentValueType.VARIABLE && method.isPix;
+    // VARIABLE sends the PIX amount entered by the payer, or the amount read
+    // from the simulated bill. FIXED always uses the configured amount.
+    final declaresAmount = type == RecurringPaymentValueType.VARIABLE;
 
     return {
       'competence': competence,

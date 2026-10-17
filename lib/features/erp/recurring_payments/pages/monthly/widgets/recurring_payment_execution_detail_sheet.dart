@@ -145,10 +145,6 @@ class RecurringPaymentExecutionDetail extends StatelessWidget {
           title: l10n.recurringPaymentsExecution_processing_title,
           description: l10n.recurringPaymentsExecution_processing_description,
         ),
-        // Un mismatch no siempre cierra el intento: si el banco no confirmó el
-        // rechazo, la operación puede seguir viva y el usuario tiene que ver por
-        // qué no se ofrece un pago nuevo.
-        if (execution?.isAmountMismatch ?? false) _mismatchBlock(context),
         if (execution != null) ..._executionFields(context, execution),
         const SizedBox(height: 10),
         Text(
@@ -178,7 +174,6 @@ class RecurringPaymentExecutionDetail extends StatelessWidget {
           title: l10n.recurringPaymentsExecution_failed_title,
           description: l10n.recurringPaymentsExecution_failed_description,
         ),
-        if (execution?.isAmountMismatch ?? false) _mismatchBlock(context),
         if (execution != null) ..._executionFields(context, execution),
       ];
     }
@@ -303,56 +298,6 @@ class RecurringPaymentExecutionDetail extends StatelessWidget {
               '${execution.updatedAt!.toLocal().minute.toString().padLeft(2, '0')}',
         ),
     ];
-  }
-
-  Widget _mismatchBlock(BuildContext context) {
-    final l10n = context.l10n;
-    final execution = item.execution;
-    final expected = item.recurringPayment.amount ?? execution?.amount;
-    final providerValue =
-        execution?.providerValueInCents == null
-            ? null
-            : execution!.providerValueInCents! / 100;
-
-    return Container(
-      margin: const EdgeInsets.only(top: 12),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.red.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.red.withValues(alpha: 0.28)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            l10n.recurringPaymentsExecution_boleto_mismatch_title,
-            style: const TextStyle(
-              fontFamily: AppFonts.fontSubTitle,
-              fontSize: 12.5,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFFA52A2E),
-            ),
-          ),
-          const SizedBox(height: 8),
-          if (expected != null)
-            _DetailField(
-              label: l10n.recurringPaymentsExecution_boleto_expected_value,
-              value: CurrencyFormatter.formatCurrency(expected),
-            ),
-          if (providerValue != null)
-            _DetailField(
-              label: l10n.recurringPaymentsExecution_boleto_value,
-              value: CurrencyFormatter.formatCurrency(providerValue),
-            ),
-          const SizedBox(height: 6),
-          Text(
-            l10n.recurringPaymentsExecution_mismatch_message,
-            style: _noteStyle,
-          ),
-        ],
-      ),
-    );
   }
 
   String _valueLabel(BuildContext context) {
