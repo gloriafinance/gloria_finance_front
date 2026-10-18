@@ -225,6 +225,7 @@ void main() {
       final comValor = _state(
         const {'type': 'VARIABLE'},
         setup: (store) {
+          store.setAvailabilityAccountId('account-1');
           store.setAmountText('74283');
           store.setPixKeyType(PixKeyType.CNPJ);
           store.setPixKey('12345678000190');
@@ -241,11 +242,13 @@ void main() {
     });
 
     test('com destino guardado não se pede a chave de novo', () {
-      final state = _state(const {
-        'type': 'FIXED',
-        'amount': 3500,
-        'pixDestination': _pix,
-      }, setup: (store) => store.setAmountText(''));
+      final state = _state(
+        const {'type': 'FIXED', 'amount': 3500, 'pixDestination': _pix},
+        setup: (store) {
+          store.setAvailabilityAccountId('account-1');
+          store.setAmountText('');
+        },
+      );
 
       expect(state.requiresPixKey, isFalse);
       expect(state.isComplete, isTrue);
@@ -254,8 +257,26 @@ void main() {
         'pixKey': '12345678000190',
         'pixKeyType': 'CNPJ',
       });
+      expect(state.payPayload['availabilityAccountId'], 'account-1');
       // O valor fixo pertence à configuração: não viaja no comando.
       expect(state.payPayload.containsKey('amount'), isFalse);
+    });
+
+    test('pagamento bancário exige a conta de disponibilidade escolhida', () {
+      final withoutAccount = _state(const {
+        'type': 'FIXED',
+        'amount': 3500,
+        'pixDestination': _pix,
+      });
+      expect(withoutAccount.isComplete, isFalse);
+
+      final withAccount = _state(const {
+        'type': 'FIXED',
+        'amount': 3500,
+        'pixDestination': _pix,
+      }, setup: (store) => store.setAvailabilityAccountId('account-1'));
+      expect(withAccount.isComplete, isTrue);
+      expect(withAccount.payPayload['availabilityAccountId'], 'account-1');
     });
 
     test('o registro manual só envia valor quando é variável', () {
@@ -384,6 +405,7 @@ void main() {
           hasBanking: true,
           service: service,
         );
+        store.setAvailabilityAccountId('account-1');
         store.setMethod(RecurringPaymentMethodType.BILL);
         store.setBoletoLine('raw-input');
         expect(store.state.isComplete, isFalse);
@@ -421,6 +443,7 @@ void main() {
           hasBanking: true,
           service: service,
         );
+        store.setAvailabilityAccountId('account-1');
         store.setMethod(RecurringPaymentMethodType.BILL);
         await store.simulateBill(
           const RecurringPaymentBillSimulationInput.barCode('barcode'),
@@ -510,6 +533,7 @@ void main() {
           hasBanking: true,
           service: service,
         );
+        store.setAvailabilityAccountId('account-1');
         store.setMethod(RecurringPaymentMethodType.BILL);
         store.setBoletoLine('raw-line');
         expect(await store.submit(), isNull);

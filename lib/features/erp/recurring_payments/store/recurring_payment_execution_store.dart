@@ -29,6 +29,11 @@ class RecurringPaymentExecutionStore extends ChangeNotifier {
 
   RecurringPaymentExecutionState state;
 
+  void setAvailabilityAccountId(String accountId) {
+    state = state.copyWith(availabilityAccountId: accountId);
+    notifyListeners();
+  }
+
   void setMethod(RecurringPaymentMethodType method) {
     if (method == state.method) return;
     // Cambiar de método descarta lo que era propio del anterior (la clave PIX o
@@ -96,8 +101,7 @@ class RecurringPaymentExecutionStore extends ChangeNotifier {
       final simulation = await service.simulateBill(state.item.id, input);
       final usable =
           simulation.bankSlip?.identificationField?.isNotEmpty == true &&
-          (!state.isVariable ||
-              (simulation.bankSlip?.valueInCents ?? 0) > 0);
+          (!state.isVariable || (simulation.bankSlip?.valueInCents ?? 0) > 0);
       state = state.copyWith(
         isSimulatingBill: false,
         billSimulation: usable ? simulation : null,

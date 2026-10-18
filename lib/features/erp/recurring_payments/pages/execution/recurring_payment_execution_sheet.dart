@@ -14,6 +14,7 @@ import '../../service/recurring_payment_execution_service.dart';
 import '../../store/recurring_payment_execution_store.dart';
 import '../../store/recurring_payment_monthly_store.dart';
 import 'widgets/recurring_payment_amount_method_step.dart';
+import 'widgets/recurring_payment_availability_account_step.dart';
 import 'widgets/recurring_payment_boleto_camera_step.dart';
 import 'widgets/recurring_payment_boleto_entry_step.dart';
 import 'widgets/recurring_payment_boleto_line_step.dart';
@@ -24,6 +25,7 @@ import 'widgets/recurring_payment_pix_key_step.dart';
 
 /// Passos do fluxo de execução de uma competência.
 enum RecurringPaymentExecutionStep {
+  availabilityAccount,
   amountAndMethod,
   pixKey,
   pixConfirmation,
@@ -36,8 +38,8 @@ enum RecurringPaymentExecutionStep {
 
 /// Abre o fluxo de execução de uma competência.
 ///
-/// Com banca conectada o caminho vem da matriz (valor fixo/variável × destino
-/// PIX salvo ou não); sem banca, é sempre o registro manual.
+/// Com banca conectada, a igreja escolhe primeiro a conta disponível para o
+/// débito; sem banca, registra manualmente o pagamento já realizado.
 Future<void> openRecurringPaymentExecution(
   BuildContext context, {
   required RecurringPaymentCompetenceModel item,
@@ -110,16 +112,16 @@ class RecurringPaymentExecutionSheetState
   late RecurringPaymentExecutionStep _step = _initialStep();
 
   RecurringPaymentExecutionStep _initialStep() {
-    if (!widget.hasBanking) {
-      return RecurringPaymentExecutionStep.amountAndMethod;
-    }
+    return widget.hasBanking
+        ? RecurringPaymentExecutionStep.availabilityAccount
+        : RecurringPaymentExecutionStep.amountAndMethod;
+  }
 
-    // Fixo com destino guardado não tem nada a decidir: vai direto à confirmação.
-    final hasDestination = widget.item.recurringPayment.hasPixDestination;
-    if (widget.item.recurringPayment.isFixed && hasDestination) {
+  RecurringPaymentExecutionStep _stepAfterAccountSelection() {
+    final payment = widget.item.recurringPayment;
+    if (payment.isFixed && payment.hasPixDestination) {
       return RecurringPaymentExecutionStep.pixConfirmation;
     }
-
     return RecurringPaymentExecutionStep.amountAndMethod;
   }
 
@@ -203,6 +205,10 @@ class RecurringPaymentExecutionSheetState
 
   Widget _content(BuildContext context) {
     switch (_step) {
+      case RecurringPaymentExecutionStep.availabilityAccount:
+        return RecurringPaymentAvailabilityAccountStep(
+          onContinue: _continueFromAvailabilityAccount,
+        );
       case RecurringPaymentExecutionStep.amountAndMethod:
         if (!widget.hasBanking) {
           return RecurringPaymentManualRegistrationStep(
@@ -285,6 +291,10 @@ class RecurringPaymentExecutionSheetState
     setState(() => _step = RecurringPaymentExecutionStep.boletoEntry);
   }
 
+  void _continueFromAvailabilityAccount() {
+    setState(() => _step = _stepAfterAccountSelection());
+  }
+
   Future<bool> _simulateScannedBill(String barcode) async {
     final success = await _store.simulateBill(
       RecurringPaymentBillSimulationInput.barCode(barcode),
@@ -359,6 +369,8 @@ class RecurringPaymentExecutionSheetState
     }
 
     switch (_step) {
+      case RecurringPaymentExecutionStep.availabilityAccount:
+        return l10n.recurringPaymentsExecution_account_selection_title;
       case RecurringPaymentExecutionStep.amountAndMethod:
         return l10n.recurringPaymentsExecution_method_title;
       case RecurringPaymentExecutionStep.pixKey:
@@ -379,34 +391,33 @@ class RecurringPaymentExecutionSheetState
   }
 
   bool get _canGoBack =>
-      _step != RecurringPaymentExecutionStep.result &&
-      (_step != _initialStep() ||
-          _step == RecurringPaymentExecutionStep.pixConfirmation);
+      _step != RecurringPaymentExecutionStep.result && _step != _initialStep();
 
   void _goBack() {
-    if (_step == _initialStep() &&
-        _step != RecurringPaymentExecutionStep.pixConfirmation) {
-      Navigator.of(context).pop();
-      return;
-    }
-
     setState(() {
       _step = switch (_step) {
+        RecurringPaymentExecutionStep.availabilityAccount =>
+          RecurringPaymentExecutionStep.availabilityAccount,
+        RecurringPaymentExecutionStep.amountAndMethod =>
+          widget.hasBanking
+              ? RecurringPaymentExecutionStep.availabilityAccount
+              : RecurringPaymentExecutionStep.amountAndMethod,
         RecurringPaymentExecutionStep.pixKey ||
         RecurringPaymentExecutionStep
             .boletoEntry => RecurringPaymentExecutionStep.amountAndMethod,
         RecurringPaymentExecutionStep.pixConfirmation =>
           _store.state.requiresPixKey
               ? RecurringPaymentExecutionStep.pixKey
+              : _store.state.isFixed && _store.state.payment.hasPixDestination
+              ? RecurringPaymentExecutionStep.availabilityAccount
               : RecurringPaymentExecutionStep.amountAndMethod,
         RecurringPaymentExecutionStep.boletoLine ||
         RecurringPaymentExecutionStep
             .boletoCamera => RecurringPaymentExecutionStep.boletoEntry,
         RecurringPaymentExecutionStep.boletoConfirmation =>
           RecurringPaymentExecutionStep.boletoLine,
-        RecurringPaymentExecutionStep.amountAndMethod ||
-        RecurringPaymentExecutionStep
-            .result => RecurringPaymentExecutionStep.amountAndMethod,
+        RecurringPaymentExecutionStep.result =>
+          RecurringPaymentExecutionStep.amountAndMethod,
       };
     });
   }

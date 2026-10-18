@@ -5908,6 +5908,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get recurringPaymentsExecution_account_label => 'Account';
 
   @override
+  String get recurringPaymentsExecution_account_selection_title => 'Select an availability account';
+
+  @override
+  String get recurringPaymentsExecution_account_selection_description => 'Choose the account that will fund this payment.';
+
+  @override
+  String get recurringPaymentsExecution_account_selection_empty => 'No active availability accounts found.';
+
+  @override
+  String get recurringPaymentsExecution_account_selection_continue => 'CONTINUE';
+
+  @override
   String get recurringPaymentsExecution_account_asaas => 'Connected Asaas account';
 
   @override

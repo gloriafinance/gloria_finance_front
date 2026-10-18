@@ -41,6 +41,7 @@ extension RecurringPaymentExecutionCaseExtension
 class RecurringPaymentExecutionState {
   final RecurringPaymentCompetenceModel item;
   final bool hasBanking;
+  final String? availabilityAccountId;
   final RecurringPaymentMethodType method;
   final String amountText;
   final String pixKey;
@@ -55,6 +56,7 @@ class RecurringPaymentExecutionState {
   const RecurringPaymentExecutionState({
     required this.item,
     required this.hasBanking,
+    required this.availabilityAccountId,
     required this.method,
     required this.amountText,
     required this.pixKey,
@@ -74,6 +76,7 @@ class RecurringPaymentExecutionState {
     return RecurringPaymentExecutionState(
       item: item,
       hasBanking: hasBanking,
+      availabilityAccountId: null,
       // PIX viene preseleccionado: con destino guardado es el camino directo y
       // sin él sigue siendo la opción más usada; el usuario puede cambiarlo.
       method: RecurringPaymentMethodType.PIX,
@@ -90,6 +93,7 @@ class RecurringPaymentExecutionState {
   }
 
   RecurringPaymentExecutionState copyWith({
+    String? availabilityAccountId,
     RecurringPaymentMethodType? method,
     String? amountText,
     String? pixKey,
@@ -107,6 +111,8 @@ class RecurringPaymentExecutionState {
     return RecurringPaymentExecutionState(
       item: item,
       hasBanking: hasBanking,
+      availabilityAccountId:
+          availabilityAccountId ?? this.availabilityAccountId,
       method: method ?? this.method,
       amountText: amountText ?? this.amountText,
       pixKey: pixKey ?? this.pixKey,
@@ -197,6 +203,7 @@ class RecurringPaymentExecutionState {
   }
 
   bool get isComplete {
+    if (hasBanking && availabilityAccountId == null) return false;
     if (requiresAmount && (amount == null || amount! <= 0)) return false;
     if (requiresPixKey &&
         (pixKey.trim().isEmpty || effectivePixKeyType == null)) {
@@ -232,6 +239,7 @@ class RecurringPaymentExecutionState {
               identificationField:
                   billSimulation!.bankSlip!.identificationField!,
             ),
+    availabilityAccountId: availabilityAccountId!,
   );
 
   /// Payload del registro manual: el importe solo viaja si es variable (en un

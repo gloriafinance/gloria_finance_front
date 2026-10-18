@@ -11599,6 +11599,30 @@ abstract class AppLocalizations {
   /// **'Account'**
   String get recurringPaymentsExecution_account_label;
 
+  /// No description provided for @recurringPaymentsExecution_account_selection_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Select an availability account'**
+  String get recurringPaymentsExecution_account_selection_title;
+
+  /// No description provided for @recurringPaymentsExecution_account_selection_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the account that will fund this payment.'**
+  String get recurringPaymentsExecution_account_selection_description;
+
+  /// No description provided for @recurringPaymentsExecution_account_selection_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No active availability accounts found.'**
+  String get recurringPaymentsExecution_account_selection_empty;
+
+  /// No description provided for @recurringPaymentsExecution_account_selection_continue.
+  ///
+  /// In en, this message translates to:
+  /// **'CONTINUE'**
+  String get recurringPaymentsExecution_account_selection_continue;
+
   /// No description provided for @recurringPaymentsExecution_account_asaas.
   ///
   /// In en, this message translates to:

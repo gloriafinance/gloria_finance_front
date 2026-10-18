@@ -95,13 +95,13 @@ Reglas que la UI respeta y no recalcula:
 | Caso | Configuración | Flujo | Qué NO se vuelve a pedir |
 | --- | --- | --- | --- |
 | A | Sin Asaas | **REGISTRAR PAGAMENTO**: data, conta, comprovante (obligatorio) y valor solo si es variable | Valor (en `FIXED`), y **nunca** PIX/boleto: Glória no ejecutó nada |
-| 1 | `FIXED` + `pixDestination` | **PAGAR** → confirmación PIX directa | valor, chave, tipo de chave, método |
-| 2 | `FIXED` sin `pixDestination` | **PAGAR** → elegir PIX o boleto | valor (ya está definido) |
-| 3 | `VARIABLE` + `pixDestination` | **PAGAR** → valor + método; PIX hereda el destino | chave y tipo de chave |
-| 4 | `VARIABLE` sin `pixDestination` | **PAGAR** → valor + método; si es PIX, chave y tipo | — |
+| 1 | `FIXED` + `pixDestination` | **PAGAR** → elegir cuenta de disponibilidad → confirmar PIX | valor, chave, tipo de chave, método |
+| 2 | `FIXED` sin `pixDestination` | **PAGAR** → elegir cuenta → elegir PIX o boleto | valor (ya está definido) |
+| 3 | `VARIABLE` + `pixDestination` | **PAGAR** → elegir cuenta → valor + método; PIX hereda el destino | chave y tipo de chave |
+| 4 | `VARIABLE` sin `pixDestination` | **PAGAR** → elegir cuenta → valor + método; si es PIX, chave y tipo | — |
 
-En los cuatro casos con Asaas la **cuenta** es la conectada (`Conta Asaas conectada`): se muestra, no
-se pregunta.
+En los cuatro casos con Asaas el usuario elige la cuenta de disponibilidad de la que saldrá el pago.
+La cuenta seleccionada se incluye en la solicitud y aparece en la confirmación.
 
 ### A. Iglesia sin Asaas — registro manual
 
@@ -117,7 +117,7 @@ se pregunta.
 ### B. Iglesia con Asaas — PIX
 
 La confirmación **no es un formulario**: revisa lo que ya se sabe (nombre, competencia, valor,
-destino PIX con la nota *"Configurado no pagamento recorrente"*, cuenta) y avisa
+destino PIX con la nota *"Configurado no pagamento recorrente"* y cuenta de disponibilidad elegida) y avisa
 *"Após confirmar, o pagamento será enviado para processamento bancário."*
 
 Después de confirmar **no se dice "Pago"**: se muestra *"Pagamento enviado"* / *Processando* hasta
@@ -158,7 +158,7 @@ El detalle se abre con el `ModalPage` existente en el ERP. Cancelar un registro 
 | --- | --- |
 | Competencia y estado mensual | `GET /api/v1/recurring-payments?competence=YYYY-MM` |
 | Simular boleto | `POST /api/v1/recurring-payments/:id/bill/simulate` con exactamente `{barCode}` o `{identificationField}` |
-| Pagar | `POST /api/v1/recurring-payments/:id/pay` con `{competence, amount?, payment: PIX|BILL, availabilityAccountId?}` |
+| Pagar | `POST /api/v1/recurring-payments/:id/pay` con `{competence, amount?, payment: PIX|BILL, availabilityAccountId?}`; la UI siempre envía la cuenta elegida |
 | Registro manual | `POST /:id/register-payment` (multipart, `file` obligatorio) |
 | Cancelar registro manual | `PATCH /finance/financial-record/cancel/:financialRecordId` |
 | Banca conectada | `AuthSessionModel.asaasConnect` |
@@ -199,6 +199,7 @@ lib/features/erp/recurring_payments/
     monthly/widgets/recurring_payment_monthly_empty_state.dart
     monthly/widgets/recurring_payment_execution_detail_sheet.dart
     execution/recurring_payment_execution_sheet.dart
+    execution/widgets/recurring_payment_availability_account_step.dart # selección de cuenta antes del pago bancario
     execution/widgets/recurring_payment_amount_method_step.dart
     execution/widgets/recurring_payment_pix_key_step.dart
     execution/widgets/recurring_payment_confirmation_step.dart

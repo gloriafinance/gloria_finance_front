@@ -495,6 +495,45 @@ void main() {
       expect(find.text('Confirmar pagamento PIX'), findsOneWidget);
     });
 
+    testWidgets('pagar começa pela conta de disponibilidade', (tester) async {
+      await _pumpSheet(
+        tester,
+        size: _desktop,
+        item: _item(
+          name: 'Aluguel do templo',
+          type: 'FIXED',
+          amount: 3500,
+          pix: true,
+        ),
+        selectAvailabilityAccount: false,
+      );
+      await _capture(tester, generate, 'desktop-21-conta-disponibilidade.png');
+      expect(find.text('Selecione a conta de disponibilidade'), findsOneWidget);
+      expect(find.text('Confirmar pagamento PIX'), findsNothing);
+    });
+
+    testWidgets('seleciona conta de disponibilidade antes de confirmar PIX', (
+      tester,
+    ) async {
+      await _pumpSheet(
+        tester,
+        size: _mobile,
+        item: _item(
+          name: 'Aluguel do templo',
+          type: 'FIXED',
+          amount: 3500,
+          pix: true,
+        ),
+        selectAvailabilityAccount: false,
+      );
+      await _capture(tester, generate, 'mobile-16-conta-disponibilidade.png');
+      expect(find.text('Selecione a conta de disponibilidade'), findsOneWidget);
+      expect(find.text('Confirmar pagamento PIX'), findsNothing);
+
+      await _selectAvailabilityAccount(tester);
+      expect(find.text('Confirmar pagamento PIX'), findsOneWidget);
+    });
+
     testWidgets('variável com destino PIX', (tester) async {
       await _pumpSheet(
         tester,
@@ -699,6 +738,7 @@ Future<void> _pumpSheet(
   required Size size,
   required RecurringPaymentCompetenceModel item,
   bool hasBanking = true,
+  bool selectAvailabilityAccount = true,
   RecurringPaymentExecutionService? service,
 }) async {
   _setSurface(tester, size);
@@ -733,6 +773,16 @@ Future<void> _pumpSheet(
       desktopModal: isDesktop,
     ),
   );
+  await tester.pumpAndSettle();
+  if (hasBanking && selectAvailabilityAccount) {
+    await _selectAvailabilityAccount(tester);
+  }
+}
+
+Future<void> _selectAvailabilityAccount(WidgetTester tester) async {
+  await tester.tap(find.text('Banco Itaú').last);
+  await tester.pumpAndSettle();
+  await tester.tap(find.text('CONTINUAR'));
   await tester.pumpAndSettle();
 }
 

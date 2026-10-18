@@ -5908,6 +5908,18 @@ class AppLocalizationsPt extends AppLocalizations {
   String get recurringPaymentsExecution_account_label => 'Conta';
 
   @override
+  String get recurringPaymentsExecution_account_selection_title => 'Selecione a conta de disponibilidade';
+
+  @override
+  String get recurringPaymentsExecution_account_selection_description => 'Escolha de qual conta sairá o pagamento.';
+
+  @override
+  String get recurringPaymentsExecution_account_selection_empty => 'Nenhuma conta de disponibilidade ativa encontrada.';
+
+  @override
+  String get recurringPaymentsExecution_account_selection_continue => 'CONTINUAR';
+
+  @override
   String get recurringPaymentsExecution_account_asaas => 'Conta Asaas conectada';
 
   @override

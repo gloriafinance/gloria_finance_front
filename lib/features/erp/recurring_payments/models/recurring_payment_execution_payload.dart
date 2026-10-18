@@ -43,7 +43,7 @@ class RecurringPaymentExecutionPayload {
     required RecurringPaymentValueType? type,
     required double? amount,
     required RecurringPaymentPayMethod method,
-    String? availabilityAccountId,
+    required String availabilityAccountId,
   }) {
     // VARIABLE sends the PIX amount entered by the payer, or the amount read
     // from the simulated bill. FIXED always uses the configured amount.
@@ -53,8 +53,7 @@ class RecurringPaymentExecutionPayload {
       'competence': competence,
       if (declaresAmount && amount != null) 'amount': amount,
       'payment': method.toJson(),
-      if (availabilityAccountId != null && availabilityAccountId.isNotEmpty)
-        'availabilityAccountId': availabilityAccountId,
+      'availabilityAccountId': availabilityAccountId,
     };
   }
 }

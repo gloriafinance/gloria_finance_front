@@ -4,6 +4,7 @@ import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/currency_formatter.dart';
 import 'package:gloria_finance/core/widgets/custom_button.dart';
+import 'package:gloria_finance/features/erp/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/recurring_payment_model.dart';
@@ -32,6 +33,9 @@ class RecurringPaymentConfirmationStep extends StatelessWidget {
   Widget build(BuildContext context) {
     final store = context.watch<RecurringPaymentExecutionStore>();
     final state = store.state;
+    final availabilityAccount = context
+        .watch<AvailabilityAccountsListStore>()
+        .findByAvailabilityAccountId(state.availabilityAccountId!);
     final l10n = context.l10n;
     final isPix = state.isPix;
 
@@ -99,7 +103,7 @@ class RecurringPaymentConfirmationStep extends StatelessWidget {
         ],
         RecurringPaymentExecutionField(
           label: l10n.recurringPaymentsExecution_account_label,
-          value: l10n.recurringPaymentsExecution_account_asaas,
+          value: availabilityAccount!.accountName,
         ),
         const SizedBox(height: 12),
         RecurringPaymentExecutionNotice(
