@@ -20,6 +20,8 @@ class RecurringPaymentExecutionResultStep extends StatelessWidget {
     required this.symbolFormatMoney,
     required this.onClose,
     required this.onRetry,
+    required this.onCheckStatus,
+    required this.isCheckingStatus,
   });
 
   final RecurringPaymentPayResult result;
@@ -27,6 +29,8 @@ class RecurringPaymentExecutionResultStep extends StatelessWidget {
   final String symbolFormatMoney;
   final VoidCallback onClose;
   final VoidCallback onRetry;
+  final VoidCallback onCheckStatus;
+  final bool isCheckingStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +64,14 @@ class RecurringPaymentExecutionResultStep extends StatelessWidget {
         context,
         icon: Icons.pause_circle_outline,
         color: AppColors.mustard,
-        title: l10n.recurringPaymentsExecution_blocked_title,
-        description: l10n.recurringPaymentsExecution_blocked_description,
+        title:
+            method == RecurringPaymentMethodType.PIX_QR
+                ? l10n.recurringPaymentsExecution_status_unknown
+                : l10n.recurringPaymentsExecution_blocked_title,
+        description:
+            method == RecurringPaymentMethodType.PIX_QR
+                ? l10n.recurringPaymentsExecution_pixQr_unknown
+                : l10n.recurringPaymentsExecution_blocked_description,
         onClose: onClose,
       );
     }
@@ -76,8 +86,8 @@ class RecurringPaymentExecutionResultStep extends StatelessWidget {
         onClose: onClose,
         primary: CustomButton(
           text: l10n.recurringPaymentsExecution_failed_retry,
-          backgroundColor: AppColors.purple,
-          textColor: Colors.white,
+          backgroundColor: AppColors.green,
+          textColor: Colors.black,
           icon: Icons.refresh,
           onPressed: onRetry,
         ),
@@ -115,30 +125,53 @@ class RecurringPaymentExecutionResultStep extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         RecurringPaymentExecutionNotice(
-          text: l10n.recurringPaymentsExecution_sent_description,
+          text:
+              method == RecurringPaymentMethodType.PIX_QR
+                  ? l10n.recurringPaymentsExecution_pixQr_pending
+                  : l10n.recurringPaymentsExecution_sent_description,
           icon: Icons.hourglass_top,
           color: AppColors.blue,
         ),
         const SizedBox(height: 12),
-        if (result.amount != null)
+        if (result.effectiveAmount != null)
           RecurringPaymentExecutionField(
             label: l10n.recurringPaymentsExecution_field_value,
             value: CurrencyFormatter.formatCurrency(
-              result.amount!,
+              result.effectiveAmount!,
               symbol: symbolFormatMoney,
             ),
           ),
         RecurringPaymentExecutionField(
           label: l10n.recurringPaymentsExecution_field_method,
           value:
-              method == RecurringPaymentMethodType.PIX
+              method == RecurringPaymentMethodType.PIX ||
+                      method == RecurringPaymentMethodType.PIX_QR
                   ? l10n.recurringPaymentsExecution_method_pix
                   : l10n.recurringPaymentsExecution_method_bill,
         ),
         const SizedBox(height: 18),
+        if (method == RecurringPaymentMethodType.PIX_QR) ...[
+          CustomButton(
+            text: l10n.recurringPaymentsExecution_pixQr_checkStatus,
+            backgroundColor: AppColors.green,
+            disabledBackgroundColor: AppColors.green.withValues(alpha: 0.4),
+            textColor: Colors.black,
+            icon: Icons.refresh,
+            leading:
+                isCheckingStatus
+                    ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                    : null,
+            onPressed: isCheckingStatus ? null : onCheckStatus,
+          ),
+          const SizedBox(height: 8),
+        ],
         CustomButton(
           text: l10n.recurringPaymentsExecution_common_close,
-          backgroundColor: AppColors.greyMiddle,
+          backgroundColor: AppColors.green,
           textColor: Colors.black,
           onPressed: onClose,
         ),
@@ -197,7 +230,7 @@ class RecurringPaymentExecutionResultStep extends StatelessWidget {
         if (primary != null) ...[primary, const SizedBox(height: 8)],
         CustomButton(
           text: l10n.recurringPaymentsExecution_common_close,
-          backgroundColor: AppColors.greyMiddle,
+          backgroundColor: AppColors.green,
           textColor: Colors.black,
           onPressed: onClose,
         ),

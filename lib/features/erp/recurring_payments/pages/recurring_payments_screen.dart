@@ -36,6 +36,10 @@ class _RecurringPaymentsScreenState extends State<RecurringPaymentsScreen>
     super.dispose();
   }
 
+  void _openConfigurationTab() {
+    _controller.animateTo(1);
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -75,7 +79,9 @@ class _RecurringPaymentsScreenState extends State<RecurringPaymentsScreen>
           builder:
               (context, _) =>
                   _controller.index == 0
-                      ? const RecurringPaymentMonthlyView()
+                      ? RecurringPaymentMonthlyView(
+                        onOpenConfiguration: _openConfigurationTab,
+                      )
                       : const RecurringPaymentListScreen(),
         ),
       ],

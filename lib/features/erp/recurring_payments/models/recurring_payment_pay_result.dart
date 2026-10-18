@@ -56,4 +56,6 @@ class RecurringPaymentPayResult {
     final cents = providerValueInCents;
     return cents == null ? null : cents / 100;
   }
+
+  double? get effectiveAmount => providerAmount ?? amount;
 }

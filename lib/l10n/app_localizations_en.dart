@@ -5947,6 +5947,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get recurringPaymentsExecution_sent_description => 'The payment was sent to the bank and we are waiting for confirmation. It only counts as paid after the bank confirms it.';
 
   @override
+  String get recurringPaymentsExecution_pixQr_pending => 'The Pix was sent. Check its status to update the confirmation; no new payment will be created.';
+
+  @override
+  String get recurringPaymentsExecution_pixQr_checkStatus => 'Check Pix status';
+
+  @override
+  String get recurringPaymentsExecution_pixQr_unknown => 'We could not confirm whether the bank created the payment. Do not try to pay again; contact support.';
+
+  @override
   String get recurringPaymentsExecution_error_pay => 'The payment could not be sent.';
 
   @override
@@ -6179,4 +6188,73 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recurringPaymentsExecution_boleto_minimum_date => 'Earliest payment date';
+
+  @override
+  String get recurringPaymentsExecution_source_title => 'Which account will pay?';
+
+  @override
+  String get recurringPaymentsExecution_source_description => 'Choose the account to use for this recurring payment.';
+
+  @override
+  String get recurringPaymentsExecution_source_connected => 'Account connected to Glória';
+
+  @override
+  String get recurringPaymentsExecution_source_empty => 'No active accounts are available for this payment.';
+
+  @override
+  String get recurringPaymentsExecution_source_continue => 'CONTINUE';
+
+  @override
+  String get recurringPaymentsExecution_instrument_qr => 'PIX QR';
+
+  @override
+  String get recurringPaymentsExecution_instrument_qr_hint => 'Scan the QR Code or paste the Pix copy-and-paste code';
+
+  @override
+  String get recurringPaymentsExecution_instrument_boleto => 'BOLETO';
+
+  @override
+  String get recurringPaymentsExecution_instrument_boleto_hint => 'Scan the barcode or enter the digit line';
+
+  @override
+  String get recurringPaymentsExecution_qr_entry_title => 'How would you like to enter the Pix?';
+
+  @override
+  String get recurringPaymentsExecution_qr_camera => 'Scan QR Code';
+
+  @override
+  String get recurringPaymentsExecution_qr_camera_hint => 'Use the camera to read the Pix code';
+
+  @override
+  String get recurringPaymentsExecution_qr_paste => 'Pix copy and paste';
+
+  @override
+  String get recurringPaymentsExecution_qr_paste_hint => 'Paste the code received from the beneficiary';
+
+  @override
+  String get recurringPaymentsExecution_qr_paste_label => 'Pix copy and paste';
+
+  @override
+  String get recurringPaymentsExecution_qr_paste_placeholder => 'Paste the Pix code here';
+
+  @override
+  String get recurringPaymentsExecution_qr_scan_instruction => 'Place the QR Code inside the marked area.';
+
+  @override
+  String get recurringPaymentsExecution_qr_camera_permission => 'Allow camera access to scan the QR Code.';
+
+  @override
+  String get recurringPaymentsExecution_qr_camera_error => 'The camera could not be opened.';
+
+  @override
+  String get recurringPaymentsExecution_qr_invalid => 'This Pix QR code could not be read. Check it and try again.';
+
+  @override
+  String get recurringPaymentsExecution_qr_decoding => 'Reading Pix code…';
+
+  @override
+  String get recurringPaymentsExecution_qr_amount_label => 'Amount shown in the QR Code';
+
+  @override
+  String get recurringPaymentsExecution_qr_beneficiary_label => 'Pix beneficiary';
 }

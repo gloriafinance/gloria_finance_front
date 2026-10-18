@@ -134,6 +134,7 @@ class _RecurringPaymentAvailabilityAccountStepState
         CustomButton(
           text: l10n.recurringPaymentsExecution_account_selection_continue,
           backgroundColor: AppColors.green,
+          disabledBackgroundColor: AppColors.green.withValues(alpha: 0.4),
           textColor: Colors.black,
           icon: Icons.arrow_forward,
           onPressed: hasSelection ? widget.onContinue : null,

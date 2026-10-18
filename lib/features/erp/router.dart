@@ -165,21 +165,30 @@ erpListRouter() {
       redirect: (context, state) => _brazilOnlyRedirect(),
       pageBuilder: (context, state) {
         // O mês é a aba padrão: é o trabalho do tesoureiro no dia a dia.
-        return transitionCustom(const RecurringPaymentsScreen());
+        return transitionCustom(
+          const RecurringPaymentsScreen(),
+          key: state.pageKey,
+        );
       },
     ),
     GoRoute(
       path: '/recurring-payments/configuration',
       redirect: (context, state) => _brazilOnlyRedirect(),
       pageBuilder: (context, state) {
-        return transitionCustom(const RecurringPaymentsScreen(initialTab: 1));
+        return transitionCustom(
+          const RecurringPaymentsScreen(initialTab: 1),
+          key: state.pageKey,
+        );
       },
     ),
     GoRoute(
       path: '/recurring-payments/add',
       redirect: (context, state) => _brazilOnlyRedirect(),
       pageBuilder: (context, state) {
-        return transitionCustom(const RecurringPaymentFormScreen());
+        return transitionCustom(
+          const RecurringPaymentFormScreen(),
+          key: state.pageKey,
+        );
       },
     ),
     GoRoute(
@@ -195,6 +204,7 @@ erpListRouter() {
             recurringPayment: payment,
             recurringPaymentId: state.pathParameters['recurringPaymentId'],
           ),
+          key: state.pageKey,
         );
       },
     ),

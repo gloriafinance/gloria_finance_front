@@ -3,32 +3,23 @@ import 'recurring_payment_model.dart';
 
 /// Método de pago de **una ejecución** (nunca configuración permanente).
 class RecurringPaymentPayMethod {
-  const RecurringPaymentPayMethod.pix({
-    required String this.pixKey,
-    required PixKeyType this.pixKeyType,
-  }) : type = RecurringPaymentMethodType.PIX,
-       identificationField = null;
+  const RecurringPaymentPayMethod.pixQr({required String this.payload})
+    : type = RecurringPaymentMethodType.PIX_QR,
+      identificationField = null;
 
   const RecurringPaymentPayMethod.bill({
     required String this.identificationField,
   }) : type = RecurringPaymentMethodType.BILL,
-       pixKey = null,
-       pixKeyType = null;
+       payload = null;
+
+  final String? payload;
 
   final RecurringPaymentMethodType type;
-  final String? pixKey;
-  final PixKeyType? pixKeyType;
   final String? identificationField;
 
-  bool get isPix => type == RecurringPaymentMethodType.PIX;
-
   Map<String, dynamic> toJson() {
-    if (isPix) {
-      return {
-        'type': type.apiValue,
-        'pixKey': pixKey,
-        'pixKeyType': pixKeyType?.apiValue,
-      };
+    if (type == RecurringPaymentMethodType.PIX_QR) {
+      return {'type': type.apiValue, 'payload': payload};
     }
     return {'type': type.apiValue, 'identificationField': identificationField};
   }
@@ -43,7 +34,7 @@ class RecurringPaymentExecutionPayload {
     required RecurringPaymentValueType? type,
     required double? amount,
     required RecurringPaymentPayMethod method,
-    required String availabilityAccountId,
+    String? availabilityAccountId,
   }) {
     // VARIABLE sends the PIX amount entered by the payer, or the amount read
     // from the simulated bill. FIXED always uses the configured amount.
@@ -53,7 +44,8 @@ class RecurringPaymentExecutionPayload {
       'competence': competence,
       if (declaresAmount && amount != null) 'amount': amount,
       'payment': method.toJson(),
-      'availabilityAccountId': availabilityAccountId,
+      if (availabilityAccountId != null)
+        'availabilityAccountId': availabilityAccountId,
     };
   }
 }

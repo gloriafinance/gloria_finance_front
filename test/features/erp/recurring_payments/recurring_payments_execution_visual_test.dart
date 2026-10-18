@@ -1,20 +1,19 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:gloria_finance/features/auth/auth_session_model.dart';
 import 'package:gloria_finance/features/auth/pages/login/store/auth_session_store.dart';
 import 'package:gloria_finance/features/auth/pages/login/state/auth_session_state.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_competence_model.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_bill_simulation.dart';
-import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_execution_model.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_month.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_pay_result.dart';
+import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_pix_qr_data.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/pages/execution/recurring_payment_execution_sheet.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/service/recurring_payment_execution_service.dart';
-import 'package:gloria_finance/features/erp/recurring_payments/pages/execution/widgets/recurring_payment_execution_result_step.dart';
-import 'package:gloria_finance/features/erp/recurring_payments/pages/monthly/recurring_payment_monthly_view.dart';
-import 'package:gloria_finance/features/erp/recurring_payments/pages/monthly/widgets/recurring_payment_execution_detail_sheet.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/state/recurring_payment_monthly_state.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/state/recurring_payment_options_state.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/store/recurring_payment_monthly_store.dart';
@@ -42,696 +41,258 @@ const _dir = 'docs/pagamentos-recorrentes-execucao';
 /// ```
 void main() {
   const generate = bool.fromEnvironment('GENERATE_SCREENSHOTS');
+  final previousScannerPlatform = MobileScannerPlatform.instance;
 
   setUpAll(() async {
     TestWidgetsFlutterBinding.ensureInitialized();
+    MobileScannerPlatform.instance = _VisualScannerPlatform();
     SharedPreferences.setMockInitialValues({});
     await loadAppFonts();
   });
 
-  group('desktop', () {
-    testWidgets('vista mensual com Asaas', (tester) async {
-      await _pumpMonthly(
-        tester,
-        size: _desktop,
-        hasBanking: true,
-        items: _itemsWithoutInFlight(),
-      );
-      await _capture(tester, generate, 'desktop-01-mes-asaas.png');
-      expect(find.text('Aluguel do templo'), findsOneWidget);
-      expect(find.text('Pendente'), findsWidgets);
-    });
+  tearDownAll(() {
+    MobileScannerPlatform.instance = previousScannerPlatform;
+  });
 
-    testWidgets('vista mensual sem Asaas', (tester) async {
-      await _pumpMonthly(
-        tester,
-        size: _desktop,
-        hasBanking: false,
-        items: _itemsWithoutInFlight(),
-      );
-      await _capture(tester, generate, 'desktop-02-mes-sem-asaas.png');
-      expect(find.text('REGISTRAR PAGAMENTO'), findsWidgets);
-    });
-
-    testWidgets('registro manual de valor fixo', (tester) async {
-      await _pumpSheet(
-        tester,
-        size: _desktop,
-        item: _item(name: 'Aluguel do templo', type: 'FIXED', amount: 3500),
-        hasBanking: false,
-      );
-      await _capture(tester, generate, 'desktop-03-registro-manual-fixo.png');
-      expect(find.text('Registrar pagamento'), findsOneWidget);
-    });
-
-    testWidgets('registro manual de valor variável', (tester) async {
-      await _pumpSheet(
-        tester,
-        size: _desktop,
-        item: _item(name: 'Energia elétrica', type: 'VARIABLE'),
-        hasBanking: false,
-      );
-      await _capture(
-        tester,
-        generate,
-        'desktop-04-registro-manual-variavel.png',
-      );
-      expect(find.text('Valor pago'), findsOneWidget);
-    });
-
-    testWidgets('com operação viva, nenhuma outra linha oferece pagamento', (
+  group('desktop payment flow', () {
+    testWidgets('starts by selecting the Asaas availability account', (
       tester,
     ) async {
-      await _pumpMonthly(tester, size: _desktop, hasBanking: true);
-      // Há um PROCESSING no mês: as outras linhas só podem ser consultadas.
-      expect(find.text('PAGAR'), findsNothing);
-      expect(find.text('Ver detalhes'), findsWidgets);
-    });
-
-    testWidgets('fixo com destino PIX: confirmação direta', (tester) async {
-      await _pumpSheet(
-        tester,
-        size: _desktop,
-        item: _item(
-          name: 'Aluguel do templo',
-          type: 'FIXED',
-          amount: 3500,
-          pix: true,
-        ),
-      );
-      await _capture(tester, generate, 'desktop-05-pix-confirmacao-direta.png');
-      expect(find.text('CONFIRMAR PIX'), findsOneWidget);
-    });
-
-    testWidgets('fixo sem destino: escolher método', (tester) async {
       await _pumpSheet(
         tester,
         size: _desktop,
         item: _item(name: 'Aluguel do templo', type: 'FIXED', amount: 3500),
+        selectAvailabilityAccount: false,
       );
-      await _capture(
-        tester,
-        generate,
-        'desktop-06-fixo-sem-destino-metodo.png',
-      );
-      expect(find.text('Como deseja pagar?'), findsOneWidget);
-      expect(find.textContaining('destino PIX configurado'), findsOneWidget);
-      expect(find.textContaining('linha digitável do boleto'), findsOneWidget);
-    });
-
-    testWidgets('variável com destino PIX', (tester) async {
-      await _pumpSheet(
-        tester,
-        size: _desktop,
-        item: _item(name: 'Energia elétrica', type: 'VARIABLE', pix: true),
-      );
-      await _capture(tester, generate, 'desktop-07-variavel-com-destino.png');
-      expect(find.text('Valor a pagar'), findsOneWidget);
-    });
-
-    testWidgets('variável sem destino', (tester) async {
-      await _pumpSheet(
-        tester,
-        size: _desktop,
-        item: _item(name: 'Energia elétrica', type: 'VARIABLE'),
-      );
-      await _capture(tester, generate, 'desktop-08-variavel-sem-destino.png');
-      expect(find.text('Valor a pagar'), findsOneWidget);
-    });
-
-    testWidgets('PIX sem chave guardada', (tester) async {
-      await _pumpSheet(
-        tester,
-        size: _desktop,
-        item: _item(
-          name: 'Internet',
-          type: 'FIXED',
-          amount: 299.9,
-          pix: true,
-          destination: false,
-        ),
-      );
-      await tester.tap(find.text('CONFIRMAR PAGAMENTO'));
-      await tester.pumpAndSettle();
-      await _capture(tester, generate, 'desktop-09-pix-sem-chave.png');
-      expect(find.text('Chave PIX'), findsWidgets);
-      expect(find.text('Informe a chave PIX'), findsOneWidget);
-      expect(find.text('Digite ou cole a chave PIX'), findsOneWidget);
-    });
-
-    testWidgets('boleto: escolha da entrada', (tester) async {
-      await tester.pumpAndSettle();
-      await _pumpSheet(
-        tester,
-        size: _desktop,
-        item: _item(name: 'Aluguel do templo', type: 'FIXED', amount: 3500),
-      );
-      await tester.tap(find.text('Boleto'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('CONFIRMAR PAGAMENTO'));
-      await tester.pumpAndSettle();
-      await _capture(tester, generate, 'desktop-10-boleto-entrada.png');
-      expect(find.text('Como deseja informar o boleto?'), findsOneWidget);
-    });
-
-    testWidgets('boleto: digitar linha', (tester) async {
-      await _pumpSheet(
-        tester,
-        size: _desktop,
-        item: _item(name: 'Aluguel do templo', type: 'FIXED', amount: 3500),
-      );
-      await tester.tap(find.text('Boleto'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('CONFIRMAR PAGAMENTO'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('DIGITAR LINHA'));
-      await tester.pumpAndSettle();
-      await _capture(tester, generate, 'desktop-11-boleto-digitar-linha.png');
-      expect(find.text('Linha digitável'), findsOneWidget);
-      expect(find.text('Informe a linha digitável'), findsOneWidget);
-      expect(find.text('Digite ou cole a linha digitável'), findsOneWidget);
-    });
-
-    testWidgets('resultado PAID imediato', (tester) async {
-      await _pumpResult(
-        tester,
-        size: _desktop,
-        result: _paid(),
-        method: RecurringPaymentMethodType.BILL,
-      );
-      await _capture(tester, generate, 'desktop-12-pagamento-confirmado.png');
-      expect(find.text('Pagamento confirmado.'), findsOneWidget);
-    });
-
-    testWidgets('processando', (tester) async {
-      await _pumpDetail(
-        tester,
-        size: _desktop,
-        item: _item(
-          name: 'Aluguel do templo',
-          type: 'FIXED',
-          amount: 3500,
-          execution: 'PROCESSING',
-          status: 'PROCESSING',
-        ),
-      );
-      await _capture(tester, generate, 'desktop-14-processing.png');
-      expect(find.text('Pagamento em processamento'), findsOneWidget);
-    });
-
-    testWidgets('bloqueado', (tester) async {
-      await _pumpDetail(
-        tester,
-        size: _desktop,
-        item: _item(
-          name: 'Internet',
-          type: 'FIXED',
-          amount: 299.9,
-          execution: 'BLOCKED',
-          status: 'BLOCKED',
-        ),
-      );
-      await _capture(tester, generate, 'desktop-15-blocked.png');
-      expect(find.text('Pagamento bloqueado'), findsOneWidget);
-    });
-
-    testWidgets('falhou', (tester) async {
-      await _pumpDetail(
-        tester,
-        size: _desktop,
-        item: _item(
-          name: 'Energia elétrica',
-          type: 'VARIABLE',
-          execution: 'FAILED',
-          status: 'FAILED',
-        ),
-      );
-      await _capture(tester, generate, 'desktop-16-failed.png');
-      expect(find.text('Pagamento não concluído'), findsOneWidget);
-    });
-
-    testWidgets('pago por registro manual', (tester) async {
-      await _pumpDetail(
-        tester,
-        size: _desktop,
-        item: _item(
-          name: 'Aluguel do templo',
-          type: 'FIXED',
-          amount: 3500,
-          status: 'PAID',
-          settlement: 'CLEARED',
-        ),
-      );
-      await _capture(tester, generate, 'desktop-17-pago-manual.png');
-      expect(find.text('Registro manual'), findsWidgets);
-    });
-
-    testWidgets('pago por débito bancário', (tester) async {
-      await _pumpDetail(
-        tester,
-        size: _desktop,
-        item: _item(
-          name: 'Internet',
-          type: 'FIXED',
-          amount: 299.9,
-          status: 'PAID',
-          settlement: 'RECONCILED',
-        ),
-      );
-      await _capture(tester, generate, 'desktop-18-pago-asaas.png');
+      await _capture(tester, generate, 'desktop-01-selecao-conta.png');
       expect(
-        find.text('Um débito bancário confirmado não pode ser cancelado.'),
+        find.text('De qual conta será feito o pagamento?'),
         findsOneWidget,
       );
+      expect(find.text('Conta Asaas'), findsOneWidget);
+      expect(find.text('Banco Itaú'), findsWidgets);
     });
 
-    testWidgets('câmera do boleto', (tester) async {
+    testWidgets('shows the PIX or boleto choice after selecting Asaas', (
+      tester,
+    ) async {
       await _pumpSheet(
         tester,
         size: _desktop,
         item: _item(name: 'Aluguel do templo', type: 'FIXED', amount: 3500),
       );
-      await tester.tap(find.text('Boleto'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('CONFIRMAR PAGAMENTO'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('LER COM A CÂMERA'));
-      await tester.pumpAndSettle();
-      await _capture(tester, generate, 'desktop-19-boleto-camera.png');
-      expect(find.text('Ler boleto'), findsOneWidget);
+      await _capture(tester, generate, 'desktop-02-asaas-instrumento.png');
+      expect(find.text('Como deseja pagar?'), findsOneWidget);
+      expect(find.text('PIX QR'), findsOneWidget);
+      expect(find.text('BOLETO'), findsOneWidget);
     });
 
-    testWidgets('confirmação final do boleto', (tester) async {
+    testWidgets('shows the decoded QR amount before enabling payment', (
+      tester,
+    ) async {
+      final service = _VisualExecutionService();
       await _pumpSheet(
         tester,
         size: _desktop,
-        item: _item(name: 'Aluguel do templo', type: 'FIXED', amount: 3500),
-        service: _VisualExecutionService(),
+        item: _item(name: 'Energia elétrica', type: 'VARIABLE'),
+        service: service,
       );
-      await tester.tap(find.text('Boleto'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('CONFIRMAR PAGAMENTO'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('DIGITAR LINHA'));
-      await tester.pumpAndSettle();
-      await tester.enterText(
-        find.byType(TextFormField),
-        '00190000090123456789012345678901234567890123456',
-      );
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('CONSULTAR BOLETO'));
-      await tester.pumpAndSettle();
-      await _capture(tester, generate, 'desktop-20-boleto-confirmacao.png');
-      expect(find.text('PAGAR BOLETO'), findsOneWidget);
-      expect(find.text('Beneficiário'), findsOneWidget);
-      expect(find.text('Valor do boleto'), findsOneWidget);
-      expect(find.text('Vencimento'), findsOneWidget);
-      expect(find.text('Boleto vencido'), findsWidgets);
-      expect(find.text('VALORES DIFERENTES'), findsNothing);
-      expect(find.textContaining('Nada foi debitado'), findsNothing);
-    });
-  });
-
-  group('ações do detalhe (cabeçalho do modal)', () {
-    testWidgets('bloqueado só consulta e nunca reintenta', (tester) async {
-      await _pumpDetailModal(
-        tester,
-        item: _item(
-          name: 'Internet',
-          type: 'FIXED',
-          amount: 299.9,
-          execution: 'BLOCKED',
-          status: 'BLOCKED',
-        ),
-      );
-      expect(find.text('ATUALIZAR STATUS'), findsOneWidget);
-      expect(find.text('TENTAR NOVAMENTE'), findsNothing);
-    });
-
-    testWidgets('falhou oferece uma execução nova', (tester) async {
-      await _pumpDetailModal(
-        tester,
-        item: _item(
-          name: 'Energia elétrica',
-          type: 'VARIABLE',
-          execution: 'FAILED',
-          status: 'FAILED',
-        ),
-      );
-      expect(find.text('TENTAR NOVAMENTE'), findsOneWidget);
-    });
-
-    testWidgets('pago manual permite cancelar; conciliado não', (tester) async {
-      await _pumpDetailModal(
-        tester,
-        item: _item(
-          name: 'Aluguel do templo',
-          type: 'FIXED',
-          amount: 3500,
-          status: 'PAID',
-          settlement: 'CLEARED',
-        ),
-      );
-      expect(find.text('CANCELAR REGISTRO'), findsOneWidget);
-
-      await _pumpDetailModal(
-        tester,
-        item: _item(
-          name: 'Internet',
-          type: 'FIXED',
-          amount: 299.9,
-          status: 'PAID',
-          settlement: 'RECONCILED',
-        ),
-      );
-      expect(find.text('CANCELAR REGISTRO'), findsNothing);
-    });
-  });
-
-  group('tablet', () {
-    testWidgets('vista mensal em duas colunas', (tester) async {
-      await _pumpMonthly(
-        tester,
-        size: _tablet,
-        hasBanking: true,
-        items: _itemsWithoutInFlight(),
-      );
-      await _capture(tester, generate, 'tablet-01-mes.png');
-      expect(find.text('Compromissos do mês'), findsOneWidget);
-    });
-
-    testWidgets('execução PIX', (tester) async {
-      await _pumpSheet(
-        tester,
-        size: _tablet,
-        item: _item(
-          name: 'Aluguel do templo',
-          type: 'FIXED',
-          amount: 3500,
-          pix: true,
-        ),
-      );
-      await _capture(tester, generate, 'tablet-02-pix.png');
+      await _openPixPaste(tester);
+      await _pastePix(tester);
+      await _capture(tester, generate, 'desktop-04-qr-preview.png');
+      expect(find.text('R\$ 150,00'), findsOneWidget);
       expect(find.text('CONFIRMAR PIX'), findsOneWidget);
+      expect(service.payCalls, 0);
     });
 
-    testWidgets('execução boleto', (tester) async {
-      await _pumpSheet(
-        tester,
-        size: _tablet,
-        item: _item(name: 'Aluguel do templo', type: 'FIXED', amount: 3500),
-      );
-      await tester.tap(find.text('Boleto'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('CONFIRMAR PAGAMENTO'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('DIGITAR LINHA'));
-      await tester.pumpAndSettle();
-      await _capture(tester, generate, 'tablet-03-boleto.png');
-      expect(find.text('Linha digitável'), findsOneWidget);
-    });
-
-    testWidgets('processando e bloqueado', (tester) async {
-      await _pumpDetail(
-        tester,
-        size: _tablet,
-        item: _item(
-          name: 'Internet',
-          type: 'FIXED',
-          amount: 299.9,
-          execution: 'BLOCKED',
-          status: 'BLOCKED',
-        ),
-      );
-      await _capture(tester, generate, 'tablet-04-bloqueado.png');
-      expect(find.text('Pagamento bloqueado'), findsOneWidget);
-    });
+    testWidgets(
+      'simulates the boleto and shows the provider amount before payment',
+      (tester) async {
+        final service = _VisualExecutionService();
+        await _pumpSheet(
+          tester,
+          size: _desktop,
+          item: _item(name: 'Energia elétrica', type: 'VARIABLE'),
+          service: service,
+        );
+        await _openBoletoLine(tester);
+        await tester.enterText(
+          find.byType(TextFormField),
+          '00190000090123456789012345678901234567890123456',
+        );
+        await tester.pump();
+        await tester.tap(find.text('CONSULTAR BOLETO'));
+        await tester.pumpAndSettle();
+        expect(service.simulateCalls, 1);
+        await _capture(tester, generate, 'desktop-03-boleto-preview.png');
+        expect(find.text('PAGAR BOLETO'), findsOneWidget);
+        expect(find.text('R\$ 3.750,00'), findsWidgets);
+        expect(service.payCalls, 0);
+      },
+    );
   });
 
-  group('mobile', () {
-    testWidgets('vista mensal em tarjetas', (tester) async {
-      await _pumpMonthly(
-        tester,
-        size: _mobile,
-        hasBanking: true,
-        items: _itemsWithoutInFlight(),
-      );
-      await _capture(tester, generate, 'mobile-01-mes.png');
-      expect(find.text('Aluguel do templo'), findsOneWidget);
-    });
-
-    testWidgets('fixo com destino PIX', (tester) async {
-      await _pumpSheet(
-        tester,
-        size: _mobile,
-        item: _item(
-          name: 'Aluguel do templo',
-          type: 'FIXED',
-          amount: 3500,
-          pix: true,
-        ),
-      );
-      await _capture(tester, generate, 'mobile-02-pix-configurado.png');
-      expect(find.text('Confirmar pagamento PIX'), findsOneWidget);
-    });
-
-    testWidgets('pagar começa pela conta de disponibilidade', (tester) async {
-      await _pumpSheet(
-        tester,
-        size: _desktop,
-        item: _item(
-          name: 'Aluguel do templo',
-          type: 'FIXED',
-          amount: 3500,
-          pix: true,
-        ),
-        selectAvailabilityAccount: false,
-      );
-      await _capture(tester, generate, 'desktop-21-conta-disponibilidade.png');
-      expect(find.text('Selecione a conta de disponibilidade'), findsOneWidget);
-      expect(find.text('Confirmar pagamento PIX'), findsNothing);
-    });
-
-    testWidgets('seleciona conta de disponibilidade antes de confirmar PIX', (
+  group('mobile payment flow', () {
+    testWidgets('selects the Asaas account before the payment method', (
       tester,
     ) async {
       await _pumpSheet(
         tester,
         size: _mobile,
-        item: _item(
-          name: 'Aluguel do templo',
-          type: 'FIXED',
-          amount: 3500,
-          pix: true,
-        ),
+        item: _item(name: 'Aluguel do templo', type: 'FIXED', amount: 3500),
         selectAvailabilityAccount: false,
       );
-      await _capture(tester, generate, 'mobile-16-conta-disponibilidade.png');
-      expect(find.text('Selecione a conta de disponibilidade'), findsOneWidget);
+      await _capture(tester, generate, 'mobile-01-selecao-conta.png');
       expect(find.text('Confirmar pagamento PIX'), findsNothing);
-
+      expect(
+        find.text('De qual conta será feito o pagamento?'),
+        findsOneWidget,
+      );
       await _selectAvailabilityAccount(tester);
-      expect(find.text('Confirmar pagamento PIX'), findsOneWidget);
-    });
-
-    testWidgets('variável com destino PIX', (tester) async {
-      await _pumpSheet(
-        tester,
-        size: _mobile,
-        item: _item(name: 'Energia elétrica', type: 'VARIABLE', pix: true),
-      );
-      await _capture(tester, generate, 'mobile-03-variavel-com-destino.png');
-      expect(find.text('Valor a pagar'), findsOneWidget);
-    });
-
-    testWidgets('PIX sem chave configurada', (tester) async {
-      await _pumpSheet(
-        tester,
-        size: _mobile,
-        item: _item(name: 'Internet', type: 'FIXED', amount: 299.9),
-      );
-      await tester.tap(find.text('CONFIRMAR PAGAMENTO'));
-      await tester.pumpAndSettle();
-      await _capture(tester, generate, 'mobile-04-pix-sem-chave.png');
-      expect(find.text('Chave PIX'), findsWidgets);
-    });
-
-    testWidgets('escolha de método', (tester) async {
-      await _pumpSheet(
-        tester,
-        size: _mobile,
-        item: _item(name: 'Aluguel do templo', type: 'FIXED', amount: 3500),
-      );
-      await _capture(tester, generate, 'mobile-05-metodo.png');
       expect(find.text('Como deseja pagar?'), findsOneWidget);
     });
 
-    testWidgets('entrada do boleto', (tester) async {
-      await _pumpBoletoEntry(tester);
-      await _capture(tester, generate, 'mobile-06-boleto-entrada.png');
-      expect(find.text('Como deseja informar o boleto?'), findsOneWidget);
-    });
-
-    testWidgets('câmera do boleto', (tester) async {
-      await _pumpBoletoEntry(tester);
-      await tester.tap(find.text('LER COM A CÂMERA'));
-      await tester.pumpAndSettle();
-      await _capture(tester, generate, 'mobile-07-boleto-camera.png');
-      expect(find.text('Ler boleto'), findsOneWidget);
-    });
-
-    testWidgets('digitar linha', (tester) async {
-      await _pumpBoletoEntry(tester);
-      await tester.tap(find.text('DIGITAR LINHA'));
-      await tester.pumpAndSettle();
-      await _capture(tester, generate, 'mobile-08-boleto-digitar-linha.png');
-      expect(find.text('Linha digitável'), findsOneWidget);
-      expect(find.text('Informe a linha digitável'), findsOneWidget);
-    });
-
-    testWidgets('boleto validado', (tester) async {
-      await _pumpResult(
-        tester,
-        size: _mobile,
-        result: _accepted(),
-        method: RecurringPaymentMethodType.BILL,
-      );
-      await _capture(tester, generate, 'mobile-09-pagamento-enviado.png');
-      expect(find.text('Pagamento enviado'), findsOneWidget);
-    });
-
-    testWidgets('resultado PAID imediato', (tester) async {
-      await _pumpResult(
-        tester,
-        size: _mobile,
-        result: _paid(),
-        method: RecurringPaymentMethodType.BILL,
-      );
-      await _capture(tester, generate, 'mobile-11-pagamento-confirmado.png');
-      expect(find.text('Pagamento confirmado.'), findsOneWidget);
-    });
-
-    testWidgets('confirmação final', (tester) async {
+    testWidgets('offers camera and copy-paste Pix input', (tester) async {
       await _pumpSheet(
         tester,
         size: _mobile,
         item: _item(name: 'Aluguel do templo', type: 'FIXED', amount: 3500),
-        service: _VisualExecutionService(),
       );
-      await tester.tap(find.text('Boleto'));
+      await tester.tap(find.text('PIX QR'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('CONFIRMAR PAGAMENTO'));
+      await _capture(tester, generate, 'mobile-03-asaas-instrumento.png');
+      expect(find.text('Escanear QR Code'), findsOneWidget);
+      expect(find.text('Pix copia e cola'), findsOneWidget);
+    });
+
+    testWidgets('opens the QR camera scanner with a paste fallback', (
+      tester,
+    ) async {
+      await _pumpSheet(
+        tester,
+        size: _mobile,
+        item: _item(name: 'Aluguel do templo', type: 'FIXED', amount: 3500),
+      );
+      await tester.tap(find.text('PIX QR'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Escanear QR Code'));
+      await tester.pumpAndSettle();
+      await _capture(tester, generate, 'mobile-06-qr-scanner.png');
+      expect(
+        find.text('Posicione o QR Code dentro da área indicada.'),
+        findsOneWidget,
+      );
+      expect(find.text('PIX COPIA E COLA'), findsOneWidget);
+    });
+
+    testWidgets('shows the decoded QR amount before payment confirmation', (
+      tester,
+    ) async {
+      final service = _VisualExecutionService();
+      await _pumpSheet(
+        tester,
+        size: _mobile,
+        item: _item(name: 'Aluguel do templo', type: 'FIXED', amount: 3500),
+        service: service,
+      );
+      await _openPixPaste(tester);
+      await _pastePix(tester);
+      await _capture(tester, generate, 'mobile-07-qr-preview.png');
+      expect(find.text('R\$ 150,00'), findsOneWidget);
+      expect(find.text('R\$ 3.500,00'), findsOneWidget);
+      expect(find.text('CONFIRMAR PIX'), findsOneWidget);
+      expect(service.payCalls, 0);
+    });
+
+    testWidgets('captures the boleto camera and typed-line entry', (
+      tester,
+    ) async {
+      await _pumpSheet(
+        tester,
+        size: _mobile,
+        item: _item(name: 'Aluguel do templo', type: 'FIXED', amount: 3500),
+      );
+      await tester.tap(find.text('BOLETO'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('LER COM A CÂMERA'));
+      await tester.pumpAndSettle();
+      await _capture(tester, generate, 'mobile-05-boleto-camera.png');
+      expect(find.text('Ler boleto'), findsOneWidget);
+
+      await tester.tap(find.byIcon(Icons.arrow_back));
       await tester.pumpAndSettle();
       await tester.tap(find.text('DIGITAR LINHA'));
       await tester.pumpAndSettle();
-      await tester.enterText(
-        find.byType(TextFormField),
-        '00190000090123456789012345678901234567890123456',
+      await _capture(tester, generate, 'mobile-04-boleto-linha.png');
+      expect(find.text('Informe a linha digitável'), findsOneWidget);
+    });
+
+    testWidgets(
+      'shows the simulated boleto amount before payment confirmation',
+      (tester) async {
+        final service = _VisualExecutionService();
+        await _pumpSheet(
+          tester,
+          size: _mobile,
+          item: _item(name: 'Energia elétrica', type: 'VARIABLE'),
+          service: service,
+        );
+        await _openBoletoLine(tester);
+        await tester.enterText(
+          find.byType(TextFormField),
+          '00190000090123456789012345678901234567890123456',
+        );
+        await tester.pump();
+        await tester.tap(find.text('CONSULTAR BOLETO'));
+        await tester.pumpAndSettle();
+        expect(service.simulateCalls, 1);
+        await _capture(tester, generate, 'mobile-08-boleto-preview.png');
+        expect(find.text('PAGAR BOLETO'), findsOneWidget);
+        expect(find.text('R\$ 3.750,00'), findsWidgets);
+        expect(service.payCalls, 0);
+      },
+    );
+
+    testWidgets('cash registration does not ask for a voucher', (tester) async {
+      await _pumpSheet(
+        tester,
+        size: _mobile,
+        item: _item(name: 'Aluguel do templo', type: 'FIXED', amount: 3500),
+        hasBanking: false,
+        selectAvailabilityAccount: false,
       );
+      await tester.tap(find.text('Dinheiro').last);
       await tester.pumpAndSettle();
-      await tester.tap(find.text('CONSULTAR BOLETO'));
+      await tester.tap(find.text('CONTINUAR'));
       await tester.pumpAndSettle();
-      await _capture(tester, generate, 'mobile-10-boleto-confirmacao.png');
-      expect(find.text('PAGAR BOLETO'), findsOneWidget);
-      expect(find.text('Beneficiário'), findsOneWidget);
+      await _capture(
+        tester,
+        generate,
+        'mobile-08-registro-cash-sem-comprovante.png',
+      );
+      expect(find.text('Comprovante'), findsNothing);
     });
 
-    testWidgets('processando', (tester) async {
-      await _pumpDetail(
+    testWidgets('bank registration requires a voucher', (tester) async {
+      await _pumpSheet(
         tester,
         size: _mobile,
-        item: _item(
-          name: 'Aluguel do templo',
-          type: 'FIXED',
-          amount: 3500,
-          execution: 'PROCESSING',
-          status: 'PROCESSING',
-        ),
+        item: _item(name: 'Aluguel do templo', type: 'FIXED', amount: 3500),
+        hasBanking: false,
+        selectAvailabilityAccount: false,
       );
-      await _capture(tester, generate, 'mobile-12-processing.png');
-      expect(find.text('Pagamento em processamento'), findsOneWidget);
-    });
-
-    testWidgets('bloqueado', (tester) async {
-      await _pumpDetail(
-        tester,
-        size: _mobile,
-        item: _item(
-          name: 'Internet',
-          type: 'FIXED',
-          amount: 299.9,
-          execution: 'BLOCKED',
-          status: 'BLOCKED',
-        ),
-      );
-      await _capture(tester, generate, 'mobile-13-blocked.png');
-      expect(find.text('Pagamento bloqueado'), findsOneWidget);
-    });
-
-    testWidgets('falhou', (tester) async {
-      await _pumpDetail(
-        tester,
-        size: _mobile,
-        item: _item(
-          name: 'Energia elétrica',
-          type: 'VARIABLE',
-          execution: 'FAILED',
-          status: 'FAILED',
-        ),
-      );
-      await _capture(tester, generate, 'mobile-14-failed.png');
-      expect(find.text('Pagamento não concluído'), findsOneWidget);
-    });
-
-    testWidgets('pago', (tester) async {
-      await _pumpDetail(
-        tester,
-        size: _mobile,
-        item: _item(
-          name: 'Aluguel do templo',
-          type: 'FIXED',
-          amount: 3500,
-          status: 'PAID',
-          settlement: 'CLEARED',
-        ),
-      );
-      await _capture(tester, generate, 'mobile-15-pago.png');
-      expect(find.text('Pago'), findsWidgets);
+      await tester.tap(find.text('Banco Itaú').last);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('CONTINUAR'));
+      await tester.pumpAndSettle();
+      expect(find.text('Comprovante'), findsOneWidget);
+      expect(find.text('Anexe o comprovante do pagamento.'), findsOneWidget);
     });
   });
 }
 
 const _desktop = Size(1440, 1000);
-const _tablet = Size(834, 1112);
 const _mobile = Size(390, 900);
-
-Future<void> _pumpMonthly(
-  WidgetTester tester, {
-  required Size size,
-  required bool hasBanking,
-  List<RecurringPaymentCompetenceModel>? items,
-}) async {
-  _setSurface(tester, size);
-
-  final monthly =
-      RecurringPaymentMonthlyStore()
-        ..state = RecurringPaymentMonthlyState(
-          makeRequest: false,
-          month: _month,
-          items: items ?? _items(),
-          loadedChurchId: 'church-1',
-          loadedCompetence: '2026-10',
-        );
-
-  await tester.pumpWidget(
-    _wrap(
-      child: const RecurringPaymentMonthlyView(),
-      monthly: monthly,
-      hasBanking: hasBanking,
-    ),
-  );
-  await tester.pumpAndSettle();
-}
 
 Future<void> _pumpSheet(
   WidgetTester tester, {
@@ -774,108 +335,37 @@ Future<void> _pumpSheet(
     ),
   );
   await tester.pumpAndSettle();
-  if (hasBanking && selectAvailabilityAccount) {
+  if (selectAvailabilityAccount) {
     await _selectAvailabilityAccount(tester);
   }
 }
 
 Future<void> _selectAvailabilityAccount(WidgetTester tester) async {
-  await tester.tap(find.text('Banco Itaú').last);
+  await tester.tap(find.text('Conta Asaas').last);
   await tester.pumpAndSettle();
   await tester.tap(find.text('CONTINUAR'));
   await tester.pumpAndSettle();
 }
 
-Future<void> _pumpBoletoEntry(WidgetTester tester) async {
-  await _pumpSheet(
-    tester,
-    size: _mobile,
-    item: _item(name: 'Aluguel do templo', type: 'FIXED', amount: 3500),
-  );
-  await tester.tap(find.text('Boleto'));
+Future<void> _openPixPaste(WidgetTester tester) async {
+  await tester.tap(find.text('PIX QR'));
   await tester.pumpAndSettle();
-  await tester.tap(find.text('CONFIRMAR PAGAMENTO'));
+  await tester.tap(find.text('Pix copia e cola'));
   await tester.pumpAndSettle();
 }
 
-Future<void> _pumpResult(
-  WidgetTester tester, {
-  required Size size,
-  required RecurringPaymentPayResult result,
-  required RecurringPaymentMethodType method,
-}) async {
-  _setSurface(tester, size);
-
-  await tester.pumpWidget(
-    _wrap(
-      child: RecurringPaymentExecutionResultStep(
-        result: result,
-        method: method,
-        symbolFormatMoney: _symbol,
-        onClose: () {},
-        onRetry: () {},
-      ),
-      monthly: _monthlyStore(),
-      hasBanking: true,
-    ),
-  );
+Future<void> _pastePix(WidgetTester tester) async {
+  await tester.enterText(find.byType(TextFormField), '000201-pix-qr-original');
+  await tester.pumpAndSettle();
+  await tester.tap(find.text('CONTINUAR'));
   await tester.pumpAndSettle();
 }
 
-/// Captura o corpo do detalhe. O modal (`ModalPage`) abre em um overlay, fora do
-/// boundary de captura, então o enquadramento é o conteúdo; as ações do
-/// cabeçalho são verificadas em `_pumpDetailModal`.
-Future<void> _pumpDetail(
-  WidgetTester tester, {
-  required Size size,
-  required RecurringPaymentCompetenceModel item,
-}) async {
-  _setSurface(tester, size);
-
-  await tester.pumpWidget(
-    _wrap(
-      child: RecurringPaymentExecutionDetail(item: item),
-      monthly: _monthlyStore(),
-      hasBanking: true,
-    ),
-  );
+Future<void> _openBoletoLine(WidgetTester tester) async {
+  await tester.tap(find.text('BOLETO'));
   await tester.pumpAndSettle();
-}
-
-/// Abre o modal de verdade para conferir as ações do cabeçalho.
-Future<void> _pumpDetailModal(
-  WidgetTester tester, {
-  required RecurringPaymentCompetenceModel item,
-}) async {
-  _setSurface(tester, const Size(1440, 900));
-
-  await tester.pumpWidget(
-    _wrap(
-      child: _DetailLauncher(item: item),
-      monthly: _monthlyStore(),
-      hasBanking: true,
-    ),
-  );
+  await tester.tap(find.text('DIGITAR LINHA'));
   await tester.pumpAndSettle();
-  await tester.tap(find.text('ABRIR DETALHE'));
-  await tester.pumpAndSettle();
-}
-
-class _DetailLauncher extends StatelessWidget {
-  const _DetailLauncher({required this.item});
-
-  final RecurringPaymentCompetenceModel item;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: TextButton(
-        onPressed:
-            () => showRecurringPaymentExecutionDetail(context, item: item),
-        child: const Text('ABRIR DETALHE'),
-      ),
-    );
-  }
 }
 
 Widget _wrap({
@@ -1015,16 +505,6 @@ RecurringPaymentMonthlyStore _monthlyStore() {
 
 const _month = RecurringPaymentMonth(year: 2026, month: 10);
 
-RecurringPaymentPayResult _accepted() {
-  return RecurringPaymentPayResult(
-    outcome: RecurringPaymentPayOutcome.PROCESSING,
-    competence: '2026-10',
-    amount: 3500,
-    providerValueInCents: null,
-    failureCode: null,
-  );
-}
-
 RecurringPaymentPayResult _paid() {
   return RecurringPaymentPayResult(
     outcome: RecurringPaymentPayOutcome.PAID,
@@ -1038,11 +518,31 @@ RecurringPaymentPayResult _paid() {
 class _VisualExecutionService extends RecurringPaymentExecutionService {
   _VisualExecutionService();
 
+  int payCalls = 0;
+  int simulateCalls = 0;
+
+  @override
+  Future<RecurringPaymentPixQrData> decodePixQr(
+    String recurringPaymentId,
+    String availabilityAccountId,
+    String payload,
+  ) async => const RecurringPaymentPixQrData(amountInCents: 15000);
+
+  @override
+  Future<RecurringPaymentPayResult> payPixQr(
+    String recurringPaymentId,
+    Map<String, dynamic> payload,
+  ) async {
+    payCalls++;
+    return _paid();
+  }
+
   @override
   Future<RecurringPaymentBillSimulation> simulateBill(
     String recurringPaymentId,
     RecurringPaymentBillSimulationInput input,
   ) async {
+    simulateCalls++;
     return const RecurringPaymentBillSimulation(
       minimumScheduleDate: '2026-10-17',
       feeInCents: 250,
@@ -1069,6 +569,35 @@ class _VisualExecutionService extends RecurringPaymentExecutionService {
   }
 }
 
+class _VisualScannerPlatform extends MobileScannerPlatform {
+  @override
+  Stream<BarcodeCapture?> get barcodesStream => const Stream.empty();
+
+  @override
+  Stream<TorchState> get torchStateStream => const Stream.empty();
+
+  @override
+  Stream<double> get zoomScaleStateStream => const Stream.empty();
+
+  @override
+  Widget buildCameraView() => const ColoredBox(color: Color(0xFF1F1F1F));
+
+  @override
+  Future<MobileScannerViewAttributes> start(StartOptions options) async =>
+      MobileScannerViewAttributes(
+        cameraDirection: options.cameraDirection,
+        currentTorchMode: TorchState.off,
+        numberOfCameras: 1,
+        size: const Size(640, 480),
+      );
+
+  @override
+  Future<void> stop() async {}
+
+  @override
+  Future<void> dispose() async {}
+}
+
 List<RecurringPaymentCompetenceModel> _items() => [
   _item(name: 'Aluguel do templo', type: 'FIXED', amount: 3500, pix: true),
   _item(name: 'Energia elétrica', type: 'VARIABLE'),
@@ -1085,18 +614,6 @@ List<RecurringPaymentCompetenceModel> _items() => [
     type: 'VARIABLE',
     status: 'PROCESSING',
     execution: 'PROCESSING',
-  ),
-];
-
-List<RecurringPaymentCompetenceModel> _itemsWithoutInFlight() => [
-  _item(name: 'Aluguel do templo', type: 'FIXED', amount: 3500, pix: true),
-  _item(name: 'Energia elétrica', type: 'VARIABLE'),
-  _item(
-    name: 'Internet',
-    type: 'FIXED',
-    amount: 299.9,
-    status: 'PAID',
-    settlement: 'RECONCILED',
   ),
 ];
 
@@ -1184,11 +701,59 @@ final _costCenters = <CostCenterModel>[
 final _accounts = <AvailabilityAccountModel>[
   AvailabilityAccountModel(
     churchId: 'church-1',
-    availabilityAccountId: 'account-1',
+    availabilityAccountId: 'asaas-account',
+    accountName: 'Conta Asaas',
+    balance: 10000,
+    active: true,
+    accountType: 'BANK',
+    source: {
+      'accountType': 'CURRENT',
+      'active': true,
+      'bankId': 'asaas-bank',
+      'name': 'Asaas',
+      'tag': 'asaas',
+      'addressInstancePayment': '',
+      'bankInstruction': {'codeBank': '', 'agency': '', 'account': ''},
+      'churchId': 'church-1',
+    },
+    symbol: _symbol,
+  ),
+  AvailabilityAccountModel(
+    churchId: 'church-1',
+    availabilityAccountId: 'itau-account',
     accountName: 'Banco Itaú',
     balance: 10000,
     active: true,
-    accountType: 'CURRENT',
+    accountType: 'BANK',
+    source: {
+      'accountType': 'CURRENT',
+      'active': true,
+      'bankId': 'itau-bank',
+      'name': 'Itaú',
+      'tag': 'itau',
+      'addressInstancePayment': '',
+      'bankInstruction': {'codeBank': '', 'agency': '', 'account': ''},
+      'churchId': 'church-1',
+    },
+    symbol: _symbol,
+  ),
+  AvailabilityAccountModel(
+    churchId: 'church-1',
+    availabilityAccountId: 'wallet-account',
+    accountName: 'Carteira digital',
+    balance: 250,
+    active: true,
+    accountType: 'WALLET',
+    source: null,
+    symbol: _symbol,
+  ),
+  AvailabilityAccountModel(
+    churchId: 'church-1',
+    availabilityAccountId: 'cash-account',
+    accountName: 'Dinheiro',
+    balance: 500,
+    active: true,
+    accountType: 'CASH',
     source: null,
     symbol: _symbol,
   ),

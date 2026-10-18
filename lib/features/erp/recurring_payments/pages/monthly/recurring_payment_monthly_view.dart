@@ -17,7 +17,12 @@ import 'widgets/recurring_payment_monthly_table.dart';
 /// - Tablet (768–1023): duas colunas de tarjetas.
 /// - Mobile (< 768): uma coluna de tarjetas, sem tabela.
 class RecurringPaymentMonthlyView extends StatefulWidget {
-  const RecurringPaymentMonthlyView({super.key});
+  const RecurringPaymentMonthlyView({
+    super.key,
+    required this.onOpenConfiguration,
+  });
+
+  final VoidCallback onOpenConfiguration;
 
   static const double desktopBreakpoint = 1024;
 
@@ -78,7 +83,9 @@ class _RecurringPaymentMonthlyViewState
         if (state.isLoading && !state.hasItems)
           const Loading()
         else if (!state.hasItems)
-          const RecurringPaymentMonthlyEmptyState()
+          RecurringPaymentMonthlyEmptyState(
+            onOpenConfiguration: widget.onOpenConfiguration,
+          )
         else if (width >= RecurringPaymentMonthlyView.desktopBreakpoint)
           RecurringPaymentMonthlyTable(
             items: state.items,

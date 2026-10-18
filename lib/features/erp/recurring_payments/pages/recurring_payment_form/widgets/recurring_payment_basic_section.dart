@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 
 import '../../../store/recurring_payment_form_store.dart';
 import '../../../store/recurring_payment_options_store.dart';
-import '../../../utils/recurring_payment_lookup.dart';
 import 'recurring_payment_form_validators.dart';
 
 /// Sección "Informações básicas": nombre, concepto financiero y centro de costo.
@@ -31,54 +30,65 @@ class RecurringPaymentBasicSection extends StatelessWidget {
     final concepts = options.expenseConcepts;
     final costCenters = options.costCenters;
 
-    final conceptOptions = concepts.map((concept) => concept.name).toList();
-    final conceptIds = {
-      for (final concept in concepts) concept.name: concept.financialConceptId,
+    final conceptNames = {
+      for (final concept in concepts) concept.financialConceptId: concept.name,
     };
-    final costCenterOptions =
-        costCenters.map((costCenter) => costCenter.name).toList();
-    final costCenterIds = {
+    final costCenterNames = {
       for (final costCenter in costCenters)
-        costCenter.name: costCenter.costCenterId,
+        costCenter.costCenterId: costCenter.name,
     };
 
-    final conceptField =
-        conceptOptions.isEmpty
-            ? _MissingOptions(message: l10n.recurringPayments_error_no_concepts)
-            : Dropdown(
-              label: l10n.recurringPayments_field_concept,
-              items: conceptOptions,
-              initialValue: financialConceptLabelFor(
-                concepts,
-                state.financialConceptId,
+    final conceptField = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Dropdown(
+          label: l10n.recurringPayments_field_concept,
+          items: conceptNames.keys.toList(),
+          enabled: conceptNames.isNotEmpty,
+          initialValue:
+              conceptNames.containsKey(state.financialConceptId)
+                  ? state.financialConceptId
+                  : null,
+          itemLabelBuilder: (id) => conceptNames[id] ?? id,
+          onValidator:
+              (value) => selectionValidator(
+                context,
+                value,
+                l10n.recurringPayments_error_concept_required,
               ),
-              onValidator:
-                  (value) => selectionValidator(
-                    context,
-                    value,
-                    l10n.recurringPayments_error_concept_required,
-                  ),
-              onChanged:
-                  (value) => store.setFinancialConceptId(conceptIds[value]),
-            );
+          onChanged: store.setFinancialConceptId,
+        ),
+        if (conceptNames.isEmpty)
+          _MissingOptions(message: l10n.recurringPayments_error_no_concepts),
+      ],
+    );
 
-    final costCenterField =
-        costCenterOptions.isEmpty
-            ? _MissingOptions(
-              message: l10n.recurringPayments_error_no_cost_centers,
-            )
-            : Dropdown(
-              label: l10n.recurringPayments_field_cost_center,
-              items: costCenterOptions,
-              initialValue: costCenterLabelFor(costCenters, state.costCenterId),
-              onValidator:
-                  (value) => selectionValidator(
-                    context,
-                    value,
-                    l10n.recurringPayments_error_cost_center_required,
-                  ),
-              onChanged: (value) => store.setCostCenterId(costCenterIds[value]),
-            );
+    final costCenterField = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Dropdown(
+          label: l10n.recurringPayments_field_cost_center,
+          items: costCenterNames.keys.toList(),
+          enabled: costCenterNames.isNotEmpty,
+          initialValue:
+              costCenterNames.containsKey(state.costCenterId)
+                  ? state.costCenterId
+                  : null,
+          itemLabelBuilder: (id) => costCenterNames[id] ?? id,
+          onValidator:
+              (value) => selectionValidator(
+                context,
+                value,
+                l10n.recurringPayments_error_cost_center_required,
+              ),
+          onChanged: store.setCostCenterId,
+        ),
+        if (costCenterNames.isEmpty)
+          _MissingOptions(
+            message: l10n.recurringPayments_error_no_cost_centers,
+          ),
+      ],
+    );
 
     return SectionCard(
       index: 1,
