@@ -189,8 +189,13 @@ class AuthSessionModel {
     return token != "";
   }
 
+  /// Módulo/funciones exclusivas de iglesias de Brasil (PIX, Asaas, boleto).
+  bool get isBrazil {
+    return country.toUpperCase() == 'BR';
+  }
+
   bool get canConnectAsaas {
-    return country.toUpperCase() == 'BR' && !asaasConnect;
+    return isBrazil && !asaasConnect;
   }
 
   String getName() {

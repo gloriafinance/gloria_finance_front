@@ -15,6 +15,7 @@ class UploadFile extends StatefulWidget {
   final List<String> allowedExtensions;
   final bool allowMultiple;
   final String helperText;
+  final bool compact;
 
   const UploadFile({
     super.key,
@@ -24,6 +25,7 @@ class UploadFile extends StatefulWidget {
     this.allowedExtensions = const ['jpg', 'jpeg', 'png', 'pdf'],
     this.allowMultiple = false,
     this.helperText = 'JPG, PNG ou PDF, com no máximo 10MB',
+    this.compact = false,
   }) : assert(multipartFile != null || multipartFiles != null);
 
   @override
@@ -44,7 +46,7 @@ class _UploadFile extends State<UploadFile> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _label(),
-        const SizedBox(height: 12),
+        SizedBox(height: widget.compact ? 8 : 12),
         _selectorFile(),
         if (_platformFiles.isNotEmpty)
           Column(
@@ -158,25 +160,24 @@ class _UploadFile extends State<UploadFile> {
           borderRadius: BorderRadius.circular(12),
           onTap: _actionSelectFile,
           child: Container(
-            padding: const EdgeInsets.all(24.0),
+            padding: EdgeInsets.all(widget.compact ? 16 : 24),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(widget.compact ? 12 : 16),
                   decoration: BoxDecoration(
                     color: AppColors.purple.withValues(alpha: 0.08),
                     shape: BoxShape.circle,
                   ),
                   child: Image.asset(
                     'images/upload-cloud.png',
-                    width: 40,
-                    height: 40,
+                    width: widget.compact ? 32 : 40,
+                    height: widget.compact ? 32 : 40,
                     color: AppColors.purple,
                   ),
                 ),
-                const SizedBox(height: 16),
-                const SizedBox(height: 8),
+                SizedBox(height: widget.compact ? 12 : 24),
                 Text(
                   widget.helperText,
                   textAlign: TextAlign.center,
@@ -186,7 +187,7 @@ class _UploadFile extends State<UploadFile> {
                     color: AppColors.purple,
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: widget.compact ? 16 : 20),
                 OutlinedButton(
                   onPressed: _actionSelectFile,
                   style: OutlinedButton.styleFrom(
@@ -195,9 +196,9 @@ class _UploadFile extends State<UploadFile> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 14,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: widget.compact ? 20 : 24,
+                      vertical: widget.compact ? 10 : 14,
                     ),
                   ),
                   child: const Text(
@@ -219,7 +220,7 @@ class _UploadFile extends State<UploadFile> {
 
   Widget _label() {
     return Padding(
-      padding: const EdgeInsets.only(top: 20.0),
+      padding: EdgeInsets.only(top: widget.compact ? 8 : 20),
       child: Text(
         widget.label,
         textAlign: TextAlign.left,

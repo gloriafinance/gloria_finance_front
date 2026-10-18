@@ -12,9 +12,10 @@ class CustomButton extends StatelessWidget {
   final void Function()? onPressed;
   final IconData? icon;
   final Widget? leading;
-  EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? padding;
+  final Color? disabledBackgroundColor;
 
-  CustomButton({
+  const CustomButton({
     super.key,
     required this.text,
     required this.backgroundColor,
@@ -24,6 +25,7 @@ class CustomButton extends StatelessWidget {
     this.icon,
     this.leading,
     this.padding,
+    this.disabledBackgroundColor,
   });
 
   @override
@@ -33,10 +35,10 @@ class CustomButton extends StatelessWidget {
       onPressed: onPressed,
       child: Padding(
         padding:
-            padding ??=
-                isMobile(context)
-                    ? EdgeInsets.only(top: 18, bottom: 18)
-                    : EdgeInsets.only(top: 14, bottom: 14),
+            padding ??
+            (isMobile(context)
+                ? const EdgeInsets.only(top: 18, bottom: 18)
+                : const EdgeInsets.only(top: 14, bottom: 14)),
         child: LayoutBuilder(
           builder: (context, constraints) {
             final canFlex = constraints.maxWidth.isFinite;
@@ -75,8 +77,15 @@ class CustomButton extends StatelessWidget {
   ButtonStyle _basicStyle() {
     return ElevatedButton.styleFrom(
       backgroundColor: backgroundColor,
+      disabledBackgroundColor: disabledBackgroundColor,
+      disabledForegroundColor:
+          disabledBackgroundColor == null
+              ? null
+              : textColor.withValues(alpha: 0.55),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-      elevation: 4.0,
+      side: BorderSide.none,
+      elevation: 1.0,
+      shadowColor: Colors.black26,
     );
   }
 

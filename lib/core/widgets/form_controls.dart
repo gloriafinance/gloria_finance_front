@@ -8,6 +8,7 @@ import '../utils/app_localizations_ext.dart';
 
 class Input extends StatefulWidget {
   final String label;
+  final String? hintText;
   final String? Function(String?)? onValidator;
   final Function(String) onChanged;
   final dynamic? initialValue;
@@ -29,6 +30,7 @@ class Input extends StatefulWidget {
     this.iconRight,
     this.isPass = false,
     required this.label,
+    this.hintText,
     this.labelSuffix,
     required this.onChanged,
     this.onValidator,
@@ -90,6 +92,7 @@ class _InputState extends State<Input> {
               widget.icon,
               widget.iconRight,
               widget.onIconTap,
+              widget.hintText,
             ),
             validator: widget.onValidator,
             onChanged: widget.onChanged,
@@ -129,8 +132,10 @@ InputDecoration _inputDecoration(
   IconData? icon,
   Icon? iconRight,
   GestureTapCallback? onIconTap,
+  String? hintText,
 ) {
   return InputDecoration(
+    hintText: hintText,
     contentPadding: const EdgeInsets.all(16),
     errorBorder: const OutlineInputBorder(
       borderSide: BorderSide(color: Colors.red),
@@ -148,7 +153,7 @@ InputDecoration _inputDecoration(
             ? GestureDetector(onTap: onIconTap ?? () {}, child: iconRight)
             : null,
     hintStyle: const TextStyle(
-      color: AppColors.greyMiddle,
+      color: AppColors.grey,
       fontFamily: AppFonts.fontSubTitle,
     ),
     enabledBorder: const OutlineInputBorder(
@@ -165,6 +170,7 @@ InputDecoration _inputDecoration(
 class Dropdown extends StatefulWidget {
   final List<String> items;
   final String label;
+  final bool enabled;
   final String? Function(String?)? onValidator;
   final Function(String) onChanged;
   final Widget? labelSuffix;
@@ -176,6 +182,7 @@ class Dropdown extends StatefulWidget {
     Key? key,
     required this.items,
     required this.label,
+    this.enabled = true,
     this.onValidator,
     required this.onChanged,
     this.labelSuffix,
@@ -194,6 +201,7 @@ class _DropdownState extends State<Dropdown> {
   final FocusNode _searchFocusNode = FocusNode();
   bool _isDropdownOpen = false;
   final LayerLink _layerLink = LayerLink();
+  final GlobalKey<FormFieldState<String>> _formFieldKey = GlobalKey();
   String? _selectedValue;
   List<String> _filteredItems = [];
   final GlobalKey _dropdownKey = GlobalKey();
@@ -238,6 +246,7 @@ class _DropdownState extends State<Dropdown> {
     super.didUpdateWidget(oldWidget);
     if (widget.initialValue != oldWidget.initialValue) {
       _selectedValue = widget.initialValue;
+      _formFieldKey.currentState?.didChange(widget.initialValue);
     }
     if (widget.items != oldWidget.items) {
       _filteredItems = List.from(widget.items);
@@ -449,6 +458,7 @@ class _DropdownState extends State<Dropdown> {
     setState(() {
       _selectedValue = value;
     });
+    _formFieldKey.currentState?.didChange(value);
     widget.onChanged(value);
     _closeDropdown();
   }
@@ -462,6 +472,7 @@ class _DropdownState extends State<Dropdown> {
         children: [
           ..._generateLabel(widget.label, suffix: widget.labelSuffix),
           FormField<String>(
+            key: _formFieldKey,
             initialValue: _selectedValue,
             validator: widget.onValidator,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -471,7 +482,7 @@ class _DropdownState extends State<Dropdown> {
                 children: [
                   // Campo seleccionable que muestra el valor actual
                   GestureDetector(
-                    onTap: _toggleDropdown,
+                    onTap: widget.enabled ? _toggleDropdown : null,
                     child: Container(
                       child: CompositedTransformTarget(
                         link: _layerLink,
@@ -480,6 +491,10 @@ class _DropdownState extends State<Dropdown> {
                           height: 50,
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           decoration: BoxDecoration(
+                            color:
+                                widget.enabled
+                                    ? Colors.white
+                                    : AppColors.greyLight,
                             border: Border.all(
                               color:
                                   state.hasError
@@ -498,7 +513,8 @@ class _DropdownState extends State<Dropdown> {
                                   style: TextStyle(
                                     fontFamily: AppFonts.fontSubTitle,
                                     color:
-                                        _selectedValue == null
+                                        !widget.enabled ||
+                                                _selectedValue == null
                                             ? AppColors.greyMiddle
                                             : Colors.black87,
                                   ),
