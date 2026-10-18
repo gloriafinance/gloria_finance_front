@@ -4,11 +4,15 @@ import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/general.dart';
 import 'package:gloria_finance/core/widgets/custom_button.dart';
-import 'package:go_router/go_router.dart';
 
 /// Mês sem compromissos: nada vence nesta competência.
 class RecurringPaymentMonthlyEmptyState extends StatelessWidget {
-  const RecurringPaymentMonthlyEmptyState({super.key});
+  const RecurringPaymentMonthlyEmptyState({
+    super.key,
+    required this.onOpenConfiguration,
+  });
+
+  final VoidCallback onOpenConfiguration;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +72,7 @@ class RecurringPaymentMonthlyEmptyState extends StatelessWidget {
               backgroundColor: AppColors.purple,
               textColor: Colors.white,
               icon: isCompact ? null : Icons.tune,
-              onPressed: () => context.go('/recurring-payments/configuration'),
+              onPressed: onOpenConfiguration,
             ),
           ),
         ],

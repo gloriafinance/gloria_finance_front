@@ -136,8 +136,6 @@ InputDecoration _inputDecoration(
 ) {
   return InputDecoration(
     hintText: hintText,
-    filled: true,
-    fillColor: Colors.white,
     contentPadding: const EdgeInsets.all(16),
     errorBorder: const OutlineInputBorder(
       borderSide: BorderSide(color: Colors.red),
@@ -172,6 +170,7 @@ InputDecoration _inputDecoration(
 class Dropdown extends StatefulWidget {
   final List<String> items;
   final String label;
+  final bool enabled;
   final String? Function(String?)? onValidator;
   final Function(String) onChanged;
   final Widget? labelSuffix;
@@ -183,6 +182,7 @@ class Dropdown extends StatefulWidget {
     Key? key,
     required this.items,
     required this.label,
+    this.enabled = true,
     this.onValidator,
     required this.onChanged,
     this.labelSuffix,
@@ -201,6 +201,7 @@ class _DropdownState extends State<Dropdown> {
   final FocusNode _searchFocusNode = FocusNode();
   bool _isDropdownOpen = false;
   final LayerLink _layerLink = LayerLink();
+  final GlobalKey<FormFieldState<String>> _formFieldKey = GlobalKey();
   String? _selectedValue;
   List<String> _filteredItems = [];
   final GlobalKey _dropdownKey = GlobalKey();
@@ -245,10 +246,25 @@ class _DropdownState extends State<Dropdown> {
     super.didUpdateWidget(oldWidget);
     if (widget.initialValue != oldWidget.initialValue) {
       _selectedValue = widget.initialValue;
+      _syncFormFieldAfterBuild(widget.initialValue);
     }
     if (widget.items != oldWidget.items) {
       _filteredItems = List.from(widget.items);
     }
+  }
+
+  /// Sincroniza el `FormField` con un valor que llegó desde el widget padre.
+  ///
+  /// `didUpdateWidget` corre durante el build del padre: llamar a `didChange`
+  /// aquí marcaría el `Form` ancestro (ya construido) como "necesita build" y
+  /// lanzaría "setState() called during build". Se difiere al final del frame.
+  void _syncFormFieldAfterBuild(String? value) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _isDisposing) return;
+      // Otra actualización ganó la carrera: el valor vigente ya es distinto.
+      if (_selectedValue != value) return;
+      _formFieldKey.currentState?.didChange(value);
+    });
   }
 
   @override
@@ -305,18 +321,21 @@ class _DropdownState extends State<Dropdown> {
               showWhenUnlinked: false,
               child: Material(
                 elevation: 4,
-                borderRadius: BorderRadius.circular(18),
+                clipBehavior: Clip.antiAlias,
+                // La superficie es el propio Material: así el ListTile pinta su
+                // color e ink splashes aquí y no quedan ocultos por un
+                // DecoratedBox intermedio.
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18),
+                  side: BorderSide(color: AppColors.greyMiddle),
+                ),
                 child: SizedBox(
                   width: size.width,
                   child: Container(
                     constraints: BoxConstraints(
                       maxHeight: 350,
                       minWidth: size.width,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(18),
-                      border: Border.all(color: AppColors.greyMiddle),
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -456,6 +475,7 @@ class _DropdownState extends State<Dropdown> {
     setState(() {
       _selectedValue = value;
     });
+    _formFieldKey.currentState?.didChange(value);
     widget.onChanged(value);
     _closeDropdown();
   }
@@ -469,6 +489,7 @@ class _DropdownState extends State<Dropdown> {
         children: [
           ..._generateLabel(widget.label, suffix: widget.labelSuffix),
           FormField<String>(
+            key: _formFieldKey,
             initialValue: _selectedValue,
             validator: widget.onValidator,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -478,7 +499,7 @@ class _DropdownState extends State<Dropdown> {
                 children: [
                   // Campo seleccionable que muestra el valor actual
                   GestureDetector(
-                    onTap: _toggleDropdown,
+                    onTap: widget.enabled ? _toggleDropdown : null,
                     child: Container(
                       child: CompositedTransformTarget(
                         link: _layerLink,
@@ -487,6 +508,10 @@ class _DropdownState extends State<Dropdown> {
                           height: 50,
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           decoration: BoxDecoration(
+                            color:
+                                widget.enabled
+                                    ? Colors.white
+                                    : AppColors.greyLight,
                             border: Border.all(
                               color:
                                   state.hasError
@@ -505,7 +530,8 @@ class _DropdownState extends State<Dropdown> {
                                   style: TextStyle(
                                     fontFamily: AppFonts.fontSubTitle,
                                     color:
-                                        _selectedValue == null
+                                        !widget.enabled ||
+                                                _selectedValue == null
                                             ? AppColors.greyMiddle
                                             : Colors.black87,
                                   ),

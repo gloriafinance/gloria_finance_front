@@ -5,9 +5,10 @@ import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_
 import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_competence_model.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_competence_status.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_execution_model.dart';
-import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_model.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_month.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_pay_result.dart';
+import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_pix_qr_data.dart';
+import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_source_ui_model.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/models/recurring_payment_settlement_model.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/state/recurring_payment_execution_state.dart';
 import 'package:gloria_finance/features/erp/recurring_payments/store/recurring_payment_execution_store.dart';
@@ -96,13 +97,10 @@ void main() {
         'competenceStatus': 'PAID',
         'currentPayment': {
           'competence': '2026-10',
-          'attempt': 1,
-          'externalReference': 'urn:recurringPayment:rp-1:2026-10:1',
+          'externalReference': 'urn:recurringPayment:rp-1:2026-10',
           'amount': 3500.0,
-          'providerValueInCents': 375000,
           'paymentMethod': 'BILL',
           'status': 'FAILED',
-          'providerStatus': 'CREATION_FAILED',
           'updatedAt': '2026-10-01T12:00:00.000Z',
         },
         'settlement': {
@@ -119,7 +117,6 @@ void main() {
       expect(item.isPaid, isTrue);
       // Histórico manda: pago continua pago mesmo com execução antiga falhada.
       expect(item.dueDate.day, 10);
-      expect(item.execution?.providerValueInCents, 375000);
       expect(item.settlement?.origin, RecurringPaymentSettlementOrigin.BANK);
       // Débito bancário confirmado não se cancela.
       expect(item.settlement?.canBeCancelled, isFalse);
@@ -153,133 +150,43 @@ void main() {
     });
   });
 
-  group('matriz de execução', () {
-    test('deriva o caso da configuração e da banca', () {
-      expect(
-        _state(const {'type': 'FIXED', 'amount': 10}).executionCase,
-        RecurringPaymentExecutionCase.bankFixedWithoutDestination,
-      );
-      expect(
-        _state(const {
-          'type': 'FIXED',
-          'amount': 10,
-          'pixDestination': _pix,
-        }).executionCase,
-        RecurringPaymentExecutionCase.bankFixedWithDestination,
-      );
-      expect(
-        _state(const {'type': 'VARIABLE'}).executionCase,
-        RecurringPaymentExecutionCase.bankVariableWithoutDestination,
-      );
-      expect(
-        _state(const {
-          'type': 'VARIABLE',
-          'pixDestination': _pix,
-        }).executionCase,
-        RecurringPaymentExecutionCase.bankVariableWithDestination,
-      );
-      expect(
-        _state(const {
-          'type': 'FIXED',
-          'amount': 10,
-        }, hasBanking: false).executionCase,
-        RecurringPaymentExecutionCase.manualFixed,
-      );
-      expect(
-        _state(const {'type': 'VARIABLE'}, hasBanking: false).executionCase,
-        RecurringPaymentExecutionCase.manualVariable,
-      );
-    });
+  group('PIX QR', () {
+    test(
+      'PIX variável usa o valor decodificado e preserva o payload original',
+      () async {
+        final store = RecurringPaymentExecutionStore(
+          item: _item(json: const {'type': 'VARIABLE', 'pixDestination': _pix}),
+          hasBanking: true,
+          service: _ExecutionServiceStub(
+            decodedPixQr: const RecurringPaymentPixQrData(amountInCents: 74283),
+          ),
+        );
+        store.setSource(
+          const RecurringPaymentSourceUiModel(
+            id: 'availability-1',
+            name: 'Conta Asaas',
+            subtitle: 'Conta conectada',
+            capability: RecurringPaymentSourceCapability.asaas,
+            availabilityAccountId: 'availability-1',
+          ),
+        );
 
-    test('um valor fixo nunca é pedido', () {
-      final state = _state(const {'type': 'FIXED', 'amount': 3500});
+        final decoded = await store.decodePixQr('000201-copy-paste-raw');
+        expect(decoded, isTrue);
+        expect(store.state.requiresAmount, isFalse);
+        expect(store.state.amount, 742.83);
+        expect(store.state.isComplete, isTrue);
+        expect(store.state.payPayload.containsKey('amount'), isFalse);
+        expect(store.state.payPayload['payment'], {
+          'type': 'PIX_QR',
+          'payload': '000201-copy-paste-raw',
+        });
+      },
+    );
+  });
 
-      // O valor vem da configuração e é lido, não digitado.
-      expect(state.requiresAmount, isFalse);
-      expect(state.amount, 3500);
-
-      // Sem destino guardado ainda falta decidir o método e, se for PIX, a chave.
-      expect(state.requiresPixKey, isTrue);
-      expect(state.isComplete, isFalse);
-    });
-
-    test('boleto exige simulação antes de habilitar o pagamento', () {
-      final state = _state(
-        const {'type': 'VARIABLE'},
-        setup: (store) {
-          store.setMethod(RecurringPaymentMethodType.BILL);
-          store.setBoletoLine('00190000090123456789012345678901234567890123');
-        },
-      );
-
-      expect(state.requiresAmount, isFalse);
-      expect(state.amount, isNull);
-      expect(state.isComplete, isFalse);
-    });
-
-    test('um PIX variável exige valor e chave quando não há destino', () {
-      final semValor = _state(const {'type': 'VARIABLE'});
-      expect(semValor.requiresAmount, isTrue);
-      expect(semValor.isComplete, isFalse);
-
-      final comValor = _state(
-        const {'type': 'VARIABLE'},
-        setup: (store) {
-          store.setAvailabilityAccountId('account-1');
-          store.setAmountText('74283');
-          store.setPixKeyType(PixKeyType.CNPJ);
-          store.setPixKey('12345678000190');
-        },
-      );
-      expect(comValor.amount, 742.83);
-      expect(comValor.isComplete, isTrue);
-      expect(comValor.payPayload['amount'], 742.83);
-      expect(comValor.payPayload['payment'], {
-        'type': 'PIX',
-        'pixKey': '12345678000190',
-        'pixKeyType': 'CNPJ',
-      });
-    });
-
-    test('com destino guardado não se pede a chave de novo', () {
-      final state = _state(
-        const {'type': 'FIXED', 'amount': 3500, 'pixDestination': _pix},
-        setup: (store) {
-          store.setAvailabilityAccountId('account-1');
-          store.setAmountText('');
-        },
-      );
-
-      expect(state.requiresPixKey, isFalse);
-      expect(state.isComplete, isTrue);
-      expect(state.payPayload['payment'], {
-        'type': 'PIX',
-        'pixKey': '12345678000190',
-        'pixKeyType': 'CNPJ',
-      });
-      expect(state.payPayload['availabilityAccountId'], 'account-1');
-      // O valor fixo pertence à configuração: não viaja no comando.
-      expect(state.payPayload.containsKey('amount'), isFalse);
-    });
-
-    test('pagamento bancário exige a conta de disponibilidade escolhida', () {
-      final withoutAccount = _state(const {
-        'type': 'FIXED',
-        'amount': 3500,
-        'pixDestination': _pix,
-      });
-      expect(withoutAccount.isComplete, isFalse);
-
-      final withAccount = _state(const {
-        'type': 'FIXED',
-        'amount': 3500,
-        'pixDestination': _pix,
-      }, setup: (store) => store.setAvailabilityAccountId('account-1'));
-      expect(withAccount.isComplete, isTrue);
-      expect(withAccount.payPayload['availabilityAccountId'], 'account-1');
-    });
-
-    test('o registro manual só envia valor quando é variável', () {
+  group('registro manual', () {
+    test('só envia valor cuando é variável', () {
       final fixed = _state(const {
         'type': 'FIXED',
         'amount': 3500,
@@ -405,7 +312,7 @@ void main() {
           hasBanking: true,
           service: service,
         );
-        store.setAvailabilityAccountId('account-1');
+        _selectAsaasAccount(store);
         store.setMethod(RecurringPaymentMethodType.BILL);
         store.setBoletoLine('raw-input');
         expect(store.state.isComplete, isFalse);
@@ -443,7 +350,7 @@ void main() {
           hasBanking: true,
           service: service,
         );
-        store.setAvailabilityAccountId('account-1');
+        _selectAsaasAccount(store);
         store.setMethod(RecurringPaymentMethodType.BILL);
         await store.simulateBill(
           const RecurringPaymentBillSimulationInput.barCode('barcode'),
@@ -478,7 +385,7 @@ void main() {
         const RecurringPaymentBillSimulationInput.identificationField('new'),
         sourceValue: 'new',
       );
-      store.setMethod(RecurringPaymentMethodType.PIX);
+      store.setMethod(RecurringPaymentMethodType.PIX_QR);
       expect(store.state.billSimulation, isNull);
     });
 
@@ -533,7 +440,7 @@ void main() {
           hasBanking: true,
           service: service,
         );
-        store.setAvailabilityAccountId('account-1');
+        _selectAsaasAccount(store);
         store.setMethod(RecurringPaymentMethodType.BILL);
         store.setBoletoLine('raw-line');
         expect(await store.submit(), isNull);
@@ -558,18 +465,27 @@ void main() {
 class _ExecutionServiceStub extends RecurringPaymentExecutionService {
   _ExecutionServiceStub({
     this.simulation,
+    this.decodedPixQr,
     this.error,
     this.payResult,
     this.waitForPay = false,
   });
 
   final RecurringPaymentBillSimulation? simulation;
+  final RecurringPaymentPixQrData? decodedPixQr;
   final DioException? error;
   final RecurringPaymentPayResult? payResult;
   final bool waitForPay;
   final Completer<RecurringPaymentPayResult> _payCompleter = Completer();
   int payCalls = 0;
   RecurringPaymentBillSimulationInput? input;
+
+  @override
+  Future<RecurringPaymentPixQrData> decodePixQr(
+    String recurringPaymentId,
+    String availabilityAccountId,
+    String payload,
+  ) async => decodedPixQr!;
 
   void completePay(RecurringPaymentPayResult result) =>
       _payCompleter.complete(result);
@@ -628,4 +544,16 @@ RecurringPaymentExecutionState _state(
   );
   setup?.call(store);
   return store.state;
+}
+
+void _selectAsaasAccount(RecurringPaymentExecutionStore store) {
+  store.setSource(
+    const RecurringPaymentSourceUiModel(
+      id: 'account-1',
+      name: 'Conta Asaas',
+      subtitle: 'Conta conectada',
+      capability: RecurringPaymentSourceCapability.asaas,
+      availabilityAccountId: 'account-1',
+    ),
+  );
 }

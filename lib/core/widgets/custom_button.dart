@@ -13,6 +13,7 @@ class CustomButton extends StatelessWidget {
   final IconData? icon;
   final Widget? leading;
   final EdgeInsetsGeometry? padding;
+  final Color? disabledBackgroundColor;
 
   const CustomButton({
     super.key,
@@ -24,6 +25,7 @@ class CustomButton extends StatelessWidget {
     this.icon,
     this.leading,
     this.padding,
+    this.disabledBackgroundColor,
   });
 
   @override
@@ -75,6 +77,11 @@ class CustomButton extends StatelessWidget {
   ButtonStyle _basicStyle() {
     return ElevatedButton.styleFrom(
       backgroundColor: backgroundColor,
+      disabledBackgroundColor: disabledBackgroundColor,
+      disabledForegroundColor:
+          disabledBackgroundColor == null
+              ? null
+              : textColor.withValues(alpha: 0.55),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       side: BorderSide.none,
       elevation: 1.0,

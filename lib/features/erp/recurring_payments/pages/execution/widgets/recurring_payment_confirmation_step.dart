@@ -4,10 +4,8 @@ import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/currency_formatter.dart';
 import 'package:gloria_finance/core/widgets/custom_button.dart';
-import 'package:gloria_finance/features/erp/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:provider/provider.dart';
 
-import '../../../models/recurring_payment_model.dart';
 import '../../../models/recurring_payment_bill_simulation.dart';
 import '../../../store/recurring_payment_execution_store.dart';
 import '../../../utils/recurring_payment_boleto.dart';
@@ -15,8 +13,7 @@ import 'recurring_payment_execution_field.dart';
 
 /// Confirmação final. **Não** é um formulário: só revisa o que já se sabe.
 ///
-/// PIX mostra o destino herdado (quando existe); boleto mostra a linha final e
-/// explica que o valor vem do próprio boleto.
+/// PIX QR e boleto mostram los datos de la simulación antes de confirmar.
 class RecurringPaymentConfirmationStep extends StatelessWidget {
   const RecurringPaymentConfirmationStep({
     super.key,
@@ -33,9 +30,6 @@ class RecurringPaymentConfirmationStep extends StatelessWidget {
   Widget build(BuildContext context) {
     final store = context.watch<RecurringPaymentExecutionStore>();
     final state = store.state;
-    final availabilityAccount = context
-        .watch<AvailabilityAccountsListStore>()
-        .findByAvailabilityAccountId(state.availabilityAccountId!);
     final l10n = context.l10n;
     final isPix = state.isPix;
 
@@ -48,23 +42,25 @@ class RecurringPaymentConfirmationStep extends StatelessWidget {
         ),
         if (isPix) ...[
           RecurringPaymentExecutionField(
-            label: l10n.recurringPaymentsExecution_field_value,
+            label: l10n.recurringPaymentsExecution_qr_amount_label,
             value: CurrencyFormatter.formatCurrency(
-              state.amount ?? 0,
+              state.pixQrData!.amountInCents / 100,
               symbol: symbolFormatMoney,
             ),
             emphasized: true,
           ),
           RecurringPaymentExecutionField(
             label: l10n.recurringPaymentsExecution_pix_destination_label,
-            value:
-                '${state.effectivePixKeyType?.apiValue ?? ''} · '
-                '${state.effectivePixKey}',
-            note:
-                state.savedPixKey != null
-                    ? l10n.recurringPaymentsExecution_pix_destination_note
-                    : null,
+            value: l10n.recurringPaymentsExecution_instrument_qr,
           ),
+          if (state.isFixed)
+            RecurringPaymentExecutionField(
+              label: l10n.recurringPaymentsExecution_boleto_configured_value,
+              value: CurrencyFormatter.formatCurrency(
+                state.payment.amount ?? 0,
+                symbol: symbolFormatMoney,
+              ),
+            ),
         ] else ...[
           ..._billReviewFields(
             context,
@@ -75,6 +71,7 @@ class RecurringPaymentConfirmationStep extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: TextButton.icon(
+                style: TextButton.styleFrom(foregroundColor: AppColors.green),
                 onPressed: onEditBoleto,
                 icon: const Icon(Icons.edit_outlined, size: 16),
                 label: Text(l10n.recurringPaymentsExecution_boleto_edit),
@@ -103,7 +100,7 @@ class RecurringPaymentConfirmationStep extends StatelessWidget {
         ],
         RecurringPaymentExecutionField(
           label: l10n.recurringPaymentsExecution_account_label,
-          value: availabilityAccount!.accountName,
+          value: state.source!.name,
         ),
         const SizedBox(height: 12),
         RecurringPaymentExecutionNotice(
@@ -127,6 +124,7 @@ class RecurringPaymentConfirmationStep extends StatelessWidget {
                   ? l10n.recurringPaymentsExecution_pix_confirm_action
                   : l10n.recurringPaymentsExecution_boleto_pay_action,
           backgroundColor: AppColors.green,
+          disabledBackgroundColor: AppColors.green.withValues(alpha: 0.4),
           textColor: Colors.black,
           icon: Icons.check,
           onPressed: !state.isComplete || state.isLoading ? null : onConfirm,

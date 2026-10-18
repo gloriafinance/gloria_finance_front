@@ -6,6 +6,7 @@ import 'package:gloria_finance/core/theme/app_fonts.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/currency_formatter.dart';
 import 'package:gloria_finance/core/utils/date_formatter.dart';
+import 'package:gloria_finance/core/widgets/button_acton_table.dart';
 import 'package:gloria_finance/features/erp/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -30,6 +31,10 @@ Future<void> showRecurringPaymentExecutionDetail(
     title: item.recurringPayment.name,
     width: 560,
     actions: _detailActions(context, item),
+    contentPadding: const EdgeInsets.fromLTRB(20, 16, 20, 22),
+    headerSpacing: 14,
+    borderRadius: 22,
+    backgroundColor: Colors.white,
     body: RecurringPaymentExecutionDetail(item: item),
   ).show<void>(context);
 }
@@ -110,14 +115,16 @@ class RecurringPaymentExecutionDetail extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 10),
-            RecurringPaymentStatusChip(
-              status: item.status,
-              executionStatus: execution?.status,
-              label:
-                  item.status?.friendlyName(l10n) ??
-                  l10n.recurringPaymentsExecution_status_unknown,
-            ),
+            if (!item.isPaid || settlement == null) ...[
+              const SizedBox(width: 10),
+              RecurringPaymentStatusChip(
+                status: item.status,
+                executionStatus: execution?.status,
+                label:
+                    item.status?.friendlyName(l10n) ??
+                    l10n.recurringPaymentsExecution_status_unknown,
+              ),
+            ],
           ],
         ),
         const SizedBox(height: 18),
@@ -213,16 +220,7 @@ class RecurringPaymentExecutionDetail extends StatelessWidget {
       }
     }
 
-    return [
-      _Note(
-        icon: Icons.check_circle_outline,
-        color: AppColors.green,
-        title: l10n.recurringPaymentsExecution_paid_title,
-        description:
-            settlement.isManual
-                ? l10n.recurringPaymentsExecution_origin_manual
-                : l10n.recurringPaymentsExecution_origin_bank,
-      ),
+    final fields = <Widget>[
       _DetailField(
         label: l10n.recurringPaymentsExecution_field_value,
         value: CurrencyFormatter.formatCurrency(settlement.amount),
@@ -233,7 +231,6 @@ class RecurringPaymentExecutionDetail extends StatelessWidget {
           settlement.date?.toIso8601String().substring(0, 10),
         ),
       ),
-      // A origem já é a descrição da nota de estado: não se repete como campo.
       if (accountName != null)
         _DetailField(
           label: l10n.recurringPaymentsExecution_field_account,
@@ -253,6 +250,46 @@ class RecurringPaymentExecutionDetail extends StatelessWidget {
                   mode: LaunchMode.externalApplication,
                 ),
       ),
+    ];
+
+    return [
+      Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.green.withValues(alpha: 0.08),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.green.withValues(alpha: 0.22)),
+        ),
+        child: _Note(
+          icon: Icons.check_circle_outline,
+          color: AppColors.green,
+          title: l10n.recurringPaymentsExecution_paid_title,
+          description:
+              settlement.isManual
+                  ? l10n.recurringPaymentsExecution_origin_manual
+                  : l10n.recurringPaymentsExecution_origin_bank,
+        ),
+      ),
+      const SizedBox(height: 14),
+      Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFAFAFA),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.greyMiddle),
+        ),
+        child: Column(
+          children: [
+            for (var index = 0; index < fields.length; index++) ...[
+              if (index > 0)
+                const Divider(height: 1, color: AppColors.greyMiddle),
+              fields[index],
+            ],
+          ],
+        ),
+      ),
       if (!settlement.isManual) ...[
         const SizedBox(height: 10),
         Text(
@@ -268,7 +305,7 @@ class RecurringPaymentExecutionDetail extends StatelessWidget {
     RecurringPaymentExecutionModel execution,
   ) {
     final l10n = context.l10n;
-    final amount = execution.effectiveAmount;
+    final amount = execution.amount;
 
     return [
       if (amount != null)
@@ -280,7 +317,8 @@ class RecurringPaymentExecutionDetail extends StatelessWidget {
         _DetailField(
           label: l10n.recurringPaymentsExecution_field_method,
           value:
-              execution.method == RecurringPaymentMethodType.PIX
+              execution.method == RecurringPaymentMethodType.PIX ||
+                      execution.method == RecurringPaymentMethodType.PIX_QR
                   ? l10n.recurringPaymentsExecution_method_pix
                   : l10n.recurringPaymentsExecution_method_bill,
         ),
@@ -326,11 +364,11 @@ class _CancelRecordAction extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return TextButton.icon(
+    return ButtonActionTable(
+      color: Colors.red.shade700,
+      text: l10n.recurringPaymentsExecution_cancel_record_action,
+      icon: Icons.undo,
       onPressed: () => _confirm(context),
-      icon: const Icon(Icons.undo, size: 18),
-      label: Text(l10n.recurringPaymentsExecution_cancel_record_action),
-      style: TextButton.styleFrom(foregroundColor: Colors.red),
     );
   }
 

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import '../models/recurring_payment_competence_model.dart';
 import '../models/recurring_payment_bill_simulation.dart';
 import '../models/recurring_payment_execution_model.dart';
-import '../models/recurring_payment_model.dart';
 import '../models/recurring_payment_pay_result.dart';
+import '../models/recurring_payment_source_ui_model.dart';
 import '../service/recurring_payment_execution_service.dart';
 import '../state/recurring_payment_execution_state.dart';
 import '../utils/recurring_payment_boleto.dart';
@@ -34,17 +34,32 @@ class RecurringPaymentExecutionStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setMethod(RecurringPaymentMethodType method) {
-    if (method == state.method) return;
-    // Cambiar de método descarta lo que era propio del anterior (la clave PIX o
-    // la línea del boleto) para no enviar datos que ya no aplican.
+  void setSource(RecurringPaymentSourceUiModel source) {
     state = state.copyWith(
-      method: method,
-      pixKey: '',
-      clearPixKeyType: true,
+      source: source,
+      availabilityAccountId: source.availabilityAccountId,
+      method: RecurringPaymentMethodType.PIX_QR,
       boletoLine: '',
       clearBillSimulation: true,
       clearBillSimulationError: true,
+      clearPixQrData: true,
+      pixQrPayload: '',
+      amountText: '',
+    );
+    notifyListeners();
+  }
+
+  void setMethod(RecurringPaymentMethodType method) {
+    if (method == state.method) return;
+    // Cambiar de método descarta la entrada del instrumento anterior.
+    state = state.copyWith(
+      method: method,
+      amountText: '',
+      boletoLine: '',
+      clearBillSimulation: true,
+      clearBillSimulationError: true,
+      clearPixQrData: true,
+      pixQrPayload: '',
     );
     notifyListeners();
   }
@@ -54,14 +69,35 @@ class RecurringPaymentExecutionStore extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setPixKey(String value) {
-    state = state.copyWith(pixKey: value);
+  Future<bool> decodePixQr(String payload) async {
+    final availabilityAccountId = state.availabilityAccountId;
+    if (availabilityAccountId == null || payload.isEmpty) return false;
+    state = state.copyWith(
+      isDecodingPixQr: true,
+      clearPixQrData: true,
+      pixQrPayload: '',
+    );
     notifyListeners();
-  }
-
-  void setPixKeyType(PixKeyType value) {
-    state = state.copyWith(pixKeyType: value, pixKey: '');
-    notifyListeners();
+    try {
+      final decoded = await service.decodePixQr(
+        state.item.id,
+        availabilityAccountId,
+        payload,
+      );
+      state = state.copyWith(
+        isDecodingPixQr: false,
+        pixQrPayload: payload,
+        pixQrData: decoded,
+        amountText: decoded.amountInCents.toString(),
+      );
+      notifyListeners();
+      return true;
+    } catch (error) {
+      debugPrint('ERROR decode recurring payment PIX QR: $error');
+      state = state.copyWith(isDecodingPixQr: false);
+      notifyListeners();
+      return false;
+    }
   }
 
   void setBoletoLine(String value) {
@@ -146,7 +182,10 @@ class RecurringPaymentExecutionStore extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final result = await service.pay(state.item.id, state.payPayload);
+      final result =
+          state.isPixQr
+              ? await service.payPixQr(state.item.id, state.payPayload)
+              : await service.pay(state.item.id, state.payPayload);
       state = state.copyWith(makeRequest: false, result: result);
       notifyListeners();
       return result;
@@ -158,13 +197,43 @@ class RecurringPaymentExecutionStore extends ChangeNotifier {
     }
   }
 
+  Future<RecurringPaymentPayResult?> reconcilePixQr() async {
+    if (!state.isPixQr ||
+        state.pixQrPayload.isEmpty ||
+        state.makeRequest ||
+        state.result?.outcome != RecurringPaymentPayOutcome.PROCESSING) {
+      return null;
+    }
+
+    state = state.copyWith(makeRequest: true);
+    notifyListeners();
+    try {
+      final result = await service.reconcilePixQr(
+        state.item.id,
+        competence: state.item.month.competence,
+      );
+      state = state.copyWith(makeRequest: false, result: result);
+      notifyListeners();
+      return result;
+    } catch (error) {
+      debugPrint('ERROR reconcile recurring payment PIX QR: $error');
+      state = state.copyWith(makeRequest: false);
+      notifyListeners();
+      return null;
+    }
+  }
+
   /// Registra el pago hecho fuera de Glória. El comprovante es obligatorio.
   Future<bool> submitManual({
     required String paymentDate,
     required String availabilityAccountId,
-    required MultipartFile voucher,
+    MultipartFile? voucher,
   }) async {
-    if (!state.isComplete) return false;
+    if (!state.isComplete ||
+        state.usesAsaas ||
+        (state.requiresVoucher && voucher == null)) {
+      return false;
+    }
 
     state = state.copyWith(makeRequest: true);
     notifyListeners();

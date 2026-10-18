@@ -11677,6 +11677,24 @@ abstract class AppLocalizations {
   /// **'The payment was sent to the bank and we are waiting for confirmation. It only counts as paid after the bank confirms it.'**
   String get recurringPaymentsExecution_sent_description;
 
+  /// No description provided for @recurringPaymentsExecution_pixQr_pending.
+  ///
+  /// In en, this message translates to:
+  /// **'The Pix was sent. Check its status to update the confirmation; no new payment will be created.'**
+  String get recurringPaymentsExecution_pixQr_pending;
+
+  /// No description provided for @recurringPaymentsExecution_pixQr_checkStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Check Pix status'**
+  String get recurringPaymentsExecution_pixQr_checkStatus;
+
+  /// No description provided for @recurringPaymentsExecution_pixQr_unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'We could not confirm whether the bank created the payment. Do not try to pay again; contact support.'**
+  String get recurringPaymentsExecution_pixQr_unknown;
+
   /// No description provided for @recurringPaymentsExecution_error_pay.
   ///
   /// In en, this message translates to:
@@ -12144,6 +12162,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Earliest payment date'**
   String get recurringPaymentsExecution_boleto_minimum_date;
+
+  /// No description provided for @recurringPaymentsExecution_source_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Which account will pay?'**
+  String get recurringPaymentsExecution_source_title;
+
+  /// No description provided for @recurringPaymentsExecution_source_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the account to use for this recurring payment.'**
+  String get recurringPaymentsExecution_source_description;
+
+  /// No description provided for @recurringPaymentsExecution_source_connected.
+  ///
+  /// In en, this message translates to:
+  /// **'Account connected to Glória'**
+  String get recurringPaymentsExecution_source_connected;
+
+  /// No description provided for @recurringPaymentsExecution_source_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No active accounts are available for this payment.'**
+  String get recurringPaymentsExecution_source_empty;
+
+  /// No description provided for @recurringPaymentsExecution_source_continue.
+  ///
+  /// In en, this message translates to:
+  /// **'CONTINUE'**
+  String get recurringPaymentsExecution_source_continue;
+
+  /// No description provided for @recurringPaymentsExecution_instrument_qr.
+  ///
+  /// In en, this message translates to:
+  /// **'PIX QR'**
+  String get recurringPaymentsExecution_instrument_qr;
+
+  /// No description provided for @recurringPaymentsExecution_instrument_qr_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan the QR Code or paste the Pix copy-and-paste code'**
+  String get recurringPaymentsExecution_instrument_qr_hint;
+
+  /// No description provided for @recurringPaymentsExecution_instrument_boleto.
+  ///
+  /// In en, this message translates to:
+  /// **'BOLETO'**
+  String get recurringPaymentsExecution_instrument_boleto;
+
+  /// No description provided for @recurringPaymentsExecution_instrument_boleto_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan the barcode or enter the digit line'**
+  String get recurringPaymentsExecution_instrument_boleto_hint;
+
+  /// No description provided for @recurringPaymentsExecution_qr_entry_title.
+  ///
+  /// In en, this message translates to:
+  /// **'How would you like to enter the Pix?'**
+  String get recurringPaymentsExecution_qr_entry_title;
+
+  /// No description provided for @recurringPaymentsExecution_qr_camera.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan QR Code'**
+  String get recurringPaymentsExecution_qr_camera;
+
+  /// No description provided for @recurringPaymentsExecution_qr_camera_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the camera to read the Pix code'**
+  String get recurringPaymentsExecution_qr_camera_hint;
+
+  /// No description provided for @recurringPaymentsExecution_qr_paste.
+  ///
+  /// In en, this message translates to:
+  /// **'Pix copy and paste'**
+  String get recurringPaymentsExecution_qr_paste;
+
+  /// No description provided for @recurringPaymentsExecution_qr_paste_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste the code received from the beneficiary'**
+  String get recurringPaymentsExecution_qr_paste_hint;
+
+  /// No description provided for @recurringPaymentsExecution_qr_paste_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Pix copy and paste'**
+  String get recurringPaymentsExecution_qr_paste_label;
+
+  /// No description provided for @recurringPaymentsExecution_qr_paste_placeholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste the Pix code here'**
+  String get recurringPaymentsExecution_qr_paste_placeholder;
+
+  /// No description provided for @recurringPaymentsExecution_qr_scan_instruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Place the QR Code inside the marked area.'**
+  String get recurringPaymentsExecution_qr_scan_instruction;
+
+  /// No description provided for @recurringPaymentsExecution_qr_camera_permission.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow camera access to scan the QR Code.'**
+  String get recurringPaymentsExecution_qr_camera_permission;
+
+  /// No description provided for @recurringPaymentsExecution_qr_camera_error.
+  ///
+  /// In en, this message translates to:
+  /// **'The camera could not be opened.'**
+  String get recurringPaymentsExecution_qr_camera_error;
+
+  /// No description provided for @recurringPaymentsExecution_qr_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'This Pix QR code could not be read. Check it and try again.'**
+  String get recurringPaymentsExecution_qr_invalid;
+
+  /// No description provided for @recurringPaymentsExecution_qr_decoding.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading Pix code…'**
+  String get recurringPaymentsExecution_qr_decoding;
+
+  /// No description provided for @recurringPaymentsExecution_qr_amount_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount shown in the QR Code'**
+  String get recurringPaymentsExecution_qr_amount_label;
+
+  /// No description provided for @recurringPaymentsExecution_qr_beneficiary_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Pix beneficiary'**
+  String get recurringPaymentsExecution_qr_beneficiary_label;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

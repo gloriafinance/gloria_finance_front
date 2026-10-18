@@ -93,7 +93,7 @@ class _RecurringPaymentBoletoCameraStepState
               RecurringPaymentBillSimulationError.unavailable)
             CustomButton(
               text: l10n.recurringPaymentsExecution_failed_retry,
-              backgroundColor: AppColors.greyMiddle,
+              backgroundColor: AppColors.green,
               textColor: Colors.black,
               onPressed: () {
                 context
@@ -145,7 +145,7 @@ class _RecurringPaymentBoletoCameraStepState
         const SizedBox(height: 14),
         CustomButton(
           text: l10n.recurringPaymentsExecution_boleto_scan_manual_action,
-          backgroundColor: AppColors.greyMiddle,
+          backgroundColor: AppColors.green,
           textColor: Colors.black,
           icon: Icons.keyboard_alt_outlined,
           onPressed: widget.onTypeManually,
@@ -215,8 +215,9 @@ class _CameraProblem extends StatelessWidget {
               OutlinedButton(
                 onPressed: onRetry,
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  side: const BorderSide(color: Colors.white54),
+                  foregroundColor: Colors.black,
+                  backgroundColor: AppColors.green,
+                  side: BorderSide.none,
                 ),
                 child: Text(
                   l10n.recurringPaymentsExecution_boleto_camera_permission_action,
@@ -226,8 +227,9 @@ class _CameraProblem extends StatelessWidget {
               OutlinedButton(
                 onPressed: onTypeManually,
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  side: const BorderSide(color: Colors.white54),
+                  foregroundColor: Colors.black,
+                  backgroundColor: AppColors.green,
+                  side: BorderSide.none,
                 ),
                 child: Text(
                   l10n.recurringPaymentsExecution_boleto_camera_denied_action,
