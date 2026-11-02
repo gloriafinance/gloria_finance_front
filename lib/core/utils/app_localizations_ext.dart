@@ -48,6 +48,8 @@ extension L10nMenuX on AppLocalizations {
         return erp_menu_finance_accounts_payable;
       case 'erp_menu_finance_purchases':
         return erp_menu_finance_purchases;
+      case 'erp_menu_finance_recurring_payments':
+        return erp_menu_finance_recurring_payments;
       case 'erp_menu_assets':
         return erp_menu_assets;
       case 'erp_menu_assets_items':

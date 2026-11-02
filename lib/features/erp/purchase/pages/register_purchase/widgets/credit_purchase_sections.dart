@@ -10,7 +10,7 @@ import 'package:gloria_finance/core/widgets/form_controls.dart';
 import 'package:gloria_finance/core/widgets/upload_file.dart';
 import 'package:gloria_finance/features/erp/accounts_payable/models/accounts_payable_types.dart';
 import 'package:gloria_finance/features/erp/accounts_payable/pages/register_accounts_payable/validators/form_accounts_payable_validator.dart';
-import 'package:gloria_finance/features/erp/accounts_payable/pages/register_accounts_payable/widgets/section_card.dart';
+import 'package:gloria_finance/core/widgets/section_card.dart';
 import 'package:gloria_finance/features/erp/providers/pages/suppliers/store/suppliers_list_store.dart';
 import 'package:gloria_finance/features/erp/purchase/pages/register_purchase/store/credit_purchase_register_store.dart';
 import 'package:gloria_finance/features/erp/purchase/pages/register_purchase/validators/credit_purchase_register_validator.dart';

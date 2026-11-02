@@ -5372,4 +5372,889 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get member_commitments_pix_pay => 'Pay with PIX';
+
+  @override
+  String get recurringPayments_list_title => 'Recurring payments';
+
+  @override
+  String get recurringPayments_new_action => 'New recurring payment';
+
+  @override
+  String get recurringPayments_summary_total => 'Recurrences';
+
+  @override
+  String get recurringPayments_summary_active => 'Active';
+
+  @override
+  String get recurringPayments_summary_inactive => 'Inactive';
+
+  @override
+  String get recurringPayments_summary_fixed_month => 'Active fixed / month';
+
+  @override
+  String get recurringPayments_filter_search_label => 'Search by name';
+
+  @override
+  String get recurringPayments_filter_status_label => 'Status';
+
+  @override
+  String get recurringPayments_filter_type_label => 'Value type';
+
+  @override
+  String get recurringPayments_filter_all => 'All';
+
+  @override
+  String get recurringPayments_filter_open_action => 'Filters';
+
+  @override
+  String get recurringPayments_filter_sheet_title => 'Filters';
+
+  @override
+  String recurringPayments_filter_result_count(int visible, int total) {
+    return 'Showing $visible of $total recurrences';
+  }
+
+  @override
+  String get recurringPayments_table_name => 'Name';
+
+  @override
+  String get recurringPayments_table_concept => 'Financial concept';
+
+  @override
+  String get recurringPayments_table_cost_center => 'Cost center';
+
+  @override
+  String get recurringPayments_table_type => 'Type';
+
+  @override
+  String get recurringPayments_table_amount => 'Amount';
+
+  @override
+  String get recurringPayments_table_due_day => 'Due date';
+
+  @override
+  String get recurringPayments_table_pix => 'PIX';
+
+  @override
+  String get recurringPayments_table_name_concept => 'Name / Concept';
+
+  @override
+  String get recurringPayments_table_type_amount => 'Type / Amount';
+
+  @override
+  String get recurringPayments_table_due_day_short => 'Due';
+
+  @override
+  String recurringPayments_due_day(int day) {
+    return 'Day $day';
+  }
+
+  @override
+  String get recurringPayments_type_fixed => 'Fixed';
+
+  @override
+  String get recurringPayments_type_variable => 'Variable';
+
+  @override
+  String get recurringPayments_type_fixed_hint => 'The amount is the same every month. E.g.: rent, internet.';
+
+  @override
+  String get recurringPayments_type_variable_hint => 'The amount changes every month. E.g.: water, electricity.';
+
+  @override
+  String get recurringPayments_amount_variable => 'Variable amount';
+
+  @override
+  String get recurringPayments_pix_configured => 'PIX configured';
+
+  @override
+  String get recurringPayments_pix_not_configured => 'No PIX configured';
+
+  @override
+  String get recurringPayments_pix_short_configured => 'PIX configured';
+
+  @override
+  String get recurringPayments_pix_short_not_configured => 'No PIX';
+
+  @override
+  String get recurringPayments_empty_title => 'No recurring payments yet';
+
+  @override
+  String get recurringPayments_empty_description => 'You don\'t have any recurring payments yet. Add monthly commitments such as rent, electricity, water and other recurring expenses.';
+
+  @override
+  String get recurringPayments_empty_cta => 'Create first recurring payment';
+
+  @override
+  String get recurringPayments_no_results_title => 'No results found';
+
+  @override
+  String get recurringPayments_no_results_description => 'No recurrence matches the applied filters.';
+
+  @override
+  String get recurringPayments_activate_action => 'Activate';
+
+  @override
+  String get recurringPayments_deactivate_action => 'Deactivate';
+
+  @override
+  String get recurringPayments_more_actions => 'More actions';
+
+  @override
+  String get recurringPayments_menu_copy_pix_key => 'Copy PIX key';
+
+  @override
+  String get recurringPayments_pix_key_copied => 'PIX key copied!';
+
+  @override
+  String get recurringPayments_toast_activated => 'Recurring payment activated.';
+
+  @override
+  String get recurringPayments_toast_deactivated => 'Recurring payment deactivated.';
+
+  @override
+  String get recurringPayments_toast_saved => 'Recurring payment saved.';
+
+  @override
+  String get recurringPayments_toast_updated => 'Recurring payment updated.';
+
+  @override
+  String get recurringPayments_toast_save_error => 'The recurring payment could not be saved.';
+
+  @override
+  String get recurringPayments_form_title_create => 'New recurring payment';
+
+  @override
+  String get recurringPayments_form_title_edit => 'Edit recurring payment';
+
+  @override
+  String get recurringPayments_section_basic_title => 'Basic information';
+
+  @override
+  String get recurringPayments_section_basic_subtitle => 'How this recurrence will be identified in your church.';
+
+  @override
+  String get recurringPayments_section_config_title => 'Recurrence setup';
+
+  @override
+  String get recurringPayments_section_config_subtitle => 'When and how much this commitment happens every month.';
+
+  @override
+  String get recurringPayments_section_pix_title => 'Reusable PIX';
+
+  @override
+  String get recurringPayments_section_pix_subtitle => 'A convenience for the future. It is optional and does not define the payment method.';
+
+  @override
+  String get recurringPayments_field_name => 'Name';
+
+  @override
+  String get recurringPayments_field_concept => 'Financial concept';
+
+  @override
+  String get recurringPayments_field_cost_center => 'Cost center';
+
+  @override
+  String get recurringPayments_field_type => 'Value type';
+
+  @override
+  String recurringPayments_field_amount_with_symbol(String symbol) {
+    return 'Monthly amount ($symbol)';
+  }
+
+  @override
+  String get recurringPayments_field_due_day => 'Due day';
+
+  @override
+  String get recurringPayments_field_pix_key => 'PIX key';
+
+  @override
+  String get recurringPayments_field_pix_key_type => 'Key type';
+
+  @override
+  String get recurringPayments_helper_name => 'Use a name the treasurer recognizes immediately.';
+
+  @override
+  String get recurringPayments_helper_concept => 'Classifies the expense for reports and P&L.';
+
+  @override
+  String get recurringPayments_helper_cost_center => 'Required: every expense is allocated to a cost center.';
+
+  @override
+  String get recurringPayments_helper_due_day => 'If the month has no such day, the last valid day will be used.';
+
+  @override
+  String get recurringPayments_helper_pix_key_type => 'CPF, CNPJ, email, phone or random key (EVP).';
+
+  @override
+  String get recurringPayments_helper_pix => 'This key may be reused in future payments when the church uses bank execution via Asaas. It does not mean this recurrence is paid by PIX.';
+
+  @override
+  String get recurringPayments_variable_amount_note => 'Variable amount: no fixed amount is stored in this configuration. The amount is informed every month, when the payment is registered.';
+
+  @override
+  String get recurringPayments_status_active_description => 'Active: it is included every month as a payment to make.';
+
+  @override
+  String get recurringPayments_status_inactive_description => 'Inactive: pauses the recurrence. It stays registered but stops being included in the coming months — use it when the commitment ends (e.g.: the rent contract ends).';
+
+  @override
+  String get recurringPayments_optional_badge => 'Optional';
+
+  @override
+  String get recurringPayments_pix_toggle_label => 'Save PIX destination for future use';
+
+  @override
+  String get recurringPayments_pix_toggle_description => 'If enabled, provide the key that may be reused when the church executes payments through the bank.';
+
+  @override
+  String get recurringPayments_pix_panel_title => 'Reusable destination (optional)';
+
+  @override
+  String get recurringPayments_required_hint => 'Fields with * are required';
+
+  @override
+  String get recurringPayments_save_action => 'Save recurrence';
+
+  @override
+  String get recurringPayments_update_action => 'Save changes';
+
+  @override
+  String get recurringPayments_error_name_required => 'Enter the payment name.';
+
+  @override
+  String get recurringPayments_error_concept_required => 'Select the financial concept.';
+
+  @override
+  String get recurringPayments_error_cost_center_required => 'Select the cost center.';
+
+  @override
+  String get recurringPayments_error_amount_required => 'Enter the monthly amount for the “Fixed amount” type.';
+
+  @override
+  String get recurringPayments_error_due_day_required => 'Select the due day.';
+
+  @override
+  String get recurringPayments_error_pix_key_required => 'Enter the PIX key.';
+
+  @override
+  String get recurringPayments_error_no_concepts => 'No outgoing financial concepts registered. Add one to continue.';
+
+  @override
+  String get recurringPayments_error_no_cost_centers => 'No active cost centers registered. Add one to continue.';
+
+  @override
+  String get erp_menu_finance_recurring_payments => 'Recurring payments';
+
+  @override
+  String get support_assistant_context_recurring_payment_question => 'Help me correctly configure a recurring payment on this screen.';
+
+  @override
+  String get recurringPayments_table_name_concept_cost_center => 'Name / Concept / Cost center';
+
+  @override
+  String get recurringPayments_empty_cta_short => 'Create first payment';
+
+  @override
+  String get recurringPayments_field_status => 'State';
+
+  @override
+  String get recurringPayments_status_create_note => 'The recurrence is created active. To pause it later, use Deactivate in the list.';
+
+  @override
+  String get recurringPayments_type_unknown => 'Unrecognized type';
+
+  @override
+  String get recurringPayments_status_unknown => 'Unrecognized state';
+
+  @override
+  String get recurringPayments_status_unknown_note => 'The current state was not recognized by this app version. It will be kept as is when saving.';
+
+  @override
+  String get recurringPayments_error_type_required => 'Select the value type.';
+
+  @override
+  String get recurringPayments_error_pix_key_type_required => 'Select the key type.';
+
+  @override
+  String get recurringPayments_not_found_title => 'Recurring payment not found';
+
+  @override
+  String get recurringPayments_not_found_description => 'It may have been removed or the link is wrong. Go back to the list and open it again.';
+
+  @override
+  String get recurringPayments_back_to_list_action => 'Back to the list';
+
+  @override
+  String get recurringPaymentsExecution_tab_month => 'Month';
+
+  @override
+  String get recurringPaymentsExecution_tab_configuration => 'Configuration';
+
+  @override
+  String get recurringPaymentsExecution_status_pending => 'Pending';
+
+  @override
+  String get recurringPaymentsExecution_status_upcoming => 'Upcoming';
+
+  @override
+  String get recurringPaymentsExecution_status_processing => 'Processing';
+
+  @override
+  String get recurringPaymentsExecution_status_blocked => 'Blocked';
+
+  @override
+  String get recurringPaymentsExecution_status_failed => 'Failed';
+
+  @override
+  String get recurringPaymentsExecution_status_paid => 'Paid';
+
+  @override
+  String get recurringPaymentsExecution_status_inactive => 'Inactive';
+
+  @override
+  String get recurringPaymentsExecution_status_unknown => 'Unrecognized state';
+
+  @override
+  String get recurringPaymentsExecution_due_date_label => 'Due date';
+
+  @override
+  String get recurringPaymentsExecution_value_variable => 'Variable amount';
+
+  @override
+  String get recurringPaymentsExecution_value_from_configuration => 'Set in the recurring payment configuration';
+
+  @override
+  String get recurringPaymentsExecution_pay_action => 'PAY';
+
+  @override
+  String get recurringPaymentsExecution_register_action => 'REGISTER PAYMENT';
+
+  @override
+  String get recurringPaymentsExecution_details_action => 'View details';
+
+  @override
+  String get recurringPaymentsExecution_summary_label => 'Commitments this month';
+
+  @override
+  String recurringPaymentsExecution_summary_counts(int pending, int paid) {
+    return 'Pending: $pending · Paid: $paid';
+  }
+
+  @override
+  String recurringPaymentsExecution_summary_fixed_total(String amount) {
+    return '$amount in fixed amounts';
+  }
+
+  @override
+  String recurringPaymentsExecution_summary_variable_pending(int count) {
+    return '$count with a variable amount';
+  }
+
+  @override
+  String get recurringPaymentsExecution_empty_title => 'No commitments this month';
+
+  @override
+  String get recurringPaymentsExecution_empty_description => 'There are no active recurring payments for this competence. Create one or pick another month.';
+
+  @override
+  String get recurringPaymentsExecution_empty_action => 'GO TO CONFIGURATION';
+
+  @override
+  String get recurringPaymentsExecution_error_load => 'The payments for this month could not be loaded.';
+
+  @override
+  String get recurringPaymentsExecution_paid_inactive_note => 'The recurrence is inactive, but this competence stays paid.';
+
+  @override
+  String get recurringPaymentsExecution_processing_title => 'Payment processing';
+
+  @override
+  String get recurringPaymentsExecution_processing_description => 'The payment was sent to the bank and we are waiting for confirmation.';
+
+  @override
+  String get recurringPaymentsExecution_processing_blocked_note => 'No other payment can be started while this operation is running.';
+
+  @override
+  String get recurringPaymentsExecution_blocked_title => 'Payment blocked';
+
+  @override
+  String get recurringPaymentsExecution_blocked_description => 'The bank is still processing or waiting for resolution. A new payment cannot be created.';
+
+  @override
+  String get recurringPaymentsExecution_blocked_refresh => 'REFRESH STATUS';
+
+  @override
+  String get recurringPaymentsExecution_failed_title => 'Payment not completed';
+
+  @override
+  String get recurringPaymentsExecution_failed_description => 'The bank did not confirm this payment. Nothing was debited.';
+
+  @override
+  String get recurringPaymentsExecution_failed_retry => 'TRY AGAIN';
+
+  @override
+  String get recurringPaymentsExecution_paid_title => 'Paid';
+
+  @override
+  String get recurringPaymentsExecution_field_method => 'Method';
+
+  @override
+  String get recurringPaymentsExecution_field_reference => 'Reference';
+
+  @override
+  String get recurringPaymentsExecution_field_updated_at => 'Last update';
+
+  @override
+  String get recurringPaymentsExecution_field_payment_date => 'Payment date';
+
+  @override
+  String get recurringPaymentsExecution_field_origin => 'Origin';
+
+  @override
+  String get recurringPaymentsExecution_field_account => 'Account';
+
+  @override
+  String get recurringPaymentsExecution_field_voucher => 'Receipt';
+
+  @override
+  String get recurringPaymentsExecution_field_value => 'Amount';
+
+  @override
+  String get recurringPaymentsExecution_origin_manual => 'Manual record';
+
+  @override
+  String get recurringPaymentsExecution_origin_bank => 'Bank debit (Asaas)';
+
+  @override
+  String get recurringPaymentsExecution_voucher_view => 'View receipt';
+
+  @override
+  String get recurringPaymentsExecution_voucher_none => 'No receipt attached';
+
+  @override
+  String get recurringPaymentsExecution_method_pix => 'PIX';
+
+  @override
+  String get recurringPaymentsExecution_method_bill => 'Boleto';
+
+  @override
+  String get recurringPaymentsExecution_cancel_record_action => 'CANCEL RECORD';
+
+  @override
+  String get recurringPaymentsExecution_cancel_title => 'Cancel this record?';
+
+  @override
+  String get recurringPaymentsExecution_cancel_message => 'This record will be voided and the payment will show as pending again in this competence. The recurrence stays active.';
+
+  @override
+  String get recurringPaymentsExecution_cancel_confirm => 'CANCEL RECORD';
+
+  @override
+  String get recurringPaymentsExecution_cancel_dismiss => 'Back';
+
+  @override
+  String get recurringPaymentsExecution_cancel_success => 'Record cancelled. The competence is pending again.';
+
+  @override
+  String get recurringPaymentsExecution_cancel_reconciled_note => 'A confirmed bank debit cannot be cancelled.';
+
+  @override
+  String get recurringPaymentsExecution_cancel_error => 'The record could not be cancelled.';
+
+  @override
+  String get recurringPaymentsExecution_method_title => 'How would you like to pay?';
+
+  @override
+  String get recurringPaymentsExecution_method_pix_hint => 'Use the saved PIX destination or enter a key for this payment.';
+
+  @override
+  String get recurringPaymentsExecution_method_bill_hint => 'Scan with the camera or enter the boleto line.';
+
+  @override
+  String get recurringPaymentsExecution_amount_label => 'Amount to pay';
+
+  @override
+  String get recurringPaymentsExecution_amount_required => 'Enter the amount to pay.';
+
+  @override
+  String get recurringPaymentsExecution_amount_bill_note => 'The amount will be the boleto one.';
+
+  @override
+  String get recurringPaymentsExecution_pix_destination_label => 'PIX destination';
+
+  @override
+  String get recurringPaymentsExecution_pix_destination_note => 'Set in the recurring payment';
+
+  @override
+  String get recurringPaymentsExecution_pix_key_label => 'PIX key';
+
+  @override
+  String get recurringPaymentsExecution_pix_key_hint => 'Enter or paste the PIX key';
+
+  @override
+  String get recurringPaymentsExecution_pix_key_step_title => 'Enter the PIX key';
+
+  @override
+  String get recurringPaymentsExecution_pix_key_type_label => 'Key type';
+
+  @override
+  String get recurringPaymentsExecution_pix_key_required => 'Enter the PIX key.';
+
+  @override
+  String get recurringPaymentsExecution_pix_key_type_required => 'Select the key type.';
+
+  @override
+  String get recurringPaymentsExecution_account_label => 'Account';
+
+  @override
+  String get recurringPaymentsExecution_account_selection_title => 'Select an availability account';
+
+  @override
+  String get recurringPaymentsExecution_account_selection_description => 'Choose the account that will fund this payment.';
+
+  @override
+  String get recurringPaymentsExecution_account_selection_empty => 'No active availability accounts found.';
+
+  @override
+  String get recurringPaymentsExecution_account_selection_continue => 'CONTINUE';
+
+  @override
+  String get recurringPaymentsExecution_account_asaas => 'Connected Asaas account';
+
+  @override
+  String get recurringPaymentsExecution_pix_confirm_title => 'Confirm PIX payment';
+
+  @override
+  String get recurringPaymentsExecution_pix_review_note => 'Review the data before confirming.';
+
+  @override
+  String get recurringPaymentsExecution_pix_send_note => 'After confirming, the payment is sent for bank processing.';
+
+  @override
+  String get recurringPaymentsExecution_pix_confirm_action => 'CONFIRM PIX';
+
+  @override
+  String get recurringPaymentsExecution_confirm_action => 'CONFIRM PAYMENT';
+
+  @override
+  String get recurringPaymentsExecution_period_label => 'Competence';
+
+  @override
+  String get recurringPaymentsExecution_sent_title => 'Payment sent';
+
+  @override
+  String get recurringPaymentsExecution_sent_description => 'The payment was sent to the bank and we are waiting for confirmation. It only counts as paid after the bank confirms it.';
+
+  @override
+  String get recurringPaymentsExecution_pixQr_pending => 'The Pix was sent. Check its status to update the confirmation; no new payment will be created.';
+
+  @override
+  String get recurringPaymentsExecution_pixQr_checkStatus => 'Check Pix status';
+
+  @override
+  String get recurringPaymentsExecution_pixQr_unknown => 'We could not confirm whether the bank created the payment. Do not try to pay again; contact support.';
+
+  @override
+  String get recurringPaymentsExecution_error_pay => 'The payment could not be sent.';
+
+  @override
+  String get recurringPaymentsExecution_error_register => 'The payment could not be registered.';
+
+  @override
+  String get recurringPaymentsExecution_already_paid => 'This competence is already paid.';
+
+  @override
+  String get recurringPaymentsExecution_in_progress => 'There is already a payment in progress for this competence.';
+
+  @override
+  String get recurringPaymentsExecution_boleto_entry_title => 'How would you like to enter the boleto?';
+
+  @override
+  String get recurringPaymentsExecution_boleto_camera_action => 'SCAN WITH CAMERA';
+
+  @override
+  String get recurringPaymentsExecution_boleto_camera_hint => 'Point the camera at the barcode';
+
+  @override
+  String get recurringPaymentsExecution_boleto_type_action => 'TYPE THE LINE';
+
+  @override
+  String get recurringPaymentsExecution_boleto_type_hint => 'Enter the boleto digitable line';
+
+  @override
+  String get recurringPaymentsExecution_boleto_scan_title => 'Scan boleto';
+
+  @override
+  String get recurringPaymentsExecution_boleto_scan_instruction => 'Place the barcode inside the indicated area.';
+
+  @override
+  String get recurringPaymentsExecution_boleto_scan_manual_action => 'Type the line manually';
+
+  @override
+  String get recurringPaymentsExecution_boleto_camera_permission_title => 'Allow camera access';
+
+  @override
+  String get recurringPaymentsExecution_boleto_camera_permission_description => 'We need the camera to read the boleto barcode.';
+
+  @override
+  String get recurringPaymentsExecution_boleto_camera_permission_action => 'ALLOW ACCESS';
+
+  @override
+  String get recurringPaymentsExecution_boleto_camera_denied => 'The camera could not be accessed.';
+
+  @override
+  String get recurringPaymentsExecution_boleto_camera_denied_action => 'TYPE THE LINE MANUALLY';
+
+  @override
+  String get recurringPaymentsExecution_boleto_camera_error => 'The code could not be read. Try again or type the line.';
+
+  @override
+  String get recurringPaymentsExecution_boleto_line_label => 'Digitable line';
+
+  @override
+  String get recurringPaymentsExecution_boleto_line_hint => 'Enter or paste the digitable line';
+
+  @override
+  String get recurringPaymentsExecution_boleto_line_step_title => 'Enter the digitable line';
+
+  @override
+  String get recurringPaymentsExecution_boleto_line_required => 'Enter the digitable line.';
+
+  @override
+  String get recurringPaymentsExecution_boleto_validate_action => 'LOOK UP BOLETO';
+
+  @override
+  String get recurringPaymentsExecution_boleto_confirm_title => 'Confirm payment';
+
+  @override
+  String get recurringPaymentsExecution_boleto_line_final => 'Line ending';
+
+  @override
+  String get recurringPaymentsExecution_boleto_pay_action => 'PAY BOLETO';
+
+  @override
+  String get recurringPaymentsExecution_boleto_send_note => 'Review the boleto details before confirming payment.';
+
+  @override
+  String get recurringPaymentsExecution_boleto_value => 'Boleto amount';
+
+  @override
+  String get recurringPaymentsExecution_boleto_charges_section => 'Amounts and charges';
+
+  @override
+  String get recurringPaymentsExecution_boleto_read_hint => 'The boleto details and amount are checked before payment.';
+
+  @override
+  String get recurringPaymentsExecution_manual_title => 'Register payment';
+
+  @override
+  String get recurringPaymentsExecution_manual_subtitle => 'Tell us how this expense was paid outside Glória.';
+
+  @override
+  String get recurringPaymentsExecution_manual_amount_label => 'Amount paid';
+
+  @override
+  String get recurringPaymentsExecution_manual_amount_required => 'Enter the amount paid.';
+
+  @override
+  String get recurringPaymentsExecution_manual_date_label => 'Payment date';
+
+  @override
+  String get recurringPaymentsExecution_manual_date_required => 'Enter the payment date.';
+
+  @override
+  String get recurringPaymentsExecution_manual_account_label => 'Account used';
+
+  @override
+  String get recurringPaymentsExecution_manual_account_required => 'Select the account used.';
+
+  @override
+  String get recurringPaymentsExecution_manual_account_hint => 'Where the money came from.';
+
+  @override
+  String get recurringPaymentsExecution_manual_voucher_label => 'Receipt';
+
+  @override
+  String get recurringPaymentsExecution_manual_voucher_required => 'The receipt is mandatory.';
+
+  @override
+  String get recurringPaymentsExecution_manual_voucher_hint => 'Attach the payment receipt.';
+
+  @override
+  String get recurringPaymentsExecution_manual_no_method_note => 'Glória does not execute this payment; it only records the expense.';
+
+  @override
+  String get recurringPaymentsExecution_manual_submit => 'REGISTER PAYMENT';
+
+  @override
+  String get recurringPaymentsExecution_manual_submitting => 'Processing record…';
+
+  @override
+  String get recurringPaymentsExecution_manual_success => 'Payment registered.';
+
+  @override
+  String get recurringPaymentsExecution_common_cancel => 'CANCEL';
+
+  @override
+  String get recurringPaymentsExecution_common_close => 'CLOSE';
+
+  @override
+  String get recurringPaymentsExecution_common_back => 'BACK';
+
+  @override
+  String get recurringPaymentsExecution_paid_confirmed => 'Payment confirmed.';
+
+  @override
+  String get recurringPaymentsExecution_unknown_result_description => 'The API returned a status this version does not recognize. Check the status before trying again.';
+
+  @override
+  String get recurringPaymentsExecution_boleto_simulating => 'VALIDATING BOLETO...';
+
+  @override
+  String get recurringPaymentsExecution_boleto_simulation_invalid => 'This boleto could not be validated. Correct the line or scan it again.';
+
+  @override
+  String get recurringPaymentsExecution_boleto_simulation_unavailable => 'The boleto could not be validated right now. Try again or type the line manually.';
+
+  @override
+  String get recurringPaymentsExecution_boleto_simulation_generic => 'The boleto details could not be validated. Check the line and try again.';
+
+  @override
+  String get recurringPaymentsExecution_boleto_edit => 'Edit boleto';
+
+  @override
+  String get recurringPaymentsExecution_boleto_configured_value => 'Configured amount';
+
+  @override
+  String get recurringPaymentsExecution_boleto_configured_difference => 'The boleto amount differs from the configured amount.';
+
+  @override
+  String get recurringPaymentsExecution_boleto_overdue => 'Overdue boleto';
+
+  @override
+  String get recurringPaymentsExecution_boleto_not_overdue => 'Not overdue';
+
+  @override
+  String get recurringPaymentsExecution_boleto_beneficiary => 'Beneficiary';
+
+  @override
+  String get recurringPaymentsExecution_boleto_beneficiary_document => 'Beneficiary CPF/CNPJ';
+
+  @override
+  String get recurringPaymentsExecution_boleto_original_value => 'Original amount';
+
+  @override
+  String get recurringPaymentsExecution_boleto_fee => 'Fee';
+
+  @override
+  String get recurringPaymentsExecution_boleto_discount => 'Discount';
+
+  @override
+  String get recurringPaymentsExecution_boleto_interest => 'Interest';
+
+  @override
+  String get recurringPaymentsExecution_boleto_fine => 'Fine';
+
+  @override
+  String get recurringPaymentsExecution_boleto_total_discount => 'Total discounts';
+
+  @override
+  String get recurringPaymentsExecution_boleto_total_additional => 'Total additions';
+
+  @override
+  String get recurringPaymentsExecution_boleto_bank => 'Bank';
+
+  @override
+  String get recurringPaymentsExecution_boleto_more_details => 'More boleto details';
+
+  @override
+  String get recurringPaymentsExecution_boleto_status => 'Status';
+
+  @override
+  String get recurringPaymentsExecution_boleto_value_change => 'Amount changes';
+
+  @override
+  String get recurringPaymentsExecution_boleto_value_change_allowed => 'The beneficiary may change the amount';
+
+  @override
+  String get recurringPaymentsExecution_boleto_value_change_not_allowed => 'The amount cannot be changed';
+
+  @override
+  String get recurringPaymentsExecution_boleto_min_value => 'Minimum amount';
+
+  @override
+  String get recurringPaymentsExecution_boleto_max_value => 'Maximum amount';
+
+  @override
+  String get recurringPaymentsExecution_boleto_minimum_date => 'Earliest payment date';
+
+  @override
+  String get recurringPaymentsExecution_source_title => 'Which account will pay?';
+
+  @override
+  String get recurringPaymentsExecution_source_description => 'Choose the account to use for this recurring payment.';
+
+  @override
+  String get recurringPaymentsExecution_source_connected => 'Account connected to Glória';
+
+  @override
+  String get recurringPaymentsExecution_source_empty => 'No active accounts are available for this payment.';
+
+  @override
+  String get recurringPaymentsExecution_source_continue => 'CONTINUE';
+
+  @override
+  String get recurringPaymentsExecution_instrument_qr => 'PIX QR';
+
+  @override
+  String get recurringPaymentsExecution_instrument_qr_hint => 'Scan the QR Code or paste the Pix copy-and-paste code';
+
+  @override
+  String get recurringPaymentsExecution_instrument_boleto => 'BOLETO';
+
+  @override
+  String get recurringPaymentsExecution_instrument_boleto_hint => 'Scan the barcode or enter the digit line';
+
+  @override
+  String get recurringPaymentsExecution_qr_entry_title => 'How would you like to enter the Pix?';
+
+  @override
+  String get recurringPaymentsExecution_qr_camera => 'Scan QR Code';
+
+  @override
+  String get recurringPaymentsExecution_qr_camera_hint => 'Use the camera to read the Pix code';
+
+  @override
+  String get recurringPaymentsExecution_qr_paste => 'Pix copy and paste';
+
+  @override
+  String get recurringPaymentsExecution_qr_paste_hint => 'Paste the code received from the beneficiary';
+
+  @override
+  String get recurringPaymentsExecution_qr_paste_label => 'Pix copy and paste';
+
+  @override
+  String get recurringPaymentsExecution_qr_paste_placeholder => 'Paste the Pix code here';
+
+  @override
+  String get recurringPaymentsExecution_qr_scan_instruction => 'Place the QR Code inside the marked area.';
+
+  @override
+  String get recurringPaymentsExecution_qr_camera_permission => 'Allow camera access to scan the QR Code.';
+
+  @override
+  String get recurringPaymentsExecution_qr_camera_error => 'The camera could not be opened.';
+
+  @override
+  String get recurringPaymentsExecution_qr_invalid => 'This Pix QR code could not be read. Check it and try again.';
+
+  @override
+  String get recurringPaymentsExecution_qr_decoding => 'Reading Pix code…';
+
+  @override
+  String get recurringPaymentsExecution_qr_amount_label => 'Amount shown in the QR Code';
+
+  @override
+  String get recurringPaymentsExecution_qr_beneficiary_label => 'Pix beneficiary';
 }
