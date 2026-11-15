@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-CustomTransitionPage transitionCustom(Widget screen) {
+CustomTransitionPage transitionCustom(Widget screen, {LocalKey? key}) {
   return CustomTransitionPage(
+    key: key,
     child: screen,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const curve = Curves.easeInOut;

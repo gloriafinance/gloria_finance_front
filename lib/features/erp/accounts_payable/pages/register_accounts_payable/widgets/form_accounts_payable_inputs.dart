@@ -1,5 +1,6 @@
 import 'package:gloria_finance/core/layout/modal_page_layout.dart';
 import 'package:gloria_finance/core/theme/index.dart';
+import 'package:gloria_finance/core/widgets/index.dart';
 import 'package:gloria_finance/core/utils/app_localizations_ext.dart';
 import 'package:gloria_finance/core/utils/index.dart';
 import 'package:gloria_finance/core/widgets/custom_button.dart';
@@ -12,7 +13,6 @@ import 'package:provider/provider.dart';
 import '../store/form_accounts_payable_store.dart';
 import '../validators/form_accounts_payable_validator.dart';
 import 'installment_account_payable_form.dart';
-import 'section_card.dart';
 import 'tax_account_payable_form.dart';
 
 Widget generalInformationSection(

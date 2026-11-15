@@ -59,7 +59,7 @@ class _ErpShellState extends State<ErpShell> {
     final router = GoRouter.of(context);
 
     final List<String> roles = store.state.session.roles;
-    final items = menuItems(roles);
+    final items = menuItems(roles, store.state.session.country);
 
     Future.delayed(const Duration(seconds: 5)).then((_) {
       if (mounted && !store.state.isLogged()) {
@@ -84,7 +84,7 @@ class _ErpShellState extends State<ErpShell> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (!isMobile(context) && items.isNotEmpty)
-                _sidebar(storeSidebar, roles),
+                _sidebar(storeSidebar, items),
               Expanded(
                 child: Container(
                   margin:
@@ -132,7 +132,10 @@ class _ErpShellState extends State<ErpShell> {
     );
   }
 
-  Widget _sidebar(SidebarNotifier storeSidebar, List<String> roles) {
+  Widget _sidebar(
+    SidebarNotifier storeSidebar,
+    List<Map<String, dynamic>> items,
+  ) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       width: storeSidebar.isSidebarVisible ? 330 : 20,
@@ -146,7 +149,7 @@ class _ErpShellState extends State<ErpShell> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12.0),
                   clipBehavior: Clip.antiAlias,
-                  child: Sidebar(menuItems: menuItems(roles)),
+                  child: Sidebar(menuItems: items),
                 ),
               ),
             ),

@@ -1,5 +1,6 @@
 // lib/finance/router.dart
 
+import 'package:gloria_finance/app/store_manager.dart';
 import 'package:gloria_finance/core/theme/transition_custom.dart';
 import 'package:go_router/go_router.dart';
 
@@ -23,6 +24,9 @@ import 'patrimony/router.dart';
 import 'payment_commitment/pages/index.dart';
 import 'providers/router.dart';
 import 'purchase/pages/purchases/purchase_list_screen.dart';
+import 'recurring_payments/models/recurring_payment_model.dart';
+import 'recurring_payments/pages/recurring_payment_form/recurring_payment_form_screen.dart';
+import 'recurring_payments/pages/recurring_payments_screen.dart';
 import 'purchase/pages/register_purchase/add_purchase_screen.dart';
 import 'reports/pages/dre/dre_screen.dart';
 import 'reports/pages/cash_flow/cash_flow_screen.dart';
@@ -33,6 +37,15 @@ import 'settings/pages/change_password/change_password_screen.dart';
 import 'settings/router.dart';
 import 'support_assistant/pages/support_assistant/support_assistant_screen.dart';
 import 'support_assistant/models/support_assistant_launch_model.dart';
+
+/// Pagamentos recorrentes é um módulo exclusivo para igrejas do Brasil.
+///
+/// O menu já esconde o item fora do Brasil; este guard cobre acesso por URL
+/// direta. Mesmo padrão de `/banks/asaas/connect` em `settings/router.dart`.
+String? _brazilOnlyRedirect() {
+  final session = StoreManager().authSessionStore.state.session;
+  return session.isBrazil ? null : '/dashboard';
+}
 
 erpListRouter() {
   return <RouteBase>[
@@ -145,6 +158,54 @@ erpListRouter() {
       pageBuilder: (context, state) {
         final account = state.extra as AccountsPayableModel;
         return transitionCustom(ViewAccountPayableScreen(account: account));
+      },
+    ),
+    GoRoute(
+      path: '/recurring-payments',
+      redirect: (context, state) => _brazilOnlyRedirect(),
+      pageBuilder: (context, state) {
+        // O mês é a aba padrão: é o trabalho do tesoureiro no dia a dia.
+        return transitionCustom(
+          const RecurringPaymentsScreen(),
+          key: state.pageKey,
+        );
+      },
+    ),
+    GoRoute(
+      path: '/recurring-payments/configuration',
+      redirect: (context, state) => _brazilOnlyRedirect(),
+      pageBuilder: (context, state) {
+        return transitionCustom(
+          const RecurringPaymentsScreen(initialTab: 1),
+          key: state.pageKey,
+        );
+      },
+    ),
+    GoRoute(
+      path: '/recurring-payments/add',
+      redirect: (context, state) => _brazilOnlyRedirect(),
+      pageBuilder: (context, state) {
+        return transitionCustom(
+          const RecurringPaymentFormScreen(),
+          key: state.pageKey,
+        );
+      },
+    ),
+    GoRoute(
+      path: '/recurring-payments/edit/:recurringPaymentId',
+      redirect: (context, state) => _brazilOnlyRedirect(),
+      pageBuilder: (context, state) {
+        final payment =
+            state.extra is RecurringPaymentModel
+                ? state.extra as RecurringPaymentModel
+                : null;
+        return transitionCustom(
+          RecurringPaymentFormScreen(
+            recurringPayment: payment,
+            recurringPaymentId: state.pathParameters['recurringPaymentId'],
+          ),
+          key: state.pageKey,
+        );
       },
     ),
     GoRoute(
