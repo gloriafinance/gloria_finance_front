@@ -100,7 +100,10 @@ class RecurringPaymentFormState {
       status: model.status,
       pixEnabled: model.hasPixDestination,
       pixKey: model.pixDestination?.pixKey ?? '',
-      pixKeyType: model.pixDestination?.pixKeyType ?? PixKeyType.CNPJ,
+      pixKeyType:
+          model.pixDestination == null
+              ? PixKeyType.CNPJ
+              : model.pixDestination!.pixKeyType,
       symbolFormatMoney: symbolFormatMoney,
     );
   }

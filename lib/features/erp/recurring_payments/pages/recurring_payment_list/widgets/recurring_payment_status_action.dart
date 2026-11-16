@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../models/recurring_payment_model.dart';
 import '../../../store/recurring_payment_list_store.dart';
+import '../../../store/recurring_payment_monthly_store.dart';
 
 /// Activa o desactiva una recurrencia e informa el resultado.
 ///
@@ -16,6 +17,7 @@ Future<void> toggleRecurringPaymentStatus(
 ) async {
   final l10n = context.l10n;
   final store = context.read<RecurringPaymentListStore>();
+  final monthlyStore = context.read<RecurringPaymentMonthlyStore>();
   final currentStatus = payment.status;
 
   // Sin estado reconocido no se inventa el contrario.
@@ -25,9 +27,10 @@ Future<void> toggleRecurringPaymentStatus(
 
   final success = await store.toggleStatus(payment);
 
-  if (!context.mounted) return;
-
   if (!success) return;
+
+  await monthlyStore.load(force: true);
+  if (!context.mounted) return;
 
   Toast.showMessage(
     willActivate

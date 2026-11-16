@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:gloria_finance/features/auth/auth_persistence.dart';
 
@@ -26,6 +28,7 @@ class RecurringPaymentMonthlyStore extends ChangeNotifier {
   final FinanceRecordService financeRecordService;
 
   RecurringPaymentMonthlyState state;
+  int _loadRequestId = 0;
 
   /// `true` cuando hay que pedir de nuevo: no hay datos, son de otra iglesia o
   /// son de otro mes. Los stores viven en `StoreManager`, así que sobreviven al
@@ -41,15 +44,23 @@ class RecurringPaymentMonthlyStore extends ChangeNotifier {
   }
 
   Future<void> load({String? churchId, bool force = false}) async {
-    if (!force && !await needsLoad(churchId: churchId)) return;
+    final requestIdBeforeLoadCheck = _loadRequestId;
+    if (!force) {
+      if (!await needsLoad(churchId: churchId)) return;
+      if (requestIdBeforeLoadCheck != _loadRequestId) return;
+    }
 
+    final requestId = ++_loadRequestId;
     final competence = state.month.competence;
     state = state.copyWith(makeRequest: true);
     notifyListeners();
 
     try {
       final currentChurchId = churchId ?? await _sessionChurchId();
+      if (!_isCurrentRequest(requestId, competence)) return;
+
       final items = await service.listCompetence(competence);
+      if (!_isCurrentRequest(requestId, competence)) return;
 
       state = state.copyWith(
         makeRequest: false,
@@ -58,6 +69,8 @@ class RecurringPaymentMonthlyStore extends ChangeNotifier {
         loadedCompetence: competence,
       );
     } catch (e) {
+      if (!_isCurrentRequest(requestId, competence)) return;
+
       debugPrint('ERROR load recurring payments month: $e');
       state = state.copyWith(makeRequest: false);
     }
@@ -69,6 +82,7 @@ class RecurringPaymentMonthlyStore extends ChangeNotifier {
     if (month.competence == state.month.competence) return;
     state = state.copyWith(month: month, items: const []);
     notifyListeners();
+    unawaited(load(force: true));
   }
 
   void previousMonth() => selectMonth(
@@ -108,4 +122,7 @@ class RecurringPaymentMonthlyStore extends ChangeNotifier {
     final session = await AuthPersistence().restore();
     return session.churchId;
   }
+
+  bool _isCurrentRequest(int requestId, String competence) =>
+      requestId == _loadRequestId && competence == state.month.competence;
 }
