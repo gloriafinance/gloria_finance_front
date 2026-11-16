@@ -7,6 +7,7 @@ import 'package:gloria_finance/core/widgets/custom_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/recurring_payment_bill_simulation.dart';
+import '../../../models/recurring_payment_execution_model.dart';
 import '../../../store/recurring_payment_execution_store.dart';
 import '../../../utils/recurring_payment_boleto.dart';
 import 'recurring_payment_execution_field.dart';
@@ -40,7 +41,7 @@ class RecurringPaymentConfirmationStep extends StatelessWidget {
           label: l10n.recurringPaymentsExecution_period_label,
           value: state.item.month.slashLabel,
         ),
-        if (isPix) ...[
+        if (state.method == RecurringPaymentMethodType.PIX_QR) ...[
           RecurringPaymentExecutionField(
             label: l10n.recurringPaymentsExecution_qr_amount_label,
             value: CurrencyFormatter.formatCurrency(
@@ -61,6 +62,23 @@ class RecurringPaymentConfirmationStep extends StatelessWidget {
                 symbol: symbolFormatMoney,
               ),
             ),
+        ] else if (state.method == RecurringPaymentMethodType.PIX) ...[
+          RecurringPaymentExecutionField(
+            label: l10n.recurringPaymentsExecution_field_value,
+            value: CurrencyFormatter.formatCurrency(
+              state.amount ?? 0,
+              symbol: symbolFormatMoney,
+            ),
+            note:
+                state.isFixed
+                    ? l10n.recurringPaymentsExecution_value_from_configuration
+                    : null,
+            emphasized: true,
+          ),
+          RecurringPaymentExecutionField(
+            label: l10n.recurringPaymentsExecution_pix_destination_label,
+            value: state.payment.pixDestination!.pixKey,
+          ),
         ] else ...[
           ..._billReviewFields(
             context,

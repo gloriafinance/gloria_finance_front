@@ -83,8 +83,9 @@ Reglas que la UI respeta y no recalcula:
 
 - **PAID tiene prioridad histórica**: si la competencia quedó pagada y después la recurrencia se
   desactivó, sigue mostrándose **Pago** (y la tarjeta lo explica).
-- Mientras exista **una** operación viva (`PROCESSING`) en el mes, ninguna otra fila ofrece pago:
-  el backend lo rechazaría y la pantalla no ofrece lo que será negado.
+- `PROCESSING` bloquea únicamente la competencia de esa recurrencia: las demás filas `PENDING` o
+  `UPCOMING` siguen ofreciendo su acción de pago, porque cada recurrencia es una ejecución
+  independiente.
 - Un estado desconocido se muestra como **"Estado não reconhecido"** y nunca habilita un pago.
 
 ## 5. Matriz de ejecución (la parte central del entregable)
@@ -95,9 +96,9 @@ Reglas que la UI respeta y no recalcula:
 | Caso | Configuración | Flujo | Qué NO se vuelve a pedir |
 | --- | --- | --- | --- |
 | A | Sin Asaas | **REGISTRAR PAGAMENTO**: data, conta, comprovante (obligatorio) y valor solo si es variable | Valor (en `FIXED`), y **nunca** PIX/boleto: Glória no ejecutó nada |
-| 1 | `FIXED` + `pixDestination` | **PAGAR** → elegir cuenta de disponibilidad → confirmar PIX | valor, chave, tipo de chave, método |
+| 1 | `FIXED` + `pixDestination` | **PAGAR** → elegir cuenta → confirmar el PIX configurado | valor, chave, tipo de chave y método |
 | 2 | `FIXED` sin `pixDestination` | **PAGAR** → elegir cuenta → elegir PIX o boleto | valor (ya está definido) |
-| 3 | `VARIABLE` + `pixDestination` | **PAGAR** → elegir cuenta → valor + método; PIX hereda el destino | chave y tipo de chave |
+| 3 | `VARIABLE` + `pixDestination` | **PAGAR** → elegir cuenta → informar valor y elegir PIX configurado, QR o boleto | chave y tipo de chave para el PIX configurado |
 | 4 | `VARIABLE` sin `pixDestination` | **PAGAR** → elegir cuenta → valor + método; si es PIX, chave y tipo | — |
 
 En los cuatro casos con Asaas el usuario elige la cuenta de disponibilidad de la que saldrá el pago.
@@ -143,7 +144,7 @@ El pago usa únicamente `bankSlip.identificationField` normalizado por el provee
 
 | Estado | Contenido | Acciones |
 | --- | --- | --- |
-| PROCESSING | Valor y método, con espera de confirmación bancaria | **ATUALIZAR STATUS**; ninguna operación nueva |
+| PROCESSING | Valor y método, con espera de confirmación bancaria | **ATUALIZAR STATUS** para esa recurrencia; las demás recurrencias pueden ejecutarse |
 | BLOCKED | Estado bloqueado y datos del intento | **ATUALIZAR STATUS**; sin retry |
 | FAILED | Rechazo confirmado | **TENTAR NOVAMENTE** si la competencia permite una ejecución nueva |
 | PAID | Pago confirmado | Actualizar competencia y mostrar el detalle |
@@ -158,7 +159,7 @@ El detalle se abre con el `ModalPage` existente en el ERP. Cancelar un registro 
 | --- | --- |
 | Competencia y estado mensual | `GET /api/v1/recurring-payments?competence=YYYY-MM` |
 | Simular boleto | `POST /api/v1/recurring-payments/:id/bill/simulate` con exactamente `{barCode}` o `{identificationField}` |
-| Pagar | `POST /api/v1/recurring-payments/:id/pay` con `{competence, amount?, payment: PIX|BILL, availabilityAccountId?}`; la UI siempre envía la cuenta elegida |
+| Pagar | `POST /api/v1/recurring-payments/:id/pay` con `{competence, amount?, payment?, availabilityAccountId?}`; para PIX configurado se omite `payment` y la API reutiliza `pixDestination`; la UI siempre envía la cuenta elegida |
 | Registro manual | `POST /:id/register-payment` (multipart, `file` obligatorio) |
 | Cancelar registro manual | `PATCH /finance/financial-record/cancel/:financialRecordId` |
 | Banca conectada | `AuthSessionModel.asaasConnect` |

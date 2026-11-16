@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../../store/recurring_payment_form_store.dart';
 import '../../../store/recurring_payment_list_store.dart';
+import '../../../store/recurring_payment_monthly_store.dart';
 import 'recurring_payment_basic_section.dart';
 import 'recurring_payment_config_section.dart';
 import 'recurring_payment_form_actions.dart';
@@ -69,14 +70,14 @@ class _RecurringPaymentFormBodyState extends State<RecurringPaymentFormBody> {
 
     final store = context.read<RecurringPaymentFormStore>();
     final listStore = context.read<RecurringPaymentListStore>();
+    final monthlyStore = context.read<RecurringPaymentMonthlyStore>();
     final isEdit = store.state.isEdit;
     final l10n = context.l10n;
 
     final success = await store.submit();
 
-    if (!mounted) return;
-
     if (!success) {
+      if (!mounted) return;
       Toast.showMessage(
         l10n.recurringPayments_toast_save_error,
         ToastType.warning,
@@ -84,16 +85,17 @@ class _RecurringPaymentFormBodyState extends State<RecurringPaymentFormBody> {
       return;
     }
 
+    await listStore.searchRecurringPayments();
+    await monthlyStore.load(force: true);
+
+    if (!mounted) return;
+
     Toast.showMessage(
       isEdit
           ? l10n.recurringPayments_toast_updated
           : l10n.recurringPayments_toast_saved,
       ToastType.info,
     );
-
-    await listStore.searchRecurringPayments();
-
-    if (!mounted) return;
     context.go('/recurring-payments/configuration');
   }
 }

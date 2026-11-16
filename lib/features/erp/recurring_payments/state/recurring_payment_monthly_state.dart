@@ -1,5 +1,4 @@
 import '../models/recurring_payment_competence_model.dart';
-import '../models/recurring_payment_competence_status.dart';
 import '../models/recurring_payment_model.dart';
 import '../models/recurring_payment_month.dart';
 
@@ -75,14 +74,4 @@ class RecurringPaymentMonthlyState {
       .where((item) => item.canExecute)
       .map((item) => item.recurringPayment.amount ?? 0)
       .fold(0, (total, amount) => total + amount);
-
-  /// Operación viva en el mes: mientras exista, no se inicia otra.
-  RecurringPaymentCompetenceModel? get inFlight {
-    for (final item in items) {
-      if (item.status == RecurringPaymentCompetenceStatus.PROCESSING) {
-        return item;
-      }
-    }
-    return null;
-  }
 }

@@ -33,7 +33,7 @@ class RecurringPaymentExecutionPayload {
     required String competence,
     required RecurringPaymentValueType? type,
     required double? amount,
-    required RecurringPaymentPayMethod method,
+    RecurringPaymentPayMethod? method,
     String? availabilityAccountId,
   }) {
     // VARIABLE sends the PIX amount entered by the payer, or the amount read
@@ -43,7 +43,7 @@ class RecurringPaymentExecutionPayload {
     return {
       'competence': competence,
       if (declaresAmount && amount != null) 'amount': amount,
-      'payment': method.toJson(),
+      if (method != null) 'payment': method.toJson(),
       if (availabilityAccountId != null)
         'availabilityAccountId': availabilityAccountId,
     };

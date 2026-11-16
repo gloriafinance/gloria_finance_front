@@ -31,6 +31,7 @@ class BankModel {
   final AccountBankType accountType;
   final bool active;
   final String bankId;
+  final String? provider;
   final String name;
   final String tag;
   final String addressInstancePayment;
@@ -42,6 +43,7 @@ class BankModel {
     required this.accountType,
     required this.active,
     required this.bankId,
+    this.provider,
     required this.name,
     required this.tag,
     required this.addressInstancePayment,
@@ -68,6 +70,7 @@ class BankModel {
           AccountBankTypeExtension.fromApiValue(json['accountType'] ?? ''),
       active: json['active'] ?? false,
       bankId: json['bankId'] ?? '',
+      provider: json['provider'] as String?,
       name: json['name'] ?? '',
       tag: json['tag'] ?? '',
       addressInstancePayment: json['addressInstancePayment'] ?? '',
@@ -89,6 +92,7 @@ class BankModel {
         'accountType': accountType.apiValue,
         'active': active,
         'bankId': bankId,
+        if (provider != null) 'provider': provider,
         'name': name,
         'tag': tag,
         'addressInstancePayment': addressInstancePayment,
