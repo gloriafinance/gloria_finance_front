@@ -10,6 +10,7 @@ import 'package:gloria_finance/features/auth/pages/login/store/auth_session_stor
 import 'package:gloria_finance/features/erp/settings/availability_accounts/models/availability_account_model.dart';
 import 'package:gloria_finance/features/erp/settings/availability_accounts/pages/list_availability_accounts/store/availability_accounts_list_store.dart';
 import 'package:gloria_finance/features/erp/settings/banks/models/bank_model.dart';
+import 'package:gloria_finance/features/erp/settings/banks/store/bank_store.dart';
 import 'package:gloria_finance/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -139,6 +140,10 @@ class RecurringPaymentExecutionSheetState
       final accounts = context.read<AvailabilityAccountsListStore>();
       if (accounts.state.availabilityAccounts.isEmpty) {
         accounts.searchAvailabilityAccounts();
+      }
+      final banks = context.read<BankStore>();
+      if (banks.state.banks.isEmpty && !banks.state.isLoading) {
+        banks.searchBanks();
       }
     });
   }
@@ -271,7 +276,11 @@ class RecurringPaymentExecutionSheetState
         return RecurringPaymentSourceStep(
           sources: _paymentSources(context),
           isLoading:
-              context.watch<AvailabilityAccountsListStore>().state.makeRequest,
+              context
+                  .watch<AvailabilityAccountsListStore>()
+                  .state
+                  .makeRequest ||
+              (widget.hasBanking && context.watch<BankStore>().state.isLoading),
           selectedId: _store.state.source?.id,
           onSelect: _store.setSource,
           onContinue: _continueFromSourceSelection,
@@ -356,6 +365,9 @@ class RecurringPaymentExecutionSheetState
   }
 
   List<RecurringPaymentSourceUiModel> _paymentSources(BuildContext context) {
+    final bankStore = context.watch<BankStore>();
+    if (widget.hasBanking && bankStore.state.isLoading) return const [];
+
     final accounts =
         context
             .watch<AvailabilityAccountsListStore>()
@@ -367,7 +379,9 @@ class RecurringPaymentExecutionSheetState
             )
             .toList();
     final Iterable<AvailabilityAccountModel> asaasAccounts =
-        widget.hasBanking ? accounts.where(_isAsaasAccount) : const [];
+        widget.hasBanking
+            ? accounts.where((account) => _isAsaasAccount(account, bankStore))
+            : const [];
     return [
       ...asaasAccounts.map(
         (account) => RecurringPaymentSourceUiModel(
@@ -379,7 +393,7 @@ class RecurringPaymentExecutionSheetState
         ),
       ),
       ...accounts
-          .where((account) => !_isAsaasAccount(account))
+          .where((account) => !_isAsaasAccount(account, bankStore))
           .map(
             (account) => RecurringPaymentSourceUiModel(
               id: account.availabilityAccountId,
@@ -395,13 +409,13 @@ class RecurringPaymentExecutionSheetState
     ];
   }
 
-  bool _isAsaasAccount(AvailabilityAccountModel account) {
+  bool _isAsaasAccount(AvailabilityAccountModel account, BankStore bankStore) {
     if (account.accountType != 'BANK' || account.source is! Map) return false;
-    final bank = account.getSource();
-    if (bank is! BankModel) return false;
-    if (!bank.active) return false;
-    return bank.name.toLowerCase() == 'asaas' ||
-        bank.tag.toLowerCase() == 'asaas';
+    final source = BankModel.fromJson(
+      Map<String, dynamic>.from(account.source as Map),
+    );
+    final bank = bankStore.findByBankId(source.bankId);
+    return bank?.provider?.toUpperCase() == 'ASAAS';
   }
 
   String _accountTypeLabel(BuildContext context, String accountType) {
