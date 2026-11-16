@@ -165,6 +165,10 @@ class RecurringPaymentExecutionState {
     if (requiresAmount && (amount == null || amount! <= 0)) return false;
     if (!usesAsaas) return availabilityAccountId != null;
     if (availabilityAccountId == null) return false;
+    if (method == RecurringPaymentMethodType.PIX &&
+        payment.pixDestination == null) {
+      return false;
+    }
     if (isPixQr && (pixQrData == null || pixQrPayload.isEmpty)) return false;
     if (requiresBoletoLine &&
         billSimulation?.bankSlip?.identificationField?.isNotEmpty != true) {
@@ -188,13 +192,17 @@ class RecurringPaymentExecutionState {
             : isVariable && method == RecurringPaymentMethodType.BILL
             ? (billSimulation?.bankSlip?.valueInCents ?? 0) / 100
             : amount,
-    method:
-        isPixQr
-            ? RecurringPaymentPayMethod.pixQr(payload: pixQrPayload)
-            : RecurringPaymentPayMethod.bill(
-              identificationField:
-                  billSimulation!.bankSlip!.identificationField!,
-            ),
+    // A configured PIX destination is the API default: omit `payment` so the
+    // backend uses that saved key. PIX_QR and BILL carry per-execution data.
+    method: switch (method) {
+      RecurringPaymentMethodType.PIX => null,
+      RecurringPaymentMethodType.PIX_QR => RecurringPaymentPayMethod.pixQr(
+        payload: pixQrPayload,
+      ),
+      RecurringPaymentMethodType.BILL => RecurringPaymentPayMethod.bill(
+        identificationField: billSimulation!.bankSlip!.identificationField!,
+      ),
+    },
     availabilityAccountId: availabilityAccountId,
   );
 

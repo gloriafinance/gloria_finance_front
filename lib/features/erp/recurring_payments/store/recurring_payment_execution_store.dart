@@ -54,7 +54,8 @@ class RecurringPaymentExecutionStore extends ChangeNotifier {
     // Cambiar de método descarta la entrada del instrumento anterior.
     state = state.copyWith(
       method: method,
-      amountText: '',
+      amountText:
+          method == RecurringPaymentMethodType.PIX ? state.amountText : '',
       boletoLine: '',
       clearBillSimulation: true,
       clearBillSimulationError: true,

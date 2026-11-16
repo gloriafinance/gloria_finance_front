@@ -294,6 +294,16 @@ class RecurringPaymentExecutionSheetState
           );
         }
         return RecurringPaymentInstrumentStep(
+          hasConfiguredPix: _store.state.payment.hasPixDestination,
+          isVariable: _store.state.isVariable,
+          amountText: _store.state.amountText,
+          symbolFormatMoney: widget.symbolFormatMoney,
+          pixKey: _store.state.payment.pixDestination?.pixKey,
+          canUseConfiguredPix:
+              !_store.state.isVariable ||
+              (_store.state.amount != null && _store.state.amount! > 0),
+          onAmountChanged: _store.setAmountText,
+          onConfiguredPix: _selectConfiguredPix,
           onPixQr: _selectPixQr,
           onBoleto: _selectBoleto,
         );
@@ -429,6 +439,12 @@ class RecurringPaymentExecutionSheetState
   }
 
   void _continueFromSourceSelection() {
+    final state = _store.state;
+    if (state.usesAsaas && state.isFixed && state.payment.hasPixDestination) {
+      _store.setMethod(RecurringPaymentMethodType.PIX);
+      setState(() => _step = RecurringPaymentExecutionStep.pixConfirmation);
+      return;
+    }
     setState(() => _step = RecurringPaymentExecutionStep.amountAndMethod);
   }
 
@@ -439,6 +455,11 @@ class RecurringPaymentExecutionSheetState
   void _selectPixQr() {
     _store.setMethod(RecurringPaymentMethodType.PIX_QR);
     _setStep(RecurringPaymentExecutionStep.pixQrEntry);
+  }
+
+  void _selectConfiguredPix() {
+    _store.setMethod(RecurringPaymentMethodType.PIX);
+    _setStep(RecurringPaymentExecutionStep.pixConfirmation);
   }
 
   void _selectBoleto() {

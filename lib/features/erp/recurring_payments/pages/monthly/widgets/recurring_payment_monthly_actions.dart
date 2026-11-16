@@ -33,17 +33,8 @@ class RecurringPaymentMonthlyActions extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final store = context.read<RecurringPaymentMonthlyStore>();
-    final inFlight = store.state.inFlight;
-
-    // Enquanto existe uma operação viva no mês, nenhum outro pagamento começa:
-    // o backend recusaria e a tela não deve oferecer o que será negado.
-    final blockedByInFlight = inFlight != null && inFlight.id != item.id;
 
     if (item.canExecute) {
-      if (blockedByInFlight) {
-        return _detailsButton(context);
-      }
-
       final label =
           hasBanking
               ? l10n.recurringPaymentsExecution_pay_action
